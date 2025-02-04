@@ -22,27 +22,27 @@
             <table class="table table-bordered table-hover" border="1">
                 <tr>
                     <td width="700">Persediaan Awal Bahan Baku</td>
-                    <td class="right-align">${formatNumber(RawMaterialBeginningBalancePrice)}</td>
+                    <td class="right-align">${formatNumber(data.RawMaterialBeginningBalancePrice)}</td>
                 </tr>
                 <tr>
                     <td>Pembelian</td>
-                    <td>${formatNumber(RawMaterialReceiptPurchasePrice)}</td>
+                    <td>${formatNumber(data.RawMaterialReceiptPurchasePrice)}</td>
                 </tr>
                 <tr>
                     <td>Beban Angkutan Masuk</td>
-                    <td>0</td>
+                    <td>${formatNumber(data.IncomingFreightExpenses)}</td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bahan Tersedia untuk di pakai</td>
-                    <td>${formatNumber(RawMaterialAvailablePrice)}</td>
+                    <td>${formatNumber(data.RawMaterialAvailablePrice)}</td>
                 </tr>
                 <tr>
                     <td>Persediaan Akhir Bahan Baku</td>
-                    <td>${formatNumber(RawMaterialFinalInventoryPrice)}</td>
+                    <td>${formatNumber(data.RawMaterialFinalInventoryPrice)}</td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pemakaian Bahan Baku</td>
-                    <td>${formatNumber(RawMaterialExpendPrice)}</td>
+                    <td>${formatNumber(data.RawMaterialExpendPrice)}</td>
                 </tr>
             </table>
         </section>
@@ -52,7 +52,7 @@
             <table class="table table-bordered table-hover" border="1">
                 <tr>
                     <td width="700">Upah Langsung</td>
-                    <td>0</td>
+                    <td>${formatNumber(data.DirectWageCosts)}</td>
                 </tr>
             </table>
         </section>
@@ -62,28 +62,32 @@
             <table class="table table-bordered table-hover" border="1">
                 <tr>
                     <td width="700">Bahan Penolong</td>
-                    <td>0</td>
+                    <td>${formatNumber(data.SupportingMaterialPrice)}</td>
                 </tr>
                 <tr>
                     <td>Gaji dan Upah</td>
-                    <td>0</td>
+                    <td>${formatNumber(data.Salary)}</td>
                 </tr>
 
                 <tr>
                     <td>Beban Subcon</td>
-                    <td>0</td>
+                    <td>${formatNumber(data.SubconLoad)}</td>
                 </tr>
                 <tr>
                     <td>Penyusutan</td>
-                    <td>0</td>
+                    <td>${formatNumber(data.Shrinkage)}</td>
                 </tr>
+                <tr>
+                    <td>Bahan Bakar & Utilitas</td>
+                    <td>${formatNumber(data.FuelUtilities)}</td>
                 </tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jumlah Biaya Produksi Tidak Langsung</td>
-                    <td>0</td>
+                    <td>${formatNumber(data.TotalIndirectProductionCosts)}</td>
                 </tr>
                 </tr>
                 <td>&nbsp;</td>
@@ -91,7 +95,7 @@
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jumlah Biaya Produksi</td>
-                    <td>${formatNumber(costOfGoodsSold)}</td>
+                    <td>${formatNumber(data.TotalProductionCosts)}</td>
                 </tr>
             </table>
         </section>
@@ -101,17 +105,17 @@
             <table class="table table-bordered table-hover" border="1">
                 <tr>
                     <td width="700">Persediaan Awal Barang Dalam Proses</td>
-                    <td>${formatNumber(WIPBeginningBalancePrice)}</td>
+                    <td>${formatNumber(data.WIPBeginningBalancePrice)}</td>
                 </tr>
                 <tr>
                     <td>Persediaan Akhir Barang Dalam Proses</td>
-                    <td>${formatNumber(WIPEndBalancePrice)}</td>
+                    <td>${formatNumber(data.WIPEndBalancePrice)}</td>
                 </tr>
                 <tr>
                     <td>
                         <h5 style="font-weight: bold;">BEBAN POKOK PRODUKSI (HARGA POKOK PRODUKSI)</h5>
                     </td>
-                    <td>${formatNumber(bebanPokokPrice)}</td>
+                    <td>${formatNumber(data.CostOfProduction)}</td>
                 </tr>
             </table class="table table-bordered table-hover" border="1">
         </section>
@@ -121,7 +125,7 @@
             <table class="table table-bordered table-hover" border="1">
                 <tr>
                     <td width="700">Persediaan Awal Barang Jadi</td>
-                    <td>${formatNumber(FinishedGoodsBeginningBalancePrice)}</td>
+                    <td>${formatNumber(data.FinishedGoodsBeginningBalancePrice)}</td>
                 </tr>
                 <tr>
                     <td>Pembelian</td>
@@ -129,7 +133,7 @@
                 </tr>
                 <tr>
                     <td>Persediaan Akhir Barang Jadi</td>
-                    <td>${formatNumber(FinishedGoodsEndBalancePrice)}</td>
+                    <td>${formatNumber(data.FinishedGoodsEndBalancePrice)}</td>
                 </tr>
             </table class="table table-bordered table-hover" border="1">
             <br>
@@ -138,7 +142,7 @@
                     <td width="700">
                         <h5 style="font-weight: bold;">BEBAN POKOK PENJUALAN (HARGA POKOK PENJUALAN)</h5>
                     </td>
-                    <td>${formatNumber(bebanPokokPenjualanPrice)}</td>
+                    <td>${formatNumber(data.CostOfGoodSold)}</td>
                 </tr>
             </table>
         </section>
