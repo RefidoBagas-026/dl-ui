@@ -58,7 +58,7 @@ export class List {
             .then(result => {
                 console.log(result.data);
                 var resultTotal=0;
-                //this.info.total=result.info.total; 
+                this.info.total=result.info.total; 
                 //this.data = result.data.Result;
                 this.data = result.data;
                 var index=1;
@@ -69,7 +69,7 @@ export class List {
                     index++;
                     item.totalBudget = numeral(item.prBudgetPrice * item.poDefaultQty).format("0,000.00");
                 }
-                this.info.total= this.resultTotal;
+                // this.info.total= this.resultTotal;
                 
                 this.fillTable();
             })

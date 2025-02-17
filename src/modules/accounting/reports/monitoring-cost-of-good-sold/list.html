@@ -1,0 +1,156 @@
+<template>
+    <h1 class="page-header">MONITORING HARGA POKOK PENJUALAN</h1>
+    <au-datepicker label="Tanggal Akhir" value.bind="dateTo" options.bind="controlOptions"></au-datepicker>
+    <br></br>
+    <div class="form-group">
+        <label for="contact" class="col-sm-5 control-label"></label>
+
+        <div class="col-sm-6">
+            <button click.delegate="searching()" class='btn btn-success'>Cari Data</button>
+            <button click.delegate="reset()" class='btn btn-success'>Reset Data</button>
+            <button class='btn btn-primary' click.delegate="ExportToExcel()">Export To Excel</button>
+        </div>
+    </div>
+
+    <div class="container" if.bind="showData">
+        <!-- <h2>PT. DAN LIRIS</h2>
+              <h3>PERHITUNGAN HARGA POKOK PENJUALAN</h3>
+              <h4>PER 31 January 2025</h4> -->
+
+        <section>
+            <h4 style="font-weight: bold;">BIAYA BAHAN BAKU</h4>
+            <table class="table table-bordered table-hover" border="1">
+                <tr>
+                    <td width="700">Persediaan Awal Bahan Baku</td>
+                    <td class="right-align">${formatNumber(RawMaterialBeginningBalancePrice)}</td>
+                </tr>
+                <tr>
+                    <td>Pembelian</td>
+                    <td>${formatNumber(RawMaterialReceiptPurchasePrice)}</td>
+                </tr>
+                <tr>
+                    <td>Beban Angkutan Masuk</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bahan Tersedia untuk di pakai</td>
+                    <td>${formatNumber(RawMaterialAvailablePrice)}</td>
+                </tr>
+                <tr>
+                    <td>Persediaan Akhir Bahan Baku</td>
+                    <td>${formatNumber(RawMaterialFinalInventoryPrice)}</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pemakaian Bahan Baku</td>
+                    <td>${formatNumber(RawMaterialExpendPrice)}</td>
+                </tr>
+            </table>
+        </section>
+
+        <section>
+            <h4 style="font-weight: bold;">BIAYA UPAH LANGSUNG</h4>
+            <table class="table table-bordered table-hover" border="1">
+                <tr>
+                    <td width="700">Upah Langsung</td>
+                    <td>0</td>
+                </tr>
+            </table>
+        </section>
+
+        <section>
+            <h4 style="font-weight: bold;">BIAYA PRODUKSI TIDAK LANGSUNG</h4>
+            <table class="table table-bordered table-hover" border="1">
+                <tr>
+                    <td width="700">Bahan Penolong</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Gaji dan Upah</td>
+                    <td>0</td>
+                </tr>
+
+                <tr>
+                    <td>Beban Subcon</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Penyusutan</td>
+                    <td>0</td>
+                </tr>
+                </tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jumlah Biaya Produksi Tidak Langsung</td>
+                    <td>0</td>
+                </tr>
+                </tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jumlah Biaya Produksi</td>
+                    <td>${formatNumber(costOfGoodsSold)}</td>
+                </tr>
+            </table>
+        </section>
+
+        <section>
+            <h4 style="font-weight: bold;">BARANG DALAM PROSES</h4>
+            <table class="table table-bordered table-hover" border="1">
+                <tr>
+                    <td width="700">Persediaan Awal Barang Dalam Proses</td>
+                    <td>${formatNumber(WIPBeginningBalancePrice)}</td>
+                </tr>
+                <tr>
+                    <td>Persediaan Akhir Barang Dalam Proses</td>
+                    <td>${formatNumber(WIPEndBalancePrice)}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="font-weight: bold;">BEBAN POKOK PRODUKSI (HARGA POKOK PRODUKSI)</h5>
+                    </td>
+                    <td>${formatNumber(bebanPokokPrice)}</td>
+                </tr>
+            </table class="table table-bordered table-hover" border="1">
+        </section>
+
+        <section>
+            <h4 style="font-weight: bold;">BARANG JADI</h4>
+            <table class="table table-bordered table-hover" border="1">
+                <tr>
+                    <td width="700">Persediaan Awal Barang Jadi</td>
+                    <td>${formatNumber(FinishedGoodsBeginningBalancePrice)}</td>
+                </tr>
+                <tr>
+                    <td>Pembelian</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Persediaan Akhir Barang Jadi</td>
+                    <td>${formatNumber(FinishedGoodsEndBalancePrice)}</td>
+                </tr>
+            </table class="table table-bordered table-hover" border="1">
+            <br>
+            <table class="table table-bordered table-hover" border="1">
+                <tr>
+                    <td width="700">
+                        <h5 style="font-weight: bold;">BEBAN POKOK PENJUALAN (HARGA POKOK PENJUALAN)</h5>
+                    </td>
+                    <td>${formatNumber(bebanPokokPenjualanPrice)}</td>
+                </tr>
+            </table>
+        </section>
+    </div>
+    </form>
+
+</template>
+
+<script>
+    export class CostCalculationView {
+        isEmptyObject(obj) {
+            return Object.keys(obj).length === 0;
+        }
+    }
+</script>
