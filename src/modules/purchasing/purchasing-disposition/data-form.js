@@ -290,7 +290,8 @@ export class DataForm {
                 this.data.Amount=0;
                 this.data.IncomeTaxValue=0;
                 this.data.DPP=0;
-                this.data.VatValue=0;
+                //this.data.VatValue=0;
+                this.data.Price = 0;
                 for(var item of this.data.Items){
                     if(item.Details){
                         for(var detail of item.Details){
@@ -303,11 +304,16 @@ export class DataForm {
                             }
                             if(item.UseVat){
                                 var rate= item.vatTax.rate ? item.vatTax.rate : item.vatTax.rate;
-                                ppn=detail.PaidPrice*(parseFloat(rate)/100);
+                                if(rate === 12){
+                                    ppn=detail.PaidPrice* 11/12 * (parseFloat(rate)/100);
+                                }else{
+                                    ppn=detail.PaidPrice*(parseFloat(rate)/100);
+                                }
                             }
                             this.data.IncomeTaxValue+=pph;
-                            this.data.VatValue+=ppn;
-                            this.data.DPP+=detail.PaidPrice;
+                            //this.data.VatValue+=ppn;
+                            this.data.DPP+=detail.PaidPrice * 11/12;
+                            this.data.Price += detail.PaidPrice;
                             if(this.data.IncomeTaxBy=="Supplier"){
                                 this.data.Amount+=(detail.PaidPrice+ppn+this.data.PaymentCorrection)-pph;
                             }
@@ -316,6 +322,8 @@ export class DataForm {
                         }
                     }
                 }
+
+                //this.data.Price = this.data.DPP;
                 return this.data.DPP;
             }
             else return 0;
@@ -342,7 +350,13 @@ export class DataForm {
                             }
                             if(item.UseVat){
                                 var rate= item.vatTax.rate ? item.vatTax.rate : item.vatTax.rate;
-                                ppn=detail.PaidPrice*(parseFloat(rate)/100);
+                             
+                                if(rate === "12"){
+                                    ppn=detail.PaidPrice* 11/12 * (parseFloat(rate)/100);
+                                }else{
+                                    ppn=detail.PaidPrice*(parseFloat(rate)/100);
+                                }
+                                
                             }
                             this.data.IncomeTaxValue+=pph;
                             this.data.VatValue+=ppn;
@@ -355,6 +369,7 @@ export class DataForm {
                         }
                     }
                 }
+               
                 return this.data.VatValue;
             }
             else return 0;
@@ -382,7 +397,7 @@ export class DataForm {
                                 ppn=detail.PaidPrice*(parseFloat(rate)/100);
                             }
                             this.data.IncomeTaxValue+=pph;
-                            this.data.VatValue+=ppn;
+                           // this.data.VatValue+=ppn;
                             this.data.DPP+=detail.PaidPrice;
                             if(this.data.IncomeTaxBy=="Supplier"){
                                 this.data.Amount+=(detail.PaidPrice+ppn+this.data.PaymentCorrection)-pph;
@@ -397,6 +412,29 @@ export class DataForm {
             else return 0;
             
         }
+    }
+
+    get priceVal(){
+        if(this.readOnly){
+            if(this.data.Items){
+                
+                this.data.Price = 0;
+                for(var item of this.data.Items){
+                    if(item.Details){
+                        for(var detail of item.Details){
+                            
+                            this.data.Price += detail.PaidPrice;
+                          
+                        }
+                    }
+                }
+
+                //this.data.Price = this.data.DPP;
+                return this.data.Price;
+            }
+            else return 0;
+        }
+        
     }
 
 } 
