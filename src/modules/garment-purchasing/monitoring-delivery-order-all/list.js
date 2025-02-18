@@ -1,5 +1,5 @@
 import { inject } from 'aurelia-framework';
-import { Service } from "./service";
+import { Service, PurchasingService } from "./service";
 
 import moment from 'moment';
 
@@ -9,11 +9,12 @@ import moment from 'moment';
 var SupplierLoader = require('../../../loader/garment-supplier-loader');
 var POEksLoader = require('../../../loader/garment-purchase-order-external-loader');
 
-@inject(Service)
+@inject(Service, PurchasingService)
 
 export class List {
-    constructor(service) {
+    constructor(service, purchasingService) {
         this.service = service;
+        this.purchasingService = purchasingService;
 
         this.flag = false;
         
@@ -238,7 +239,7 @@ export class List {
                 order: {"DONo": "asc"}
             };
             console.log(info);
-            return this.service.searchDeliveryOrder(info)
+            return this.purchasingService.searchDeliveryOrder(info)
                 .then((result) => {
                     return result.data.map(data => {
                         data.toString = function() { return `${this.doNo} - ${this.supplierName}`; };
