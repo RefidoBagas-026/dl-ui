@@ -186,17 +186,88 @@ export class DataForm {
     return this.printingOnly;
   }
 
+  RUNChanged(e) {
+    var selectedRUN = e.srcElement.value;
 
-
-  @computedFrom("data")
-  get isRUN() {
-    this.run = false;
-    if (this.data.RunWidth) {
-      if (this.data.RunWidth.length > 0)
+    if (selectedRUN === "Tanpa RUN") {
+        this.run = false; 
+        this.data.RunWidth = []; // Reset array agar form kosong
+    } else {
         this.run = true;
+
+        let runCount = parseInt(selectedRUN,10); // Ambil angka RUN dari teks (ex: "2 RUN" -> 2)
+        if (!isNaN(runCount)) {
+            let newRunWidth = [];
+            for (let i = 0; i < runCount; i++) {
+                newRunWidth.push({ Value: 0 });
+            }
+            this.data.RunWidth = [...newRunWidth]; // Spread agar binding terdeteksi
+        }
     }
-    return this.run;
-  }
+
+    console.log("RunWidth.length:", this.data.RunWidth.length);
+    console.log("RunWidth:", this.data.RunWidth);
+    console.log("run:", this.run);
+}
+
+@computedFrom("data.RunWidth.length")
+get isRUN() {
+    return this.data.RunWidth.length > 0; // Langsung return hasil, tanpa mengubah this.run
+}
+
+  // RUNChanged(e) {
+  //   var selectedRUN = e.srcElement.value;
+  //   if (selectedRUN) {
+  //     this.data.RunWidth = [];
+  //     if (selectedRUN == "Tanpa RUN") {
+  //       this.run = false;
+  //       this.data.RunWidth.length = 0;
+  //     }
+  //     if (selectedRUN == "1 RUN") {
+
+  //       this.run = true;
+  //       this.data.RunWidth[0] = { Value: 0 };
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth[0] = { Value: 0 };
+  //       }
+
+  //     }
+  //     if (selectedRUN == "2 RUN") {
+  //       this.run = true;
+  //       this.data.RunWidth.length = 0;
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth.push({ Value: 0 }, { Value: 0 });
+  //       }
+  //     }
+  //     if (selectedRUN == "3 RUN") {
+  //       this.run = true;
+  //       this.data.RunWidth.length = 0;
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth.push({ Value: 0 }, { Value: 0 }, { Value: 0 });
+  //       }
+  //     }
+  //     if (selectedRUN == "4 RUN") {
+  //       this.run = true;
+  //       this.data.RunWidth.length = 0;
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth.push({ Value: 0 }, { Value: 0 }, { Value: 0 }, { Value: 0 });
+  //       }
+  //     }
+
+  //   }
+  // }
+
+  // @computedFrom("data")
+  // get isRUN() {
+  //   this.run = false;
+  //   if (this.data.RunWidth) {
+  //     if (this.data.RunWidth.length > 0)
+  //       this.run = true;
+  //   }
+  //   console.log(this.run);
+  //   console.log(this.data.RunWidth);
+  //   return this.run;
+  // }
 
   UOmChanged(e){
     //console.log(e.srcElement.value);
@@ -333,47 +404,7 @@ export class DataForm {
 
 
 
-  RUNChanged(e) {
-    var selectedRUN = e.srcElement.value;
-    if (selectedRUN) {
-      this.data.RunWidth = [];
-      if (selectedRUN == "Tanpa RUN") {
-        this.run = false;
-        this.data.RunWidth.length = 0;
-      }
-      if (selectedRUN == "1 RUN") {
-
-        this.run = true;
-        this.data.RunWidth[0] = { Value: 0 };
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth[0] = { Value: 0 };
-        }
-
-      }
-      if (selectedRUN == "2 RUN") {
-        this.run = true;
-        this.data.RunWidth.length = 0;
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth.push({ Value: 0 }, { Value: 0 });
-        }
-      }
-      if (selectedRUN == "3 RUN") {
-        this.run = true;
-        this.data.RunWidth.length = 0;
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth.push({ Value: 0 }, { Value: 0 }, { Value: 0 });
-        }
-      }
-      if (selectedRUN == "4 RUN") {
-        this.run = true;
-        this.data.RunWidth.length = 0;
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth.push({ Value: 0 }, { Value: 0 }, { Value: 0 }, { Value: 0 });
-        }
-      }
-
-    }
-  }
+  
 
 
   POTypeChanged(e) {
