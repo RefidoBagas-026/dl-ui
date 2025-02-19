@@ -161,24 +161,36 @@ export class List {
       return sum.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
   }
 
-  ExportToExcel() {
-    this.error = {};
+  // ExportToExcel() {
+  //   this.error = {};
 
-    if (!this.dateTo || this.dateTo == "Invalid Date")
-      this.error.dateTo = "Tanggal Akhir harus diisi";
+  //   if (!this.dateTo || this.dateTo == "Invalid Date")
+  //     this.error.dateTo = "Tanggal Akhir harus diisi";
 
-    if (!this.dateFrom || this.dateFrom == "Invalid Date")
-      this.error.dateFrom = "Tanggal Awal harus diisi";
+  //   if (!this.dateFrom || this.dateFrom == "Invalid Date")
+  //     this.error.dateFrom = "Tanggal Awal harus diisi";
 
 
-    if (Object.getOwnPropertyNames(this.error).length === 0) {
-      var info = {
-        dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-        dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-        type: this.tipe ? this.tipe : "",
-        transactionType: this.transactionType ? this.transactionType : "",
-      }
-      this.service.generateExcel(info);
-    }
-  }
+  //   if (Object.getOwnPropertyNames(this.error).length === 0) {
+  //     var info = {
+  //       dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
+  //       dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
+  //       type: this.tipe ? this.tipe : "",
+  //       transactionType: this.transactionType ? this.transactionType : "",
+  //     }
+  //     this.service.generateExcel(info);
+  //   }
+  // }
+
+  XLS() {
+    let args = {
+      
+        dateFrom: moment(this.dateFrom).format("MM/DD/YYYY"),
+        dateTo: moment(this.dateTo).format("MM/DD/YYYY"),
+        TipeItem: this.TipeItem ? this.tipe : "",
+        TransactionType: this.TransactionType ? this.transactionType : "",
+        
+    };
+    this.service.xls(args);
+}
 }
