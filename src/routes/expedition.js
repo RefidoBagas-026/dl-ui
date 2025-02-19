@@ -1105,7 +1105,7 @@ module.exports = [
     name: "vb-request-document-non-po",
     moduleId: "./modules/purchasing/vb-request-document-non-po/index",
     nav: true,
-    title: "Permohonan VB Non PO",
+    title: "Permohonan VB Non PO ( VB Cash )",
     auth: true,
     settings: {
       group: "finance",
@@ -1133,7 +1133,7 @@ module.exports = [
     name: "vb-with-po-request",
     moduleId: "./modules/purchasing/vb-with-po-request/index",
     nav: true,
-    title: "Permohonan VB Dengan PO",
+    title: "Permohonan VB Dengan PO (Uang Muka Pembelian)",
     //title:"Uang Muka Pembelian",
     auth: true,
     settings: {
@@ -1217,7 +1217,7 @@ module.exports = [
     name: "realization-vb-non-po",
     moduleId: "./modules/purchasing/realization-vb-non-po/index",
     nav: true,
-    title: "Realisasi VB non PO",
+    title: "Realisasi VB non PO ( VB Cash )",
     auth: true,
     settings: {
       group: "finance",
@@ -1243,7 +1243,7 @@ module.exports = [
     name: "vb-realization-with-po-document",
     moduleId: "./modules/purchasing/vb-realization-with-po-document/index",
     nav: true,
-    title: "Realisasi VB dengan PO",
+    title: "Realisasi VB dengan PO ( Realisasi Uang Muka Pembelian )",
     auth: true,
     settings: {
       group: "finance",

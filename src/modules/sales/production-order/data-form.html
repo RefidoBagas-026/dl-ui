@@ -230,7 +230,8 @@
             read-only.bind="(readOnly)"></textbox>
           <dropdown label="RUN" value.bind="data.Run" error.bind="error.Run" read-only.bind="(readOnly)"
             items.bind="RUNOptions" if.bind="isPrintingOnly" change.delegate="RUNChanged($event)"></dropdown>
-          <div class="row">
+
+          <!-- <div class="row">
             <div class="col-sm-4" style="padding-left:20%">
               <textbox value="Lebar RUN (cm)" read-only="true" if.bind="isPrinting && data.RunWidth.length"></textbox>
             </div>
@@ -238,7 +239,18 @@
               <numeric value.bind="data.RunWidth[i].Value" read-only.bind="(readOnly)"
                 if.bind="isPrinting && (isRUN || run)" error.bind="error.RunWidth"></numeric>
             </div>
-          </div>
+          </div> -->
+
+          <div class="row">
+            <div class="col-sm-4" style="padding-left:20%">
+                <textbox value="Lebar RUN (cm)" read-only="true" if.bind="isPrinting && isRUN"></textbox>
+            </div>
+        
+            <div class="col-sm-2" repeat.for="i of data.RunWidth" show.bind="isPrinting && isRUN">
+                <numeric value.bind="i.Value" read-only.bind="readOnly" error.bind="error.RunWidth"></numeric>
+            </div>
+        </div>
+        
           <textbox label="Tulisan Pinggir Kain" value.bind="data.ArticleFabricEdge" error.bind="error.ArticleFabricEdge"
             read-only.bind="(readOnly)" if.bind="isPrintingOnly"></textbox>
           <textbox label="Standar Shrinkage" value.bind="data.ShrinkageStandard" error.bind="error.ShrinkageStandard"
