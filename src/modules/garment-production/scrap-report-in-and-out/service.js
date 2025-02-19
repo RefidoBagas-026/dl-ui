@@ -19,7 +19,6 @@ export class Service extends RestService {
         console.log(endpoint, info);
         return super.getXls(endpoint);
     }
-    
     _getEndPoint(info) {
         let endpoint = `${serviceUri}/download-flowaval`;
         let queryParams = [];
@@ -36,40 +35,4 @@ export class Service extends RestService {
     
         return endpoint;
     }
-    
-    // EXPORT EXCEL
-    // xls(info) {
-    //     var endpoint = this._getEndPoint(info);
-    //     console.log(endpoint, info);
-    //     return super.getXls(endpoint);
-    // }
-
-    // _getEndPoint(info) {
-    //     var endpoint = `${serviceUri}/download-flowaval`;
-    //     var query = '';
-        
-    //     if (info.dateFrom)
-    //         if (query === '') query = `dateFrom=${info.dateFrom}`;
-    //         else query = `${query}&dateFrom=${info.dateFrom}`;    
-
-    //     if (info.dateTo) {
-    //         if (query === '') query = `dateTo=${info.dateTo}`;
-    //         else query = `${query}&dateTo=${info.dateTo}`;
-    //     }
-    //     if (info.TransactionType){
-    //         if (query === '') query = `TransactionType=${info.TransactionType}`;
-    //         else query = `${query}&TransactionType=${info.TransactionType}`;
-    //     }
-    //     if (info.TipeItem){
-    //         if (query === '') query = `TipeItem=${info.TipeItem}`;
-    //         else query = `${query}&TipeItem=${info.TipeItem}`;
-    //     }
-        
-    //     if (query !== '')
-    //         endpoint = `${serviceUri}/download-flowaval?${query}`;
-
-    //     return endpoint;
-    // }
-    // EXPORT EXCEL
-
 }
