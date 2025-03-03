@@ -174,14 +174,14 @@ export class DataForm {
           this.newAcc = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() !== "FABRIC");
           
           this.newFab.forEach(element => {
-            var exist = this.oldFabric.find(a => a.ProductId === element.ProductId && a.Description === element.Description);
+            var exist = this.oldFabric.find(a => a.Product.Id === element.Product.Id && a.Description === element.Description);
             if (exist) {
               element.Information = exist.Information;
             }
           });
 
           this.newAcc.forEach(element => {
-            var exist = this.oldAcc.find(a => a.ProductId === element.ProductId && a.Description === element.Description);
+            var exist = this.oldAcc.find(a => a.Product.Id === element.Product.Id && a.Description === element.Description);
             if (exist) {
               element.Information = exist.Information;
             }
