@@ -4,17 +4,17 @@ import { RestService } from '../../../utils/rest-service';
 // import { Container } from 'aurelia-dependency-injection';
 // import { Config } from "aurelia-api";
 
-const serviceUri = 'finishing-outs';
+const serviceUri = 'monitoring';
 const unitDeliveryOrderUri = 'garment-unit-delivery-orders'
 const unitExpenditureNoteUri = 'garment-unit-expenditure-notes'
 export class Service extends RestService {
 
     constructor(http, aggregator, config, endpoint) {
-        super(http, aggregator, config, "garment-production");
+        super(http, aggregator, config, "dl-report");
     }
 
     search(info) {
-        var endpoint = `${serviceUri}/monitoring`;
+        var endpoint = `${serviceUri}/finishing`;
         var query = '';
 
         if (info.dateFrom && info.dateFrom !== "") {
@@ -30,7 +30,7 @@ export class Service extends RestService {
             else query = `${query}&unit=${info.unit}`;
         }
         if (query !== '')
-        endpoint = `${serviceUri}/monitoring?${query}`;
+        endpoint = `${serviceUri}/finishing?${query}`;
 
     return super.get(endpoint);
 
@@ -38,7 +38,7 @@ export class Service extends RestService {
     }
 
     generateExcel(info) {
-        var endpoint = `${serviceUri}/download?unit=${info.unit}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&type=${info.type}`;
+        var endpoint = `${serviceUri}/finishing-download?unit=${info.unit}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&type=${info.type}`;
         console.log(endpoint);
         var query = '';
         if (info.dateFrom && info.dateFrom !== "") {
@@ -58,7 +58,7 @@ export class Service extends RestService {
             else query = `${query}&type=${info.type}`;
         }
         if (query !== '')
-        endpoint = `${serviceUri}/download?${query}`;
+        endpoint = `${serviceUri}/finishing-download?${query}`;
         console.log(endpoint);
     return super.getXls(endpoint);
     }
