@@ -14,13 +14,13 @@ import moment from "moment";
 import numeral from "numeral";
 numeral.defaultFormat("0,0.00");
 const rateNumberFormat = "0,0.000";
-var PreSalesContractLoader = require('../../../loader/garment-pre-sales-contracts-loader');
-var BookingOrderLoader = require('../../../loader/garment-booking-order-by-no-for-ccg-loader');
-var GarmentMarketingLoader = require('../../../loader/garment-marketings-loader');
-var SizeRangeLoader = require('../../../loader/size-range-loader');
-var ComodityLoader = require('../../../loader/garment-comodities-loader');
-var UOMLoader = require('../../../loader/uom-loader');
-var UnitLoader = require('../../../loader/garment-units-gmt-loader');
+var PreSalesContractLoader = require("../../../loader/garment-pre-sales-contracts-loader");
+var BookingOrderLoader = require("../../../loader/garment-booking-order-by-no-for-ccg-loader");
+var GarmentMarketingLoader = require("../../../loader/garment-marketings-loader");
+var SizeRangeLoader = require("../../../loader/size-range-loader");
+var ComodityLoader = require("../../../loader/garment-comodities-loader");
+var UOMLoader = require("../../../loader/uom-loader");
+var UnitLoader = require("../../../loader/garment-units-gmt-loader");
 
 @inject(
   Router,
@@ -785,21 +785,20 @@ export class DataForm {
     "data.THR",
     "data.SMV_Total"
   )
-  get productionCost() {
-    let productionCost = this.data.Efficiency
-      ? this.data.Efficiency.Value
-        ? (this.data.Wage.Value * this.data.SMV_Sewing * 100) /
-            this.data.Efficiency.Value +
-          (this.data.Wage.Value * this.data.SMV_Cutting * 100) / 70 +
-          (this.data.Wage.Value * this.data.SMV_Finishing * 100) / 92 +
-          this.data.THR.Value * this.data.SMV_Total
-        : 0
-      : 0;
-    productionCost = numeral(productionCost).format();
-    this.data.ProductionCost = numeral(productionCost).value();
-    return productionCost;
-  }
-
+  // get productionCost() {
+  //   let productionCost = this.data.Efficiency
+  //     ? this.data.Efficiency.Value
+  //       ? (this.data.Wage.Value * this.data.SMV_Sewing * 100) /
+  //           this.data.Efficiency.Value +
+  //         (this.data.Wage.Value * this.data.SMV_Cutting * 100) / 70 +
+  //         (this.data.Wage.Value * this.data.SMV_Finishing * 100) / 92 +
+  //         this.data.THR.Value * this.data.SMV_Total
+  //       : 0
+  //     : 0;
+  //   productionCost = numeral(productionCost).format();
+  //   this.data.ProductionCost = numeral(productionCost).value();
+  //   return productionCost;
+  // }
   @computedFrom(
     "data.ConfirmPrice",
     "data.Insurance",

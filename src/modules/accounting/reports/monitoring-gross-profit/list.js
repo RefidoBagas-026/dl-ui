@@ -40,7 +40,7 @@ export class List {
 
     this.service.search(args).then((result) => {
       this.data = result.data;
-      
+
       //get show data or not by checking the length of the data
       this.showData = Object.keys(this.data).length > 0;
     });

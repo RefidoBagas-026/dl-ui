@@ -894,16 +894,15 @@ module.exports = [
     },
   },
   {
-    route: "accounting/Laporan Gross Profit",
+    route: "accounting/monitoring-gross-profit",
     name: "monitoring-gross-profit",
-    moduleId: "./modules/accounting/reports/monitoring-cost-of-good-sold/index",
+    moduleId: "./modules/accounting/reports/monitoring-gross-profit/index",
     nav: true,
     title: "Laporan Gross Profit",
     auth: true,
     settings: {
       group: "accounting",
       subGroup: "accounting garment",
-      // permission: { "B1": 1, "C9": 1 },
       permission: { N56: 1 },
       iconClass: "fa fa-dashboard",
     },
