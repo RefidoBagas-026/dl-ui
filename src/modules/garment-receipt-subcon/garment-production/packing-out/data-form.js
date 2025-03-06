@@ -229,6 +229,7 @@ export class DataForm {
             // "GarmentSubconPackingInItem.Any(RemainingQuantity > 0)": true,
             IsApproved: true,
           }),
+          size:1000
         })
       ).then((result) => {
         for (var packIn of result.data) {
