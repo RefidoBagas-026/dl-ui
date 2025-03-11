@@ -243,11 +243,19 @@ export class Item {
       );
 
       this.data.POSerialNumber = subcon.POSerialNumber;
-      this.data.DetailsCutting = subcon.Items;
+     
+      //calculate total qty
       this.data.Quantity = 0;
-      for (var detail of this.data.DetailsCutting) {
-        this.data.Quantity += detail.TotalCuttingOut;
+      for (var detail of subcon.Items) {
+        var qtyItem = 0;
+        for (var item of detail.Details) {
+          qtyItem += item.CuttingOutQuantity;
+        }
+        detail.TotalCuttingOut = qtyItem;
+        this.data.Quantity += qtyItem;
       }
+
+       this.data.DetailsCutting = subcon.Items;
     }
   }
 
