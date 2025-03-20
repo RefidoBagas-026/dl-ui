@@ -152,7 +152,7 @@ export class Item {
                                 this.data.article = result.Article;
                                 this.data.buyerBrand = result.BuyerBrand;
                                 this.data.unit = result.Unit;
-
+                                this.data.marketingName = result.MarketingName;
                                 this.data.uom = result.UOM;
                                 this.uom = result.UOM;
                                 this.data.valas = "USD";
@@ -175,7 +175,7 @@ export class Item {
                         this.data.buyerBrand = result.Buyer;
                         var units = await this.coreService.getSampleUnit({ size: 1, keyword: 'SMP1', filter: JSON.stringify({ Code: 'SMP1' }) });
                         this.data.unit = units.data[0];
-
+                        this.data.marketingName = result.CreatedBy;
                         let uomResult = await this.coreService.getUom({ size: 1, keyword: 'PCS', filter: JSON.stringify({ Unit: 'PCS' }) });
                         this.data.uom = uomResult.data[0];
                         this.uom = uomResult.data[0];
