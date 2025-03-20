@@ -18,7 +18,7 @@ export class Item {
     this.data = context.data;
     this.items = context.context.items;
     this.error = context.error;
-    console.log("context", context);
+
     this.options = context.context.options;
     this.isShowing = true;
 

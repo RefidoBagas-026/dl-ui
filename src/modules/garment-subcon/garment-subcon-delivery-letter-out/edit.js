@@ -26,7 +26,7 @@ export class View {
       this.selectedOrderType = this.data.OrderType;
     }
 
-    if (this.data.SubconCategory == "SUBCON CUTTING SEWING") {
+    if (this.data.SubconCategory == "SUBCON CUTTING SEWING" || this.data.ContractType == "SUBCON BAHAN PENOLONG") {
       //Mapping data Item Acc
       // this.data.ItemsAcc = this.data.Items.filter(
       //   (x) => x.Product.Name != "FABRIC"
@@ -89,7 +89,7 @@ export class View {
           filter: JSON.stringify({ ContractNo: this.data.ContractNo }),
         })
         .then((contract) => {
-          console.log(contract);
+
           var usedQty = 0;
           if (contract.data.length > 0) {
             for (var subcon of contract.data) {
@@ -213,7 +213,7 @@ export class View {
   }
 
   saveCallback(event) {
-    if (this.data.SubconCategory == "SUBCON CUTTING SEWING")
+    if (this.data.SubconCategory == "SUBCON CUTTING SEWING" || this.data.ContractType == "SUBCON BAHAN PENOLONG")
       // this.data.UsedQty = this.data.ContractQty - this.data.QtyUsed;
       this.data.UsedQty = 0;
     else {
