@@ -102,7 +102,7 @@
       placeholder="Nomor PO"
       read-only.bind="readOnly"
       options.bind="controlOptions"
-      if.bind="data.SubconCategory=='SUBCON CUTTING SEWING'"
+      if.bind="data.SubconCategory=='SUBCON CUTTING SEWING' || data.ContractType == 'SUBCON BAHAN PENOLONG'"
       view-model.ref="selectedCuttingInViewModel"
     >
     </au-autocomplete>
@@ -158,8 +158,8 @@
       <!-- </div> -->
     </div>
     <!-- ---------------------------->
-    <!-- Cutting Sewing Acc -->
-    <div if.bind="data.SubconCategory=='SUBCON CUTTING SEWING'">
+    <!-- Cutting Sewing Acc and  SUBCON BAHAN PENOLONG-->
+    <div if.bind="data.SubconCategory=='SUBCON CUTTING SEWING' || data.ContractType=='SUBCON BAHAN PENOLONG'">
       <!-- <div style="padding-top: 10px; max-width: 70%">
         <au-autocomplete
           value.bind="selectedUENAcc"

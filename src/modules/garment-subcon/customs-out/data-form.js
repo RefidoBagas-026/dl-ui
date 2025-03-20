@@ -113,6 +113,7 @@ export class DataForm {
       checkedAll: this.context.isCreate == true ? false : true,
       SCId: this.data.SubconContractId,
       selectedSubconCategory: this.data.SubconCategory,
+      selectedSubconType: this.data.SubconType,
     };
 
     if (this.data && this.data.Id) {
@@ -152,7 +153,7 @@ export class DataForm {
             // this.data.RemainingQuantity += a.Quantity;
             // this.data.Quantity += a.Quantity;
             item.IsSave = true;
-            if (this.data.SubconCategory == "SUBCON CUTTING SEWING") {
+            if (this.data.SubconCategory == "SUBCON CUTTING SEWING" || this.data.SubconType == "SUBCON BAHAN PENOLONG") {
               a.Details.forEach((x) => {
                 item.Details.push(x);
 
@@ -197,6 +198,7 @@ export class DataForm {
       this.selectedSubconCategory = newValue.SubconCategory;
       this.itemOptions.SCId = this.data.SubconContractId;
       this.itemOptions.selectedSubconCategory = newValue.SubconCategory;
+      this.itemOptions.selectedSubconType = newValue.ContractType;
       this.data.RemainingQuantity = 0;
       this.data.Quantity = 0;
 
@@ -215,7 +217,7 @@ export class DataForm {
           item.UomPacking = "";
           item.Details = [];
           for (var a of dl.Items) {
-            if (newValue.SubconCategory == "SUBCON CUTTING SEWING") {
+            if (newValue.SubconCategory == "SUBCON CUTTING SEWING" || newValue.ContractType == "SUBCON BAHAN PENOLONG") {
               a.Details.forEach((x) => {
                 item.Details.push(x);
                 if (dl.IsUsed == false) {
@@ -262,7 +264,7 @@ export class DataForm {
     var qty = 0;
     if (
       this.data.Items &&
-      this.selectedSubconCategory != "SUBCON CUTTING SEWING"
+      this.selectedSubconCategory != "SUBCON CUTTING SEWING" && this.selectedSubconType != "SUBCON BAHAN PENOLONG"
     ) {
       for (var item of this.data.Items) {
         if (item.IsSave) {
@@ -271,7 +273,7 @@ export class DataForm {
       }
     } else if (
       this.data.Items &&
-      this.selectedSubconCategory == "SUBCON CUTTING SEWING"
+      (this.selectedSubconCategory == "SUBCON CUTTING SEWING" || this.selectedSubconType == "SUBCON BAHAN PENOLONG")
     ) {
       for (var item of this.data.Items) {
         if (item.IsSave) {
