@@ -139,11 +139,6 @@ export class Collection {
       window.scrollTo(0, currentScrollY); // Kembalikan ke posisi sebelum menghapus
     }, 20);
 
-
-    this.items.splice(itemIndex, 1);
-    if (this.errors && this.errors.length > 0)
-      this.errors.splice(itemIndex, 1);
-
     if (this.remove && typeof this.remove === "function") {
       let event;
       var eventName = "remove";
