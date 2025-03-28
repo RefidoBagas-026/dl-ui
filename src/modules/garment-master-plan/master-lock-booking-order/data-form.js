@@ -47,6 +47,7 @@ export class DataForm {
         this.context = context;
         this.data = this.context.data;
         this.error = this.context.error;
+        this.isView = this.context.isView;
 
         if (this.data.Id == undefined) {
             this.data.Items = this.months;
@@ -63,11 +64,22 @@ export class DataForm {
         columns.push({
             field: "IsBlock",
             title: "",
-            checkbox: true,
+            // checkbox: true,
             sortable: false,
             width: 50,
             align: "center",
-            valign: "middle"
+            valign: "middle",
+            formatter: (value, row, index) => {
+                window.updateIsBlock = (index, value) => {
+                    // Handle checkbox change ke model data
+                    this.data.Items[index].IsBlock = value;
+                };
+
+                const checked = value ? "checked" : "";
+                const disabled = this.isView ? "disabled" : "";
+
+                return `<input type="checkbox" ${checked} ${disabled} onchange="window.updateIsBlock(${index}, this.checked)">`;
+            }
         });
         columns.push({
             field: "Month",

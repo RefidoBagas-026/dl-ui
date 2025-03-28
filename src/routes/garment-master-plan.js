@@ -361,7 +361,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "B7": 1 },
-            permission: { "L28": 1 },
+            permission: { "I22": 1 },
             iconClass: 'fa fa-dashboard'
         }
     }

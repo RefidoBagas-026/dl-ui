@@ -8,7 +8,7 @@ export class View {
   hasCancel = true;
   hasEdit = true;
   hasDelete = true;
-
+  isView = true;
   constructor(router, service) {
     this.router = router;
     this.service = service;
