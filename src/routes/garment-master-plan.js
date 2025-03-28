@@ -9,7 +9,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "B7": 1, "C9": 1 },
-            permission :{"I1":1},
+            permission: { "I1": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -23,7 +23,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "IE": 1,"C9": 1 },
-            permission :{"I2":1},
+            permission: { "I2": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -37,7 +37,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "PGA": 1, "B7": 1,"C9": 1 },
-            permission :{"I3":1},
+            permission: { "I3": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -51,7 +51,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "IE": 1 },
-            permission :{"I4":1},
+            permission: { "I4": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -65,7 +65,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "C9": 1 },
-            permission :{"I5":1},
+            permission: { "I5": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -79,7 +79,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "PGA": 1, "C9": 1 },
-            permission :{"I6":1},
+            permission: { "I6": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -119,7 +119,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "PGA": 1, "B7": 1,"C9": 1 },
-            permission :{"I7":1},
+            permission: { "I7": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -133,7 +133,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "PGA": 1, "B7": 1,"C9": 1 },
-            permission :{"I8":1},
+            permission: { "I8": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -147,7 +147,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "PGA": 1, "B7": 1, "IE": 1,"C9": 1 },
-            permission :{"I9":1},
+            permission: { "I9": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -161,11 +161,11 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "B7": 1,"C9": 1 },
-            permission :{"I10":1},
+            permission: { "I10": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
-    { 
+    {
         route: '/garment-master-plan/sewing-blocking-plan',
         name: 'sewing-blocking-plan',
         moduleId: './modules/garment-master-plan/sewing-blocking-plan/index',
@@ -175,38 +175,38 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "B7": 1, "C9": 1 },
-            permission :{"I11":1},
+            permission: { "I11": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
     {
-      route: '/garment-master-plan/monitoring-remaining-eh',
-      name: 'monitoring-remaining-eh',
-      moduleId: './modules/garment-master-plan/monitoring-remaining-eh/index',
-      nav: true,
-      title: 'Monitoring Remaining EH',
-      auth: true,
-      settings: {
-          group: "g-master-plan",
-        //   permission: { "PGA": 1, "B7": 1, "IE": 1,"C9": 1 },
-            permission :{"I12":1},
-          iconClass: 'fa fa-dashboard'
-      }
-  },
-  {
-      route: '/garment-master-plan/monitoring-master-plan',
-      name: 'monitoring-master-plan',
-      moduleId: './modules/garment-master-plan/monitoring-master-plan/index',
-      nav: true,
-      title: 'Report Master Plan',
-      auth: true,
-      settings: {
-          group: "g-master-plan",
-        //   permission: { "PGA": 1, "B7": 1,"C9": 1 },
-        permission :{"I13":1},
-          iconClass: 'fa fa-dashboard'
-      }
-  },
+        route: '/garment-master-plan/monitoring-remaining-eh',
+        name: 'monitoring-remaining-eh',
+        moduleId: './modules/garment-master-plan/monitoring-remaining-eh/index',
+        nav: true,
+        title: 'Monitoring Remaining EH',
+        auth: true,
+        settings: {
+            group: "g-master-plan",
+            //   permission: { "PGA": 1, "B7": 1, "IE": 1,"C9": 1 },
+            permission: { "I12": 1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
+        route: '/garment-master-plan/monitoring-master-plan',
+        name: 'monitoring-master-plan',
+        moduleId: './modules/garment-master-plan/monitoring-master-plan/index',
+        nav: true,
+        title: 'Report Master Plan',
+        auth: true,
+        settings: {
+            group: "g-master-plan",
+            //   permission: { "PGA": 1, "B7": 1,"C9": 1 },
+            permission: { "I13": 1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
 
     {
         route: '/garment-master-plan/accepted-order-monitoring',
@@ -218,7 +218,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "PGA": 1,"B7": 1,"IE": 1,"C9": 1 },
-            permission :{"I14":1},
+            permission: { "I14": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -233,7 +233,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "PGA": 1,"B7": 1, "IE": 1, "C9": 1 },
-            permission :{"I15":1},
+            permission: { "I15": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -248,7 +248,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "PGA": 1,"B7": 1, "IE": 1, "C9": 1 },
-            permission :{"I16":1},
+            permission: { "I16": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -263,7 +263,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "PGA": 1,"B7": 1, "IE": 1, "C9": 1 },
-            permission :{"I17":1},
+            permission: { "I17": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -277,7 +277,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "PGA": 1,"B7": 1, "IE": 1, "C9": 1 },
-            permission :{"I18":1},
+            permission: { "I18": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -291,7 +291,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "PGA": 1,"B7": 1, "IE": 1, "C9": 1 },
-            permission :{"I19":1},
+            permission: { "I19": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -318,7 +318,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "B7": 1, "IE": 1, "C9": 1 },
-            permission :{"I20":1},
+            permission: { "I20": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -332,7 +332,7 @@ module.exports = [
         settings: {
             group: "g-master-plan",
             // permission: { "B7": 1, "IE": 1, "C9": 1 },
-            permission :{"I21":1},
+            permission: { "I21": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -347,7 +347,21 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "B7": 1 },
-            permission :{"L27":1},
+            permission: { "L27": 1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
+        route: '/garment-master-plan/master-lock-booking-order',
+        name: 'master-lock-booking-order',
+        moduleId: './modules/garment-master-plan/master-lock-booking-order/index',
+        nav: true,
+        title: 'Master Lock Booking Order',
+        auth: true,
+        settings: {
+            group: "g-master-plan",
+            // permission: { "B7": 1 },
+            permission: { "I22": 1 },
             iconClass: 'fa fa-dashboard'
         }
     }
