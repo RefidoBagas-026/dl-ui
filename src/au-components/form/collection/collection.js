@@ -16,7 +16,7 @@ export class Collection {
   @bindable footerTemplate = null;
   @bindable columns;
   @bindable responsive = false;
-  @bindable callback = () => {}
+  @bindable callback = () => { }
 
   defaultOptions = {
     control: {
@@ -129,9 +129,15 @@ export class Collection {
 
   onremove(item) {
     var itemIndex = this.items.indexOf(item);
+
+    const currentScrollY = window.scrollY; // Simpan posisi scroll
+
     this.items.splice(itemIndex, 1);
-    if(this.errors && this.errors.length > 0)
-        this.errors.splice(itemIndex, 1);
+    if (this.errors && this.errors.length > 0) this.errors.splice(itemIndex, 1);
+
+    setTimeout(() => {
+      window.scrollTo(0, currentScrollY); // Kembalikan ke posisi sebelum menghapus
+    }, 20);
 
     if (this.remove && typeof this.remove === "function") {
       let event;
@@ -158,7 +164,7 @@ export class Collection {
     delete objCopy.Id;
     this.items.splice(itemIndex + 1, 0, objCopy);
 
-    if(this.errors && this.errors.length > 0) {
+    if (this.errors && this.errors.length > 0) {
       var error = Object.assign({}, this.errors[itemIndex]);
       this.errors.splice(itemIndex + 1, 0, error);
     }
@@ -180,7 +186,7 @@ export class Collection {
       this.copy(event);
     }
   }
-  
+
   checkAllCallBack($event) {
     dispatchCustomEvent("checkall", this.element, $event);
     console.log($event);
@@ -192,9 +198,9 @@ export class Collection {
 
   changeCheckedAll(items, options) {
     const checkedAll = options.checkedAll;
-      items.forEach((item) => {
-        item.data.IsSave = checkedAll === true;
-      });
-      this.callback();
-    }
+    items.forEach((item) => {
+      item.data.IsSave = checkedAll === true;
+    });
+    this.callback();
+  }
 }

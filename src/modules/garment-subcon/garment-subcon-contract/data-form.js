@@ -16,7 +16,7 @@ export class DataForm {
     @bindable selectedContractType;
     @bindable selectedSubconCategory;
 
-    ContractTypeOptions = ["SUBCON GARMENT", "SUBCON BAHAN BAKU", "SUBCON JASA"];
+    ContractTypeOptions = ["SUBCON GARMENT", "SUBCON BAHAN BAKU", "SUBCON JASA","SUBCON BAHAN PENOLONG"];
     SubconCategoryTypeOptions = ["SUBCON CUTTING SEWING", "SUBCON SEWING"];
     constructor(service) {
         this.service = service;
@@ -61,6 +61,12 @@ export class DataForm {
         "CIF"
     ];
 
+    supportMaterialColumns = [
+        "Barang",
+        "Jumlah",
+        "Satuan"
+    ];
+
     Uomfilter = {
         'Unit=="MTR" || Unit=="PCS" || Unit=="SETS" || Unit == "YARD"': "true",
     };
@@ -97,7 +103,7 @@ export class DataForm {
         this.isItems = false;
         this.selectedContractType = this.data.ContractType;
         this.selectedSubconCategory = this.data.SubconCategory;
-        if (this.data.SubconCategory == "SUBCON CUTTING SEWING" || this.data.SubconCategory == "SUBCON SEWING" || this.data.SubconCategory == "SUBCON JASA KOMPONEN") {
+        if (this.data.SubconCategory == "SUBCON CUTTING SEWING" || this.data.SubconCategory == "SUBCON SEWING" || this.data.SubconCategory == "SUBCON JASA KOMPONEN" || this.data.ContractType == "SUBCON BAHAN PENOLONG") {
             this.isItems = true;
         }
         if (this.data.Items) {
@@ -186,6 +192,8 @@ export class DataForm {
             }
             else if (this.data.ContractType == "SUBCON JASA") {
                 this.SubconCategoryTypeOptions = ["SUBCON JASA GARMENT WASH", "SUBCON JASA KOMPONEN", "SUBCON JASA BARANG JADI"];
+            }else if (this.data.ContractType == "SUBCON BAHAN PENOLONG") {
+                this.SubconCategoryTypeOptions = ["SUBCON ACCESORIS", "SUBCON EMBALACE"];
             }
         }
 
@@ -199,7 +207,7 @@ export class DataForm {
             if (this.data.Items) {
                 this.data.Items.splice(0);
             }
-            if (this.data.SubconCategory == "SUBCON CUTTING SEWING" || this.data.SubconCategory == "SUBCON SEWING" || this.data.SubconCategory == "SUBCON JASA KOMPONEN") {
+            if (this.data.SubconCategory == "SUBCON CUTTING SEWING" || this.data.SubconCategory == "SUBCON SEWING" || this.data.SubconCategory == "SUBCON JASA KOMPONEN" || this.data.ContractType == "SUBCON BAHAN PENOLONG") {
                 this.isItems = true;
             }
             else {

@@ -1,24 +1,14 @@
 <template>
-    <h1 if.bind ="KtgrItem == ''" class="page-header">LAPORAN FLOW All</h1>
-    <h1 if.bind ="KtgrItem == 'BAHAN BAKU'" class="page-header">LAPORAN FLOW BAHAN BAKU</h1>
-    <h1 if.bind ="KtgrItem == 'BAHAN EMBALANCE'" class="page-header">LAPORAN FLOW BAHAN EMBALANCE</h1>
-    <h1 if.bind ="KtgrItem == 'BAHAN PENDUKUNG'" class="page-header">LAPORAN FLOW BAHAN PENDUKUNG</h1>
+    <h1 if.bind="KtgrItem == ''" class="page-header">LAPORAN FLOW All</h1>
+    <h1 if.bind="KtgrItem == 'BAHAN BAKU'" class="page-header">LAPORAN FLOW BAHAN BAKU</h1>
+    <h1 if.bind="KtgrItem == 'BAHAN EMBALANCE'" class="page-header">LAPORAN FLOW BAHAN EMBALANCE</h1>
+    <h1 if.bind="KtgrItem == 'BAHAN PENDUKUNG'" class="page-header">LAPORAN FLOW BAHAN PENDUKUNG</h1>
     <form class="form-horizontal">
-        <au-autocomplete 
-            label="Unit" 
-            value.bind="selectedUnit"  
-            read-only.bind="true"
-            options.bind="controlOptions" 
-            loader.bind="unitLoader" 
-            text.bind="unitView" 
-            placeholder="Unit">
+        <au-autocomplete label="Unit" value.bind="selectedUnit" read-only.bind="true" options.bind="controlOptions"
+            loader.bind="unitLoader" text.bind="unitView" placeholder="Unit">
         </au-autocomplete>
-        <au-dropdown 
-              label="Kategori" 
-              value.bind="KtgrItem"
-              items.bind="KategoriItems"
-              options.bind="controlOptions" >
-      </au-dropdown>
+        <au-dropdown label="Kategori" value.bind="KtgrItem" items.bind="KategoriItems" options.bind="controlOptions">
+        </au-dropdown>
         <au-datepicker label="Tanggal Awal" value.bind="dateFrom" options.bind="controlOptions"></au-datepicker>
         <au-datepicker label="Tanggal Akhir" value.bind="dateTo" options.bind="controlOptions"></au-datepicker>
         <div class="form-group">
@@ -30,9 +20,9 @@
         </div>
         <div slot="toolbar" class="btn-group">
             <button class='btn btn-primary' click.delegate="ExportToExcel()">Export To Excel</button>
-          </div>
+        </div>
         <br>
-    
+
         <div class="table-responsive">
             <table class="table table-bordered table-hover" border="1" id="poReport">
                 <thead align="center">
@@ -45,23 +35,32 @@
                         <td align="center" rowspan="3">NAMA BARANG</td>
                         <td align="center" rowspan="3">BUYER</td>
                         <td align="center" colspan="3" rowspan="2">SALDO AWAL</td>
-                        <td align="center" colspan="6">P E M A S U K A N</td>
+                        <td colspan="12">P E M A S U K A N</td>
                         <td colspan="10">P E N G E L U A R A N</td>
                         <td align="center" rowspan="2" colspan="2">SALDO AKHIR</td>
-                     </tr>
+                    </tr>
                     <tr>
                         <td colspan="2">KOREKSI</td>
                         <td colspan="2">PEMBELIAN</td>
                         <td colspan="2">PROSES</td>
+                        <td colspan="2">SUBCON</td>
+                        <td colspan="2">SISA</td>
+                        <td colspan="2">GARMENT</td>
                         <td colspan="2">RETUR</td>
                         <td colspan="2">SISA</td>
-                        <td colspan="2">SAMPLE</td>
+                        <td colspan="2">PROSES</td>
+                        <td colspan="2">GARMENT</td>
                         <td colspan="2">SUBCON</td>
-                        <td colspan="2">LAIN-LAIN</td>
                     </tr>
                     <tr>
                         <td>JUMLAH</td>
                         <td>SATUAN</td>
+                        <td>HARGA</td>
+                        <td>JUMLAH</td>
+                        <td>HARGA</td>
+                        <td>JUMLAH</td>
+                        <td>HARGA</td>
+                        <td>JUMLAH</td>
                         <td>HARGA</td>
                         <td>JUMLAH</td>
                         <td>HARGA</td>
@@ -101,16 +100,22 @@
                         <td>${item.ReceiptPurchasePrice}</td>
                         <td>${item.ReceiptProcessQty}</td>
                         <td>${item.ReceiptProcessPrice}</td>
+                        <td>${item.ReceiptSubconQty}</td>
+                        <td>${item.ReceiptSubconPrice}</td>
+                        <td>${item.ReceiptRestQty}</td>
+                        <td>${item.ReceiptRestPrice}</td>
+                        <td>${item.ReceiptSampleQty}</td>
+                        <td>${item.ReceiptSamplePrice}</td>
                         <td>${item.ExpendReturQty}</td>
                         <td>${item.ExpendReturPrice}</td>
                         <td>${item.ExpendRestQty}</td>
                         <td>${item.ExpendRestPrice}</td>
                         <td>${item.ExpendSampleQty}</td>
                         <td>${item.ExpendSamplePrice}</td>
+                        <td>${item.ExpendGarmentQty}</td>
+                        <td>${item.ExpendGarmentPrice}</td>
                         <td>${item.ExpendSubconQty}</td>
                         <td>${item.ExpendSubconPrice}</td>
-                        <td>${item.ExpendOtherQty}</td>
-                        <td>${item.ExpendOtherPrice}</td>
                         <td align="right">${item.EndingBalanceQty}</td>
                         <td align="right">${item.EndingBalancePrice}</td>
                     </tr>
@@ -120,7 +125,7 @@
         <div class="alert alert-info text-center" role="alert" if.bind="data.length === 0">
             Tidak ada data.
         </div>
-        <pagination if.bind="info.total>info.size"  info.bind="info" change.delegate="changePage($event)"></pagination>
-        <hr/>
+        <pagination if.bind="info.total>info.size" info.bind="info" change.delegate="changePage($event)"></pagination>
+        <hr />
     </form>
 </template>

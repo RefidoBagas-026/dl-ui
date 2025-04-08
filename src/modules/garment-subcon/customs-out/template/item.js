@@ -11,7 +11,8 @@ export class Item {
     this.readOnly = context.context.options.readOnly;
     this.selectedSubconCategory =
       context.context.options.selectedSubconCategory;
-
+    this.selectedSubconType = context.context.options.selectedSubconType;
+    
     this.itemOptions = {
       error: this.error,
       isCreate: this.isCreate,

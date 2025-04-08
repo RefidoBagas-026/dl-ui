@@ -16,7 +16,7 @@ export class Create {
 
     }
     bind() {
-        this.data = {};
+        this.data = { Items: [] };
         this.error = {};
     }
 
@@ -37,14 +37,7 @@ export class Create {
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
-                if (e.statusCode == 500) {
-                    alert("Terjadi Kesalahan Pada Sistem!\nHarap Simpan Kembali!");
-                } else {
-                    this.error = e;
-
-                    if (this.error.LockBooking)
-                        alert(this.error.LockBooking);
-                }
+                this.error = e;
             })
     }
 }
