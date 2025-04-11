@@ -1144,6 +1144,7 @@ module.exports = [
             iconClass: "fa fa-dashboard"
         }
     },
+    
     {
         route: 'garment-production/packing-list-draft-copy',
         name: 'packing-list-draft-copy',
@@ -1355,4 +1356,34 @@ module.exports = [
         },
 
     },
+    {
+      route: "garment-production/packing-list-draft-demo",
+      name: "garment-production/packing-list-draft-demo",
+      moduleId: "modules/garment-production/packing-list-draft-demo/index",
+      nav: true,
+      title: "Draft Packing List Demo",
+      auth: true,
+      settings: {
+          group: "g-production",
+          subGroup: "packing list",
+          // permission: { "C9": 1, "FP": 1 },
+          permission: { "O79": 1 },
+          iconClass: "fa fa-dashboard"
+      }
+  },
+  {
+      route: "garment-production/packing-list-items-demo",
+      name: "garment-production/packing-list-items-demo",
+      moduleId: "modules/garment-production/packing-list-items-demo/index",
+      nav: true,
+      title: "Item Packing List Demo",
+      auth: true,
+      settings: {
+          group: "g-production",
+          subGroup: "packing list",
+          // permission: { "C9": 1, "FP": 1 },
+          permission: { "O80": 1 },
+          iconClass: "fa fa-dashboard"
+      }
+  },
 ];
