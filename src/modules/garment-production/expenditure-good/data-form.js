@@ -210,7 +210,7 @@ export class DataForm {
                 }
             }
             
-            Promise.resolve(this.service.getFinishedGood({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.Unit.Id}) }))
+            Promise.resolve(this.service.getFinishedGood({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.Unit.Id}),size:1000, }))
                     .then(result => {
                         for(var finGood of result.data){
                             var item={};

@@ -152,6 +152,14 @@ export class DataForm {
       this.Supplier = suppliers.data[0];
       this.data.Supplier = this.Supplier;
       this.data.Items.push({ Supplier: this.data.Supplier });
+
+      //get invoice with same contract
+      const dataInvoice = await this.service.search({ filter: JSON.stringify({ ContractNo: this.data.ContractNo }) });
+      //get used qty
+      const usedQty = dataInvoice.data.reduce((acc, curr) => acc + curr.Items.reduce((acc, curr) => acc + curr.Quantity, 0), 0);
+      //get remaining qty
+      this.data.RemainingQuantity = newValue.Quantity - usedQty; 
+
     }
   }
 

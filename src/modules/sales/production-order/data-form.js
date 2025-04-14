@@ -13,6 +13,7 @@ var MaterialLoader = require("../../../loader/product-loader");
 var FinishTypeLoader = require('../../../loader/finish-type-loader');
 var StandardTests = require('../../../loader/standard-tests-loader');
 var AccountLoader = require('../../../loader/account-loader');
+var CurrencyLoader = require('../../../loader/currency-loader');
 
 @inject(BindingEngine, Element, Service)
 export class DataForm {
@@ -26,6 +27,7 @@ export class DataForm {
   @bindable nameCheck;
   @bindable POTypes;
   @bindable UOmUnit;
+  @bindable Price;
 
   POTypes = [' ','SALES', 'UNIT']
 
@@ -97,6 +99,8 @@ export class DataForm {
       this.data.Details = this.data.Details || [];
       this.data.LampStandards = this.data.LampStandards || [];
       this.data.BeforeQuantity = this.data.OrderQuantity;
+      console.log(this.data);
+      this.Price = Number(this.data.Price);
 
       if(this.data.POType == "SALES"){
         this.nameCheck=true;
@@ -113,16 +117,21 @@ export class DataForm {
     }
   }
 
-  @computedFrom("data.Buyer")
-  get buyerType() {
-    this.ekspor = false;
-    if (this.data.Buyer) {
-      if (this.data.Buyer.Type.toLowerCase() == "ekspor" || this.data.Buyer.Type.toLowerCase() == "export") {
-        this.ekspor = true;
-      }
-    }
-    return this.ekspor;
+
+  priceChanged(newValue, OldValue) {
+    console.log(this.Price);
+    this.data.Price = this.Price;
   }
+  // @computedFrom("data.Buyer")
+  // get buyerType() {
+  //   this.ekspor = false;
+  //   if (this.data.Buyer) {
+  //     if (this.data.Buyer.Type.toLowerCase() == "ekspor" || this.data.Buyer.Type.toLowerCase() == "export") {
+  //       this.ekspor = true;
+  //     }
+  //   }
+  //   return this.ekspor;
+  // }
 
   get fpSalesContractLoader() {
     return FinishingPrintingSalesContractLoader;
@@ -177,17 +186,88 @@ export class DataForm {
     return this.printingOnly;
   }
 
+  RUNChanged(e) {
+    var selectedRUN = e.srcElement.value;
 
-
-  @computedFrom("data")
-  get isRUN() {
-    this.run = false;
-    if (this.data.RunWidth) {
-      if (this.data.RunWidth.length > 0)
+    if (selectedRUN === "Tanpa RUN") {
+        this.run = false; 
+        this.data.RunWidth = []; // Reset array agar form kosong
+    } else {
         this.run = true;
+
+        let runCount = parseInt(selectedRUN,10); // Ambil angka RUN dari teks (ex: "2 RUN" -> 2)
+        if (!isNaN(runCount)) {
+            let newRunWidth = [];
+            for (let i = 0; i < runCount; i++) {
+                newRunWidth.push({ Value: 0 });
+            }
+            this.data.RunWidth = [...newRunWidth]; // Spread agar binding terdeteksi
+        }
     }
-    return this.run;
-  }
+
+    console.log("RunWidth.length:", this.data.RunWidth.length);
+    console.log("RunWidth:", this.data.RunWidth);
+    console.log("run:", this.run);
+}
+
+@computedFrom("data.RunWidth.length")
+get isRUN() {
+    return this.data.RunWidth.length > 0; // Langsung return hasil, tanpa mengubah this.run
+}
+
+  // RUNChanged(e) {
+  //   var selectedRUN = e.srcElement.value;
+  //   if (selectedRUN) {
+  //     this.data.RunWidth = [];
+  //     if (selectedRUN == "Tanpa RUN") {
+  //       this.run = false;
+  //       this.data.RunWidth.length = 0;
+  //     }
+  //     if (selectedRUN == "1 RUN") {
+
+  //       this.run = true;
+  //       this.data.RunWidth[0] = { Value: 0 };
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth[0] = { Value: 0 };
+  //       }
+
+  //     }
+  //     if (selectedRUN == "2 RUN") {
+  //       this.run = true;
+  //       this.data.RunWidth.length = 0;
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth.push({ Value: 0 }, { Value: 0 });
+  //       }
+  //     }
+  //     if (selectedRUN == "3 RUN") {
+  //       this.run = true;
+  //       this.data.RunWidth.length = 0;
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth.push({ Value: 0 }, { Value: 0 }, { Value: 0 });
+  //       }
+  //     }
+  //     if (selectedRUN == "4 RUN") {
+  //       this.run = true;
+  //       this.data.RunWidth.length = 0;
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth.push({ Value: 0 }, { Value: 0 }, { Value: 0 }, { Value: 0 });
+  //       }
+  //     }
+
+  //   }
+  // }
+
+  // @computedFrom("data")
+  // get isRUN() {
+  //   this.run = false;
+  //   if (this.data.RunWidth) {
+  //     if (this.data.RunWidth.length > 0)
+  //       this.run = true;
+  //   }
+  //   console.log(this.run);
+  //   console.log(this.data.RunWidth);
+  //   return this.run;
+  // }
 
   UOmChanged(e){
     //console.log(e.srcElement.value);
@@ -324,47 +404,7 @@ export class DataForm {
 
 
 
-  RUNChanged(e) {
-    var selectedRUN = e.srcElement.value;
-    if (selectedRUN) {
-      this.data.RunWidth = [];
-      if (selectedRUN == "Tanpa RUN") {
-        this.run = false;
-        this.data.RunWidth.length = 0;
-      }
-      if (selectedRUN == "1 RUN") {
-
-        this.run = true;
-        this.data.RunWidth[0] = { Value: 0 };
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth[0] = { Value: 0 };
-        }
-
-      }
-      if (selectedRUN == "2 RUN") {
-        this.run = true;
-        this.data.RunWidth.length = 0;
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth.push({ Value: 0 }, { Value: 0 });
-        }
-      }
-      if (selectedRUN == "3 RUN") {
-        this.run = true;
-        this.data.RunWidth.length = 0;
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth.push({ Value: 0 }, { Value: 0 }, { Value: 0 });
-        }
-      }
-      if (selectedRUN == "4 RUN") {
-        this.run = true;
-        this.data.RunWidth.length = 0;
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth.push({ Value: 0 }, { Value: 0 }, { Value: 0 }, { Value: 0 });
-        }
-      }
-
-    }
-  }
+  
 
 
   POTypeChanged(e) {
@@ -497,6 +537,10 @@ export class DataForm {
 
   get accountLoader() {
     return AccountLoader;
+  }
+
+  get currencyLoader() {
+    return CurrencyLoader;
   }
 
   text = (data) => {

@@ -6,7 +6,7 @@
                 error.bind="error.Epo"
                 loader.one-time="epoLoader"
                 read-only.bind="(readOnly || isEdit)"
-                query.bind="filter"
+                query.bind="filter1"
                 text.bind="epoView">
             </au-autocomplete>
         </td>
@@ -79,7 +79,7 @@
         <td class="col-sm-1">
             <button class="btn btn-info" click.delegate="toggle()">i</button> 
         </td>
-        <td class="col-sm-1" show.bind="!readOnly">
+        <td class="col-sm-1" show.bind="!readOnly  && !data.Id">
             <button class="btn btn-danger" click.delegate="onremove(data)" if.bind="!readOnly">-</button>
         </td>
     </tr>

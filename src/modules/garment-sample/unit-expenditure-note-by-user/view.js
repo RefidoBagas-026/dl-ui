@@ -100,6 +100,12 @@ export class View {
             this.hasEdit = false;
             this.hasDelete = false;
         }
+
+        if(this.data.ExpenditureTo === "GARMENT" && this.data.ExpenditureType === "GARMENT"){
+            var resultValidate = await this.service.getUENByIdForValidation(this.data.Id);
+            this.hasEdit = resultValidate;
+            this.hasDelete = resultValidate;
+        }
     }
 
     cancel(event) {

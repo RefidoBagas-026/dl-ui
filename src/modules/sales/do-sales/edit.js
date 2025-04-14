@@ -19,6 +19,23 @@ export class Edit {
   }
 
   save() {
+    console.log("data", this.data);
+    if(this.data.DOSalesCategory === "DYEINGPRINTING")
+      {
+
+        this.data.SalesContract ={
+          Buyer : {
+            Name : this.data.BuyerName,
+            Address : this.data.BuyerAddress,
+            Type : this.data.DOSalesType
+          },
+          
+
+        };
+        
+        this.data.SalesContract.SalesContractNo = this.data.SalesContractNo;
+
+      }
     this.service
       .update(this.data)
       .then((result) => {

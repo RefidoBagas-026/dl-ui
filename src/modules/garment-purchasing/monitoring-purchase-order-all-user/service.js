@@ -3,12 +3,12 @@ import { HttpClient } from 'aurelia-fetch-client';
 import { RestService } from '../../../utils/rest-service';
 
 
-const serviceUri = 'garment-purchase-orders/monitoring';
+const serviceUri = 'garment-purchase-all/monitoring';
 
 export class Service extends RestService {
 
     constructor(http, aggregator, config, endpoint) {
-        super(http, aggregator, config, "purchasing-azure");
+        super(http, aggregator, config, "dl-report");
     }
 
     search(args) {

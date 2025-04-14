@@ -11,7 +11,7 @@
         <au-textbox value.bind="po" label="Nomor PO" placeholder="Masukan Nomor PO">
         </au-textbox>
 
-        <au-dropdown label="Unit" value.bind="UnitItem" items.bind="UnitItems" options.bind="controlOptions">
+        <au-dropdown label="Rack" value.bind="rack" items.bind="rackOptions" options.bind="controlOptions">
         </au-dropdown>
 
 
@@ -30,17 +30,11 @@
   </br>
 
   <div id="mutation-table">
-    <au-table 
-    view-model.ref="tableList" 
-    data.bind="loader" 
-    columns.bind="columns" 
-    sortable="true" page-size="25"
-    options.bind="tableOptions"
-    context.bind="context" 
-    context-click.delegate="contextClickCallback($event)"
-    selectable.bind="true">
-      
-    <div slot="toolbar" class="btn-group">
+    <au-table view-model.ref="tableList" data.bind="loader" columns.bind="columns" sortable="true" page-size="25"
+      options.bind="tableOptions" context.bind="context" context-click.delegate="contextClickCallback($event)"
+      selectable.bind="true">
+
+      <div slot="toolbar" class="btn-group">
         <button class="btn btn-success" click.delegate="ExportToExcel()">Cetak Excel</button>
       </div>
     </au-table>

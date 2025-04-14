@@ -36,7 +36,7 @@
                 keypress.delegate="enterDelegate($event)" placeholder=" Pilih No. Sales Contract">
               </au-autocomplete>
 
-              <au-autocomplete if.bind="code2" label="No. Sales Contract" value.bind="selectedSalesContract"
+              <!-- <au-autocomplete if.bind="code2" label="No. Sales Contract" value.bind="selectedSalesContract"
                 read-only.bind="readOnly || isEdit" error.bind="error.SalesContract"
                 loader.one-time="salesContractLoader" text.bind="salesContractNoView"
                 keypress.delegate="enterDelegate($event)" placeholder=" Pilih No. Sales Contract">
@@ -46,6 +46,33 @@
               </au-textbox>
 
               <au-textbox label="Alamat" value.bind="data.Buyer.Address" read-only.bind="true">
+              </au-textbox> -->
+
+              <au-textbox label="No. Sales Contract"
+                          if.bind="code2"
+                          value.bind="data.SalesContractNo"
+                          error.bind="error.SalesContractNo"
+                          read-only.bind="readOnly"
+                          placeholder="Input No. Sales Contract"
+                          keypress.delegate="enterDelegate($event)">
+              </au-textbox>
+
+              <au-textbox label="Buyer"
+                          if.bind="code2"
+                          value.bind="data.BuyerName"
+                          error.bind="error.BuyerName"
+                          read-only.bind="readOnly"
+                          placeholder="Input Nama Buyer"
+                          keypress.delegate="enterDelegate($event)">
+              </au-textbox>
+
+              <au-textbox label="Alamat"
+                          if.bind="code2"
+                          value.bind="data.BuyerAddress"
+                          error.bind="error.BuyerAddress"
+                          read-only.bind="readOnly"
+                          placeholder="Input Nama Buyer"
+                          keypress.delegate="enterDelegate($event)">
               </au-textbox>
 
               <au-textbox label="Dikirm Kepada" value.bind="data.DestinationBuyerName"
@@ -106,7 +133,13 @@
 
               <au-dropdown show.bind="selectedSalesContract" label="Satuan Panjang" value.bind="LengthUom"
                 items.bind="lengthUomOptions" error.bind="error.LengthUom" read-only.bind="readOnly  || isEdit"
-                placeholder="Pilih Satuan Panjang">
+                placeholder="Pilih Satuan Panjang" if.bind="!code2">
+              </au-dropdown>
+
+              
+              <au-dropdown  label="Satuan Panjang" value.bind="LengthUom"
+                items.bind="lengthUomOptions" error.bind="error.LengthUom" read-only.bind="readOnly  || isEdit"
+                placeholder="Pilih Satuan Panjang" if.bind="code2">
               </au-dropdown>
 
               <div class="row">
@@ -153,28 +186,85 @@
               <au-autocomplete label="No. Sales Contract" value.bind="selectedSalesContract"
                 read-only.bind="readOnly || isEdit" error.bind="error.SalesContract"
                 loader.one-time="salesContractLoader" text.bind="salesContractNoView"
-                keypress.delegate="enterDelegate($event)" placeholder=" Pilih No. Sales Contract">
+                keypress.delegate="enterDelegate($event)" placeholder=" Pilih No. Sales Contract"
+                if.bind="!code2">
               </au-autocomplete>
 
+              <au-textbox label="No. Sales Contract"
+                          if.bind="code2"
+                          value.bind="data.SalesContractNo"
+                          error.bind="error.SalesContractNo"
+                          read-only.bind="readOnly"
+                          placeholder="Input No. Sales Contract"
+                          keypress.delegate="enterDelegate($event)">
+              </au-textbox>
+
               <au-textbox label="Order Untuk" value.bind="selectedSalesContract.MaterialConstruction.Name"
-                read-only.bind="true">
+                read-only.bind="true" if.bind="!code2">
               </au-textbox>
 
-              <au-textbox label="Buyer" value.bind="selectedSalesContract.Buyer.Name" read-only.bind="true">
+              <au-textbox label="Order Untuk"
+                          if.bind="code2"
+                          value.bind="data.MaterialConstructionName"
+                          error.bind="error.SalesContractNo"
+                          read-only.bind="readOnly"
+                          placeholder="Input Order Untuk"
+                          keypress.delegate="enterDelegate($event)">
               </au-textbox>
 
-              <au-textbox label="Panjang Satuan" value.bind="selectedSalesContract.PieceLength" read-only.bind="true">
+              <au-textbox label="Buyer" value.bind="selectedSalesContract.Buyer.Name" read-only.bind="true" if.bind="!code2">
               </au-textbox>
+
+              <au-textbox label="Buyer"
+                          if.bind="code2"
+                          value.bind="data.BuyerName"
+                          error.bind="error.BuyerName"
+                          read-only.bind="readOnly"
+                          placeholder="Input Nama Buyer"
+                          keypress.delegate="enterDelegate($event)">
+              </au-textbox>
+
+              <au-textbox label="Panjang Satuan" value.bind="selectedSalesContract.PieceLength" read-only.bind="true" if.bind="!code2">
+              </au-textbox>
+
+              <au-numeric label="Panjang Satuan"
+                          if.bind="code2"
+                          value.bind="PieceLength"
+                          error.bind="error.PieceLength"
+                          read-only.bind="readOnly"
+                          placeholder="Input Panjang Satuan"
+                          keypress.delegate="enterDelegate($event)"
+                          format="0,0">
+              </au-numeric>
             </div>
 
             <div class="col-md-6">
 
               <au-textbox label="Cap Komposisi Persen" value.bind="selectedSalesContract.Commodity.Name"
-                read-only.bind="true">
+                read-only.bind="true" if.bind="!code2">
               </au-textbox>
 
-              <au-textbox label="Jumlah Order" value.bind="selectedSalesContract.OrderQuantity" read-only.bind="true">
+              <au-textbox label="Cap Komposisi Persen"
+                          if.bind="code2"
+                          value.bind="data.CommodityName"
+                          error.bind="error.SalesContractNo"
+                          read-only.bind="readOnly"
+                          placeholder="Input Cap Komposisi Persen"
+                          keypress.delegate="enterDelegate($event)">
               </au-textbox>
+
+              <au-textbox label="Jumlah Order" value.bind="selectedSalesContract.OrderQuantity" read-only.bind="true" if.bind="!code2">
+              </au-textbox>
+
+              <au-numeric label="Jumlah Order"
+                          if.bind="code2"
+                          value.bind="OrderQuantity"
+                          error.bind="error.OrderQuantity"
+                          read-only.bind="readOnly"
+                          placeholder="Input Jumlah Order"
+                          keypress.delegate="enterDelegate($event)"
+                          format="0,0">
+              </au-numeric>
 
               <au-dropdown label="Satuan Packing" value.bind="data.PackingUom" items.bind="packingUomOptions"
                 error.bind="error.PackingUom" read-only.bind="readOnly" placeholder="Pilih Satuan Packing">
@@ -184,6 +274,8 @@
                 items.bind="weightUomOptions" error.bind="error.WeightUom" read-only.bind="readOnly  || isEdit"
                 placeholder="Pilih Satuan Berat">
               </au-dropdown>
+
+              
 
               <au-numeric label="Isi tiap Bale" value.bind="fillEachBale" error.bind="error.FillEachBale"
                 read-only.bind="readOnly" placeholder="Input Isi tiap Bale" keypress.delegate="enterDelegate($event)"

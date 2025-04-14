@@ -1,5 +1,5 @@
 import { inject, bindable, computedFrom } from "aurelia-framework";
-var UnitLoader = require("../../../loader/garment-units-loader");
+var UnitLoader = require("../../../loader/garment-units-gmt-loader");
 var PreSalesContractLoader = require("../../../loader/garment-pre-sales-contracts-loader");
 import { CoreService } from "./service";
 
@@ -24,7 +24,7 @@ export class DataForm {
     },
   };
 
-  prTypes = ["MASTER", "SAMPLE", "SUBCON"];
+  prTypes = ["MASTER", "SAMPLE", "SUBCON", "TERIMA SUBCON"];
 
   formOptions = {
     cancelText: "Kembali",
@@ -48,7 +48,7 @@ export class DataForm {
     } else if (this.data.PRType == "SUBCON") {
       let filterSubcon = {
         IsPosted: true,
-        'SCType == "TERIMA SUBCON" || SCType == "SUBCON KELUAR" || SCType == "SUBCON"': true,
+        'SCType == "SUBCON KELUAR" || SCType == "SUBCON"': true,
       };
 
       return filterSubcon;

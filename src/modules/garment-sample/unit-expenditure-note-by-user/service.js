@@ -57,6 +57,11 @@ class Service extends RestService {
         return super.get(endpoint);
     }
 
+    getUENByIdForValidation(id) {
+        var endpoint = `${serviceUri}/validate-do-items-by-expenditure-id/${id}`;
+        return super.get(endpoint);
+    }
+
     getUnitDOId(id) {
         var endpoint = `${unitDOServiceUri}/${id}`;
         return super.get(endpoint);

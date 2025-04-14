@@ -17,7 +17,7 @@ export class List {
                 return "";
             }
         },
-        { field: "FinishingPrintingSalesContract.SalesContractNo", title: "Nomor Sales Contract" },
+        { field: "SalesContractNo", title: "Nomor Sales Contract" },
         { field: "OrderNo", title: "Nomor Order Produksi" },
         { field: "Buyer.Type", title: "Jenis Buyer" },
         { field: "Buyer.Name", title: "Buyer" },

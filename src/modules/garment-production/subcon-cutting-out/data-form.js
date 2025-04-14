@@ -216,7 +216,7 @@ export class DataForm {
                 .then((result) => {
                     var infoEPO = {
                         keyword: keyword,
-                        filter: JSON.stringify({ ProductName:"PROCESS"})
+                        filter: JSON.stringify({ '( ProductName == "PROCESS" || ProductName == "SUBKON" || ProductName =="PROCESS SUBCON")': true,})
                       };
                     return this.purchasingService.getGarmentEPOByRONo(infoEPO)
                     .then((epo)=>{

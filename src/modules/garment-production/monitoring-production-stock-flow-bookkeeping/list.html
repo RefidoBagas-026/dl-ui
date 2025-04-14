@@ -9,18 +9,11 @@
     <h1 class="page-header">Monitoring Flow Persediaan Pembukuan</h1>
 
     <form class="form-horizontal">
-      <!-- <au-autocomplete 
-            value.bind="unit" 
-            label="Unit" 
-            loader.bind="unitLoader"
-            placeholder="Cari Nama Unit" 
-            read-only.bind="false" 
-            text.bind="unitView"
-            options.bind="controlOptions">
-      </au-autocomplete> -->
+      <au-textbox label="Unit" value.bind="UnitItem" options.bind="controlOptions" read-only.bind="true">
+      </au-textbox>
 
-      <au-dropdown label="Unit" value.bind="UnitItem" items.bind="UnitItems" options.bind="controlOptions">
-      </au-dropdown>
+      <!-- <au-dropdown label="Unit" value.bind="UnitItem" items.bind="UnitItems" options.bind="controlOptions">
+      </au-dropdown> -->
 
       <au-datepicker label="Tanggal Awal" value.bind="dateFrom" options.bind="controlOptions"></au-datepicker>
       <au-datepicker label="Tanggal Akhir" value.bind="dateTo" options.bind="controlOptions"></au-datepicker>
@@ -53,18 +46,23 @@
             <td rowspan="4">SMV</td>
             <td rowspan="4">TARIF</td>
             <td rowspan="4">HARGA BAHAN BAKU</td>
-            <td colspan="16">CUTTING</td>
+            <!-- <td colspan="16">CUTTING</td>
             <td colspan="12">LOADING</td>
             <td colspan="20">SEWING</td>
             <td colspan="22">FINISHING</td>
-            <td colspan="22">BARANG JADI</td>
+            <td colspan="22">BARANG JADI</td> -->
+            <td colspan="14">CUTTING</td>
+            <td colspan="10">LOADING</td>
+            <td colspan="14">SEWING</td>
+            <td colspan="20">FINISHING</td>
+            <td colspan="20">BARANG JADI</td>
             <td colspan="9">Nilai Baru Komersil (SaldoAkhir)</td>
           </tr>
           <tr>
             <td colspan="2">Saldo Awal WIP Cutting</td>
             <td colspan="2">Cutting In (WIP Cutting)</td>
             <td colspan="2">Cutting Out/HP (WIP Loading)</td>
-            <td colspan="2">Cutting Out Transfer</td>
+            <!-- <td colspan="2">Cutting Out Transfer</td> -->
             <td colspan="2">Cutting Out Subkon</td>
             <td colspan="2">Aval Komponen dari Cutting</td>
             <td colspan="2">Aval Komponen dari Sewing</td>
@@ -72,7 +70,7 @@
 
             <td colspan="2">Saldo Awal Loading</td>
             <td colspan="2">Loading In</td>
-            <td colspan="2">Loading In Transfer</td>
+            <!-- <td colspan="2">Loading In Transfer</td> -->
             <td colspan="2">Loading Out (WIP Sewing)</td>
             <td colspan="2">Adjs Loading</td>
             <td colspan="2">Saldo Akhir Loading</td>
@@ -80,11 +78,11 @@
             <td colspan="2">Saldo Awal WIP Sewing</td>
             <td colspan="2">Sewing In (WIP Sewing)</td>
             <td colspan="2">Sewing Out (WIP Finishing)</td>
-            <td colspan="2">Sewing In Transfer</td>
-            <td colspan="2">Sewing Out Tranfer WIP Sewing</td>
+            <!-- <td colspan="2">Sewing In Transfer</td> -->
+            <!-- <td colspan="2">Sewing Out Tranfer WIP Sewing</td> -->
             <td>Subkon Masuk</td>
             <td>Subkon Keluar</td>
-            <td colspan="2">Sewing Out Transfer WIP Finishing</td>
+            <!-- <td colspan="2">Sewing Out Transfer WIP Finishing</td> -->
             <td colspan="2">Retur ke Cutting</td>
             <td colspan="2">Adjs Sewing</td>
             <td colspan="2">Saldo Akhir WIP Sewing</td>
@@ -96,7 +94,7 @@
             <td colspan="2">Subkon Out</td>
             <td colspan="2">Saldo Akhir WIP Subkon</td>
             <td colspan="2">Finishing Out (WIP BJ)</td>
-            <td colspan="2">Finishing In Transfer</td>
+            <!-- <td colspan="2">Finishing In Transfer</td> -->
             <td colspan="2">Adjs Finishing</td>
             <td colspan="2">Retur ke Sewing</td>
             <td colspan="2">Saldo Akhir WIP Finishing</td>
@@ -104,7 +102,7 @@
 
             <td colspan="2">Saldo Awal Barang jadi</td>
             <td colspan="2">Barang Jadi In/ (WIP BJ)</td>
-            <td colspan="2">Barang Jadi In Transfer</td>
+            <!-- <td colspan="2">Barang Jadi In Transfer</td> -->
             <td colspan="2">Penerimaan Lain-lain (Retur)</td>
             <td colspan="2">Standar Konversi Biaya</td>
             <td colspan="2">Pengiriman Export</td>
@@ -129,21 +127,8 @@
             <td rowspan="2">Harga</td>
             <td rowspan="2">Qty</td>
             <td rowspan="2">Harga</td>
-            <td rowspan="2">Qty</td>
-            <td rowspan="2">Harga</td>
-            <td rowspan="2">Qty</td>
-            <td rowspan="2">Harga</td>
-            <td rowspan="2">Qty</td>
-            <td rowspan="2">Harga</td>
-            <td rowspan="2">Qty</td>
-            <td rowspan="2">Harga</td>
-            <td rowspan="2">Qty</td>
-            <td rowspan="2">Harga</td>
-
-            <td rowspan="2">Qty</td>
-            <td rowspan="2">Harga</td>
-            <td rowspan="2">Qty</td>
-            <td rowspan="2">Harga</td>
+            <!-- <td rowspan="2">Qty</td>
+            <td rowspan="2">Harga</td> -->
             <td rowspan="2">Qty</td>
             <td rowspan="2">Harga</td>
             <td rowspan="2">Qty</td>
@@ -157,19 +142,31 @@
             <td rowspan="2">Harga</td>
             <td rowspan="2">Qty</td>
             <td rowspan="2">Harga</td>
+            <!-- <td rowspan="2">Qty</td>
+            <td rowspan="2">Harga</td> -->
+            <td rowspan="2">Qty</td>
+            <td rowspan="2">Harga</td>
+            <td rowspan="2">Qty</td>
+            <td rowspan="2">Harga</td>
+            <td rowspan="2">Qty</td>
+            <td rowspan="2">Harga</td>
+
+            <td rowspan="2">Qty</td>
+            <td rowspan="2">Harga</td>
+            <td rowspan="2">Qty</td>
+            <td rowspan="2">Harga</td>
             <td rowspan="2">Qty</td>
 
             <td rowspan="2">Harga</td>
-            <td rowspan="2">Qty</td>
+            <!-- <td rowspan="2">Qty</td>
             <td rowspan="2">Harga</td>
             <td rowspan="2">Qty</td>
-            <td rowspan="2">Harga</td>
-            <td rowspan="2">Qty</td>
-
+            <td rowspan="2">Harga</td> -->
+            <!-- <td rowspan="2">Qty</td>
+            <td rowspan="2">Harga</td> -->
             <td>Qty</td>
             <td>Qty</td>
-
-            <td rowspan="2">Harga</td>
+          
             <td rowspan="2">Qty</td>
             <td rowspan="2">Harga</td>
             <td rowspan="2">Qty</td>
@@ -189,6 +186,8 @@
             <td rowspan="2">Harga</td>
             <td rowspan="2">Qty</td>
             <td rowspan="2">Harga</td>
+            <!-- <td rowspan="2">Qty</td>
+            <td rowspan="2">Harga</td> -->
             <td rowspan="2">Qty</td>
             <td rowspan="2">Harga</td>
             <td rowspan="2">Qty</td>
@@ -202,10 +201,8 @@
             <td rowspan="2">Harga</td>
             <td rowspan="2">Qty</td>
             <td rowspan="2">Harga</td>
-            <td rowspan="2">Qty</td>
-            <td rowspan="2">Harga</td>
-            <td rowspan="2">Qty</td>
-            <td rowspan="2">Harga</td>
+            <!-- <td rowspan="2">Qty</td>
+            <td rowspan="2">Harga</td> -->
             <td rowspan="2">Qty</td>
             <td rowspan="2">Harga</td>
             <td rowspan="2">Tarif</td>
@@ -243,8 +240,8 @@
             <td class="text-right">${item._PriceCuttingIn}</td>
             <td class="text-right">${item._QtyCuttingOut}</td>
             <td class="text-right">${item._PriceCuttingOut}</td>
-            <td class="text-right">${item._QtyCuttingTransfer}</td>
-            <td class="text-right">${item._PriceCuttingTransfer}</td>
+            <!-- <td class="text-right">${item._QtyCuttingTransfer}</td>
+            <td class="text-right">${item._PriceCuttingTransfer}</td> -->
             <td class="text-right">${item._QtyCuttingsubkon}</td>
             <td class="text-right">${item._PriceCuttingsubkon}</td>
             <td class="text-right">${item._AvalCutting}</td>
@@ -257,8 +254,8 @@
             <td class="text-right">${item._BeginingBalanceLoadingPrice}</td>
             <td class="text-right">${item._QtyLoadingIn}</td>
             <td class="text-right">${item._PriceLoadingIn}</td>
-            <td class="text-right">${item._QtyLoadingInTransfer}</td>
-            <td class="text-right">${item._PriceLoadingInTransfer}</td>
+            <!-- <td class="text-right">${item._QtyLoadingInTransfer}</td>
+            <td class="text-right">${item._PriceLoadingInTransfer}</td> -->
             <td class="text-right">${item._QtyLoading}</td>
             <td class="text-right">${item._PriceLoading}</td>
             <td class="text-right">${item._QtyLoadingAdjs}</td>
@@ -271,16 +268,16 @@
             <td class="text-right">${item._PriceSewingIn}</td>
             <td class="text-right">${item._QtySewingOut}</td>
             <td class="text-right">${item._PriceSewingOut}</td>
-            <td class="text-right">${item._QtySewingInTransfer}</td>
+            <!-- <td class="text-right">${item._QtySewingInTransfer}</td>
             <td class="text-right">${item._PriceSewingInTransfer}</td>
             <td class="text-right">${item._WipSewingOut}</td>
+            <td class="text-right">${item._WipSewingOutPrice}</td> -->
 
             <td class="text-right">${item._SubconSewingInQty}</td>
             <td class="text-right">${item._SubconSewingOutQty}</td>
-
-            <td class="text-right">${item._WipSewingOutPrice}</td>
-            <td class="text-right">${item._WipFinishingOut}</td>
-            <td class="text-right">${item._WipFinishingOutPrice}</td>
+            
+            <!-- <td class="text-right">${item._WipFinishingOut}</td>
+            <td class="text-right">${item._WipFinishingOutPrice}</td> -->
             <td class="text-right">${item._QtySewingRetur}</td>
             <td class="text-right">${item._PriceSewingRetur}</td>
             <td class="text-right">${item._QtySewingAdj}</td>
@@ -301,8 +298,8 @@
             <td class="text-right">${item._EndBalanceSubconPrice}</td>
             <td class="text-right">${item._FinishingOutQty}</td>
             <td class="text-right">${item._FinishingOutPrice}</td>
-            <td class="text-right">${item._FinishingInTransferQty}</td>
-            <td class="text-right">${item._FinishingInTransferPrice}</td>
+            <!-- <td class="text-right">${item._FinishingInTransferQty}</td>
+            <td class="text-right">${item._FinishingInTransferPrice}</td> -->
             <td class="text-right">${item._FinishingAdjQty}</td>
             <td class="text-right">${item._FinishingAdjPRice}</td>
             <td class="text-right">${item._FinishingReturQty}</td>
@@ -313,8 +310,8 @@
             <td class="text-right">${item._BeginingBalanceExpenditureGoodPrice}</td>
             <td class="text-right">${item._FinishingInExpenditure}</td>
             <td class="text-right">${item._FinishingInExpenditurepPrice}</td>
-            <td class="text-right">${item._ExpenditureGoodInTransfer}</td>
-            <td class="text-right">${item._ExpenditureGoodInTransferPrice}</td>
+            <!-- <td class="text-right">${item._ExpenditureGoodInTransfer}</td>
+            <td class="text-right">${item._ExpenditureGoodInTransferPrice}</td> -->
             <td class="text-right">${item._ExpenditureGoodRetur}</td>
             <td class="text-right">${item._ExpenditureGoodReturPrice}</td>
             <td class="text-right">${item._PriceUsage}</td>
@@ -348,8 +345,8 @@
             <td class="text-right"><strong>${PriceCuttingInTotal}</strong></td>
             <td class="text-right"><strong>${QtyCuttingOutTotal}</strong></td>
             <td class="text-right"><strong>${PriceCuttingOutTotal}</strong></td>
-            <td class="text-right"><strong>${QtyCuttingTransferTotal}</strong></td>
-            <td class="text-right"><strong>${PriceCuttingTransferTotal}</strong></td>
+            <!-- <td class="text-right"><strong>${QtyCuttingTransferTotal}</strong></td>
+            <td class="text-right"><strong>${PriceCuttingTransferTotal}</strong></td> -->
             <td class="text-right"><strong>${QtyCuttingsubkonTotal}</strong></td>
             <td class="text-right"><strong>${PriceCuttingsubkonTotal}</strong></td>
             <td class="text-right"><strong>${AvalCuttingTotal}</strong></td>
@@ -362,8 +359,8 @@
             <td class="text-right"><strong>${BeginingBalanceLoadingPriceTotal}</strong></td>
             <td class="text-right"><strong>${QtyLoadingInTotal}</strong></td>
             <td class="text-right"><strong>${PriceLoadingInTotal}</strong></td>
-            <td class="text-right"><strong>${QtyLoadingInTransferTotal}</strong></td>
-            <td class="text-right"><strong>${PriceLoadingInTransferTotal}</strong></td>
+            <!-- <td class="text-right"><strong>${QtyLoadingInTransferTotal}</strong></td>
+            <td class="text-right"><strong>${PriceLoadingInTransferTotal}</strong></td> -->
             <td class="text-right"><strong>${QtyLoadingTotal}</strong></td>
             <td class="text-right"><strong>${PriceLoadingTotal}</strong></td>
             <td class="text-right"><strong>${QtyLoadingAdjsTotal}</strong></td>
@@ -377,14 +374,14 @@
             <td class="text-right"><strong>${QtySewingOutTotal}</strong></td>
             <td class="text-right"><strong>${PriceSewingOutTotal}</strong></td>
 
-            <td class="text-right"><strong>${QtySewingInTransferTotal}</strong></td>
+            <!-- <td class="text-right"><strong>${QtySewingInTransferTotal}</strong></td>
             <td class="text-right"><strong>${PriceSewingInTransferTotal}</strong></td>
             <td class="text-right"><strong>${WipSewingOutTotal}</strong></td>
-            <td class="text-right"><strong>${PriceWipSewingOutTotal}</strong></td>
+            <td class="text-right"><strong>${PriceWipSewingOutTotal}</strong></td> -->
             <td class="text-right"><strong>0</strong></td>
             <td class="text-right"><strong>0</strong></td>
-            <td class="text-right"><strong>${WipFinishingOutTotal}</strong></td>
-            <td class="text-right"><strong>${PriceWipFinishingOutTotal}</strong></td>
+            <!-- <td class="text-right"><strong>${WipFinishingOutTotal}</strong></td>
+            <td class="text-right"><strong>${PriceWipFinishingOutTotal}</strong></td> -->
 
             <td class="text-right"><strong>${QtySewingReturTotal}</strong></td>
             <td class="text-right"><strong>${PriceSewingReturTotal}</strong></td>
@@ -406,8 +403,8 @@
             <td class="text-right"><strong>${EndBalanceSubconPriceTotal}</strong></td>
             <td class="text-right"><strong>${FinishingOutQtyTotal}</strong></td>
             <td class="text-right"><strong>${FinishingOutPriceTotal}</strong></td>
-            <td class="text-right"><strong>${FinishingInTransferQtyTotal}</strong></td>
-            <td class="text-right"><strong>${FinishingInTransferPriceTotal}</strong></td>
+            <!-- <td class="text-right"><strong>${FinishingInTransferQtyTotal}</strong></td>
+            <td class="text-right"><strong>${FinishingInTransferPriceTotal}</strong></td> -->
             <td class="text-right"><strong>${FinishingAdjQtyTotal}</strong></td>
             <td class="text-right"><strong>${FinishingAdjPriceTotal}</strong></td>
             <td class="text-right"><strong>${FinishingReturQtyTotal}</strong></td>
@@ -418,8 +415,8 @@
             <td class="text-right"><strong>${PriceBeginingBalanceExpenditureGoodTotal}</strong></td>
             <td class="text-right"><strong>${FinishingInExpenditureTotal}</strong></td>
             <td class="text-right"><strong>${PriceFinishingInExpenditureTotal}</strong></td>
-            <td class="text-right"><strong>${ExpenditureGoodInTransferTotal}</strong></td>
-            <td class="text-right"><strong>${PriceExpenditureGoodInTransferTotal}</strong></td>
+            <!-- <td class="text-right"><strong>${ExpenditureGoodInTransferTotal}</strong></td>
+            <td class="text-right"><strong>${PriceExpenditureGoodInTransferTotal}</strong></td> -->
             <td class="text-right"><strong>${ExpenditureGoodReturTotal}</strong></td>
             <td class="text-right"><strong>${PriceExpenditureGoodReturTotal}</strong></td>
             <td class="text-right"><strong>${PriceUsageTotal}</strong></td>

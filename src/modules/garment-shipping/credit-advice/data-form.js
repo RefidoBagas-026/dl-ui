@@ -107,7 +107,7 @@ export class DataForm {
             this.data.amountToBePaid = newValue.totalAmount + this.data.lessFabricCost + newValue.dhlCharges - newValue.amountCA ;
             this.data.amountPaid =  this.data.amountToBePaid ;
             //this.data.balancaAmount =  newValue.totalAmount + newValue.dhlCharges + this.data.lessFabricCost - newValue.amountCA - this.data.amountPaid;
-            this.data.balancaAmount =  this.data.amountToBePaid + this.data.dhlCharges - this.data.amountPaid;
+            this.data.balanceamount =  this.data.amountToBePaid + this.data.dhlCharges - this.data.amountPaid;
            
             //
             if (this.data.packingListId) {
@@ -175,7 +175,7 @@ export class DataForm {
             let BalanceAmount = this.data.amountToBePaid + this.data.dhlCharges - this.data.amountPaid;
             console.log(BalanceAmount);
             BalanceAmount = numeral(BalanceAmount).format();
-            this.data.balanceAmount = numeral(BalanceAmount).value();           
+            this.data.balanceamount = numeral(BalanceAmount).value();           
             return BalanceAmount;                    
       }
 
@@ -201,7 +201,7 @@ export class DataForm {
 
             let NETTNEGO =  this.data.amountPaid  - (this.data.bankComission + this.data.discrepancyFee + this.data.creditInterest + this.data.bankCharges);
             NETTNEGO = numeral(NETTNEGO).format();
-            this.data.NETTNEGO = numeral(NETTNEGO).value();
+            this.data.nettNego = numeral(NETTNEGO).value();
             return NETTNEGO;
         }    
       }

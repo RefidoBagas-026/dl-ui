@@ -26,6 +26,8 @@ export class DataForm {
   @bindable disp;
   @bindable op;
   @bindable sc;
+  @bindable OrderQuantity;
+  @bindable PieceLength;
   @bindable fillEachBale;
   @bindable LengthUom;
   @bindable WeightUom;
@@ -111,13 +113,24 @@ export class DataForm {
 
     if (this.code2 == true) {
       var salesContract = this.data.SalesContract;
-      if (salesContract) {
-        this.selectedSalesContract = await this.service.getSalesContractDyeingPrintingById(
-          salesContract.Id
-        );
-      } else {
-        this.selectedSalesContract = this.data.SalesContract;
-      }
+
+      this.data.SalesContractNo = salesContract.SalesContractNo;
+      this.data.BuyerName = salesContract.Buyer.Name;
+      this.data.BuyerAddress = salesContract.Buyer.Address;
+      this.data.MaterialConstructionName = salesContract.MaterialConstruction.Name;
+      this.PieceLength = Number(salesContract.PieceLength);
+      this.data.CommodityName = salesContract.Commodity.Name;
+      this.OrderQuantity = Number(salesContract.OrderQuantity);
+      // if (salesContract) {
+      //   // this.selectedSalesContract = await this.service.getSalesContractDyeingPrintingById(
+      //   //   salesContract.Id
+      //   // );
+      // } else {
+      //   this.selectedSalesContract = this.data.SalesContract;
+      // }
+      console.log(this.data);
+
+      console.log(salesContract);
     }
 
 
@@ -382,6 +395,16 @@ export class DataForm {
   }
   fillEachBaleChanged(newValue, OldValue) {
     this.data.FillEachBale = this.fillEachBale;
+  }
+
+  orderQuantityChanged(newValue, OldValue){
+
+    this.data.OrderQuantity = this.OrderQuantity;
+
+  }
+
+  pieceLengthChanged(newValue, OldValue) {
+    this.data.PieceLength = this.PieceLength;
   }
 
   LengthUomChanged(newValue, oldValue) {

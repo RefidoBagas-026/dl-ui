@@ -366,6 +366,82 @@ export class Create {
 
   save(event) {
     // console.log(this.data);
+
+    if(this.data.DOSalesCategory === "DYEINGPRINTING" && this.data.DOSalesType === "Lokal")
+    {
+
+      this.data.SalesContract ={
+        Buyer : {
+          Name : this.data.BuyerName,
+          Address : this.data.BuyerAddress,
+          Type : this.data.DOSalesType
+        },
+        
+
+      };
+      
+      this.data.SalesContract.SalesContractNo = this.data.SalesContractNo;
+
+      }
+
+      // if(this.data.DOSalesCategory === "DYEINGPRINTING" && this.data.DOSalesType === "Ekspor")
+      //   {
+    
+      //     this.data.SalesContract ={
+      //       Buyer : {
+      //         Name : this.BuyerName,
+      //         Address : this.data.BuyerAddress,
+      //         Type : this.data.DOSalesType
+      //       },
+            
+    
+      //     };
+          
+      //     this.data.SalesContract.SalesContractNo = this.data.SalesContractNo;
+    
+      //   }
+
+      if( this.data.DOSalesCategory === "DYEINGPRINTING" && this.data.DOSalesType === "Ekspor")
+      {
+          
+          this.data.SalesContract ={
+            Buyer : {
+              Name : this.BuyerName,
+              Address : this.data.BuyerAddress,
+              Type : this.data.DOSalesType
+            },
+            
+            Commodity : {
+              Name : this.CommodityName,
+  
+            },
+            MaterialConstruction : {
+  
+              Name : this.MaterialConstructionName,
+            },
+            OrderQuantity : this.OrderQuantity,
+            PieceLength : this.PieceLength,
+          };
+
+          this.data.Buyer = {
+            Name : this.BuyerName,
+            Address : this.data.BuyerAddress,
+            Type : this.data.DOSalesType
+          };
+
+          this.data.Material = {
+              Id : 0,
+
+          }
+
+          this.data.MaterialConstruction = {
+            Id : 0,
+            Name : this.MaterialConstructionName,
+          }
+          this.data.MaterialWidth = 0;
+          this.data.SalesContract.SalesContractNo = this.SalesContractNo;
+      }
+
     this.service
       .create(this.data)
       .then((result) => {

@@ -219,16 +219,22 @@ export class List {
       dispositionId, epoId, supplierId, position, startDate, endDate, purchasingStaff
     };
 
+    if (!startDate || !endDate) {
+      this.error.startDate = "Tanggal Awal Harus Diisi";
+      this.error.startDate = "Tanggal Akhir Harus Diisi";
+      return { total: 0, data: [] };
+    } else {
+      return this.flag
+        ? this.service.search(params).then((result) => {
 
-    return this.flag
-      ? this.service.search(params).then((result) => {
-
-        return {
-          total: 0,
-          data: result.data
-        };
-      })
-      : { total: 0, data: [] };
+          return {
+            total: 0,
+            data: result.data
+          };
+        })
+        : { total: 0, data: [] };
+    }
+    
   };
 
   search() {
@@ -250,9 +256,12 @@ export class List {
     let params = {
       dispositionId, epoId, supplierId, position, startDate, endDate, purchasingStaff
     };
-
-    this.service.getXls(params);
-
+    if (!startDate || !endDate) {
+      this.error.startDate = "Tanggal Awal Harus Diisi";
+      this.error.startDate = "Tanggal Akhir Harus Diisi";
+    } else {
+      this.service.getXls(params);
+    }
     // this.getExcelData();
   }
 

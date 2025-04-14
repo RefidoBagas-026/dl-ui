@@ -32,7 +32,7 @@ export class DataForm {
     @bindable isOther = false;
     @bindable RONoSample;
 
-    typeUnitDeliveryOrderOptions = ['SAMPLE', 'SISA', 'SUBCON', 'LAIN-LAIN'];
+    typeUnitDeliveryOrderOptions = ['SAMPLE', 'SISA', 'SUBCON', 'LAIN-LAIN','GARMENT'];
 
     controlOptions = {
         label: {
@@ -94,7 +94,8 @@ export class DataForm {
             this.isSample = this.data.UnitDOType === "SAMPLE";
             this.isRemain = this.data.UnitDOType === "SISA";
             this.isSubcon = this.data.UnitDOType === "SUBCON";
-            this.isOther = this.data.UnitDOType === "LAIN-LAIN";
+            this.isOther = this.data.UnitDOType === "LAIN-LAIN" || this.data.UnitDOType === "GARMENT";
+            this.RONo = this.data.RONo;
         }
     }
 
@@ -154,7 +155,7 @@ export class DataForm {
             this.isSample = this.data.UnitDOType === "SAMPLE";
             this.isRemain = this.data.UnitDOType === "SISA";
             this.isSubcon = this.data.UnitDOType === "SUBCON";
-            this.isOther = this.data.UnitDOType === "LAIN-LAIN";
+            this.isOther = this.data.UnitDOType === "LAIN-LAIN" || this.data.UnitDOType === "GARMENT";
 
             //this.unitRequest = null;
             this.unitSender = this.unitRequest;

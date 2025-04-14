@@ -1,15 +1,33 @@
 import { inject, bindable } from 'aurelia-framework';
-import { Service } from "./service";
+import { Service, CoreService } from "./service";
 import { Router } from 'aurelia-router';
 var moment = require('moment');
+const UnitLoader = require('../../../../loader/garment-unit-loader');
 
-@inject(Router, Service)
+@inject(Router, Service, CoreService)
 export class List {
-
-    constructor(router, service) {
+    @bindable selectedUnit;
+    constructor(router, service, coreService) {
         this.service = service;
+        this.coreService = coreService;
         this.router = router;
         this.today = new Date();
+    }
+
+    async bind(context) {
+        this.context = context;
+        if (!this.unit) {
+            var units = await this.coreService.getUnit({ size: 1, keyword: 'GMT', filter: JSON.stringify({ Code: 'GMT' }) });
+            this.selectedUnit = units.data[0];
+        }
+    }
+
+    selectedUnitChanged(newValue) {
+        if (newValue) {
+            this.unit = newValue;
+        } else {
+            this.unit = null;
+        }
     }
 
     info = { page: 1, size: 50 };
@@ -27,16 +45,26 @@ export class List {
     @bindable KtgrItem;
 
     KategoriItems = ['', 'BAHAN BAKU', 'BAHAN EMBALANCE', 'BAHAN PENDUKUNG']
-    UnitItems = ['', 'KONFEKSI 2A', 'KONFEKSI 2B', 'KONFEKSI 2C', 'KONFEKSI 1A', 'KONFEKSI 1B', 'SAMPLE']
+    UnitItems = ['', 'KONVEKSI GARMENT', 'SAMPLE']
 
     search() {
         this.info.page = 1;
         this.info.total = 0;
         this.searching();
     }
+
     activate() {
 
     }
+
+    get unitLoader(){
+        return UnitLoader;
+    }
+
+    unitView = (unit) => {
+        return `${unit.Code} - ${unit.Name}`;
+    }
+
     tableData = []
     searching() {
         var args = {
@@ -44,7 +72,7 @@ export class List {
             size: this.info.size,
             dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            unitcode: this.unit ? this.unit : "",
+            unitcode: this.unit ? this.unit.Code : "",
             category: this.category ? this.category : "",
             //suppliertype : this.Tipe
         };
@@ -65,13 +93,30 @@ export class List {
                     // this.AmountTotal4 += _data.ExpendQty;
                     // this.AmountTotal5 += _data.EndingBalanceQty;
 
+                    // //Old Query
+                    // _data.BeginningBalanceQty = _data.BeginningBalanceQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    // _data.ReceiptQty = _data.ReceiptQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    // _data.ReceiptCorrectionQty = _data.ReceiptCorrectionQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    // _data.ExpendQty = _data.ExpendQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    // _data.EndingBalanceQty = _data.EndingBalanceQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
-                    // _data.PaymentMethod = _data.PaymentMethod == "FREE FROM BUYER" || _data.PaymentMethod == "CMT" || _data.PaymentMethod == "CMT/IMPORT"? "BY":"BL" 
-                    _data.BeginningBalanceQty = _data.BeginningBalanceQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                    _data.ReceiptQty = _data.ReceiptQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                    _data.ReceiptCorrectionQty = _data.ReceiptCorrectionQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                    _data.ExpendQty = _data.ExpendQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                    _data.EndingBalanceQty = _data.EndingBalanceQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    //New Query
+                    
+                    _data.ReceiptPurchaseQty = _data.ReceiptPurchaseQty,
+                    _data.ReceiptPurchasePrice = _data.ReceiptPurchasePrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.BeginningBalancePrice = _data.BeginningBalancePrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.EndingBalancePrice = _data.EndingBalancePrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.ExpendProcessPrice = _data.ExpendProcessPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.ExpendRestPrice = _data.ExpendRestPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.ExpendReturPrice = _data.ExpendReturPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.ExpendSamplePrice = _data.ExpendSamplePrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.ExpendSubconPrice = _data.ExpendSubconPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.ReceiptCorrectionPrice = _data.ReceiptCorrectionPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.ReceiptProcessPrice = _data.ReceiptProcessPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.ReceiptSubconPrice = _data.ReceiptSubconPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.ReceiptPurchasePrice = _data.ReceiptPurchasePrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.ReceiptRestPrice = _data.ReceiptRestPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    _data.ReceiptSamplePrice = _data.ReceiptSamplePrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
                     // if(info.unitcode == "C2A"){
                     //     _data.ReceiptPurchaseQty = _data.ReceiptPurchaseQty + _data.ReceiptKon2AQty,
@@ -97,25 +142,24 @@ export class List {
                 // this.AmountTotal3 = this.AmountTotal3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                 // this.AmountTotal4 = this.AmountTotal4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                 // this.AmountTotal5 = this.AmountTotal5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                console.log(this.data)
+
                 this.info.total = result.info.total
             })
     }
 
     reset() {
         this.dateFrom = "",
-            this.dateTo = "",
-            this.KtgrItem = "",
-            this.UnitItem = ""
-
+        this.dateTo = "",
+        this.KtgrItem = ""
+        //this.UnitItem = ""
     }
 
     ExportToExcel() {
         let args = {
             dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            unitcode: this.unit ? this.unit : "",
-            unitname: this.unitname ? this.unitname : "",
+            unitcode: this.unit ? this.unit.Code : "",
+            unitname: this.unit ? this.unit.Name : "",
             category: this.category ? this.category : "",
             categoryname: this.categoryname ? this.categoryname : ""
         };
@@ -133,40 +177,45 @@ export class List {
         }
     }
 
-    UnitItemChanged(newvalue) {
+    // UnitItemChanged(newvalue) {
 
-        if (newvalue) {
-            console.log(newvalue)
-            if (newvalue === "KONFEKSI 2A") {
-                this.unit = "C2A";
-                this.unitname = "KONFEKSI 2A";
-            }
-            else if (newvalue === "KONFEKSI 2B") {
-                this.unit = "C2B";
-                this.unitname = "KONFEKSI 2B";
-            }
-            else if (newvalue === "KONFEKSI 2C") {
-                this.unit = "C2C";
-                this.unitname = "KONFEKSI 2C";
-            } else if (newvalue === "KONFEKSI 1A") {
-                this.unit = "C1A";
-                this.unitname = "KONFEKSI 1A";
-            } else if (newvalue === "KONFEKSI 1B") {
-                this.unit = "C1B";
-                this.unitname = "KONFEKSI 1B";
-            } else if (newvalue === "SAMPLE") {
-                this.unit = "SMP1";
-                this.unitname = "SAMPLE";
+    //     if (newvalue) {
+    //         console.log(newvalue)
+    //         // if (newvalue === "KONFEKSI 2A") {
+    //         //     this.unit = "C2A";
+    //         //     this.unitname = "KONFEKSI 2A";
+    //         // }
+    //         // else if (newvalue === "KONFEKSI 2B") {
+    //         //     this.unit = "C2B";
+    //         //     this.unitname = "KONFEKSI 2B";
+    //         // }
+    //         // else if (newvalue === "KONFEKSI 2C") {
+    //         //     this.unit = "C2C";
+    //         //     this.unitname = "KONFEKSI 2C";
+    //         // } else if (newvalue === "KONFEKSI 1A") {
+    //         //     this.unit = "C1A";
+    //         //     this.unitname = "KONFEKSI 1A";
+    //         // } else if (newvalue === "KONFEKSI 1B") {
+    //             // this.unit = "C1B";
+    //             // this.unitname = "KONFEKSI 1B";
+    //         //} 
+    //         if (newvalue === "KONVEKSI GARMENT") {
+    //             this.unit = "GMT";
+    //             this.unitname = "KONVEKSI GARMENT";
+    //         }
+    //         else if (newvalue === "SAMPLE") {
+    //             this.unit = "SMP1";
+    //             this.unitname = "SAMPLE";
 
-            } else {
-                this.unit = "";
-                this.unitname = "";
-            }
-        } else {
-            this.unit = "";
-            this.unitname = "";
-        }
-    }
+    //         } else {
+    //             this.unit = "";
+    //             this.unitname = "";
+    //         }
+    //     } else {
+    //         this.unit = "";
+    //         this.unitname = "";
+    //     }
+    // }
 
     KtgrItemChanged(newvalue) {
         if (newvalue) {
@@ -196,5 +245,4 @@ export class List {
         this.info.page = page;
         this.searching();
     }
-
 }

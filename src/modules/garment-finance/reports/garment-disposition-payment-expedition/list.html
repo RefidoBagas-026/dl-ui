@@ -51,12 +51,14 @@
 
     <au-datepicker value.bind="info.startDate"
                    label="Tanggal Awal"
-                   options.bind="controlOptions">
+                   options.bind="controlOptions"
+                   error.bind = error.startDate>
     </au-datepicker>
 
     <au-datepicker value.bind="info.endDate"
                    label="Tanggal Akhir"
-                   options.bind="controlOptions">
+                   options.bind="controlOptions"
+                   error.bind = error.startDate>
     </au-datepicker>
 
     <div class="form-group">

@@ -1,0 +1,65 @@
+<template>
+    <h1 class="page-header">MONITORING GROSS PROFIT</h1>
+    <au-datepicker label="Tanggal Akhir" value.bind="dateTo" options.bind="controlOptions"></au-datepicker>
+    <br></br>
+    <div class="form-group">
+        <label for="contact" class="col-sm-5 control-label"></label>
+
+        <div class="col-sm-6">
+            <button click.delegate="searching()" class='btn btn-success'>Cari Data</button>
+            <button click.delegate="reset()" class='btn btn-success'>Reset Data</button>
+            <button class='btn btn-primary' click.delegate="ExportToExcel()">Export To Excel</button>
+        </div>
+    </div>
+
+    <div class="container" if.bind="showData">
+        <section>
+            <h4 style="font-weight: bold;">PENJUALAN BERSIH</h4>
+            <table class="table table-bordered table-hover" border="1">
+                <tr>
+                    <td width="700">Ekpor</td>
+                    <td class="right-align">${formatNumber(data.ExportNetSales)}</td>
+                </tr>
+                <tr>
+                    <td>Lokal</td>
+                    <td>${formatNumber(data.LocalNetSales)}</td>
+                </tr>
+                <tr>
+                    <td>Potongan/Retur Penjualan</td>
+                    <td>${formatNumber(data.ReturSales)}</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Penjualan Bersih</td>
+                    <td>${formatNumber(data.NetSales)}</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">
+                        HARGA POKOK PENJUALAN
+                    </td>
+                    <td>${formatNumber(data.CostOfGoodSold)}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">
+                        GROSS PROFIT
+                    </td>
+                    <td>${formatNumber(data.GrossProfit)}</td>
+                </tr>
+            </table>
+        </section>
+
+    </div>
+    </form>
+
+</template>
+
+<script>
+    export class CostCalculationView {
+        isEmptyObject(obj) {
+            return Object.keys(obj).length === data.;
+        }
+    }
+</script>

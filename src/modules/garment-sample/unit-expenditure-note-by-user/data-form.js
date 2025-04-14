@@ -15,7 +15,7 @@ export class DataForm {
     @bindable unitDeliveryOrder;
     @bindable expenditureType;
 
-    expenditureTypeOptions = ['SAMPLE', 'TRANSFER', 'EXTERNAL','SISA', 'SUBCON','LAIN-LAIN'];
+    expenditureTypeOptions = ['SAMPLE', 'TRANSFER', 'EXTERNAL','SISA', 'SUBCON','LAIN-LAIN','GARMENT'];
     controlOptions = {
         label: {
             align : "right",
@@ -118,19 +118,21 @@ export class DataForm {
             }
 
             this.items.columns = this.items.columns.filter(c => c != "Status Barang");
-            if(this.data.ExpenditureType === "TRANSFER"){
+            if (this.data.ExpenditureType === "TRANSFER") {
                 this.data.ExpenditureTo = "GUDANG LAIN";
-            }else if(this.data.ExpenditureType === "EXTERNAL"){
+            } else if (this.data.ExpenditureType === "EXTERNAL") {
                 this.data.ExpenditureTo = "PEMBELIAN";
-            }else if(this.data.ExpenditureType === "SAMPLE"){
+            } else if (this.data.ExpenditureType === "SAMPLE") {
                 this.data.ExpenditureTo = "SAMPLE";
-            }else if(this.data.ExpenditureType === "SUBCON"){
+            } else if (this.data.ExpenditureType === "SUBCON") {
                 this.data.ExpenditureTo = "SUBCON";
-            }else if(this.data.ExpenditureType === "SISA"){
+            } else if (this.data.ExpenditureType === "SISA") {
                 this.data.ExpenditureTo = "GUDANG SISA";
                 this.items.columns.push("Status Barang");
-            }else if(this.data.ExpenditureType === "LAIN-LAIN"){
+            } else if (this.data.ExpenditureType === "LAIN-LAIN") {
                 this.data.ExpenditureTo = "LAIN-LAIN";
+            } else if (this.data.ExpenditureType === "GARMENT") {
+                this.data.ExpenditureTo = "GARMENT";
             }
             this.options.ExpenditureType = this.data.ExpenditureType;
         }
@@ -241,6 +243,12 @@ export class DataForm {
                     Items.FabricType = item.FabricType;
                     Items.IsSave = Items.Quantity > 0;
                     Items.IsDisabled = !(Items.Quantity > 0);
+
+                    Items.Rack = item.Rack;
+                    Items.Level = item.Level;
+                    Items.Box = item.Box;
+                    Items.Colour = item.Colour;
+                    Items.Area = item.Area;
 
                     this.data.Items.push(Items);
                 }

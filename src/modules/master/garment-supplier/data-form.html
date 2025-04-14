@@ -29,8 +29,8 @@
 
       <au-checkbox        
         label="Apakah Kena PPN ?"          
-        value.bind="data.useIncomeTax"        
-        error.bind="error.useIncomeTax"       
+        value.bind="data.usevat"        
+        error.bind="error.usevat"       
         read-only.bind="readOnly"
       ></au-checkbox>
       
@@ -91,6 +91,20 @@
               label="Alamat"
               value.bind="data.address"
               error.bind="error.address"
+              read-only.bind="readOnly"
+            ></au-multiline> 
+
+            <au-multiline
+              label="Keterangan"
+              value.bind="data.description"
+              error.bind="error.description"
+              read-only.bind="readOnly"
+            ></au-multiline> 
+
+            <au-multiline
+              label="Bank Tujuan"
+              value.bind="data.bankDetail"
+              error.bind="error.bankDetail"
               read-only.bind="readOnly"
             ></au-multiline> 
 

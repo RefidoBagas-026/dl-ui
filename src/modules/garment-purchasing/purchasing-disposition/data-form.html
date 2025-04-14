@@ -78,7 +78,7 @@
             error.bind="error.Bank"
             placeholder="bank"
             label="Bank Tujuan" 
-            read-only.bind="readOnly"
+            read-only.bind="true"
             options.bind="controlOptions">
         </au-multiline>
 
@@ -116,14 +116,25 @@
             options.bind="controlOptions">
         </au-multiline>
 
+        
         <au-textbox
             value.bind="data.ProformaNo"
+            show.bind = "data.ProformaNo"
+            error.bind="error.ProformaNo"
+            label="No Proforma / Invoice" 
+            placeholder="no proforma"
+            read-only.bind="true"
+            options.bind="controlOptions">
+        </au-textbox>
+        <!-- <au-textbox
+            value.bind="data.ProformaNo"
+            show.bind = "!data.proformaView"
             error.bind="error.ProformaNo"
             label="No Proforma / Invoice" 
             placeholder="no proforma"
             read-only.bind="readOnly"
             options.bind="controlOptions">
-        </au-textbox>
+        </au-textbox> -->
 
         <au-numeric
             value.bind="dppVal"
@@ -204,7 +215,7 @@
             read-only="true">
         </au-textbox>
 
-        <au-collection 
+        <!-- <au-collection 
             items.bind="data.Items" 
             errors.bind="error.Items" 
             columns.bind="itemsColumns" 
@@ -215,6 +226,20 @@
             change.delegate="itemsChanged($event)"
             if.bind="selectedSupplier && selectedCurrency && data.Category && data.PaymentType"
             item-template="modules/garment-purchasing/purchasing-disposition/template/item"
+            >
+        </au-collection> -->
+
+        <au-collection 
+            items.bind="data.Items" 
+            errors.bind="error.Items" 
+            columns.bind="itemsColumns" 
+            add.bind="addItems" 
+            remove.bind="removeItems"
+            options.one-way="filter"
+            read-only.bind="readOnly"
+            change.delegate="itemsChanged($event)"
+            if.bind="selectedSupplier && selectedCurrency && data.Category && data.PaymentType"
+            item-template="modules/garment-purchasing/purchasing-disposition/template/head-item"
             >
         </au-collection>
   </au-input-form>

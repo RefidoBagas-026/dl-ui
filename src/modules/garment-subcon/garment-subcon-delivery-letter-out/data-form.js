@@ -1,5 +1,13 @@
-import { bindable, inject, computedFrom } from "aurelia-framework";
-import { Service, PurchasingService, CoreService } from "./service";
+import {
+  bindable,
+  inject,
+  computedFrom
+} from "aurelia-framework";
+import {
+  Service,
+  PurchasingService,
+  CoreService
+} from "./service";
 
 const ContractLoader = require("../../../loader/garment-subcon-contract-loader");
 const UENLoader = require("../../../loader/garment-unit-expenditure-note-loader");
@@ -39,7 +47,7 @@ export class DataForm {
 
   orderTypes = ["JOB ORDER", "SAMPLE"];
   dlTypes = ["PROSES", "RE PROSES"];
-  contractTypes = ["SUBCON GARMENT", "SUBCON BAHAN BAKU", "SUBCON JASA"];
+  contractTypes = ["SUBCON GARMENT", "SUBCON BAHAN BAKU", "SUBCON JASA", "SUBCON BAHAN PENOLONG"];
   SubconCategoryTypeOptions = ["SUBCON CUTTING SEWING", "SUBCON SEWING"];
   //serviceTypes=["SUBCON JASA KOMPONEN", "SUBCON JASA GARMENT WASH", "SUBCON JASA SHRINKAGE PANEL","SUBCON JASA FABRIC WASH"];
   controlOptions = {
@@ -224,12 +232,9 @@ export class DataForm {
       readOnly: this.readOnly,
       checkedAll: this.context.isCreate == true ? false : true,
       isEdit: this.isEdit,
-      isSubconCutting:
-        this.data.SubconCategory == "SUBCON JASA KOMPONEN" ? true : false,
-      isSubconSewing:
-        this.data.SubconCategory == "SUBCON JASA GARMENT WASH" ? true : false,
-      isSubconExpenditure:
-        this.data.SubconCategory == "SUBCON JASA BARANG JADI" ? true : false,
+      isSubconCutting: this.data.SubconCategory == "SUBCON JASA KOMPONEN" ? true : false,
+      isSubconSewing: this.data.SubconCategory == "SUBCON JASA GARMENT WASH" ? true : false,
+      isSubconExpenditure: this.data.SubconCategory == "SUBCON JASA BARANG JADI" ? true : false,
       subconCategory: this.data.SubconCategory,
       orderType: this.data.OrderType,
       ContractNo: this.data.ContractNo,
@@ -238,7 +243,7 @@ export class DataForm {
     };
 
     if (this.data.Id) {
-      if (this.data.SubconCategory == "SUBCON CUTTING SEWING") {
+      if (this.data.SubconCategory == "SUBCON CUTTING SEWING" || this.data.ContractType == "SUBCON BAHAN PENOLONG") {
         // if (this.isCreate || this.isEdit) {
         //   //Mapping data Item Fabric
         //   var itemFab = this.data.Items.find((x) => x.Product.Name == "FABRIC");
@@ -375,6 +380,8 @@ export class DataForm {
           "SUBCON JASA KOMPONEN",
           "SUBCON JASA BARANG JADI",
         ];
+      } else if (this.data.ContractType == "SUBCON BAHAN PENOLONG") {
+        this.SubconCategoryTypeOptions = ["SUBCON ACCESORIS", "SUBCON EMBALACE"];
       }
     }
 
@@ -550,16 +557,16 @@ export class DataForm {
 
   get totalQuantity() {
     var qty = 0;
-    if (this.data.Items) {
-      if (this.data.Items.length > 0) {
+    if (this.data.Items || this.data.ItemsAcc) {
+      if (this.data.Items.length > 0 || this.data.ItemsAcc.length > 0) {
         if (
           this.data.SubconCategory != "SUBCON BB SHRINKAGE/PANEL" &&
-          this.data.SubconCategory != "SUBCON CUTTING SEWING"
+          this.data.SubconCategory != "SUBCON CUTTING SEWING" && this.data.ContractType != "SUBCON BAHAN PENOLONG"
         ) {
           for (var item of this.data.Items) {
             qty += item.Quantity;
           }
-        } else if (this.data.SubconCategory == "SUBCON CUTTING SEWING") {
+        } else if (this.data.SubconCategory == "SUBCON CUTTING SEWING" || this.data.ContractType == "SUBCON BAHAN PENOLONG") {
           for (var item of this.data.Items) {
             for (var detail of item.Details) {
               qty += detail.Quantity;
@@ -586,7 +593,10 @@ export class DataForm {
     return (keyword) => {
       var infoEPO = {
         keyword: keyword,
-        filter: JSON.stringify({ ProductName: "PROCESS" }),
+        // filter: JSON.stringify({ ProductName: "PROCESS" }),
+        filter: JSON.stringify({
+          'ProductName == "PROCESS" || ProductName == "PROCESS SUBCON"': true,
+        }),
       };
       return this.purchasingService.getGarmentEPO(infoEPO).then((epo) => {
         return epo.data;

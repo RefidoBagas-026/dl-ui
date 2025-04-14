@@ -120,6 +120,14 @@
                
             </div>
         </div>
+
+        <div class="form-group has-error">
+            <p if.bind="error.TotalQty" class="help-block text-center">
+              ${error.TotalQty}
+            </p>
+          </div>
+
+          
         <div class="row">
             <au-collection
                 items.bind="data.Items"

@@ -14,6 +14,7 @@ export class PurchasingDispositionItem {
     @bindable incomeTaxValueView;
     @bindable dppValue;
     @bindable isOver;
+    @bindable dataFilter ={};
     //itemsColumns = ["PRNo", "Category", "Product", "DealQuantity", "DealUom", "PaidQuantity", "PricePerDealUnit", "PriceTotal", "PaidPrice"];
     itemsColumns = {
         columns: ["No Ro", "PO Internal", "Barang", "Unit", "QTY Dipesan", "Satuan", "QTY Sisa", "Harga Satuan", "Harga Total", "QTY Dibayar", "Harga Dibayar", "% Over QTY"],
@@ -21,7 +22,6 @@ export class PurchasingDispositionItem {
             this.bind();
         }
     };
-
     constructor(service) {
         this.service = service;
     }
@@ -30,19 +30,21 @@ export class PurchasingDispositionItem {
 
     async activate(context) {
         this.context = context;
+        
         this.items = context.context.items;
         this.data = context.data;
         this.error = context.error;
         this.options = context.context.options;
         this.readOnly = context.options.readOnly;
-        this.filter = this.options.supplierId && this.options.currencyId && this.options.categoryId && this.options.divisionId ?
+        this.dataFilter = this.options;
+        this.filter = this.data.SupplierId && this.data.CurrencyId && this.data.CategoryId && this.data.DivisionId ?
             {
-                "supplierId": this.options.supplierId,
-                "currencyId": this.options.currencyId,
-                "divisionId": this.options.divisionId,
-                "categoryId": this.options.categoryId,
-                "currencyCode": this.options.currencyCode,
-                "incomeTaxBy": this.options.incomeTaxBy != null ? this.options.incomeTaxBy : ""
+                "supplierId": this.options.SupplierId,
+                "currencyId": this.options.CurrencyId,
+                "divisionId": this.options.DivisionId,
+                "categoryId": this.options.CategoryId,
+                "currencyCode": this.options.CurrencyCode,
+                "incomeTaxBy": this.options.IncomeTaxBy != null ? this.data.IncomeTaxBy : ""
             } : {};
         if (this.data.Id == 0) {
             this.isOver = false
@@ -71,12 +73,9 @@ export class PurchasingDispositionItem {
         this.incomeTaxValue = this.data.IncomeTaxValue;
         this.incomeTaxValueView = this.data.IncomeTaxValueView;
         this.dppValue = this.data.DPPValue ? this.data.DPPValue : 0;
-        // console.log("epono not null")
-        // console.log("items",this);
         // this.GetDisposition();
 
         // this.GetTax();
-        // console.log(this);
     }
     // @computedFrom("data.EPONo")
     // get incomeTax() {
@@ -126,18 +125,13 @@ export class PurchasingDispositionItem {
 
     async selectedEPOChanged(newValue, oldValue) {
         if (newValue) {
-            // console.log("newvalue",newValue);
-            // console.log("oldValue",oldValue);
-            // console.log(this);
             if (newValue.Id != (oldValue ? oldValue.Id : 0) || oldValue == null) {
                 var param = {
                     Id: newValue.Id,
-                    supplierId: this.data.SupplierId,
-                    currencyCode: this.data.CurrencyCode
+                    supplierId: this.dataFilter.SupplierId,
+                    currencyCode: this.dataFilter.CurrencyCode
                 }
                 this.selectedEPO = await this.service.getEPOById(param);
-                console.log(this.selectedEPO);
-
             }
 
             if (this.selectedEPO.Id) {
@@ -266,17 +260,17 @@ export class PurchasingDispositionItem {
 
     get epoLoader() {
         // console.log("loader",EPOLoader);
-        this.filter = this.data.SupplierId && this.data.CurrencyId && this.data.Category && this.data.PaymentType ?
+        this.filter1 = this.dataFilter.SupplierId && this.dataFilter.CurrencyId && this.dataFilter.Category && this.dataFilter.PaymentType ?
             {
-                "supplierId": this.data.SupplierId,
-                "currencyCode": this.data.CurrencyCode,
-                "category": this.data.Category,
-                "paymentType": this.data.PaymentType
+                "supplierId": this.dataFilter.SupplierId,
+                "currencyCode": this.dataFilter.CurrencyCode,
+                "category": this.dataFilter.Category,
+                "paymentType": this.dataFilter.PaymentType
             } : {};
-        // console.log("filter",this.filter);
-        // console.log("filterData",this.data);
+        if(this.data.filter){
+            this.filter1 =this.data.filter
+        }
         var loader = EPOLoader;
-        // console.log(loader);
         return loader;
     }
 
@@ -285,16 +279,26 @@ export class PurchasingDispositionItem {
         return `${no}`;
     }
 
+    // get filter1() {
+
+    //     var filter = {
+                
+
+    //             "supplierId": this.data.supplierId,
+    //             "currencyCode": this.data.currencyCode,
+    //             "category": this.data.category,
+    //             "paymentType": this.data.paymentType
+    //         }
+        
+    //     return filter;
+    // }
+
     GetTax() {
-        console.log("getax");
         this.incomeTaxValue = 0;
         this.incomeTaxValueView = 0;
         this.vatValue = 0;
         this.vatValueView = 0;
-
-        
         this.dppValue = 0;
-        console.log("before gettax", this.data);
         if (this.data.Details) {
             for (var detail of this.data.Details) {
                 var ppn = 0;
@@ -311,7 +315,6 @@ export class PurchasingDispositionItem {
                     ppn = parseFloat(detail.PaidPrice) * (this.data.Vat.Rate / 100);
                 }
                 if (this.data.IsUseVat) {
-                    console.log(this.selectedEPO);
                     ppnView = parseFloat(detail.PaidPrice) * (this.data.Vat.Rate / 100);
                 }
                 this.incomeTaxValue += pph;
@@ -327,11 +330,9 @@ export class PurchasingDispositionItem {
             this.data.VatValueView = this.vatValueView;
             this.data.DPPValue = this.dppValue;
         }
-        console.log("after gettax", this.data);
     }
 
     detailChanged(e) {
-        console.log("detttailchanged");
         this.GetTax();
     }
 

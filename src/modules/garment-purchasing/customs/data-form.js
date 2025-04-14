@@ -81,6 +81,8 @@ export class DataForm {
         this.data.arrivalDate = selectedBeacukai.Hari;
         this.data.netto = selectedBeacukai.Netto;
         this.data.bruto = selectedBeacukai.Bruto;
+        this.data.packagingQty = selectedBeacukai.JumlahKemasan;
+        this.data.packaging = selectedBeacukai.KodeKemasan;
         this.context.beacukaiAU.editorValue = "";
       } else {
         this.data.beacukaiDate = null;
@@ -410,6 +412,7 @@ export class DataForm {
       //GetQuantityFromCustomsIn with same Contract ID
       const dataCusIN = await this.service.search({
         filter: JSON.stringify({ SubconContractId: newValue.Id }),
+        size : 10000
       });
       var QtyCustomIn = 0;
 
@@ -419,23 +422,19 @@ export class DataForm {
         });
       });
 
-      console.log("QtyCustomIn", QtyCustomIn);
-
       //GetQuantityFromCustomsOutSubcok with same Contract ID
       const dataCusOUT = await this.garmentService.searchCustomsComplete({
         filter: JSON.stringify({ SubconContractId: newValue.Id }),
+        size : 10000
       });
       const dataJumlahCustomsOut = dataCusOUT.data.map((x) => {
         return x.Items.reduce((acc, cur) => (acc += cur.Quantity), 0);
       });
 
-      console.log("dataJumlahCustomsOut", dataJumlahCustomsOut);
-
       const QtyCustomOut = dataJumlahCustomsOut.reduce(
         (acc, cur) => (acc += cur),
         0
       );
-      console.log("QtyCustomOut", QtyCustomOut);
 
       this.data.QuantityContract = QtyCustomOut - QtyCustomIn;
     }

@@ -13,48 +13,57 @@ export class Item {
         this.service = service;
     }
 
-    activate(context) {
-        this.context = context;
-        this.data = context.data;
+  activate(context) {
+    this.context = context;
+    this.data = context.data;
+    this.items = context.context.items;
+    this.error = context.error;
 
-        // console.log(this.data)
-        this.error = context.error;
+    this.options = context.context.options;
+    this.isShowing = true;
 
-        //console.log(this.data);
-        this.options = context.context.options;
-        //console.log(this.options);
-        this.isShowing = true;
+    this.TotalPrice = this.data.TotalPrice;
+    this.selectedDL = this.data.DLNo;
+    this.datas = context.context.options.datas;
 
-        this.TotalPrice = this.data.TotalPrice;
-        this.selectedDL = this.data.DLNo;
-        this.datas = context.context.options.datas;
-        this.data.TotalNW = this.data.TotalNW;
-        this.data.TotalGW = this.data.TotalGW;
-        // console.log(this.data.TotalNW);
-        // console.log(this.data.TotalGW);
-
-        //console.log(this.datas);
-        if(this.options.isCreate){
-            this.data.CIF = this.datas.CIF;
-            this.filter = {
-                ContractNo:this.datas.ContractNo
-            }
-        }else if(this.options.isEdit){
-            this.filter ={
-            ContractNo:this.options.selectedContract
-            }
-            // this.data.CIF = this.datas.Items.CIF; 
-        } 
-        //this.data.NettWeight = this.datas.NettWeight;
-        //console.log(this.data.NettWeight);
-
-        // console.log("fillheader",context.context.options);
-
+    if (this.options.isCreate) {
+      this.data.CIF = this.datas.CIF;
+      this.filter = {
+        ContractNo: this.datas.ContractNo,
+        IsInvoice: false
+      }
+    } else if (this.options.isEdit) {
+      this.filter = {
+        ContractNo: this.options.selectedContract,
+        IsInvoice: false
+      }
+      
     }
+  }
 
-    get dlLoader() {
-        return DLLoader;
+  get dlLoader() {
+    return async (keyword) => {
+      var result = await DLLoader(keyword, this.filter);
+      var noList = [];
+      result.forEach(item => {
+        var dup = noList.find(
+          (d) => d.DLNo == item.DLNo
+        );
+        if (!dup) {
+
+          var selected = this.items.find(
+            (x) => x.data.DLNo == item.DLNo
+          );
+          if (!selected) {
+            noList.push(item);
+          }
+        }
+      });
+
+      return noList;
     }
+  }
+
 
     dlView = (dl) => {
         return `${dl.DLNo}`;
@@ -67,25 +76,12 @@ export class Item {
         this.data.UOM=value.toUpperCase();
     }
 
-    // get uomLoader(){
-    //     console.log("UOM",this.UOM);
-    //     return this.UOM;
-        
-    // }
-
-    // uomView = (uom) => {
-    //     console.log("UOM",uom)
-    //     return `${uom.Unit}`;
-    // }
-
 
     selectedDLChanged(newValue){
         if (newValue) {
             this.DL = newValue;
             this.data.DLNo=newValue.DLNo;
             this.data.DLDate =newValue.DLDate;
-            //this.data.NettWeight = this.datas.NettWeight;
-            //console.log(newValue);
             
             var UOM = [];
             this.quantity = 0;
@@ -108,9 +104,6 @@ export class Item {
                 }
 
                 this.data.TotalPrice = this.datas.CIF*item.Quantity;
-
-                // this.data.TotalNW += this.datas.NW*item.Quantity;
-                // this.data.TotalGW += this.datas.GW*item.Quantity;
  
                 UOM.push(item.Uom);
             }
@@ -140,10 +133,10 @@ export class Item {
                      return (item.Quantity) * (item.TotalNW);
                     else return 0
                   });
-                  console.log(item.Quantity);
+          
                 return qty
                   .reduce((prev, curr, index) => { 
-                    // console.log(prev)
+     
                     return prev +  curr }, 0);
               }
               else {
@@ -158,11 +151,6 @@ export class Item {
         }
       }
       
-
-    // itemsColumnsCreate = ["Keterangan", "Jumlah", "Jumlah Keluar", ""];
-
-    // itemsColumns = ["Keterangan", "Jumlah Keluar", ""];
-
     toggle() {
         if (!this.isShowing) this.isShowing = true;
         else this.isShowing = !this.isShowing;

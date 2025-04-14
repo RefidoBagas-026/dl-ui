@@ -10,7 +10,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "transaksi",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L1":1},
+            permission: { "L1": 1 },
             iconClass: 'fa fa-calculator',
             byUser: true
         }
@@ -26,7 +26,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "transaksi",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L2":1},
+            permission: { "L2": 1 },
             iconClass: 'fa fa-calculator',
             byUser: false
         }
@@ -42,7 +42,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L12":1},
+            permission: { "L12": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -57,7 +57,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "transaksi",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L3":1},
+            permission: { "L3": 1 },
             iconClass: 'fa fa-calculator',
             byUser: true
         }
@@ -73,23 +73,23 @@ module.exports = [
             group: "merchandiser",
             subGroup: "transaksi",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L4":1},
+            permission: { "L4": 1 },
             iconClass: 'fa fa-calculator',
             byUser: false
         }
-    },   
+    },
     {
-        route: '/merchandiser/approve-pr-master/kabag-md',
+        route: '/merchandiser/approve-pr-master/kasie-md',
         name: 'approve-purchase-request-master',
         moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
-        title: 'Approval PR Master - Kabag Md',
+        title: 'Approval PR Master - Kasie Md',
         auth: true,
         settings: {
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L31":1},
+            permission: { "L31": 1 },
             iconClass: 'fa fa-calculator',
             type: "MD1"
         }
@@ -105,23 +105,23 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "KPG": 1, "C9": 1 },
-            permission: {"L32":1},
+            permission: { "L32": 1 },
             iconClass: 'fa fa-calculator',
             type: "Purchasing"
         }
     },
     {
-        route: '/merchandiser/approve-pr-master/kadiv-md',
+        route: '/merchandiser/approve-pr-master/kabag-md',
         name: 'approve-purchase-request-master',
         moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
-        title: 'Approval PR Master - Kadiv Md',
+        title: 'Approval PR Master - Kabag Md',
         auth: true,
         settings: {
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L33":1},
+            permission: { "L33": 1 },
             iconClass: 'fa fa-calculator',
             type: "MD2"
         }
@@ -137,7 +137,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "transaksi",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L5":1},
+            permission: { "L5": 1 },
             iconClass: 'fa fa-calculator',
             byUser: true
         }
@@ -153,7 +153,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "transaksi",
             // permission: { "PGA": 1, "C7": 1, "B7": 1, "C9": 1, "B1": 1 },
-            permission: {"L6":1},
+            permission: { "L6": 1 },
             iconClass: 'fa fa-calculator',
             byUser: false
         }
@@ -179,13 +179,13 @@ module.exports = [
         name: 'cost-calculation-approval-md',
         moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
-        title: 'Cost Calculation Approval - Kabag Marketing',
+        title: 'Cost Calculation Approval - Kabag Sales',
         auth: true,
         settings: {
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L34":1},
+            permission: { "L34": 1 },
             iconClass: 'fa fa-calculator',
             type: "md"
         }
@@ -201,7 +201,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "IE": 1, "C7": 1, "C9": 1 },
-            permission: {"L35":1},
+            permission: { "L35": 1 },
             iconClass: 'fa fa-calculator',
             type: "ie"
         }
@@ -217,7 +217,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "KPG": 1, "C7": 1, "C9": 1 },
-            permission: {"L37":1},
+            permission: { "L37": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -232,7 +232,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L36":1},
+            permission: { "L36": 1 },
             iconClass: 'fa fa-calculator',
             type: "kadivmd"
         }
@@ -248,7 +248,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L38":1},
+            permission: { "L38": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -263,7 +263,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "transaksi",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L7":1},
+            permission: { "L7": 1 },
             iconClass: 'fa fa-calculator',
             byUser: true
         }
@@ -279,7 +279,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "transaksi",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L8":1},
+            permission: { "L8": 1 },
             iconClass: 'fa fa-calculator',
             byUser: false
         }
@@ -295,7 +295,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "transaksi",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L9":1},
+            permission: { "L9": 1 },
             iconClass: 'fa fa-calculator',
             byUser: true
         }
@@ -311,7 +311,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "transaksi",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L10":1},
+            permission: { "L10": 1 },
             iconClass: 'fa fa-calculator',
             byUser: false
         }
@@ -327,7 +327,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L39":1},
+            permission: { "L39": 1 },
             iconClass: 'fa fa-calculator',
             type: 'kabagmd'
         }
@@ -337,13 +337,13 @@ module.exports = [
         name: 'ro-sample-validation',
         moduleId: './modules/merchandiser/ro-validation/index',
         nav: true,
-        title: 'Validasi RO Sample',
+        title: 'Validasi RO QC',
         auth: true,
         settings: {
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "IE": 1, "C9": 1 },
-            permission: {"L40":1},
+            permission: { "L40": 1 },
             iconClass: 'fa fa-calculator',
             type: 'sample'
         }
@@ -370,7 +370,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "merchandiser",
-    //        permission: { "P": 1, "C9": 1 },
+            //        permission: { "P": 1, "C9": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -385,7 +385,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "produksi",
             // permission: { "P": 1, "C9": 1 },
-            permission: {"L44":1},
+            permission: { "L44": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -400,7 +400,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "produksi",
             // permission: { "P": 1, "C9": 1 },
-            permission: {"L45":1},
+            permission: { "L45": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -415,7 +415,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "feature",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L49":1},
+            permission: { "L49": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -430,7 +430,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "feature",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L50":1},
+            permission: { "L50": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -445,7 +445,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "feature",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L51":1},
+            permission: { "L51": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -460,7 +460,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "PG": 1, "GU": 1, "C9": 1 },
-            permission: {"L13":1},
+            permission: { "L13": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -475,7 +475,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: {  "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L14":1},
+            permission: { "L14": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -490,7 +490,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: {  "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L15":1},
+            permission: { "L15": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -499,13 +499,13 @@ module.exports = [
         name: 'garment-cost-calculation-by-marketing-report',
         moduleId: './modules/merchandiser/report/cost-calculation-garment-by-marketing-report/index',
         nav: true,
-        title: 'Display Cost Calculation Garment Per Marketing',
+        title: 'Display Cost Calculation Garment Per Sales',
         auth: true,
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: {  "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L58":1},
+            permission: { "L58": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -520,11 +520,11 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "C7": 1, "C9": 1, "C2A": 1, "C2B": 1, "C2C": 1, "C1A": 1, "C1B": 1 },
-            permission: {"L16":1},
+            permission: { "L16": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
-     {
+    {
         route: '/merchandiser/garment-cost-calculation-by-sc-report',
         name: 'garment-cost-calculation-by-sc-report',
         moduleId: './modules/merchandiser/report/cost-calculation-garment-by-sc-report/index',
@@ -535,7 +535,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: {  "PGA": 1, "C7": 1, "C9": 1 },
-            permission: {"L17":1},
+            permission: { "L17": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -550,7 +550,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "PG": 1, "P": 1, "GU": 1, "B7": 1, "C9": 1 },
-            permission: {"L18":1},
+            permission: { "L18": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -565,7 +565,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "PG": 1, "C9": 1 },
-            permission: {"L19":1},
+            permission: { "L19": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -580,7 +580,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L20":1},
+            permission: { "L20": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -595,7 +595,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "B7": 1, "C9": 1 },
-            permission: {"L21":1},
+            permission: { "L21": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -610,7 +610,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "produksi",
             // permission: { "P": 1, "B7": 1, "C9": 1 },
-            permission: {"L46":1},
+            permission: { "L46": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -625,11 +625,11 @@ module.exports = [
             group: "merchandiser",
             subGroup: "produksi",
             // permission: { "PGA": 1, "P": 1, "C9": 1 },
-            permission: {"L47":1},
+            permission: { "L47": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
-     {
+    {
         route: '/merchandiser/distribution-ro-garment-report',
         name: 'distribution-ro-garment-report',
         moduleId: './modules/merchandiser/report/distribution-ro-garment-report/index',
@@ -640,10 +640,10 @@ module.exports = [
             group: "merchandiser",
             subGroup: "produksi",
             // permission: {  "P": 1, "C9": 1 },
-            permission: {"L48":1},
+            permission: { "L48": 1 },
             iconClass: 'fa fa-dashboard'
         }
-    },    
+    },
     {
         route: '/merchandiser/available-budget-report',
         name: 'available-budget-report',
@@ -659,7 +659,7 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-     {
+    {
         route: '/merchandiser/latest-available-budget-report',
         name: 'latest-available-budget-report',
         moduleId: './modules/merchandiser/report/latest-available-budget-report/index',
@@ -670,7 +670,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "P": 1, "C9": 1 },
-            permission: {"L23":1},
+            permission: { "L23": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -688,8 +688,8 @@ module.exports = [
             // permission: {"L24":1},
             iconClass: 'fa fa-dashboard'
         }
-    },   
-     {
+    },
+    {
         route: '/merchandiser/latest-available-ro-garment-report',
         name: 'latest-available-ro-garment-report',
         moduleId: './modules/merchandiser/report/latest-available-ro-garment-report/index',
@@ -700,10 +700,10 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "P": 1, "C9": 1 },
-            permission: {"L25":1},
+            permission: { "L25": 1 },
             iconClass: 'fa fa-dashboard'
         }
-    },  
+    },
     {
         route: '/merchandiser/garment-purchasing-quality-objective-report',
         name: 'garment-purchasing-quality-objective-report',
@@ -715,7 +715,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L26":1},
+            permission: { "L26": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -730,7 +730,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L27":1},
+            permission: { "L27": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -739,13 +739,13 @@ module.exports = [
         name: 'profit-garment-by-marketing-report',
         moduleId: './modules/merchandiser/report/profit-garment-by-marketing-report/index',
         nav: true,
-        title: 'Laporan Profit Garment Per Marketing',
+        title: 'Laporan Profit Garment Per Sales',
         auth: true,
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L59":1},
+            permission: { "L59": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -760,7 +760,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L28":1},
+            permission: { "L28": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -775,7 +775,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "PG": 1, "C9": 1 },
-            permission: {"L29":1},
+            permission: { "L29": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -790,7 +790,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "monitoring",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L30":1},
+            permission: { "L30": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -805,7 +805,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "feature",
             // permission: { "C9": 1 },
-            permission: {"L52":1},
+            permission: { "L52": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -820,7 +820,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "C9": 1 },
-            permission: {"L41":1},
+            permission: { "L41": 1 },
             iconClass: 'fa fa-dashboard',
             type: "kabag_md"
         }
@@ -836,7 +836,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "C9": 1 },
-            permission: {"L42":1},
+            permission: { "L42": 1 },
             iconClass: 'fa fa-dashboard',
             type: "purchasing"
         }
@@ -852,7 +852,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval",
             // permission: { "C9": 1 },
-            permission: {"L43":1},
+            permission: { "L43": 1 },
             iconClass: 'fa fa-dashboard',
             type: "kadiv_md"
         }
@@ -868,7 +868,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "transaksi",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L11":1},
+            permission: { "L11": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -883,7 +883,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval shipping",
             // permission: { "C9": 1, "PGA": 1 },
-            permission: {"L53":1},
+            permission: { "L53": 1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -898,7 +898,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval shipping",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L54":1},
+            permission: { "L54": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -913,7 +913,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval shipping",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: {"L55":1},
+            permission: { "L55": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -928,8 +928,51 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval shipping",
             // permission: { "PGA": 1, "SG": 1, "C9": 1 },
-            permission: {"L56":1},
+            permission: { "L56": 1 },
             iconClass: 'fa fa-calculator'
         }
-    }
+    },
+    {
+        route: '/merchandiser/cost-calculation-cancel-approval',
+        name: 'cost-calculation-cancel-approval',
+        moduleId: './modules/merchandiser/cost-calculation-cancel-approval/index',
+        nav: true,
+        title: 'Cancel Approval Cost Calculation',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "feature",
+            permission: { 'L60': 1 },
+            iconClass: 'fa fa-calculator',
+            type: "kadivmd"
+        }
+    },
+    {
+        route: '/merchandiser/report-cost-calculation-cancel-approval',
+        name: 'report-cost-calculation-cancel-approval',
+        moduleId: './modules/merchandiser/report/cancel-approval-ccg-report/index',
+        nav: true,
+        title: 'Report Cancel Approval Cost Calculation',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "monitoring",
+            permission: { 'L61': 1 },
+            iconClass: 'fa fa-calculator',
+        }
+    },
+    {
+        route: '/merchandiser/reject-ro-garment-report',
+        name: 'reject-ro-garment-report',
+        moduleId: './modules/merchandiser/report/reject-ro-garment-report/index',
+        nav: true,
+        title: 'Report Reject RO Garment',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "monitoring",
+            permission: { 'L62': 1 },
+            iconClass: 'fa fa-calculator',
+        }
+    },
 ];

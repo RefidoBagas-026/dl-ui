@@ -10,7 +10,6 @@ export class DetailFooter {
     this.options = context.options;
     this.isEdit = this.options.isEdit;
     this.type = this.options.type;
-    console.log(this.context);
    
   }
 

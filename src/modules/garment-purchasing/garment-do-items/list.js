@@ -1,13 +1,7 @@
-import {
-  inject, bindable
-} from 'aurelia-framework';
-import {
-  Service
-} from "./service";
-import {
-  Router
-} from 'aurelia-router';
-import moment from 'moment';
+import { inject, bindable } from "aurelia-framework";
+import { Service } from "./service";
+import { Router } from "aurelia-router";
+import moment from "moment";
 // import { any } from 'bluebird';
 // const CategoryLoader = require('../../../../loader/machine-category-loader');
 // const MachineLoader = require('../../../../loader/machine-custom-loader');
@@ -16,7 +10,7 @@ import moment from 'moment';
 
 @inject(Router, Service)
 export class List {
-  context = ["Update Racking", "Kartu Stelling"];
+  context = ["Update Racking", "Kartu Stelling", "Cetak Barcode"];
 
   columns = [
     { field: "ProductCode", title: "Kode Barang" },
@@ -34,14 +28,51 @@ export class List {
   ];
 
   @bindable UnitItem;
-  UnitItems = ['', 'KONFEKSI 2A', 'KONFEKSI 2B', 'KONFEKSI 2C', 'KONFEKSI 1A', 'KONFEKSI 1B']
-
+  UnitItems = [
+    "",
+    "KONFEKSI 2A",
+    "KONFEKSI 2B",
+    "KONFEKSI 2C",
+    "KONFEKSI 1A",
+    "KONFEKSI 1B",
+  ];
+  rackOptions = [
+    "",
+    "-",
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8",
+    "R9",
+    "R10",
+    "R13",
+    "R14",
+    "R15",
+    "R16",
+    "R17",
+    "R18",
+    "R19",
+    "R31",
+    "R32",
+    "R33",
+    "R34",
+    "R35",
+    "R36",
+    "R37",
+    "R38",
+    "R39",
+    "R40",
+    "R41",
+    "R42",
+  ];
   constructor(router, service) {
     this.service = service;
     this.router = router;
   }
-
-
 
   tableOptions = {
     showColumns: false,
@@ -53,19 +84,18 @@ export class List {
   loader = (info) => {
     let params = {
       po: this.po ? this.po : "",
-      unitcode: this.unit ? this.unit : "",
+      rack: this.rack ? this.rack : "",
       productcode: this.code ? this.code : "",
     };
 
     return this.flag
       ? this.service.search(params).then((result) => {
-
-        return {
-          data: result.data
-        };
-      })
+          return {
+            data: result.data,
+          };
+        })
       : { data: [] };
-  }
+  };
 
   search() {
     this.error = {};
@@ -80,47 +110,35 @@ export class List {
     switch (arg.name) {
       case "Update Racking":
         if (data.RemainingQuantity > 0) {
-          this.router.navigateToRoute('edit', { id: data.Id });
-        }
-        else {
+          this.router.navigateToRoute("edit", { id: data.Id });
+        } else {
           alert("Maaf, Quantity 0 hanya bisa melihat Kartu Stelling");
         }
         break;
       case "Kartu Stelling":
-        this.router.navigateToRoute('stelling', { id: data.Id });
+        this.router.navigateToRoute("stelling", { id: data.Id });
+        break;
+      case "Cetak Barcode":
+        this.service
+          .getBarcodeById(data.Id)
+          .then((result) => {})
+          .catch((e) => {});
         break;
     }
   }
 
   UnitItemChanged(newvalue) {
-
     if (newvalue) {
-      if (newvalue === "KONFEKSI 2A") {
-        this.unit = "C2A";
-      }
-      else if (newvalue === "KONFEKSI 2B") {
-        this.unit = "C2B";
-      }
-      else if (newvalue === "KONFEKSI 2C") {
-        this.unit = "C2C";
-      } else if (newvalue === "KONFEKSI 1A") {
-        this.unit = "C1A";
-      } else if (newvalue === "KONFEKSI 1B") {
-        this.unit = "C1B";
-      } else {
-        this.unit = "";
-        this.unitname = "";
-      }
+      this.rack = newvalue;
     } else {
-      this.unit = "";
-      this.unitname = "";
+      this.rack = null;
     }
   }
 
   ExportToExcel() {
     let args = {
       po: this.po ? this.po : "",
-      unitcode: this.unit ? this.unit : "",
+      rack: this.rack ? this.rack : "",
       productcode: this.code ? this.code : "",
     };
 
@@ -135,5 +153,4 @@ export class List {
     this.flag = false;
     this.tableList.refresh();
   }
-
 }
