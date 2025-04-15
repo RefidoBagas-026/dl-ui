@@ -123,15 +123,28 @@ export class List {
                     IsValidatedMD1: true,
                     IsValidatedPurchasing: true,
                     IsValidatedMD2: false,
-                    ApprovalKadiv: this.section.ApprovalKadiv
+                    //ApprovalKadiv: this.section.ApprovalKadiv
+
+                    //ApprovalKadiv: "WAHYU PAMUNGKAS"
+                    ApprovalKadiv: this.section.ApprovalCC
+                    
+
                 }, this.defaultFilter);
+                console.log("masuk this.defaultFilter ");
+
                 if (this.section) {
+                    console.log("masuk this.section ");
                     filter.SectionName = this.section.Name;
                 }
+                
                 break;
-        }
 
+                
+
+        }
         return filter;
+        //console.log(ApprovalKadiv);
+
     }
 
     activate(params, routeConfig, navigationInstruction) {
