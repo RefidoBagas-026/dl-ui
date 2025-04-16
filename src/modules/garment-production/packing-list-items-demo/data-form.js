@@ -197,39 +197,91 @@ export class DataForm {
       downloadLink.download = fileName;
       downloadLink.click();
   }
-  documentInputChanged(index) {
-    let documentInput = document.getElementById('documentInput' + index);
-   
-    if (documentInput.files.length > 0) {
-      let file = documentInput.files[0];
-      let fileName = file.name;
-      let fileExtension = fileName.split('.').pop().toLowerCase();
-      
-        let reader = new FileReader();
-        reader.onload = event => {
-          if (fileExtension !== 'xls' && fileExtension !== 'xlsx') {
-              documentInput.value = "";
-              this.data.documentsFile[index] = "";
-              this.data.documentsFileName[index] = "";
-              alert("Format file harus Excel (.xls atau .xlsx)");
-            }
-  
-            let base64Document = event.target.result;
-            const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
-            if (base64Content.length * 6 / 8 > 52428800) {
-                this.error.documentsFile[index] ="Maximum Document Size is 50 MB";  
-                documentInput.value = "";
-                this.data.documentsFile[index] = "";
-                this.data.documentsFileName[index] = "";
-              
-            } else {
-                this.data.documentsFile[index] = base64Document;
-                this.data.documentsFileName[index] = documentInput.value.replace(/^.*[\\\/]/, '');
-            }
-        }
-        reader.readAsDataURL(documentInput.files[0]);
+
+  triggerFileInput(index) {
+    const input = document.getElementById('documentInput' + index);
+    if (input) {
+      input.click();
     }
   }
+
+  documentInputChanged(index, event) {
+    const files = event.target.files;
+
+    if (!files || files.length === 0) return;
+  
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const fileName = file.name;
+      const fileExtension = fileName.split('.').pop().toLowerCase();
+  
+      if (fileExtension !== 'xls' && fileExtension !== 'xlsx') {
+        alert("Format file harus Excel (.xls atau .xlsx)");
+        continue;
+      }
+  
+      const reader = new FileReader();
+  
+      reader.onload = (event) => {
+        const base64Document = event.target.result;
+        const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
+        const fileSizeInBytes = base64Content.length * 6 / 8;
+  
+        if (fileSizeInBytes > 52428800) { // 50MB
+          this.error.documentsFile = this.error.documentsFile || [];
+          this.error.documentsFile.push("Maximum Document Size is 50 MB");
+          return;
+        }else{
+          this.data.documentsFile.push(base64Document);
+          this.data.documentsFileName.push(fileName);
+        }
+        
+        this.data.documentsFile = this.data.documentsFile || [];
+        this.data.documentsFileName = this.data.documentsFileName || [];
+        
+      };
+
+      reader.readAsDataURL(file);
+    }
+    this.data.documentsFile.splice(index, 1);
+    this.data.documentsFileName.splice(index, 1);
+    this.documentsPathTemp.splice(index, 1);
+    event.target.value = '';
+  }
+  
+  // documentInputChanged(index) {
+  //   let documentInput = document.getElementById('documentInput' + index);
+   
+  //   if (documentInput.files.length > 0) {
+  //     let file = documentInput.files[0];
+  //     let fileName = file.name;
+  //     let fileExtension = fileName.split('.').pop().toLowerCase();
+      
+  //       let reader = new FileReader();
+  //       reader.onload = event => {
+  //         if (fileExtension !== 'xls' && fileExtension !== 'xlsx') {
+  //             documentInput.value = "";
+  //             this.data.documentsFile[index] = "";
+  //             this.data.documentsFileName[index] = "";
+  //             alert("Format file harus Excel (.xls atau .xlsx)");
+  //           }
+  
+  //           let base64Document = event.target.result;
+  //           const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
+  //           if (base64Content.length * 6 / 8 > 52428800) {
+  //               this.error.documentsFile[index] ="Maximum Document Size is 50 MB";  
+  //               documentInput.value = "";
+  //               this.data.documentsFile[index] = "";
+  //               this.data.documentsFileName[index] = "";
+              
+  //           } else {
+  //               this.data.documentsFile[index] = base64Document;
+  //               this.data.documentsFileName[index] = documentInput.value.replace(/^.*[\\\/]/, '');
+  //           }
+  //       }
+  //       reader.readAsDataURL(documentInput.files[0]);
+  //   }
+  //  }
   // END FITUR EXCEL
 
 

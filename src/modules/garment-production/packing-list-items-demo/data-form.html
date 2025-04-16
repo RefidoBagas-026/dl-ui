@@ -118,6 +118,13 @@
                         placeholder="Masukkan Keterangan"
                         options.bind="controlOptions">
                     </au-multiline>
+                    <!-- <au-textbox
+                      label="TOTAL QUANTITY"
+                      value.bind="totalQuantities"
+                      error.bind="error.totalQuantities"
+                      read-only="true" 
+                      options.bind="controlOptions">
+                  </au-textbox> -->
                 </div>
             </div>
             <div class="form-group has-error">
@@ -133,12 +140,12 @@
                         add.bind="addItems" 
                         remove.bind="removeItems"
                         options.bind="Options"
-                        item-template="modules/garment-production/packing-list-items/template/detail-ro">
+                        item-template="modules/garment-production/packing-list-items-demo/template/detail-ro">
                     </au-collection>    
                 </div>
             </div>
             <div class="row">
-              <div class="m-2">
+              <div class="m-2 col-md-6">
                   <au-textbox
                       label="TOTAL QUANTITY"
                       value.bind="totalQuantities"
@@ -164,6 +171,7 @@
                         Tidak ada file 
                       </td>
                     </tr>
+
                     <tr if.bind="data.documentsFileName" repeat.for="doc of data.documentsFileName">
                       <td if.bind="readOnly">
                         <button class="btn btn-primary justify-content-center"
@@ -174,8 +182,14 @@
                           value.bind="documentUpload" change.delegate="documentInputChanged($index)"
                           accept=".pdf, .xls, .xlsx, .doc, .docx"> -->
                           <input if.bind="!documentsPathTemp[$index]" type="file" id="documentInput${$index}"
-                          value.bind="documentUpload" change.delegate="documentInputChanged($index)"
-                          accept=".xls, .xlsx">
+                          value.bind="documentUpload" change.delegate="documentInputChanged($index, $event)"
+                          multiple accept=".xls, .xlsx" style="display: none;">
+                          <div if.bind="!documentsPathTemp[$index]"  >
+                            <button type="button" click.delegate="triggerFileInput($index)">Choose File</button>
+                            <span>${doc ? doc : 'No File chosen'}</span>
+                          </div>
+                          
+
                         <button if.bind="documentsPathTemp[$index]" class="btn btn-primary justify-content-center"
                           click.delegate="downloadDocument($index)">${doc}</button>
                         <span class="text-danger" if.bind="error.documentsFile[$index]">${error.documentsFile[$index]}</span>
