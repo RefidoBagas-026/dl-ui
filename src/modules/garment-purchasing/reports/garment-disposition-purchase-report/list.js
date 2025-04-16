@@ -39,6 +39,7 @@ export class List {
             // console.log(result);
             
             this.rowCount=[];
+            this.amountCount=[];
                 var rowDoc=[];
                 //this.info.total=result.info.total;    
                   
@@ -49,9 +50,11 @@ export class List {
                     
                     if(!this.rowCount[dispoNo]){
                         this.rowCount[dispoNo]=1;
+                        this.amountCount[dispoNo]=a.Nominal;
                     }
                     else{
                         this.rowCount[dispoNo]++;
+                        this.amountCount[dispoNo]+=a.Nominal;
                     }
  
                     
@@ -62,17 +65,22 @@ export class List {
                     let dispoc=result.data.Data.find(o=> o.DispositionNo ==b.DispositionNo);
                     if(dispoc){
                         dispoc.rowspan=this.rowCount[b.DispositionNo];
+                        dispoc.totalAmount=this.amountCount[b.DispositionNo].toLocaleString();
                         //b.index = index++;
                     }
 
                     
                 }
             this.data = result.data.Data;
+
+            console.log(this.rowCount);
+            console.log(this.amountCount);
         });
         }
     
     
         ExportToExcel() {
+            console.log(this.info);
             this.service.generateExcel(this.info);
             
         }

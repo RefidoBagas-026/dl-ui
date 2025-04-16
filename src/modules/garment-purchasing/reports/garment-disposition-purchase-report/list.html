@@ -58,6 +58,7 @@
                     <td rowspan="2">Tanggal Jatuh Tempo</td>
                     <td rowspan="2">Mata Uang</td>
                     <td rowspan="2">Nominal</td>
+                    <td rowspan="2">Total Amount</td>
                     </tr>
                     <tr>
                             <td>Nomor</td>
@@ -80,6 +81,7 @@
                         <td>${item.DueDate| dateFormat:'D MMM YYYY'}</td>
                         <td>${item.CurrencyCode}</td>
                         <td>${item.Nominal}</td>
+                        <td if.bind="item.rowspan" rowspan="${item.rowspan}">${item.totalAmount}</td>
                     </tr>
                 </tbody>
             </table>
