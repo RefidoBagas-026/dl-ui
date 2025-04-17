@@ -10,7 +10,7 @@ module.exports = [
     settings: {
       group: "g-purchasing",
       subGroup: "master",
-      permission: { H61: 1 },
+      permission: { H70: 1 },
       iconClass: "fa fa-dashboard",
     },
   },
