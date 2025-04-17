@@ -1,5 +1,20 @@
 module.exports = [
   {
+    route: "/garment/master/garment-signature-masters",
+    name: "garment-signature-masters",
+    moduleId:
+      "./modules/garment-purchasing/master/garment-signature-master/index",
+    nav: true,
+    title: "Signature Master",
+    auth: true,
+    settings: {
+      group: "g-purchasing",
+      subGroup: "master",
+      permission: { H61: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  {
     route: "/garment/etl/garment-purchase-requests",
     name: "etl-garment-purchase-requests",
     moduleId:

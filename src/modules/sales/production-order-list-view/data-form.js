@@ -309,6 +309,10 @@ export class DataForm {
       this.data.Uom = {};
       this.data.Uom.Unit = "MTR";
     }
+
+    if (this.data.FinishingPrintingSalesContract && this.data.FinishingPrintingSalesContract.Id) {
+      this.SalesContract = await this.service.getSCbyId(this.data.FinishingPrintingSalesContract.Id);
+    }
     // if (this.data) {
     //   if (this.data.FinishingPrintingSalesContract && this.data.FinishingPrintingSalesContract.Id) {
     //     this.selectedSC = await this.service.getSCbyId(encodeURIComponent(this.data.SalesContractNo), this.scFields);
