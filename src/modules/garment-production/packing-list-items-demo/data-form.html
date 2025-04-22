@@ -144,7 +144,8 @@
                     </au-collection>    
                 </div>
             </div>
-            <div class="row">
+            <!-- JIKA DATA ITEM ADA MAKA MUNCULKAN QUANTITY -->
+            <div class="row" if.bind="data.items">
               <div class="m-2 col-md-6">
                   <au-textbox
                       label="TOTAL QUANTITY"
