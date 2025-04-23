@@ -81,7 +81,13 @@
       options.bind="controlOptions"
     >
     </au-textbox>
-
+    <au-textbox 
+      label="Alamat Email Pemohon"
+      value.bind="data.RequesterEmail"
+      error.bind="error.RequesterEmail"
+      read-only.bind="readOnly"
+      options.bind="controlOptions">
+    </au-textbox>
     <au-textbox
       if.bind="isWithVB && vbRequestDocument"
       label="Mata Uang"
