@@ -916,10 +916,16 @@ export class List {
             //WH All
             avgWHConfirm[0]="";
             avgWHConfirm[y+1]=parseFloat((ehConfirm[y+1]/(totalOP[y+1]*effAvg[y+1]/100))).toFixed(2);
+            if(isNaN(avgWHConfirm[y+1])){
+              avgWHConfirm[y+1] = parseFloat(0).toFixed(2);
+            }
             //avgWHConfirm[y+1]=parseFloat((totalWHConfirm[y + 1]/unitCount).toFixed(2));
             
             avgWHBooking[0]="";
             avgWHBooking[y+1]=parseFloat((ehBook[y+1]/(totalOP[y+1]*effAvg[y+1]/100))).toFixed(2);
+            if(isNaN(avgWHBooking[y+1])){
+              avgWHBooking[y+1] = parseFloat(0).toFixed(2);
+            }
             //avgWHBooking[y+1]=parseFloat((totalWHBooking[y + 1]/unitCount).toFixed(2));
 
             avgWH[0]="";
@@ -940,13 +946,19 @@ export class List {
             bgcWHC[0]="transparent";
 
             //WH Unit
-             avgWHConfirmUnit[0]="";
-             avgWHConfirmUnit[y+1]=parseFloat((ehConfUnit[y+1]/(totalOP_Unit[y+1]*effUnit[y+1]/100))).toFixed(2);
-            // avgWHConfirmUnit[y+1]=parseFloat((totalWHConfirm_Unit[y + 1]/unitNotSKCount).toFixed(2));
+            avgWHConfirmUnit[0]="";
+            avgWHConfirmUnit[y+1]=parseFloat((ehConfUnit[y+1]/(totalOP_Unit[y+1]*effUnit[y+1]/100))).toFixed(2);
+            if(isNaN(avgWHConfirmUnit[y+1])){
+              avgWHConfirmUnit[y+1] = parseFloat(0).toFixed(2);
+            }
+             // avgWHConfirmUnit[y+1]=parseFloat((totalWHConfirm_Unit[y + 1]/unitNotSKCount).toFixed(2));
             
-             avgWHBookingUnit[0]="";
-             avgWHBookingUnit[y+1]=parseFloat((ehBookingUnit[y+1]/(totalOP_Unit[y+1]*effUnit[y+1]/100))).toFixed(2);
-            // avgWHBookingUnit[y+1]=parseFloat((totalWHBooking_Unit[y + 1]/unitNotSKCount).toFixed(2));
+            avgWHBookingUnit[0]="";
+            avgWHBookingUnit[y+1]=parseFloat((ehBookingUnit[y+1]/(totalOP_Unit[y+1]*effUnit[y+1]/100))).toFixed(2);
+            if(isNaN(avgWHBookingUnit[y+1])){
+              avgWHBookingUnit[y+1] = parseFloat(0).toFixed(2);
+            }
+             // avgWHBookingUnit[y+1]=parseFloat((totalWHBooking_Unit[y + 1]/unitNotSKCount).toFixed(2));
 
             bgcWHUnit[y + 1] = parseFloat(avgWHBookingUnit[y + 1]) <= 45.5 ? "#FFFF00" : 
                 parseFloat(avgWHBookingUnit[y + 1]) <= 50.5 && parseFloat(avgWHBookingUnit[y + 1]) > 45.5 ? "#52df46" : 
