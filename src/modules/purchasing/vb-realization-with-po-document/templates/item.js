@@ -47,9 +47,18 @@ export class Item {
             // if (this.data.UnitPaymentOrder.UseIncomeTax && this.data.UnitPaymentOrder.IncomeTaxBy == "Supplier")
             //     result -= this.data.UnitPaymentOrder.Amount * (this.data.UnitPaymentOrder.IncomeTax.Rate / 100);
 
-            if (this.data.UnitPaymentOrder.IsPayVat)
-                result += this.data.UnitPaymentOrder.Amount * (this.data.UnitPaymentOrder.VatTax.Rate / 100);
+            if (this.data.UnitPaymentOrder.IsPayVat){
+                if(this.data.UnitPaymentOrder.VatTax.Rate == 12){
+                    result += this.data.UnitPaymentOrder.Amount * 11/12 * (this.data.UnitPaymentOrder.VatTax.Rate / 100);
+                }else{
 
+                    result += this.data.UnitPaymentOrder.Amount * (this.data.UnitPaymentOrder.VatTax.Rate / 100);
+                }
+                //result += this.data.UnitPaymentOrder.Amount * (this.data.UnitPaymentOrder.VatTax.Rate / 100);
+
+
+            }
+                
             if (this.data.UnitPaymentOrder.IsPayTax && this.data.UnitPaymentOrder.IncomeTaxBy == "Supplier")
                 result -= this.data.UnitPaymentOrder.Amount * (this.data.UnitPaymentOrder.IncomeTax.Rate / 100);
 
