@@ -47,7 +47,7 @@ class GarmentPurchasingService extends RestService {
     }
 
     getUnitExpenditureNoteById(id) {
-        var endpoint = `${unitExpenditureNoteUri}/${id}`;
+        var endpoint = `${unitExpenditureNoteUri}/uenno-accessories/${id}`;
         return super.get(endpoint);
     }
 
