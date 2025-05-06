@@ -89,7 +89,7 @@ export class ItemFooter {
         if (item.data.BLAWBNumber !== null) {
           vat = item.data.PPnAmount;
         } else {
-          vat = amount * (item.data.VatRate/100);
+          vat = item.data.VatRate == 12 ? amount * 11/12 * (item.data.VatRate/100) :amount * (item.data.VatRate/100);
         }
       }
 
