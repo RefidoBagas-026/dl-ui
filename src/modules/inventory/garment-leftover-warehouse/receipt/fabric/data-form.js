@@ -52,7 +52,7 @@ export class DataForm {
     get unitExpenditureNoteFilter() {
         return {
             IsReceived: false,
-            ExpenditureType: "SISA",
+            //ExpenditureType: "SISA",
             StorageName: "GUDANG BAHAN BAKU",
             UnitSenderId: (this.data.UnitFrom || {}).Id || 0
         };

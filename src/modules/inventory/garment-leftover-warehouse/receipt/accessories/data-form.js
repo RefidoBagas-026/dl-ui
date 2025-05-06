@@ -48,38 +48,38 @@ export class DataForm {
 
     @computedFrom("data.RequestUnit")
     get unitExpenditureNoteFilter() {
-        // return {
-        //     IsReceived: false,
-        //     ExpenditureType: "SISA",
-        //     StorageName: "GUDANG BAHAN BAKU",
-        //     UnitSenderId: (this.data.RequestUnit || {}).Id || 0
-        // };
-        return  [
-            {
-                Key: "IsReceived",
-                Condition: 2,
-                Value:false
+          return {
+            IsReceived: false,
+            //ExpenditureType: "SISA",
+            StorageName: "GUDANG ACCESSORIES",
+            UnitSenderId: (this.data.RequestUnit || {}).Id || 0
+        };
+        // return  [
+        //     {
+        //         Key: "IsReceived",
+        //         Condition: 2,
+        //         Value:false
 
-            },
-            {
-                Key: "ExpenditureType",
-                Condition: 2,
-                Value:"SISA"
+        //     },
+        //     {
+        //         Key: "ExpenditureType",
+        //         Condition: 2,
+        //         Value:"SISA"
 
-            },
-            {
-                Key: "StorageName",
-                Condition: 3,
-                Value:"GUDANG BAHAN BAKU"
+        //     },
+        //     {
+        //         Key: "StorageName",
+        //         Condition: 3,
+        //         Value:"GUDANG BAHAN BAKU"
 
-            },
-            {
-                Key: "UnitSenderId",
-                Condition: 2,
-                Value:(this.data.RequestUnit || {}).Id || 0
+        //     },
+        //     {
+        //         Key: "UnitSenderId",
+        //         Condition: 2,
+        //         Value:(this.data.RequestUnit || {}).Id || 0
 
-            },
-        ]
+        //     },
+        // ]
         };
 
     bind(context) {
