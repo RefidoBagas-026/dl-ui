@@ -3,7 +3,7 @@ var moment = require('moment');
 import { Service } from './service';
 
 
-var FinishingPrintingSalesContractLoader = require('../../../loader/finishing-printing-sales-contract-loader');
+var FinishingPrintingSalesContractLoader = require('../../../loader/finishing-printing-sales-contract-d365-loader');
 var YarnMaterialLoader = require('../../../loader/yarn-material-loader');
 var OrderTypeLoader = require('../../../loader/order-type-loader');
 var ProcessTypeLoader = require('../../../loader/process-type-loader');
@@ -28,18 +28,20 @@ export class DataForm {
   @bindable POTypes;
   @bindable UOmUnit;
   @bindable Price;
+  @bindable material;
 
-  POTypes = [' ','SALES', 'UNIT']
+
+  POTypes = [' ', 'SALES', 'UNIT']
 
   lampHeader = [{ header: "Standar Lampu" }];
 
   materialQuery = {
-    "Tags" : "MATERIAL"
+    "Tags": "MATERIAL"
   }
 
   RUNOptions = ['Tanpa RUN', '1 RUN', '2 RUN', '3 RUN', '4 RUN'];
   rq = false;
- 
+
   UOMOptions = ["MTR", "PCS"];
 
 
@@ -47,7 +49,7 @@ export class DataForm {
     this.bindingEngine = bindingEngine;
     this.element = element;
     this.service = service;
-
+    this.material = "";
     this.filterAccount = {
       "roles": {
         "$elemMatch": {
@@ -86,7 +88,11 @@ export class DataForm {
     }
     if (this.data && this.data.Id) {
 
-      // this.SalesContract = this.data.FinishingPrintingSalesContract.SalesContractNo;
+      this.SalesContract = {
+        SalesContractNo: this.data.SalesContractNo,
+        Buyer: this.data.Buyer
+      };
+
       this.OrderType = this.data.OrderType;
 
       this.account = {
@@ -99,27 +105,24 @@ export class DataForm {
       this.data.Details = this.data.Details || [];
       this.data.LampStandards = this.data.LampStandards || [];
       this.data.BeforeQuantity = this.data.OrderQuantity;
-      console.log(this.data);
+
       this.Price = Number(this.data.Price);
 
-      if(this.data.POType == "SALES"){
-        this.nameCheck=true;
-      }else{
-        this.nameCheck=false;
+      if (this.data.POType == "SALES") {
+        this.nameCheck = true;
+      } else {
+        this.nameCheck = false;
       }
-      console.log(this.data.POType);
 
-
-      if (this.data.FinishingPrintingSalesContract && this.data.FinishingPrintingSalesContract.Id) {
-        this.SalesContract = await this.service.getSCbyId(this.data.FinishingPrintingSalesContract.Id);
-      }
+      // if (this.data.FinishingPrintingSalesContract && this.data.FinishingPrintingSalesContract.Id) {
+      //   this.SalesContract = await this.service.getSCbyId(this.data.FinishingPrintingSalesContract.Id);
+      // }
 
     }
   }
 
 
   priceChanged(newValue, OldValue) {
-    console.log(this.Price);
     this.data.Price = this.Price;
   }
   // @computedFrom("data.Buyer")
@@ -190,30 +193,27 @@ export class DataForm {
     var selectedRUN = e.srcElement.value;
 
     if (selectedRUN === "Tanpa RUN") {
-        this.run = false; 
-        this.data.RunWidth = []; // Reset array agar form kosong
+      this.run = false;
+      this.data.RunWidth = []; // Reset array agar form kosong
     } else {
-        this.run = true;
+      this.run = true;
 
-        let runCount = parseInt(selectedRUN,10); // Ambil angka RUN dari teks (ex: "2 RUN" -> 2)
-        if (!isNaN(runCount)) {
-            let newRunWidth = [];
-            for (let i = 0; i < runCount; i++) {
-                newRunWidth.push({ Value: 0 });
-            }
-            this.data.RunWidth = [...newRunWidth]; // Spread agar binding terdeteksi
+      let runCount = parseInt(selectedRUN, 10); // Ambil angka RUN dari teks (ex: "2 RUN" -> 2)
+      if (!isNaN(runCount)) {
+        let newRunWidth = [];
+        for (let i = 0; i < runCount; i++) {
+          newRunWidth.push({ Value: 0 });
         }
+        this.data.RunWidth = [...newRunWidth]; // Spread agar binding terdeteksi
+      }
     }
 
-    console.log("RunWidth.length:", this.data.RunWidth.length);
-    console.log("RunWidth:", this.data.RunWidth);
-    console.log("run:", this.run);
-}
+  }
 
-@computedFrom("data.RunWidth.length")
-get isRUN() {
+  @computedFrom("data.RunWidth.length")
+  get isRUN() {
     return this.data.RunWidth.length > 0; // Langsung return hasil, tanpa mengubah this.run
-}
+  }
 
   // RUNChanged(e) {
   //   var selectedRUN = e.srcElement.value;
@@ -269,15 +269,15 @@ get isRUN() {
   //   return this.run;
   // }
 
-  UOmChanged(e){
-    //console.log(e.srcElement.value);
-    this.data.Uom.Unit=e.srcElement.value;
-    for(var i of this.data.Details){
-      i.Uom.Unit=e.srcElement.value;
+  UOmChanged(e) {
+    this.data.Uom.Unit = e.srcElement.value;
+    for (var i of this.data.Details) {
+      i.Uom.Unit = e.srcElement.value;
     }
   }
+
   SalesContractChanged(newVal, oldVal) {
-    // console.log(newVal)
+
     if (newVal) {
       // if (this.data && this.data.Details && this.data.Details.length > 0) {
       //   var count = this.data.Details.length;
@@ -286,36 +286,41 @@ get isRUN() {
       //     this.data.Details.splice((a - 1), 1);
       //   }
       // }
+      console.log("newVal", newVal);
       this.data.FinishingPrintingSalesContract = newVal;
-      this.data.Buyer = this.data.FinishingPrintingSalesContract.Buyer;
-      this.data.OrderType = this.data.FinishingPrintingSalesContract.OrderType;
-      this.data.ProductTextile = this.data.FinishingPrintingSalesContract.ProductTextile;
 
-      this.data.Material = this.data.FinishingPrintingSalesContract.Material;
-      this.Material = this.data.Material;
-      this.data.YarnMaterial = this.data.FinishingPrintingSalesContract.YarnMaterial;
-      this.data.DesignMotive = this.data.FinishingPrintingSalesContract.DesignMotive;
-      if (this.data.Uom) {
-        this.data.Uom.Unit = this.data.Uom.Unit;
-        //this.data.Uom.Unit = this.data.Uom.Unit || "MTR";
-      }
-      else {
-        this.data.Uom = {};
-        //this.UOMOptions = ["MTR", "PCS"];
-        //this.data.Uom.Unit = "MTR";
-        // this.data.Uom.Unit = ["MTR","PCS"];
-        //this.data.Uom.Unit = this.UOMOptions[0];
-      }
-      this.data.FinishWidth = this.SalesContract.MaterialWidth;
-      this.data.BeforeQuantity = 0;
-      if (this.data.FinishingPrintingSalesContract.RemainingQuantity != undefined) {
-        // this.data.RemainingQuantity = this.data.SalesContract.RemainingQuantity ? this.data.SalesContract.RemainingQuantity:0;
-        this.rq = true;
-      }
-      else {
-        // this.data.RemainingQuantity = undefined;
-        this.rq = false;
-      }
+
+      this.data.Buyer = this.data.FinishingPrintingSalesContract.Buyer;
+      // this.data.OrderType = this.data.FinishingPrintingSalesContract.OrderType;
+      this.material = this.data.FinishingPrintingSalesContract.Description;
+
+      // this.data.ProductTextile = this.data.FinishingPrintingSalesContract.ProductTextile;
+
+      // this.data.Material = this.data.FinishingPrintingSalesContract.Material;
+      // this.Material = this.data.Material;
+      // this.data.YarnMaterial = this.data.FinishingPrintingSalesContract.YarnMaterial;
+      // this.data.DesignMotive = this.data.FinishingPrintingSalesContract.DesignMotive;
+      // if (this.data.Uom) {
+      //   this.data.Uom.Unit = this.data.Uom.Unit;
+      //   //this.data.Uom.Unit = this.data.Uom.Unit || "MTR";
+      // }
+      // else {
+      //   this.data.Uom = {};
+      //   //this.UOMOptions = ["MTR", "PCS"];
+      //   //this.data.Uom.Unit = "MTR";
+      //   // this.data.Uom.Unit = ["MTR","PCS"];
+      //   //this.data.Uom.Unit = this.UOMOptions[0];
+      // }
+      // this.data.FinishWidth = this.SalesContract.MaterialWidth;
+      // this.data.BeforeQuantity = 0;
+      // if (this.data.FinishingPrintingSalesContract.RemainingQuantity != undefined) {
+      //   // this.data.RemainingQuantity = this.data.SalesContract.RemainingQuantity ? this.data.SalesContract.RemainingQuantity:0;
+      //   this.rq = true;
+      // }
+      // else {
+      //   // this.data.RemainingQuantity = undefined;
+      //   this.rq = false;
+      // }
     } else {
       this.data = {};
       // this.data = null;
@@ -328,7 +333,6 @@ get isRUN() {
   }
 
   getProductTextileText = (text) => {
-    console.log(text);
     var data = text.Code ? `${text.Code} - ${text.Name}` : "";
     return data
   }
@@ -404,27 +408,25 @@ get isRUN() {
 
 
 
-  
+
 
 
   POTypeChanged(e) {
-    console.log(e);
     var selectedPOType = e.srcElement.value;
-    if(selectedPOType=="SALES"){
-         this.nameCheck=true;
+    if (selectedPOType == "SALES") {
+      this.nameCheck = true;
     }
-    else{
-         this.nameCheck=false;        
-         this.data.Buyer = {
-              Id : 567,
-              Code : "DL01",
-              Name : "PT. DAN LIRIS",
-              Type : "Internal",
-         };        
-         console.log(this.data.Buyer);
+    else {
+      this.nameCheck = false;
+      this.data.Buyer = {
+        Id: 567,
+        Code: "DL01",
+        Name: "PT. DAN LIRIS",
+        Type: "Internal",
+      };
     }
   }
-  
+
   accountChanged(e) {
     var selectedAccount = this.account;
     if (selectedAccount) {
@@ -518,7 +520,7 @@ get isRUN() {
   get yarnmaterialLoader() {
     return YarnMaterialLoader;
   }
-  
+
   get materialConstructionLoader() {
     return MaterialConstructionLoader;
   }
