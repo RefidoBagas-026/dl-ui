@@ -295,6 +295,7 @@ export class DataForm {
         this.data.OrderType = this.data.FinishingPrintingSalesContract.OrderType;
         this.data.Material = this.data.FinishingPrintingSalesContract.Material;
         this.Material = this.data.Material;
+        this.material = "";
         this.data.YarnMaterial = this.data.FinishingPrintingSalesContract.YarnMaterial;
         this.data.DesignMotive = this.data.FinishingPrintingSalesContract.DesignMotive;
         if (this.data.Uom) {
