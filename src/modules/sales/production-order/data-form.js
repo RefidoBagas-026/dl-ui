@@ -114,9 +114,9 @@ export class DataForm {
         this.nameCheck = false;
       }
 
-      // if (this.data.FinishingPrintingSalesContract && this.data.FinishingPrintingSalesContract.Id) {
-      //   this.SalesContract = await this.service.getSCbyId(this.data.FinishingPrintingSalesContract.Id);
-      // }
+      if (this.data.FinishingPrintingSalesContract && this.data.FinishingPrintingSalesContract.Id && (this.data.FinishingPrintingSalesContract.Id != 0)) {
+        this.SalesContract = await this.service.getSCbyId(this.data.FinishingPrintingSalesContract.Id);
+      }
 
     }
   }
@@ -286,42 +286,53 @@ export class DataForm {
       //     this.data.Details.splice((a - 1), 1);
       //   }
       // }
-      console.log("newVal", newVal);
+
       this.data.FinishingPrintingSalesContract = newVal;
-
-
       this.data.Buyer = this.data.FinishingPrintingSalesContract.Buyer;
-      // this.data.OrderType = this.data.FinishingPrintingSalesContract.OrderType;
-      this.material = this.data.FinishingPrintingSalesContract.Description;
 
-      // this.data.ProductTextile = this.data.FinishingPrintingSalesContract.ProductTextile;
-
-      // this.data.Material = this.data.FinishingPrintingSalesContract.Material;
-      // this.Material = this.data.Material;
-      // this.data.YarnMaterial = this.data.FinishingPrintingSalesContract.YarnMaterial;
-      // this.data.DesignMotive = this.data.FinishingPrintingSalesContract.DesignMotive;
-      // if (this.data.Uom) {
-      //   this.data.Uom.Unit = this.data.Uom.Unit;
-      //   //this.data.Uom.Unit = this.data.Uom.Unit || "MTR";
-      // }
-      // else {
-      //   this.data.Uom = {};
-      //   //this.UOMOptions = ["MTR", "PCS"];
-      //   //this.data.Uom.Unit = "MTR";
-      //   // this.data.Uom.Unit = ["MTR","PCS"];
-      //   //this.data.Uom.Unit = this.UOMOptions[0];
-      // }
-      // this.data.FinishWidth = this.SalesContract.MaterialWidth;
-      // this.data.BeforeQuantity = 0;
-      // if (this.data.FinishingPrintingSalesContract.RemainingQuantity != undefined) {
-      //   // this.data.RemainingQuantity = this.data.SalesContract.RemainingQuantity ? this.data.SalesContract.RemainingQuantity:0;
-      //   this.rq = true;
-      // }
-      // else {
-      //   // this.data.RemainingQuantity = undefined;
-      //   this.rq = false;
-      // }
-    } else {
+      if (!newVal.SalesContractNo.includes("SO")) {
+        this.data.ProductTextile = this.data.FinishingPrintingSalesContract.ProductTextile;
+        this.data.OrderType = this.data.FinishingPrintingSalesContract.OrderType;
+        this.data.Material = this.data.FinishingPrintingSalesContract.Material;
+        this.Material = this.data.Material;
+        this.data.YarnMaterial = this.data.FinishingPrintingSalesContract.YarnMaterial;
+        this.data.DesignMotive = this.data.FinishingPrintingSalesContract.DesignMotive;
+        if (this.data.Uom) {
+          this.data.Uom.Unit = this.data.Uom.Unit;
+          //this.data.Uom.Unit = this.data.Uom.Unit || "MTR";
+        }
+        else {
+          this.data.Uom = {};
+          //this.UOMOptions = ["MTR", "PCS"];
+          //this.data.Uom.Unit = "MTR";
+          // this.data.Uom.Unit = ["MTR","PCS"];
+          //this.data.Uom.Unit = this.UOMOptions[0];
+        }
+        this.data.FinishWidth = this.SalesContract.MaterialWidth;
+        this.data.BeforeQuantity = 0;
+        if (this.data.FinishingPrintingSalesContract.RemainingQuantity != undefined) {
+          // this.data.RemainingQuantity = this.data.SalesContract.RemainingQuantity ? this.data.SalesContract.RemainingQuantity:0;
+          this.rq = true;
+        }
+        else {
+          // this.data.RemainingQuantity = undefined;
+          this.rq = false;
+        }
+      } else {
+        if (!this.data.Id) {
+          this.data.ProductTextile = {};
+          this.data.OrderType = null;
+          this.data.Material = {};
+          this.Material = {};
+          this.data.YarnMaterial = {};
+          this.data.DesignMotive = {};
+          this.data.Uom = {};
+          this.data.FinishWidth = "";
+          this.material = this.data.FinishingPrintingSalesContract.Description || "";
+        }
+      }
+    }
+    else {
       this.data = {};
       // this.data = null;
     }
