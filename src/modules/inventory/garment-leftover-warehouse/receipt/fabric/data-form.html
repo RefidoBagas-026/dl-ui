@@ -4,14 +4,28 @@
         <au-textbox label="No Bon Penerimaan" value.bind="data.ReceiptNoteNo" read-only="true"
             options.bind="controlOptions" if.bind="readOnly || isEdit">
         </au-textbox>
-
-        <au-autocomplete label="Unit Asal" placeholder="Pilih Unit" value.bind="selectedUnitFrom"
+        <!-- <au-autocomplete
+            label="Unit Asal" placeholder="Pilih Unit" value.bind="selectedUnitFrom"
             error.bind="error.UnitFrom" loader.bind="unitLoader" text.bind="unitView"
             read-only.bind="readOnly || isEdit" options.bind="controlOptions">
-        </au-autocomplete>
+        </au-autocomplete> -->
+
+        <au-dropdown
+            if.bind="readOnly == false && isEdit == false"
+            label="Unit Asal"
+            value.bind="selectedUnitFrom"
+            items.bind="unitFrom"
+            key ="Id"
+            text ="Name"
+            options.bind="controlOptions">
+        </au-dropdown>
+
+        <au-textbox if.bind="readOnly || isEdit" label="Unit Asal" value.bind="data.UnitFrom.Name" error.bind="error.UnitFrom.Name"
+            read-only="true" options.bind="controlOptions">
+        </au-textbox>
 
         <au-autocomplete label="No Bon Pengeluaran Unit" placeholder="Pilih No Bon Pengeluaran Unit"
-            value.bind="selectedUnitExpenditureNote" error.bind="error.UENNo" loader.bind="unitExpenditureNoteLoader"
+            value.bind="selectedUnitExpenditureNote" error.bind="error.UENNo" loader.bind="unitCode !== 'SBC' ? unitExpenditureNoteLoader : subconUnitExpenditureNoteLoader"
             text="UENNo" read-only.bind="readOnly || isEdit" query.bind="unitExpenditureNoteFilter"
             options.bind="controlOptions" view-model.ref="UnitExpenditureNoteViewModel">
         </au-autocomplete>
