@@ -42,7 +42,7 @@ export class DataForm {
     ]
     //UnitFrom = ["GARMENT", "SAMPLE", "TERIMA SUBCON"];
     unitFrom = [
-      { Id: 128, Code: "GMT", Name: "GARMENT" },
+      { Id: 123, Code: "GMT", Name: "GARMENT" },
       { Id: 107, Code: "SMP1", Name: "SAMPLE" },
       { Id: 0, Code: "SBC", Name: "TERIMA SUBCON" }
     ];
