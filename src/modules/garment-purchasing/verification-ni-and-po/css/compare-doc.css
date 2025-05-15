@@ -1,0 +1,120 @@
+/* Styling khusus untuk komponen compare-doc saja */
+.compare-doc-bar {
+  margin-bottom: 24px;
+  margin-top: 8px;
+}
+.compare-doc-list {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+.search-col {
+  flex: 1 1 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.upload-col {
+  flex: 1 1 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.search-group, .upload-group-vertical {
+  margin-left: auto;
+  margin-right: auto;
+}
+.compare-doc-bar .input-group,
+.compare-doc-bar .upload-group {
+  width: 100%;
+  max-width: 320px;
+}
+.compare-doc-bar .upload-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.compare-doc-bar .upload-group-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+  max-width: 320px;
+}
+.compare-doc-bar .upload-group input[type="file"],
+.compare-doc-bar .upload-group .btn {
+  height: 38px;
+  min-height: 38px;
+  box-sizing: border-box;
+}
+.compare-doc-bar .upload-group .btn {
+  display: flex;
+  align-items: center;
+}
+.compare-doc-bar .search-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 320px;
+  width: 100%;
+}
+.compare-doc-bar .search-group input[type="text"],
+.compare-doc-bar .search-group .btn {
+  height: 38px;
+  min-height: 38px;
+  box-sizing: border-box;
+}
+.compare-doc-bar .search-group .btn {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+.pdf-preview-wrapper {
+  width: 100%;
+  min-height: 320px;
+  max-width: 320px;
+  margin-top: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fafafa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.pdf-preview-frame {
+  width: 100%;
+  height: 320px;
+  border: none;
+  background: #fff;
+  display: block;
+}
+@media (max-width: 991.98px) {
+  .compare-doc-list {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .search-col, .upload-col {
+    width: 100%;
+    justify-content: stretch;
+  }
+  .search-group, .upload-group-vertical, .upload-group {
+    max-width: 100%;
+  }
+  .pdf-preview-wrapper, .pdf-preview-frame {
+    max-width: 100%;
+    height: 220px;
+    min-height: 180px;
+  }
+}

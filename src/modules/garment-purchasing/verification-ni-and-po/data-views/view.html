@@ -1,0 +1,41 @@
+<template>
+  <require from="../css/fitur.css"></require>
+  <require from="../css/custom-table.css"></require>
+  <h1 class="page-header">Verifikasi NI Dan PO</h1>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+    <button class="btn btn-success" click.delegate="navigate()">Cek NI dan PO</button>
+    <div style="flex:1; display:flex; justify-content:flex-end; align-items:center; gap:12px;">
+      <input type="text" value.bind="search" input.delegate="searchChanged()" placeholder="Pencarian No. Nota Intern" class="fitur-searchbar" style="max-width:320px;" />
+    </div>
+  </div>
+  <div class="table-info-bar" if.bind="selectedData">
+    Rincian Invoice untuk Nota Intern <b>${selectedData.inNo}</b>
+  </div>
+  <table class="custom-table" style="margin-bottom:24px;">
+    <thead>
+      <tr>
+        <th>No. Nota Intern</th>
+        <th>ID Invoice</th>
+        <th>No Invoice</th>
+        <th>Nama Supplier</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr repeat.for="inv of selectedData && selectedData.items ? selectedData.items : []" click.delegate="showDetail(inv)">
+        <td>${selectedData.inNo || '-'}</td>
+        <td>${inv.garmentInvoice && inv.garmentInvoice.Id || '-'}</td>
+        <td>${inv.garmentInvoice && inv.garmentInvoice.invoiceNo || '-'}</td>
+        <td>${selectedData.supplier && selectedData.supplier.Name || '-'}</td>
+      </tr>
+      <tr if.bind="!loading && (!selectedData || !selectedData.items || selectedData.items.length === 0)">
+        <td colspan="4" style="text-align:center;color:#888;">Belum Ada Data Invoice</td>
+      </tr>
+    </tbody>
+  </table>
+  <div if.bind="!loading && !selectedData && search && search.length >= 3" style="text-align:center;color:#888;margin-top:16px;">
+    Belum Ada Data Yang Ditemukan
+  </div>
+  <div if.bind="loading" style="display:flex;justify-content:center;margin-top:16px;">
+    <i class="fa fa-spinner fa-spin" style="font-size:2rem;color:#0D2F56;"></i>
+  </div>
+</template>
