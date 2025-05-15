@@ -56,17 +56,17 @@ export class Service extends RestService {
         console.log("info",info);
         if(info.createdBy != null && info.createdBy != undefined){
             username = info.createdBy.Username;
-            endpoint +=`username=${args.username}`;
+            endpoint +=`username=${username}`;
         }
         if(info.supplierName!= null && info.supplierName != undefined){
             supplierId = info.supplierName.Id;
             supplierName = info.supplierName.name;
-            endpoint += `&supplierId=${args.supplierId}&supplirName=${args.supplierName}`;
+            endpoint += `&supplierId=${supplierId}&supplirName=${supplierName}`;
         }
         var args ={
-            username: username,
-            supplierId : supplierId,
-            supplierName : supplierName,
+            // username: username,
+            // supplierId : supplierId,
+            // supplierName : supplierName,
             dateFrom : moment(info.dateFrom).format("YYYY-MM-DD"),
             dateTo : moment(info.dateTo).format("YYYY-MM-DD")
         }
@@ -74,6 +74,6 @@ export class Service extends RestService {
         endpoint += `&dateFrom=${args.dateFrom}&dateTo=${args.dateTo}`;
         // var endpoint = `${serviceUri}`;
         
-        return super.getXls(endpoint,args);
+        return super.getXls(endpoint);
     }
 }

@@ -5,9 +5,11 @@ import { Service } from './service';
 
 var FinishingPrintingSalesContractLoader = require('../../../loader/finishing-printing-sales-contract-loader');
 var YarnMaterialLoader = require('../../../loader/yarn-material-loader');
+var OrderTypeLoader = require('../../../loader/order-type-loader');
 var ProcessTypeLoader = require('../../../loader/process-type-loader');
 var DesignMotiveLoader = require('../../../loader/design-motive-loader');
 var MaterialConstructionLoader = require('../../../loader/material-construction-loader');
+var MaterialLoader = require("../../../loader/product-loader");
 var FinishTypeLoader = require('../../../loader/finish-type-loader');
 var StandardTests = require('../../../loader/standard-tests-loader');
 var AccountLoader = require('../../../loader/account-loader');
@@ -21,12 +23,22 @@ export class DataForm {
   @bindable OrderType;
   @bindable Material;
   @bindable account;
+  @bindable nameCheck;
+  @bindable POTypes;
+  @bindable UOmUnit;
+
+  POTypes = [' ','SALES', 'UNIT']
 
   lampHeader = [{ header: "Standar Lampu" }];
 
+  materialQuery = {
+    "Tags" : "MATERIAL"
+  }
+
   RUNOptions = ['Tanpa RUN', '1 RUN', '2 RUN', '3 RUN', '4 RUN'];
   rq = false;
-
+ 
+  UOMOptions = ["MTR", "PCS"];
 
 
   constructor(bindingEngine, element, service) {
@@ -51,6 +63,56 @@ export class DataForm {
     }
   }
 
+  async bind() {
+    // this.data = this.data || {};
+    if (this.data.Uom) {
+      this.UOmUnit = this.data.Uom.Unit;
+
+      // this.data.Details.map(x => 
+      //   {
+      //     x.Uom = {}
+      //     x.Uom.Unit = ["MTR", "PCS"]
+      //   }
+      // );
+    }
+    else {
+      this.data.Uom = {};
+      this.data.Uom.Unit = "MTR";
+      // this.data.Uom.Unit = ["MTR", "PCS"];
+      // //this.UOMOptions = ["MTR", "PCS"];
+      // //this.data.Uom.Unit = this.UOMOptions[0];
+    }
+    if (this.data && this.data.Id) {
+
+      // this.SalesContract = this.data.FinishingPrintingSalesContract.SalesContractNo;
+      this.OrderType = this.data.OrderType;
+
+      this.account = {
+        username: this.data.Account.UserName,
+        profile: {
+          firstname: this.data.Account.FirstName,
+          lastname: this.data.Account.LastName,
+        }
+      }
+      this.data.Details = this.data.Details || [];
+      this.data.LampStandards = this.data.LampStandards || [];
+      this.data.BeforeQuantity = this.data.OrderQuantity;
+
+      if(this.data.POType == "SALES"){
+        this.nameCheck=true;
+      }else{
+        this.nameCheck=false;
+      }
+      console.log(this.data.POType);
+
+
+      if (this.data.FinishingPrintingSalesContract && this.data.FinishingPrintingSalesContract.Id) {
+        this.SalesContract = await this.service.getSCbyId(this.data.FinishingPrintingSalesContract.Id);
+      }
+
+    }
+  }
+
   @computedFrom("data.Buyer")
   get buyerType() {
     this.ekspor = false;
@@ -68,14 +130,14 @@ export class DataForm {
 
   @computedFrom("data.Id")
   get isEdit() {
-    return (this.data ? this.data.Id : "" || '').toString() != '';
+    return ((this.data ? this.data.Id : "") || '').toString() != '';
   }
 
-  @computedFrom("data.OrderType")
+  @computedFrom("data.ProcessType")
   get isPrinting() {
     this.printing = false;
-    if (this.data.OrderType) {
-      if (this.data.OrderType.Name.trim().toLowerCase() == "printing") {
+    if (this.data.ProcessType && this.data.ProcessType.Unit) {
+      if (this.data.ProcessType.Unit.trim().toLowerCase() == "printing") {
         this.printing = true;
       }
     }
@@ -93,52 +155,147 @@ export class DataForm {
     return this.yarndyed;
   }
 
+  // @computedFrom("data.ProcessType")
+  // get isPrintingOnly() {
+  //   this.printingOnly = false;
+  //   if (this.data.ProcessType && this.data.ProcessType.Unit) {
+  //     if (this.data.ProcessType.Unit.toLowerCase() == "printing") {
+  //       this.printingOnly = true;
+  //     }
+  //   }
+  //   return this.printingOnly;
+  // }
+
   @computedFrom("data.OrderType")
   get isPrintingOnly() {
     this.printingOnly = false;
     if (this.data.OrderType) {
-      if (this.data.OrderType.Name.toLowerCase() == "printing") {
+      if (this.data.OrderType.Name.trim().toLowerCase() == "printing") {
         this.printingOnly = true;
       }
     }
     return this.printingOnly;
   }
 
+  RUNChanged(e) {
+    var selectedRUN = e.srcElement.value;
 
-  @computedFrom("data")
-  get isRUN() {
-    this.run = false;
-    if (this.data.RunWidth) {
-      if (this.data.RunWidth.length > 0)
+    if (selectedRUN === "Tanpa RUN") {
+        this.run = false; 
+        this.data.RunWidth = []; // Reset array agar form kosong
+    } else {
         this.run = true;
-    }
-    return this.run;
-  }
 
-  SalesContractChanged(e) {
-    if (this.SalesContract) {
-      if (this.data && this.data.Details && this.data.Details.length > 0) {
-        var count = this.data.Details.length;
-
-        for (var a = count; a >= 0; a--) {
-          this.data.Details.splice((a - 1), 1);
+        let runCount = parseInt(selectedRUN,10); // Ambil angka RUN dari teks (ex: "2 RUN" -> 2)
+        if (!isNaN(runCount)) {
+            let newRunWidth = [];
+            for (let i = 0; i < runCount; i++) {
+                newRunWidth.push({ Value: 0 });
+            }
+            this.data.RunWidth = [...newRunWidth]; // Spread agar binding terdeteksi
         }
+    }
 
-      }
-      this.data.FinishingPrintingSalesContract = this.SalesContract;
+    console.log("RunWidth.length:", this.data.RunWidth.length);
+    console.log("RunWidth:", this.data.RunWidth);
+    console.log("run:", this.run);
+}
+
+@computedFrom("data.RunWidth.length")
+get isRUN() {
+    return this.data.RunWidth.length > 0; // Langsung return hasil, tanpa mengubah this.run
+}
+
+  // RUNChanged(e) {
+  //   var selectedRUN = e.srcElement.value;
+  //   if (selectedRUN) {
+  //     this.data.RunWidth = [];
+  //     if (selectedRUN == "Tanpa RUN") {
+  //       this.run = false;
+  //       this.data.RunWidth.length = 0;
+  //     }
+  //     if (selectedRUN == "1 RUN") {
+
+  //       this.run = true;
+  //       this.data.RunWidth[0] = { Value: 0 };
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth[0] = { Value: 0 };
+  //       }
+
+  //     }
+  //     if (selectedRUN == "2 RUN") {
+  //       this.run = true;
+  //       this.data.RunWidth.length = 0;
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth.push({ Value: 0 }, { Value: 0 });
+  //       }
+  //     }
+  //     if (selectedRUN == "3 RUN") {
+  //       this.run = true;
+  //       this.data.RunWidth.length = 0;
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth.push({ Value: 0 }, { Value: 0 }, { Value: 0 });
+  //       }
+  //     }
+  //     if (selectedRUN == "4 RUN") {
+  //       this.run = true;
+  //       this.data.RunWidth.length = 0;
+  //       if (this.data.RunWidth.length == 0) {
+  //         this.data.RunWidth.push({ Value: 0 }, { Value: 0 }, { Value: 0 }, { Value: 0 });
+  //       }
+  //     }
+
+  //   }
+  // }
+
+  // @computedFrom("data")
+  // get isRUN() {
+  //   this.run = false;
+  //   if (this.data.RunWidth) {
+  //     if (this.data.RunWidth.length > 0)
+  //       this.run = true;
+  //   }
+  //   console.log(this.run);
+  //   console.log(this.data.RunWidth);
+  //   return this.run;
+  // }
+
+  UOmChanged(e){
+    //console.log(e.srcElement.value);
+    this.data.Uom.Unit=e.srcElement.value;
+    for(var i of this.data.Details){
+      i.Uom.Unit=e.srcElement.value;
+    }
+  }
+  SalesContractChanged(newVal, oldVal) {
+    // console.log(newVal)
+    if (newVal) {
+      // if (this.data && this.data.Details && this.data.Details.length > 0) {
+      //   var count = this.data.Details.length;
+
+      //   for (var a = count; a >= 0; a--) {
+      //     this.data.Details.splice((a - 1), 1);
+      //   }
+      // }
+      this.data.FinishingPrintingSalesContract = newVal;
       this.data.Buyer = this.data.FinishingPrintingSalesContract.Buyer;
       this.data.OrderType = this.data.FinishingPrintingSalesContract.OrderType;
-      this.OrderType = this.data.OrderType;
+      this.data.ProductTextile = this.data.FinishingPrintingSalesContract.ProductTextile;
+
       this.data.Material = this.data.FinishingPrintingSalesContract.Material;
       this.Material = this.data.Material;
       this.data.YarnMaterial = this.data.FinishingPrintingSalesContract.YarnMaterial;
       this.data.DesignMotive = this.data.FinishingPrintingSalesContract.DesignMotive;
       if (this.data.Uom) {
         this.data.Uom.Unit = this.data.Uom.Unit;
+        //this.data.Uom.Unit = this.data.Uom.Unit || "MTR";
       }
       else {
         this.data.Uom = {};
-        this.data.Uom.Unit = "MTR";
+        //this.UOMOptions = ["MTR", "PCS"];
+        //this.data.Uom.Unit = "MTR";
+        // this.data.Uom.Unit = ["MTR","PCS"];
+        //this.data.Uom.Unit = this.UOMOptions[0];
       }
       this.data.FinishWidth = this.SalesContract.MaterialWidth;
       this.data.BeforeQuantity = 0;
@@ -152,7 +309,7 @@ export class DataForm {
       }
     } else {
       this.data = {};
-      this.data = null;
+      // this.data = null;
     }
   }
 
@@ -161,46 +318,57 @@ export class DataForm {
     return data
   }
 
+  getProductTextileText = (text) => {
+    console.log(text);
+    var data = text.Code ? `${text.Code} - ${text.Name}` : "";
+    return data
+  }
+
   OrderTypeChanged() {
     if (this.OrderType) {
-      if (!this.readOnly) {
-        this.data.ProcessType = {};
-        this.data.Details.length = 0;
-      }
+      // if (!this.readOnly) {
+      //   // this.data.ProcessType = {};
+      //   this.data.Details.length = 0;
+      // }
+      // this.data.OrderType = this.OrderType;
       var code = this.OrderType.Code;
       if (code) {
         this.filterOrder = {
           "OrderTypeCode": code
         };
       }
-      if (this.OrderType.Name) {
-        if (this.OrderType.Name.toLowerCase() == "printing") {
+      if (this.OrderType.Unit) {
+        if (this.OrderType.Unit.toLowerCase() == "printing") {
           this.printingOnly = true;
         }
         else {
           this.printingOnly = false;
         }
-        if (this.OrderType.Name.toLowerCase() == "printing") {
+        if (this.OrderType.Unit.toLowerCase() == "printing") {
           this.printing = true;
         }
         else {
           this.printing = false;
         }
+
+      }
+      if (this.OrderType.Name) {
         if (this.OrderType.Name.toLowerCase() == "yarn dyed") {
           this.yarndyed = true;
         }
         else {
           this.yarndyed = false;
         }
-
       }
+
+
     }
     else {
-      if (!this.readOnly) {
-        this.data.ProcessType = {};
-        this.data.Details = [];
-      }
-      var code = this.data.OrderType.Code;
+      // if (!this.readOnly) {
+      //   // this.data.ProcessType = {};
+      //   this.data.Details = [];
+      // }
+      var code = this.data.OrderType.Code
       if (this.data.OrderType && code) {
         this.filterOrder = {
           "OrderTypeCode": code
@@ -208,13 +376,13 @@ export class DataForm {
       }
       if (this.data != null) {
         if (this.data.OrderType) {
-          if (this.data.OrderType.Name.toLowerCase() == "printing" || this.data.OrderType.Name.toLowerCase() == "yarn dyed") {
+          if ((this.data.OrderType.Unit && this.data.OrderType.Unit.toLowerCase() == "printing") || this.data.OrderType.Name.toLowerCase() == "yarn dyed") {
             this.printing = true;
           }
           else {
             this.printing = false;
           }
-          if (this.data.OrderType.Name.toLowerCase() == "printing") {
+          if (this.data.OrderType.Unit && this.data.OrderType.Unit.toLowerCase() == "printing") {
             this.printingOnly = true;
           }
           else {
@@ -222,55 +390,32 @@ export class DataForm {
           }
         }
       }
-
     }
   }
 
 
 
-  RUNChanged(e) {
-    var selectedRUN = e.srcElement.value;
-    if (selectedRUN) {
-      this.data.RunWidth = [];
-      if (selectedRUN == "Tanpa RUN") {
-        this.run = false;
-        this.data.RunWidth.length = 0;
-      }
-      if (selectedRUN == "1 RUN") {
+  
 
-        this.run = true;
-        this.data.RunWidth[0] = 0;
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth[0] = 0;
-        }
 
-      }
-      if (selectedRUN == "2 RUN") {
-        this.run = true;
-        this.data.RunWidth.length = 0;
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth.push(0, 0);
-        }
-      }
-      if (selectedRUN == "3 RUN") {
-        this.run = true;
-        this.data.RunWidth.length = 0;
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth.push(0, 0, 0);
-        }
-      }
-      if (selectedRUN == "4 RUN") {
-        this.run = true;
-        this.data.RunWidth.length = 0;
-        if (this.data.RunWidth.length == 0) {
-          this.data.RunWidth.push(0, 0, 0, 0);
-        }
-      }
-
+  POTypeChanged(e) {
+    console.log(e);
+    var selectedPOType = e.srcElement.value;
+    if(selectedPOType=="SALES"){
+         this.nameCheck=true;
+    }
+    else{
+         this.nameCheck=false;        
+         this.data.Buyer = {
+              Id : 567,
+              Code : "DL01",
+              Name : "PT. DAN LIRIS",
+              Type : "Internal",
+         };        
+         console.log(this.data.Buyer);
     }
   }
-
-
+  
   accountChanged(e) {
     var selectedAccount = this.account;
     if (selectedAccount) {
@@ -296,33 +441,6 @@ export class DataForm {
   }
   // NEW CODE
 
-  scFields = ["salesContractNo"];
-  async bind() {
-    this.data = this.data || {};
-    this.data.LampStandards = this.data.LampStandards || [];
-    this.data.Details = this.data.Details || [];
-    this.data.BeforeQuantity = this.data.OrderQuantity;
-    if (this.data.Uom) {
-      this.data.Uom.Unit = this.data.Uom.Unit;
-    }
-    else {
-      this.data.Uom = {};
-      this.data.Uom.Unit = "MTR";
-    }
-    // if (this.data) {
-    //   if (this.data.FinishingPrintingSalesContract && this.data.FinishingPrintingSalesContract.Id) {
-    //     this.selectedSC = await this.service.getSCbyId(encodeURIComponent(this.data.SalesContractNo), this.scFields);
-    //     this.data.FinishingPrintingSalesContract = this.selectedSC;
-    //     if (this.data.FinishingPrintingSalesContract.RemainingQuantity != undefined) {
-    //       // this.data.RemainingQuantity = this.data.SalesContract.RemainingQuantity;
-    //       this.rq = true;
-    //     }
-    //     // this.selectedMaterial = this.data.material;
-    //   }
-
-    // }
-  }
-
   get addLamp() {
     return (event) => {
       var LampStandards = {
@@ -336,7 +454,7 @@ export class DataForm {
   }
 
   get detailHeader() {
-    if (!this.printing && !this.yarndyed) {
+    if (!this.isPrinting && !this.isYarndyed) {
       return [{ header: "Acuan Warna/Desain" }, { header: "Warna Yang Diminta" }, { header: "Jenis Warna" }, { header: "Jumlah" }, { header: "Satuan" }];
     }
     else {
@@ -380,12 +498,24 @@ export class DataForm {
     return DesignMotiveLoader;
   }
 
+  get orderTypeLoader() {
+    return OrderTypeLoader;
+  }
+
   get processTypeLoader() {
     return ProcessTypeLoader;
   }
 
+  get yarnmaterialLoader() {
+    return YarnMaterialLoader;
+  }
+  
   get materialConstructionLoader() {
     return MaterialConstructionLoader;
+  }
+
+  get materialLoader() {
+    return MaterialLoader;
   }
 
   get finishTypeLoader() {
@@ -398,6 +528,10 @@ export class DataForm {
 
   get accountLoader() {
     return AccountLoader;
+  }
+
+  text = (data) => {
+    return `${data.profile.firstname} - ${data.profile.lastname}`
   }
 
 }
