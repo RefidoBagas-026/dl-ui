@@ -23,12 +23,18 @@
         .m-2{
           margin: 0 10px;
         }
+        .c-content{
+          margin-bottom: 20px;
+          padding: 20px 0px;
+          background-color: #ffffff;
+          align-content: center;
+        }
     </style>
 
     <au-input-form  title.bind="title"  title.bind="title" with.bind="context" options.bind="formOptions">
 
-        <div class="alert alert-info" role="alert" if.bind="alertInfo" innerhtml.bind="alertInfo"></div>
-          
+        <div class="alert ${statusActivityAlert}" role="alert" if.bind="statusActivityRemark" innerhtml.bind="statusActivityRemark"></div>
+
         <div class="row">
             <div class="col-sm-6 tab ${activeTab === 0 ? 'active' : ''}" click.delegate="changeRole(0)">
                 DESCRIPTION
@@ -39,106 +45,128 @@
             <div class="col-sm-6 tab ${activeTab === 1 ? 'active' : ''}" click.delegate="changeRole(1)">
                 SHIPPING MARK - SIDE MARK - REMARK
             </div>
-        </div>
+          </div>
+        <!-- <div class="row">
+            <div class="col-sm-4 tab ${activeTab === 0 ? 'active' : ''}" click.delegate="changeRole(0)">
+                DESCRIPTION
+            </div>
+            <div class="col-sm-4 tab ${activeTab === 1 ? 'active' : ''}" click.delegate="changeRole(1)">
+                DETAIL MEASUREMENT
+            </div>
+            <div class="col-sm-4 tab ${activeTab === 2 ? 'active' : ''}" click.delegate="changeRole(2)">
+                SHIPPING MARK - SIDE MARK - REMARK
+            </div>
+        </div> -->
         <br>
 
         <!-- DESC -->
-        <div class="row" show.bind="activeTab==0">
+        <div class="row" if.bind="activeTab==0">
             <div class="row">
                 <div class="col-sm-6">
                     <au-textbox 
                         label="No Invoice" 
                         value.bind="data.invoiceNo" 
                         read-only="true"
-                        options.bind="controlOptions" 
-                        if.bind="readOnly || isEdit">
+                        options.bind="controlOptions" >
                     </au-textbox>
 
-                    <au-textbox
-                        label="Jenis Packing List"
-                        value.bind="data.packingListType"
-                        error.bind="error.PackingListType"
-                        read-only="true"
-                        options.bind="controlOptions">
-                    </au-textbox> 
-
-                    <au-textbox
+                    <au-dropdown
                         label="Jenis Invoice"
                         value.bind="data.invoiceType"
                         error.bind="error.InvoiceType"
                         read-only="true"
+                        items.bind="InvoiceTypeOptions"
                         options.bind="controlOptions">
-                    </au-textbox>
+                    </au-dropdown>
+
+                    <au-dropdown
+                        label="Jenis Packing List"
+                        value.bind="data.packingListType"
+                        error.bind="error.Type"
+                        read-only="true"
+                        items.bind="PackingTypeOptions"
+                        options.bind="controlOptions">
+                    </au-dropdown> 
 
                     <au-datepicker 
                         label="TGL" 
-                        value.bind="data.createdUtc" 
+                        value.bind="data.date" 
                         error.bind="error.Date"
                         read-only="true" 
                         options.bind="controlOptions">
                     </au-datepicker>
-                </div>
-                <div class="col-sm-6">
-                    <au-autocomplete
-                        value.bind="data.buyerAgent"
-                        error.bind="error.BuyerAgent"
-                        label="Buyer Agent"
-                        loader.bind="buyerLoader"
-                        query.bind="buyerQuery"
-                        text.bind = "buyerView"
-                        placeholder="Cari Buyer"
-                        read-only.bind="readOnly || isEdit"
-                        options.bind="controlOptions">
-                    </au-autocomplete>
-
-                    <au-dropdown
-                        label="Destination"
-                        value.bind="data.destination"
-                        error.bind="error.Destination"
-                        read-only.bind="readOnly"
-                        items.bind="countries"
-                        options.bind="controlOptions">
-                    </au-dropdown>
-
-                    <au-autocomplete
-                        value.bind="data.shippingStaff"
-                        error.bind="error.ShippingStaff"
-                        label="Shipping Staff"
-                        loader.bind="shippingStaffLoader"
-                        text.bind = "shippingStaffView"
-                        placeholder="Cari Shipping Staff"
-                        read-only.bind="readOnly"
-                        options.bind="controlOptions">
-                    </au-autocomplete>
 
                     <au-multiline
                         value.bind="data.description"
-                        error.bind="error.description"
-                        label="Keterangan"
-                        read-only.bind="readOnly"
-                        placeholder="Masukkan Keterangan"
+                        label="Keterangan Unit"
+                        read-only="true"
                         options.bind="controlOptions">
                     </au-multiline>
                 </div>
-            </div>
-            <div class="form-group has-error">
-                <p if.bind="error.ItemsCount" class="help-block text-center">${error.ItemsCount}</p>
-            </div>
+                <div class="col-sm-6">
+                    <au-dropdown
+                        label="Shipment Mode"
+                        value.bind="data.shipmentMode"
+                        error.bind="error.ShipmentMode"
+                        read-only.bind="readOnly"
+                        items.bind="ShipmentModeOptions"
+                        options.bind="controlOptions">
+                    </au-dropdown> 
 
-            <div class="row" if.bind="data.items != 0">
+                    <au-datepicker 
+                        label="Tgl Trucking / Ex-fty" 
+                        value.bind="data.truckingEstimationDate" 
+                        error.bind="error.TruckingEstimationDate"
+                        read-only.bind="readOnly"
+                        options.bind="controlOptions">
+                    </au-datepicker>
+
+                    <au-textbox 
+                        label="Negara Asal Fabric" 
+                        value.bind="data.fabricCountryOrigin" 
+                        error.bind="error.FabricCountryOrigin"
+                        read-only.bind="readOnly"
+                        options.bind="controlOptions" >
+                    </au-textbox>
+
+                    <au-textbox 
+                        label="Komposisi Fabric" 
+                        value.bind="data.fabricComposition" 
+                        error.bind="error.FabricComposition"
+                        read-only.bind="readOnly"
+                        options.bind="controlOptions" >
+                    </au-textbox>
+                    
+                    <au-textbox
+                        label="Final Destination"
+                        value.bind="data.finalDestination"
+                        error.bind="error.FinalDestination"
+                        read-only.bind="readOnly"
+                        options.bind="controlOptions">
+                    </au-textbox>
+
+                    <au-multiline
+                        label="Keterangan dari Md"
+                        value.bind="data.remarkMd"
+                        error.bind="error.RemarkMd" 
+                        read-only.bind="readOnly"
+                        options.bind="controlOptions">
+                    </au-multiline>
+                </div>
+                <div class="form-group has-error">
+                    <p if.bind="error.ItemsCount" class="help-block text-center">${error.ItemsCount}</p>
+                </div>
                 <div class="tbl">
                     <au-collection 
-                        items.bind="data.items"
-                        errors.bind="error.Items"
+                        items.bind="data.items" 
+                        errors.bind="error.Items" 
                         columns.bind="itemsColumns"
-                        read-only.bind="readOnly"
-                        show.bind="readOnly || data.status == 'DRAFT_APPROVED_SHIPPING'"
+                        read-only.bind="readOnly" 
                         options.bind="Options"
-                        item-template="modules/garment-production/packing-list-draft-demo/template/detail-ro">
+                        item-template="modules/merchandiser/packing-list-approval/template/detail-ro">
                     </au-collection>    
                 </div>
             </div>
-            <!-- JIKA DATA ITEM ADA MAKA MUNCULKAN QUANTITY -->
             <div class="row" if.bind="data.documentsFile != 0">
               <div class="m-2 col-md-6">
                   <au-textbox
@@ -156,9 +184,9 @@
                 <table class="table table-hover table-bordered">
                   <thead>
                     <th class="col-md-11">File</th>
-                    <th if.bind="!readOnly" class="col-md-1">
+                    <!-- <th if.bind="!readOnly" class="col-md-1">
                       <button click.delegate="onAddDocument()" class="btn btn-success pull-right">+</button>
-                    </th>
+                    </th> -->
                   </thead>
                   <tbody>
                     <tr if.bind="!data.documentsFileName || data.documentsFileName.length < 1">
@@ -167,14 +195,12 @@
                       </td>
                     </tr>
                     <tr if.bind="data.documentsFileName" repeat.for="doc of data.documentsFileName">
-                      <td if.bind="readOnly">
+                      <td>
                         <button class="btn btn-primary justify-content-center"
                           click.delegate="downloadDocument($index)">${doc}</button>
                       </td>
-                      <td if.bind="!readOnly">
-                        <!-- <input if.bind="!documentsPathTemp[$index]" type="file" id="documentInput${$index}"
-                          value.bind="documentUpload" change.delegate="documentInputChanged($index)"
-                          accept=".pdf, .xls, .xlsx, .doc, .docx"> -->
+                      <!-- <td if.bind="!readOnly">
+                        
                           <input if.bind="!documentsPathTemp[$index]" type="file" id="documentInput${$index}"
                           value.bind="documentUpload" change.delegate="documentInputChanged($index, $event)"
                           multiple accept=".xls, .xlsx" style="display: none;">
@@ -185,61 +211,137 @@
                         <button if.bind="documentsPathTemp[$index]" class="btn btn-primary justify-content-center"
                           click.delegate="downloadDocument($index)">${doc}</button>
                         <span class="text-danger" if.bind="error.documentsFile[$index]">${error.documentsFile[$index]}</span>
-                      </td>
-                      <td if.bind="!readOnly">
+                      </td> -->
+                      <!-- <td if.bind="!readOnly">
                         <button class="btn btn-danger pull-right" click.delegate="onRemoveDocument($index)">-</button>
-                      </td>
+                      </td> -->
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
-            
+              <div class="m-2 c-content row" if.bind="data.documentsFile == 0">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <numeric
+                            label="GROSS WEIGHT"
+                            value.bind="data.grossWeight"
+                            error.bind="error.GrossWeight"
+                            read-only="true" 
+                            options.bind="controlOptions">
+                        </numeric>
+                    </div>
+                    <div class="col-sm-3">
+                        <numeric
+                            label="NETT WEIGHT"
+                            value.bind="data.nettWeight"
+                            error.bind="error.NettWeight"
+                            read-only="true" 
+                            options.bind="controlOptions">
+                        </numeric>
+                    </div>
+                    <div class="col-sm-3">
+                      <numeric
+                          label="NET NET WEIGHT"
+                          value.bind="data.netNetWeight"
+                          error.bind="error.NetNetWeight"
+                          read-only="true" 
+                          options.bind="controlOptions">
+                      </numeric>
+                  </div>
+                    <div class="col-sm-3">
+                        <numeric
+                            label="TOTAL CARTONS"
+                            value.bind="data.totalCartons"
+                            error.bind="error.totalCartons"
+                            read-only="true" 
+                            options.bind="controlOptions">
+                        </numeric>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <au-textbox
+                            label="TOTAL QUANTITY"
+                            value.bind="totalQuantities"
+                            error.bind="error.totalQuantities"
+                            read-only="true" 
+                            options.bind="controlOptions">
+                        </au-textbox>
+                    </div>
+                </div>
+                <div class="row">
+                    <au-textbox
+                        label="SAY"
+                        value.bind="say"
+                        read-only.bind="true" >
+                    </au-textbox>
+                    <au-textbox
+                        value.bind="data.sayUnit"
+                        error.bind="error.SayUnit"
+                        read-only="true" 
+                        options.bind="controlOptions">
+                    </au-textbox>
+                </div>
+                <div>
+                    <p class="help-block text-left tbl">MEASUREMENT</p>
+                </div>
+                <div class="form-group has-error">
+                    <p if.bind="error.MeasurementsCount" class="help-block text-center">${error.MeasurementsCount}</p>
+                </div>
+                <div class="tbl">
+                    <au-collection 
+                        items.bind="data.measurements" 
+                        errors.bind="error.Measurements" 
+                        columns.bind="measureColumns"
+                        read-only="true" 
+                        options.bind="Options"
+                        item-template="modules/garment-production/packing-list-items/template/detail-measurement">
+                    </au-collection>
+                </div>
+                
+                <p class="tbl" if.bind="data.measurements"><b>TOTAL CBM : ${totalCBM} </b></p>
+            </div>
         </div>
-        
 
         <!-- DETAIL MEASURE -->
-        <!-- <div class="row" show.bind="activeTab==1">
+        <!-- <div class="row" if.bind="activeTab==1">
             <div class="row">
                 <div class="col-sm-3">
-                    <au-numeric
+                    <numeric
                         label="GROSS WEIGHT"
                         value.bind="data.grossWeight"
                         error.bind="error.GrossWeight"
-                        read-only.bind="readOnly" 
-                        format="0.00"
+                        read-only="true" 
                         options.bind="controlOptions">
-                    </au-numeric>
+                    </numeric>
                 </div>
                 <div class="col-sm-3">
-                    <au-numeric
+                    <numeric
                         label="NETT WEIGHT"
                         value.bind="data.nettWeight"
                         error.bind="error.NettWeight"
-                        read-only.bind="readOnly" 
-                        format="0.00"
+                        read-only="true" 
                         options.bind="controlOptions">
-                    </au-numeric>
+                    </numeric>
                 </div>
                 <div class="col-sm-3">
-                  <au-numeric
+                  <numeric
                       label="NET NET WEIGHT"
                       value.bind="data.netNetWeight"
                       error.bind="error.NetNetWeight"
-                      read-only.bind="readOnly" 
-                      format="0.00"
+                      read-only="true" 
                       options.bind="controlOptions">
-                  </au-numeric>
-              </div>
+                  </numeric>
+                </div>
                 <div class="col-sm-3">
-                    <au-numeric
+                    <numeric
                         label="TOTAL CARTONS"
                         value.bind="totalCartons"
                         error.bind="error.totalCartons"
-                        read-only.bind="readOnly" 
-                        format="0"
+                        read-only="true" 
                         options.bind="controlOptions">
-                    </au-numeric>
+                    </numeric>
                 </div>
             </div>
             <div class="row">
@@ -248,9 +350,9 @@
                         label="TOTAL QUANTITY"
                         value.bind="totalQuantities"
                         error.bind="error.totalQuantities"
-                        read-only.bind="readOnly" 
+                        read-only="true" 
                         options.bind="controlOptions">
-                    </au-textbox>
+                </au-textbox>
                 </div>
             </div>
             <div class="row">
@@ -262,22 +364,24 @@
                 <au-textbox
                     value.bind="data.sayUnit"
                     error.bind="error.SayUnit"
-                    read-only.bind="readOnly" 
+                    read-only="true" 
                     options.bind="controlOptions">
                 </au-textbox>
             </div>
             <div>
-                <p class="help-block text-left tbl" show.bind="readOnly">MEASUREMENT</p>
+                <p class="help-block text-left tbl">MEASUREMENT</p>
+            </div>
+            <div class="form-group has-error">
+                <p if.bind="error.MeasurementsCount" class="help-block text-center">${error.MeasurementsCount}</p>
             </div>
             <div class="tbl">
                 <au-collection 
-                    items.one-way="data.measurements"
-                    errors.bind="error.Measurements"
+                    items.one-way="data.measurements" 
+                    errors.bind="error.Measurements" 
                     columns.bind="measureColumns"
-                    read-only="true"
-                    show.bind="readOnly || data.status == 'DRAFT_APPROVED_SHIPPING'"
+                    read-only="true" 
                     options.bind="Options"
-                    item-template="modules/garment-production/packing-list-items/template/detail-measurement">
+                    item-template="modules/garment-production/packing-list/template/detail-measurement">
                 </au-collection>
             </div>
             
@@ -285,19 +389,17 @@
         </div> -->
 
         <!-- MARK -->
-        <div class="row" show.bind="activeTab==1">
+        <div class="row" if.bind="activeTab==1">
             <div class="row">
                 <label class="col-sm-3 text-right">SHIPPING MARK</label>
                 <div class="col-sm-7">
-                    <input show.bind="!readOnly" class="form-control" type="file" id="shippingMarkImageInput" value.bind="shippingMarkImageUpload" accept="image/*">
                     <div class="thumbnail">
                         <img src.bind="shippingMarkImageSrc">
-                        <button show.bind="!readOnly && data.shippingMarkImageFile" type="button" class="btn btn-block btn-danger" click.delegate="removeImage('shippingMark')">Hapus Gambar</button>
                         <au-multiline
                             placeholder="Tambah Keterangan"
                             value.bind="data.shippingMark"
                             error.bind="error.ShippingMark" 
-                            read-only.bind="readOnly">
+                            read-only="true">
                         </au-multiline>
                     </div>
                 </div>
@@ -306,15 +408,13 @@
             <div class="row">
                 <label class="col-sm-3 text-right">SIDE MARK</label>
                 <div class="col-sm-7">
-                    <input show.bind="!readOnly" class="form-control" type="file" id="sideMarkImageInput" value.bind="sideMarkImageUpload" accept="image/*">
                     <div class="thumbnail">
                         <img src.bind="sideMarkImageSrc">
-                        <button show.bind="!readOnly && data.sideMarkImageFile" type="button" class="btn btn-block btn-danger" click.delegate="removeImage('sideMark')">Hapus Gambar</button>
                         <au-multiline
                             placeholder="Tambah Keterangan"
                             value.bind="data.sideMark"
                             error.bind="error.SideMark"
-                            read-only.bind="readOnly">
+                            read-only="true">
                         </au-multiline>
                     </div>
                 </div>
@@ -323,15 +423,13 @@
             <div class="row">
                 <label class="col-sm-3 text-right">REMARK</label>
                 <div class="col-sm-7">
-                    <input show.bind="!readOnly" class="form-control" type="file" id="remarkImageInput" value.bind="remarkImageUpload" accept="image/*">
                     <div class="thumbnail">
                         <img src.bind="remarkImageSrc">
-                        <button show.bind="!readOnly && data.remarkImageFile" type="button" class="btn btn-block btn-danger" click.delegate="removeImage('remark')">Hapus Gambar</button>
                         <au-multiline
                             placeholder="Tambah Keterangan"
                             value.bind="data.remark"
                             error.bind="error.Remark" 
-                            read-only.bind="readOnly">
+                            read-only="true">
                         </au-multiline>
                     </div>
                 </div>

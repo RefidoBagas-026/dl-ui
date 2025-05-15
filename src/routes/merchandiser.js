@@ -989,4 +989,52 @@ module.exports = [
             iconClass: 'fa fa-calculator',
         }
     },
+
+    // ENHANCE DEMO PACKING LIST
+    {
+        route: '/merchandiser/packing-list-draft-approval-demo',
+        name: 'packing-list-draft-approval-demo',
+        moduleId: './modules/merchandiser/packing-list-draft-approval-demo/index',
+        nav: true,
+        title: 'Approval Draft Packing List - Marketing Demo',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval shipping",
+            // permission: { "PGA": 1, "C9": 1 },
+            permission: { "L64": 1 },
+            iconClass: 'fa fa-calculator'
+        }
+    },
+    {
+        route: '/merchandiser/packing-list-approval-demo',
+        name: 'packing-list-approval-demo',
+        moduleId: './modules/merchandiser/packing-list-approval-demo/index',
+        nav: true,
+        title: 'Approval Packing List - Marketing Demo',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval shipping",
+            // permission: { "PGA": 1, "C9": 1 },
+            permission: { "L65": 1 },
+            iconClass: 'fa fa-calculator'
+        }
+    },
+    {
+        route: '/merchandiser/packing-list-demo',
+        name: 'packing-list-demo',
+        moduleId: './modules/merchandiser/packing-list-demo/index',
+        nav: true,
+        title: 'Approved Packing List - Marketing Demo',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval shipping",
+            // permission: { "PGA": 1, "SG": 1, "C9": 1 },
+            permission: { "L66": 1 },
+            iconClass: 'fa fa-calculator'
+        }
+    },
+    //END
 ];

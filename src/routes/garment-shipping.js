@@ -1487,4 +1487,71 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
+
+
+  // ENHANCE DEMO PACKING LIST 
+  {
+    route: "garment-shipping/packing-list-draft-approval-demo",
+    name: "garment-shipping/packing-list-draft-approval-demo",
+    moduleId: "modules/garment-shipping/packing-list-draft-approval-demo/index",
+    nav: true,
+    title: "Approval Draft Packing List Demo",
+    auth: true,
+    settings: {
+      group: "g-shipping",
+      subGroup: "approval",
+      // permission: { "C9": 1, "SG": 1 },
+      permission: { P93: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+
+  {
+    route: "garment-shipping/packing-list-approval-demo",
+    name: "garment-shipping/packing-list-approval-demo",
+    moduleId: "modules/garment-shipping/packing-list-approval-demo/index",
+    nav: true,
+    title: "Approval Packing List Demo",
+    auth: true,
+    settings: {
+      group: "g-shipping",
+      subGroup: "approval",
+      // permission: { "C9": 1, "SG": 1 },
+      permission: { P94: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+
+  {
+    route: "garment-shipping/packing-list-approved-demo",
+    name: "garment-shipping/packing-list-approved-demo",
+    moduleId: "modules/garment-shipping/packing-list-approved-demo/index",
+    nav: true,
+    title: "Approved Packing List Demo",
+    auth: true,
+    settings: {
+      group: "g-shipping",
+      subGroup: "approval",
+      // permission: { "C9": 1, "SG": 1 },
+      permission: { P95: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+
+  {
+    route: "garment-shipping/packing-list-approved-all-user-demo",
+    name: "garment-shipping/packing-list-approved-all-user-demo",
+    moduleId: "modules/garment-shipping/packing-list-approved-all-user-demo/index",
+    nav: true,
+    title: "Approved Packing List ( All User ) Demo",
+    auth: true,
+    settings: {
+      group: "g-shipping",
+      subGroup: "approval",
+      // permission: { "C9": 1, "SG": 1 },
+      permission: { P96: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  // END
 ];
