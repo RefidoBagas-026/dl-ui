@@ -1,0 +1,28 @@
+<!-- Compare Doc Page for Verification NI and PO -->
+<template>
+  <require from="../css/compare-doc.css"></require>
+  <div class="compare-doc-bar">
+    <ul class="compare-doc-list row gx-3">
+      <li class="search-col col-md-6 col-12 d-flex align-items-center justify-content-start p-0 m-0">
+        <div class="w-100 d-flex justify-content-md-start">
+          <div class="search-group d-flex align-items-center" style="max-width:320px;">
+            <input type="text" class="form-control form-control-sm h-100" placeholder="Cari dokumen..." disabled style="height:38px;">
+            <button class="btn btn-outline-secondary btn-sm h-100 d-flex align-items-center" type="button" disabled style="height:38px; margin-left:8px;"><i class="fa fa-search"></i> Cari</button>
+          </div>
+        </div>
+      </li>
+      <li class="upload-col col-md-6 col-12 d-flex align-items-center justify-content-end p-0 m-0">
+        <div class="w-100 d-flex flex-column align-items-end justify-content-md-end upload-group-vertical">
+          <div class="upload-group d-flex align-items-center gap-2 justify-content-center" style="max-width:320px;">
+            <input type="file" class="form-control form-control-sm h-100" id="pdfUpload" accept="application/pdf" style="height:38px;" change.delegate="onPdfSelected($event)">
+            <button class="btn btn-primary btn-sm h-100 d-flex align-items-center" type="button" disabled style="height:38px;">Upload PDF</button>
+          </div>
+          <div if.bind="pdfUrl" class="pdf-preview-wrapper mt-2 w-100">
+            <iframe show.bind="pdfUrl" src.bind="pdfUrl" class="pdf-preview-frame" frameborder="0"></iframe>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!-- Konten perbandingan dokumen di sini -->
+</template>

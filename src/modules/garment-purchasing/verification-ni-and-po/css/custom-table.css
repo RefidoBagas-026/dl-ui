@@ -1,0 +1,92 @@
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  background: #fff;
+  color: #212529;
+}
+.custom-table th, .custom-table td {
+  border: 1px solid #dee2e6;
+  padding: 10px 16px;
+  text-align: left;
+}
+.custom-table th {
+  background: #0D2F56;
+  color: #fff;
+  font-weight: bold;
+}
+.custom-table-toolbar {
+  margin-bottom: 12px;
+}
+.fitur-searchbar {
+  padding: 7px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 250px;
+  background: #fff;
+  color: #212529;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.fitur-searchbar::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+.fitur-searchbar:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 2px rgba(13,110,253,0.08);
+}
+.table-controls-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.table-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.table-info-bar {
+  color: #0D2F56;
+  font-weight: 500;
+  font-size: 0.97rem;
+  margin-bottom: 8px;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.table-info-bar select {
+  font-size: 0.97rem;
+  padding: 2px 4px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  min-width: 36px;
+  width: auto;
+  height: 26px;
+  margin: 0 4px;
+  text-align: center;
+  background-position: right 4px center;
+}
+.table-info-bar label {
+  font-size: 0.97rem;
+  margin: 0;
+  font-weight: 500;
+  color: #0D2F56;
+}
+.table-info-bar select:focus {
+  outline: 1.5px solid #0d6efd;
+}
+.table-info-bar select {
+  /* Show dropdown above if possible */
+  position: relative;
+  z-index: 2;
+}
+/* Custom popup direction for select is limited in pure CSS, but this will help visually */
+.table-info-bar {
+  position: relative;
+}
