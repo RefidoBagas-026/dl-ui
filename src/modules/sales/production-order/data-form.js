@@ -368,7 +368,7 @@ export class DataForm {
   OrderTypeChanged(newValue) {
     if (newValue) {
       this.data.OrderType = newValue;
-      var Unit = newValue.Name == "YARN DYED" ? "DYEING" : newValue.Unit;;
+      var Unit = newValue.Name == "YARN DYED" ? "DYEING" : newValue.Name;
 
       if (Unit) {
         this.filterOrder = {
@@ -406,7 +406,7 @@ export class DataForm {
       }
     }
     else {
-      var Unit = newValue.Name == "YARN DYED" ? "DYEING" : newValue.Unit;;
+      var Unit = this.data.OrderType.Name == "YARN DYED" ? "DYEING" : newValue.Name;
 
       //remove process type if data is create mode
       if (!this.data.Id) {
