@@ -292,7 +292,7 @@ export class DataForm {
 
       if (newVal.SalesContractNo != null && !newVal.SalesContractNo.includes("SO")) {
         this.data.ProductTextile = this.data.FinishingPrintingSalesContract.ProductTextile;
-        this.data.OrderType = this.data.FinishingPrintingSalesContract.OrderType;
+        this.OrderType = this.data.FinishingPrintingSalesContract.OrderType;
         this.data.Material = this.data.FinishingPrintingSalesContract.Material;
         this.Material = this.data.Material;
         this.material = "";
@@ -368,7 +368,7 @@ export class DataForm {
   OrderTypeChanged(newValue) {
     if (newValue) {
       this.data.OrderType = newValue;
-      var Unit = newValue.Unit;
+      var Unit = newValue.Name == "YARN DYED" ? "DYEING" : newValue.Unit;;
 
       if (Unit) {
         this.filterOrder = {
@@ -406,7 +406,7 @@ export class DataForm {
       }
     }
     else {
-      var Unit = this.data.OrderType.Unit
+      var Unit = newValue.Name == "YARN DYED" ? "DYEING" : newValue.Unit;;
 
       //remove process type if data is create mode
       if (!this.data.Id) {
