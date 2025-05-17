@@ -17,22 +17,53 @@
             </div>
           </div>
           <div if.bind="pdfPreviewUrl" class="pdf-preview-wrapper mt-2 w-100">
-            <iframe show.bind="pdfPreviewUrl" src.bind="pdfPreviewUrl" class="pdf-preview-frame-cari" frameborder="0"></iframe>
+            <div class="search-iframe-wrapper">
+              <iframe show.bind="pdfPreviewUrl" src.bind="pdfPreviewUrl" class="pdf-preview-frame-cari" frameborder="0"></iframe>
+            </div>
           </div>
         </div>
       </li>
       <li class="upload-col col-md-6 col-12 d-flex align-items-center justify-content-end p-0 m-0">
         <div class="w-100 d-flex flex-column align-items-end justify-content-md-end upload-group-vertical">
-          <div class="upload-group d-flex align-items-center gap-2 justify-content-center" style="max-width:320px;">
-            <input type="file" class="form-control form-control-sm h-100" id="pdfUpload" accept="application/pdf" style="height:38px;" change.delegate="onPdfSelected($event)">
-            <button class="btn btn-primary btn-sm h-100 d-flex align-items-center" type="button" disabled style="height:38px;">Upload PDF</button>
-          </div>
-          <div if.bind="pdfUrl" class="pdf-preview-wrapper mt-2 w-100">
-            <iframe show.bind="pdfUrl" src.bind="pdfUrl" class="pdf-preview-frame-upload" frameborder="0"></iframe>
+          <div class="tbl">
+            <div class="upload-table-wrapper">
+              <h4>Upload File</h4>
+              <table class="table table-hover table-bordered compare-upload-table">
+                <thead>
+                  <tr>
+                    <th class="col-md-10">File</th>
+                    <th class="col-md-2 text-center">
+                      <button class="btn btn-success btn-sm" type="button" click.delegate="onAddUploadFile()">+</button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr if.bind="!uploadFileNames || uploadFileNames.length < 1">
+                    <td colspan="2" class="text-center">No file</td>
+                  </tr>
+                  <tr repeat.for="fileName of uploadFileNames">
+                    <td if.bind="readOnly">
+                      <button class="btn btn-primary justify-content-center" click.delegate="downloadUploadFile($index)">${fileName}</button>
+                    </td>
+                    <td if.bind="!readOnly">
+                      <input type="file" id="uploadInput${$index}" class="d-none" accept="application/pdf" change.delegate="onUploadFileChanged($index, $event)">
+                      <span class="text-danger" if.bind="uploadErrors && uploadErrors[$index]">${uploadErrors[$index]}</span>
+                      <button if.bind="uploadFiles[$index]" class="btn btn-primary justify-content-center ms-2" click.delegate="downloadUploadFile($index)">${fileName}</button>
+                    </td>
+                    <td if.bind="!readOnly" class="text-center">
+                      <button class="btn btn-danger pull-right" type="button" click.delegate="onRemoveUploadFile($index)">-</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </li>
     </ul>
+  </div>
+  <div class="compare-doc-footer d-flex justify-content-center align-items-center mt-4">
+    <button class="btn btn-success" type="button" click.delegate="cekNiPo()">Cek NI Dan PO</button>
   </div>
   <!-- Konten perbandingan dokumen di sini -->
 </template>

@@ -56,12 +56,14 @@ export class Service extends RestService {
     // Mendapatkan PDF sebagai blob URL untuk preview di iframe
     async getPdfBlobById(id) {
         var endpoint = `${serviceUri}/pdf/${id}`;
-        // Gunakan endpoint FE agar token/session otomatis
+        // Ambil token dari localStorage/sessionStorage FE Anda
+        const token = localStorage.getItem('token'); // ganti sesuai lokasi token FE Anda
         const response = await this.endpoint.client.fetch(endpoint, {
             method: 'GET',
             headers: new Headers({
                 "Accept": "application/pdf",
-                "x-timezone-offset": this.endpoint.defaults.headers["x-timezone-offset"]
+                "x-timezone-offset": this.endpoint.defaults.headers["x-timezone-offset"],
+                "Authorization": `Bearer ${token}` // pastikan token valid
             }),
             credentials: 'include'
         });
