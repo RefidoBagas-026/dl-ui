@@ -11,6 +11,9 @@ export class CompareDoc {
   selectedNI = null;
   selectedData = null;
   loading = false;
+  uploadFiles = [];
+  uploadFileNames = [];
+  uploadErrors = [];
 
   constructor(service) {
     this.service = service;
@@ -67,22 +70,61 @@ export class CompareDoc {
 
   // Fungsi untuk cetak PDF saat tombol Cari diklik
   async printPdf() {
-    console.log('printPdf dipanggil', this.selectedData);
-    if (this.selectedData && this.selectedData.Id) {
-      this.loading = true;
-      try {
-        // Download PDF langsung seperti cetak PDF di modul lain
-        await this.service.getPdfById(this.selectedData.Id);
-        // Tidak perlu blob, langsung trigger download dari response backend
-        this.pdfPreviewUrl = null;
-      } catch (err) {
-        console.error('Gagal fetch PDF:', err.response && err.response.status, err.message);
-        alert('Gagal mengambil PDF. Pastikan Anda sudah login dan punya akses.');
-      } finally {
-        this.loading = false;
-      }
-    } else {
-      console.warn('printPdf: selectedData atau Id tidak ada', this.selectedData);
+    // Nonaktifkan fetch PDF, hanya tampilkan iframe kosong
+    // this.pdfPreviewUrl = null; // jika ingin kosongkan iframe
+    this.pdfPreviewUrl = 'about:blank'; // tampilkan iframe kosong
+    // Jika ingin menampilkan pesan khusus di iframe, bisa gunakan data URL
+    // this.pdfPreviewUrl = 'data:text/html,<h2 style="text-align:center;margin-top:40px;">PDF Preview Disabled</h2>';
+  }
+
+  // Fungsi untuk notifikasi sukses cek NI dan PO
+  cekNiPo() {
+    // Tampilkan notifikasi atau event sukses
+    if (window && window.alert) {
+      window.alert('Check Success!');
     }
+    // Atau trigger event custom jika dibutuhkan
+    // let event = new CustomEvent('cek-ni-po-success', { detail: { message: 'Check Success!' } });
+    // window.dispatchEvent(event);
+  }
+
+  onAddUploadFile() {
+    this.uploadFiles.push(null);
+    this.uploadFileNames.push("");
+    this.uploadErrors.push("");
+  }
+
+  onRemoveUploadFile(index) {
+    this.uploadFiles.splice(index, 1);
+    this.uploadFileNames.splice(index, 1);
+    this.uploadErrors.splice(index, 1);
+  }
+
+  triggerUploadInput(index) {
+    const input = document.getElementById('uploadInput' + index);
+    if (input) {
+      input.click();
+    }
+  }
+
+  onUploadFileChanged(index, event) {
+    const file = event.target.files[0];
+    if (!file) {
+      this.uploadFiles[index] = null;
+      this.uploadFileNames[index] = "";
+      this.uploadErrors[index] = "File is required.";
+      return;
+    }
+    if (file.type !== 'application/pdf') {
+      this.uploadFiles[index] = null;
+      this.uploadFileNames[index] = "";
+      this.uploadErrors[index] = "Only PDF files are allowed.";
+      event.target.value = '';
+      return;
+    }
+    // File valid
+    this.uploadFiles[index] = file;
+    this.uploadFileNames[index] = file.name;
+    this.uploadErrors[index] = "";
   }
 }
