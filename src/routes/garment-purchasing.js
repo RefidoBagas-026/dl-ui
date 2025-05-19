@@ -385,25 +385,7 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
-  //====>dokumen intelegent AI <====//
 {
-    route: "/garment/verification-ni-and-po",
-    name: "verification-ni-and-po",
-    moduleId: "./modules/garment-purchasing/verification-ni-and-po/index",
-    nav: true,
-    title: "Verification NI and PO",
-    auth: true,
-    settings: {
-      group: "g-purchasing",
-      subGroup: "transaksi",
-      // permission: { "C9": 1, "PG": 7 },
-      permission: { H11: 1 },
-      iconClass: "fa fa-dashboard",
-    },
-  },
-
-
-  {
     route: "/garment/monitoring-intern-note",
     name: "monitoring-intern-note",
     moduleId: "./modules/garment-purchasing/monitoring-intern-note-new/index",

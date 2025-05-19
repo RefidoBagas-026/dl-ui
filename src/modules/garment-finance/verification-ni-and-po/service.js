@@ -8,67 +8,85 @@ const serviceUri = 'garment-intern-notes';
 const invoiceNoteUri = 'garment-invoices/no-intern-note';
 
 export class Service extends RestService {
-
     constructor(http, aggregator, config, endpoint) {
         super(http, aggregator, config, "purchasing-azure");
     }
 
     search(info) {
-        var endpoint = `${serviceUri}`;
+        const endpoint = `${serviceUri}`;
         return super.list(endpoint, info);
     }
 
     getById(id) {
-        var endpoint = `${serviceUri}/${id}`;
+        const endpoint = `${serviceUri}/${id}`;
         return super.get(endpoint);
     }
 
     create(data) {
-        var endpoint = `${serviceUri}`;
+        const endpoint = `${serviceUri}`;
         return super.post(endpoint, data);
     }
 
     update(data) {
-        var endpoint = `${serviceUri}/${data.Id}`;
+        const endpoint = `${serviceUri}/${data.Id}`;
         return super.put(endpoint, data);
     }
 
     delete(data) {
-        var endpoint = `${serviceUri}/${data.Id}`;
+        const endpoint = `${serviceUri}/${data.Id}`;
         return super.delete(endpoint, data);
     }
 
     getPdfById(id) {
-        var endpoint = `${serviceUri}/pdf/${id}`;
+        const endpoint = `${serviceUri}/pdf/${id}`;
         return super.getPdf(endpoint);
     }
 
     getInvoiceNote(filter) {
-        var endpoint = `${invoiceNoteUri}`;
+        const endpoint = `${invoiceNoteUri}`;
         return super.list(endpoint, { filter: JSON.stringify(filter) });
     }
 
-    getGarmentInvoiceById(id){
-        var endpoint = `garment-invoices/${id}`;
+    getGarmentInvoiceById(id) {
+        const endpoint = `garment-invoices/${id}`;
         return super.get(endpoint);
     }
 
     // Mendapatkan PDF sebagai blob URL untuk preview di iframe
     async getPdfBlobById(id) {
-        var endpoint = `${serviceUri}/pdf/${id}`;
-        // Ambil token dari localStorage/sessionStorage FE Anda
+        const endpoint = `${serviceUri}/pdf/${id}`;
         const token = localStorage.getItem('token'); // ganti sesuai lokasi token FE Anda
         const response = await this.endpoint.client.fetch(endpoint, {
             method: 'GET',
             headers: new Headers({
                 "Accept": "application/pdf",
                 "x-timezone-offset": this.endpoint.defaults.headers["x-timezone-offset"],
-                "Authorization": `Bearer ${token}` // pastikan token valid
+                "Authorization": `Bearer ${token}`
             }),
-            credentials: 'include'
         });
         if (!response.ok) throw new Error('Gagal fetch PDF: ' + response.status);
         const blob = await response.blob();
         return URL.createObjectURL(blob);
+    }
+
+    // Melakukan POST ke endpoint compare-internal-note-purchase-order-external dengan FormData (files) dan query garmentInternNoteId
+    async compareInternalNoteWithPO(files, garmentInternNoteId) {
+        const endpoint = `${serviceUri}/compare-internal-note-purchase-order-external?garmentInternNoteId=${garmentInternNoteId}`;
+        const formData = new FormData();
+        if (files && files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
+        }
+        const token = localStorage.getItem('token');
+        const response = await this.endpoint.client.fetch(endpoint, {
+            method: 'POST',
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`
+            }),
+            body: formData,
+        });
+        if (!response.ok) throw new Error('Gagal membandingkan NI dan PO: ' + response.status);
+        return response.json();
     }
 }

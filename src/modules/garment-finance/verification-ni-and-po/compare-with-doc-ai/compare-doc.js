@@ -1,7 +1,8 @@
 import { inject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
 import { Service } from '../service';
 
-@inject(Service)
+@inject(Service, Router)
 export class CompareDoc {
   pdfUrl = null;
   pdfPreviewUrl = null;
@@ -15,8 +16,9 @@ export class CompareDoc {
   uploadFileNames = [];
   uploadErrors = [];
 
-  constructor(service) {
+  constructor(service, router) {
     this.service = service;
+    this.router = router;
   }
 
   async onSearchInput(event) {
@@ -70,22 +72,67 @@ export class CompareDoc {
 
   // Fungsi untuk cetak PDF saat tombol Cari diklik
   async printPdf() {
-    // Nonaktifkan fetch PDF, hanya tampilkan iframe kosong
-    // this.pdfPreviewUrl = null; // jika ingin kosongkan iframe
-    this.pdfPreviewUrl = 'about:blank'; // tampilkan iframe kosong
-    // Jika ingin menampilkan pesan khusus di iframe, bisa gunakan data URL
-    // this.pdfPreviewUrl = 'data:text/html,<h2 style="text-align:center;margin-top:40px;">PDF Preview Disabled</h2>';
+    if (!this.selectedData || !this.selectedData.Id) {
+      window.alert('Pilih dokumen terlebih dahulu!');
+      return;
+    }
+    this.loading = true;
+    try {
+      const pdfUrl = await this.service.getPdfBlobById(this.selectedData.Id);
+      this.pdfPreviewUrl = pdfUrl;
+    } catch (e) {
+      window.alert('Gagal menampilkan PDF: ' + (e.message || e));
+      this.pdfPreviewUrl = null;
+    } finally {
+      this.loading = false;
+    }
   }
 
   // Fungsi untuk notifikasi sukses cek NI dan PO
-  cekNiPo() {
-    // Tampilkan notifikasi atau event sukses
-    if (window && window.alert) {
-      window.alert('Check Success!');
+  async cekNiPo() {
+    let errorMsg = [];
+    if (!this.selectedData || !this.selectedData.Id) {
+      errorMsg.push('Pilih dokumen pada pencarian dokumen!');
     }
-    // Atau trigger event custom jika dibutuhkan
-    // let event = new CustomEvent('cek-ni-po-success', { detail: { message: 'Check Success!' } });
-    // window.dispatchEvent(event);
+    const files = this.uploadFiles.filter(f => f);
+    if (files.length === 0) {
+      errorMsg.push('Upload minimal 1 file PDF!');
+    }
+    if (errorMsg.length > 0) {
+      window.alert(errorMsg.join('\n'));
+      return;
+    }
+    this.loading = true;
+    try {
+      const response = await this.service.endpoint.client.fetch(
+        `garment-intern-notes/compare-internal-note-purchase-order-external?garmentInternNoteId=${this.selectedData.Id}`,
+        {
+          method: 'POST',
+          headers: new Headers({
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }),
+          body: (() => {
+            const formData = new FormData();
+            files.forEach(f => formData.append('files', f));
+            return formData;
+          })()
+        }
+      );
+      if (response.status === 201) {
+        window.alert('Sorry, some data are not synchronized.');
+        this.router.navigateToRoute('view');
+      } else if (response.status === 200) {
+        window.alert('Comparison success, but the result is already up to date.');
+        // Tetap di halaman compare-doc
+      } else {
+        const result = await response.json().catch(() => ({}));
+        throw new Error(result.message || 'Unknown error');
+      }
+    } catch (e) {
+      window.alert('Failed to compare NI and PO: ' + (e.message || e));
+    } finally {
+      this.loading = false;
+    }
   }
 
   onAddUploadFile() {
