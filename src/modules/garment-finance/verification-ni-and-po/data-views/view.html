@@ -1,5 +1,4 @@
 <template>
-  <require from="../css/fitur.css"></require>
   <require from="../css/custom-table.css"></require>
   <h1 class="page-header">Verifikasi NI Dan PO</h1>
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
@@ -8,34 +7,79 @@
       <input type="text" value.bind="search" input.delegate="searchChanged()" placeholder="Pencarian No. Nota Intern" class="fitur-searchbar" style="max-width:320px;" />
     </div>
   </div>
-  <div class="table-info-bar" if.bind="selectedData">
-    Rincian Invoice untuk Nota Intern <b>${selectedData.inNo}</b>
-  </div>
-  <table class="custom-table" style="margin-bottom:24px;">
-    <thead>
-      <tr>
-        <th>No. Nota Intern</th>
-        <th>ID Invoice</th>
-        <th>No Invoice</th>
-        <th>Nama Supplier</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr repeat.for="inv of selectedData && selectedData.items ? selectedData.items : []" click.delegate="showDetail(inv)">
-        <td>${selectedData.inNo || '-'}</td>
-        <td>${inv.garmentInvoice && inv.garmentInvoice.Id || '-'}</td>
-        <td>${inv.garmentInvoice && inv.garmentInvoice.invoiceNo || '-'}</td>
-        <td>${selectedData.supplier && selectedData.supplier.Name || '-'}</td>
-      </tr>
-      <tr if.bind="!loading && (!selectedData || !selectedData.items || selectedData.items.length === 0)">
-        <td colspan="4" style="text-align:center;color:#888;">Belum Ada Data Invoice</td>
-      </tr>
-    </tbody>
-  </table>
   <div if.bind="!loading && !selectedData && search && search.length >= 3" style="text-align:center;color:#888;margin-top:16px;">
     Belum Ada Data Yang Ditemukan
   </div>
   <div if.bind="loading" style="display:flex;justify-content:center;margin-top:16px;">
     <i class="fa fa-spinner fa-spin" style="font-size:2rem;color:#0D2F56;"></i>
+  </div>
+  <div class="table-container">
+    <table class="table table-bordered table-sm custom-table" if.bind="revisionData.length > 0">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>No NI</th>
+          <th>No Invoice</th>
+          <th>Nama Supplier</th>
+          <th style="width:40px;text-align:center;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <template repeat.for="row of revisionData">
+          <tr>
+            <td>${row.no}</td>
+            <td>${row.inNo}</td>
+            <td>${row.invoiceNo}</td>
+            <td>${row.supplierName}</td>
+            <td style="text-align:center;">
+              <button class="btn btn-info pull-right" click.delegate="toggleChild(row)">i</button>
+            </td>
+          </tr>
+          <tr if.bind="row._showChild">
+            <td colspan="5" style="padding:0; border-top:none; background:#f9f9f9;">
+              <div style="padding:0 16px 12px 16px;">
+                <table class="table table-bordered table-sm" style="margin-bottom:0; background:#fff;">
+                  <thead>
+                    <tr>
+                      <th>Nomor PO EKS</th>
+                      <th>Nomor Refpr</th>
+                      <th>Nama Barang</th>
+                      <th>Jumlah</th>
+                      <th>Satuan</th>
+                      <th>Harga Satuan</th>
+                      <th>Harga Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr if.bind="!row.items.length">
+                      <td colspan="7" style="text-align:center; color:#888;">Tidak ada data detail</td>
+                    </tr>
+                    <tr repeat.for="item of row.items">
+                      <td>${item.ePONo}</td>
+                      <td>${item.poSerialNumber}</td>
+                      <td>${item.productName}</td>
+                      <td>${item.quantity}</td>
+                      <td>${item.uomUnit}</td>
+                      <td>${item.pricePerDealUnit}</td>
+                      <td>${item.priceTotal}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+    <div class="pagination-info-container" if.bind="showRevisionTable">
+      <span>${paginationText}</span>
+      <select id="pageSize" value.bind="pageSize" change.delegate="updatePageSize()">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <span>baris per halaman</span>
+    </div>
   </div>
 </template>

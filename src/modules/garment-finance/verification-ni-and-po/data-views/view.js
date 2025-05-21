@@ -8,7 +8,26 @@ export class View {
   selectedData = null;
   loading = false;
   searchTimeout = null;
-  expandedInvoice = null;
+  showRevisionTable = false;
+  revisionData = [];
+  revisionColumns = [
+    { header: "No", value: "no" },
+    { header: "No NI", value: "inNo" },
+    { header: "No Invoice", value: "invoiceNo" },
+    { header: "Nama Supplier", value: "supplierName" }
+  ];
+  childColumns = [
+    { header: 'Nomor PO EKS', value: 'ePONo' },
+    { header: 'Nomor Refpr', value: 'poSerialNumber' },
+    { header: 'Nama Barang', value: 'productName' },
+    { header: 'Jumlah', value: 'quantity' },
+    { header: 'Satuan', value: 'uomUnit' },
+    { header: 'Harga Satuan', value: 'pricePerDealUnit' },
+    { header: 'Harga Total', value: 'priceTotal' }
+  ];
+  pageSize = 10;
+  currentPage = 1;
+  totalRows = 0;
 
   constructor(service, router) {
     this.service = service;
@@ -16,8 +35,10 @@ export class View {
   }
 
   activate(params) {
+    this.loading = false;
     this.id = params.id;
-    // Tambahkan logic pengambilan data berdasarkan id di sini
+    this.showRevisionTable = false;
+    this.revisionData = [];
   }
 
   searchChanged() {
@@ -43,7 +64,6 @@ export class View {
           }
         }
         if (data && data.Id) {
-          // Otomatis ambil detail lengkap setelah pencarian sukses
           this.service.getById(data.Id).then(detailResult => {
             if (detailResult && detailResult.data) {
               this.selectedData = detailResult.data;
@@ -66,27 +86,82 @@ export class View {
     }, 300);
   }
 
-  toggleDetail(inv) {
-    this.expandedInvoice = this.expandedInvoice === inv ? null : inv;
+  updatePageSize() {
+    this.currentPage = 1; // Reset to the first page
+    this.fetchRevisionData(); // Fetch data with the new page size
   }
 
-  showDetail(inv) {
-    if (!inv || !inv.garmentInvoice || !inv.garmentInvoice.Id) return;
+  async fetchRevisionData() {
     this.loading = true;
-    // Ambil data detail lengkap berdasarkan ID Nota Intern (selectedData.Id)
-    this.service.getById(this.selectedData.Id)
-      .then(result => {
-        if (result && result.data) {
-          this.selectedData = result.data;
-        }
-        this.loading = false;
-      })
-      .catch(() => {
-        this.loading = false;
-      });
+    try {
+      const params = {
+        page: this.currentPage,
+        size: this.pageSize // Ensure pageSize is passed to the API
+      };
+
+      console.log("Request Params:", params); // Log parameters sent to the API
+
+      const result = await this.service.getInternNoteRevision(params);
+
+      console.log("API Response:", result); // Log API response for debugging
+
+      if (result && Array.isArray(result.data)) {
+        this.totalRows = result.info.total || result.data.length; // Update totalRows
+
+        // If the API does not respect the size parameter, filter data locally
+        const dataToDisplay = result.data.slice(0, this.pageSize);
+
+        this.revisionData = dataToDisplay.map((item, index) => ({
+          no: (this.currentPage - 1) * this.pageSize + index + 1,
+          inNo: item.inNo,
+          invoiceNo: item.invoiceNo,
+          supplierName: item.supplierName,
+          items: (item.items || []).map(child => ({
+            ePONo: child.ePONo,
+            poSerialNumber: child.poSerialNumber,
+            productName: child.product && child.product.Name,
+            quantity: child.quantity,
+            uomUnit: child.uomUnit && child.uomUnit.Unit,
+            pricePerDealUnit: child.pricePerDealUnit,
+            priceTotal: child.priceTotal
+          })),
+          _showChild: false
+        }));
+      } else {
+        this.revisionData = [];
+      }
+    } catch (e) {
+      console.error("Error fetching data:", e);
+      this.revisionData = [];
+    }
+    this.loading = false;
+  }
+
+  attached() {
+    this.showRevisionTable = false; // Default: tabel tersembunyi
+    const showRevision = sessionStorage.getItem('showRevision');
+    const selectedPage = sessionStorage.getItem('selectedPage');
+
+    if (showRevision === '1') {
+      this.showRevisionTable = true; // Tampilkan tabel jika flag diatur
+      this.currentPage = parseInt(selectedPage, 10) || 1; // Atur halaman yang dipilih
+      sessionStorage.removeItem('showRevision'); // Hapus flag setelah digunakan
+      sessionStorage.removeItem('selectedPage'); // Hapus informasi halaman setelah digunakan
+      this.fetchRevisionData(); // Muat data hanya jika tabel ditampilkan
+    }
+  }
+
+  toggleChild(row) {
+    row._showChild = !row._showChild;
   }
 
   navigate() {
     this.router.navigateToRoute('main-page');
+  }
+
+  get paginationText() {
+    const startRow = (this.currentPage - 1) * this.pageSize + 1;
+    const endRow = Math.min(this.currentPage * this.pageSize, this.totalRows);
+    return `Menampilkan ${startRow} sampai ${endRow} dari ${this.totalRows} baris`;
   }
 }

@@ -6,6 +6,7 @@ import { Config } from "aurelia-api";
 
 const serviceUri = 'garment-intern-notes';
 const invoiceNoteUri = 'garment-invoices/no-intern-note';
+const serviceUriRevision = 'garment-intern-notes-revision';
 
 export class Service extends RestService {
     constructor(http, aggregator, config, endpoint) {
@@ -87,6 +88,21 @@ export class Service extends RestService {
             body: formData,
         });
         if (!response.ok) throw new Error('Gagal membandingkan NI dan PO: ' + response.status);
+        return response.json();
+    }
+
+    // Mendapatkan data revision dari garment-intern-notes-revision
+    async getInternNoteRevision(params) {
+        const endpoint = `${serviceUriRevision}`;
+        const token = localStorage.getItem('token');
+        const queryString = new URLSearchParams(params).toString();
+        const response = await this.endpoint.client.fetch(`${endpoint}?${queryString}`, {
+            method: 'GET',
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`
+            })
+        });
+        if (!response.ok) throw new Error('Gagal mengambil data revision: ' + response.status);
         return response.json();
     }
 }
