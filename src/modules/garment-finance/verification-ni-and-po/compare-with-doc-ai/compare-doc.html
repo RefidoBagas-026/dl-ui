@@ -66,4 +66,12 @@
     <button class="btn btn-success" type="button" click.delegate="cekNiPo()">Cek NI Dan PO</button>
   </div>
   <!-- Konten perbandingan dokumen di sini -->
+  <div if.bind="loading" class="compare-loader-overlay">
+    <div class="compare-loader-spinner">
+      <i class="fa fa-spinner fa-spin" style="font-size:3rem;color:#0D2F56;"></i>
+      <div style="margin-top:12px;color:#0D2F56;font-weight:bold;">
+        ${isCheckingNiPo ? 'Memproses Compare...' : 'Sedang Mencari...'}
+      </div>
+    </div>
+  </div>
 </template>

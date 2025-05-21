@@ -15,6 +15,7 @@ export class CompareDoc {
   uploadFiles = [];
   uploadFileNames = [];
   uploadErrors = [];
+  isCheckingNiPo = false;
 
   constructor(service, router) {
     this.service = service;
@@ -103,6 +104,7 @@ export class CompareDoc {
       return;
     }
     this.loading = true;
+    this.isCheckingNiPo = true;
     try {
       const response = await this.service.endpoint.client.fetch(
         `garment-intern-notes/compare-internal-note-purchase-order-external?garmentInternNoteId=${this.selectedData.Id}`,
@@ -119,11 +121,14 @@ export class CompareDoc {
         }
       );
       if (response.status === 201) {
-        window.alert('Sorry, some data are not synchronized.');
+        const revisionResult = await this.service.getInternNoteRevision();
+        window.alert('Data revision berhasil diambil.');
+        sessionStorage.setItem('hideTable', 'false');
+        sessionStorage.setItem('showRevision', '1');
+        sessionStorage.setItem('selectedPage', '1');
         this.router.navigateToRoute('view');
       } else if (response.status === 200) {
         window.alert('Comparison success, but the result is already up to date.');
-        // Tetap di halaman compare-doc
       } else {
         const result = await response.json().catch(() => ({}));
         throw new Error(result.message || 'Unknown error');
@@ -132,6 +137,7 @@ export class CompareDoc {
       window.alert('Failed to compare NI and PO: ' + (e.message || e));
     } finally {
       this.loading = false;
+      this.isCheckingNiPo = false;
     }
   }
 

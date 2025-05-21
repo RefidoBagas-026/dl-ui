@@ -90,3 +90,68 @@
 .table-info-bar {
   position: relative;
 }
+.pagination-info-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding-left: 16px;
+  font-size: 0.97rem;
+  color: #0D2F56;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  background: #f9f9f9;
+  padding: 8px 12px;
+  border-top: 1px solid #dee2e6;
+  width: 100%;
+}
+
+.pagination-info-container label {
+  margin-right: 4px;
+  font-weight: 500;
+}
+
+.pagination-info-container select {
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  min-width: auto;
+  width: auto; /* Adjust width to fit the selected text */
+  height: 30px;
+  text-align: center;
+}
+
+.pagination-info-container select:focus {
+  outline: 1.5px solid #0d6efd;
+}
+.table-container {
+  position: relative;
+  padding-bottom: 50px; /* Ensure space for pagination controls */
+}
+
+.pagination-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-top: 12px;
+  padding-left: 8px;
+  font-size: 14px;
+  background: none;
+  position: static; /* sebelumnya absolute */
+}
+
+.pagination-info select {
+  padding: 4px 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+  width: auto; /* sebelumnya kemungkinan width: 100% */
+}
+
+.pagination-info-container span {
+  white-space: nowrap;
+}
