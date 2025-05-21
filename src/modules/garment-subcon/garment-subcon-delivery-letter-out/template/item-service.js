@@ -373,6 +373,11 @@ export class Item {
       this.data.GrossWeight = newValue.GrossWeight;
       this.data.QtyPacking = newValue.QtyPacking;
       this.data.Quantity = newValue.TotalQuantity;
+      if(newValue.TotalQuantity==0){
+        for (var item of newValue.Items) {
+            this.data.Quantity += item.Quantity;
+        }
+      }
       this.data.UomSatuanUnit = newValue.UomUnit;
     }
   }
