@@ -891,4 +891,19 @@ module.exports = [
         },
 
     },
+    {
+        route: 'inventory/transit-warehouse/transit-warehouse-in',
+        name: 'inventory/transit-warehouse/transit-warehouse-in',
+        moduleId: 'modules/inventory/transit-warehouse/transit-warehouse-in/index',
+        nav: true,
+        title: 'Barang Masuk',
+        auth: true,
+        settings: {
+            group: "Inventory",
+            subGroup: "Gudang Transit",
+            // permission: { C9: 1, W1: 1, W2: 1 },
+            permission:{"G3":1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
 ]

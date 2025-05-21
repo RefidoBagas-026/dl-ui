@@ -1,0 +1,84 @@
+<template>
+    <au-input-form
+        title.bind="title"
+        with.bind="context"
+        options.bind="formOptions">
+
+        <div slot="actions" class="btn-group">
+            <button class="btn btn-default" click.delegate="context.cancel($event)" if.one-way="context.hasCancel">Kembali</button>
+            <button class="btn btn-primary" click.delegate="context.edit($event)" if.one-way="context.hasEdit">Ubah</button>
+            <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Simpan</button>
+            <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button>
+        </div>
+
+        <au-textbox
+            value.bind="data.DONo"
+            error.bind="error.DONo"
+            label="No Surat Jalan"
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-textbox>
+        
+        <au-autocomplete
+            value.bind="selectedSupplier"
+            error.bind="error.Supplier"
+            label="Supplier"
+            loader.bind="supplierLoader"
+            text.bind="supplierView"
+            placeholder="Supplier"
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-autocomplete>
+
+        <au-datepicker 
+            label="Tanggal SJ"
+            value.bind="data.DODate"
+            error.bind="error.DODate"
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-datepicker>
+
+        <au-numeric
+            value.bind="data.Quantity"
+            error.bind="error.Quantity"
+            label="Quantity"
+            format="0.00"
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-numeric>
+
+        <au-autocomplete
+            value.bind="data.Uom"
+            error.bind="error.Uom"
+            label="Satuan"
+            loader.bind="UomLoader"
+            text="Unit"
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-autocomplete>
+
+        <div class="form-group has-error">
+            <p if.bind="error.exist" class="help-block text-center">${error.exist}</p>
+        </div>
+
+        <au-textbox 
+            label="Nomor BC" 
+            value.bind="data.BCNo" error.bind="error.BCNo"
+            read-only.bind="readOnly" options.bind="controlOptions">
+        </au-textbox>
+
+        <au-datepicker 
+            label="Tanggal BC" 
+            value.bind="data.BCDate" error.bind="error.BCDate"
+            read-only.bind="readOnly" options.bind="controlOptions">
+        </au-datepicker>
+
+        <au-dropdown label="Tipe BC" 
+            value.bind="data.BCType" error.bind="error.BCType"
+            read-only.bind="readOnly" items.bind="typeCustoms" options.bind="controlOptions">
+        </au-dropdown>
+
+
+    </au-input-form>
+    <div class="row"></div>
+</template>
