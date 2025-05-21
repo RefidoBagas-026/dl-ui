@@ -1,0 +1,54 @@
+<template>
+    <tr>
+        <td class="col-sm-1">
+            <au-checkbox 
+                value.bind="data.IsSave"
+                disabled.bind="readOnly"
+                change.delegate="changeCheckBox()">
+            </au-checkbox>
+        </td>
+        <td class="col-sm-4">
+            <au-textbox
+                value.bind="data.ProductName"
+                error.bind="error.ProductName"
+                read-only.bind="true"
+                textstyle="upper-case"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td class="col-sm-3">
+            <au-numeric
+                value.bind="data.RemainingQty"
+                error.bind="error.RemainingQty"
+                read-only.bind="true">
+            </au-numeric>
+        </td>
+        <td class="col-sm-3">
+            <au-numeric
+                value.bind="data.Quantity"
+                error.bind="error.Quantity"
+                read-only.bind="readOnly">
+            </au-numeric>
+        </td>
+        <td class="col-sm-3">
+            <au-autocomplete
+                value.bind="data.Uom"
+                error.bind="error.Uom"
+                loader.bind="UomLoader"
+                text="Unit"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-autocomplete>
+        </td>
+        <td class="col-sm-5">
+            <au-textbox
+                value.bind="data.Remark"
+                error.bind="error.Remark"
+                read-only.bind="true"
+                textstyle="upper-case"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+     </tr>
+</template>
+
