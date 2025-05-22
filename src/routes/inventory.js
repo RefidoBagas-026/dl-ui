@@ -906,4 +906,19 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
+    {
+        route: 'inventory/transit-warehouse/transit-warehouse-out',
+        name: 'inventory/transit-warehouse/transit-warehouse-out',
+        moduleId: 'modules/inventory/transit-warehouse/transit-warehouse-out/index',
+        nav: true,
+        title: 'Barang Keluar',
+        auth: true,
+        settings: {
+            group: "Inventory",
+            subGroup: "Gudang Transit",
+            // permission: { C9: 1, W1: 1, W2: 1 },
+            permission:{"G3":1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
 ]
