@@ -70,7 +70,7 @@ export class DataForm {
             this.data.INId=newValue.Id;
             this.data.Supplier=newValue.Supplier;
             this.data.Uom=newValue.Uom;
-            this.data.Quantity=newValue.Quantity;
+            //this.data.Quantity=newValue.RemainingQuantity;
             this.data.RemainingQty=newValue.RemainingQuantity;
             this.data.DODate=newValue.DODate;
         }
