@@ -901,7 +901,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             subGroup: "Gudang Transit",
-            permission:{"G3":1},
+            permission:{"G55":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -915,7 +915,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             subGroup: "Gudang Transit",
-            permission:{"G3":1},
+            permission:{"G56":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -929,7 +929,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             subGroup: "Gudang Transit",
-            permission:{"G3":1},
+            permission:{"G57":1},
             iconClass: 'fa fa-dashboard'
         }
     },
