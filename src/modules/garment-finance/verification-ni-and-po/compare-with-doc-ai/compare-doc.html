@@ -1,0 +1,77 @@
+<!-- Compare Doc Page for Verification NI and PO -->
+<template>
+  <require from="../css/compare-doc.css"></require>
+  <div class="compare-doc-bar">
+    <ul class="compare-doc-list row gx-3">
+      <li class="search-col col-md-6 col-12 d-flex align-items-center justify-content-start p-0 m-0">
+        <div class="w-100 d-flex justify-content-md-start">
+          <div class="search-group d-flex align-items-center" style="max-width:320px;position:relative;">
+            <input type="text" class="form-control form-control-sm h-100" placeholder="Cari dokumen..." value.bind="search" input.delegate="onSearchInput($event)" style="height:38px;" autocomplete="off">
+            <button class="btn btn-outline-secondary btn-sm h-100 d-flex align-items-center" type="button" click.delegate="printPdf()" disabled.bind="!selectedData || loading" style="height:38px; margin-left:8px;"><i class="fa fa-search"></i> Cari</button>
+            <div class="autocomplete-dropdown" if.bind="showDropdown" style="position:absolute;top:100%;left:0;width:100%;z-index:10;">
+              <ul class="autocomplete-list" style="max-height:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:0;margin:0;list-style:none;width:100%;">
+                <li repeat.for="ni of searchResults" click.delegate="selectNI(ni)" style="padding:8px;cursor:pointer;">${ni.inNo}</li>
+                <li if.bind="loading" style="padding:8px;color:#888;">Loading...</li>
+                <li if.bind="!loading && searchResults.length === 0" style="padding:8px;color:#888;">Tidak ada hasil</li>
+              </ul>
+            </div>
+          </div>
+          <div if.bind="pdfPreviewUrl" class="pdf-preview-wrapper mt-2 w-100">
+            <div class="search-iframe-wrapper">
+              <iframe show.bind="pdfPreviewUrl" src.bind="pdfPreviewUrl" class="pdf-preview-frame-cari" frameborder="0"></iframe>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="upload-col col-md-6 col-12 d-flex align-items-center justify-content-end p-0 m-0">
+        <div class="w-100 d-flex flex-column align-items-end justify-content-md-end upload-group-vertical">
+          <div class="tbl">
+            <div class="upload-table-wrapper">
+              <h4>Upload File</h4>
+              <table class="table table-hover table-bordered compare-upload-table">
+                <thead>
+                  <tr>
+                    <th class="col-md-10">File</th>
+                    <th class="col-md-2 text-center">
+                      <button class="btn btn-success btn-sm" type="button" click.delegate="onAddUploadFile()">+</button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr if.bind="!uploadFileNames || uploadFileNames.length < 1">
+                    <td colspan="2" class="text-center">No file</td>
+                  </tr>
+                  <tr repeat.for="fileName of uploadFileNames">
+                    <td if.bind="readOnly">
+                      <button class="btn btn-primary justify-content-center" click.delegate="downloadUploadFile($index)">${fileName}</button>
+                    </td>
+                    <td if.bind="!readOnly">
+                      <input type="file" id="uploadInput${$index}" class="d-none" accept="application/pdf" change.delegate="onUploadFileChanged($index, $event)">
+                      <span class="text-danger" if.bind="uploadErrors && uploadErrors[$index]">${uploadErrors[$index]}</span>
+                      <button if.bind="uploadFiles[$index]" class="btn btn-primary justify-content-center ms-2" click.delegate="downloadUploadFile($index)">${fileName}</button>
+                    </td>
+                    <td if.bind="!readOnly" class="text-center">
+                      <button class="btn btn-danger pull-right" type="button" click.delegate="onRemoveUploadFile($index)">-</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="compare-doc-footer d-flex justify-content-center align-items-center mt-4">
+    <button class="btn btn-success" type="button" click.delegate="cekNiPo()">Cek NI Dan PO</button>
+  </div>
+  <!-- Konten perbandingan dokumen di sini -->
+  <div if.bind="loading" class="compare-loader-overlay">
+    <div class="compare-loader-spinner">
+      <i class="fa fa-spinner fa-spin" style="font-size:3rem;color:#0D2F56;"></i>
+      <div style="margin-top:12px;color:#0D2F56;font-weight:bold;">
+        ${isCheckingNiPo ? 'Memproses Compare...' : 'Sedang Mencari...'}
+      </div>
+    </div>
+  </div>
+</template>
