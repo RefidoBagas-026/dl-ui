@@ -275,6 +275,12 @@ export class List {
             break;
         }
         break;
+      case "Rincian":
+        switch (this.activeRole.key) {
+          case "RETUR":
+            this.router.navigateToRoute("view", { id: data.Id });
+            break;
+        }
     }
   }
 
