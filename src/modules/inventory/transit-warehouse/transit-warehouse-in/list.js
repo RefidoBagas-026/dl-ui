@@ -14,9 +14,8 @@ export class List {
                 return moment(value).format("DD MMM YYYY");
             }
         },
-        { field: "BCNo", title: "Nomor BC" },
-        { field: "BCDate", title: "Tanggal BC"},
-        { field: "Quantity", title: "Quantity" }
+        { field: "Quantity", title: "Quantity" },
+        { field: "Uom.Unit", title: "Satuan" }
     ];
 
     loader = (info) => {
