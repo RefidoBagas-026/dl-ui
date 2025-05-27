@@ -920,11 +920,25 @@ module.exports = [
         }
     },
     {
-        route: 'inventory/transit-warehouse/report',
-        name: 'inventory/transit-warehouse/report',
-        moduleId: 'modules/inventory/transit-warehouse/report/index',
+        route: 'inventory/transit-warehouse/stock-report',
+        name: 'inventory/transit-warehouse/stock-report',
+        moduleId: 'modules/inventory/transit-warehouse/stock-report/index',
         nav: true,
         title: 'Laporan Stock',
+        auth: true,
+        settings: {
+            group: "Inventory",
+            subGroup: "Gudang Transit",
+            permission:{"G57":1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
+        route: 'inventory/transit-warehouse/arrival-report',
+        name: 'inventory/transit-warehouse/arrival-report',
+        moduleId: 'modules/inventory/transit-warehouse/arrival-report/index',
+        nav: true,
+        title: 'Laporan Kedatangan',
         auth: true,
         settings: {
             group: "Inventory",

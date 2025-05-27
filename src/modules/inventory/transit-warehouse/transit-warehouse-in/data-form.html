@@ -60,25 +60,7 @@
         <div class="form-group has-error">
             <p if.bind="error.exist" class="help-block text-center">${error.exist}</p>
         </div>
-
-        <au-textbox 
-            label="Nomor BC" 
-            value.bind="data.BCNo" error.bind="error.BCNo"
-            read-only.bind="readOnly" options.bind="controlOptions">
-        </au-textbox>
-
-        <au-datepicker 
-            label="Tanggal BC" 
-            value.bind="data.BCDate" error.bind="error.BCDate"
-            read-only.bind="readOnly" options.bind="controlOptions">
-        </au-datepicker>
-
-        <au-dropdown label="Tipe BC" 
-            value.bind="data.BCType" error.bind="error.BCType"
-            read-only.bind="readOnly" items.bind="typeCustoms" options.bind="controlOptions">
-        </au-dropdown>
-
-
+        
     </au-input-form>
     <div class="row"></div>
 </template>
