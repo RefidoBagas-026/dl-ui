@@ -16,11 +16,6 @@ export class DataForm {
     @bindable data = {};
     @bindable selectedDONo;
 
-    doNoQuery = {
-        "BCNo==null":false,
-        "IsDeleted": false,
-    }
-
     constructor(service) {
         this.service = service;
     }
@@ -33,7 +28,7 @@ export class DataForm {
         deleteText: "Hapus",
         editText: "Ubah"
     };
-    typeCustoms = ["","BC 23", "BC 27", "BC 40"];
+    
     controlOptions = {
         label: {
             length: 2
