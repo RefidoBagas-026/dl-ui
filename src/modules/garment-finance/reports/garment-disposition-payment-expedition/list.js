@@ -74,6 +74,13 @@ export class List {
           return value ? moment(value).format("DD MMM YYYY") : "";
         }, rowspan: 2
       },
+      {
+        field: "InternalNoteAmount", title: "Amount NI", rowspan: 2, formatter: (value, data) => {
+          return numeral(value).format("0,0.00")
+        }, align: "right"
+      },
+      { field: "CorrectionNo", title: "Nomor NK", rowspan: 2 },
+      { field: "CorrectionAmount", title: "Amount NK", rowspan: 2 },
       { field: "SendToVerificationby", title: "Staff Ekspedisi", rowspan: 2 },
       { field: "PurchaseBy", title: "Staff Pembelian", rowspan: 2 }
     ],
