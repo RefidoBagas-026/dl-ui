@@ -1,9 +1,20 @@
 <template>
     <tr>
         <td class="col-sm-2">
-            <au-autocomplete value.bind="selectedUnit" error.bind="error.Unit" loader.bind="unitLoader"
+            <!-- <au-autocomplete value.bind="selectedUnit" error.bind="error.Unit" loader.bind="unitLoader"
                 read-only.bind="readOnly || isEdit" placeholder="Unit" text="Code">
-            </au-autocomplete>
+            </au-autocomplete> -->
+            <au-dropdown
+                if.bind="readOnly == false && isEdit == false"
+                value.bind="selectedUnit"
+                items.bind="unitOptions"
+                key ="Id"
+                text ="Name"
+                options.bind="controlOptions">
+            </au-dropdown>
+            <au-textbox if.bind="readOnly || isEdit" value.bind="data.Unit.Name" error.bind="error.Unit.Name"
+                read-only="true" options.bind="controlOptions">
+            </au-textbox>
         </td>
 
         <td class="col-sm-2">
@@ -26,9 +37,12 @@
         </td>
 
         <td class="col-sm-2">
-            <au-dropdown items.bind="uomItems" value.bind="selectedUom" error.bind="error.Uom"
+            <!-- <au-dropdown items.bind="uomItems" value.bind="selectedUom" error.bind="error.Uom"
                 read-only.bind="readOnly || isEdit">
-            </au-dropdown>
+            </au-dropdown> -->
+            <au-textbox value.bind="data.Uom.Unit" error.bind="error.Uom"
+                read-only="true" options.bind="controlOptions">
+            </au-textbox>
         </td>
 
         <td class="col-sm-2" if.bind="!readOnly">
