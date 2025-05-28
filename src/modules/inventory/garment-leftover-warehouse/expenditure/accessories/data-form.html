@@ -18,7 +18,8 @@
         <au-autocomplete label="Unit Tujuan" placeholder="Pilih Unit" value.bind="selectedUnit"
             error.bind="error.UnitExpenditure" loader.bind="unitLoader" text.bind="unitView"
             read-only.bind="readOnly || isEdit" options.bind="controlOptions"
-            show.bind="data.ExpenditureDestination == 'UNIT'" view-model.ref="selectedUnitViewModel">
+            show.bind="data.ExpenditureDestination == 'UNIT' || data.ExpenditureDestination == 'SAMPLE'"  
+            view-model.ref="selectedUnitViewModel">
         </au-autocomplete>
 
         <au-autocomplete label="Buyer" placeholder="Pilih Buyer" value.bind="selectedBuyer" error.bind="error.Buyer"
