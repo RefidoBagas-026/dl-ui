@@ -20,6 +20,8 @@ export class DataForm {
     @bindable selectedUnit;
     @bindable selectedBuyer;
     @bindable selectedSalesNote;
+    @bindable unitFrom;
+    @bindable isNotUnit;
 
     controlOptions = {
         label: {
@@ -30,7 +32,7 @@ export class DataForm {
         }
     };
 
-    @computedFrom("readOnly")
+    @computedFrom("readOnly", "isNotUnit")
     get items() {
         return {
             columns: this.readOnly ? [
@@ -54,7 +56,8 @@ export class DataForm {
             }.bind(this),
             options: {
                 isEdit: this.isEdit,
-                existingItems: this.existingItems
+                existingItems: this.existingItems,
+                isNotUnit: this.isNotUnit
             }
         };
     };
@@ -76,10 +79,12 @@ export class DataForm {
     }
 
     unitView = (data) => {
+      if(data.Code == null && data.Name == null) return "";
         return `${data.Code} - ${data.Name}`;
     }
 
     buyerView = (data) => {
+      if(data.Code == null && data.Name == null) return "";
         return `${data.Code} - ${data.Name}`;
     }
 
@@ -95,7 +100,11 @@ export class DataForm {
         this.context = context;
         this.data = context.data;
         this.error = context.error;
-
+        if (!this.data.ExpenditureDestination) {
+            this.data.ExpenditureDestination = "UNIT";
+            this.data.Items.push({});
+        }
+        this.isNotUnit = this.data.ExpenditureDestination;
         if (this.data && this.data.Id) {
             this.selectedUnit = {
                 Code: this.data.UnitExpenditure.Code,
@@ -133,6 +142,15 @@ export class DataForm {
     }
 
     expenditureDestinationsChanged() {
+        this.isNotUnit = this.data.ExpenditureDestination;
+        
+        if (this.data.Items && Array.isArray(this.data.Items)) {
+            this.data.Items.splice(0, this.data.Items.length);
+        } else {
+            this.data.Items = [];
+        }
+
+        this.data.Items.push({});
         this.context.selectedUnitViewModel.editorValue = "";
         this.selectedUnit = null;
         this.context.selectedBuyerViewModel.editorValue = "";
