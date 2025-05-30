@@ -17,7 +17,6 @@
             label="No Surat Jalan"
             loader.bind="doNoLoader"
             text="DONo"
-            query.bind="doNoQuery"
             read-only.bind="readOnly"
             options.bind="controlOptions">
         </au-autocomplete>
@@ -41,34 +40,15 @@
             options.bind="controlOptions">
         </au-datepicker>
 
-        <au-numeric
-            value.bind="data.RemainingQty"
-            error.bind="error.RemainingQty"
-            label="Sisa Quantity"
-            format="0.00"
-            read-only.bind="true"
-            options.bind="controlOptions">
-        </au-numeric>
-
-        <au-autocomplete
-            value.bind="data.Uom"
-            error.bind="error.Uom"
-            label="Satuan"
-            loader.bind="UomLoader"
-            text="Unit"
-            read-only.bind="true"
-            options.bind="controlOptions">
-        </au-autocomplete>
-
         <au-textbox 
             label="Yang Mengambil" 
-            value.bind="data.PickUpName" error.bind="error.PickUpName"
+            value.bind="PickUpName" error.bind="error.PickUpName"
             read-only.bind="readOnly" options.bind="controlOptions">
         </au-textbox>
 
         <au-textbox 
             label="Bagian" 
-            value.bind="data.Section" error.bind="error.Section"
+            value.bind="Section" error.bind="error.Section"
             read-only.bind="readOnly" options.bind="controlOptions">
         </au-textbox>
 
@@ -80,24 +60,17 @@
             options.bind="controlOptions">
         </au-datepicker>
         
-        <au-numeric
-            value.bind="data.Quantity"
-            error.bind="error.Quantity"
-            label="Quantity"
-            format="0.00"
-            read-only.bind="readOnly"
-            options.bind="controlOptions">
-        </au-numeric>
-        
-        <au-autocomplete
-            value.bind="data.Uom"
-            error.bind="error.Uom"
-            label="Satuan"
-            loader.bind="UomLoader"
-            text="Unit"
-            read-only.bind="true"
-            options.bind="controlOptions">
-        </au-autocomplete>
+        <au-collection 
+                items.bind="data.items" 
+                errors.bind="error.items" 
+                columns.bind="ItemsColumns"
+                read-only.bind="readOnly" 
+                add.bind="addItems" 
+                options.bind="Options"
+                header-template="modules/inventory/transit-warehouse/transit-warehouse-out/templates/item-header"
+                item-template="modules/inventory/transit-warehouse/transit-warehouse-out/templates/item">
+        </au-collection>
+
     </au-input-form>
     <div class="row"></div>
 </template>

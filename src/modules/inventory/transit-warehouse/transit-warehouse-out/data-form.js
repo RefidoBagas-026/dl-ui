@@ -22,6 +22,10 @@ export class DataForm {
     get UomLoader() {
         return UomLoader;
     }
+
+    ItemsColumns = ["Barang", "Qty Sisa", "Qty Keluar", 
+        "Satuan", "Keterangan"];
+
     formOptions = {
         cancelText: "Kembali",
         saveText: "Simpan",
@@ -46,54 +50,102 @@ export class DataForm {
         this.context = context;
         this.data = this.context.data;
         this.error = this.context.error;
-
+        this.Options = {
+            isCreate: this.context.isCreate,
+            isView: this.context.isView,
+            isEdit: this.context.isEdit,
+            readOnly : this.readOnly
+        }
         if (this.data.Supplier) {
             this.selectedSupplier = this.data.Supplier;
-        }
-        if(!this.data.BCDate || !moment(this.data.BCDate).isAfter('1900-01-01') ) {
-            this.data.BCDate = null;
         }
         if(this.data.DONo){
             var doNo = await this.service.getINById(this.data.INId);
             this.selectedDONo = doNo;
+            this.data.DONo=doNo.DONo;
+            this.data.INId=doNo.Id;
+            this.data.Supplier=doNo.Supplier;
+            this.data.DODate=doNo.DODate;
+            for(var item of this.data.items){
+                var doItem = doNo.items.find(x => x.Id === item.INItemId);
+                if(doItem){
+                        item.RemainingQty= doItem.RemainingQuantity;
+                        item.INItemId= doItem.Id;
+                        item.IsSave= true;
+                }
+            }
         }
     }
 
-    selectedDONoChanged(newValue){
-        if(newValue){
-            this.data.DONo=newValue.DONo;
-            this.data.INId=newValue.Id;
-            this.data.Supplier=newValue.Supplier;
-            this.data.Uom=newValue.Uom;
-            //this.data.Quantity=newValue.RemainingQuantity;
-            this.data.RemainingQty=newValue.RemainingQuantity;
-            this.data.DODate=newValue.DODate;
+    async selectedDONoChanged(newValue){
+        console.log(newValue,this.context.isCreate);
+        if(this.context.isCreate){
+            if(newValue){
+                this.data.items.splice(0);
+                this.data.DONo=newValue.DONo;
+                this.data.INId=newValue.Id;
+                this.data.Supplier=newValue.Supplier;
+                this.data.DODate=newValue.DODate;
+
+                var doNo= await this.service.getINById(this.data.INId);
+                
+                for(var item of doNo.items){
+                    if(item.RemainingQuantity != 0){
+                        this.data.items.push({
+                            ProductName: item.ProductName,
+                            RemainingQty: item.RemainingQuantity,
+                            Uom: item.Uom,
+                            Remark: item.Remark,
+                            INItemId: item.Id,
+                        });
+                    }
+                }
+                
+            }
+            else{
+                this.data.DONo=null;
+                this.data.INId=0;
+                this.data.Supplier=null;
+                this.data.DODate=null;
+                this.data.items.splice(0);
+            }
         }
-        else{
-            this.data.DONo=null;
-            this.data.INId=0;
-            this.data.Supplier=null;
-            this.data.Uom=null;
-            this.data.Quantity=0;
-            this.data.RemainingQty=0;
-            this.data.DODate=null;
-        }
+        
     }
 
-    supplierView = (unit) => {
-        var unitName = unit.Name || unit.name;
-        var unitCode = unit.Code || unit.code;
-        return `${unitCode} - ${unitName}`;
+    supplierView = (supp) => {
+        var suppName = supp.Name || supp.name;
+        var suppCode = supp.Code || supp.code;
+        return `${suppCode} - ${suppName}`;
     }
 
     get supplierLoader() {
         return SupplierLoader;
     }
 
-    get remainingQty() {
-        if (this.data.INId && this.data.Quantity && this.data.RemainingQty) {
-            return this.data.RemainingQty - this.data.Quantity;
-        }
-        return 0;
+    get addItems() {
+        return (event) => {
+            this.data.items.push({})
+        };
+    }
+
+    get removeItems() {
+        return (event) => {
+            this.error = null;
+        };
+    }
+
+    get PickUpName(){
+        return (this.data.PickUpName || "").toUpperCase();
+    }
+    set PickUpName(value){
+        this.data.PickUpName=value.toUpperCase();
+    }
+
+    get Section(){
+        return (this.data.Section || "").toUpperCase();
+    }
+    set Section(value){
+        this.data.Section=value.toUpperCase();
     }
 }

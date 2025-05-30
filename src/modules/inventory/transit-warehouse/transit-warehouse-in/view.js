@@ -17,8 +17,16 @@ export class View {
     async activate(params) {
         var id = params.id;
         this.data = await this.service.getById(id);
+        var remain=0;
+        var total=0;
+        if(this.data.Items && this.data.Items.length > 0) {
+            for(var item of this.data.Items) {
+                remain+=item.RemainingQuantity || 0;
+                total+=item.Quantity || 0;
+            }
+        }
 
-        if(this.data.Quantity!=this.data.RemainingQuantity){
+        if(total!=remain){
             this.hasEdit=false;
             this.hasDelete=false;
         }
