@@ -71,24 +71,32 @@ export class Service extends RestService {
     }
 
     // Melakukan POST ke endpoint compare-internal-note-purchase-order-external dengan FormData (files) dan query garmentInternNoteId
-    async compareInternalNoteWithPO(files, garmentInternNoteId) {
-        const endpoint = `${serviceUri}/compare-internal-note-purchase-order-external?garmentInternNoteId=${garmentInternNoteId}`;
-        const formData = new FormData();
-        if (files && files.length > 0) {
-            for (let i = 0; i < files.length; i++) {
-                formData.append('files', files[i]);
-            }
-        }
-        const token = localStorage.getItem('token');
-        const response = await this.endpoint.client.fetch(endpoint, {
-            method: 'POST',
-            headers: new Headers({
-                'Authorization': `Bearer ${token}`
-            }),
-            body: formData,
-        });
-        if (!response.ok) throw new Error('Gagal membandingkan NI dan PO: ' + response.status);
-        return response.json();
+    // async compareInternalNoteWithPO(files, garmentInternNoteId) {
+    //     const endpoint = `${serviceUri}/compare-internal-note-purchase-order-external?garmentInternNoteId=${garmentInternNoteId}`;
+    //     const formData = new FormData();
+    //     if (files && files.length > 0) {
+    //         for (let i = 0; i < files.length; i++) {
+    //             formData.append('files', files[i]);
+    //         }
+    //     }
+    //     const token = localStorage.getItem('token');
+    //     const response = await this.endpoint.client.fetch(endpoint, {
+    //         method: 'POST',
+    //         headers: new Headers({
+    //             'Authorization': `Bearer ${token}`
+    //         }),
+    //         body: formData,
+    //     });
+    //     if (!response.ok) throw new Error('Gagal membandingkan NI dan PO: ' + response.status);
+    //     return response.json();
+    // }
+
+    
+}
+
+export class ServiceCompare extends RestService {
+    constructor(http, aggregator, config) {
+        super(http, aggregator, config, "finance");
     }
 
     // Mendapatkan data revision dari garment-intern-notes-revision
