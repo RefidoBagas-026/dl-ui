@@ -1,0 +1,44 @@
+<template>
+    <tr>
+        <td class="col-sm-4">
+            <au-textbox
+                value.bind="ProductName"
+                error.bind="error.ProductName"
+                read-only.bind="readOnly"
+                textstyle="upper-case"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+
+        <td class="col-sm-3">
+            <au-numeric
+                value.bind="data.Quantity"
+                error.bind="error.Quantity"
+                read-only.bind="readOnly">
+            </au-numeric>
+        </td>
+        <td class="col-sm-3">
+            <au-autocomplete
+                value.bind="data.Uom"
+                error.bind="error.Uom"
+                loader.bind="uomLoader"
+                text="Unit"
+                read-only.bind="readOnly"
+                options.bind="controlOptions">
+            </au-autocomplete>
+        </td>
+        <td class="col-sm-5">
+            <au-textbox
+                value.bind="data.Remark"
+                error.bind="error.Remark"
+                read-only.bind="readOnly"
+                textstyle="upper-case"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td if.bind="isCreate || isEdit">
+            <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
+        </td>
+     </tr>
+</template>
+

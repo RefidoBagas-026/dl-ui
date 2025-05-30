@@ -14,8 +14,8 @@ export class List {
                 return moment(value).format("DD MMM YYYY");
             }
         },
-        { field: "Quantity", title: "Quantity" },
-        { field: "Uom.Unit", title: "Satuan" }
+        // { field: "Quantity", title: "Quantity" },
+        // { field: "Uom.Unit", title: "Satuan" }
     ];
 
     loader = (info) => {
@@ -36,9 +36,6 @@ export class List {
                 data.data = result.data;
                 data.data.forEach(s => {
                     s.Supplier= s.Supplier.Code + " "+ s.Supplier.Name;
-                    s.BCDate = s.BCDate && moment(s.BCDate).isAfter('1900-01-01') 
-                                ? moment(s.BCDate).format("DD MMM YYYY") 
-                                : "-";
                 });
                 return {
                     total: result.info.total,
