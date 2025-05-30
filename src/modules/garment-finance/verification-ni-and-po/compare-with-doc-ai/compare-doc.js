@@ -1,8 +1,9 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from '../service';
+import { ServiceCompare } from '../service';
 
-@inject(Service, Router)
+@inject(Service,ServiceCompare, Router)
 export class CompareDoc {
   pdfUrl = null;
   pdfPreviewUrl = null;
@@ -17,8 +18,9 @@ export class CompareDoc {
   uploadErrors = [];
   isCheckingNiPo = false;
 
-  constructor(service, router) {
+  constructor(service,serviceCompare, router) {
     this.service = service;
+    this.serviceCompare = serviceCompare;
     this.router = router;
   }
 
@@ -106,8 +108,8 @@ export class CompareDoc {
     this.loading = true;
     this.isCheckingNiPo = true;
     try {
-      const response = await this.service.endpoint.client.fetch(
-        `garment-intern-notes/compare-internal-note-purchase-order-external?garmentInternNoteId=${this.selectedData.Id}`,
+      const response = await this.serviceCompare.endpoint.client.fetch(
+        `garment-purchasing-expeditions/compare-internal-note-purchase-order-external?garmentInternNoteId=${this.selectedData.Id}`,
         {
           method: 'POST',
           headers: new Headers({
@@ -121,7 +123,7 @@ export class CompareDoc {
         }
       );
       if (response.status === 201) {
-        const revisionResult = await this.service.getInternNoteRevision();
+        const revisionResult = await this.serviceCompare.getInternNoteRevision();
         window.alert('Data revision berhasil diambil.');
         sessionStorage.setItem('hideTable', 'false');
         sessionStorage.setItem('showRevision', '1');
