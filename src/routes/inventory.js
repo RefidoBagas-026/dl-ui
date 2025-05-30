@@ -9,7 +9,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G38": 1 },
+            permission:{"G38":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -40,7 +40,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G1": 1 },
+            permission:{"G1":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -55,7 +55,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G2": 1 },
+            permission:{"G2":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -71,7 +71,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G3": 1 },
+            permission:{"G3":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -87,7 +87,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G4": 1 },
+            permission:{"G4":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -102,7 +102,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G5": 1 },
+            permission:{"G5":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -117,7 +117,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G6": 1 },
+            permission:{"G6":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -133,7 +133,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G7": 1 },
+            permission:{"G7":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -151,7 +151,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G8": 1 },
+            permission:{"G8":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -184,7 +184,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G9": 1 },
+            permission:{"G9":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -199,7 +199,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G10": 1 },
+            permission:{"G10":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -215,7 +215,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G11": 1 },
+            permission:{"G11":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -231,7 +231,7 @@ module.exports = [
             group: "Inventory",
             subGroup: "Gudang Weaving",
             // permission: { C9: 1, W1: 1, W2: 1 },
-            permission: { "G12": 1 },
+            permission:{"G12":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -246,7 +246,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "*": 1 },
-            permission: { "G39": 1 },
+            permission :{"G39":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -260,7 +260,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "*": 1 },
-            permission: { "G40": 1 },
+            permission :{"G40":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -274,7 +274,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "*": 1 },
-            permission: { "G41": 1 },
+            permission :{"G41":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -301,7 +301,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G42": 1 },
+            permission :{"G42":1},
             iconClass: 'fa fa-dashboard'
         }
 
@@ -316,7 +316,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G43": 1 },
+            permission :{"G43":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -330,7 +330,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G44": 1 },
+            permission :{"G44":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -344,7 +344,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G45": 1 },
+            permission :{"G45":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -358,7 +358,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G46": 1 },
+            permission :{"G46":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -372,7 +372,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G47": 1 },
+            permission :{"G47":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -386,7 +386,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G48": 1 },
+            permission :{"G48":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -400,7 +400,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G49": 1 },
+            permission :{"G49":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -414,7 +414,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G50": 1 },
+            permission :{"G50":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -428,7 +428,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G51": 1 },
+            permission :{"G51":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -442,7 +442,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G52": 1 },
+            permission :{"G52":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -482,7 +482,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "F1": 1, "F2": 1 },
-            permission: { "G53": 1 },
+            permission :{"G53":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -509,7 +509,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "PG": 1 },
-            permission: { "G13": 1 },
+            permission:{"G13":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard"
         }
@@ -524,7 +524,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "PG": 1 },
-            permission: { "G14": 1 },
+            permission:{"G14":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard"
         }
@@ -539,7 +539,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "PG": 1 },
-            permission: { "G15": 1 },
+            permission:{"G15":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard"
         }
@@ -554,7 +554,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "PG": 1 },
-            permission: { "G16": 1 },
+            permission:{"G16":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard"
         }
@@ -569,7 +569,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "*": 1 },
-            permission: { "G54": 1 },
+            permission:{"G54":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -583,7 +583,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "PG": 1 },
-            permission: { "G17": 1 },
+            permission:{"G17":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard"
         }
@@ -598,7 +598,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "PG": 1 },
-            permission: { "G18": 1 },
+            permission:{"G18":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard"
         }
@@ -613,7 +613,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "PG": 1 },
-            permission: { "G19": 1 },
+            permission:{"G19":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard"
         }
@@ -628,7 +628,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "PG": 1 },
-            permission: { "G20": 1 },
+            permission:{"G20":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard"
         }
@@ -643,7 +643,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "PG": 1 },
-            permission: { "G21": 1 },
+            permission:{"G21":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard"
         }
@@ -658,7 +658,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G22": 1 },
+            permission:{"G22":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -673,7 +673,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G23": 1 },
+            permission:{"G23":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -688,7 +688,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G24": 1 },
+            permission:{"G24":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -703,7 +703,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G25": 1 },
+            permission:{"G25":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -718,7 +718,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { "C9": 1, "PG": 1 },
-            permission: { "G26": 1 },
+            permission:{"G26":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard"
         }
@@ -733,7 +733,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G27": 1 },
+            permission:{"G27":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -748,7 +748,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G28": 1 },
+            permission:{"G28":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -763,7 +763,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G29": 1 },
+            permission:{"G29":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -778,7 +778,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G30": 1 },
+            permission:{"G30":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -793,7 +793,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G31": 1 },
+            permission:{"G31":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -808,7 +808,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G32": 1 },
+            permission:{"G32":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -823,7 +823,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G33": 1 },
+            permission:{"G33":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -840,7 +840,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G34": 1 },
+            permission:{"G34":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -855,7 +855,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G35": 1 },
+            permission:{"G35":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -870,7 +870,7 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G36": 1 },
+            permission:{"G36":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
@@ -885,66 +885,10 @@ module.exports = [
         settings: {
             group: "Inventory",
             // permission: { C9: 1, "PG": 1 },
-            permission: { "G37": 1 },
+            permission:{"G37":1},
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
 
-    },
-    {
-        route: 'inventory/transit-warehouse/transit-warehouse-in',
-        name: 'inventory/transit-warehouse/transit-warehouse-in',
-        moduleId: 'modules/inventory/transit-warehouse/transit-warehouse-in/index',
-        nav: true,
-        title: 'Barang Masuk',
-        auth: true,
-        settings: {
-            group: "Inventory",
-            subGroup: "Gudang Transit",
-            permission: { "G55": 1 },
-            iconClass: 'fa fa-dashboard'
-        }
-    },
-    {
-        route: 'inventory/transit-warehouse/transit-warehouse-out',
-        name: 'inventory/transit-warehouse/transit-warehouse-out',
-        moduleId: 'modules/inventory/transit-warehouse/transit-warehouse-out/index',
-        nav: true,
-        title: 'Barang Keluar',
-        auth: true,
-        settings: {
-            group: "Inventory",
-            subGroup: "Gudang Transit",
-            permission: { "G56": 1 },
-            iconClass: 'fa fa-dashboard'
-        }
-    },
-    {
-        route: 'inventory/transit-warehouse/stock-report',
-        name: 'inventory/transit-warehouse/stock-report',
-        moduleId: 'modules/inventory/transit-warehouse/stock-report/index',
-        nav: true,
-        title: 'Laporan Stock',
-        auth: true,
-        settings: {
-            group: "Inventory",
-            subGroup: "Gudang Transit",
-            permission: { "G57": 1 },
-            iconClass: 'fa fa-dashboard'
-        }
-    },
-    {
-        route: 'inventory/transit-warehouse/arrival-report',
-        name: 'inventory/transit-warehouse/arrival-report',
-        moduleId: 'modules/inventory/transit-warehouse/arrival-report/index',
-        nav: true,
-        title: 'Laporan Kedatangan',
-        auth: true,
-        settings: {
-            group: "Inventory",
-            subGroup: "Gudang Transit",
-            permission: { "G58": 1 },
-            iconClass: 'fa fa-dashboard'
-        }
     },
 ]

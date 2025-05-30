@@ -52,7 +52,6 @@ export class ro {
         this.context = context;
         this.data = context.data;
         this.error = context.error;
-        console.log(this.context)
         this.options = context.options;
         if (this.data.RONo) {
             this.selectedRO = {
