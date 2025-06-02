@@ -14,7 +14,6 @@ export class List {
     }
     dateFrom = null;
     dateTo = null;
-
     activate() {
     }
     controlOptions = {

@@ -32,7 +32,7 @@ export class DataForm {
         deleteText: "Hapus",
         editText: "Ubah"
     };
-
+    
     controlOptions = {
         label: {
             length: 2

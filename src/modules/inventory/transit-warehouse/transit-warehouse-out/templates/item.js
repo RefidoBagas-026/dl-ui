@@ -8,13 +8,11 @@ export class Items {
     get uomLoader() {
         return UomLoader;
     }
-
     uomView = (uom) => {
         return uom.Unit
     }
 
     constructor() {
-
     }
 
     activate(context) {
