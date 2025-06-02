@@ -2,19 +2,17 @@ import { inject, bindable, computedFrom } from 'aurelia-framework'
 
 const UomLoader = require("../../../../../loader/uom-loader");
 
-export class items {
+export class Items {
     @bindable selectedUom;
 
     get uomLoader() {
         return UomLoader;
     }
-    
     uomView = (uom) => {
         return uom.Unit
     }
 
     constructor() {
-        
     }
 
     activate(context) {
@@ -22,7 +20,7 @@ export class items {
         this.data = context.data;
         this.error = context.error;
         this.options = context.options;
-        if(this.data){
+        if (this.data) {
             this.selectedUom = this.data.Uom;
         }
         this.readOnly = this.options.readOnly;
@@ -32,15 +30,15 @@ export class items {
             error: this.error,
             isCreate: this.isCreate,
             readOnly: this.readOnly,
-            isEdit:this.isEdit,
+            isEdit: this.isEdit,
         };
     }
 
-    selectedUomChanged(newValue){
-        this.data.Uom=newValue;
+    selectedUomChanged(newValue) {
+        this.data.Uom = newValue;
     }
 
     changeCheckBox() {
-        this.context.context.options.checkedAll = this.context.context.items.reduce((acc, curr) => acc && curr.data.IsSave, true);
-    }                 
+        this.context.context.options.checkedAll = this.context.context.Items.reduce((acc, curr) => acc && curr.data.IsSave, true);
+    }
 }

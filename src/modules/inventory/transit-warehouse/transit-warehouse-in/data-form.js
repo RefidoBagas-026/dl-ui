@@ -1,5 +1,5 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
-import { Service} from "./service";
+import { Service } from "./service";
 import moment from 'moment';
 
 const SupplierLoader = require('../../../../loader/garment-supplier-loader');
@@ -24,7 +24,7 @@ export class DataForm {
         deleteText: "Hapus",
         editText: "Ubah"
     };
-    typeCustoms = ["","BC 23", "BC 27", "BC 40"];
+    typeCustoms = ["", "BC 23", "BC 27", "BC 40"];
     controlOptions = {
         label: {
             length: 2
@@ -43,15 +43,15 @@ export class DataForm {
 
     get addItems() {
         return (event) => {
-            this.data.items.push({})
+            this.data.Items.push({})
         };
     }
 
-    get DONo(){
+    get DONo() {
         return (this.data.DONo || "").toUpperCase();
     }
-    set DONo(value){
-        this.data.DONo=value.toUpperCase();
+    set DONo(value) {
+        this.data.DONo = value.toUpperCase();
     }
     bind(context) {
         this.context = context;
@@ -77,12 +77,12 @@ export class DataForm {
         return SupplierLoader;
     }
 
-    selectedSupplierChanged(newValue){
-        if(newValue){
-            this.data.Supplier=newValue;
+    selectedSupplierChanged(newValue) {
+        if (newValue) {
+            this.data.Supplier = newValue;
         }
-        else{
-            this.data.Supplier=null;
+        else {
+            this.data.Supplier = null;
         }
     }
 

@@ -1,5 +1,5 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
-import { Service} from "./service";
+import { Service } from "./service";
 import moment from 'moment';
 
 const DONoLoader = require('../../../../loader/transit-warehouse-in-loader');
@@ -23,7 +23,7 @@ export class DataForm {
         return UomLoader;
     }
 
-    ItemsColumns = ["Barang", "Qty Sisa", "Qty Keluar", 
+    ItemsColumns = ["Barang", "Qty Sisa", "Qty Keluar",
         "Satuan", "Keterangan"];
 
     formOptions = {
@@ -32,7 +32,6 @@ export class DataForm {
         deleteText: "Hapus",
         editText: "Ubah"
     };
-    
     controlOptions = {
         label: {
             length: 2
@@ -54,44 +53,44 @@ export class DataForm {
             isCreate: this.context.isCreate,
             isView: this.context.isView,
             isEdit: this.context.isEdit,
-            readOnly : this.readOnly
+            readOnly: this.readOnly
         }
         if (this.data.Supplier) {
             this.selectedSupplier = this.data.Supplier;
         }
-        if(this.data.DONo){
+        if (this.data.DONo) {
             var doNo = await this.service.getINById(this.data.INId);
             this.selectedDONo = doNo;
-            this.data.DONo=doNo.DONo;
-            this.data.INId=doNo.Id;
-            this.data.Supplier=doNo.Supplier;
-            this.data.DODate=doNo.DODate;
-            for(var item of this.data.items){
-                var doItem = doNo.items.find(x => x.Id === item.INItemId);
-                if(doItem){
-                        item.RemainingQty= doItem.RemainingQuantity;
-                        item.INItemId= doItem.Id;
-                        item.IsSave= true;
+            this.data.DONo = doNo.DONo;
+            this.data.INId = doNo.Id;
+            this.data.Supplier = doNo.Supplier;
+            this.data.DODate = doNo.DODate;
+            for (var item of this.data.Items) {
+                var doItem = doNo.Items.find(x => x.Id === item.INItemId);
+                if (doItem) {
+                    item.RemainingQty = doItem.RemainingQuantity;
+                    item.INItemId = doItem.Id;
+                    item.IsSave = true;
                 }
             }
         }
     }
 
-    async selectedDONoChanged(newValue){
-        console.log(newValue,this.context.isCreate);
-        if(this.context.isCreate){
-            if(newValue){
-                this.data.items.splice(0);
-                this.data.DONo=newValue.DONo;
-                this.data.INId=newValue.Id;
-                this.data.Supplier=newValue.Supplier;
-                this.data.DODate=newValue.DODate;
+    async selectedDONoChanged(newValue) {
+        console.log(newValue, this.context.isCreate);
+        if (this.context.isCreate) {
+            if (newValue) {
+                this.data.Items.splice(0);
+                this.data.DONo = newValue.DONo;
+                this.data.INId = newValue.Id;
+                this.data.Supplier = newValue.Supplier;
+                this.data.DODate = newValue.DODate;
 
-                var doNo= await this.service.getINById(this.data.INId);
-                
-                for(var item of doNo.items){
-                    if(item.RemainingQuantity != 0){
-                        this.data.items.push({
+                var doNo = await this.service.getINById(this.data.INId);
+
+                for (var item of doNo.Items) {
+                    if (item.RemainingQuantity != 0) {
+                        this.data.Items.push({
                             ProductName: item.ProductName,
                             RemainingQty: item.RemainingQuantity,
                             Uom: item.Uom,
@@ -100,17 +99,17 @@ export class DataForm {
                         });
                     }
                 }
-                
+
             }
-            else{
-                this.data.DONo=null;
-                this.data.INId=0;
-                this.data.Supplier=null;
-                this.data.DODate=null;
-                this.data.items.splice(0);
+            else {
+                this.data.DONo = null;
+                this.data.INId = 0;
+                this.data.Supplier = null;
+                this.data.DODate = null;
+                this.data.Items.splice(0);
             }
         }
-        
+
     }
 
     supplierView = (supp) => {
@@ -125,7 +124,7 @@ export class DataForm {
 
     get addItems() {
         return (event) => {
-            this.data.items.push({})
+            this.data.Items.push({})
         };
     }
 
@@ -135,17 +134,17 @@ export class DataForm {
         };
     }
 
-    get PickUpName(){
+    get PickUpName() {
         return (this.data.PickUpName || "").toUpperCase();
     }
-    set PickUpName(value){
-        this.data.PickUpName=value.toUpperCase();
+    set PickUpName(value) {
+        this.data.PickUpName = value.toUpperCase();
     }
 
-    get Section(){
+    get Section() {
         return (this.data.Section || "").toUpperCase();
     }
-    set Section(value){
-        this.data.Section=value.toUpperCase();
+    set Section(value) {
+        this.data.Section = value.toUpperCase();
     }
 }
