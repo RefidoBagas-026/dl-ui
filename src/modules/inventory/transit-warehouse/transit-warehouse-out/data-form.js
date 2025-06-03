@@ -32,7 +32,7 @@ export class DataForm {
         deleteText: "Hapus",
         editText: "Ubah"
     };
-    
+
     controlOptions = {
         label: {
             length: 2
@@ -62,36 +62,36 @@ export class DataForm {
         if (this.data.DONo) {
             var doNo = await this.service.getINById(this.data.INId);
             this.selectedDONo = doNo;
-            this.data.DONo = doNo.DONo;
-            this.data.INId = doNo.Id;
-            this.data.Supplier = doNo.Supplier;
-            this.data.DODate = doNo.DODate;
-            for (var item of this.data.Items) {
+            this.data.DONo=doNo.DONo;
+            this.data.INId=doNo.Id;
+            this.data.Supplier=doNo.Supplier;
+            this.data.DODate=doNo.DODate;
+            for(var item of this.data.Items){
                 var doItem = doNo.Items.find(x => x.Id === item.INItemId);
-                if (doItem) {
-                    item.RemainingQty = doItem.RemainingQuantity;
-                    item.INItemId = doItem.Id;
-                    item.IsSave = true;
+                if(doItem){
+                        item.RemainingQty= doItem.RemainingQuantity;
+                        item.INItemId= doItem.Id;
+                        item.IsSave= true;
+                        this.data.items.push(item);
                 }
             }
         }
     }
 
-    async selectedDONoChanged(newValue) {
-        console.log(newValue, this.context.isCreate);
-        if (this.context.isCreate) {
-            if (newValue) {
-                this.data.Items.splice(0);
-                this.data.DONo = newValue.DONo;
-                this.data.INId = newValue.Id;
-                this.data.Supplier = newValue.Supplier;
-                this.data.DODate = newValue.DODate;
+    async selectedDONoChanged(newValue){
+        if(this.context.isCreate){
+            if(newValue){
+                this.data.items.splice(0);
+                this.data.DONo=newValue.DONo;
+                this.data.INId=newValue.Id;
+                this.data.Supplier=newValue.Supplier;
+                this.data.DODate=newValue.DODate;
 
-                var doNo = await this.service.getINById(this.data.INId);
-
-                for (var item of doNo.Items) {
-                    if (item.RemainingQuantity != 0) {
-                        this.data.Items.push({
+                var doNo= await this.service.getINById(this.data.INId);
+                
+                for(var item of doNo.Items){
+                    if(item.RemainingQuantity != 0){
+                        this.data.items.push({
                             ProductName: item.ProductName,
                             RemainingQty: item.RemainingQuantity,
                             Uom: item.Uom,
