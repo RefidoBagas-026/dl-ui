@@ -59,10 +59,14 @@
             read-only.bind="readOnly"
             options.bind="controlOptions">
         </au-datepicker>
+
+        <div class="form-group has-error">
+            <p if.bind="error.itemscount" class="help-block text-center">${error.itemscount}</p>
+        </div>
         
         <au-collection 
                 items.bind="data.items" 
-                errors.bind="error.items" 
+                errors.bind="error.Items" 
                 columns.bind="ItemsColumns"
                 read-only.bind="readOnly" 
                 add.bind="addItems" 
