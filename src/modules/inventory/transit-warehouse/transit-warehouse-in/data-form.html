@@ -35,7 +35,7 @@
         </au-datepicker>
 
         <div class="form-group has-error">
-            <p if.bind="error.exist" class="help-block text-center">${error.exist}</p>
+            <p if.bind="error.itemscount" class="help-block text-center">${error.itemscount}</p>
         </div>
 
         <au-textbox show.bind="error.itemscount" error.bind="error.itemscount" read-only="true">
@@ -44,6 +44,7 @@
         <au-collection items.bind="data.Items" errors.bind="error.Items" columns.bind="ItemsColumns"
             read-only.bind="readOnly" add.bind="addItems" remove.bind="removeItems" options.bind="Options"
             item-template="modules/inventory/transit-warehouse/transit-warehouse-in/templates/item">
+
         </au-collection>
 
     </au-input-form>
