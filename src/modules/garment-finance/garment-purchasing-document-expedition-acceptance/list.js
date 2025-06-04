@@ -15,7 +15,7 @@ import {
 
 @inject(Router, Service, Dialog, PermissionHelper)
 export class List {
-  context = ["Hapus"];
+  context = ["Rincian", "Hapus"];
 
   fromPurchasingColumns = [
     {
@@ -205,6 +205,25 @@ export class List {
     });
   };
 
+  contextShowCallback(index, name, data) {
+    switch (name) {
+      case "Rincian":
+        switch (this.activeRole.key) {
+          case "RETUR":
+            return data.ReturnDetailExist === true ? true : false;
+          default:
+            return false;
+        }
+      case "Hapus":
+        switch (this.activeRole.key) {
+          case "RETUR":
+            return false;
+          default:
+            return true;
+        }
+    }
+  }
+
   contextClickCallback(event) {
     let arg = event.detail;
     let data = arg.data;
@@ -242,20 +261,26 @@ export class List {
                 this.error = e;
               });
             break;
-          case "RETUR":
-            this.service
-              .voidRetur(data.Id)
-              .then((result) => {
-                this.tableList.refresh();
-              })
-              .catch((e) => {
-                this.error = e;
-              });
-            break;
+          // case "RETUR":
+          //   this.service
+          //     .voidRetur(data.Id)
+          //     .then((result) => {
+          //       this.tableList.refresh();
+          //     })
+          //     .catch((e) => {
+          //       this.error = e;
+          //     });
+          //   break;
           default:
             break;
         }
         break;
+      case "Rincian":
+        switch (this.activeRole.key) {
+          case "RETUR":
+            this.router.navigateToRoute("view", { id: data.Id });
+            break;
+        }
     }
   }
 

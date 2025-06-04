@@ -1,5 +1,6 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
-const UnitLoader = require('../../../../../../loader/garment-units-loader');
+//const UnitLoader = require('../../../../../../loader/garment-units-loader');
+const UnitLoader = require('../../../../../../loader/garment-unitsAndsample-loader');
 const StockLoader = require('../../../../../../loader/garment-leftover-warehouse-stock-distinct-loader');
 import { Service } from '../service';
 
@@ -9,6 +10,9 @@ export class Item {
     @bindable selectedStock;
     @bindable selectedUom;
     @bindable selectedProduct;
+    @bindable unitFrom;
+    @bindable destination;
+    @bindable NotUnit;
 
     constructor(service) {
         this.service = service;
@@ -21,7 +25,7 @@ export class Item {
         this.options = context.options;
 
         this.isEdit = context.context.options.isEdit && this.data.Id > 0;
-
+        this.NotUnit = context.context.options.isNotUnit;
         if (this.data.Unit) {
             this.selectedUnit = this.data.Unit;
         }
@@ -49,6 +53,15 @@ export class Item {
     }
 
     uomItems = [""];
+    destination = [
+      { Id: 123, Code: "GMT", Name: "GARMENT" },
+      { Id: 107, Code: "SMP1", Name: "SAMPLE" }
+    ];
+    unitFrom = [
+      { Id: 123, Code: "GMT", Name: "GARMENT" },
+      { Id: 107, Code: "SMP1", Name: "SAMPLE" },
+      { Id: 0, Code: "SBC", Name: "TERIMA SUBCON" }
+    ];
 
     get unitLoader() {
         return UnitLoader;
@@ -59,7 +72,7 @@ export class Item {
     }
 
     get stockLoaderSelect() {
-        return ["PONo"];
+        return ["PONo","Id"];
     }
 
     get productLoader() {
@@ -88,13 +101,33 @@ export class Item {
             "Quantity > 0": true
         };
     }
-
-    selectedUnitChanged(newValue) {
-        this.data.Unit = newValue;
-        this.selectedStockViewModel.editorValue = "";
-        this.selectedProductViewModel.editorValue = "";
-        this.selectedStock = null;
+    @computedFrom('NotUnit', 'unitFrom', 'destination')
+    get unitOptions() {
+        if (this.NotUnit === 'JUAL LOKAL' || this.NotUnit === 'EXPORT' || this.NotUnit === 'LAIN-LAIN') {
+            return this.unitFrom;
+        }
+        return this.destination;
     }
+    selectedUnitChanged(newValue, oldValue) {
+        if (newValue && (!oldValue || newValue.Id !== oldValue.Id)) {
+            this.data.Unit = newValue;
+            
+            this.selectedStockViewModel.editorValue = "";
+            this.selectedProductViewModel.editorValue = "";
+            this.selectedStock = null;
+
+            this.data.PONo = null;
+            this.data.Stocks = null;
+            this.uomItems = [""]; 
+            this.selectedUom = null;
+        }
+    }
+    // selectedUnitChanged(newValue) {
+    //     this.data.Unit = newValue;
+    //     this.selectedStockViewModel.editorValue = "";
+    //     this.selectedProductViewModel.editorValue = "";
+    //     this.selectedStock = null;
+    // }
 
     selectedProductChanged(newValue, oldValue) {
         this.data.PONo = null;
@@ -131,9 +164,10 @@ export class Item {
                         // console.log(uomUnits)
                          this.data.Stocks = result.data.filter(d => uomUnits.findIndex(u => u == (d.Uom || {}).Unit) < 0);
                         // console.log(this.data.Stocks)
-                         this.uomItems = [""].concat(this.data.Stocks.map(d => (d.Uom || {}).Unit));
+                         //this.uomItems = [""].concat(this.data.Stocks.map(d => (d.Uom || {}).Unit));
                         // this.uomItems = this.uomItems.filter((value, index, self) => self.map(x => x.Unit).indexOf(value.Unit) == index)
-                    }
+                        this.selectedUom = this.data.Stocks.map(d => (d.Uom || {}).Unit);
+                      }
                 });
         }
     }

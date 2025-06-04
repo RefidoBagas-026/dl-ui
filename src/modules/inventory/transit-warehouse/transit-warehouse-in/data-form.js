@@ -1,9 +1,8 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
-import { Service} from "./service";
+import { Service } from "./service";
 import moment from 'moment';
 
 const SupplierLoader = require('../../../../loader/garment-supplier-loader');
-const UomLoader = require("../../../../loader/uom-loader");
 
 @inject(Service)
 export class DataForm {
@@ -25,7 +24,7 @@ export class DataForm {
         deleteText: "Hapus",
         editText: "Ubah"
     };
-    typeCustoms = ["","BC 23", "BC 27", "BC 40"];
+    typeCustoms = ["", "BC 23", "BC 27", "BC 40"];
     controlOptions = {
         label: {
             length: 2
@@ -35,39 +34,61 @@ export class DataForm {
         }
     };
 
-    get UomLoader() {
-        return UomLoader;
+    ItemsColumns = [
+        { header: "Barang", value: "ProductName" },
+        { header: "Jumlah", value: "Quantity" },
+        { header: "Satuan", value: "UomUnit" },
+        { header: "Keterangan", value: "Remark" }
+    ]
+
+    get addItems() {
+        return (event) => {
+            this.data.Items.push({})
+        };
     }
 
+    get DONo() {
+        return (this.data.DONo || "").toUpperCase();
+    }
+    set DONo(value) {
+        this.data.DONo = value.toUpperCase();
+    }
     bind(context) {
         this.context = context;
         this.data = this.context.data;
         this.error = this.context.error;
-
+        this.Options = {
+            isCreate: this.context.isCreate,
+            isView: this.context.isView,
+            isEdit: this.context.isEdit,
+        }
         if (this.data.Supplier) {
             this.selectedSupplier = this.data.Supplier;
         }
-        if(!this.data.BCDate || !moment(this.data.BCDate).isAfter('1900-01-01') ) {
-            this.data.BCDate = null;
-        }
     }
 
-    supplierView = (unit) => {
-        var unitName = unit.Name || unit.name;
-        var unitCode = unit.Code || unit.code;
-        return `${unitCode} - ${unitName}`;
+    supplierView = (supp) => {
+        var suppName = supp.Name || supp.name;
+        var suppCode = supp.Code || supp.code;
+        return `${suppCode} - ${suppName}`;
     }
 
     get supplierLoader() {
         return SupplierLoader;
     }
 
-    selectedSupplierChanged(newValue){
-        if(newValue){
-            this.data.Supplier=newValue;
+    selectedSupplierChanged(newValue) {
+        if (newValue) {
+            this.data.Supplier = newValue;
         }
-        else{
-            this.data.Supplier=null;
+        else {
+            this.data.Supplier = null;
         }
+    }
+
+    get removeItems() {
+        return (event) => {
+            this.error = null;
+        };
     }
 }

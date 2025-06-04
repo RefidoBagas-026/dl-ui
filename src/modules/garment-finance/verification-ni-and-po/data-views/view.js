@@ -1,6 +1,6 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import { Service as InternNoteService } from '../service';
+import { ServiceCompare as InternNoteService } from '../service';
 
 @inject(InternNoteService, Router)
 export class View {

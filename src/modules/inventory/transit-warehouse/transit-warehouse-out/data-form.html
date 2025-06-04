@@ -1,0 +1,52 @@
+<template>
+    <au-input-form title.bind="title" with.bind="context" options.bind="formOptions">
+
+        <div slot="actions" class="btn-group">
+            <button class="btn btn-default" click.delegate="context.cancel($event)"
+                if.one-way="context.hasCancel">Kembali</button>
+            <button class="btn btn-primary" click.delegate="context.edit($event)"
+                if.one-way="context.hasEdit">Ubah</button>
+            <button class="btn btn-success" click.delegate="context.save($event)"
+                if.one-way="context.hasSave">Simpan</button>
+            <button class="btn btn-danger" click.delegate="context.delete($event)"
+                if.one-way="context.hasDelete">Hapus</button>
+        </div>
+
+        <au-autocomplete value.bind="selectedDONo" error.bind="error.DONo" label="No Surat Jalan"
+            loader.bind="doNoLoader" text="DONo" read-only.bind="readOnly" options.bind="controlOptions">
+        </au-autocomplete>
+
+        <au-autocomplete value.bind="data.Supplier" error.bind="error.Supplier" label="Supplier"
+            loader.bind="supplierLoader" text.bind="supplierView" placeholder="Supplier" read-only.bind="true"
+            options.bind="controlOptions">
+        </au-autocomplete>
+
+        <au-datepicker label="Tanggal SJ" value.bind="data.DODate" error.bind="error.DODate" read-only.bind="true"
+            options.bind="controlOptions">
+        </au-datepicker>
+
+        <au-textbox label="Yang Mengambil" value.bind="PickUpName" error.bind="error.PickUpName"
+            read-only.bind="readOnly" options.bind="controlOptions">
+        </au-textbox>
+
+        <au-textbox label="Bagian" value.bind="Section" error.bind="error.Section" read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-datepicker label="Tanggal Ambil" value.bind="data.PickUpDate" error.bind="error.PickUpDate"
+            read-only.bind="readOnly" options.bind="controlOptions">
+        </au-datepicker>
+
+        <au-textbox show.bind="error.itemscount" error.bind="error.itemscount" read-only="true">
+        </au-textbox>
+
+        <au-collection items.bind="data.Items" errors.bind="error.Items" columns.bind="ItemsColumns"
+            read-only.bind="readOnly" add.bind="addItems" options.bind="Options"
+            header-template="modules/inventory/transit-warehouse/transit-warehouse-out/templates/item-header"
+            item-template="modules/inventory/transit-warehouse/transit-warehouse-out/templates/item">
+
+        </au-collection>
+
+    </au-input-form>
+    <div class="row"></div>
+</template>

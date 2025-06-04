@@ -44,7 +44,23 @@ module.exports = [
       iconClass: 'fa fa-dashboard'
     }
   },
-  {
+  //====>dokumen intelegent AI <====//
+{
+    route: "/garment-finance/verification-ni-and-po",
+    name: "verification-ni-and-po",
+    moduleId: "./modules/garment-finance/verification-ni-and-po/index",
+    nav: true,
+    title: "Verification NI Dan PO",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "ekspedisi ni",
+      // permission: { "C9": 1, "PG": 7 },
+      permission: { "J3": 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+{
     route: '/garment-finance/garment-purchasing-expedition-report',
     name: 'garment-purchasing-expedition-report',
     moduleId: './modules/garment-finance/garment-purchasing-expedition-report/index',
