@@ -45,6 +45,7 @@ export class List {
                 return moment(value).format("DD MMM YYYY");
             }
         },
+        { field: "ProductName", title: "Nama Barang", sortable: false },
         { field: "QuantityIN", title: "Qty Masuk", sortable: false },
         { field: "UomUnit", title: "Satuan", sortable: false },
     ];
@@ -111,6 +112,7 @@ export class List {
                     return moment(value).format("DD MMM YYYY");
                 }
             },
+            { field: "ProductName", title: "Nama Barang", sortable: false },
             { field: "QuantityIN", title: "Qty Masuk", sortable: false },
             { field: "UomUnit", title: "Satuan", sortable: false },
         ];
@@ -132,7 +134,7 @@ export class List {
                 $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "DONo", rowspan: rowSpan, colspan: 1 });
                 $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "SupplierName", rowspan: rowSpan, colspan: 1 });
                 $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "DODate", rowspan: rowSpan, colspan: 1 });
-                // $(this.table).bootstrapTable('mergeCells', { index : rowIndex, field: "QuantityIN", rowspan: rowSpan, colspan: 1 });
+                $(this.table).bootstrapTable('mergeCells', { index : rowIndex, field: "ArrivalDate", rowspan: rowSpan, colspan: 1 });
                 // $(this.table).bootstrapTable('mergeCells', { index : rowIndex, field: "UomUnit", rowspan: rowSpan, colspan: 1 });
 
             }
