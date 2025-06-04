@@ -67,7 +67,7 @@ export class DataForm {
 
   async bind() {
     // this.data = this.data || {};
-    if (this.data.Uom) {
+    if (this.data.Uom ) {
       this.UOmUnit = this.data.Uom.Unit;
 
       // this.data.Details.map(x => 
@@ -294,7 +294,7 @@ export class DataForm {
         else {
           this.data.Uom = {};
           //this.UOMOptions = ["MTR", "PCS"];
-          //this.data.Uom.Unit = "MTR";
+          this.data.Uom.Unit = "MTR";
           // this.data.Uom.Unit = ["MTR","PCS"];
           //this.data.Uom.Unit = this.UOMOptions[0];
         }
@@ -316,9 +316,20 @@ export class DataForm {
           this.Material = {};
           this.data.YarnMaterial = {};
           this.data.DesignMotive = {};
-          this.data.Uom = {};
+          //this.data.Uom = {};
           this.data.FinishWidth = "";
 
+          if (this.data.Uom) {
+            this.data.Uom.Unit = this.data.Uom.Unit;
+            //this.data.Uom.Unit = this.data.Uom.Unit || "MTR";
+          }
+          else {
+            this.data.Uom = {};
+            //this.UOMOptions = ["MTR", "PCS"];
+            this.data.Uom.Unit = "MTR";
+            // this.data.Uom.Unit = ["MTR","PCS"];
+            //this.data.Uom.Unit = this.UOMOptions[0];
+          }
           //split value from description
           var splitValue = this.data.FinishingPrintingSalesContract.Description.split(";;;");
           this.material = splitValue[0] || "";
