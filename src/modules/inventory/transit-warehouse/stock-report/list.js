@@ -92,7 +92,7 @@ export class List {
                     else {
                         count2++;
                         temp[item.DONo + item.SupplierName + item.DODate + item.ProductName + item.QuantityIN + item.RemainingQuantity] = count2;
-                        item.DONo = null;
+                        item.ProductName = null;
                     }
                 }
                 var index = 0;
@@ -100,9 +100,10 @@ export class List {
                     if (a.DONo != null) {
                         index++;
                         a.row_count = temp[a.DONo + a.SupplierName + a.DODate];
+                    }
+                    if (a.ProductName != null) {
                         a.mergeOfQty = temp[a.DONo + a.SupplierName + a.DODate + a.ProductName + a.QuantityIN + a.RemainingQuantity];
                     }
-
                     a.index = index;
                 }
                 this.fillTable();
@@ -150,16 +151,23 @@ export class List {
         for (const rowIndex in this.data) {
             if (this.data[rowIndex].DONo) {
                 var rowSpan = this.data[rowIndex].row_count;
-                var spanQty = this.data[rowIndex].mergeOfQty;
                 $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "index", rowspan: rowSpan, colspan: 1 });
                 $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "DONo", rowspan: rowSpan, colspan: 1 });
                 $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "SupplierName", rowspan: rowSpan, colspan: 1 });
                 $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "DODate", rowspan: rowSpan, colspan: 1 });
                 $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "ArrivalDate", rowspan: rowSpan, colspan: 1 });
+                // $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "ProductName", rowspan: spanQty, colspan: 1 });
                 // $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "QuantityIN", rowspan: spanQty, colspan: 1 });
                 // $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "RemainingQuantity", rowspan: spanQty, colspan: 1 });
                 // $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "UomUnit", rowspan: spanQty, colspan: 1 });
 
+            }
+            if( this.data[rowIndex].ProductName) {
+                var spanQty = this.data[rowIndex].mergeOfQty;
+                $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "ProductName", rowspan: spanQty, colspan: 1 });
+                $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "QuantityIN", rowspan: spanQty, colspan: 1 });
+                $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "RemainingQuantity", rowspan: spanQty , colspan: 1 });
+                $(this.table).bootstrapTable('mergeCells', { index: rowIndex, field: "UomUnit", rowspan: spanQty, colspan: 1 });
             }
         }
 
