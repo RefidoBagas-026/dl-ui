@@ -78,14 +78,14 @@ export class DataForm {
         }
     }
 
-    async selectedDONoChanged(newValue){
-        if(this.context.isCreate){
-            if(newValue){
-                this.data.items.splice(0);
-                this.data.DONo=newValue.DONo;
-                this.data.INId=newValue.Id;
-                this.data.Supplier=newValue.Supplier;
-                this.data.DODate=newValue.DODate;
+    async selectedDONoChanged(newValue) {
+        if (this.context.isCreate) {
+            if (newValue) {
+                this.data.Items.splice(0);
+                this.data.DONo = newValue.DONo;
+                this.data.INId = newValue.Id;
+                this.data.Supplier = newValue.Supplier;
+                this.data.DODate = newValue.DODate;
 
                 var doNo= await this.service.getINById(this.data.INId);
                 
