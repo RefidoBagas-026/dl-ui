@@ -72,7 +72,7 @@ export class DataForm {
                         item.RemainingQty= doItem.RemainingQuantity;
                         item.INItemId= doItem.Id;
                         item.IsSave= true;
-                        this.data.items.push(item);
+                        //this.data.Items.push(item);
                 }
             }
         }
@@ -91,7 +91,7 @@ export class DataForm {
                 
                 for(var item of doNo.Items){
                     if(item.RemainingQuantity != 0){
-                        this.data.items.push({
+                        this.data.Items.push({
                             ProductName: item.ProductName,
                             RemainingQty: item.RemainingQuantity,
                             Uom: item.Uom,
