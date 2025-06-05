@@ -67,10 +67,11 @@ export class DataForm {
             this.data.DODate = doNo.DODate;
             for (var item of this.data.Items) {
                 var doItem = doNo.Items.find(x => x.Id === item.INItemId);
-                if (doItem) {
-                    item.RemainingQty = doItem.RemainingQuantity;
-                    item.INItemId = doItem.Id;
-                    item.IsSave = true;
+                if(doItem){
+                        item.RemainingQty= doItem.RemainingQuantity;
+                        item.INItemId= doItem.Id;
+                        item.IsSave= true;
+                        //this.data.Items.push(item);
                 }
             }
         }
@@ -86,10 +87,10 @@ export class DataForm {
                 this.data.Supplier = newValue.Supplier;
                 this.data.DODate = newValue.DODate;
 
-                var doNo = await this.service.getINById(this.data.INId);
-
-                for (var item of doNo.Items) {
-                    if (item.RemainingQuantity != 0) {
+                var doNo= await this.service.getINById(this.data.INId);
+                
+                for(var item of doNo.Items){
+                    if(item.RemainingQuantity != 0){
                         this.data.Items.push({
                             ProductName: item.ProductName,
                             RemainingQty: item.RemainingQuantity,

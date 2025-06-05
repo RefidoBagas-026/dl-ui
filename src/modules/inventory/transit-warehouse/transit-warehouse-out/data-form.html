@@ -37,14 +37,19 @@
             read-only.bind="readOnly" options.bind="controlOptions">
         </au-datepicker>
 
-        <au-textbox show.bind="error.itemscount" error.bind="error.itemscount" read-only="true">
-        </au-textbox>
-
-        <au-collection items.bind="data.Items" errors.bind="error.Items" columns.bind="ItemsColumns"
-            read-only.bind="readOnly" add.bind="addItems" options.bind="Options"
-            header-template="modules/inventory/transit-warehouse/transit-warehouse-out/templates/item-header"
-            item-template="modules/inventory/transit-warehouse/transit-warehouse-out/templates/item">
-
+        <div class="form-group has-error">
+            <p if.bind="error.itemscount" class="help-block text-center">${error.itemscount}</p>
+        </div>
+        
+        <au-collection 
+                items.bind="data.Items" 
+                errors.bind="error.Items" 
+                columns.bind="ItemsColumns"
+                read-only.bind="readOnly" 
+                add.bind="addItems" 
+                options.bind="Options"
+                header-template="modules/inventory/transit-warehouse/transit-warehouse-out/templates/item-header"
+                item-template="modules/inventory/transit-warehouse/transit-warehouse-out/templates/item">
         </au-collection>
 
     </au-input-form>
