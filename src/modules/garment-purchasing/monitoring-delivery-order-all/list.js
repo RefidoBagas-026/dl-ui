@@ -1,4 +1,4 @@
-import { inject } from 'aurelia-framework';
+import { inject, bindable } from 'aurelia-framework';
 import { Service, PurchasingService } from "./service";
 
 import moment from 'moment';
@@ -12,12 +12,14 @@ var POEksLoader = require('../../../loader/garment-purchase-order-external-loade
 @inject(Service, PurchasingService)
 
 export class List {
+    @bindable Type;
+
     constructor(service, purchasingService) {
         this.service = service;
         this.purchasingService = purchasingService;
 
         this.flag = false;
-        
+
         this.today = new Date();
         this.error = {};
     }
@@ -43,26 +45,33 @@ export class List {
 
     // }
 
+    itemsType = [
+        "Monitoring", "Report"];
+
     columns = [
-        { field: "index", title: "No" , sortable: false},
-         { field: "no", title: "Nomor Surat Jalan", sortable: false },
-         { field: "supplierDoDate", title: "Tanggal Surat Jalan", sortable: false, formatter: function (value, data, index) {
+        { field: "index", title: "No", sortable: false },
+        { field: "no", title: "Nomor Surat Jalan", sortable: false },
+        {
+            field: "supplierDoDate", title: "Tanggal Surat Jalan", sortable: false, formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY");
             }
         },
-         { field: "date", title: "Tanggal Tiba", sortable: false, formatter: function (value, data, index) {
+        {
+            field: "date", title: "Tanggal Tiba", sortable: false, formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY");
             }
         },
-         { field: "supplierName", title: "Nama Supplier", sortable: false },
-         { field: "shipmentType", title: "Jenis Supplier", sortable: false, formatter: function (value, data) {
-            
-                return (value)==""? "Local" : "Import";
-            }},
+        { field: "supplierName", title: "Nama Supplier", sortable: false },
+        {
+            field: "shipmentType", title: "Jenis Supplier", sortable: false, formatter: function (value, data) {
+
+                return (value) == "" ? "Local" : "Import";
+            }
+        },
         // { field: "shipmentType", title: "Pengiriman", sortable: false },
         { field: "shipmentNo", title: "No BL/AWB", sortable: false },
         // { field: "isCustoms", title: "Dikenakan Beacukai", sortable: false , formatter: function (value, data) {
-            
+
         //         return (value)==true? "Ya" : "Tidak";
         //     } },
         { field: "ePONo", title: "No PO Eksternal", sortable: false },
@@ -71,54 +80,63 @@ export class List {
         { field: "roNo", title: "Nomor RO", sortable: false },
         { field: "productCode", title: "Kode Barang", sortable: false },
         { field: "productName", title: "Nama Barang", sortable: false },
-        { field: "dealQuantity", title: "Jumlah Dipesan", sortable: false, formatter:(value,data)=>{
-            return value.toLocaleString('en-EN', { minimumFractionDigits: 2 });
-        }  },
-          { field: "dOQuantity", title: "Jumlah Diterima", sortable: false, formatter:(value,data)=>{
-            return value.toLocaleString('en-EN', { minimumFractionDigits: 2 });
-        }  },
-         { field: "uomUnit", title: "Satuan", sortable: false },
-         { field: "price", title: "Harga", sortable: false },
-         { field: "doCurrencyCode", title: "Mata Uang", sortable: false },
-         { field: "doCurrencyRate", title: "Rate", sortable: false },
-         { field: "productRemark", title: "Keterangan", sortable: false },
-           { field: "createdBy", title: "Staff Pembelian", sortable: false },
-         { field: "EPOcreatedBy", title: "Staff Pembelian (P/O)", sortable: false },
-         { field: "BeacukaiNo", title: "No BC", sortable: false }, 
-         { field: "BeacukaiType", title: "Tipe BC", sortable: false }, 
-         { field: "BCDate", title: "Tanggal BC", sortable: false, formatter: function (value, data, index) {
-            if (moment(value).format("DD MMM YYYY")=="01 Jan 1970")
-                return "-"
-             else    
-                return moment(value).format("DD MMM YYYY");
-              
+        {
+            field: "dealQuantity", title: "Jumlah Dipesan", sortable: false, formatter: (value, data) => {
+                return value.toLocaleString('en-EN', { minimumFractionDigits: 2 });
             }
         },
-         { field: "BeacukaiDate", title: "Tanggal Input BC", sortable: false, formatter: function (value, data, index) {
-            if (moment(value).format("DD MMM YYYY")=="01 Jan 0001")
+        {
+            field: "dOQuantity", title: "Jumlah Diterima", sortable: false, formatter: (value, data) => {
+                return value.toLocaleString('en-EN', { minimumFractionDigits: 2 });
+            }
+        },
+        { field: "uomUnit", title: "Satuan", sortable: false },
+        { field: "price", title: "Harga", sortable: false },
+        { field: "doCurrencyCode", title: "Mata Uang", sortable: false },
+        { field: "doCurrencyRate", title: "Rate", sortable: false },
+        { field: "productRemark", title: "Keterangan", sortable: false },
+        { field: "createdBy", title: "Staff Pembelian", sortable: false },
+        { field: "EPOcreatedBy", title: "Staff Pembelian (P/O)", sortable: false },
+        { field: "BeacukaiNo", title: "No BC", sortable: false },
+        { field: "BeacukaiType", title: "Tipe BC", sortable: false },
+        {
+            field: "BCDate", title: "Tanggal BC", sortable: false, formatter: function (value, data, index) {
+                if (moment(value).format("DD MMM YYYY") == "01 Jan 1970")
                     return "-"
-                else    
+                else
+                    return moment(value).format("DD MMM YYYY");
+
+            }
+        },
+        {
+            field: "BeacukaiDate", title: "Tanggal Input BC", sortable: false, formatter: function (value, data, index) {
+                if (moment(value).format("DD MMM YYYY") == "01 Jan 0001")
+                    return "-"
+                else
                     return moment(value).format("DD MMM YYYY");
             }
-            
+
         },
         { field: "BillNo", title: "No BP Besar", sortable: false },
-        { field: "PaymentBill", title: "No BP Kecil", sortable: false },        
-         { field: "URNNo", title: "Nomor Bon Unit", sortable: false },
-         { field: "URNDate", title: "Tanggal Bon Unit", sortable: false, formatter: function (value, data, index) {             
-             if (moment(value).format("DD MMM YYYY")=="01 Jan 1970")
-                return "-"
-             else    
-                return moment(value).format("DD MMM YYYY");
-              }
-         },
-        { field: "urnQuantity", title: "Jumlah Bon Unit", sortable: false, formatter:(value,data)=>{
-            return value.toLocaleString('en-EN', { minimumFractionDigits: 2 });
-        }  },
-         { field: "urnUom", title: "Satuan", sortable: false },
-         { field: "UnitName", title: "Nama Unit", sortable: false },
-         { field: "INNo", title: "No Nota Intern", sortable: false },
-         { field: "TermPayment", title: "Term Pembayaran", sortable: false },
+        { field: "PaymentBill", title: "No BP Kecil", sortable: false },
+        { field: "URNNo", title: "Nomor Bon Unit", sortable: false },
+        {
+            field: "URNDate", title: "Tanggal Bon Unit", sortable: false, formatter: function (value, data, index) {
+                if (moment(value).format("DD MMM YYYY") == "01 Jan 1970")
+                    return "-"
+                else
+                    return moment(value).format("DD MMM YYYY");
+            }
+        },
+        {
+            field: "urnQuantity", title: "Jumlah Bon Unit", sortable: false, formatter: (value, data) => {
+                return value.toLocaleString('en-EN', { minimumFractionDigits: 2 });
+            }
+        },
+        { field: "urnUom", title: "Satuan", sortable: false },
+        { field: "UnitName", title: "Nama Unit", sortable: false },
+        { field: "INNo", title: "No Nota Intern", sortable: false },
+        { field: "TermPayment", title: "Term Pembayaran", sortable: false },
     ];
 
     search() {
@@ -166,47 +184,70 @@ export class List {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             no: this.no ? this.no.doNo : "",
-            poEksNo : this.purchaseOrderExternal ? this.purchaseOrderExternal.EPONo : "",
+            poEksNo: this.purchaseOrderExternal ? this.purchaseOrderExternal.EPONo : "",
             supplierId: this.supplier ? this.supplier.Id : "",
-            billno : this.billno ? this.billno : "",
-            paymentbill : this.paymentbill ? this.paymentbill : "",
-            dateTo: this.dateTo? moment(this.dateTo).format("MM/DD/YYYY"):"",
-            dateFrom: this.dateFrom? moment(this.dateFrom).format("MM/DD/YYYY"):"",
+            billno: this.billno ? this.billno : "",
+            paymentbill: this.paymentbill ? this.paymentbill : "",
+            dateTo: this.dateTo ? moment(this.dateTo).format("MM/DD/YYYY") : "",
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("MM/DD/YYYY") : "",
         };
         return this.flag ?
             (
-                this.service.search(args)
-                    .then(result => {
-                        var index=0;
-                        for(var a of result.data){
-                            index++;
-                            a.index=index;
-                        }
-                        return {
-                            total: result.info.total,
-                            data: result.data
-                        };
-                    })
+                // Check if Type is Report or Monitoring
+                this.Type === "Report" ?
+                    this.service.search(args)
+                        .then(result => {
+                            var index = 0;
+                            for (var a of result.data) {
+                                index++;
+                                a.index = index;
+                            }
+                            return {
+                                total: result.info.total,
+                                data: result.data
+                            };
+                        }) :
+                    // Monitoring
+                    this.purchasingService.search(args)
+                        .then(result => {
+                            var index = 0;
+                            for (var a of result.data) {
+                                index++;
+                                a.index = index;
+                            }
+                            return {
+                                total: result.info.total,
+                                data: result.data
+                            };
+                        })
             ) : { total: 0, data: [] };
     }
-    
+
     xls() {
         this.error = {};
         if (Object.getOwnPropertyNames(this.error).length === 0) {
             let args = {
-            no: this.no ? this.no.doNo : "",
-            poEksNo : this.purchaseOrderExternal ? this.purchaseOrderExternal.EPONo : "",
-            supplierId: this.supplier ? this.supplier.Id : "",
-            billno : this.billno ? this.billno : "",
-            paymentbill : this.paymentbill ? this.paymentbill : "",
-            dateTo: this.dateTo? moment(this.dateTo).format("MM/DD/YYYY"):"",
-            dateFrom: this.dateFrom? moment(this.dateFrom).format("MM/DD/YYYY"):"",
+                no: this.no ? this.no.doNo : "",
+                poEksNo: this.purchaseOrderExternal ? this.purchaseOrderExternal.EPONo : "",
+                supplierId: this.supplier ? this.supplier.Id : "",
+                billno: this.billno ? this.billno : "",
+                paymentbill: this.paymentbill ? this.paymentbill : "",
+                dateTo: this.dateTo ? moment(this.dateTo).format("MM/DD/YYYY") : "",
+                dateFrom: this.dateFrom ? moment(this.dateFrom).format("MM/DD/YYYY") : "",
 
-        };
-            this.service.getXls(args)
-                .catch(e => {
-                    alert(e.replace(e, "Error: ", ""));
-                });
+            };
+            // Check if Type is Report or Monitoring
+            this.Type === "Report" ?
+                this.service.getXls(args)
+                    .catch(e => {
+                        alert(e.replace(e, "Error: ", ""));
+                    })
+                :
+                // Monitoring
+                this.purchasingService.getXls(args)
+                    .catch(e => {
+                        alert(e.replace(e, "Error: ", ""));
+                    });
         }
     }
 
@@ -223,26 +264,26 @@ export class List {
     //         this.dateTo = e.srcElement.value;
 
     // }
-     get poEksLoader(){
+    get poEksLoader() {
         return POEksLoader;
     }
 
-    get supplierLoader(){
+    get supplierLoader() {
         return SupplierLoader;
     }
-    get dOLoader(){
+    get dOLoader() {
         return (keyword) => {
             var info = {
                 keyword: keyword,
-                select: JSON.stringify({ "doNo": "DONo", "Id" : "1", "supplierName" : "SupplierName" }),
-                search: JSON.stringify([ "DONo" ]),
-                order: {"DONo": "asc"}
+                select: JSON.stringify({ "doNo": "DONo", "Id": "1", "supplierName": "SupplierName", "doDate": "DODate" }),
+                search: JSON.stringify(["DONo"]),
+                order: { "DONo": "asc" }
             };
-            console.log(info);
+
             return this.purchasingService.searchDeliveryOrder(info)
                 .then((result) => {
                     return result.data.map(data => {
-                        data.toString = function() { return `${this.doNo} - ${this.supplierName}`; };
+                        data.toString = function () { return `${this.doNo} - ${this.supplierName} - ${this.doDate.substring(0, 4)}`; };
                         return data;
                     });
                 });
@@ -252,4 +293,22 @@ export class List {
     doView = (tr) => {
         return `${tr.no}`;
     }
+
+    TypeChanged(n, o) {
+        if (n) {
+            if (n === "Report") {
+                //remove value of filled fields
+                this.no = null;
+                this.purchaseOrderExternal = null;
+                this.supplier = null;
+                this.billno = "";
+                this.paymentbill = "";
+
+            } else {
+                this.dateTo = "";
+                this.dateFrom = "";
+            }
+        }
+    }
+
 }
