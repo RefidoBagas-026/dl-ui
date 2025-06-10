@@ -77,6 +77,14 @@
                        options.bind="controlOptions">
       </au-autocomplete>
 
+      <au-textbox 
+                  label="Alamat Email Pemohon"
+                  value.bind="data.RequesterEmail"
+                  error.bind="error.RequesterEmail"
+                  read-only.bind="readOnly"
+                  options.bind="controlOptions">
+      </au-textbox>
+
       <au-autocomplete label="Mata Uang"
                        value.bind="currency"
                        error.bind="error.Currency"
@@ -85,8 +93,6 @@
                        read-only.bind="readOnly || isVB"
                        options.bind="controlOptions">
       </au-autocomplete>
-
-
 
       <au-numeric show.bind="isVB || vbDocument"
                   label="Jumlah Uang"
