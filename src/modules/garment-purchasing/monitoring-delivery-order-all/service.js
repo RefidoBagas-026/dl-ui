@@ -4,7 +4,7 @@ import { RestService } from '../../../utils/rest-service';
 
 
 const serviceUri = 'garment-delivery-orders/monitoring';
- 
+
 
 export class Service extends RestService {
 
@@ -28,17 +28,28 @@ export class Service extends RestService {
     }
 }
 
-const deliveryOrderServiceUri = 'garment-delivery-orders/loader';  
+const deliveryOrderServiceUri = 'garment-delivery-orders';
 export class PurchasingService extends RestService {
 
-    constructor(http, aggregator, config, endpoint){
+    constructor(http, aggregator, config, endpoint) {
         super(http, aggregator, config, "purchasing-azure")
     }
 
     searchDeliveryOrder(info) {
-        var endpoint = `${deliveryOrderServiceUri}`;
+        var endpoint = `${deliveryOrderServiceUri}/loader`;
         return super.list(endpoint, info);
     }
 
-    
+    search(info) {
+        let endpoint = `${deliveryOrderServiceUri}/monitoring`;
+        return super.list(endpoint, info);
+    }
+
+    getXls(info) {
+        var endpoint = `${deliveryOrderServiceUri}/monitoring/download?no=${info.no}&poEksNo=${info.poEksNo}&supplierId=${info.supplierId}&billno=${info.billno}&paymentbill=${info.paymentbill}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}`;
+        return super.getXls(endpoint);
+    }
+
+
+
 }
