@@ -2,57 +2,36 @@
     <h1 class="page-header">Monitoring Surat Jalan</h1>
     <form class="form-horizontal">
         <!-- <delivery-order-auto-suggest label="No. Surat Jalan" value.bind="no"></delivery-order-auto-suggest> -->
-        <au-autocomplete 
-            value.bind="no" 
-            label="No. Surat Jalan" 
-            loader.bind="dOLoader"
-            placeholder="cari nomor SJ" 
-            key="_id"
+
+        <au-dropdown label="Type" value.bind="Type" items.bind="itemsType" placeholder="Pilih Tipe"
             options.bind="controlOptions">
+        </au-dropdown>
+
+        <au-autocomplete value.bind="no" label="No. Surat Jalan" loader.bind="dOLoader" placeholder="cari nomor SJ"
+            key="_id" options.bind="controlOptions" if.bind="Type === 'Monitoring'">
         </au-autocomplete>
 
-   <au-autocomplete 
-                value.bind="purchaseOrderExternal" 
-                label="Nomor PO Eksternal" 
-                loader.bind="poEksLoader"
-                placeholder="Cari Nomor PO Eksternal" 
-                read-only.bind="readOnly" 
-                key="_id" 
-                text="EPONo"
-                options.bind="controlOptions">
-            </au-autocomplete>
-            
-        <au-autocomplete 
-            value.bind="supplier" 
-            label="Supplier" 
-            loader.bind="supplierLoader"
-            placeholder="cari supplier" 
-            key="code" 
-            options.bind="controlOptions">
+        <au-autocomplete value.bind="purchaseOrderExternal" label="Nomor PO Eksternal" loader.bind="poEksLoader"
+            placeholder="Cari Nomor PO Eksternal" read-only.bind="readOnly" key="_id" text="EPONo"
+            options.bind="controlOptions" if.bind="Type === 'Monitoring'">
         </au-autocomplete>
 
-        <au-textbox label="Nomor BP Besar" 
-            value.bind="billno"
-            placeholder="Masukan Nomor BP Besar" options.bind="controlOptions">
+        <au-autocomplete value.bind="supplier" label="Supplier" loader.bind="supplierLoader" placeholder="cari supplier"
+            key="code" options.bind="controlOptions" if.bind="Type === 'Monitoring'">
+        </au-autocomplete>
+
+        <au-textbox label="Nomor BP Besar" value.bind="billno" placeholder="Masukan Nomor BP Besar"
+            options.bind="controlOptions" if.bind="Type === 'Monitoring'">
         </au-textbox>
 
-        <au-textbox label="Nomor BP Kecil" 
-            value.bind="paymentbill"
-            placeholder="Masukan Nomor BP Kecil" options.bind="controlOptions">
+        <au-textbox label="Nomor BP Kecil" value.bind="paymentbill" placeholder="Masukan Nomor BP Kecil"
+            options.bind="controlOptions" if.bind="Type === 'Monitoring'">
         </au-textbox>
         <!-- <supplier-auto-suggest label="Supplier" value.bind="supplierId"></supplier-auto-suggest> -->
-        <au-datepicker
-            value.bind="dateFrom"
-            label="Dari Tgl"
-            options.bind="controlOptions"
-            error.bind="error.date">
+        <au-datepicker value.bind="dateFrom" label="Dari Tgl" options.bind="controlOptions" error.bind="error.date">
         </au-datepicker>
-        
-        <au-datepicker
-            value.bind="dateTo"
-            label="Sampai Tgl"
-            options.bind="controlOptions"
-            error.bind="error.date">
+
+        <au-datepicker value.bind="dateTo" label="Sampai Tgl" options.bind="controlOptions" error.bind="error.date">
         </au-datepicker>
 
         <!-- <datepicker label="Tanggal Awal" value.bind="dateFrom" change.delegate="dateFromChanged($event)"></datepicker>
@@ -65,22 +44,17 @@
             </div>
         </div>
 
-        <au-table
-            view-model.ref="doTable"
-            data.bind="loader"
-            columns.bind="columns"
-            sortable.bind="true"
-            page-size="25"
+        <au-table view-model.ref="doTable" data.bind="loader" columns.bind="columns" sortable.bind="true" page-size="25"
             options.bind="tableOptions">
-            
+
             <div slot="toolbar" class="btn-group">
-            <button class='btn btn-primary' click.delegate="xls()">Cetak Excel</button>
+                <button class='btn btn-primary' click.delegate="xls()">Cetak Excel</button>
             </div>
         </au-table>
-        <hr/>
+        <hr />
     </form>
 </template>
-        <!-- <div >
+<!-- <div >
             <a click.delegate="ExportToExcel()" class='btn btn-primary'>Cetak Excel</a>
         </div>
         <div class="table-responsive">
