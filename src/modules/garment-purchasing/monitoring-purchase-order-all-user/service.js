@@ -13,7 +13,7 @@ export class Service extends RestService {
 
     search(args) {
         let endpoint = `${serviceUri}`;
-       
+
         return super.list(endpoint, args);
     }
 
@@ -22,4 +22,22 @@ export class Service extends RestService {
         return super.getXls(endpoint);
     }
 
+}
+
+const purchasingUri = 'garment-purchase-orders/monitoring';
+export class PurchasingService extends RestService {
+
+    constructor(http, aggregator, config, endpoint) {
+        super(http, aggregator, config, "purchasing-azure")
+    }
+
+    search(info) {
+        let endpoint = `${purchasingUri}`;
+        return super.list(endpoint, info);
+    }
+
+    generateExcel(epono, unit, roNo, article, poSerialNumber, username, doNo, ipoStatus, supplier, status, dateFrom, dateTo, dateFromEx, dateToEx) {
+        var endpoint = `${purchasingUri}/download?unit=${unit}&article=${article}&poSerialNumber=${poSerialNumber}&ipoStatus=${ipoStatus}&epono=${epono}&roNo=${roNo}&doNo=${doNo}&supplier=${supplier}&username=${username}&dateFrom=${dateFrom}&dateTo=${dateTo}&dateFromEx=${dateFromEx}&dateToEx=${dateToEx}&status=${status}`;
+        return super.getXls(endpoint);
+    }
 }

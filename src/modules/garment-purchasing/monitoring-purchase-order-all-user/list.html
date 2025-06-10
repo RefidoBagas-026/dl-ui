@@ -1,7 +1,7 @@
 <template>
 
     <style>
-        table > tbody > tr > td {
+        table>tbody>tr>td {
             white-space: pre;
         }
     </style>
@@ -11,15 +11,13 @@
         <div class="form-group">
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
-                <au-autocomplete 
-                    value.bind="unit" 
-                    label="Unit Yang Mengajukan" 
-                    loader.bind="unitLoader"
-                    placeholder="Cari Unit"
-                    text.bind="unitView"
-                    read-only.bind="readOnly" 
-                     
+                <au-dropdown label="Type" value.bind="Type" items.bind="itemsType" placeholder="Pilih Tipe"
                     options.bind="controlOptions">
+                </au-dropdown>
+
+                <au-autocomplete value.bind="unit" label="Unit Yang Mengajukan" loader.bind="unitLoader"
+                    placeholder="Cari Unit" text.bind="unitView" read-only.bind="readOnly" options.bind="controlOptions"
+                    if.bind="Type === 'Monitoring'">
                 </au-autocomplete>
                 <!-- <au-autocomplete 
                     value.bind="category" 
@@ -31,35 +29,30 @@
                     options.bind="controlOptions">
                 </au-autocomplete> -->
 
-                <au-textbox value.bind="epoNo" label="Nomor External PO" placeholder="No PO External">
+                <au-textbox value.bind="epoNo" label="Nomor External PO" placeholder="No PO External"
+                    if.bind="Type === 'Monitoring'">
                 </au-textbox>
 
-                <au-textbox value.bind="roNo" label="Nomor RO" placeholder="Nomor RO">
+                <au-textbox value.bind="roNo" label="Nomor RO" placeholder="Nomor RO" if.bind="Type === 'Monitoring'">
                 </au-textbox>
 
-                <au-textbox value.bind="poSerialNumber" label="Nomor Ref PO" placeholder="Nomor Ref PO">
+                <au-textbox value.bind="poSerialNumber" label="Nomor Ref PO" placeholder="Nomor Ref PO"
+                    if.bind="Type === 'Monitoring'">
                 </au-textbox>
-                <au-textbox value.bind="article" label="Artikel" placeholder="Nomor Artikel">
-                </au-textbox>
-                
-                <au-textbox value.bind="doNo" label="Nomor Surat Jalan" placeholder="Nomor Surat Jalan">
+                <au-textbox value.bind="article" label="Artikel" placeholder="Nomor Artikel"
+                    if.bind="Type === 'Monitoring'">
                 </au-textbox>
 
-                <au-autocomplete 
-                    value.bind="supplier" 
-                    label="Supplier" 
-                    loader.bind="supplierLoader"
-                    placeholder="Cari Supplier"
-                    read-only.bind="readOnly" 
-                    text.bind = "supplierView"                    
-                    options.bind="controlOptions">
+                <au-textbox value.bind="doNo" label="Nomor Surat Jalan" placeholder="Nomor Surat Jalan"
+                    if.bind="Type === 'Monitoring'">
+                </au-textbox>
+
+                <au-autocomplete value.bind="supplier" label="Supplier" loader.bind="supplierLoader"
+                    placeholder="Cari Supplier" read-only.bind="readOnly" text.bind="supplierView"
+                    options.bind="controlOptions" if.bind="Type === 'Monitoring'">
                 </au-autocomplete>
-                <au-autocomplete  
-                    label="Nama Staff Pembelian"
-                    loader.bind="accountLoader"
-                    value.bind="account" 
-                    placeholder="Nama Staff Pembelian"
-                     text.bind = "accountView">
+                <au-autocomplete label="Nama Staff Pembelian" loader.bind="accountLoader" value.bind="account"
+                    placeholder="Nama Staff Pembelian" text.bind="accountView" if.bind="Type === 'Monitoring'">
                 </au-autocomplete>
 
                 <!--<au-datepicker label="Tanggal Awal" value.bind="dateFrom" change.delegate="dateFromChanged($event)">
@@ -68,15 +61,18 @@
                 <au-datepicker label="Tanggal Akhir" value.bind="dateTo" min.bind="dateMin">
                 </au-datepicker>-->
 
-                <au-datepicker label="Tanggal Awal PR" value.bind="dateFrom"></au-datepicker>
-                <au-datepicker label="Tanggal Akhir PR" value.bind="dateTo"></au-datepicker>
+                <au-datepicker label="Tanggal Awal PR" value.bind="dateFrom" error.bind="error.date"></au-datepicker>
+                <au-datepicker label="Tanggal Akhir PR" value.bind="dateTo" error.bind="error.date"></au-datepicker>
 
-                <au-datepicker label="Tanggal Awal PO EX." value.bind="dateFromEx"></au-datepicker>
-                <au-datepicker label="Tanggal Akhir PO EX" value.bind="dateToEx"></au-datepicker>
+                <au-datepicker label="Tanggal Awal PO EX." value.bind="dateFromEx"
+                    error.bind="error.date"></au-datepicker>
+                <au-datepicker label="Tanggal Akhir PO EX" value.bind="dateToEx"
+                    error.bind="error.date"></au-datepicker>
 
-                <au-dropdown label="Status PO Internal" value.bind="poIntState" items.bind="poIntStates">
+                <au-dropdown label="Status PO Internal" value.bind="poIntState" items.bind="poIntStates"
+                    if.bind="Type === 'Monitoring'">
                 </au-dropdown>
-                <au-dropdown label="Status" value.bind="poState" items.bind="poStates">
+                <au-dropdown label="Status" value.bind="poState" items.bind="poStates" if.bind="Type === 'Monitoring'">
                 </au-dropdown>
 
                 <label for="contact" class="col-sm-9 control-label"></label>
@@ -89,8 +85,8 @@
         <div>
             <a click.delegate="exportToXls()" class='btn btn-primary'>Cetak Excel</a>
         </div>
-        
-            <!-- <table class="table table-bordered table-hover" border="1" id="poReport">
+
+        <!-- <table class="table table-bordered table-hover" border="1" id="poReport">
                 <thead align="center" style="position: absolute;">
                     <tr>
                         <td rowspan="3">NO</td>
@@ -294,12 +290,14 @@
                     </tr>
                 </tbody>
             </table> -->
-             <table ref="table" class="table table-bordered table-fixed table-hover table-condensed" border="1" id="myTable" ></table>
-            
+        <table ref="table" class="table table-bordered table-fixed table-hover table-condensed" border="1" id="myTable">
+        </table>
+
         <div class="alert alert-info text-center" role="alert" if.bind="data.length == 0">
             Tidak ada data ditemukan.
         </div>
-        <pagination if.bind="info.total>info.size" info.bind="info" change.delegate="changePage($event)" id="pager"></pagination>
-        <hr/>
+        <pagination if.bind="info.total>info.size" info.bind="info" change.delegate="changePage($event)" id="pager">
+        </pagination>
+        <hr />
     </form>
 </template>
