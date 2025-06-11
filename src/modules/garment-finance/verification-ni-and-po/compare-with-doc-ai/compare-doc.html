@@ -51,7 +51,10 @@
                       <button if.bind="uploadFiles[$index]" class="btn btn-primary justify-content-center ms-2" click.delegate="downloadUploadFile($index)">${fileName}</button>
                     </td>
                     <td if.bind="!readOnly" class="text-center">
-                      <button class="btn btn-danger pull-right" type="button" click.delegate="onRemoveUploadFile($index)">-</button>
+                      <div class="compare-upload-btns">
+                        <button click.delegate="scanUploadFile($index)" class='btn btn-primary'><i class="fa fa-eye"></i></button>
+                        <button class="btn btn-danger" type="button" click.delegate="onRemoveUploadFile($index)">-</button>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -70,7 +73,7 @@
     <div class="compare-loader-spinner">
       <i class="fa fa-spinner fa-spin" style="font-size:3rem;color:#0D2F56;"></i>
       <div style="margin-top:12px;color:#0D2F56;font-weight:bold;">
-        ${isCheckingNiPo ? 'Memproses Compare...' : 'Sedang Mencari...'}
+        ${isCheckingNiPo ? 'Memproses Compare...' : (isScanningPO ? 'Memproses Scanning...' : 'Sedang Mencari...')}
       </div>
     </div>
   </div>
