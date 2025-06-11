@@ -2,8 +2,10 @@ import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from '../service';
 import { ServiceCompare } from '../service';
+import { Dialog } from '../../../../components/dialog/dialog';
+import { POScanResultDialog } from '../dialog/po-scan-result-dialog';
 
-@inject(Service,ServiceCompare, Router)
+@inject(Dialog, Service,ServiceCompare, Router)
 export class CompareDoc {
   pdfUrl = null;
   pdfPreviewUrl = null;
@@ -17,8 +19,10 @@ export class CompareDoc {
   uploadFileNames = [];
   uploadErrors = [];
   isCheckingNiPo = false;
+  isScanningPO = false;
 
-  constructor(service,serviceCompare, router) {
+  constructor(dialog, service,serviceCompare, router) {
+    this.dialog = dialog;
     this.service = service;
     this.serviceCompare = serviceCompare;
     this.router = router;
@@ -97,7 +101,7 @@ export class CompareDoc {
     if (!this.selectedData || !this.selectedData.Id) {
       errorMsg.push('Pilih dokumen pada pencarian dokumen!');
     }
-    const files = this.uploadFiles.filter(f => f);
+    const files = this.uploadFiles.filter(f => f).map(f => f.file);
     if (files.length === 0) {
       errorMsg.push('Upload minimal 1 file PDF!');
     }
@@ -178,8 +182,58 @@ export class CompareDoc {
       return;
     }
     // File valid
-    this.uploadFiles[index] = file;
+    this.uploadFiles[index] = {file: file, scannedData: null};
     this.uploadFileNames[index] = file.name;
     this.uploadErrors[index] = "";
+  }
+
+  scanUploadFile(index){
+    if (!this.uploadFiles[index]) {
+      alert("Tidak ada file yang diupload");
+      return;
+    }
+
+    const { file, scannedData } = this.uploadFiles[index];
+
+    if (scannedData) {
+      // If already scanned, just show the dialog with the cached result
+      this.dialog.show(POScanResultDialog, scannedData);
+      return;
+    }
+
+    // Not yet scanned, call the API and show dialog after result is ready
+    this.isScanningPO = true;
+    this.loading = true;
+
+    var formData = new FormData();
+    formData.append("file", file);
+    var endpoint = 'garment-intern-notes-revision/scan-external-purchase-order';
+    var request = {
+        method: 'POST',
+        headers: new Headers({
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }),
+        body: formData
+    };
+    this.serviceCompare.endpoint.client.fetch(endpoint, request)
+      .then(response => {
+        this.isScanningPO = false;
+        this.loading = false;
+        if (response.status == 200) {
+          // Parse the response as JSON to get the scanned data
+          return response.json();
+        } else if (response.status == 400) {
+          alert("Only PDF files are allowed.");
+        } else if (response.status == 500) {
+          alert("Scan failed. Please try again.");
+        }
+      })
+      .then(data => {
+        if (data) {
+          // Save the scanned data so we don't scan again
+          this.uploadFiles[index] = { file, scannedData: data.data };
+          this.dialog.show(POScanResultDialog, data.data);
+         }
+      });
   }
 }
