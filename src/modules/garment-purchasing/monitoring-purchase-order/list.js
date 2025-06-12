@@ -70,14 +70,12 @@ export class List {
                 })
         } else {
             this.err = false;
-            if ((this.supplier || this.poState || this.poIntState)) {
+            if (args.epono == "" && args.article == "" && args.roNo == "" && args.poSerialNumber == "" && args.doNo == "") {
                 if (args.dateFrom == "" && args.dateTo == "" && args.dateFromEx == "" && args.dateFromEx == "") {
                     this.err = true;
                     this.error.date = "Tanggal harus diisi";
                 }
             }
-
-            console.log("err", args.dateFrom, args.dateTo, args.dateFromEx, args.dateToEx, this.err);
 
             if (this.err == false) {
                 this.error = {}
@@ -135,14 +133,14 @@ export class List {
             dateFromEx: this.dateFromEx ? moment(this.dateFromEx).format("YYYY-MM-DD") : "",
             dateToEx: this.dateToEx ? moment(this.dateToEx).format("YYYY-MM-DD") : ""
         };
-        console.log(this.doNo);
+
 
         if (this.Type === "Report") {
             this.service.generateExcel(args.epono, args.unit, args.roNo, args.article, args.poSerialNumber, args.doNo, args.ipoStatus, args.supplier, args.status, args.dateFrom, args.dateTo, args.dateFromEx, args.dateToEx);
         } else {
             this.err = false;
-            if ((this.supplier || this.poState || this.poIntState)) {
-                if (args.dateFrom == "" && args.dateTo == "" && args.dateFromEx == "" && args.dateToEx == "") {
+            if (args.epono == "" && args.article == "" && args.roNo == "" && args.poSerialNumber == "" && args.doNo == "") {
+                if (args.dateFrom == "" && args.dateTo == "" && args.dateFromEx == "" && args.dateFromEx == "") {
                     this.err = true;
                     this.error.date = "Tanggal harus diisi";
                 }

@@ -37,7 +37,7 @@ export class PurchasingService extends RestService {
         return super.list(endpoint, info);
     }
 
-    generateExcel(epono, unit, roNo, article, poSerialNumber, username, doNo, ipoStatus, supplier, status, dateFrom, dateTo, dateFromEx, dateToEx) {
+    generateExcel(epono, unit, roNo, article, poSerialNumber, doNo, ipoStatus, supplier, status, dateFrom, dateTo, dateFromEx, dateToEx) {
         var endpoint = `${purchasingUri}/download?unit=${unit}&article=${article}&poSerialNumber=${poSerialNumber}&ipoStatus=${ipoStatus}&epono=${epono}&roNo=${roNo}&doNo=${doNo}&supplier=${supplier}&dateFrom=${dateFrom}&dateTo=${dateTo}&dateFromEx=${dateFromEx}&dateToEx=${dateToEx}&status=${status}`;
         return super.getXls(endpoint);
     }
