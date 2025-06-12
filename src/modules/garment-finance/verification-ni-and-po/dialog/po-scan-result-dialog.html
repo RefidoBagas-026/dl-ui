@@ -1,0 +1,33 @@
+<template>
+    <ai-dialog>
+        <block>
+        <ai-dialog-header>
+            <h1>Scan Purchase Order External</h1>
+        </ai-dialog-header>
+        <ai-dialog-body>
+            <au-input-form>
+                <au-textbox value.bind="data.EPONo"
+                      read-only.bind="true"
+                      label="Nomor PO EKS"
+                      options.bind="controlOptions">
+                </au-textbox>
+                <div style="width:750px;">
+                    <au-table
+                        data.bind="data.Items"
+                        columns.bind="columns"
+                        options.bind="options"
+                        page-size="25" 
+                        sortable.bind="false">
+                    </au-table>
+                </div>
+            </au-input-form>
+        </ai-dialog-body>
+        <ai-dialog-footer>
+            <div class="text-right"
+             style="margin: 10px">
+             <button class="btn btn-default btn-sm" click.trigger="controller.cancel()">Kembali</button>
+            </div>
+        </ai-dialog-footer>
+        </block>
+    </ai-dialog>
+</template>
