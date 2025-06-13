@@ -79,8 +79,8 @@ export class List {
                 })
         } else {
             this.err = false;
-            if ((this.supplier || this.account || this.poState || this.poIntState)) {
-                if (args.dateFrom == "" && args.dateTo == "" && args.dateFromEx == "" && args.dateToEx == "") {
+            if (args.epono == "" && args.article == "" && args.roNo == "" && args.poSerialNumber == "" && args.doNo == "") {
+                if (args.dateFrom == "" && args.dateTo == "" && args.dateFromEx == "" && args.dateFromEx == "") {
                     this.err = true;
                     this.error.date = "Tanggal harus diisi";
                 }
@@ -292,7 +292,17 @@ export class List {
         }
         // if monitoring
         else {
-            this.purchasingService.generateExcel(args.epono, args.unit, args.roNo, args.article, args.poSerialNumber, args.username, args.doNo, args.ipoStatus, args.supplier, args.status, args.dateFrom, args.dateTo, args.dateFromEx, args.dateToEx);
+            this.err = false;
+            if (args.epono == "" && args.article == "" && args.roNo == "" && args.poSerialNumber == "" && args.doNo == "") {
+                if (args.dateFrom == "" && args.dateTo == "" && args.dateFromEx == "" && args.dateFromEx == "") {
+                    this.err = true;
+                    this.error.date = "Tanggal harus diisi";
+                }
+            }
+            if (this.err == false) {
+                this.error = {}
+                this.purchasingService.generateExcel(args.epono, args.unit, args.roNo, args.article, args.poSerialNumber, args.username, args.doNo, args.ipoStatus, args.supplier, args.status, args.dateFrom, args.dateTo, args.dateFromEx, args.dateToEx);
+            }
         }
 
     }
