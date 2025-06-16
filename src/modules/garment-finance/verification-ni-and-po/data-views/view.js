@@ -120,7 +120,8 @@ export class View {
             ePONo: child.ePONo,
             poSerialNumber: child.poSerialNumber,
             productName: child.product && child.product.Name,
-            quantity: child.quantity,
+            internNoteQuantity: child.internNoteQuantity,
+            ePOQuantity: child.ePOQuantity,
             uomUnit: child.uomUnit && child.uomUnit.Unit,
             pricePerDealUnit: child.pricePerDealUnit,
             priceTotal: child.priceTotal
