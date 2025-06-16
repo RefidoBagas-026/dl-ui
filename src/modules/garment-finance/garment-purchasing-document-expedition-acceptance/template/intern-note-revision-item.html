@@ -20,7 +20,14 @@
 		</td>
         <td>
             <au-numeric 
-				value.bind="data.quantity" 
+				value.bind="data.internNoteQuantity" 
+				read-only.bind="true" 
+				format="0.00">
+			</au-numeric>
+        </td>
+		<td>
+            <au-numeric 
+				value.bind="data.ePOQuantity" 
 				read-only.bind="true" 
 				format="0.00">
 			</au-numeric>
