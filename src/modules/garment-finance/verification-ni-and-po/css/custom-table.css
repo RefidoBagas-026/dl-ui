@@ -155,3 +155,6 @@
 .pagination-info-container span {
   white-space: nowrap;
 }
+.highlight-quantity-mismatch {
+  background-color: #ffdddd !important;
+}

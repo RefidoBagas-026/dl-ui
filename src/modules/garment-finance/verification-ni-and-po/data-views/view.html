@@ -44,7 +44,8 @@
                       <th>Nomor PO EKS</th>
                       <th>Nomor Refpr</th>
                       <th>Nama Barang</th>
-                      <th>Jumlah</th>
+                      <th>Jumlah (NI)</th>
+                      <th>Jumlah (PO)</th>
                       <th>Satuan</th>
                       <th>Harga Satuan</th>
                       <th>Harga Total</th>
@@ -52,13 +53,14 @@
                   </thead>
                   <tbody>
                     <tr if.bind="!row.items.length">
-                      <td colspan="7" style="text-align:center; color:#888;">Tidak ada data detail</td>
+                      <td colspan="8" style="text-align:center; color:#888;">Tidak ada data detail</td>
                     </tr>
                     <tr repeat.for="item of row.items">
                       <td>${item.ePONo}</td>
                       <td>${item.poSerialNumber}</td>
                       <td>${item.productName}</td>
-                      <td>${item.quantity}</td>
+                      <td class="${item.internNoteQuantity !== item.ePOQuantity ? 'highlight-quantity-mismatch' : ''}">${item.internNoteQuantity}</td>
+                      <td>${item.ePOQuantity}</td>
                       <td>${item.uomUnit}</td>
                       <td>${item.pricePerDealUnit}</td>
                       <td>${item.priceTotal}</td>
