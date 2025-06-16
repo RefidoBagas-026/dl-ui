@@ -20,7 +20,8 @@ export class DataForm {
             { header: "Nomor PO EKS"},
             { header: "Nomor Refpr" },
             { header: "Nama Barang" },
-            { header: "Jumlah" },
+            { header: "Jumlah (NI)" },
+            { header: "Jumlah (PO)" },
             { header: "Satuan" },
             { header: "Harga Satuan" },
             { header: "Harga Total" }
