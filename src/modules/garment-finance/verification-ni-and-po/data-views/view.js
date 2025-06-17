@@ -8,7 +8,7 @@ export class View {
   selectedData = null;
   loading = false;
   searchTimeout = null;
-  showRevisionTable = false;
+  showRevisionTable = true;
   revisionData = [];
   revisionColumns = [
     { header: "No", value: "no" },
@@ -37,7 +37,7 @@ export class View {
   activate(params) {
     this.loading = false;
     this.id = params.id;
-    this.showRevisionTable = false;
+    this.showRevisionTable = true;
     this.revisionData = [];
   }
 
@@ -139,16 +139,16 @@ export class View {
   }
 
   attached() {
-    this.showRevisionTable = false; // Default: tabel tersembunyi
+    this.showRevisionTable = true;
+    this.fetchRevisionData();
     const showRevision = sessionStorage.getItem('showRevision');
     const selectedPage = sessionStorage.getItem('selectedPage');
-
     if (showRevision === '1') {
-      this.showRevisionTable = true; // Tampilkan tabel jika flag diatur
-      this.currentPage = parseInt(selectedPage, 10) || 1; // Atur halaman yang dipilih
-      sessionStorage.removeItem('showRevision'); // Hapus flag setelah digunakan
-      sessionStorage.removeItem('selectedPage'); // Hapus informasi halaman setelah digunakan
-      this.fetchRevisionData(); // Muat data hanya jika tabel ditampilkan
+      this.showRevisionTable = true;
+      this.currentPage = parseInt(selectedPage, 10) || 1;
+      sessionStorage.removeItem('showRevision');
+      sessionStorage.removeItem('selectedPage');
+      this.fetchRevisionData();
     }
   }
 

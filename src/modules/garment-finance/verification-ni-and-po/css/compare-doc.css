@@ -14,6 +14,28 @@
   padding: 0;
   gap: 0;
 }
+
+.search-col {
+  display: flex;
+  flex-direction: column;  /* memastikan vertikal */
+  align-items: flex-start; /* judul tetap rata kiri */
+}
+.search-header-wrapper {
+  width: 100%;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: flex-start; /* agar rata kiri */
+}
+.search-header-wrapper h4 {
+margin-bottom: 12px;
+font-size: 1.7rem;
+font-weight: 600;
+color: #0D2F56;
+text-align: left;
+margin-top: 0;
+padding: 0;
+}
+
 .search-col, .upload-col {
   flex: 0 0 50%;
   max-width: 50%;
@@ -165,7 +187,8 @@
 }
 .upload-table-wrapper h4 {
   margin-bottom: 12px;
-  font-size: 1.1rem;
+  font-size: 1.7rem;
+  color: #0D2F56;
   font-weight: 600;
 }
 .compare-upload-table .text-danger {
