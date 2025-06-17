@@ -135,6 +135,8 @@ export class CompareDoc {
         this.router.navigateToRoute('view');
       } else if (response.status === 200) {
         window.alert('Comparison success, but the result is already up to date.');
+      } else if (response.status === 400) {
+        throw new Error('Intern Note already checked');
       } else {
         const result = await response.json().catch(() => ({}));
         throw new Error(result.message || 'Unknown error');
