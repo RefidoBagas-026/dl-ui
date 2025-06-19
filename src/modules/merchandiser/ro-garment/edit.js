@@ -22,12 +22,20 @@ export class Edit {
     }
 
     saveCallback(event) {
-        this.service.update(this.data)
-            .then(result => {
-                this.router.navigateToRoute('view', { id: this.data.Id });
-            })
-            .catch(e => {
-                this.error = e;
-            })
+        if(this.data.error && this.data.error.length > 0) {
+            this.errItem = this.data.error;
+            this.error = {};
+            this.error['ErrItem'] = this.errItem.join('; ');
+            return;
+        }
+        else{
+            this.service.update(this.data)
+                .then(result => {
+                    this.router.navigateToRoute('view', { id: this.data.Id });
+                })
+                .catch(e => {
+                    this.error = e;
+                })
+        }
     }
 }
