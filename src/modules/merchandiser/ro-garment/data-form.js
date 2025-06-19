@@ -307,7 +307,6 @@ export class DataForm {
   
   viewData() {
     this.disabled = true;
-
     var totalQty = 0;
     const fileInput = document.getElementById("fileCsv");
     const fileList = fileInput.files;
@@ -322,8 +321,8 @@ export class DataForm {
 
     const itemMap = {}; // gunakan object untuk indexing
     const err = [];
-    var SizeBreakdownIndex = 1;
-    var SizeBreakdownDetailIndex = 1;
+    var SizeBreakdownIndex = 0;
+    var SizeBreakdownDetailIndex = 0;
     reader.onload = (event) => {
       const data = new Uint8Array(event.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
@@ -346,22 +345,20 @@ export class DataForm {
           table.appendChild(thead);
           return;
         }
-
         const tr = document.createElement("tr");
 
         for (let a = 0; a < 10; a++) {
           const td = document.createElement("td");
 
           const colLetter = this.getExcelColumnName(a);
-          const cellRef = `${colLetter}${rowIndex + 1 + 1}`; // +1 karena zero-based, +1 lagi karena baris header
+          const cellRef = `${colLetter}${rowIndex + 1 }`; // +1 karena zero-based, +1 lagi karena baris header
 
           if (row[a] === undefined) {
             row[a] = "";
             err.push(`Sel ${cellRef} tidak terisi`);
             td.style.backgroundColor = "#ffcccc";
           }
-
-          if ([5, 6, 7, 8].includes(a)) {
+          else if ([5, 6, 7, 8].includes(a)) {
             const value = String(row[a]).trim();
             if (value === "" || isNaN(Number(value))) {
               err.push(`Sel ${cellRef} harus berupa angka`);
@@ -370,6 +367,7 @@ export class DataForm {
           }
 
           if([14,19].includes(a)){
+            const value = String(row[a]).trim();
             if(value !="" && isNaN(Number(row[a]))) {
               err.push(`Sel ${cellRef} harus berupa tanggal`);
             }
@@ -413,7 +411,7 @@ export class DataForm {
           const key = `${PONo}-${Style}-${Destination}-${Color}`;
 
           const detailItem = {
-            SizeBreakdownDetailIndex: SizeBreakdownDetailIndex++,
+            SizeBreakdownDetailIndex: 0,
             Size,
             Quantity,
             Barcode,
@@ -439,6 +437,7 @@ export class DataForm {
           };
 
           if (!itemMap[key]) {
+            SizeBreakdownDetailIndex=0;
             itemMap[key] = {
               SizeBreakdownIndex: SizeBreakdownIndex++,
               PONo,
@@ -454,6 +453,9 @@ export class DataForm {
               RO_Garment_SizeBreakdown_Details: [detailItem]
             };
           } else {
+            SizeBreakdownDetailIndex=itemMap[key].RO_Garment_SizeBreakdown_Details.length;
+            console.log(itemMap[key].RO_Garment_SizeBreakdown_Details.length);
+            detailItem.SizeBreakdownDetailIndex = SizeBreakdownDetailIndex;
             itemMap[key].RO_Garment_SizeBreakdown_Details.push(detailItem);
             itemMap[key].Total += Quantity || 0;
           }
@@ -462,13 +464,17 @@ export class DataForm {
       console.log(err);
       // ⏬ Pemindahan mapping ke RO_Garment_SizeBreakdowns setelah parsing selesai
       if (err.length === 0) {
+        this.data.error =[];
         this.shown = true;
         this.data.RO_Garment_SizeBreakdowns = Object.values(itemMap);
+        console.log(this.data.RO_Garment_SizeBreakdowns);
       } else {
+        this.data.error = err;
         alert(`Mohon periksa kembali file XLSX Anda. Terdapat ${err.length} kesalahan.`);
       }
     };
-    this.total= totalQty.toString();
+    //this.data.total= totalQty;
+
     this.shown = true;
     reader.readAsArrayBuffer(file);
   }

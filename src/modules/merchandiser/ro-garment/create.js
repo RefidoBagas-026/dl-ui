@@ -10,6 +10,7 @@ export class Create {
         this.service = service;
         this.data = {};
         this.error = {};
+        this.errItem = [];
     }
 
     list() {
@@ -21,12 +22,21 @@ export class Create {
     }
 
     saveCallback() {
-        this.service.create(this.data)
+        if(this.data.error && this.data.error.length > 0) {
+            this.errItem = this.data.error;
+            this.error = {};
+            this.error['ErrItem'] = this.errItem.join('; ');
+            return;
+        }
+        else{
+            this.service.create(this.data)
             .then(result => {
                 this.list();
             })
             .catch(e => {
                 this.error = e;
             })
+        }
+        
     }
 }
