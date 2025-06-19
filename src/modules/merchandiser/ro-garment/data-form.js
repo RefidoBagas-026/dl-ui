@@ -410,7 +410,7 @@ export class DataForm {
           }
 
           totalQty += Quantity;
-          const key = `${PONo}-${Style}-${Destination}`;
+          const key = `${PONo}-${Style}-${Destination}-${Color}`;
 
           const detailItem = {
             SizeBreakdownDetailIndex: SizeBreakdownDetailIndex++,
