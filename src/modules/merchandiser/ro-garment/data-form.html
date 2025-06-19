@@ -160,9 +160,16 @@
         </div>
         <table border="1" id="csv-table"></table>
         
-        <span show.bind="shown">Total Quantity = ${total}</span>
+        <!-- <au-textbox 
+          show.bind="shown" 
+          label="Total Quantity" 
+          value.bind="data.total"
+          options.bind="length4">
+        </au-textbox>
+
+        <span show.bind="shown">Total Quantity = ${total}</span> -->
         <au-textbox error.bind="error.TotalQuantity" read-only.bind="true"></au-textbox>
-        
+        <au-textbox error.bind="error.ErrItem" read-only.bind="true"></au-textbox>
     </block>
         <au-collection title="Size Breakdown" 
           errors.bind="error.SizeBreakdownItems"
