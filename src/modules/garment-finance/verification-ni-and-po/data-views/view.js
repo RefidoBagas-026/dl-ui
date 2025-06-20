@@ -113,6 +113,7 @@ export class View {
 
         this.revisionData = dataToDisplay.map((item, index) => ({
           no: (this.currentPage - 1) * this.pageSize + index + 1,
+          Id: item.Id,
           inNo: item.inNo,
           invoiceNo: item.invoiceNo,
           supplierName: item.supplierName,
@@ -167,5 +168,20 @@ export class View {
     const startRow = (this.currentPage - 1) * this.pageSize + 1;
     const endRow = Math.min(this.currentPage * this.pageSize, this.totalRows);
     return `Menampilkan ${startRow} sampai ${endRow} dari ${this.totalRows} baris`;
+  }
+
+  async deletedRow(row) {
+    // Tampilkan konfirmasi ke user
+    const yakin = window.confirm(`Apakah anda yakin menghapus data ini?`);
+    if (!yakin) return;
+    this.loading = true;
+    try {
+      await this.service.deleteRevision(row.Id);
+      alert('Data berhasil dihapus.');
+      this.fetchRevisionData(); // reload data tabel dari backend
+    } catch (e) {
+      alert('Gagal menghapus data.');
+    }
+    this.loading = false;
   }
 }
