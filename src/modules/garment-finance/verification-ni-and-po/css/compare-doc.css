@@ -185,9 +185,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+ 
 }
 .upload-table-wrapper h4 {
-  margin-bottom: 12px;
+  margin-bottom: 4px !important;
   font-size: 1.7rem;
   color: #0D2F56;
   font-weight: 600;
