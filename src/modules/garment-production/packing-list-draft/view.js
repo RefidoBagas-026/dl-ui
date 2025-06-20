@@ -20,6 +20,7 @@ export class View {
         let id = params.id;
         this.data = await this.service.getById(id);
         this.error = {};
+        this.indexText = true;
 
         let idx = 0;
         if (this.data.measurements) {
