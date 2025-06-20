@@ -113,4 +113,9 @@ export class ServiceCompare extends RestService {
         if (!response.ok) throw new Error('Gagal mengambil data revision: ' + response.status);
         return response.json();
     }
+
+    deleteRevision(id) {
+        const endpoint = `${serviceUriRevision}/${id}`;
+        return super.delete(endpoint);
+    }
 }
