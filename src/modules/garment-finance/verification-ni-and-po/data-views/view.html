@@ -31,8 +31,11 @@
             <td>${row.inNo}</td>
             <td>${row.invoiceNo}</td>
             <td>${row.supplierName}</td>
-            <td style="text-align:center;">
-              <button class="btn btn-info pull-right" click.delegate="toggleChild(row)">i</button>
+            <td class="costum-table-btns">
+              <button class="btn btn-info me-2" click.delegate="toggleChild(row)">i</button>
+              <button class="btn btn-danger" click.delegate="hapusRow(row)">
+                <i class="fa fa-trash"></i>
+              </button>
             </td>
           </tr>
           <tr if.bind="row._showChild">
