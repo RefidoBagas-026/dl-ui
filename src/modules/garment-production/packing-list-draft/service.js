@@ -1,6 +1,7 @@
 import { RestService } from '../../../utils/rest-service';
 
 const serviceUri = 'garment-shipping/packing-lists';
+const serviceSizeUrl = 'garment-shipping/index-size';
 
 class Service extends RestService {
     constructor(http, aggregator, config, endpoint) {
@@ -76,6 +77,16 @@ class Service extends RestService {
     createCopy(data) {
         var endpoint = `${serviceUri}/draft/copy`;
         return super.post(endpoint, data);
+    }
+
+    getSizeByPLId(id){
+        var endpoint = `${serviceSizeUrl}/${id}`;
+        return super.get(endpoint);
+    }
+
+    saveSize(data){
+      var endpoint = `${serviceSizeUrl}`;
+      return super.post(endpoint, data);
     }
 }
 
