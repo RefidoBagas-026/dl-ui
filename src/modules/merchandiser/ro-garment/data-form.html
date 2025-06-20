@@ -3,6 +3,49 @@
     .large-textarea>div>div>textarea {
       height: 25em !important;
     }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+
+    thead th {
+      background-color: #0f2e52;
+      color: white;
+      padding: 8px;
+      text-align: left;
+      font-weight: bold;
+      font-size: 12px;
+      border: 1px solid #ccc;
+    }
+
+    tbody td {
+      border: 1px solid #ccc;
+      padding: 10px 10px;
+      font-size: 12px;
+      height: 30px;
+      vertical-align: top;
+    }
+
+    tr {
+      height: 30px; 
+      padding: 10px 10px;
+    }
+
+    .textarea-cell textarea {
+      width: 100%;
+      height: 60px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 6px;
+      color: #666;
+    }
+
+    .textarea-cell textarea::placeholder {
+      color: #aaa;
+    }
   </style>
   <au-input-form title.bind="title" with.bind="context" options.bind="formOptions"> <!-- formOptions untuk ro-validation-ppic -->
 
@@ -98,7 +141,36 @@
     </div>
     <div class="row" if.bind="hasCostCalculationGarment">
       <div class="col-md-12">
+      <block if.bind="!readOnly">
+        <h4>Size Breakdown</h4>
         <au-textbox error.bind="error.SizeBreakdowns" read-only.bind="true"></au-textbox>
+        <button class="btn btn-default" click.delegate="download()">Download Template</button>
+        <hr/>
+        <div class="${error.file ? 'has-error':''}">
+            <label for="dataFile" class="col-sm-4 control-label">File Path</label>
+            <div class="col-sm-4">
+                <input class="btn btn-default" type="file" id="fileCsv" name="fileUpload">
+                <span class="help-block">${error.file}</span>
+            </div>
+        </div>
+        <div class="btn-group pull-right">
+            <button 
+              class="btn btn-success"  click.delegate="viewData()" 
+              options.bind="controlOptions">Tampilkan Data</button>
+        </div>
+        <table border="1" id="csv-table"></table>
+        
+        <!-- <au-textbox 
+          show.bind="shown" 
+          label="Total Quantity" 
+          value.bind="data.total"
+          options.bind="length4">
+        </au-textbox>
+
+        <span show.bind="shown">Total Quantity = ${total}</span> -->
+        <au-textbox error.bind="error.TotalQuantity" read-only.bind="true"></au-textbox>
+        <au-textbox error.bind="error.ErrItem" read-only.bind="true"></au-textbox>
+    </block>
         <au-collection title="Size Breakdown" 
           errors.bind="error.SizeBreakdownItems"
           items.bind="data.RO_Garment_SizeBreakdowns" columns.bind="RO_Garment_SizeBreakdownsInfo.columns"
@@ -107,10 +179,9 @@
           remove.bind="RO_Garment_SizeBreakdownsInfo.onRemove" 
           item-template="modules/merchandiser/ro-garment/template/ro-garment-sizebreakdown"
           footer-template="modules/merchandiser/ro-garment/template/ro-garment-sizebreakdown-footer" 
-          read-only.bind="readOnly">
+          read-only.bind="readOnly"
+          if.bind="readOnly">
         </au-collection>
-        <span show.bind="shown">${total}</span>
-        <au-textbox error.bind="error.TotalQuantity" read-only.bind="true"></au-textbox>
       </div>
     </div>
     <div class="row" show.bind="hasCostCalculationGarment">
