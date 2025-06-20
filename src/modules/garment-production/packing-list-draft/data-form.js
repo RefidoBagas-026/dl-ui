@@ -1,17 +1,20 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
 import { Service } from "./service";
-
+import { SizeIndex } from "./template/size-print";
+import { Dialog } from '../../../components/dialog/dialog';
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
 var ShippingStaffLoader = require('../../../loader/garment-shipping-staff-loader');
 
-@inject(Service)
+@inject(Service,Dialog)
 export class DataForm {
 
     @bindable readOnly = false;
     @bindable title;
+    @bindable indexText;
 
-    constructor(service) {
+    constructor(service, dialog) {
         this.service = service;
+        this.dialog = dialog;
     }
 
     formOptions = {
@@ -264,4 +267,13 @@ export class DataForm {
         }
         return result.join(" / ");
     }
+
+
+    indexPrintToggle() {
+      console.log(this.data.id);
+            this.dialog.show(SizeIndex,{ PLId: this.data.id || 0 })
+                .then(response => { 
+                  
+                });
+              }
 }
