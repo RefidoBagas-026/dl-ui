@@ -31,50 +31,98 @@ export class SizeIndex {
       window.removeEventListener('popstate', this._onPopState);
     }
     activate(params) {
-        this.IdPL = params.PLId;
-        this.sizes = [];
+        // this.IdPL = params.PLId;
+        // this.sizes = [];
 
-        this.service.getById(this.IdPL).then(result => {
-          this.data = result;
-          console.log(result);
-          this.service.getSizeByPLId(this.IdPL).then(resultSize => {
-            console.log("Loaded sizes:",this.IdPL)
-            if (resultSize && Array.isArray(resultSize.indexSize)) {
-              // Gunakan data dari getSizeByPLId
-              const indexSizes = resultSize.indexSize;
-              this.sizes = indexSizes.map(s => ({
-                sizeName: s.sizeName,
-                idx: s.idx || 0
-              }));
-            } else {
-              console.log("tidak ada sizeIndex");
-              // Data indexSizes kosong/null → ambil dari getById
-              const uniqueSizes = new Set();
-              const finalSizes = [];
+    //     this.service.getById(this.IdPL).then(result => {
+    //       this.data = result;
+    //       console.log(result);
+    //       this.service.getSizeByPLId(this.IdPL).then(resultSize => {
+    //         console.log("Loaded sizes:",this.IdPL)
+    //         if (resultSize && Array.isArray(resultSize.indexSize)) {
+    //           // Gunakan data dari getSizeByPLId
+    //           const indexSizes = resultSize.indexSize;
+    //           this.sizes = indexSizes.map(s => ({
+    //             sizeName: s.sizeName,
+    //             idx: s.idx || 0
+    //           }));
+    //         } else {
+    //           console.log("tidak ada sizeIndex");
+    //           // Data indexSizes kosong/null → ambil dari getById
+    //           const uniqueSizes = new Set();
+    //           const finalSizes = [];
 
-              if (result.items) {
-                for (const item of result.items) {
-                  for (const detail of item.details || []) {
-                    for (const size of detail.sizes || []) {
-                      const sizeName = size.size.size;
-                      console.log(sizeName);
-                      if (sizeName && !uniqueSizes.has(sizeName)) {
-                        uniqueSizes.add(sizeName);
-                        finalSizes.push({
-                          sizeName: sizeName,
-                          idx: 0
-                        });
-                      }
-                    }
-                  }
+    //           if (result.items) {
+    //             for (const item of result.items) {
+    //               for (const detail of item.details || []) {
+    //                 for (const size of detail.sizes || []) {
+    //                   const sizeName = size.size.size;
+    //                   console.log(sizeName);
+    //                   if (sizeName && !uniqueSizes.has(sizeName)) {
+    //                     uniqueSizes.add(sizeName);
+    //                     finalSizes.push({
+    //                       sizeName: sizeName,
+    //                       idx: 0
+    //                     });
+    //                   }
+    //                 }
+    //               }
+    //             }
+    //           }
+
+    //           this.sizes = finalSizes;
+    //         }
+
+    //         console.log("Loaded sizes:", this.sizes);
+    //     });
+    // });
+    this.IdPL = params.PLId;
+    this.sizes = [];
+
+    this.service.getById(this.IdPL).then(result => {
+      this.data = result;
+      console.log(result);
+
+      this.service.getSizeByPLId(this.IdPL).then(resultSize => {
+        console.log("Loaded sizes:", this.IdPL);
+        
+        const sizeMapFromPL = new Map();
+
+        // Ambil semua sizeName unik dari getById
+        if (result.items) {
+          for (const item of result.items) {
+            for (const detail of item.details || []) {
+              for (const size of detail.sizes || []) {
+                const sizeName = size.size.size;
+                if (sizeName && !sizeMapFromPL.has(sizeName)) {
+                  sizeMapFromPL.set(sizeName, { sizeName, idx: 0 });
                 }
               }
-
-              this.sizes = finalSizes;
             }
+          }
+        }
 
-            console.log("Loaded sizes:", this.sizes);
-        });
+        if (resultSize && Array.isArray(resultSize.indexSize) && resultSize.indexSize.length > 0) {
+          // Susun ulang berdasarkan idx dari getSizeByPLId
+          const idxMap = new Map(resultSize.indexSize.map(s => [s.sizeName, s.idx || 0]));
+
+          // Ambil dari sizeMapFromPL dan urutkan berdasarkan idx dari getSizeByPLId
+          this.sizes = Array.from(sizeMapFromPL.values())
+            .map(s => ({
+              sizeName: s.sizeName,
+              idx: idxMap.get(s.sizeName) || 0
+            }))
+            .sort((a, b) => a.idx - b.idx);
+
+        } else {
+          console.log("tidak ada sizeIndex");
+
+          // Tidak ada resultSize.indexSize → tetap pakai size dari getById, idx default 0
+          this.sizes = Array.from(sizeMapFromPL.values());
+        }
+
+        console.log("Loaded sizes:", this.sizes);
+      });
     });
   }
 
