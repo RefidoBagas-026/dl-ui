@@ -128,21 +128,21 @@ export class CompareDoc {
       );
       if (response.status === 201) {
         const revisionResult = await this.serviceCompare.getInternNoteRevision();
-        window.alert('Data revision berhasil diambil.');
+        window.alert(' Pengecekan NI dan PO berhasil, ada perbedaan.');
         sessionStorage.setItem('hideTable', 'false');
         sessionStorage.setItem('showRevision', '1');
         sessionStorage.setItem('selectedPage', '1');
         this.router.navigateToRoute('view');
       } else if (response.status === 200) {
-        window.alert('Comparison success, but the result is already up to date.');
+        window.alert('Pengecekan NI dan PO berhasil, tidak ada perbedaan.');
       } else if (response.status === 400) {
-        throw new Error('Intern Note already checked');
+        throw new Error('Data NI Sudah pernah dicek !');
       } else {
         const result = await response.json().catch(() => ({}));
         throw new Error(result.message || 'Unknown error');
       }
     } catch (e) {
-      window.alert('Failed to compare NI and PO: ' + (e.message || e));
+      window.alert('Gagal, ' + (e.message || e));
     } finally {
       this.loading = false;
       this.isCheckingNiPo = false;
