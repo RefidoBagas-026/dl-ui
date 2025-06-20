@@ -124,7 +124,10 @@ export class View {
             ePOQuantity: child.ePOQuantity,
             uomUnit: child.uomUnit && child.uomUnit.Unit,
             pricePerDealUnit: child.pricePerDealUnit,
-            priceTotal: child.priceTotal
+            priceTotal: child.priceTotal,
+            remarkDescription: child.remarkDescription,
+            obQuantity: child.obQuantity,
+            percentOB: child.percentOB
           })),
           _showChild: false
         }));
