@@ -52,5 +52,26 @@
 				format="0.00">
 			</au-numeric>
         </td>
+
+		<td>
+			<au-textbox
+				value.one-way="data.remarkDescription"
+				read-only="true">
+			</au-textbox>
+		</td>
+		<td>
+			<au-numeric 
+				value.bind="data.obQuantity" 
+				read-only.bind="true" 
+				format="0.00">
+			</au-numeric>
+		</td>
+		<td>
+			<au-numeric 
+				value.bind="data.percentOB" 
+				read-only.bind="true" 
+				format="0.00">
+			</au-numeric>
+		</td>
 	</tr>
 </template>
