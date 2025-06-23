@@ -1,0 +1,105 @@
+<template>
+  <style>
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+        .form-dialog{
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          padding: 20px;
+          max-width: 400px;
+          height: 530px;
+        }
+        .form-dialog hr{
+          margin-bottom: 0;
+        }
+        .form-dialog h3{
+          margin-top: 10px;
+        }
+        .table-container {
+            margin-bottom: 20px;
+            height: 350px;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;       
+          }
+          .table-container::-webkit-scrollbar {
+            display: none;
+          }
+
+          .table-form {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;
+          }
+
+          .table-form thead th {
+            position: sticky;
+            top: 0;
+            background-color: #173250;
+            color: white;
+            outline: 1px solid #ddd;
+            padding: 14px;
+            text-align: center;
+            z-index: 1;
+          }
+
+          .table-form td {
+            outline: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+          }
+
+  </style>
+  <div class="modal-overlay">
+    <ai-dialog class="form-dialog">
+        <ai-dialog-body>
+            <au-input-form title="Index Size" options.bind="formOptions">
+              <div class="table-container">
+                <table class="table-form">
+                  <thead>
+                    <tr>
+                      <th>Size Name</th>
+                      <th>No Index</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr repeat.for="item of sizes">
+                      <td class="bg-primary" style="text-align: center;">
+                          <au-textbox
+                              value.bind="item.sizeName"
+                              read-only.bind="true">
+                          </au-textbox>
+                      </td>
+                      <td class="bg-primary">
+                          <au-numeric
+                              value.bind="item.idx"
+                              error.bind="error && error[item.sizeName]"
+                              read-only.bind="false"
+                              format="0">
+                          </au-numeric>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+            </au-input-form>
+        </ai-dialog-body>
+        <ai-dialog-footer style="border: none; margin-top: 20px;">
+        </ai-dialog-footer>
+    </ai-dialog>
+  </div>
+</template>
