@@ -31,61 +31,13 @@ export class SizeIndex {
       window.removeEventListener('popstate', this._onPopState);
     }
     activate(params) {
-        // this.IdPL = params.PLId;
-        // this.sizes = [];
-
-    //     this.service.getById(this.IdPL).then(result => {
-    //       this.data = result;
-    //       console.log(result);
-    //       this.service.getSizeByPLId(this.IdPL).then(resultSize => {
-    //         console.log("Loaded sizes:",this.IdPL)
-    //         if (resultSize && Array.isArray(resultSize.indexSize)) {
-    //           // Gunakan data dari getSizeByPLId
-    //           const indexSizes = resultSize.indexSize;
-    //           this.sizes = indexSizes.map(s => ({
-    //             sizeName: s.sizeName,
-    //             idx: s.idx || 0
-    //           }));
-    //         } else {
-    //           console.log("tidak ada sizeIndex");
-    //           // Data indexSizes kosong/null → ambil dari getById
-    //           const uniqueSizes = new Set();
-    //           const finalSizes = [];
-
-    //           if (result.items) {
-    //             for (const item of result.items) {
-    //               for (const detail of item.details || []) {
-    //                 for (const size of detail.sizes || []) {
-    //                   const sizeName = size.size.size;
-    //                   console.log(sizeName);
-    //                   if (sizeName && !uniqueSizes.has(sizeName)) {
-    //                     uniqueSizes.add(sizeName);
-    //                     finalSizes.push({
-    //                       sizeName: sizeName,
-    //                       idx: 0
-    //                     });
-    //                   }
-    //                 }
-    //               }
-    //             }
-    //           }
-
-    //           this.sizes = finalSizes;
-    //         }
-
-    //         console.log("Loaded sizes:", this.sizes);
-    //     });
-    // });
     this.IdPL = params.PLId;
     this.sizes = [];
 
     this.service.getById(this.IdPL).then(result => {
       this.data = result;
-      console.log(result);
-
-      this.service.getSizeByPLId(this.IdPL).then(resultSize => {
-        console.log("Loaded sizes:", this.IdPL);
-        
+      
+      this.service.getSizeByPLId(this.IdPL).then(resultSize => {  
         const sizeMapFromPL = new Map();
 
         // Ambil semua sizeName unik dari getById
@@ -115,13 +67,11 @@ export class SizeIndex {
             .sort((a, b) => a.idx - b.idx);
 
         } else {
-          console.log("tidak ada sizeIndex");
+          console.log("Size Index belum dibuat");
 
           // Tidak ada resultSize.indexSize → tetap pakai size dari getById, idx default 0
           this.sizes = Array.from(sizeMapFromPL.values());
         }
-
-        console.log("Loaded sizes:", this.sizes);
       });
     });
   }
@@ -149,7 +99,6 @@ export class SizeIndex {
         alert(`Index tidak boleh sama. Duplikasi ditemukan pada: ${duplicateDetails}. Silakan ubah nilainya.`);
         return;
       }
-      console.log("this Id", this.IdPL);
       // Jika valid, lanjutkan proses simpan
       const dataToSave = {
         packingListId: this.IdPL,
