@@ -24,7 +24,10 @@ export class DataForm {
             { header: "Jumlah (PO)" },
             { header: "Satuan" },
             { header: "Harga Satuan" },
-            { header: "Harga Total" }
+            { header: "Harga Total" },
+            { header: "Keterangan" },
+            { header: "Jumlah OB" },
+            { header: "Persentase OB" }
         ],
         onAdd: function () {
             this.context.ItemsCollection.bind();
