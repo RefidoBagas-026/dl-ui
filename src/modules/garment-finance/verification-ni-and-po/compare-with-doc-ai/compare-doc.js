@@ -5,7 +5,7 @@ import { ServiceCompare } from '../service';
 import { Dialog } from '../../../../components/dialog/dialog';
 import { POScanResultDialog } from '../dialog/po-scan-result-dialog';
 
-@inject(Dialog, Service,ServiceCompare, Router)
+@inject(Dialog, Service, ServiceCompare, Router)
 export class CompareDoc {
   pdfUrl = null;
   pdfPreviewUrl = null;
@@ -21,7 +21,7 @@ export class CompareDoc {
   isCheckingNiPo = false;
   isScanningPO = false;
 
-  constructor(dialog, service,serviceCompare, router) {
+  constructor(dialog, service, serviceCompare, router) {
     this.dialog = dialog;
     this.service = service;
     this.serviceCompare = serviceCompare;
@@ -101,8 +101,7 @@ export class CompareDoc {
     if (!this.selectedData || !this.selectedData.Id) {
       errorMsg.push('Pilih dokumen pada pencarian dokumen!');
     }
-    const files = this.uploadFiles.filter(f => f).map(f => f.file);
-    if (files.length === 0) {
+    if (this.uploadFiles.length === 0) {
       errorMsg.push('Upload minimal 1 file PDF!');
     }
     if (errorMsg.length > 0) {
@@ -112,22 +111,40 @@ export class CompareDoc {
     this.loading = true;
     this.isCheckingNiPo = true;
     try {
-      const response = await this.serviceCompare.endpoint.client.fetch(
-        `garment-purchasing-expeditions/compare-internal-note-purchase-order-external?garmentInternNoteId=${this.selectedData.Id}`,
-        {
-          method: 'POST',
-          headers: new Headers({
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }),
-          body: (() => {
-            const formData = new FormData();
-            files.forEach(f => formData.append('files', f));
-            return formData;
-          })()
+      // Prepare FormData
+      const formData = new FormData();
+      // Collect all scannedData and files into arrays
+      const scanResultsArr = [];
+      const filesArr = [];
+      for (let i = 0; i < this.uploadFiles.length; i++) {
+        const upload = this.uploadFiles[i];
+        if (!upload) continue;
+        if (upload.scannedData) {
+          scanResultsArr.push(upload.scannedData);
+        } else if (upload.file) {
+          filesArr.push(upload.file);
         }
-      );
+      }
+      // Append as collections
+      if (scanResultsArr.length > 0) {
+        formData.append('ScanResults', JSON.stringify(scanResultsArr));
+      }
+      if (filesArr.length > 0) {
+        for (let i = 0; i < filesArr.length; i++) {
+          formData.append('Files', filesArr[i]);
+        }
+      }
+      // Do NOT add InternNoteId to FormData, use as query param
+      const endpoint = `garment-purchasing-expeditions/compare-internal-note-purchase-order-external?garmentInternNoteId=${encodeURIComponent(this.selectedData.Id)}`;
+      const request = {
+        method: 'POST',
+        headers: new Headers({
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }),
+        body: formData
+      };
+      const response = await this.serviceCompare.endpoint.client.fetch(endpoint, request);
       if (response.status === 201) {
-        const revisionResult = await this.serviceCompare.getInternNoteRevision();
         window.alert(' Pengecekan NI dan PO berhasil, ada perbedaan.');
         sessionStorage.setItem('hideTable', 'false');
         sessionStorage.setItem('showRevision', '1');
@@ -135,11 +152,9 @@ export class CompareDoc {
         this.router.navigateToRoute('view');
       } else if (response.status === 200) {
         window.alert('Pengecekan NI dan PO berhasil, tidak ada perbedaan.');
-      } else if (response.status === 400) {
-        throw new Error('Data NI Sudah pernah dicek !');
       } else {
         const result = await response.json().catch(() => ({}));
-        throw new Error(result.message || 'Unknown error');
+        throw new Error(result || 'Unknown error');
       }
     } catch (e) {
       window.alert('Gagal, ' + (e.message || e));
@@ -184,12 +199,12 @@ export class CompareDoc {
       return;
     }
     // File valid
-    this.uploadFiles[index] = {file: file, scannedData: null};
+    this.uploadFiles[index] = { file: file, scannedData: null };
     this.uploadFileNames[index] = file.name;
     this.uploadErrors[index] = "";
   }
 
-  scanUploadFile(index){
+  scanUploadFile(index) {
     if (!this.uploadFiles[index]) {
       alert("Tidak ada file yang diupload");
       return;
@@ -211,11 +226,11 @@ export class CompareDoc {
     formData.append("file", file);
     var endpoint = 'garment-intern-notes-revision/scan-external-purchase-order';
     var request = {
-        method: 'POST',
-        headers: new Headers({
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }),
-        body: formData
+      method: 'POST',
+      headers: new Headers({
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }),
+      body: formData
     };
     this.serviceCompare.endpoint.client.fetch(endpoint, request)
       .then(response => {
@@ -235,7 +250,7 @@ export class CompareDoc {
           // Save the scanned data so we don't scan again
           this.uploadFiles[index] = { file, scannedData: data.data };
           this.dialog.show(POScanResultDialog, data.data);
-         }
+        }
       });
   }
 }

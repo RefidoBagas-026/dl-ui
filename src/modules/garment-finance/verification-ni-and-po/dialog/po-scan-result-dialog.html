@@ -6,26 +6,24 @@
         </ai-dialog-header>
         <ai-dialog-body>
             <au-input-form>
-                <au-textbox value.bind="data.EPONo"
+                <au-textbox value.bind="editData.EPONo"
                       read-only.bind="true"
                       label="Nomor PO EKS"
                       options.bind="controlOptions">
                 </au-textbox>
                 <div style="width:750px;">
-                    <au-table
-                        data.bind="data.Items"
-                        columns.bind="columns"
-                        options.bind="options"
-                        page-size="25" 
-                        sortable.bind="false">
-                    </au-table>
+                    <au-collection items.bind="editData.Items" columns.bind="scanResultItem.columns"
+                        errors.bind="error.items" read-only.bind="false" add.bind="scanResultItem.onAdd"
+                        item-template="modules/garment-finance/verification-ni-and-po/template/scan-po-item">
+                    </au-collection>
                 </div>
             </au-input-form>
         </ai-dialog-body>
         <ai-dialog-footer>
             <div class="text-right"
              style="margin: 10px">
-             <button class="btn btn-default btn-sm" click.trigger="controller.cancel()">Kembali</button>
+             <button class="btn btn-default btn-sm" click.trigger="cancel()">Kembali</button>
+             <button class="btn btn-success btn-sm" click.trigger="save()">Simpan</button>
             </div>
         </ai-dialog-footer>
         </block>
