@@ -336,7 +336,7 @@ export class DataForm {
         if (rowIndex === 0) {
           const thead = document.createElement("thead");
           const headerRow = document.createElement("tr");
-          row.slice(0, 10).forEach(cell => {
+          row.slice(0, 16).forEach(cell => {
             const th = document.createElement("th");
             th.textContent = (cell || "").trim();
             headerRow.appendChild(th);
@@ -347,7 +347,7 @@ export class DataForm {
         }
         const tr = document.createElement("tr");
 
-        for (let a = 0; a < 10; a++) {
+        for (let a = 0; a < 16; a++) {
           const td = document.createElement("td");
 
           const colLetter = this.getExcelColumnName(a);
@@ -355,21 +355,23 @@ export class DataForm {
 
           if (row[a] === undefined) {
             row[a] = "";
+          }
+          if(a<=6 && row[a] === "") {
             err.push(`Sel ${cellRef} tidak terisi`);
             td.style.backgroundColor = "#ffcccc";
           }
-          else if ([5, 6, 7, 8].includes(a)) {
-            const value = String(row[a]).trim();
-            if (value === "" || isNaN(Number(value))) {
+          else if(a===6){
+            const v = String(row[a]).trim();
+            if (isNaN(Number(v))) {
               err.push(`Sel ${cellRef} harus berupa angka`);
               td.style.backgroundColor = "#ffcccc";
             }
           }
-
-          if([14,19].includes(a)){
+          if ([7, 8, 9].includes(a)) {
             const value = String(row[a]).trim();
-            if(value !="" && isNaN(Number(row[a]))) {
-              err.push(`Sel ${cellRef} harus berupa tanggal`);
+            if (value != "" && isNaN(Number(value))) {
+              err.push(`Sel ${cellRef} harus berupa angka`);
+              td.style.backgroundColor = "#ffcccc";
             }
           }
 
@@ -382,30 +384,25 @@ export class DataForm {
 
         if (err.length === 0) {
           const [
-            PONo, Style, Color, Size, Destination,
-            QuantityRaw, TopSampleQtyRaw, ShippingSampleQtyRaw, KeepingSampleQtyRaw, Remark,
-            Description, Customer, SeasonCode, ShipMode, ExFactoryDate,
-            Barcode, PackType, Attribute, Revision, DueDate,
-            Uom, SKU, FirstCost, Retail, HTSCode,
-            Quota, PackId, Def, Sample, Item,
-            RemarkMTM
+            PONo, Style, Color, Size, Fit, Destination,
+            QuantityRaw, TopSampleQtyRaw, ShippingSampleQtyRaw, KeepingSampleQtyRaw, RemarkMTM,
+            Customer, SeasonCode, ShipMode, Barcode, PackType
           ] = row.map(cell => String(cell != null ? cell : "").trim());
 
           const Quantity = Number(QuantityRaw) || 0;
           const TopSampleQty = Number(TopSampleQtyRaw) || 0;
           const ShippingSampleQty = Number(ShippingSampleQtyRaw) || 0;
           const KeepingSampleQty = Number(KeepingSampleQtyRaw) || 0;
-          const SampleQty = Number(Sample) || 0;
-          let DueDateFormatted = null;
-          let ExFactoryDateFormatted = null;
+          // let DueDateFormatted = null;
+          // let ExFactoryDateFormatted = null;
 
-          if (DueDate && !isNaN(DueDate)) {
-            DueDateFormatted = this.convertExcelDateToMoment(Number(DueDate)).format("YYYY-MM-DD");
-          }
-          if (ExFactoryDate && !isNaN(ExFactoryDate)) {
-            ExFactoryDateFormatted = this.convertExcelDateToMoment(Number(ExFactoryDate)).format("YYYY-MM-DD");
+          // if (DueDate && !isNaN(DueDate)) {
+          //   DueDateFormatted = this.convertExcelDateToMoment(Number(DueDate)).format("YYYY-MM-DD");
+          // }
+          // if (ExFactoryDate && !isNaN(ExFactoryDate)) {
+          //   ExFactoryDateFormatted = this.convertExcelDateToMoment(Number(ExFactoryDate)).format("YYYY-MM-DD");
 
-          }
+          // }
 
           totalQty += Quantity;
           const key = `${PONo}-${Style}-${Destination}-${Color}`;
@@ -416,21 +413,8 @@ export class DataForm {
             Quantity,
             Barcode,
             PackType,
-            Attribute,
-            Revision,
-            DueDate:DueDateFormatted,
-            Uom,
-            SKU,
-            FirstCost,
-            Retail,
-            HTSCode,
-            Quota,
-            PackId,
-            Def,
-            Sample: SampleQty,
+            Fit,
             RemarkMTM,
-            Remark,
-            Item,
             TopSampleQty,
             ShippingSampleQty,
             KeepingSampleQty
@@ -445,11 +429,9 @@ export class DataForm {
               Destination,
               Color:{Id: 0, Name: Color},
               Total: Quantity || 0,
-              Description,
               Customer,
               SeasonCode,
               ShipMode,
-              ExFactoryDate : ExFactoryDateFormatted ,
               RO_Garment_SizeBreakdown_Details: [detailItem]
             };
           } else {
@@ -479,12 +461,12 @@ export class DataForm {
     reader.readAsArrayBuffer(file);
   }
 
-  excelDateToJSDate(serial) {
-    const utc_days = Math.floor(serial - 25569);
-    const utc_value = utc_days * 86400;
-    const date_info = new Date(utc_value * 1000);
-    return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate());
-  }
+  // excelDateToJSDate(serial) {
+  //   const utc_days = Math.floor(serial - 25569);
+  //   const utc_value = utc_days * 86400;
+  //   const date_info = new Date(utc_value * 1000);
+  //   return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate());
+  // }
 
   getExcelColumnName(colIndex) {
     let columnName = "";
@@ -499,9 +481,9 @@ export class DataForm {
     return columnName;
   }
 
-  convertExcelDateToMoment(excelDateNumber) {
-    return moment("1900-01-01").add(excelDateNumber - 2, 'days'); // Excel has an offset bug for leap year 1900
-  }
+  // convertExcelDateToMoment(excelDateNumber) {
+  //   return moment("1900-01-01").add(excelDateNumber - 2, 'days'); // Excel has an offset bug for leap year 1900
+  // }
 
 }
 
