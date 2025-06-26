@@ -9,8 +9,8 @@
         </div>
         <div class="w-100 d-flex justify-content-md-start">
           <div class="search-group d-flex align-items-center" style="max-width:320px;position:relative;">
-            <input type="text" class="form-control form-control-sm h-100" placeholder="Cari dokumen..." value.bind="search" input.delegate="onSearchInput($event)" style="height:38px;" autocomplete="off">
-            <button class="btn btn-outline-secondary btn-sm h-100 d-flex align-items-center" type="button" click.delegate="printPdf()" disabled.bind="!selectedData || loading" style="height:38px; margin-left:8px;"><i class="fa fa-search"></i> Cari</button>
+            <input type="text" class="form-control form-control-sm h-100" placeholder="Cari Nomor Intern..." value.bind="search" input.delegate="onSearchInput($event)" style="height:38px;" autocomplete="off">
+            <button class="btn btn-outline-secondary btn-sm h-100 d-flex align-items-center" type="button" click.delegate="printPdf()" disabled.bind="!selectedData || loading" style="height:38px; margin-left:8px;"><i class="fa fa-search"></i></button>
             <div class="autocomplete-dropdown" if.bind="showDropdown" style="position:absolute;top:100%;left:0;width:100%;z-index:10;">
               <ul class="autocomplete-list" style="max-height:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:0;margin:0;list-style:none;width:100%;">
                 <li repeat.for="ni of searchResults" click.delegate="selectNI(ni)" style="padding:8px;cursor:pointer;">${ni.inNo}</li>
@@ -68,9 +68,9 @@
       </li>
     </ul>
   </div>
-  <div class="compare-doc-footer d-flex justify-content-center align-items-center mt-4">
-    <button class="btn btn-success" type="button" click.delegate="cekNiPo()">Cek NI dan PO</button>
-  </div>
+ <div class="compare-doc-footer d-flex justify-content-center align-items-center mt-4">
+  <button class="btn btn-success btn-similar" type="button" click.delegate="cekNiPo()">Cek NI dan PO</button>
+</div>
   <!-- Konten perbandingan dokumen di sini -->
   <div if.bind="loading" class="compare-loader-overlay">
     <div class="compare-loader-spinner">
