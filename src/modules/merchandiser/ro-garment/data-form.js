@@ -408,6 +408,7 @@ export class DataForm {
           const key = `${PONo}-${Style}-${Destination}-${Color}`;
 
           const detailItem = {
+            Destination,
             SizeBreakdownDetailIndex: 0,
             Size,
             Quantity,
@@ -426,7 +427,6 @@ export class DataForm {
               SizeBreakdownIndex: SizeBreakdownIndex++,
               PONo,
               Style,
-              Destination,
               Color:{Id: 0, Name: Color},
               Total: Quantity || 0,
               Customer,
