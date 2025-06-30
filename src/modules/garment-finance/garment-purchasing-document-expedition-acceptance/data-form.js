@@ -20,14 +20,14 @@ export class DataForm {
             { header: "Nomor PO EKS"},
             { header: "Nomor Refpr" },
             { header: "Nama Barang" },
-            { header: "Jumlah (NI)" },
-            { header: "Jumlah (PO)" },
+            { header: "QTY Dibayar" },
+            { header: "QTY Dipesan" },
             { header: "Satuan" },
             { header: "Harga Satuan" },
             { header: "Harga Total" },
             { header: "Keterangan" },
-            { header: "Jumlah OB" },
-            { header: "Persentase OB" }
+            { header: "QTY Sisa" },
+            { header: "% Over Qty" }
         ],
         onAdd: function () {
             this.context.ItemsCollection.bind();
