@@ -154,6 +154,16 @@ export class CompareDoc {
         window.alert('Pengecekan NI dan PO berhasil, tidak ada perbedaan.');
       } else {
         const result = await response.json().catch(() => ({}));
+        // Check for Backend ResultFormatter error structure
+        if (result && result.error) {
+          // If error is an object, try to extract the first error message
+          if (typeof result.error === 'object' && result.error !== null) {
+            const firstKey = Object.keys(result.error)[0];
+            throw new Error(result.error[firstKey] || JSON.stringify(result.error));
+          }
+          throw new Error(result.error);
+        }
+        // Fallback for plain error message
         throw new Error(result || 'Unknown error');
       }
     } catch (e) {
