@@ -3,22 +3,53 @@
   <require from="../css/compare-doc.css"></require>
   <div class="compare-doc-bar">
     <ul class="compare-doc-list row gx-3">
-      <li class="search-col col-md-6 col-12 d-flex align-items-center justify-content-start p-0 m-0">
+      <li class="search-col col-md-6 col-12 d-flex align-items-start justify-content-start p-0 m-0">
         <div class="search-header-wrapper w-100">
           <h4 class="text-start">Nomor Intern</h4>
         </div>
-        <div class="w-100 d-flex justify-content-md-start">
-          <div class="search-group d-flex align-items-center" style="max-width:320px;position:relative;">
-            <input type="text" class="form-control form-control-sm h-100" placeholder="Cari Nomor Intern..." value.bind="search" input.delegate="onSearchInput($event)" style="height:38px;" autocomplete="off">
-            <button class="btn btn-outline-secondary btn-sm h-100 d-flex align-items-center" type="button" click.delegate="printPdf()" disabled.bind="!selectedData || loading" style="height:38px; margin-left:8px;"><i class="fa fa-search"></i></button>
-            <div class="autocomplete-dropdown" if.bind="showDropdown" style="position:absolute;top:100%;left:0;width:100%;z-index:10;">
-              <ul class="autocomplete-list" style="max-height:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:0;margin:0;list-style:none;width:100%;">
-                <li repeat.for="ni of searchResults" click.delegate="selectNI(ni)" style="padding:8px;cursor:pointer;">${ni.inNo}</li>
+
+        <div class="w-100 d-flex flex-column align-items-start">
+          <!-- Input dan tombol -->
+          <div class="search-group d-flex align-items-center" style="max-width: 320px; position: relative;">
+            <input type="text" class="form-control form-control-sm h-100"
+                   placeholder="Cari Nomor Intern..."
+                   value.bind="search"
+                   input.delegate="onSearchInput($event)"
+                   style="height:38px;"
+                   autocomplete="off">
+            <!-- <button class="btn btn-outline-secondary btn-sm h-100 d-flex align-items-center"
+                    type="button"
+                    click.delegate="printPdf()"
+                    disabled.bind="!selectedData || loading"
+                    style="height:38px; margin-left:8px;">
+              <i class="fa fa-search"></i>
+            </button> -->
+            <button class="btn-icon-search"
+                type="button"
+                click.delegate="printPdf()"
+                disabled.bind="!selectedData || loading">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="7"></circle>
+                  <line x1="17" y1="17" x2="21" y2="21"></line>
+                </svg>
+            </button>
+
+
+            <!-- Autocomplete -->
+            <div class="autocomplete-dropdown" if.bind="showDropdown"
+                 style="position:absolute;top:100%;left:0;width:100%;z-index:10;">
+              <ul class="autocomplete-list"
+                  style="max-height:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:0;margin:0;list-style:none;width:100%;">
+                <li repeat.for="ni of searchResults" click.delegate="selectNI(ni)" style="padding:8px;cursor:pointer;">
+                  ${ni.inNo}
+                </li>
                 <li if.bind="loading" style="padding:8px;color:#888;">Loading...</li>
                 <li if.bind="!loading && searchResults.length === 0" style="padding:8px;color:#888;">Tidak ada hasil</li>
               </ul>
             </div>
           </div>
+
+          <!-- Preview PDF -->
           <div if.bind="pdfPreviewUrl" class="pdf-preview-wrapper mt-2 w-100">
             <div class="search-iframe-wrapper">
               <iframe show.bind="pdfPreviewUrl" src.bind="pdfPreviewUrl" class="pdf-preview-frame-cari" frameborder="0"></iframe>
@@ -26,6 +57,7 @@
           </div>
         </div>
       </li>
+
       <li class="upload-col col-md-6 col-12 d-flex align-items-center justify-content-end p-0 m-0">
         <div class="w-100 d-flex flex-column align-items-end justify-content-md-end upload-group-vertical">
           <div class="tbl">
@@ -68,9 +100,9 @@
       </li>
     </ul>
   </div>
- <div class="compare-doc-footer d-flex justify-content-center align-items-center mt-4">
-  <button class="btn btn-success btn-similar" type="button" click.delegate="cekNiPo()">Cek NI dan PO</button>
-</div>
+  <div class="compare-doc-footer d-flex justify-content-center align-items-center mt-4">
+    <button class="btn btn-success btn-similar" type="button" click.delegate="cekNiPo()">Cek NI dan PO</button>
+  </div>
   <!-- Konten perbandingan dokumen di sini -->
   <div if.bind="loading" class="compare-loader-overlay">
     <div class="compare-loader-spinner">
