@@ -65,8 +65,8 @@ export class Service extends RestService {
             });
     }
 
-    getPdfById(id) {
-        var endpoint = `${serviceUri}/pdf/${id}`;
+    getPdfById(id, style) {
+        var endpoint = `${serviceUri}/pdf/${id}/${style}`;
         return super.getPdf(endpoint);
     }
 
