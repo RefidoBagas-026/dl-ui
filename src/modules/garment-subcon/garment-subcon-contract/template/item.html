@@ -18,18 +18,18 @@
 				placeholder="Satuan" read-only.bind="readOnly || (isEdit && data.Id)" options.bind="controlOptions">
 			</au-autocomplete>
 		</td>
-		<td class="col-sm-2 bg-primary" if.bind="data.ContractType == 'SUBCON GARMENT'">
+		<td class="col-sm-2 bg-primary" if.bind="data.ContractType == 'SUBCON GARMENT' || data.ContractType == 'SUBCON BAHAN PENOLONG'">
 			<au-numeric error.bind="error.NettWeight" value.bind="data.NettWeight" format="0.0000"
 				read-only.bind="readOnly" options.bind="controlOptions">
 			</au-numeric>
 		</td>
-		<td class="col-sm-2 bg-primary" if.bind="data.ContractType == 'SUBCON GARMENT'">
+		<td class="col-sm-2 bg-primary" if.bind="data.ContractType == 'SUBCON GARMENT' || data.ContractType == 'SUBCON BAHAN PENOLONG'">
 			<au-numeric error.bind="error.GrossWeight" value.bind="data.GrossWeight" format="0.0000"
 				read-only.bind="readOnly" options.bind="controlOptions">
 			</au-numeric>
 		</td>
 
-		<td class="col-sm-2 bg-primary" if.bind="data.ContractType != 'SUBCON BAHAN PENOLONG'">
+		<td class="col-sm-2 bg-primary" if.bind="data.ContractType == 'SUBCON GARMENT' || data.ContractType == 'SUBCON BAHAN PENOLONG'">
 			<au-numeric error.bind="error.CIFItem" value.bind="data.CIFItem" format="0.00" read-only.bind="readOnly"
 				options.bind="controlOptions">
 			</au-numeric>
