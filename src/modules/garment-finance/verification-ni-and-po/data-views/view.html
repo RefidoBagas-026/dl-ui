@@ -7,7 +7,7 @@
       <input type="text" value.bind="search" input.delegate="searchChanged()" placeholder="Pencarian No. Nota Intern" class="fitur-searchbar" style="max-width:320px;" />
     </div>
   </div>
-  <div if.bind="!loading && !selectedData && search && search.length >= 3" style="text-align:center;color:#888;margin-top:16px;">
+  <div if.bind="!loading && !selectedData && search && search.length >= 3 && revisionData.length === 0" style="text-align:center;color:#888;margin-top:16px;">
     Belum Ada Data Yang Ditemukan
   </div>
   <div if.bind="loading" style="display:flex;justify-content:center;margin-top:16px;">

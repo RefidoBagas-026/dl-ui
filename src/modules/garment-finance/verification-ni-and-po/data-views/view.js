@@ -41,50 +41,7 @@ export class View {
     this.revisionData = [];
   }
 
-  searchChanged() {
-    if (this.searchTimeout) clearTimeout(this.searchTimeout);
-    if (!this.search || this.search.length < 3) {
-      this.selectedData = null;
-      this.loading = false;
-      return;
-    }
-    this.loading = true;
-    this.searchTimeout = setTimeout(() => {
-      this.service.search({
-        page: 1,
-        size: 1,
-        keyword: this.search
-      }).then(result => {
-        let data = null;
-        if (result.data) {
-          if (Array.isArray(result.data)) {
-            data = result.data[0];
-          } else {
-            data = result.data;
-          }
-        }
-        if (data && data.Id) {
-          this.service.getById(data.Id).then(detailResult => {
-            if (detailResult && detailResult.data) {
-              this.selectedData = detailResult.data;
-            } else {
-              this.selectedData = data;
-            }
-            this.loading = false;
-          }).catch(() => {
-            this.selectedData = data;
-            this.loading = false;
-          });
-        } else {
-          this.selectedData = null;
-          this.loading = false;
-        }
-      }).catch(() => {
-        this.selectedData = null;
-        this.loading = false;
-      });
-    }, 300);
-  }
+  
 
   updatePageSize() {
     this.currentPage = 1; // Reset to the first page
@@ -96,19 +53,17 @@ export class View {
     try {
       const params = {
         page: this.currentPage,
-        size: this.pageSize // Ensure pageSize is passed to the API
+        size: this.pageSize
       };
-
-      console.log("Request Params:", params); // Log parameters sent to the API
+      // Tambahkan keyword jika search minimal 3 karakter
+      if (this.search && this.search.length >= 3) {
+        params.keyword = this.search;
+      }
 
       const result = await this.service.getInternNoteRevision(params);
 
-      console.log("API Response:", result); // Log API response for debugging
-
       if (result && Array.isArray(result.data)) {
-        this.totalRows = result.info.total || result.data.length; // Update totalRows
-
-        // If the API does not respect the size parameter, filter data locally
+        this.totalRows = result.info.total || result.data.length;
         const dataToDisplay = result.data.slice(0, this.pageSize);
 
         this.revisionData = dataToDisplay.map((item, index) => ({
@@ -140,6 +95,14 @@ export class View {
       this.revisionData = [];
     }
     this.loading = false;
+  }
+
+  searchChanged() {
+    if (this.searchTimeout) clearTimeout(this.searchTimeout);
+    this.searchTimeout = setTimeout(() => {
+      this.currentPage = 1;
+      this.fetchRevisionData();
+    }, 400); // debounce 400ms
   }
 
   attached() {
