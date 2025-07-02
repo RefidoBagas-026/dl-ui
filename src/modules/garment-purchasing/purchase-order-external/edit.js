@@ -7,7 +7,7 @@ import { Service } from './service';
 export class Edit {
     hasCancel = true;
     hasSave = true;
-
+    ISEDIT = true;
     constructor(router, service) {
         this.router = router;
         this.service = service;
@@ -75,7 +75,6 @@ export class Edit {
                     else{
                         initial[item.PRNo + item.Product.Id + item.PO_SerialNumber]+= item.UsedBudget;
                     }
-                    console.log(initial)
                 }
                 for(var a of this.data.Items){
                     var filter= a.PRNo + a.Product.Id;

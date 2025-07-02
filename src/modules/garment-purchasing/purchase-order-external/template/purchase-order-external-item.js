@@ -20,7 +20,7 @@ export class PurchaseOrderItem {
     this.kurs = this.context.context.options.kurs;
     this.selectedDealUom = this.data.dealUom;
     this.price = this.data.PricePerDealUnit;
-
+    this.isEdit = this.context.context.options.isEdit || false;
     if (!this.data.budgetUsed) {
       this.data.budgetUsed = 0;
     }
@@ -81,7 +81,6 @@ export class PurchaseOrderItem {
       }
     }
   }
-
 
   checkIsOverBudget() {
     if(!this.options.readOnly)

@@ -65,7 +65,9 @@ export class View {
         if (this.data.IsCanceled || this.data.IsClosed || this.data.IsUnpost || this.isVBWithPO || this.data.IsApproved) {
             this.hasUnpost = false;
         }
-
+        if (!isUsedSJ && !this.data.IsApproved) {
+            this.hasEdit = true;
+        }
        
     }
 
