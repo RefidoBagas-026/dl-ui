@@ -10,6 +10,7 @@ import moment from 'moment';
 @inject(Service, BindingEngine)
 export class DataForm {
     @bindable readOnly = false;
+    @bindable isEdit = false;
     @bindable data = {};
     @bindable error = {};
     @bindable title;
@@ -49,7 +50,7 @@ export class DataForm {
         this.data = this.context.data;
         this.error = this.context.error;
         this.isItem = false;
-
+        this.ISEDIT = this.context.ISEDIT;
         if (!this.data.OrderDate) {
             this.data.OrderDate = new Date().toLocaleDateString();
         }
@@ -73,7 +74,7 @@ export class DataForm {
             }
 
         this.options.readOnly = this.readOnly;
-
+        this.options.isEdit=this.ISEDIT;
         if (this.data.useVat) {
             this.options.isUseVat = true;
         }
@@ -109,6 +110,10 @@ export class DataForm {
             this.options.kurs = this.kurs;
         } else {
             this.options.kurs = { Rate: 1 };
+        }
+
+        if(this.data.IsPosted) {
+            this.readOnly = true;
         }
 
     }
@@ -180,7 +185,6 @@ export class DataForm {
                 };
 
                 var defaultVat = await this.service.getDefaultVat(info);
-                console.log(defaultVat);
 
                 if(defaultVat.length > 0){
                     if(defaultVat[0]){
@@ -231,8 +235,6 @@ export class DataForm {
     }
 
     selectedVatTaxChanged(newValue) {
-        console.log(newValue);
-        
         var _selectedVatTax = newValue;
         if (_selectedVatTax) {
             this.data.Vat = _selectedVatTax;
@@ -329,14 +331,12 @@ export class DataForm {
     }
 
     selectedIncomeTaxChanged(newValue) {
-        console.log(newValue);       
         var _selectedIncomeTax = newValue;
         if (!_selectedIncomeTax) {
             this.data.IncomeTaxRate = 0;
             this.data.UseIncomeTax = false;
             this.data.IncomeTax = {};
-        } else if (_selectedIncomeTax.Id) {            
-            console.log(_selectedIncomeTax);
+        } else if (_selectedIncomeTax.Id) {  
             this.data.IncomeTaxRate = _selectedIncomeTax.rate ? _selectedIncomeTax.rate : 0;
             this.data.UseIncomeTax = true;
             this.data.IncomeTax = _selectedIncomeTax;
@@ -498,7 +498,11 @@ export class DataForm {
             "Konversi",
             "Harga Satuan",
             "Include Ppn?",
-            "Keterangan"],
+            "Keterangan",
+            "PI",
+            "ETD",
+            "ETA",
+            "Barang Datang",],
         onRemove: function () {
             this.bind();
             if (this.items) {

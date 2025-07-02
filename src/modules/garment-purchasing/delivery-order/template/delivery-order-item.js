@@ -40,7 +40,6 @@ export class DeliveryOrderItem {
     this.data = context.data;
     this.error = context.error;
     this.options = context.options;
-    console.log(context);
     if(this.data && this.context.context.options.hasCreate) {
       if(this.context.context.items[0].data.purchaseOrderExternal.no!=""){
           this.filter = 
@@ -60,7 +59,6 @@ export class DeliveryOrderItem {
           for(var item of this.context.context.items){
             this.filter[`EPONo == "${item.data.purchaseOrderExternal.no}"`]=false;
           }
-        console.log(this.filter);
       }
       else {
         this.filter = this.context.context.options.supplierId ? 
@@ -87,7 +85,6 @@ export class DeliveryOrderItem {
         for(var item of this.context.context.items){
           this.filter[`EPONo == "${item.data.purchaseOrderExternal.no}"`]=false;
         }
-        console.log(this.filter);
       }
       
       else {
@@ -249,7 +246,6 @@ export class DeliveryOrderItem {
     }
     this.activate(this.context);
     this.dataPassing ="passing data";
-    console.log("after change",this);
   }
 
   toggle() {
