@@ -109,6 +109,17 @@
                     options.bind="controlOptions">
       </au-multiline>
 
+      <au-checkbox label="Claim"
+                 value.bind="data.VBDocument.IsClaim"
+                 placeholder="claim"
+                 read-only.bind="!readOnly || readOnly"
+                 options.bind="controlOptions">
+      </au-checkbox>
+
+      <au-textbox value.bind="data.VBDocument.ClaimType" read-only.bind="true" error.bind="error.ClaimType" label="Jenis Claim"
+    options.bind="controlOptions" show.bind = "data.VBDocument.IsClaim">
+    </au-textbox>
+
       <au-textbox read-only.bind="true"
                   show.bind="error.Item"
                   value.bind="error.Item"
@@ -165,7 +176,60 @@
                      if.bind="vbNonPOType == 'Dengan Nomor VB'"
                      item-template="modules/purchasing/realization-vb-non-po/templates/unit">
       </au-collection>
-      
+      <au-textbox error.bind="error.CompareNominalDisposisi"
+                  show.bind="error.CompareNominalDisposisi"
+                  read-only.bind="true"
+                  style="color: red">
+      </au-textbox>
+      <div class="row" errors.bind="error.DocumentFile" show.bind=" data.VBDocument.IsClaim">
+        <div class="col-md-6">
+          <h4>File Dokumen</h4>
+          <table class="table table-hover table-bordered">
+            <thead>
+              <th class="col-md-4">File</th>
+              <th class="col-md-4">Amount</th>
+              <!-- <th if.bind="!readOnly" class="col-md-1">
+                <button click.delegate="onAddDocument()" class="btn btn-success pull-right">+</button>
+              </th> -->
+            </thead>
+            <tbody>
+              <tr if.bind="!data.DocumentsFileName || data.DocumentsFileName.length < 1">
+                <td colspan="3">
+                  Tidak ada file
+                </td>
+              </tr>
+              <tr if.bind="data.DocumentsFileName" repeat.for="doc of data.DocumentsFileName">
+                <td>
+                  <button class="btn btn-primary justify-content-center"
+                    click.delegate="downloadDocument($index)">${doc.documentName}</button>
+                </td>
+                <!-- <td if.bind="!readOnly">
+                  <input if.bind="!documentsPathTemp[$index]" type="file" id="documentInput${$index}"
+                    value.bind="documentUpload" change.delegate="documentInputChanged($index)"
+                    accept=".pdf, .xls, .xlsx, .doc, .docx">
+                  <button if.bind="documentsPathTemp[$index]" class="btn btn-primary justify-content-center"
+                    click.delegate="downloadDocument($index)">${doc.documentName}</button>
+                  <span class="text-danger" if.bind="error.DocumentsFile[$index]">${error.DocumentsFile[$index]}</span>
+                </td> -->
+                <!-- <td if.bind="!readOnly">
+                  <input type="text" id="amount${$index}" value.bind="doc.amount" change.delegate="amountInputChanged($index)" input.delegate="formatNumber($event, $index)">
+                  
+                </td> -->
+
+                <td >
+                 
+                  <input type="text" id="amount${$index}"  value.bind="formatAmount(doc.amount)" change.delegate="amountInputChanged($index)" style="text-align: right; width : 100%" disabled>
+                </td>
+                <!-- <td if.bind="!readOnly">
+                  <button class="btn btn-danger pull-right" click.delegate="onRemoveDocument($index)">-</button>
+                </td> -->
+                
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+      </div>
       <!-- <table>
         <tr class="row"
             repeat.for="cardContents of cards">
