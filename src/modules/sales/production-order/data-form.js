@@ -2,7 +2,6 @@ import { inject, bindable, BindingEngine, observable, computedFrom } from 'aurel
 var moment = require('moment');
 import { Service } from './service';
 
-
 var FinishingPrintingSalesContractLoader = require('../../../loader/finishing-printing-sales-contract-d365-loader');
 var YarnMaterialLoader = require('../../../loader/yarn-material-loader');
 var OrderTypeLoader = require('../../../loader/order-type-loader');
@@ -13,7 +12,7 @@ var MaterialLoader = require("../../../loader/product-loader");
 var FinishTypeLoader = require('../../../loader/finish-type-loader');
 var StandardTests = require('../../../loader/standard-tests-loader');
 var AccountLoader = require('../../../loader/account-loader');
-
+var CurrencyLoader = require('../../../loader/currency-loader');
 @inject(BindingEngine, Element, Service)
 export class DataForm {
   @bindable readOnly = false;
@@ -68,7 +67,7 @@ export class DataForm {
 
   async bind() {
     // this.data = this.data || {};
-    if (this.data.Uom) {
+    if (this.data.Uom ) {
       this.UOmUnit = this.data.Uom.Unit;
 
       // this.data.Details.map(x => 
@@ -86,13 +85,12 @@ export class DataForm {
       // //this.data.Uom.Unit = this.UOMOptions[0];
     }
     if (this.data && this.data.Id) {
+      this.OrderType = this.data.OrderType;
 
       this.SalesContract = {
         SalesContractNo: this.data.SalesContractNo,
         Buyer: this.data.Buyer
       };
-
-      this.OrderType = this.data.OrderType;
 
       this.account = {
         username: this.data.Account.UserName,
@@ -265,7 +263,7 @@ export class DataForm {
     }
   }
 
-  SalesContractChanged(newVal, oldVal) {
+  async SalesContractChanged(newVal, oldVal) {
 
     if (newVal) {
       // if (this.data && this.data.Details && this.data.Details.length > 0) {
@@ -279,12 +277,14 @@ export class DataForm {
       this.data.FinishingPrintingSalesContract = newVal;
       this.data.Buyer = this.data.FinishingPrintingSalesContract.Buyer;
 
-      if (!newVal.SalesContractNo.includes("SO")) {
+      if (newVal.SalesContractNo != null && !newVal.SalesContractNo.includes("SO")) {
         this.data.ProductTextile = this.data.FinishingPrintingSalesContract.ProductTextile;
-        this.data.OrderType = this.data.FinishingPrintingSalesContract.OrderType;
+        this.OrderType = this.data.FinishingPrintingSalesContract.OrderType;
         this.data.Material = this.data.FinishingPrintingSalesContract.Material;
         this.Material = this.data.Material;
         this.material = "";
+        this.data.Currency = {};
+        this.data.Price = 0;
         this.data.YarnMaterial = this.data.FinishingPrintingSalesContract.YarnMaterial;
         this.data.DesignMotive = this.data.FinishingPrintingSalesContract.DesignMotive;
         if (this.data.Uom) {
@@ -294,7 +294,7 @@ export class DataForm {
         else {
           this.data.Uom = {};
           //this.UOMOptions = ["MTR", "PCS"];
-          //this.data.Uom.Unit = "MTR";
+          this.data.Uom.Unit = "MTR";
           // this.data.Uom.Unit = ["MTR","PCS"];
           //this.data.Uom.Unit = this.UOMOptions[0];
         }
@@ -316,9 +316,34 @@ export class DataForm {
           this.Material = {};
           this.data.YarnMaterial = {};
           this.data.DesignMotive = {};
-          this.data.Uom = {};
+          //this.data.Uom = {};
           this.data.FinishWidth = "";
-          this.material = this.data.FinishingPrintingSalesContract.Description || "";
+
+          if (this.data.Uom) {
+            this.data.Uom.Unit = this.data.Uom.Unit;
+            //this.data.Uom.Unit = this.data.Uom.Unit || "MTR";
+          }
+          else {
+            this.data.Uom = {};
+            //this.UOMOptions = ["MTR", "PCS"];
+            this.data.Uom.Unit = "MTR";
+            // this.data.Uom.Unit = ["MTR","PCS"];
+            //this.data.Uom.Unit = this.UOMOptions[0];
+          }
+          //split value from description
+          var splitValue = this.data.FinishingPrintingSalesContract.Description.split(";;;");
+          this.material = splitValue[0] || "";
+
+          // get data currency from core base on D365 currency Code
+          if (splitValue[1] != "" || splitValue[1] != undefined) {
+            await CurrencyLoader("", { Code: splitValue[1] }).then((res) => {
+              if (res && res.length > 0) {
+                this.data.Currency = res[0];
+              }
+            });
+          }
+          // get data price from description
+          this.data.Price = parseFloat(splitValue[2]) || 0;
         }
       }
     }
@@ -338,27 +363,24 @@ export class DataForm {
     return data
   }
 
-  OrderTypeChanged() {
-    if (this.OrderType) {
-      // if (!this.readOnly) {
-      //   // this.data.ProcessType = {};
-      //   this.data.Details.length = 0;
-      // }
-      // this.data.OrderType = this.OrderType;
-      var code = this.OrderType.Code;
-      if (code) {
+  OrderTypeChanged(newValue) {
+    if (newValue) {
+      this.data.OrderType = newValue;
+      var Unit = newValue.Name == "YARN DYED" ? "DYEING" : newValue.Name;
+
+      if (Unit) {
         this.filterOrder = {
-          "OrderTypeCode": code
+          "Unit": Unit
         };
       }
-      if (this.OrderType.Unit) {
-        if (this.OrderType.Unit.toLowerCase() == "printing") {
+      if (newValue.Unit) {
+        if (newValue.Unit.toLowerCase() == "printing") {
           this.printingOnly = true;
         }
         else {
           this.printingOnly = false;
         }
-        if (this.OrderType.Unit.toLowerCase() == "printing") {
+        if (newValue.Unit.toLowerCase() == "printing") {
           this.printing = true;
         }
         else {
@@ -375,17 +397,23 @@ export class DataForm {
         }
       }
 
-
+      //remove process type if data is create mode
+      if (!this.data.Id) {
+        this.data.ProcessType = {};
+        this.data.Details = [];
+      }
     }
     else {
-      // if (!this.readOnly) {
-      //   // this.data.ProcessType = {};
-      //   this.data.Details = [];
-      // }
-      var code = this.data.OrderType.Code
-      if (this.data.OrderType && code) {
+      var Unit = this.data.OrderType.Name == "YARN DYED" ? "DYEING" : newValue.Name;
+
+      //remove process type if data is create mode
+      if (!this.data.Id) {
+        this.data.ProcessType = {};
+        this.data.Details = [];
+      }
+      if (this.data.OrderType && Unit) {
         this.filterOrder = {
-          "OrderTypeCode": code
+          "Unit": Unit
         };
       }
       if (this.data != null) {
@@ -406,11 +434,6 @@ export class DataForm {
       }
     }
   }
-
-
-
-
-
 
   POTypeChanged(e) {
     var selectedPOType = e.srcElement.value;
@@ -465,14 +488,16 @@ export class DataForm {
     };
   }
 
-  get detailHeader() {
-    if (!this.isPrinting && !this.isYarndyed) {
-      return [{ header: "Acuan Warna/Desain" }, { header: "Warna Yang Diminta" }, { header: "Jenis Warna" }, { header: "Jumlah" }, { header: "Satuan" }];
-    }
-    else {
-      return [{ header: "Acuan Warna/Desain" }, { header: "Warna Yang Diminta" }, { header: "Jumlah" }, { header: "Satuan" }];
-    }
-  }
+  // get detailHeader() {
+  //   // if (!this.isPrinting && !this.isYarndyed) {
+  //     return [{ header: "Acuan Warna/Desain" }, { header: "Warna Yang Diminta" }, { header: "Jenis Warna" }, { header: "Jumlah" }, { header: "Satuan" }];
+  //   // }
+  //   // else {
+  //   //   return [{ header: "Acuan Warna/Desain" }, { header: "Warna Yang Diminta" }, { header: "Jumlah" }, { header: "Satuan" }];
+  //   // }
+  // }
+
+  detailHeader = [{ header: "Acuan Warna/Desain" }, { header: "Warna Yang Diminta" }, { header: "Jenis Warna" }, { header: "Jumlah" }, { header: "Satuan" }];
 
   get removeLamp() {
     return (event) => console.log(event);
@@ -486,25 +511,25 @@ export class DataForm {
         ColorRequest: '',
         ColorTemplate: '',
         Quantity: 0,
-        Printing: this.isPrinting
+        // Printing: this.isPrinting
       };
       this.data.Details.push(newDetail);
     };
   }
 
-  get addDetailPrintingYarnDyed() {
-    return (event) => {
-      var newDetail = {
-        Uom: this.data.Uom,
-        // uomId: this.data.uom._id,
-        ColorRequest: '',
-        ColorTemplate: '',
-        Quantity: 0,
-        Printing: this.isPrinting
-      };
-      this.data.Details.push(newDetail);
-    };
-  }
+  // get addDetailPrintingYarnDyed() {
+  //   return (event) => {
+  //     var newDetail = {
+  //       Uom: this.data.Uom,
+  //       // uomId: this.data.uom._id,
+  //       ColorRequest: '',
+  //       ColorTemplate: '',
+  //       Quantity: 0,
+  //       Printing: this.isPrinting
+  //     };
+  //     this.data.Details.push(newDetail);
+  //   };
+  // }
 
   get designMotiveLoader() {
     return DesignMotiveLoader;
@@ -540,6 +565,10 @@ export class DataForm {
 
   get accountLoader() {
     return AccountLoader;
+  }
+
+  get currencyLoader() {
+    return CurrencyLoader;
   }
 
   text = (data) => {

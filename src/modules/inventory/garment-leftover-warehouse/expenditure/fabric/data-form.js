@@ -22,6 +22,8 @@ export class DataForm {
     @bindable selectedBuyer;
     @bindable selectedSalesNote;
     @bindable manual;
+    @bindable unitFrom;
+    @bindable isNotUnit;
 
     controlOptions = {
         label: {
@@ -36,7 +38,32 @@ export class DataForm {
         Code: "SMP1"
     };
 
-    @computedFrom("readOnly")
+    // @computedFrom("readOnly")
+    // get items() {
+    //     return {
+    //         columns: this.readOnly ? [
+    //             "Unit Asal",
+    //             "PO No",
+    //             "Satuan",
+    //             "Jumlah Keluar"
+    //         ] : [
+    //             "Unit Asal",
+    //             "PO No",
+    //             "Satuan",
+    //             "Jumlah Stock",
+    //             "Jumlah Keluar"
+    //         ],
+    //         onAdd: function () {
+    //             this.data.Items.push({});
+    //         }.bind(this),
+    //         options:  {
+    //             isEdit: this.isEdit,
+    //             existingItems: this.existingItems,
+    //         }
+    //     };
+    // };
+
+    @computedFrom("readOnly", "isNotUnit")
     get items() {
         return {
             columns: this.readOnly ? [
@@ -51,15 +78,16 @@ export class DataForm {
                 "Jumlah Stock",
                 "Jumlah Keluar"
             ],
-            onAdd: function () {
+            onAdd: () => {
                 this.data.Items.push({});
-            }.bind(this),
+            },
             options: {
                 isEdit: this.isEdit,
-                existingItems: this.existingItems
+                existingItems: this.existingItems,
+                isNotUnit: this.isNotUnit
             }
         };
-    };
+    }
 
     expenditureDestinations = [
         "UNIT",
@@ -78,10 +106,12 @@ export class DataForm {
     }
 
     unitView = (data) => {
+      if(data.Code == null && data.Name == null) return "";
         return `${data.Code} - ${data.Name}`;
     }
 
     buyerView = (data) => {
+      if(data.Code == null && data.Name == null) return "";
         return `${data.Code} - ${data.Name}`;
     }
 
@@ -97,7 +127,12 @@ export class DataForm {
         this.context = context;
         this.data = context.data;
         this.error = context.error;
-
+        
+        if (!this.data.ExpenditureDestination) {
+            this.data.ExpenditureDestination = "UNIT";
+            this.data.Items.push({});
+        }
+        this.isNotUnit = this.data.ExpenditureDestination;
         if (this.data && this.data.Id) {
             this.selectedUnit = {
                 Code: this.data.UnitExpenditure.Code,
@@ -127,8 +162,18 @@ export class DataForm {
         //     ];
         // }
     }
-
+    
     expenditureDestinationsChanged() {
+        this.isNotUnit = this.data.ExpenditureDestination;
+        
+        if (this.data.Items && Array.isArray(this.data.Items)) {
+            this.data.Items.splice(0, this.data.Items.length);
+        } else {
+            this.data.Items = [];
+        }
+
+        this.data.Items.push({});
+
         this.context.selectedUnitViewModel.editorValue = "";
         this.selectedUnit = null;
         this.context.selectedBuyerViewModel.editorValue = "";
