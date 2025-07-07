@@ -120,6 +120,10 @@ export class DataForm {
         //     }
         }
 
+        this.data.DocumentsFile = this.data.DocumentsFile || [];
+        this.data.DocumentsFileName = this.data.DocumentsFileName || [];
+        this.documentsPathTemp = [].concat(this.data.DocumentsPath);
+
     }
 
 
@@ -199,6 +203,8 @@ export class DataForm {
                     Symbol: this.data.VBDocument.CurrencySymbol,
                     Rate: this.data.VBDocument.CurrencyRate
                 }
+                console.log(this.data.VBDocument);
+                
             }
 
 
@@ -209,6 +215,11 @@ export class DataForm {
                         this.data.UnitCosts.push(item);
                     }
                 });
+                console.log(dataVBRequest);
+
+                this.data.DocumentsFile = dataVBRequest.DocumentsFile || [];
+                this.data.DocumentsFileName = dataVBRequest.DocumentsFileName || [];
+                this.documentsPathTemp = [].concat(dataVBRequest.DocumentsPath);
                 //this.data.UnitCosts = dataVBRequest.Items.find(a=>a.IsSelected);
             }
 
@@ -233,11 +244,16 @@ export class DataForm {
             //     this.cards.push(tempCards)
             // }
             this.itemOptions.vbNonPOType=this.vbNonPOType;
+
+          
+
+        
         } else {
             this.data.VBDocument = null;
             this.unit = null;
             this.currency = null;
         }
+        
 
     }
 
@@ -271,7 +287,11 @@ export class DataForm {
     resetAmount(event, data) {
         data.Amount = 0;
     }
-
+    formatAmount(amount) {
+        if (amount == null) return '';
+        console.log(amount);
+        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");  // Menambahkan separator koma
+      }
     // @bindable cardContentUnit;
     // cardContentUnitChanged(n, o) {
     //     var otherUnit = this.data.UnitCosts.find(s => s.Unit.VBDocumentLayoutOrder == 10);
@@ -295,7 +315,17 @@ export class DataForm {
     unitcolumns = [
         "Unit", "Amount"
     ];
-
+    downloadDocument(index) {
+        // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
+  
+        const linkSource = this.data.DocumentsFile[index];
+        const downloadLink = document.createElement("a");
+        const fileName = this.data.DocumentsFileName[index].documentName;
+        console.log("fileName", fileName);
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
     get addItems() {
         return (event) => {
             this.data.Items.push({
