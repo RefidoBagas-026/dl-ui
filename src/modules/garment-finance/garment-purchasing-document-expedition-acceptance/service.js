@@ -13,6 +13,11 @@ export class Service extends RestService {
     return super.list(uri, info);
   }
 
+  getById(id) {
+    var endpoint = `${uri}/intern-note-revision/${id}`;
+    return super.get(endpoint);
+  }
+
   verificationAccepted(ids) {
     let endpoint = `${uri}/verification-accepted`;
     return super.put(endpoint, ids);
