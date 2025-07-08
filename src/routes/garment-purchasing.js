@@ -385,7 +385,7 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
-  {
+{
     route: "/garment/monitoring-intern-note",
     name: "monitoring-intern-note",
     moduleId: "./modules/garment-purchasing/monitoring-intern-note-new/index",
