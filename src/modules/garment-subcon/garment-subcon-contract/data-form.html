@@ -90,7 +90,7 @@
         </div>
         <div class="row">
             <au-collection items.bind="data.Items" errors.bind="error.Items"
-                columns.bind="data.ContractType == 'SUBCON GARMENT' ? garmentColumns  : data.ContractType == 'SUBCON BAHAN PENOLONG' ? supportMaterialColumns : columns"
+                columns.bind="data.ContractType == 'SUBCON GARMENT' || data.ContractType == 'SUBCON BAHAN PENOLONG' ? garmentColumns  :  columns"
                 read-only.bind="readOnly" remove.bind="removeItems" add.bind="addItems" if.bind="isItems"
                 options.bind="itemOptions" item-template="modules/garment-subcon/garment-subcon-contract/template/item">
             </au-collection>
