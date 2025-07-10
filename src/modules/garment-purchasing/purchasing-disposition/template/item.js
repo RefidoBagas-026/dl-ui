@@ -226,10 +226,20 @@ export class PurchasingDispositionItem {
                         pph = item.PricePerDealUnit * qtyRemains * (this.data.IncomeTax.Rate / 100);
                     }
                     if (this.data.IsPayVAT) {  
-                        ppn = item.PricePerDealUnit * qtyRemains *( this.selectedEPO.Vat.Rate / 100);                      
+                        //ppn = item.PricePerDealUnit * qtyRemains *( this.selectedEPO.Vat.Rate / 100);   
+                        if(this.selectedEPO.Vat.Rate == "12"){
+                            ppnView = item.PricePerDealUnit * qtyRemains * 11/12 * (this.selectedEPO.Vat.Rate / 100);
+                        }else{
+                            ppnView = item.PricePerDealUnit * qtyRemains * (this.selectedEPO.Vat.Rate / 100);
+                        }                   
                     }
                     if (this.data.IsUseVat) {  
-                        ppnView = item.PricePerDealUnit * qtyRemains * (this.selectedEPO.Vat.Rate / 100);
+                        if(this.selectedEPO.Vat.Rate == "12"){
+                            ppnView = item.PricePerDealUnit * qtyRemains * 11/12 * (this.selectedEPO.Vat.Rate / 100);
+                        }else{
+                            ppnView = item.PricePerDealUnit * qtyRemains * (this.selectedEPO.Vat.Rate / 100);
+                        }
+                        
                     }
                     this.incomeTaxValue += pph;
                     this.incomeTaxValueView += pphView;
