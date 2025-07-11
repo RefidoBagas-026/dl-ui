@@ -33,6 +33,11 @@ class Service extends RestService {
         return super.delete(endpoint, data);
     }
 
+    approve(data) {
+        let endpoint = `${serviceUri}/approve`;
+        return super.put(endpoint, data);
+    }
+
 }
 
 
