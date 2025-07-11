@@ -15,15 +15,8 @@
                    options.bind="controlOptions">
     </au-datepicker>
 
-    <au-dropdown if.bind="!isEdit"
-                 label="Tipe VB"
-                 items.bind="NumberVbOptions"
-                 value.bind="vbNonPOType"
-                 error.bind="error.VBNonPOType"
-                 read-only.bind="readOnly"
-                 placeholder="Pilih Nomor VB"
-                 options.bind="controlOptions">
-    </au-dropdown>
+   
+    
 
     <!-- <au-textbox
         label="Keterangan"
@@ -34,8 +27,8 @@
     >
     </au-textbox> -->
 
-    <div show.bind="vbNonPOType">
-      <au-autocomplete show.bind="isVB || vbDocument "
+    
+      <!-- <au-autocomplete show.bind="isVB || vbDocument "
                        value.bind="vbDocument"
                        error.bind="error.VBDocument"
                        label="No VB"
@@ -44,9 +37,9 @@
                        read-only.bind="readOnly || (isVB && isEdit)"
                        options.bind="controlOptions"
                        query.bind="filter">
-      </au-autocomplete>
+      </au-autocomplete> -->
 
-      <au-datepicker show.bind="isVB || vbDocument"
+      <!-- <au-datepicker show.bind="isVB || vbDocument"
                      label="Tanggal VB"
                      value.bind="data.VBDocument.Date"
                      read-only.bind="true"
@@ -65,25 +58,16 @@
                   value.bind="data.VBDocument.CreatedBy"
                   read-only.bind="true"
                   options.bind="controlOptions">
-      </au-textbox>
+      </au-textbox> -->
 
       <au-autocomplete value.bind="unit"
                        error.bind="error.Unit"
                        label="Unit Pemohon"
                        loader.one-time="unitLoader"
                        text.bind="unitView"
-                       query.bind="unitsQuery"
                        read-only.bind="readOnly || isVB"
                        options.bind="controlOptions">
       </au-autocomplete>
-
-      <au-textbox 
-                  label="Alamat Email Pemohon"
-                  value.bind="data.RequesterEmail"
-                  error.bind="error.RequesterEmail"
-                  read-only.bind="readOnly"
-                  options.bind="controlOptions">
-      </au-textbox>
 
       <au-autocomplete label="Mata Uang"
                        value.bind="currency"
@@ -94,14 +78,32 @@
                        options.bind="controlOptions">
       </au-autocomplete>
 
-      <au-numeric show.bind="isVB || vbDocument"
+      <au-dropdown 
+                 label="Jenis Disposisi"
+                 items.bind="DispositionTypeItem"
+                 value.bind="dispositionType"
+                 error.bind="error.DispositionType"
+                 read-only.bind="readOnly"
+                 options.bind="controlOptions">
+      </au-dropdown>
+
+      <!-- <au-numeric show.bind="isVB || vbDocument"
                   label="Jumlah Uang"
                   value.bind="data.VBDocument.Amount"
                   error.bind="error.VBAmount"
                   read-only.bind="true"
                   format="0,0.00"
                   options.bind="controlOptions">
-      </au-numeric>
+      </au-numeric> -->
+
+      <au-textbox
+          show.bind ="isClaim"
+          label="Jenis Klaim"
+          value.bind="data.ClaimType"
+          error.bind="error.ClaimType"
+          read-only.bind="readOnly"
+          options.bind="controlOptions">
+      </au-textbox>
 
       <au-multiline label="Keterangan"
                     value.bind="data.Remark"
@@ -109,16 +111,14 @@
                     options.bind="controlOptions">
       </au-multiline>
 
-      <au-checkbox label="Claim"
-                 value.bind="data.VBDocument.IsClaim"
-                 placeholder="claim"
-                 read-only.bind="!readOnly || readOnly"
-                 options.bind="controlOptions">
-      </au-checkbox>
-
-      <au-textbox value.bind="data.VBDocument.ClaimType" read-only.bind="true" error.bind="error.ClaimType" label="Jenis Claim"
-    options.bind="controlOptions" show.bind = "data.VBDocument.IsClaim">
-    </au-textbox>
+      <au-multiline 
+            show.bind="isDelay"
+            label="Alasan Keterlambatan"
+            value.bind="data.ReasonForDelay"
+            read-only.bind="readOnly"
+            error.bind="error.ReasonForDelay"
+            options.bind="controlOptions">
+      </au-multiline>
 
       <au-textbox read-only.bind="true"
                   show.bind="error.Item"
@@ -132,8 +132,8 @@
                      remove.bind="onremove"
                      read-only.bind="readOnly"
                      options.bind="itemOptions"
-                     item-template="modules/purchasing/realization-vb-non-po/templates/item"
-                     footer-template="modules/purchasing/realization-vb-non-po/templates/item-footer">
+                     item-template="modules/purchasing/realization-non-vb/templates/item"
+                     footer-template="modules/purchasing/realization-non-vb/templates/item-footer">
       </au-collection>
 
       <au-textbox error.bind="error.CompareNominal"
@@ -164,33 +164,41 @@
                      read-only.bind="readOnly"
                      options.bind="itemOptions"
                      title="Beban Unit :"
-                     if.bind="vbNonPOType != 'Dengan Nomor VB'"
-                     item-template="modules/purchasing/realization-vb-non-po/templates/unit">
+                     item-template="modules/purchasing/realization-non-vb/templates/unit">
       </au-collection>
-      <au-collection items.bind="data.UnitCosts"
-                     errors.bind="error.UnitCosts"
-                     columns.bind="unitcolumns"
+      
+      <!-- <au-collection items.bind="data.UploadFile"
+                     errors.bind="error.UploadFile"
+                     columns.bind="uploadcolumns"
+                     add.bind="addUploads"
+                     remove.bind="onremoveUploads"
                      read-only.bind="readOnly"
                      options.bind="itemOptions"
-                     title="Beban Unit :"
-                     if.bind="vbNonPOType == 'Dengan Nomor VB'"
-                     item-template="modules/purchasing/realization-vb-non-po/templates/unit">
-      </au-collection>
-      <au-textbox error.bind="error.CompareNominalDisposisi"
-                  show.bind="error.CompareNominalDisposisi"
-                  read-only.bind="true"
+                     title="Upload :"
+                     item-template="modules/purchasing/realization-non-vb/templates/upload">
+      </au-collection> -->
+
+      <au-textbox read-only.bind="true"
+                  show.bind="error.DocumentFile"
+                  value.bind="error.DocumentFile"
                   style="color: red">
       </au-textbox>
-      <div class="row" errors.bind="error.DocumentFile" show.bind=" data.VBDocument.IsClaim">
+
+      <au-textbox error.bind="error.CompareNominalDisposisi"
+              show.bind="error.CompareNominalDisposisi"
+              read-only.bind="true"
+              style="color: red">
+      </au-textbox>
+      <div class="row" errors.bind="error.DocumentFile">
         <div class="col-md-6">
           <h4>File Dokumen</h4>
           <table class="table table-hover table-bordered">
             <thead>
               <th class="col-md-4">File</th>
               <th class="col-md-4">Amount</th>
-              <!-- <th if.bind="!readOnly" class="col-md-1">
+              <th if.bind="!readOnly" class="col-md-1">
                 <button click.delegate="onAddDocument()" class="btn btn-success pull-right">+</button>
-              </th> -->
+              </th>
             </thead>
             <tbody>
               <tr if.bind="!data.DocumentsFileName || data.DocumentsFileName.length < 1">
@@ -199,30 +207,44 @@
                 </td>
               </tr>
               <tr if.bind="data.DocumentsFileName" repeat.for="doc of data.DocumentsFileName">
-                <td>
+                <td if.bind="readOnly">
                   <button class="btn btn-primary justify-content-center"
                     click.delegate="downloadDocument($index)">${doc.documentName}</button>
                 </td>
-                <!-- <td if.bind="!readOnly">
+                <td if.bind="!readOnly">
                   <input if.bind="!documentsPathTemp[$index]" type="file" id="documentInput${$index}"
                     value.bind="documentUpload" change.delegate="documentInputChanged($index)"
                     accept=".pdf, .xls, .xlsx, .doc, .docx">
                   <button if.bind="documentsPathTemp[$index]" class="btn btn-primary justify-content-center"
                     click.delegate="downloadDocument($index)">${doc.documentName}</button>
                   <span class="text-danger" if.bind="error.DocumentsFile[$index]">${error.DocumentsFile[$index]}</span>
-                </td> -->
-                <!-- <td if.bind="!readOnly">
+                </td>
+                <td if.bind="!readOnly">
+                  <!-- <au-numeric 
+                    value.bind="data.Amount"
+                    read-only.bind="readOnly"
+                    error.bind="error.Amount"
+                    format="0,0.00"
+                    options.bind="controlOptions">
+                  </au-numeric> -->
+                  <!-- <input type="number"  read-only.bind="readOnly" id="amount${$index}" value.bind ="doc.amount" change.delegate="amountInputChanged($index)"> -->
                   <input type="text" id="amount${$index}" value.bind="doc.amount" change.delegate="amountInputChanged($index)" input.delegate="formatNumber($event, $index)">
                   
-                </td> -->
-
-                <td >
-                 
-                  <input type="text" id="amount${$index}"  value.bind="formatAmount(doc.amount)" change.delegate="amountInputChanged($index)" style="text-align: right; width : 100%" disabled>
                 </td>
-                <!-- <td if.bind="!readOnly">
+
+                <td if.bind="readOnly">
+                  <!-- <au-numeric 
+                    value.bind="data.Amount"
+                    read-only.bind="readOnly"
+                    error.bind="error.Amount"
+                    format="0,0.00"
+                    options.bind="controlOptions">
+                  </au-numeric> -->
+                  <input type="number"  read-only.bind="readOnly" id="amount${$index}" value.bind ="doc.amount" change.delegate="amountInputChanged($index)" disabled>
+                </td>
+                <td if.bind="!readOnly">
                   <button class="btn btn-danger pull-right" click.delegate="onRemoveDocument($index)">-</button>
-                </td> -->
+                </td>
                 
               </tr>
             </tbody>
@@ -289,7 +311,7 @@
           </td>
         </tr>
       </table> -->
-    </div>
+  
 
     <div slot="actions"
          class="btn-group">

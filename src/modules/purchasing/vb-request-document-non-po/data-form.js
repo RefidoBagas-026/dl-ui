@@ -1,11 +1,11 @@
-import { inject, bindable, computedFrom } from 'aurelia-framework';
+import { inject, bindable, computedFrom,  containerless  } from 'aurelia-framework';
 import { Service } from './service';
 import moment from 'moment';
 
 const CurrencyLoader = require('../../../loader/currency-in-garment-currency-loader');
 const UnitVBNonPO = require('../../../loader/unit-vb-non-po-loader');
 const UnitLoader = require('../../../loader/unit-loader');
-
+@containerless()
 @inject(Service)
 export class DataForm {
   @bindable title;
@@ -92,6 +92,9 @@ export class DataForm {
     // if (tempCards.length > 0) {
     //   this.cards.push(tempCards)
     // }
+    this.data.DocumentsFile = this.data.DocumentsFile || [];
+      this.data.DocumentsFileName = this.data.DocumentsFileName || [];
+      this.documentsPathTemp = [].concat(this.data.DocumentsPath);
 
   }
 
@@ -156,5 +159,100 @@ export class DataForm {
     return (event) => {
         this.data.Items.push({ });
     };
+  }
+
+  onAddDocument() {
+      this.data.DocumentsFile.push("");
+      this.data.DocumentsFileName.push("");
+      this.documentsPathTemp.push("");
+  }
+
+  onRemoveDocument(index) {
+      this.data.DocumentsFile.splice(index, 1);
+      this.data.DocumentsFileName.splice(index, 1);
+      this.documentsPathTemp.splice(index, 1);
+  }
+
+  documentInputChanged(index) {
+      let documentInput = document.getElementById('documentInput' + index);
+
+      if (documentInput.files[0]) {
+          let reader = new FileReader();
+          let amountInput = document.getElementById('amount' + index);
+          reader.onload = event => {
+              let base64Document = event.target.result;
+              const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
+              if (base64Content.length * 6 / 8 > 52428800) {
+                  documentInput.value = "";
+                  this.data.DocumentsFile[index] = "";
+                  this.data.DocumentsFileName[index] = "";
+                  alert("Maximum Document Size is 50 MB")
+              } else {
+                  // Hapus separator koma dari nilai input sebelum mengonversi ke angka
+                  const rawAmount = amountInput.value.replace(/,/g, '');
+                  this.data.DocumentsFile[index] = base64Document;
+                  this.data.DocumentsFileName[index] = {
+                      documentName : documentInput.value.replace(/^.*[\\\/]/, ''),
+                      //amount : amountInput.value ? parseFloat(amountInput.value) : 0,
+                      amount: rawAmount ? parseFloat(rawAmount) : 0, 
+                      documentFile : base64Document
+                  };
+              }
+          }
+          reader.readAsDataURL(documentInput.files[0]);
+      }
+  }
+
+  downloadDocument(index) {
+      // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
+
+      const linkSource = this.data.DocumentsFile[index];
+      const downloadLink = document.createElement("a");
+      const fileName = this.data.DocumentsFileName[index].documentName;
+      console.log("fileName", fileName);
+      downloadLink.href = linkSource;
+      downloadLink.download = fileName;
+      downloadLink.click();
+  }
+
+
+  amountInputChanged(index) {
+      let documentInput = document.getElementById('documentInput' + index);
+
+      if (documentInput.files[0]) {
+          let reader = new FileReader();
+          let amountInput = document.getElementById('amount' + index);
+          reader.onload = event => {
+              let base64Document = event.target.result;
+              const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
+              if (base64Content.length * 6 / 8 > 52428800) {
+                  documentInput.value = "";
+                  this.data.DocumentsFile[index] = "";
+                  this.data.DocumentsFileName[index] = "";
+                  alert("Maximum Document Size is 50 MB");
+              } else {
+                  // Hapus separator koma dari nilai input sebelum mengonversi ke angka
+                  const rawAmount = amountInput.value.replace(/,/g, '');
+                  this.data.DocumentsFile[index] = base64Document;
+                  this.data.DocumentsFileName[index] = {
+                      documentName: documentInput.value.replace(/^.*[\\\/]/, ''),
+                      amount: rawAmount ? parseFloat(rawAmount) : 0, // Konversi nilai tanpa separator
+                      documentFile: base64Document
+                  };
+              }
+          };
+          reader.readAsDataURL(documentInput.files[0]);
+      }
+  }
+
+  formatNumber(event, index) {
+      const input = event.target;
+      console.log(input);
+      const rawValue = input.value.replace(/,/g, ''); // Hapus separator sebelumnya
+      if (!isNaN(rawValue)) {
+          const formattedValue = new Intl.NumberFormat('en-US').format(rawValue); // Tambahkan separator
+          input.value = formattedValue; // Tampilkan nilai dengan separator
+          //this.data.DocumentsFileName[index].amount = parseFloat(rawValue); // Simpan nilai asli tanpa separator
+      }
   }
 }

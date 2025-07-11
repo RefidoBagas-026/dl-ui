@@ -1476,4 +1476,21 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
+
+  {
+    route: "realization-non-vb",
+    name: "realization-non-vb",
+    moduleId: "./modules/purchasing/realization-non-vb/index",
+    nav: true,
+    //title: "Realisasi VB non PO",
+    title: "Realisasi Pembayaran Tanpa VB",
+    auth: true,
+    settings: {
+      group: "finance",
+      subGroup: "vb",
+      permission: {"K65":1},
+      // permission: {"*": 1,},
+      iconClass: "fa fa-dashboard",
+    },
+  },
 ];
