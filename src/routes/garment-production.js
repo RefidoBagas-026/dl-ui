@@ -25,7 +25,7 @@ module.exports = [
             group: "g-production",
             subGroup: "master",
             // permission: { "C9": 1, "C1A": 1, "C1B": 1, "C2A": 1, "C2B": 1, "C2C": 1, "P": 1 },
-            permission: { "O1": 1 },
+            permission: { "O74": 1 },
             iconClass: 'fa fa-dashboard'
         }
     }, 
