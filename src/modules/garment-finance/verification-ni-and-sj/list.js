@@ -23,11 +23,26 @@ export class List {
       }, 100);
     }
 
-    // Event handler untuk tombol detail
+    // Event handler untuk tombol detail (expand/collapse manual)
     $(document).on('click', '[data-toggle="detail"]', (e) => {
       e.preventDefault();
-      var index = $(e.currentTarget).data('index');
-      this.toggleDetails(index);
+      var $btn = $(e.currentTarget);
+      var $tr = $btn.closest('tr');
+      var index = $btn.data('index');
+      // Cek apakah sudah ada detail row
+      if ($tr.next().hasClass('detail-row')) {
+        $tr.next().remove();
+        $btn.find('i').removeClass('fa-eye-slash').addClass('fa-eye');
+      } else {
+        // Tutup detail lain jika ingin single expand
+        $tr.siblings('.detail-row').remove();
+        $tr.siblings().find('td .fa-eye-slash').removeClass('fa-eye-slash').addClass('fa-eye');
+        // Ambil data row dari loadedData
+        var rowData = this.loadedData ? this.loadedData[index] : null;
+        var detailHtml = this.detailFormatter(index, rowData);
+        $tr.after(`<tr class="detail-row"><td colspan="${$tr.children().length}">${detailHtml}</td></tr>`);
+        $btn.find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+      }
     });
   }
 
@@ -56,13 +71,13 @@ export class List {
         var data = {};
         data.total = result.info.total;
         data.data = result.data;
-        
+        // Simpan data hasil load ke property agar bisa diakses event handler
+        this.loadedData = data.data;
         data.data.forEach(item => {
           // Pastikan field yang diperlukan ada
           item.invoiceNo = item.invoiceNo || item.INNo || 'N/A';
           item.supplierName = item.supplierName || 'N/A';
         });
-
         return {
           total: data.total,
           data: data.data
@@ -78,13 +93,19 @@ export class List {
     showToggle: true,
     striped: true,
     sortable: true,
-    searchOnEnterKey: false,
+    searchOnEnterKey: true,
     showRefresh: true,
     smartDisplay: true,
-    detailView: true,
-    detailViewIcon: false,
-    detailViewByClick: false,
-    detailFormatter: this.detailFormatter.bind(this)
+    // Nonaktifkan detailView bawaan agar tombol custom yang berfungsi
+    // detailView: true,
+    // detailViewIcon: true,
+    // detailViewAlign: 'right',
+    // iconsPrefix: 'fa',
+    // icons: {
+    //   detailOpen: 'fa-eye',
+    //   detailClose: 'fa-eye-slash'
+    // },
+    // detailFormatter: this.detailFormatter.bind(this)
   };
 
   // Konfigurasi kolom tabel
@@ -100,7 +121,7 @@ export class List {
       sortable: false,
       formatter: (value, row, index) => {
         return `<button class="btn btn-sm btn-default" data-toggle="detail" data-index="${index}" title="Lihat Detail">
-                  <i class="fa fa-search"></i>
+                  <i class="fa fa-eye"></i>
                 </button>`;
       }
     }
@@ -121,7 +142,6 @@ export class List {
             <tr>
               <th width="50">No</th>
               <th width="200">No SJ</th>
-              <th width="150">Tgl SJ</th>
               <th width="100">Qty</th>
               <th>Keterangan</th>
             </tr>
@@ -134,7 +154,6 @@ export class List {
         <tr>
           <td>${idx + 1}</td>
           <td>${item.internalNoteDONo || 'N/A'}</td>
-          <td>${item.scanResultDONo || 'N/A'}</td>
           <td>${item.internNoteQuantity || 0}</td>
           <td>${item.remarkDescription || 'N/A'}</td>
         </tr>
@@ -148,16 +167,6 @@ export class List {
     `;
 
     return html;
-  }
-
-  // Function untuk toggle details (menggunakan bootstrap-table detail view)
-  toggleDetails(index) {
-    console.log('Toggle details for index:', index);
-    
-    // Menggunakan bootstrap-table API untuk toggle detail
-    if (this.table && this.table.bootstrapTable) {
-      this.table.bootstrapTable('expandRow', index);
-    }
   }
 
   // Function untuk create (tidak digunakan untuk saat ini)
