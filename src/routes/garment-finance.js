@@ -61,6 +61,20 @@ module.exports = [
     },
   },
 {
+    route: "/garment-finance/verification-ni-and-sj",
+    name: "verification-ni-and-sj",
+    moduleId: "./modules/garment-finance/verification-ni-and-sj/index",
+    nav: true,
+    title: "Verifikasi NI dan SJ",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "ekspedisi ni",
+      permission: { "J3": 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+{
     route: '/garment-finance/garment-purchasing-expedition-report',
     name: 'garment-purchasing-expedition-report',
     moduleId: './modules/garment-finance/garment-purchasing-expedition-report/index',

@@ -1,0 +1,19 @@
+<template>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="page-header">Verifikasi NI dan SJ</h1>
+                <div class="table-responsive">
+                    <au-table 
+                        view-model.ref="table" 
+                        data.bind="loader" 
+                        columns.bind="columns" 
+                        sortable.bind="true" 
+                        page-size="25"
+                        options.bind="tableOptions">
+                    </au-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
