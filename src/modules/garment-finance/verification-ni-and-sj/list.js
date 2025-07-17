@@ -5,6 +5,9 @@ var moment = require("moment");
 
 @inject(Router, Service)
 export class List {
+  navigateToMainPage() {
+    this.router.navigateToRoute('main-page');
+  }
   
   constructor(router, service) {
     this.router = router;
