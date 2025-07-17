@@ -32,8 +32,8 @@ export class Service extends RestService {
         return Promise.resolve({});
     }
 
-    delete(data) {
-        // Placeholder
-        return Promise.resolve({});
+    delete(Id) {
+        const endpoint = `${serviceUri}/${Id}`;
+        return super.delete(endpoint);
     }
 }
