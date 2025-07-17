@@ -30,7 +30,7 @@ export class PurchasingDispositionItem {
 
     async activate(context) {
         this.context = context;
-        
+        console.log(context);
         this.items = context.context.items;
         this.data = context.data;
         this.error = context.error;
@@ -46,6 +46,13 @@ export class PurchasingDispositionItem {
                 "currencyCode": this.options.CurrencyCode,
                 "incomeTaxBy": this.options.IncomeTaxBy != null ? this.data.IncomeTaxBy : ""
             } : {};
+
+        this.eponoArray = [];
+
+        
+        //console.log("items", this.options);
+        //console.log("itemsss", this.items.context.items);
+        //console.log("epoNo Active", this.eponoArray);
         if (this.data.Id == 0) {
             this.isOver = false
         } else {
@@ -177,7 +184,7 @@ export class PurchasingDispositionItem {
                 var arg = {
                     epoId: this.data.EPOId
                 }
-
+                var itemss = [];
                 var details = [];
                 for (var item of this.selectedEPO.Items) {
                     var qtyRemains = item.DealQuantity - item.DispositionQuantityCreated;
@@ -188,7 +195,7 @@ export class PurchasingDispositionItem {
                         OverQty = 0;
                     }
 
-
+                
                     details.push({
                         ROId: 0,
                         RONo: item.RONo,
@@ -249,6 +256,7 @@ export class PurchasingDispositionItem {
                     // console.log("ppn",ppn);
                     // this.data.DPP+=item.PricePerDealUnit * qtyRemains;
                 }
+                //console.log("details", details);
                 this.data.Details = details;
                 this.data.IncomeTaxValue = this.incomeTaxValue;
                 this.data.IncomeTaxValueView = this.incomeTaxValueView;
@@ -269,14 +277,19 @@ export class PurchasingDispositionItem {
     }
 
     get epoLoader() {
-        // console.log("loader",EPOLoader);
+        console.log("loader",this.data);
+        console.log("epoNo", this.data.filter);
         this.filter1 = this.dataFilter.SupplierId && this.dataFilter.CurrencyId && this.dataFilter.Category && this.dataFilter.PaymentType ?
             {
                 "supplierId": this.dataFilter.SupplierId,
                 "currencyCode": this.dataFilter.CurrencyCode,
                 "category": this.dataFilter.Category,
-                "paymentType": this.dataFilter.PaymentType
+                "paymentType": this.dataFilter.PaymentType,
+                "usedEPONo": this.data.usedEPONo ? this.data.usedEPONo : [],
             } : {};
+        // for(var item of this.data.usedEPONo){
+        //     this.filter1[`EPONo == "${item}"`]=false;
+        //     }
         if(this.data.filter){
             this.filter1 =this.data.filter
         }

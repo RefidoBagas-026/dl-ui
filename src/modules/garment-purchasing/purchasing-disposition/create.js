@@ -70,7 +70,7 @@ export class Create {
         if(this.data.Items){
             this.data.Items.forEach(element => {
                 element.Items.forEach(item =>{
-                    console.log(element)
+                    //console.log(element)
                     var itemDisp ={};
                     itemDisp.CurrencyRate = item.CurrencyRate;
                     itemDisp.DPPValue = item.DPPValue;
@@ -117,18 +117,25 @@ export class Create {
                 for(var item of this.dataConv.Items){
                     if(item.Details){
                         for(var detail of item.Details){
-                            if(!poItem[detail.IPONo]){
+                           // console.log(detail);
+                           // console.log(detail.IPONo);
+                            //console.log(poItem[detail.IPONo]);
+                            if(poItem[detail.IPONo] == undefined){
                                 poItem[detail.IPONo]=detail.QTYRemains;
+                                console.log(detail.QTYRemains);
                             }
                             else{
+                                console.log(poItem[detail.IPONo]);
                                 if(poItem[detail.IPONo]<=0){
                                     isOver=true;
                                     alert("QTY PO dengan nomor "+detail.IPONo+" sudah melebihi alokasi.")
+                                    console.log(poItem[detail.IPONo]);
                                     break;
                                 }
                                 poItem[detail.IPONo]-=detail.QTYPaid;
                                 detail.QTYRemains=poItem[detail.IPONo];
                             }
+                            console.log(poItem[detail.IPONo]);
                         }
                     }
                             var pph=0;
