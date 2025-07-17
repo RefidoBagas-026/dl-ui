@@ -38,6 +38,7 @@
                     <td class="text-center">Nomor Nota</td>
                     <td class="text-center">No Bon Kecil</td>
                     <td class="text-center">No Bea Cukai</td>
+                    <td class="text-center">No Faktur Pajak</td>
                     <td class="text-center">Tipe Bea Cukai</td>
                     <td class="text-center">No Surat Jalan</td>
                     <td class="text-center">Metode Bayar</td>
@@ -64,6 +65,7 @@
                         <td>${data.BPBesar}</td>
                         <td>${data.BPKecil}</td>
                         <td>${data.BCNomor}</td>
+                        <td>${data.VatNo}</td>
                         <td>${data.BCTipe}</td>
                         <td>${data.NoSJ}</td>
                         <td>${data.PaymentMethod}</td>
@@ -83,7 +85,7 @@
                     </tr>
                     <tr class="active">
                         <td class="text-center">.</td>
-                        <td class="text-center" colspan="4"><strong>BO BON PUSAT KECIL</strong></td>
+                        <td class="text-center" colspan="5"><strong>BO BON PUSAT KECIL</strong></td>
                         <td class="text-right" colspan="5"><strong>${supplier.supplier}</strong></td>
                         <td class="text-center" colspan="3"><strong>SUB TOTAL</strong></td>
                         <td class="text-right"><strong>${supplier.subTotal7}</strong></td>
@@ -98,7 +100,7 @@
                 </template>
                 <tr class="active">
                     <td class="text-center">.</td>
-                    <td class="text-center" colspan="11"><strong>T O T A L P E M B E L I A N . . . . . . . .</strong>
+                    <td class="text-center" colspan="12"><strong>T O T A L P E M B E L I A N . . . . . . . .</strong>
                     </td>
                     <td class="text-center">.</td>
                     <td class="text-right"><strong>${AmountTotal7}</strong></td>
