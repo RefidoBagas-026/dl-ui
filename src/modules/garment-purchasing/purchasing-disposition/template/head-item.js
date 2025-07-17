@@ -31,7 +31,7 @@ export class HeadItem {
 
     constructor(service) {
         this.service = service;
-  
+        this.usedEPONo = [];
     }
 
 
@@ -44,6 +44,30 @@ export class HeadItem {
         this.options = context.context.options;
         this.filter = this.data;
         this.readOnly = context.options.readOnly;
+        //console.log(context);
+
+        //console.log(this.context.context.items);
+
+       
+
+        this.items.forEach(item => {
+            console.log("item", item.data);
+    
+            console.log("items", item.data.Items);
+            if(item.data.Items!= undefined){
+                item.data.Items.forEach(i => {
+                    console.log("i", i);
+                    if (i.EPONo) {
+                        this.usedEPONo.push(i.EPONo);
+                    }
+                });
+            }
+        });
+    
+        // Iterasi melalui items untuk memproses EPONo
+      
+
+        console.log("EPONO", this.usedEPONo);
         // this.filter = this.options.supplierId && this.options.currencyId && this.options.categoryId && this.options.divisionId ?
         //     {
         //         "supplierId": this.options.supplierId,
@@ -83,18 +107,20 @@ export class HeadItem {
  
 
     get addItems() {
-        
+     
         return (event) => {
             this.data.Items.push(
                 {
                     filter : this.data.Id ? this.options : null,
-                   invoice: this.data.invoice
+                   invoice: this.data.invoice,
+                   usedEPONo : this.usedEPONo
                 })
         };
     }
 
     get filter() {
         var filter={};
+        console.log(this.data);
         if(this.data.Id){
             filter = this.options;
         }
@@ -104,6 +130,7 @@ export class HeadItem {
                 currencyId: this.filter.CurrencyId,
                 categoryId: this.filter.CategoryId,
                 currencyCode: this.filter.CurrencyCode,
+                tes: this.data
             }
         }
         return filter;
