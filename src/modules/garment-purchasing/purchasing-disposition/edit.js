@@ -320,7 +320,7 @@ export class Edit {
                 console.log(item)
                 if(item.Details){
                     for(var detail of item.Details){
-                        if(!poItem[detail.IPONo]){
+                        if(poItem[detail.IPONo] == undefined){
                             poItem[detail.IPONo]=detail.QTYRemains;
                         }
                         else{
