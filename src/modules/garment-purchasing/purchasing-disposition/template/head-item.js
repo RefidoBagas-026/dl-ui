@@ -44,7 +44,7 @@ export class HeadItem {
         this.options = context.context.options;
         this.filter = this.data;
         this.readOnly = context.options.readOnly;
-        //console.log(context);
+        console.log(context);
 
         //console.log(this.context.context.items);
 
