@@ -35,7 +35,7 @@ export class List {
     }
 
     shippinginvoiceNoView = (invoiceNo) => {
-        return `${invoiceNo.InvoiceNo}`
+        return `${invoiceNo.invoiceNo}`
     }
    
     activate() {
