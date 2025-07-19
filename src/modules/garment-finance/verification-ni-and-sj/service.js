@@ -3,14 +3,11 @@ import { HttpClient } from 'aurelia-fetch-client';
 import { RestService } from '../../../utils/rest-service';
 
 // Service endpoint untuk data verification NI dan SJ
-
 const serviceUri = 'garment-in-do-revision';
-const serviceInternNotesUri = 'garment-intern-notes';
 
 export class Service extends RestService {
     constructor(http, aggregator, config) {
         super(http, aggregator, config, "finance");
-        this.purchasingService = new RestService(http, aggregator, config, "purchasing-azure");
     }
 
     // Method untuk mengambil data list verification NI dan SJ
@@ -33,12 +30,6 @@ export class Service extends RestService {
     update(data) {
         // Placeholder
         return Promise.resolve({});
-    }
-
-    // Method baru untuk mengambil data dari endpoint garment-intern-notes (purchasing)
-    searchInternNotes(info) {
-        const endpoint = serviceInternNotesUri;
-        return this.purchasingService.list(endpoint, info);
     }
 
     delete(Id) {
