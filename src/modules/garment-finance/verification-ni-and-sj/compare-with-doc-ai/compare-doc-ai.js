@@ -15,6 +15,13 @@ export class CompareDocAi {
   loading = false;
   showDropdown = false;
   selectedNotaIntern = null;
+  _selectedViewData = [];
+  get selectedViewData() {
+    return this._selectedViewData;
+  }
+  set selectedViewData(val) {
+    this._selectedViewData = Array.isArray(val) ? val.slice() : [];
+  }
 
   async onSearchInput(event) {
     this.search = event.target.value;
@@ -40,9 +47,36 @@ export class CompareDocAi {
     this.showDropdown = false;
   }
 
-  searchAction() {
+  async searchAction() {
     if (this.selectedNotaIntern) {
-      alert(`NI: ${this.selectedNotaIntern.inNo}\nId: ${this.selectedNotaIntern.Id}`);
+      const message = 'NI: ' + this.selectedNotaIntern.inNo + '\nId: ' + this.selectedNotaIntern.Id + '\n\nTampilkan data di tabel?';
+      const confirmed = window.confirm(message);
+      if (confirmed) {
+        const response = await this.service.getById(this.selectedNotaIntern.Id);
+        let detail = response.data || response || {};
+        // Flatten invoice fields from items[0].garmentInvoice
+        const item = (detail.items && detail.items[0]) ? detail.items[0] : {};
+        const invoice = item.garmentInvoice || {};
+        detail.invoiceNo = invoice.invoiceNo || '';
+        detail.invoiceDate = invoice.invoiceDate || '';
+        detail.totalAmount = invoice.totalAmount || '';
+        // Pastikan semua field yang dibutuhkan di tabel terisi
+        detail.inNo = detail.inNo || this.selectedNotaIntern.inNo || '';
+        detail.inDate = detail.inDate || this.selectedNotaIntern.inDate || '';
+        detail.currencyCode = (detail.currency && detail.currency.Code) ? detail.currency.Code : (detail.currencyCode || '');
+        detail.supplierName = (detail.supplier && detail.supplier.Name) ? detail.supplier.Name : (detail.supplierName || '');
+        detail.remark = detail.remark || '';
+        detail.CreatedBy = detail.CreatedBy || '';
+        this.selectedViewData = [detail];
+        // Trigger refresh pada child au-table
+        if (window.table && typeof window.table.refresh === 'function') {
+          window.table.refresh();
+        }
+      } else {
+        this.selectedViewData = [];
+      }
+    } else {
+      this.selectedViewData = [];
     }
   }
 }

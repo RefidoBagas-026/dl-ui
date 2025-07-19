@@ -21,8 +21,8 @@ export class Service extends RestService {
     }
 
     getById(id) {
-        // Placeholder
-        return Promise.resolve({});
+        const endpoint = `${serviceInternNotesUri}/${id}`;
+        return this.purchasingService.get(endpoint);
     }
 
     create(data) {
