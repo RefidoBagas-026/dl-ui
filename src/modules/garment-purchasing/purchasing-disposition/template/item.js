@@ -37,6 +37,9 @@ export class PurchasingDispositionItem {
         this.options = context.context.options;
         this.readOnly = context.options.readOnly;
         this.dataFilter = this.options;
+
+        console.log("readOnly", this.readOnly);
+        console.log("dataId", this.data.Id);
         this.filter = this.data.SupplierId && this.data.CurrencyId && this.data.CategoryId && this.data.DivisionId ?
             {
                 "supplierId": this.options.SupplierId,
