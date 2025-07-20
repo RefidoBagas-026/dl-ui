@@ -1,8 +1,8 @@
-
 import { inject, bindable } from 'aurelia-framework';
 import { Service } from '../service';
 
 export class View {
+
   static inject = [Service];
   static bindable = ['data'];
 
@@ -45,8 +45,37 @@ export class View {
       return num.toFixed(2);
     } },
     { field: 'remark', title: 'Keterangan' },
-    { field: 'CreatedBy', title: 'Admin Pembelian' }
+    { field: 'CreatedBy', title: 'Admin Pembelian' },
+    { 
+      field: 'info', 
+      title: '', 
+      formatter: (value, row, index) => {
+        return `<button class='btn btn-info btn-sm' style='color:white' data-toggle="detail" data-index="${index}"><i class='fa fa-info'></i></button>`;
+      },
+      width: 40,
+      align: 'center',
+      sortable: false
+    }
   ];
+
+  attached() {
+    $(document).on('click', '[data-toggle="detail"]', (e) => {
+      e.preventDefault();
+      var $btn = $(e.currentTarget);
+      var $tr = $btn.closest('tr');
+      var index = $btn.data('index');
+      // Cek apakah sudah ada detail row
+      if ($tr.next().hasClass('detail-row')) {
+        $tr.next().remove();
+      } else {
+        // Ambil data row dari this.data
+        var rowData = this.data[index];
+        var detailHtml = this.detailFormatter(index, rowData);
+        $tr.after(`<tr class="detail-row"><td colspan="${$tr.children().length}">${detailHtml}</td></tr>`);
+      }
+    });
+  }
+  
   get rows() {
     return Array.isArray(this.data) ? this.data : [];
   }
@@ -76,5 +105,81 @@ export class View {
     smartDisplay: false,
   };
 
-  // ...existing code...
+    // ...existing code...
+
+  // Detail formatter untuk menampilkan detail di bawah baris tabel
+  detailFormatter(index, row) {
+    // Kolom detail
+    const itemsColumns = [
+      { header: "Nomor Surat Jalan", value: "deliveryOrder.doNo" },
+      { header: "Nomor PO Eksternal", value: "ePONo" },
+      { header: "Nomor Ref PR", value: "pOSerialNumber" },
+      { header: "Nomor RO", value: "roNo" },
+      { header: "Term Pembayaran", value: "deliveryOrder.paymentMethod" },
+      { header: "Tipe Pembayaran", value: "deliveryOrder.paymentType" },
+      { header: "Tanggal Jatuh Tempo", value: "paymentDueDate" },
+      { header: "Barang", value: "product.Code" },
+      { header: "Jumlah", value: "doQuantity" },
+      { header: "Satuan", value: "uoms.Unit" },
+      { header: "Harga Satuan", value: "pricePerDealUnit" },
+      { header: "Harga Total", value: "priceTotal" },
+      { header: "Diterima Unit", value: "unit.Name" }
+    ];
+
+    // Ambil details dari items[0]
+    let details = (row.items && row.items[0] && row.items[0].details) ? row.items[0].details : [];
+    // Pastikan pOSerialNumber diambil dari detail.poSerialNumber jika ada
+    details = details.map(detail => ({
+      ...detail,
+      pOSerialNumber: detail.pOSerialNumber || detail.poSerialNumber || ''
+    }));
+
+    let html = '<div style="padding:10px; background:#f5f5f5; border-radius:4px;">';
+    html += '<strong>Detail Data:</strong><br>';
+    html += '<table class="table table-bordered table-sm" style="background:#fff;">';
+    html += '<thead><tr>';
+    itemsColumns.forEach(col => {
+      html += `<th>${col.header}</th>`;
+    });
+    html += '</tr></thead><tbody>';
+    details.forEach(detail => {
+      html += '<tr>';
+      itemsColumns.forEach(col => {
+        // Support nested property path dan fallback untuk Jumlah & Satuan
+        let val = detail;
+        if (col.value === 'doQuantity') {
+          val = detail.doQuantity !== undefined ? detail.doQuantity : (detail.quantity !== undefined ? detail.quantity : '');
+          // Format dua digit desimal
+          val = val !== '' && !isNaN(val) ? Number(val).toFixed(2) : val;
+        } else if (col.value === 'uoms.Unit') {
+          val = (detail.uoms && detail.uoms.Unit) ? detail.uoms.Unit : (detail.uomUnit && detail.uomUnit.Unit ? detail.uomUnit.Unit : '');
+        } else if (col.value === 'paymentDueDate') {
+          // Format tanggal dd-mm-yyyy
+          let tgl = detail.paymentDueDate;
+          if (tgl) {
+            const date = new Date(tgl);
+            if (!isNaN(date)) {
+              const d = date.getDate().toString().padStart(2, '0');
+              const m = (date.getMonth() + 1).toString().padStart(2, '0');
+              const y = date.getFullYear();
+              val = `${d}-${m}-${y}`;
+            } else {
+              val = tgl;
+            }
+          } else {
+            val = '';
+          }
+        } else {
+          col.value.split('.').forEach(k => {
+            val = val && val[k] !== undefined ? val[k] : '';
+          });
+        }
+        html += `<td>${val}</td>`;
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    html += '</div>';
+    return html;
+  }
 }
