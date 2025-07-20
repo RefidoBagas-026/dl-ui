@@ -83,4 +83,19 @@ export class CompareDocAi {
       this.selectedViewData = [];
     }
   }
+
+  clearAction() {
+    // Reset semua data pencarian
+    this.search = '';
+    this.searchResults = [];
+    this.showDropdown = false;
+    this.selectedNotaIntern = null;
+    this.selectedViewData = [];
+    this.loading = false;
+    
+    // Trigger refresh pada child au-table
+    if (window.table && typeof window.table.refresh === 'function') {
+      window.table.refresh();
+    }
+  }
 }

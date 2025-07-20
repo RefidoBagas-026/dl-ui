@@ -9,6 +9,23 @@ export class View {
   @bindable data;
 
   table = null;
+
+  // Helper function untuk format tanggal dengan nama bulan lengkap bahasa Inggris
+  static formatDateWithIndonesianMonth(value) {
+    if (!value) return '';
+    const date = new Date(value);
+    if (isNaN(date)) return value;
+    
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    
+    const d = date.getDate().toString().padStart(2, '0');
+    const m = monthNames[date.getMonth()];
+    const y = date.getFullYear();
+    return `${d}-${m}-${y}`;
+  }
   dataChanged(newValue) {
     if (this.table && typeof this.table.refresh === 'function') {
       this.table.refresh();
@@ -18,25 +35,13 @@ export class View {
   columns = [
     { field: 'inNo', title: 'No. Nota Intern' },
     { field: 'inDate', title: 'Tgl. Nota Intern', formatter: (value) => {
-      if (!value) return '';
-      const date = new Date(value);
-      if (isNaN(date)) return value;
-      const d = date.getDate().toString().padStart(2, '0');
-      const m = (date.getMonth() + 1).toString().padStart(2, '0');
-      const y = date.getFullYear();
-      return `${d}-${m}-${y}`;
+      return View.formatDateWithIndonesianMonth(value);
     } },
     { field: 'currencyCode', title: 'Mata Uang' },
     { field: 'supplierName', title: 'Supplier' },
     { field: 'invoiceNo', title: 'Nomor Invoice' },
     { field: 'invoiceDate', title: 'Tanggal Invoice', formatter: (value) => {
-      if (!value) return '';
-      const date = new Date(value);
-      if (isNaN(date)) return value;
-      const d = date.getDate().toString().padStart(2, '0');
-      const m = (date.getMonth() + 1).toString().padStart(2, '0');
-      const y = date.getFullYear();
-      return `${d}-${m}-${y}`;
+      return View.formatDateWithIndonesianMonth(value);
     } },
     { field: 'totalAmount', title: 'Total Amount', formatter: (value) => {
       if (value == null || value === '') return '';
@@ -154,21 +159,8 @@ export class View {
         } else if (col.value === 'uoms.Unit') {
           val = (detail.uoms && detail.uoms.Unit) ? detail.uoms.Unit : (detail.uomUnit && detail.uomUnit.Unit ? detail.uomUnit.Unit : '');
         } else if (col.value === 'paymentDueDate') {
-          // Format tanggal dd-mm-yyyy
-          let tgl = detail.paymentDueDate;
-          if (tgl) {
-            const date = new Date(tgl);
-            if (!isNaN(date)) {
-              const d = date.getDate().toString().padStart(2, '0');
-              const m = (date.getMonth() + 1).toString().padStart(2, '0');
-              const y = date.getFullYear();
-              val = `${d}-${m}-${y}`;
-            } else {
-              val = tgl;
-            }
-          } else {
-            val = '';
-          }
+          // Format tanggal dd-mmm-yyyy dengan nama bulan lengkap bahasa Inggris
+          val = View.formatDateWithIndonesianMonth(detail.paymentDueDate);
         } else {
           col.value.split('.').forEach(k => {
             val = val && val[k] !== undefined ? val[k] : '';
