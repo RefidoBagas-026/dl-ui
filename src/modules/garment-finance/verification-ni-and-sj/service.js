@@ -6,13 +6,14 @@ import { RestService } from '../../../utils/rest-service';
 
 const serviceUri = 'garment-in-do-revision';
 const serviceInternNotesUri = 'garment-intern-notes';
+const scanDeliveryOrderUri = 'garment-in-do-revision/scan-delivery-order';
 
 export class Service extends RestService {
     constructor(http, aggregator, config) {
         super(http, aggregator, config, "finance");
+        this.httpClient = http;
         this.purchasingService = new RestService(http, aggregator, config, "purchasing-azure");
     }
-
     // Method untuk mengambil data list verification NI dan SJ
     // Search berdasarkan keyword: "INNo", "SupplierName", "InvoiceNo"
     search(info) {
@@ -44,5 +45,15 @@ export class Service extends RestService {
     delete(Id) {
         const endpoint = `${serviceUri}/${Id}`;
         return super.delete(endpoint);
+    }
+    // Upload PDF ke endpoint scan-delivery-order
+    uploadScanDeliveryOrder(file) {
+        const endpoint = `${scanDeliveryOrderUri}`;
+        const formData = new FormData();
+        formData.append('file', file);
+        return this.endpoint.client.fetch(endpoint, {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json());
     }
 }

@@ -1,4 +1,3 @@
-
 import { inject, customElement } from 'aurelia-framework';
 import { Service } from '../service';
 
@@ -8,6 +7,10 @@ import { Service } from '../service';
 export class CompareDocAi {
   constructor(service) {
     this.service = service;
+    // Upload PDF logic
+    this.file = null;
+    this.uploading = false;
+    this.uploadError = '';
   }
 
   search = '';
@@ -21,6 +24,71 @@ export class CompareDocAi {
   }
   set selectedViewData(val) {
     this._selectedViewData = Array.isArray(val) ? val.slice() : [];
+  }
+
+  // Fungsi untuk menangani perubahan file input PDF
+  onFileChange(event) {
+    const files = event.target.files;
+    if (files && files[0]) {
+      const file = files[0];
+      if (file.type !== 'application/pdf') {
+        this.uploadError = 'File harus bertipe PDF.';
+        alert('File harus bertipe PDF.');
+        this.file = null;
+        return;
+      }
+      this.file = file;
+      this.uploadError = '';
+      this.scanFile(); // langsung proses scan setelah file dipilih
+    }
+  }
+
+  // Fungsi untuk upload file PDF (simulasi, tidak digunakan)
+  uploadFile() {
+    if (!this.file) {
+      this.uploadError = 'Silakan pilih file PDF.';
+      return;
+    }
+    this.uploading = true;
+    setTimeout(() => {
+      this.uploading = false;
+      alert('File berhasil di-upload (simulasi).');
+    }, 1000);
+  }
+
+  // Fungsi untuk scan file PDF ke backend dan simpan hasilnya
+  async scanFile() {
+    if (!this.file) {
+      this.uploadError = 'Silakan pilih file PDF untuk scan.';
+      alert(this.uploadError);
+      return;
+    }
+    this.uploading = true;
+    try {
+      const result = await this.service.uploadScanDeliveryOrder(this.file);
+      this.uploading = false;
+      if (result && result.statusCode === 200 && result.data) {
+        this.scannedData = result.data;
+        alert('Scan berhasil!');
+        // Data hasil scan disimpan di this.scannedData, bisa diinspeksi di UI
+      } else {
+        const msg = result && result.message ? result.message : 'Maaf file tidak bisa terbaca.';
+        alert('Maaf file tidak bisa terbaca karena: ' + msg);
+      }
+    } catch (err) {
+      this.uploading = false;
+      alert('Maaf file tidak bisa terbaca karena: ' + (err && err.message ? err.message : err));
+    }
+  }
+
+  // Fungsi untuk menghapus data hasil scan dan reset file input
+  clearScanData() {
+    this.scannedData = null;
+    this.file = null;
+    this.uploadError = '';
+    if (this.fileInput) {
+      this.fileInput.value = '';
+    }
   }
 
   async onSearchInput(event) {
@@ -92,7 +160,10 @@ export class CompareDocAi {
     this.selectedNotaIntern = null;
     this.selectedViewData = [];
     this.loading = false;
-    
+
+    // Reset hasil scan dan file PDF
+    this.clearScanData();
+
     // Trigger refresh pada child au-table
     if (window.table && typeof window.table.refresh === 'function') {
       window.table.refresh();
