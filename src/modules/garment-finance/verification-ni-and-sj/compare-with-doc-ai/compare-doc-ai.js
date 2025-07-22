@@ -11,6 +11,7 @@ export class CompareDocAi {
     this.file = null;
     this.uploading = false;
     this.uploadError = '';
+    this.isScanning = false; // loader scanning
   }
 
   search = '';
@@ -39,7 +40,7 @@ export class CompareDocAi {
       }
       this.file = file;
       this.uploadError = '';
-      this.scanFile(); // langsung proses scan setelah file dipilih
+      // Tidak langsung scan, hanya simpan file
     }
   }
 
@@ -64,9 +65,11 @@ export class CompareDocAi {
       return;
     }
     this.uploading = true;
+    this.isScanning = true;
     try {
       const result = await this.service.uploadScanDeliveryOrder(this.file);
       this.uploading = false;
+      this.isScanning = false;
       if (result && result.statusCode === 200 && result.data) {
         this.scannedData = result.data;
         alert('Scan berhasil!');
@@ -77,6 +80,7 @@ export class CompareDocAi {
       }
     } catch (err) {
       this.uploading = false;
+      this.isScanning = false;
       alert('Maaf file tidak bisa terbaca karena: ' + (err && err.message ? err.message : err));
     }
   }

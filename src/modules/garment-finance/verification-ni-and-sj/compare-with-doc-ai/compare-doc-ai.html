@@ -2,6 +2,7 @@
   <require from="../css/compare-doc-ai.css"></require>
   <require from="../css/upload-bar.css"></require>
   <require from="../view/view"></require>
+  <require from="../upload/pdfuploader-data"></require>
   <!-- Upload bar markup langsung di sini, tidak perlu require upload-bar -->
   <form>
     <div class="compare-doc-ai-bar">
@@ -28,6 +29,7 @@
     </div>
   </form>
   <view data.bind="selectedViewData"></view>
+
   <form>
     <div class="upload-bar-container">
       <label for="pdf-upload" class="upload-bar-label">Unggah File Pdf</label>
@@ -47,5 +49,18 @@
       <span if.bind="uploadError" class="text-danger">${uploadError}</span>
     </div>
   </form>
+
+  <!-- Container hasil scan PDF (fleksibel, bisa diisi tabel nanti) -->
+  <pdfuploader-data scanned-data.bind="scannedData"></pdfuploader-data>
+
+  <!-- Loader overlay untuk proses scan -->
+  <div if.bind="isScanning" class="compare-loader-overlay-global">
+    <div class="compare-loader-spinner-global">
+      <i class="fa fa-spinner fa-spin" style="font-size:3rem;color:#0D2F56;"></i>
+      <div style="margin-top:16px;color:#0D2F56;font-weight:bold;font-size:1.2rem;">
+        Memproses Scanning...
+      </div>
+    </div>
+  </div>
 
 </template>
