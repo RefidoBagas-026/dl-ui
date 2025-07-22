@@ -61,15 +61,15 @@ export class PdfuploaderData {
       <table class='table table-bordered table-sm' style='background:#fff;'>
         <thead>
           <tr>
-            <th>Kode Barang</th>
+           
             <th>Nama Barang</th>
-            <th>Jumlah</th>
+            <th>Quantity</th>
           </tr>
         </thead>
         <tbody>`;
     for (const item of doc.Items) {
       html += `<tr>
-        <td>${item.ProductCode || ''}</td>
+         
         <td>${item.ProductDescription || ''}</td>
         <td>${item.Quantity == null ? '' : item.Quantity.toLocaleString('id-ID')}</td>
       </tr>`;

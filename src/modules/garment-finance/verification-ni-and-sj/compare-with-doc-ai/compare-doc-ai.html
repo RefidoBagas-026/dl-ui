@@ -41,7 +41,7 @@
           disabled.bind="!file || uploading">
           Scan File
         </button>
-        <button class="btn btn-danger ms-2" type="button" click.delegate="clearScanData()">
+        <button class="btn btn-danger compare-doc-ai-btn" type="button" click.delegate="clearScanData()">
           Clear
         </button>
       </div>
@@ -51,7 +51,13 @@
   </form>
 
   <!-- Container hasil scan PDF (fleksibel, bisa diisi tabel nanti) -->
+
   <pdfuploader-data scanned-data.bind="scannedData"></pdfuploader-data>
+
+  <!-- Tombol cek NI dan SJ di bagian akhir -->
+  <button class="btn btn-success" type="button" style="margin-top:16px; float:right; margin-bottom:16px;">
+    Cek NI dan SJ
+  </button>
 
   <!-- Loader overlay untuk proses scan -->
   <div if.bind="isScanning" class="compare-loader-overlay-global">
