@@ -5,6 +5,9 @@ var moment = require("moment");
 
 @inject(Router, Service)
 export class List {
+  navigateToMainPage() {
+    this.router.navigateToRoute('main-page');
+  }
   
   constructor(router, service) {
     this.router = router;
@@ -44,12 +47,26 @@ export class List {
         $btn.find('i').removeClass('fa-eye').addClass('fa-eye-slash');
       }
     });
+
+    // Event handler untuk tombol hapus
+    $(document).on('click', '[data-toggle="delete"]', (e) => {
+      e.preventDefault();
+      var $btn = $(e.currentTarget);
+      var index = $btn.data('index');
+      var rowData = this.loadedData ? this.loadedData[index] : null;
+      if (rowData && rowData.Id) {
+        this.deleteRowById(rowData.Id, index);
+      } else {
+        alert('Id data tidak ditemukan!');
+      }
+    });
   }
 
   // Lifecycle method untuk cleanup
   detached() {
     // Remove event handler
     $(document).off('click', '[data-toggle="detail"]');
+    $(document).off('click', '[data-toggle="delete"]');
   }
 
   // Loader data dari service
@@ -120,9 +137,15 @@ export class List {
       align: 'center',
       sortable: false,
       formatter: (value, row, index) => {
-        return `<button class="btn btn-sm btn-default" data-toggle="detail" data-index="${index}" title="Lihat Detail">
-                  <i class="fa fa-eye"></i>
-                </button>`;
+        return `
+          <button class="btn btn-sm btn-success" data-toggle="detail" data-index="${index}" title="Lihat Detail">
+            <i class="fa fa-eye"></i>
+          </button>
+          <span style="margin-left:3px;"></span>
+          <button class="btn btn-sm btn-danger" data-toggle="delete" data-index="${index}" title="Hapus">
+            <i class="fa fa-trash"></i>
+          </button>
+        `;
       }
     }
   ];
@@ -170,6 +193,25 @@ export class List {
   }
 
   // Function untuk create (tidak digunakan untuk saat ini)
+  // Function untuk menghapus row berdasarkan id
+  deleteRowById(id, index) {
+    if (!id) {
+      alert('Id tidak valid!');
+      return;
+    }
+    if (confirm('Yakin ingin menghapus data ini?')) {
+      this.service.delete(id)
+        .then(() => {
+          alert('Data berhasil dihapus.');
+          if (this.table) {
+            this.table.refresh();
+          }
+        })
+        .catch(err => {
+          alert('Gagal menghapus data: ' + (err && err.message ? err.message : err));
+        });
+    }
+  }
   create() {
     console.log('Create clicked');
   }
