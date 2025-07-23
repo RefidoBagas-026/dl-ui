@@ -62,7 +62,7 @@
 		</td>
 		<td>
 			<au-numeric
-				value.bind="data.QTYPaid"
+				value.two-way="data.QTYPaid"
 				read-only.bind="(readOnly||isOver)"
 				error.bind="error.QTYPaid"
 				change.delegate="paidQtyChanged($event)"

@@ -30,7 +30,7 @@ export class PurchasingDispositionItem {
 
     async activate(context) {
         this.context = context;
-        console.log(context);
+        console.log(context.data);
         this.items = context.context.items;
         this.data = context.data;
         this.error = context.error;
@@ -38,8 +38,8 @@ export class PurchasingDispositionItem {
         this.readOnly = context.options.readOnly;
         this.dataFilter = this.options;
 
-        console.log("readOnly", this.readOnly);
-        console.log("dataId", this.data.Id);
+         //console.log("readOnly", this.dataFilter);
+        //console.log("dataId", this.data.Id);
         this.filter = this.data.SupplierId && this.data.CurrencyId && this.data.CategoryId && this.data.DivisionId ?
             {
                 "supplierId": this.options.SupplierId,
@@ -83,6 +83,7 @@ export class PurchasingDispositionItem {
         this.incomeTaxValue = this.data.IncomeTaxValue;
         this.incomeTaxValueView = this.data.IncomeTaxValueView;
         this.dppValue = this.data.DPPValue ? this.data.DPPValue : 0;
+        //console.log('tes detail epono', this.data.detailEPONo);
         // this.GetDisposition();
 
         // this.GetTax();
@@ -134,6 +135,8 @@ export class PurchasingDispositionItem {
     // }
 
     async selectedEPOChanged(newValue, oldValue) {
+
+    
         if (newValue) {
             if (newValue.Id != (oldValue ? oldValue.Id : 0) || oldValue == null) {
                 var param = {
@@ -198,7 +201,8 @@ export class PurchasingDispositionItem {
                         OverQty = 0;
                     }
 
-                
+                    const filteredEPONo = this.data.detailEPONo.filter(detail => detail.IPONo === item.PO_SerialNumber).map(detail => detail.QTYRemains);
+                    console.log("Remains", filteredEPONo);
                     details.push({
                         ROId: 0,
                         RONo: item.RONo,
@@ -211,9 +215,10 @@ export class PurchasingDispositionItem {
                         QTYOrder: item.DealQuantity,
                         QTYUnit: item.DealUom.Unit,
                         QTYRemains: qtyRemains - qtyRemains,
+                        //QTYRemains: qtyRemains,
                         PricePerQTY: item.PricePerDealUnit,
                         PriceTotal: parseFloat(item.PricePerDealUnit * qtyRemains).toFixed(3),
-                        QTYPaid: qtyRemains,
+                        QTYPaid:  filteredEPONo.length > 0 ? filteredEPONo : qtyRemains,
                         PaidPrice: parseFloat(item.PricePerDealUnit * qtyRemains).toFixed(3),
                         PercentageOverQTY: OverQty < 0 ? 0 : OverQty,
                         UnitId: item.UnitId,
@@ -280,8 +285,8 @@ export class PurchasingDispositionItem {
     }
 
     get epoLoader() {
-        console.log("loader",this.data);
-        console.log("epoNo", this.data.filter);
+        //console.log("loader",this.data.detailEPONo);
+       // console.log("epoNo", this.data.filter);
         this.filter1 = this.dataFilter.SupplierId && this.dataFilter.CurrencyId && this.dataFilter.Category && this.dataFilter.PaymentType ?
             {
                 "supplierId": this.dataFilter.SupplierId,
