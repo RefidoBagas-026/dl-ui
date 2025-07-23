@@ -1,13 +1,23 @@
 import { bindable } from 'aurelia-framework'
-
+import { Service } from '../service';
 export class PurchasingDispositionDetail {
-    
+
   activate(context) {
     this.context = context;
     this.data = context.data;
     this.error = context.error;
     this.options = context.options;
     this.readOnly = context.context.options.options.readOnly;
+    this.detailEPONo = context.context.options.data.detailEPONo || [];
+   //console.log("detail", this.data);
+
+    //console.log("context", this.detailEPONo);
+
+    const filteredEPONo = this.detailEPONo.filter(detail => detail.IPONo === this.data.IPONo).map(detail => detail.QTYRemains);
+
+    //console.log("filteredEPONo" , filteredEPONo)
+    //this.data.QTYPaid  = filteredEPONo.length > 0 ? filteredEPONo[0] : this.data.QTYPaid;
+    //console.log("EPOLIST", this.context.context.options.data);
     //console.log("detail",this.data);
     // if(this.data.Product){
     //     this.data.Product.Name=this.data.Product.name || this.data.Product.Name;
@@ -41,30 +51,52 @@ export class PurchasingDispositionDetail {
     // console.log("detail",this);
 }
 
+  // paidChanged(e) {
+  //   this.data.QTYPaid=parseFloat(e.srcElement.value)/this.data.PricePerQTY;
+  //   this.data.PaidPrice=parseFloat(e.srcElement.value);
+  //   // this.data.QTYRemains = this.data.QTYRemains - this.data.QTYPaid;
+  //   this.data.QTYRemains = this.data.QTYOrder - this.data.DispositionQuantityCreated - this.data.QTYPaid;
+    
+  //   // this.data.DppValue = this.data.PaidPrice;
+  //   this.calculatedOver();
+  // }
+
+  // paidQtyChanged(e){
+  //   // console.log("detail change",)
+  //   // console.log("paidQTYChanged",e.srcElement.value);
+  //   // console.log("detailPricePerDeal",this.data.PricePerQTY);
+  //   this.data.PaidPrice=parseFloat(e.srcElement.value)*this.data.PricePerQTY;
+  //   this.data.QTYPaid = parseFloat(e.srcElement.value);
+  //   // this.data.QTYRemains = this.data.QTYRemains - this.data.QTYPaid;
+  //   this.data.QTYRemains = this.data.QTYOrder - this.data.DispositionQuantityCreated - this.data.QTYPaid;    
+  //   // this.data.DppValue = this.data.PaidPrice;
+  //   this.calculatedOver();
+  // }
+
   paidChanged(e) {
-    this.data.QTYPaid=parseFloat(e.srcElement.value)/this.data.PricePerQTY;
-    this.data.PaidPrice=parseFloat(e.srcElement.value);
-    // this.data.QTYRemains = this.data.QTYRemains - this.data.QTYPaid;
+    this.data.QTYPaid = parseFloat(e.srcElement.value) / this.data.PricePerQTY;
+    this.data.PaidPrice = parseFloat(e.srcElement.value);
     this.data.QTYRemains = this.data.QTYOrder - this.data.DispositionQuantityCreated - this.data.QTYPaid;
     
-    // this.data.DppValue = this.data.PaidPrice;
     this.calculatedOver();
   }
 
-  paidQtyChanged(e){
-    // console.log("detail change",)
-    // console.log("paidQTYChanged",e.srcElement.value);
-    // console.log("detailPricePerDeal",this.data.PricePerQTY);
-    this.data.PaidPrice=parseFloat(e.srcElement.value)*this.data.PricePerQTY;
-    this.data.QTYPaid = parseFloat(e.srcElement.value);
-    // this.data.QTYRemains = this.data.QTYRemains - this.data.QTYPaid;
-    this.data.QTYRemains = this.data.QTYOrder - this.data.DispositionQuantityCreated - this.data.QTYPaid;    
-    // this.data.DppValue = this.data.PaidPrice;
+  paidQtyChanged(e) {
+    const filteredEPONo = this.detailEPONo.filter(detail => detail.IPONo === this.data.IPONo).map(detail => detail.QTYRemains);
+    console.log("filteredEPONo", filteredEPONo);
+    console.log("paidQtyChanged", e.srcElement.value);
+    this.data.PaidPrice = parseFloat(e.srcElement.value) * this.data.PricePerQTY;
+    //this.data.QTYPaid = parseFloat(e.srcElement.value);
+    if (e !== undefined && e !== null) {
+      // Update nilai QTYPaid dengan input baru
+      this.data.QTYPaid = parseFloat(e.srcElement.value);
+    }
+    this.data.QTYRemains =  filteredEPONo.length > 0 ? filteredEPONo[0] - this.data.QTYPaid : this.data.QTYOrder - this.data.DispositionQuantityCreated - this.data.QTYPaid;    
+    
     this.calculatedOver();
   }
-
   calculatedOver(){
-    console.log("calculateOver",this.data);
+    //console.log("calculateOver",this.data);
     if(this.data.QTYRemains < 0 ){
     // var OverQTy = (((this.data.QTYRemains+this.data.QTYPaid)-this.data.QTYOrder)/this.data.QTYOrder)*100;
     var OverQTy = (Math.abs(this.data.QTYRemains)/ this.data.QTYOrder)*100;
