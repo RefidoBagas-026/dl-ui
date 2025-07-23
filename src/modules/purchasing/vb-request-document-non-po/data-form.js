@@ -245,14 +245,57 @@ export class DataForm {
       }
   }
 
+  // formatNumber(event, index) {
+  //     const input = event.target;
+  //     console.log(input);
+  //     const rawValue = input.value.replace(/,/g, ''); // Hapus separator sebelumnya
+  //     if (!isNaN(rawValue)) {
+  //         const formattedValue = new Intl.NumberFormat('en-US').format(rawValue); // Tambahkan separator
+  //         input.value = formattedValue; // Tampilkan nilai dengan separator
+  //         //this.data.DocumentsFileName[index].amount = parseFloat(rawValue); // Simpan nilai asli tanpa separator
+  //     }
+  // }
+
   formatNumber(event, index) {
       const input = event.target;
-      console.log(input);
-      const rawValue = input.value.replace(/,/g, ''); // Hapus separator sebelumnya
-      if (!isNaN(rawValue)) {
-          const formattedValue = new Intl.NumberFormat('en-US').format(rawValue); // Tambahkan separator
-          input.value = formattedValue; // Tampilkan nilai dengan separator
-          //this.data.DocumentsFileName[index].amount = parseFloat(rawValue); // Simpan nilai asli tanpa separator
+      let rawValue = input.value.replace(/,/g, '');
+
+      // Izinkan input kosong, atau hanya "."
+      if (rawValue === '' || rawValue === '.') {
+          input.value = rawValue;
+          return;
       }
+
+      // Pisahkan integer & desimal (maksimal 1 titik)
+      let [integerPart, decimalPart] = rawValue.split('.');
+
+      // Hanya izinkan angka
+      if (!/^\d+$/.test(integerPart)) {
+          input.value = '';
+          return;
+      }
+
+      // Format integer
+      let formattedInt = new Intl.NumberFormat('en-US').format(Number(integerPart));
+
+      // Gabungkan lagi dengan desimal jika ada (biar ".00" tetap muncul)
+      let formattedValue = decimalPart !== undefined ? `${formattedInt}.${decimalPart}` : formattedInt;
+
+      input.value = formattedValue;
+
+      // Jika ingin simpan raw value tanpa separator:
+      // this.data.DocumentsFileName[index].amount = parseFloat(rawValue);
   }
+
+  formatAmount(amount) {
+    console.log(amount);
+    if (amount == null) return '';
+    
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");  // Menambahkan separator koma
+  }
+
+
+
+  
+
 }
