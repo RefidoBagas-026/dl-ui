@@ -19,6 +19,8 @@ export class List {
 
   // Lifecycle method untuk memastikan tabel ter-render dengan benar
   attached() {
+    // Pastikan event handler lama dihapus agar tidak duplikat
+    this.detached();
     // Refresh tabel setelah DOM ready
     if (this.table) {
       setTimeout(() => {
