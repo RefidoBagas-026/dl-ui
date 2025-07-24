@@ -1,18 +1,21 @@
 import { inject, customElement } from 'aurelia-framework';
 import { Service } from '../service';
-
+import { Router } from 'aurelia-router';
 
 @customElement('compare-doc-ai')
-@inject(Service)
+@inject(Service, Router)
 export class CompareDocAi {
-  constructor(service) {
+  constructor(service, router) {
     this.service = service;
+    this.router = router;
     // Upload PDF logic
     this.file = null;
     this.uploading = false;
     this.uploadError = '';
     this.isScanning = false; // loader scanning
   }
+
+  // ...existing code...
 
   search = '';
   searchResults = [];
@@ -121,9 +124,10 @@ export class CompareDocAi {
 
   async searchAction() {
     if (this.selectedNotaIntern) {
-      // Langsung jalankan pencarian tanpa alert
+      // Fetch detail dan simpan ke variabel khusus
       const response = await this.service.getById(this.selectedNotaIntern.Id);
       let detail = response.data || response || {};
+      this.selectedNotaInternDetail = detail;
       // Flatten invoice fields from items[0].garmentInvoice
       const item = (detail.items && detail.items[0]) ? detail.items[0] : {};
       const invoice = item.garmentInvoice || {};
@@ -153,6 +157,7 @@ export class CompareDocAi {
       }
     } else {
       this.selectedViewData = [];
+      this.selectedNotaInternDetail = null;
     }
   }
 
@@ -172,5 +177,57 @@ export class CompareDocAi {
     if (window.table && typeof window.table.refresh === 'function') {
       window.table.refresh();
     }
+  }
+
+  // Handler tombol Cek NI dan SJ
+  cekNiSj() {
+    // Validasi hasil pencarian detail Nota Intern
+    if (!this.selectedNotaInternDetail || !this.selectedNotaInternDetail.Id) {
+      alert('Maaf anda harus mencari No Nota Intern terlebih dahulu');
+      return;
+    }
+    const items = this.selectedNotaInternDetail.items || [];
+    if (!items.length || !items[0].garmentInvoice || !items[0].garmentInvoice.Id) {
+      alert('Maaf data Invoice tidak ditemukan pada Nota Intern yang dipilih');
+      return;
+    }
+    const garmentInternNoteId = this.selectedNotaInternDetail.Id;
+    const garmentInvoiceId = items[0].garmentInvoice.Id;
+    // Validasi prioritas scannedData
+    let postData = {};
+    if (this.scannedData) {
+      // alert(`garmentInternNoteId: ${garmentInternNoteId}, garmentInvoiceId: ${garmentInvoiceId}, ScanData: Success`);
+      postData = { scanResult: JSON.stringify(this.scannedData) };
+    } else if (this.file) {
+      // alert(`garmentInternNoteId: ${garmentInternNoteId}, garmentInvoiceId: ${garmentInvoiceId}, File: Success`);
+      postData = { file: this.file };
+    } else {
+      alert('Mohon untuk upload file pdf dan melakukan scan file Surat Jalan terlebih dahulu.');
+      return;
+    }
+
+    // Loader overlay
+    this.isScanning = true;
+    this.loaderText = 'Proses pengecekan sedang berjalan...';
+
+    this.service.postCompareInternalNoteDeliveryOrder(garmentInvoiceId, garmentInternNoteId, postData)
+      .then(response => {
+        this.isScanning = false;
+        // Response handling
+        if (response && response.statusCode === 200) {
+          alert('No Nota Intern dan Surat Jalan Sesuai');
+          if (this.router) this.router.navigateToRoute('list');
+        } else if (response && response.statusCode === 201) {
+          alert('No Nota Intern dan Surat Jalan Tidak Sesuai');
+          if (this.router) this.router.navigateToRoute('list');
+        } else {
+          const msg = response && response.message ? response.message : 'Terjadi error tidak diketahui';
+          alert('Maaf terjadi error karena: ' + msg);
+        }
+      })
+      .catch(err => {
+        this.isScanning = false;
+        alert('Maaf terjadi error karena: ' + (err && err.message ? err.message : err));
+      });
   }
 }

@@ -7,6 +7,7 @@ import { RestService } from '../../../utils/rest-service';
 const serviceUri = 'garment-in-do-revision';
 const serviceInternNotesUri = 'garment-intern-notes';
 const scanDeliveryOrderUri = 'garment-in-do-revision/scan-delivery-order';
+const compareInternalNoteDeliveryOrderUri = 'garment-purchasing-expeditions/compare-internal-note-delivery-order';
 
 export class Service extends RestService {
     constructor(http, aggregator, config) {
@@ -20,7 +21,7 @@ export class Service extends RestService {
         const endpoint = `${serviceUri}`;
         return super.list(endpoint, info);
     }
-
+    
     getById(id) {
         const endpoint = `${serviceInternNotesUri}/${id}`;
         return this.purchasingService.get(endpoint);
@@ -56,4 +57,21 @@ export class Service extends RestService {
             body: formData
         }).then(response => response.json());
     }
+    // POST ke endpoint compare-internal-note-delivery-order
+    // Bisa kirim ScanResult (string) atau File (object), salah satu wajib
+    postCompareInternalNoteDeliveryOrder(garmentInvoiceId, garmentInternNoteId, { scanResult = null, file = null } = {}) {
+        const endpoint = `${compareInternalNoteDeliveryOrderUri}?garmentInvoiceId=${garmentInvoiceId}&garmentInternNoteId=${garmentInternNoteId}`;
+        const formData = new FormData();
+        if (scanResult) {
+            formData.append('ScanResult', scanResult);
+        }
+        if (file) {
+            formData.append('File', file);
+        }
+        return this.endpoint.client.fetch(endpoint, {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json());
+    }
+
 }
