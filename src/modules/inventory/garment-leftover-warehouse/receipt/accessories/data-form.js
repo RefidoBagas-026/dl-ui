@@ -72,7 +72,8 @@ export class DataForm {
             return {
                 IsReceived: false,
                 ExpenditureType: "SISA",
-                StorageName: "GUDANG ACCESSORIES",
+                 'StorageName == "GUDANG ACCESSORIES" || StorageName == "GUDANG INTERLINING"':"true",
+                //StorageName: "GUDANG ACCESSORIES",
                 UnitSenderCode: code
             };
         } else {
