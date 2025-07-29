@@ -162,42 +162,44 @@ export class DeliveryOrderItem {
       }
 
       for(var item of newValue.Items) {
-        var filterGarmentCategory = {
-          "_IsDeleted": false,
-          "Name": item.Product.Name,
-        }
-        var info = { filter: JSON.stringify(filterGarmentCategory), size: 2147483647 };
-        var categoryProduct = await this.service.searchGarmentCategory(info);
-        var codeRequirmentTemp = "";
-        for (var data of categoryProduct) {
-          codeRequirmentTemp = data.codeRequirement;
-        }
+        if(item.PI!=null && item.PI!="" ){
+          var filterGarmentCategory = {
+            "_IsDeleted": false,
+            "Name": item.Product.Name,
+          }
+          var info = { filter: JSON.stringify(filterGarmentCategory), size: 2147483647 };
+          var categoryProduct = await this.service.searchGarmentCategory(info);
+          var codeRequirmentTemp = "";
+          for (var data of categoryProduct) {
+            codeRequirmentTemp = data.codeRequirement;
+          }
 
-        var fulfillment = {
-          ePOItemId : item.Id,
-          pOId : item.POId,
-          pONo : item.PONo,
-          pRId : item.PRId,
-          pRNo : item.PRNo,
-          poSerialNumber : item.PO_SerialNumber,
-          product : item.Product,
-          doQuantity : item.DOQuantity,
-          dealQuantity : item.DealQuantity,
-          conversion : item.Conversion,
-          smallQuantity : item.SmallQuantity,
-          pricePerDealUnit : item.PricePerDealUnit,
-          rONo : item.RONo,
-          currency : newValue.Currency,
-          // product : item.Product,
-          codeRequirment : codeRequirmentTemp,
-          smallUom : item.SmallUom,
-          purchaseOrderUom : item.DealUom,
-          isSave : false,
-          remark : item.Remark
-        };
-        this.data.fulfillments.push(fulfillment);
+          var fulfillment = {
+            ePOItemId : item.Id,
+            pOId : item.POId,
+            pONo : item.PONo,
+            pRId : item.PRId,
+            pRNo : item.PRNo,
+            poSerialNumber : item.PO_SerialNumber,
+            product : item.Product,
+            doQuantity : item.DOQuantity,
+            dealQuantity : item.DealQuantity,
+            conversion : item.Conversion,
+            smallQuantity : item.SmallQuantity,
+            pricePerDealUnit : item.PricePerDealUnit,
+            rONo : item.RONo,
+            currency : newValue.Currency,
+            // product : item.Product,
+            codeRequirment : codeRequirmentTemp,
+            smallUom : item.SmallUom,
+            purchaseOrderUom : item.DealUom,
+            isSave : false,
+            remark : item.Remark
+          };
+          this.data.fulfillments.push(fulfillment);
+        }
+        this.isShowing = true;
       }
-      this.isShowing = true;
         
     } else if (newValue.EPONo && (this.context.context.options.hasView || this.context.context.options.hasEdit)) {
       this.data.purchaseOrderExternal.no = newValue.EPONo;
@@ -208,41 +210,44 @@ export class DeliveryOrderItem {
       this.data.currency.Code = newValue.Currency.Code;
 
       for(var item of newValue.Items){
-        var filterGarmentCategory = {
-          "_IsDeleted": false,
-          "Name": item.Product.Name,
-        }
-        var info = { filter: JSON.stringify(filterGarmentCategory), size: 2147483647 };
-        var categoryProduct = await this.service.searchGarmentCategory(info);
-        var codeRequirmentTemp = "";
-        for (var data of categoryProduct){
-          codeRequirmentTemp = data.codeRequirement;
-        }
+        if(item.PI!=null && item.PI!="" ){
+          var filterGarmentCategory = {
+            "_IsDeleted": false,
+            "Name": item.Product.Name,
+          }
+          var info = { filter: JSON.stringify(filterGarmentCategory), size: 2147483647 };
+          var categoryProduct = await this.service.searchGarmentCategory(info);
+          var codeRequirmentTemp = "";
+          for (var data of categoryProduct){
+            codeRequirmentTemp = data.codeRequirement;
+          }
 
-        var fulfillment = {
-          ePOItemId : item.Id,
-          pOId : item.POId,
-          pONo : item.PONo,
-          pRId : item.PRId,
-          pRNo : item.PRNo,
-          poSerialNumber : item.PO_SerialNumber,
-          product : item.Product,
-          doQuantity : item.DOQuantity,
-          dealQuantity : item.DealQuantity,
-          conversion : item.Conversion,
-          smallQuantity : item.SmallQuantity,
-          pricePerDealUnit : item.PricePerDealUnit,
-          rONo : item.RONo,
-          currency : newValue.Currency,
-          // product : item.Product,
-          codeRequirment : codeRequirmentTemp,
-          smallUom : item.SmallUom,
-          purchaseOrderUom : item.DealUom,
-          remark : item.Remark
-        };
-        this.data.fulfillments.push(fulfillment);
+          var fulfillment = {
+            ePOItemId : item.Id,
+            pOId : item.POId,
+            pONo : item.PONo,
+            pRId : item.PRId,
+            pRNo : item.PRNo,
+            poSerialNumber : item.PO_SerialNumber,
+            product : item.Product,
+            doQuantity : item.DOQuantity,
+            dealQuantity : item.DealQuantity,
+            conversion : item.Conversion,
+            smallQuantity : item.SmallQuantity,
+            pricePerDealUnit : item.PricePerDealUnit,
+            rONo : item.RONo,
+            currency : newValue.Currency,
+            // product : item.Product,
+            codeRequirment : codeRequirmentTemp,
+            smallUom : item.SmallUom,
+            purchaseOrderUom : item.DealUom,
+            remark : item.Remark
+          };
+          this.data.fulfillments.push(fulfillment);
+
+        }
+          this.isShowing = true;
       }
-        this.isShowing = true;
     }
     this.activate(this.context);
     this.dataPassing ="passing data";
