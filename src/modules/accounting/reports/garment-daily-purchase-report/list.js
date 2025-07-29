@@ -117,8 +117,8 @@ export class List {
                                 Amount4 = 0;
                                 Amount5 = 0;
                                 Amount6 = 0;
-                                Amount7 = data.Amount.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                                Amount8 = data.Amount6.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                // Amount7 = data.Amount.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                // Amount8 = data.Amount6.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                                 break;
                             default:
                                 Amount1 = 0;
@@ -127,8 +127,8 @@ export class List {
                                 Amount4 = 0;
                                 Amount5 = 0;
                                 Amount6 = 0;
-                                Amount7 = data.Amount.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                                Amount8 = data.Amount6.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                // Amount7 = data.Amount.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                // Amount8 = data.Amount6.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                                 break;
                         }
 
@@ -157,6 +157,7 @@ export class List {
                             AmountPPH: Amount6,
                             AmountDPPVLS: Amount7,
                             AmountDPPIDR: Amount8,
+                            VatNo: data.VatNo
                         });
 
                         if (!subTotalSupplier1[Supplier]) {
@@ -214,13 +215,13 @@ export class List {
                                 break;
                             case 'PPN':
                                 subTotalSupplier5[Supplier] = 0;
-                                subTotalSupplier7[Supplier] += data.Amount;
-                                subTotalSupplier8[Supplier] += data.Amount6;
+                                // subTotalSupplier7[Supplier] += data.Amount;
+                                // subTotalSupplier8[Supplier] += data.Amount6;
                                 break;
                             default:
                                 subTotalSupplier6[Supplier] = 0;
-                                subTotalSupplier7[Supplier] += data.Amount;
-                                subTotalSupplier8[Supplier] += data.Amount6;
+                                // subTotalSupplier7[Supplier] += data.Amount;
+                                // subTotalSupplier8[Supplier] += data.Amount6;
                                 break;
                         }
 

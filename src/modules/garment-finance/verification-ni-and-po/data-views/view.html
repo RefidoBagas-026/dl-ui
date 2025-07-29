@@ -82,15 +82,24 @@
         </template>
       </tbody>
     </table>
-    <div class="pagination-info-container" if.bind="showRevisionTable">
+    <div class="pagination-info-container" if.bind="showRevisionTable" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
       <span>${paginationText}</span>
-      <select id="pageSize" value.bind="pageSize" change.delegate="updatePageSize()">
-        <option value="10">10</option>
-        <option value="25">25</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-      </select>
-      <span>baris per halaman</span>
+      <span style="margin-left:16px;">
+        <select id="pageSize" value.bind="pageSize" change.delegate="updatePageSize()">
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        <span>baris per halaman</span>
+      </span>
+      <span style="margin-left:auto;">
+        <button class="btn btn-light" disabled.bind="currentPage === 1" click.delegate="goToPage(currentPage - 1)" style="min-width:32px;">&lt;</button>
+        <span repeat.for="page of pages">
+          <button class="btn ${currentPage === page ? 'btn-primary' : 'btn-light'}" click.delegate="goToPage(page)" style="min-width:32px;">${page}</button>
+        </span>
+        <button class="btn btn-light" disabled.bind="currentPage === totalPages" click.delegate="goToPage(currentPage + 1)" style="min-width:32px;">&gt;</button>
+      </span>
     </div>
   </div>
 </template>

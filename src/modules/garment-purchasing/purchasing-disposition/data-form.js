@@ -205,7 +205,7 @@ export class DataForm {
             this.data.DPP = 0;
             this.data.VatValue = 0;
             this.data.VatValueView = 0;
-            console.log(this.data.Items);
+            //console.log(this.data.Items);
             for (var detail of this.data.Items) {
                 if(detail.Items)
                 for (var item of detail.Items) {
