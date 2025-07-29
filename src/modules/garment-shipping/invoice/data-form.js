@@ -24,7 +24,7 @@ export class DataForm {
     @bindable isEdit = false;
     @bindable isUsed = false;
     @bindable isUpdated = false;
-    @bindable dataItems=[];
+    @bindable dataItems = [];
 
     constructor(service, coreService, authService) {
         this.service = service;
@@ -36,7 +36,7 @@ export class DataForm {
         DivisionName: "G"
     };
 
-    INCOTERMSOptions=["FOB", "FAS","CFR","CIF","EXW","FCA","CPT","CIP","DAT","DAP","DDP"];
+    INCOTERMSOptions = ["FOB", "FAS", "CFR", "CIF", "EXW", "FCA", "CPT", "CIP", "DAT", "DAP", "DDP"];
 
     bind(context) {
         this.context = context;
@@ -50,8 +50,8 @@ export class DataForm {
             isEdit: this.context.isEdit,
             isUpdated: this.context.isUpdated,
             isUsed: this.context.isUsed,
-            itemData:this.data.items,
-            data:this.data,
+            itemData: this.data.items,
+            data: this.data,
         }
         this.isEdit = this.context.isEdit;
         this.isUpdated = this.context.isUpdated;
@@ -62,7 +62,7 @@ export class DataForm {
         //mapping data items with spesific uom
         if ((this.isView || this.context.isEdit) && this.data.items.length > 0) {
             //create dictionary uom witu key is uom.unit and value summary of quantity from data items
-       
+
             var uomDictionary = {};
             this.data.items.forEach(item => {
                 if (uomDictionary[item.uom.unit]) {
@@ -71,33 +71,34 @@ export class DataForm {
                     uomDictionary[item.uom.unit] = item.quantity;
                 }
             });
-      
+
             //push uomDictionary to uomList
             for (var key in uomDictionary) {
                 this.uomList.push({ unit: key, quantity: uomDictionary[key] });
             }
-           
+
         }
-        
+
 
         if (this.data.id != undefined) {
-            if(this.data.bankAccountId>0){
+            if (this.data.bankAccountId > 0) {
                 this.coreService.getBankAccountById(this.data.bankAccountId)
-                .then(result => {
+                    .then(result => {
 
-                    this.bankAccount =
-                    {
-                        Id: this.data.bankAccountId,
-                        BankName: result.BankName,
-                        Currency: {
-                            Code: result.Currency.Code
-                        }
-                    };
-                    this.data.bankAccount = result.BankName;
-                });
+                        this.bankAccount =
+                        {
+                            Id: this.data.bankAccountId,
+                            BankName: result.BankName,
+                            Currency: {
+                                Code: result.Currency.Code
+                            },
+                            AccountNumber: result.AccountNumber
+                        };
+                        this.data.bankAccount = result.BankName;
+                    });
             }
-            
-            
+
+
             this.fabricType = {
                 Id: this.data.fabricTypeId,
                 Name: this.data.fabricType
@@ -107,11 +108,11 @@ export class DataForm {
             this.packinglists = this.data.invoiceNo;
             this.isUpdated && this.updateItems(this.data.invoiceNo);
 
-            this.data.npeDate=moment(this.data.npeDate).format("DD-MMM-YYYY")=="01-Jan-0001" ? null : this.data.npeDate;
-            this.data.blDate=moment(this.data.blDate).format("DD-MMM-YYYY")=="01-Jan-0001" ? null : this.data.blDate;
-            this.data.coDate=moment(this.data.coDate).format("DD-MMM-YYYY")=="01-Jan-0001" ? null : this.data.coDate;
-            this.data.pebDate=moment(this.data.pebDate).format("DD-MMM-YYYY")=="01-Jan-0001" ? null : this.data.pebDate;
-            this.data.cotpDate=moment(this.data.cotpDate).format("DD-MMM-YYYY")=="01-Jan-0001" ? null : this.data.cotpDate;
+            this.data.npeDate = moment(this.data.npeDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.npeDate;
+            this.data.blDate = moment(this.data.blDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.blDate;
+            this.data.coDate = moment(this.data.coDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.coDate;
+            this.data.pebDate = moment(this.data.pebDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.pebDate;
+            this.data.cotpDate = moment(this.data.cotpDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.cotpDate;
         }
 
     }
@@ -157,7 +158,7 @@ export class DataForm {
     }
 
     accountBankView = (acc) => {
-        return `${acc.BankName} - ${acc.Currency.Code}`;
+        return `${acc.BankName} - ${acc.Currency.Code} - ${acc.AccountNumber}`;
     }
 
     get shippingStaffLoader() {
@@ -209,8 +210,8 @@ export class DataForm {
             this.data.invoiceDate = selectedInv.date;
 
             this.shippingStaff = {
-              Id: selectedInv.shippingStaff.id,
-              Name: selectedInv.shippingStaff.name || ""
+                Id: selectedInv.shippingStaff.id,
+                Name: selectedInv.shippingStaff.name || ""
             }
 
             //console.log(newValue)
@@ -231,11 +232,30 @@ export class DataForm {
 
             var packingItem = await this.service.getPackingListById(selectedInv.id);
             var buyer = await this.coreService.getBuyerById(this.data.buyerAgent.id);
+            //  Get bank account from
+            if (buyer.BankAccount.Id > 0) {
+                this.data.bankAccountId = buyer.BankAccount.Id;
+                this.data.bankAccount = buyer.BankAccount.BankName;
+                this.data.bankCurrency = buyer.BankAccount.Currency.Code;
+                this.data.bankAccountNo = buyer.BankAccount.AccountNumber;
+
+                //set value to view on loader
+                this.bankAccount =
+                {
+                    Id: this.data.bankAccountId,
+                    BankName: this.data.bankAccount,
+                    Currency: {
+                        Code: this.data.bankCurrency
+                    },
+                    AccountNumber: this.data.bankAccountNo
+                };
+            }
+
             this.data.consigneeAddress = buyer.Address;
             this.data.items.splice(0);
             this.dataItems.splice(0);
             this.data.garmentShippingInvoiceAdjustments.splice(0);
-           // console.log(packingItem)
+            // console.log(packingItem)
             var consignee = "";
             var TotalAmount = 0;
             var _consignee = "";
@@ -246,19 +266,17 @@ export class DataForm {
                 var _item = {};
                 _item.BuyerCode = this.data.buyerAgent.code;
                 _item.Section = this.data.section.code;
-                _item.marketingName = item.marketingName;    
+                _item.marketingName = item.marketingName;
                 _item.roNo = item.roNo;
                 _item.scNo = item.scNo;
-                if(packingItem.invoiceType ==='DS' || packingItem.invoiceType ==='SM')
-                {
-                    _item.price = item.price; 
-                }else
-                {
-                     _item.price = item.priceFOB;
+                if (packingItem.invoiceType === 'DS' || packingItem.invoiceType === 'SM') {
+                    _item.price = item.price;
+                } else {
+                    _item.price = item.priceFOB;
                 }
                 _item.priceRO = item.priceRO;
                 _item.quantity = item.quantity;
-                _item.cmtPrice=item.priceCMT;
+                _item.cmtPrice = item.priceCMT;
                 _item.comodity = {
                     id: item.comodity.id,
                     code: item.comodity.code,
@@ -300,7 +318,7 @@ export class DataForm {
                 this.data.items.push(_item);
                 _consignee += item.buyerBrand.name + "\n";
             }
-            this.dataItems=this.data.items;
+            this.dataItems = this.data.items;
             this.data.totalAmount = TotalAmount;
 
             this.data.consignee = packingItem.buyerAgent.name;//consignees.join("\n");
@@ -322,7 +340,7 @@ export class DataForm {
 
     }
     async updateItems(invoiceNo) {
-        var dataPackingList = await this.service.getInvoiceNo({ filter: JSON.stringify({ InvoiceNo:invoiceNo })});
+        var dataPackingList = await this.service.getInvoiceNo({ filter: JSON.stringify({ InvoiceNo: invoiceNo }) });
         var invoiceData = await this.service.getById(this.data.id);
         var packingItem = await this.service.getPackingListById(dataPackingList.data[0].id);
         var buyer = await this.coreService.getBuyerById(this.data.buyerAgent.id);
@@ -340,14 +358,12 @@ export class DataForm {
             _item.Section = this.data.section.code;
             _item.roNo = item.roNo;
             _item.scNo = item.scNo;
-            _item.marketingName = item.marketingName; 
+            _item.marketingName = item.marketingName;
             _item.priceRO = item.priceRO;
-            if(packingItem.invoiceType ==='DS' || packingItem.invoiceType ==='SM')
-            {
-                _item.price = item.price; 
-            }else
-            {
-                 _item.price = item.priceFOB;
+            if (packingItem.invoiceType === 'DS' || packingItem.invoiceType === 'SM') {
+                _item.price = item.price;
+            } else {
+                _item.price = item.priceFOB;
             }
             _item.quantity = item.quantity;
             _item.cmtPrice = item.priceCMT;
@@ -390,7 +406,7 @@ export class DataForm {
             _item.lastModifiedUtc = item.lastModifiedUtc;
             _item.lastModifiedBy = item.lastModifiedBy;
             _item.lastModifiedAgent = item.lastModifiedAgent;
-            if(dataInvoiceLama) {
+            if (dataInvoiceLama) {
                 _item.id = dataInvoiceLama.id;
                 _item.createdUtc = dataInvoiceLama.createdUtc;
                 _item.createdBy = dataInvoiceLama.createdBy;
@@ -448,7 +464,7 @@ export class DataForm {
             this.data.items.push({
                 BuyerCode: this.data.buyerAgent.code,
                 Section: this.data.section.code,
-                isAdd: false 
+                isAdd: false
             });
             this.data.items.forEach((m, i) => m.MaterialIndex = i);
 
@@ -483,7 +499,7 @@ export class DataForm {
 
 
     countries =
-          ["", "AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANGUILLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "ARUBA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BERMUDA", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRITISH VIRGIN ISLANDS", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CAMBODIA", "CAMEROON", "CANADA", "CAPE VERDE", "CAYMAN ISLANDS", "CHAD", "CHILE", "CHINA", "COLOMBIA", "CONGO", "COOK ISLANDS", "COSTA RICA", "COTE D IVOIRE", "CROATIA", "CRUISE SHIP", "CUBA", "CYPRUS", "CZECH REPUBLIC", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ESTONIA", "ETHIOPIA", "FALKLAND ISLANDS", "FAROE ISLANDS", "FIJI", "FINLAND", "FRANCE", "FRENCH POLYNESIA", "FRENCH WEST INDIES", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GIBRALTAR", "GREECE", "GREENLAND", "GRENADA", "GUAM", "GUATEMALA", "GUERNSEY", "GUINEA", "GUINEA BISSAU", "GUYANA", "HAITI", "HONDURAS", "HONG KONG", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISLE OF MAN", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JERSEY", "JORDAN", "KAZAKHSTAN", "KENYA", "KUWAIT", "KYRGYZ REPUBLIC", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MAURITANIA", "MAURITIUS", "MEXICO", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MONTSERRAT", "MOROCCO", "MOZAMBIQUE", "NAMIBIA", "NEPAL", "NETHERLANDS", "NETHERLANDS ANTILLES", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH KOREA", "NORWAY", "OMAN", "PAKISTAN", "PALESTINE", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR", "REUNION", "ROMANIA", "RUSSIA", "RWANDA", "SAINT PIERRE AND MIQUELON", "SAMOA", "SAN MARINO", "SATELLITE", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN", "SRI LANKA", "ST KITTS AND NEVIS", "ST LUCIA", "ST VINCENT", "ST. LUCIA", "SUDAN", "SURINAME", "SWAZILAND", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR L'ESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TURKS AND CAICOS", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES OF AMERICA", "URUGUAY", "UZBEKISTAN", "VENEZUELA", "VIETNAM", "VIRGIN ISLANDS (US)", "YEMEN", "ZAMBIA", "ZIMBABWE"];
+        ["", "AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANGUILLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "ARUBA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BERMUDA", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRITISH VIRGIN ISLANDS", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CAMBODIA", "CAMEROON", "CANADA", "CAPE VERDE", "CAYMAN ISLANDS", "CHAD", "CHILE", "CHINA", "COLOMBIA", "CONGO", "COOK ISLANDS", "COSTA RICA", "COTE D IVOIRE", "CROATIA", "CRUISE SHIP", "CUBA", "CYPRUS", "CZECH REPUBLIC", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ESTONIA", "ETHIOPIA", "FALKLAND ISLANDS", "FAROE ISLANDS", "FIJI", "FINLAND", "FRANCE", "FRENCH POLYNESIA", "FRENCH WEST INDIES", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GIBRALTAR", "GREECE", "GREENLAND", "GRENADA", "GUAM", "GUATEMALA", "GUERNSEY", "GUINEA", "GUINEA BISSAU", "GUYANA", "HAITI", "HONDURAS", "HONG KONG", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISLE OF MAN", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JERSEY", "JORDAN", "KAZAKHSTAN", "KENYA", "KUWAIT", "KYRGYZ REPUBLIC", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MAURITANIA", "MAURITIUS", "MEXICO", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MONTSERRAT", "MOROCCO", "MOZAMBIQUE", "NAMIBIA", "NEPAL", "NETHERLANDS", "NETHERLANDS ANTILLES", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH KOREA", "NORWAY", "OMAN", "PAKISTAN", "PALESTINE", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR", "REUNION", "ROMANIA", "RUSSIA", "RWANDA", "SAINT PIERRE AND MIQUELON", "SAMOA", "SAN MARINO", "SATELLITE", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN", "SRI LANKA", "ST KITTS AND NEVIS", "ST LUCIA", "ST VINCENT", "ST. LUCIA", "SUDAN", "SURINAME", "SWAZILAND", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR L'ESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TURKS AND CAICOS", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES OF AMERICA", "URUGUAY", "UZBEKISTAN", "VENEZUELA", "VIETNAM", "VIRGIN ISLANDS (US)", "YEMEN", "ZAMBIA", "ZIMBABWE"];
 
     unitColumns = {
         columns: [
@@ -557,15 +573,15 @@ export class DataForm {
             for (var item of this.data.items) {
 
                 if (item.cmtPrice > 0) {
-                    lessFabCost += ((item.cmtPrice-item.price) * item.quantity);
+                    lessFabCost += ((item.cmtPrice - item.price) * item.quantity);
                 }
-           }
+            }
         }
 
         this.lessFabCost = lessFabCost;
         return lessFabCost;
     }
-        
+
     get sectionLoader() {
         return SectionLoader;
     }
@@ -574,16 +590,16 @@ export class DataForm {
     }
 
     get filter() {
-      let username = null;
-      if (this.authService.authenticated) {
-          const me = this.authService.getTokenPayload();
-          username = me.username;
-      }
-//   
-      return {
-        'status=="CREATED" || status=="DRAFT_APPROVED_SHIPPING" || status=="POSTED" || status=="APPROVED_MD" || status=="APPROVED_SHIPPING" || status=="REVISED_MD" || status=="REVISED_SHIPPING" || status=="REJECTED_MD" || status=="REJECTED_SHIPPING_UNIT"':true,
-        ShippingStaffName: username
-      }
+        let username = null;
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            username = me.username;
+        }
+        //   
+        return {
+            'status=="CREATED" || status=="DRAFT_APPROVED_SHIPPING" || status=="POSTED" || status=="APPROVED_MD" || status=="APPROVED_SHIPPING" || status=="REVISED_MD" || status=="REVISED_SHIPPING" || status=="REJECTED_MD" || status=="REJECTED_SHIPPING_UNIT"': true,
+            ShippingStaffName: username
+        }
     }
 
     get addItems() {
@@ -634,8 +650,7 @@ export class DataForm {
                         }
                     }
                 }
-                if (percents.length > 0) 
-                {
+                if (percents.length > 0) {
                     // for (var p of percents) 
                     // {
                     //     console.log(p);
@@ -651,26 +666,21 @@ export class DataForm {
                     // }
                     //Enhance Jason Sept 2021
                     var tempArray = [];
-                    for (var i = 0; i < percents.length; i++) 
-                    {
-                        if (percents[i].amount > 0 && totalamount > 0) 
-                        {
-                            if(i == percents.length - 1)
-                            {
-                                var sumPercentage = tempArray.reduce((a,b) => a + b, 0);
+                    for (var i = 0; i < percents.length; i++) {
+                        if (percents[i].amount > 0 && totalamount > 0) {
+                            if (i == percents.length - 1) {
+                                var sumPercentage = tempArray.reduce((a, b) => a + b, 0);
                                 var lastPercentage = 100 - sumPercentage;
                                 percents[i].amountPercentage = parseFloat(lastPercentage.toFixed(2));
                                 tempArray.push(percents[i].amountPercentage);
                             }
-                            else
-                            {
+                            else {
                                 var percentage = percents[i].amount / totalamount * 100;
                                 percents[i].amountPercentage = parseFloat(percentage.toFixed(2));
                                 tempArray.push(percents[i].amountPercentage);
                             }
                         }
-                        if (percents[i].qty > 0 && totalqty > 0) 
-                        {
+                        if (percents[i].qty > 0 && totalqty > 0) {
                             percents[i].quantityPercentage = percents[i].qty / totalqty * 100;
                         }
                         this.data.garmentShippingInvoiceUnits.push(percents[i]);
