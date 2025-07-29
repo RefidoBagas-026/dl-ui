@@ -215,7 +215,7 @@ export class CompareDocAi {
         this.isScanning = false;
         // Response handling
         if (response && response.statusCode === 200) {
-          alert('No Nota Intern dan Surat Jalan Sesuai');
+          alert('Pengecekan NI dan SJ berhasil, tidak ada perbedaan');
           if (this.router) this.router.navigateToRoute('list');
         } else if (response && response.statusCode === 201) {
           alert('No Nota Intern dan Surat Jalan Tidak Sesuai');
