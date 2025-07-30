@@ -125,7 +125,7 @@ export class List {
                 { field: 'pi', rowspan: '2', title: 'PI' },
                 { field: 'etd', rowspan: '2', title: 'ETD' },
                 { field: 'eta', rowspan: '2', title: 'ETA' },
-                { field: 'IsArrived', rowspan: '2', title: 'SUDAH DATANG' },
+                { field: 'isArrived', rowspan: '2', title: 'SUDAH DATANG' },
                 { title: 'BUYER', colspan: 2 },
 
                 { field: 'shipmentDate', rowspan: 2, title: 'SHIPMENT' },
