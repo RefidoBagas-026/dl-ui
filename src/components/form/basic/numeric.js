@@ -29,6 +29,12 @@ export class Numeric {
     }
 
     render() {
+        this.fraction = this.fraction || 0;
+
+        if (typeof this.fraction === 'string') {
+            this.fraction = parseInt( this.fraction);
+        }
+
         this.options = { readOnly: (this.readOnly || '').toString().toLowerCase() === 'true', postFix: this.postfix || "", fraction: this.fraction };
         this.value = parseFloat((this.value||'0').toString());
         
