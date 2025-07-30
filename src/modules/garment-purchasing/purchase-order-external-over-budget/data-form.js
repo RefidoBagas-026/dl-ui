@@ -57,6 +57,9 @@ export class DataForm {
         { title: "Konversi", field: "quantityConversion" },
         { title: "Harga Budget", field: "budgetPrice" },
         { title: "Harga Satuan", field: "pricePerDealUnit" },
+        { title: "Jenis OB", field: "overBudgetType" },
+        { title: "Jumlah OB", field: "overBudgetAmountStr" },
+        { title: "Total OB", field: "overBudgetAmount" },
         // { title: "Include Ppn?", field: "roNo" },
         { title: "Keterangan", field: "remark" },
     ]
@@ -153,6 +156,9 @@ export class DataForm {
                     uomConversion: data.SmallUom.Unit,
                     quantityConversion: Number(data.SmallQuantity).toFixed(2),
                     conversion: data.Conversion,
+                    overBudgetType : data.OverBudgetType,
+                    overBudgetAmountStr: data.OverBudgetAmountStr,
+                    overBudgetAmount: data.OverBudgetAmount,
                     remark: data.OverBudgetRemark
                 });
                 totalQty+=data.DefaultQuantity;
