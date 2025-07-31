@@ -10,6 +10,7 @@ const POresource = 'garment-internal-purchase-orders';
 export class PurchaseOrderItem {
   @bindable selectedDealUom;
   @bindable price;
+  @bindable qty;
   async activate(context) {
     this.context = context;
     this.data = context.data;
@@ -20,6 +21,7 @@ export class PurchaseOrderItem {
     this.kurs = this.context.context.options.kurs;
     this.selectedDealUom = this.data.dealUom;
     this.price = this.data.PricePerDealUnit;
+    this.qty = this.data.DealQuantity;
     this.isEdit = this.context.context.options.isEdit || false;
     if (!this.data.budgetUsed) {
       this.data.budgetUsed = 0;
@@ -49,8 +51,8 @@ export class PurchaseOrderItem {
     else {
       this.data.budgetUsed = this.data.UsedBudget;
     }
-    this.data.DefaultQuantity = parseFloat(this.data.DefaultQuantity).toFixed(2);
-    this.data.DealQuantity = parseFloat(this.data.DealQuantity).toFixed(2);
+    // this.data.DefaultQuantity = parseFloat(this.data.DefaultQuantity).toFixed(2);
+    // this.data.DealQuantity = parseFloat(this.data.DealQuantity).toFixed(2);
     // if(this.data.Id){
     //   if(this.data.POId){
     //     var config = Container.instance.get(Config);
@@ -83,6 +85,7 @@ export class PurchaseOrderItem {
   bind() {
     if (this.context.context.options.resetOverBudget == true) {
       this.price = this.data.BudgetPrice;
+      this.qty = this.data.DefaultQuantity;
       this.context.context.options.resetOverBudget = false;
       if (this.error) {
         if (this.error.overBudgetRemark) {
