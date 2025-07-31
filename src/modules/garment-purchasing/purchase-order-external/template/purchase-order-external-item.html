@@ -22,20 +22,13 @@
             </au-textbox>
         </td>
         <td>
-            <au-numeric value.bind="data.DealQuantity" error.bind="error.DealQuantity"
-                change.delegate="qtyChanged($event)" format="0.00" read-only.bind="options.readOnly"
-                options.bind="controlOptions">
-            </au-numeric>
+            <numeric value.bind="data.DealQuantity" error.bind="error.DealQuantity" change.delegate="qtyChanged($event)"
+                fraction=2 read-only.bind="options.readOnly">
+            </numeric>
 
-            <!-- <numeric
-                value.bind="data.DealQuantity"
-                error.bind="error.DealQuantity"
-                change.delegate="qtyChanged($event)"
-                fraction=2
-                format="0.00"
-                read-only.bind="options.readOnly"
-                >
-            </numeric> -->
+            <!-- <au-textbox value.bind="data.DealQuantity" error.bind="error.DealQuantity" read-only.bind="options.readOnly"
+                options.bind="controlOptions" if.bind="options.readOnly">
+            </au-textbox> -->
         </td>
         <td>
             <au-autocomplete value.bind="selectedDealUom" error.bind="error.DealUom"
@@ -82,15 +75,13 @@
         </td>
 
         <td show.bind="context.context.options.checkOverBudget">
-            <au-multiline value.bind="data.OverBudgetType" read-only.bind="true"
-                options.bind="controlOptions">
+            <au-multiline value.bind="data.OverBudgetType" read-only.bind="true" options.bind="controlOptions">
             </au-multiline>
         </td>
 
         <td show.bind="context.context.options.checkOverBudget">
-            <au-multiline value.bind="data.OverBudgetAmountStr"
-                read-only.bind="true" options.bind="controlOptions">
-            <au-multiline>
+            <au-multiline value.bind="data.OverBudgetAmountStr" read-only.bind="true" options.bind="controlOptions">
+                <au-multiline>
         </td>
 
         <td show.bind="context.context.options.checkOverBudget">
