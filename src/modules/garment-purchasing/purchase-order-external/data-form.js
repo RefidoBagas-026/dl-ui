@@ -296,9 +296,6 @@ export class DataForm {
             this.data.Items.map(items => {
                 items.IsOverBudget = false;
                 items.OverBudgetRemark = "";
-                items.OverBudgetType = "";
-                items.OverBudgetAmountStr = "";
-                items.OverBudgetAmount = 0;
             })
             this.options.resetOverBudget = true;
             this.context.DetailsCollection.bind();
@@ -437,8 +434,7 @@ export class DataForm {
                         RemainingBudget: item.RemainingBudget,
                         Conversion: 1,
                         Remark: item.ProductRemark,
-                        Initial: parseFloat(item.RemainingBudget.toFixed(4)),
-                        DefaultPricePerDealUnit : Number(item.BudgetPrice),
+                        Initial: parseFloat(item.RemainingBudget.toFixed(4))
                     });
 
                     pr[item.PRNo + item.PO_SerialNumber + item.Product.Id] = item.RemainingBudget - item.budgetUsed;
@@ -476,8 +472,7 @@ export class DataForm {
                         totalBudget: item.BudgetPrice * item.Quantity,
                         Conversion: 1,
                         Remark: item.ProductRemark,
-                        Initial: parseFloat(item.RemainingBudget.toFixed(4)),
-                        DefaultPricePerDealUnit : Number(item.BudgetPrice),
+                        Initial: parseFloat(item.RemainingBudget.toFixed(4))
                     });
                 }
 

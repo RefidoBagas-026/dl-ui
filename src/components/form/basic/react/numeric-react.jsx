@@ -53,27 +53,16 @@ export default class NumericReact extends React.Component {
     render() {
         var control = null;
         var usePostFix = this.state.options.postFix.trim() != '';
-        // if the type on this.state.options.fraction is string, convert it to a number
-        if (typeof this.state.options.fraction === 'string') {
-            this.state.options.fraction = parseInt(this.state.options.fraction);
-        }
 
         var postFix = usePostFix ? this.state.options.postFix : '';
         if (this.state.options.readOnly) {
             control = <p className="form-control-static">{this.state.value} {postFix}</p>;
         }
         else {
-            let fraction = this.state.options.fraction || 0;
-            let numericValue = this.state.value;
-            if (numericValue !== undefined && numericValue !== null && !isNaN(numericValue)) {
-                numericValue = Number(numericValue).toFixed(fraction);
-            } else {
-                numericValue = (0).toFixed(fraction);
-            }
-            control = <DynamicNumber className="form-control" value={numericValue} placeholder={this.state.placeholder} onChange={this.handleValueChange}
+            control = <DynamicNumber className="form-control" value={this.state.value} placeholder={this.state.placeholder} onChange={this.handleValueChange}
                 separator={this.state.options.separator}
                 integer={this.state.options.integer}
-                fraction={fraction}
+                fraction={this.state.options.fraction}
                 negative={this.state.options.negative}
                 positive={this.state.options.positive}
                 thousand={this.state.options.thousand} />
@@ -118,7 +107,7 @@ export default class NumericReact extends React.Component {
 
 NumericReact.propTypes = {
     value: React.PropTypes.number,
-    placeholder: React.PropTypes.string,
+    placeholder: React.PropTypes.string, 
     options: React.PropTypes.shape({
         readOnly: React.PropTypes.bool,
         min: React.PropTypes.number,
