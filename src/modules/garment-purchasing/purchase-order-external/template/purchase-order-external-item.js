@@ -6,7 +6,7 @@ import { Config } from "aurelia-api";
 var UomLoader = require('../../../../loader/uom-loader');
 
 const resource = 'master/garmentProducts';
-const POresource= 'garment-internal-purchase-orders';
+const POresource = 'garment-internal-purchase-orders';
 export class PurchaseOrderItem {
   @bindable selectedDealUom;
   @bindable price;
@@ -27,30 +27,30 @@ export class PurchaseOrderItem {
     if (!this.data.totalBudget) {
       this.data.totalBudget = 0;
     }
-    if(this.data.DealUom){
-      this.selectedDealUom=this.data.DealUom;
+    if (this.data.DealUom) {
+      this.selectedDealUom = this.data.DealUom;
     }
-    if(!this.data.SmallUom && this.data.Product){
-      if(this.data.Product.Id){
+    if (!this.data.SmallUom && this.data.Product) {
+      if (this.data.Product.Id) {
         var config = Container.instance.get(Config);
         var endpoint = config.getEndpoint("core");
-        var productUri=`${resource}/${this.data.Product.Id}`;
+        var productUri = `${resource}/${this.data.Product.Id}`;
         await endpoint.find(productUri)
-            .then((result) => {
-              var product=result.data;
-              this.data.SmallUom=product.UOM;
-            });
+          .then((result) => {
+            var product = result.data;
+            this.data.SmallUom = product.UOM;
+          });
       }
     }
     this.data.SmallQuantity = parseFloat(this.data.DealQuantity * this.data.Conversion).toFixed(2);
-    if(!this.data.UsedBudget ){
-      this.data.budgetUsed=(this.data.DealQuantity * this.data.PricePerDealUnit * this.kurs.Rate);
+    if (!this.data.UsedBudget) {
+      this.data.budgetUsed = (this.data.DealQuantity * this.data.PricePerDealUnit * this.kurs.Rate);
     }
-    else{
-      this.data.budgetUsed=this.data.UsedBudget;
+    else {
+      this.data.budgetUsed = this.data.UsedBudget;
     }
-    this.data.DefaultQuantity=parseFloat(this.data.DefaultQuantity).toFixed(2);
-    this.data.DealQuantity=parseFloat(this.data.DealQuantity).toFixed(2);
+    this.data.DefaultQuantity = parseFloat(this.data.DefaultQuantity).toFixed(2);
+    this.data.DealQuantity = parseFloat(this.data.DealQuantity).toFixed(2);
     // if(this.data.Id){
     //   if(this.data.POId){
     //     var config = Container.instance.get(Config);
@@ -63,15 +63,20 @@ export class PurchaseOrderItem {
     //         });
     //   }
     // }
-    if(this.options.readOnly){
-      this.data.PricePerDealUnit=parseFloat(this.data.PricePerDealUnit).toFixed(4);
+    if (this.options.readOnly) {
+      this.data.PricePerDealUnit = parseFloat(this.data.PricePerDealUnit).toFixed(4);
     }
 
     // Store default values for comparison later
-    this.defaultPricePerDealUnit = this.data.DefaultPricePerDealUnit;
+    if (this.data.Id) {
+      this.defaultPricePerDealUnit = this.data.BudgetPrice;
+    }
+    else {
+      this.defaultPricePerDealUnit = this.data.DefaultPricePerDealUnit;
+    }
     this.defaultDealQuantity = this.data.DefaultQuantity;
 
-    if(!this.options.readOnly)
+    if (!this.options.readOnly)
       this.checkIsOverBudget();
   }
 
@@ -88,27 +93,26 @@ export class PurchaseOrderItem {
   }
 
   checkIsOverBudget() {
-    if(!this.options.readOnly)
+    if (!this.options.readOnly)
       if (this.context.context.options.checkOverBudget) {
-        this.data.UsedBudget=parseFloat(this.data.budgetUsed.toFixed(4));
+        this.data.UsedBudget = parseFloat(this.data.budgetUsed.toFixed(4));
         //this.data.budgetUsed=(this.data.DealQuantity * this.data.PricePerDealUnit * this.kurs.Rate);
         //var totalDealPrice = ((this.data.DealQuantity * this.price * this.kurs.Rate) + this.data.budgetUsed).toFixed(4);
-        var totalDealPrice = parseFloat((this.data.remainingBudget-parseFloat(this.data.budgetUsed.toFixed(4))).toFixed(4));
+        var totalDealPrice = parseFloat((this.data.remainingBudget - parseFloat(this.data.budgetUsed.toFixed(4))).toFixed(4));
         //var totalBudget=parseInt(this.data.totalBudget.toFixed(4));
         //this.data.RemainingBudget=totalDealPrice;
 
         if (this.data.UENItemId) {
           totalDealPrice = parseFloat((this.data.BudgetFromUEN - parseFloat(this.data.budgetUsed.toFixed(4))).toFixed(4));
         }
-        if (totalDealPrice <0) {
+        if (totalDealPrice < 0) {
           this.data.IsOverBudget = true;
-   
+
           //calculate over budget amount and type
           let overBudgetAmount = [];
           //calculate over budget type and amount when deal quantity and price per deal unit is different from default value
-          if(this.defaultDealQuantity < this.data.DealQuantity && this.defaultPricePerDealUnit < this.data.PricePerDealUnit)
-          {
-            let remark = ["Selisih Qty","Selisih Harga"];
+          if (this.defaultDealQuantity < this.data.DealQuantity && this.defaultPricePerDealUnit < this.data.PricePerDealUnit) {
+            let remark = ["Selisih Qty", "Selisih Harga"];
 
             // set over budget remark string
             this.data.OverBudgetType = remark.map(r => `- ${r}`).join('\n');
@@ -123,15 +127,13 @@ export class PurchaseOrderItem {
             this.data.OverBudgetAmount = parseFloat((OBQty + OBPrice).toFixed(4));
           }
           // calculate over budget type and amount when deal quantity is different from default value
-          else if(this.defaultDealQuantity < this.data.DealQuantity)
-          {
+          else if (this.defaultDealQuantity < this.data.DealQuantity) {
             this.data.OverBudgetType = "- Selisih Qty";
             this.data.OverBudgetAmount = parseFloat((this.data.DealQuantity - this.defaultDealQuantity) * this.data.PricePerDealUnit).toFixed(4);
             overBudgetAmount.push(this.data.OverBudgetAmount);
-          } 
+          }
           // calculate over budget type and amount when price per deal unit is different from default value
-          else if(this.defaultPricePerDealUnit < this.data.PricePerDealUnit)
-          {
+          else if (this.defaultPricePerDealUnit < this.data.PricePerDealUnit) {
             this.data.OverBudgetType = "- Selisih Harga";
             this.data.OverBudgetAmount = parseFloat((this.data.PricePerDealUnit - this.defaultPricePerDealUnit) * this.data.DealQuantity).toFixed(4);
             overBudgetAmount.push(this.data.OverBudgetAmount);
@@ -167,7 +169,7 @@ export class PurchaseOrderItem {
   }
 
   get quantityConversion() {
-    this.data.SmallQuantity=parseFloat(parseFloat(this.data.DealQuantity) * this.data.Conversion).toFixed(2);
+    this.data.SmallQuantity = parseFloat(parseFloat(this.data.DealQuantity) * this.data.Conversion).toFixed(2);
     return this.data.SmallQuantity;
   }
 
@@ -176,19 +178,19 @@ export class PurchaseOrderItem {
   }
 
   priceChanged(e) {
-    if(e.detail)
-      this.data.budgetUsed=parseFloat(e.detail)* parseFloat(this.data.DealQuantity) * this.kurs.Rate;
-    else{
-      this.data.budgetUsed=parseFloat(this.data.PricePerDealUnit)* parseFloat(this.data.DealQuantity) * this.kurs.Rate;
+    if (e.detail)
+      this.data.budgetUsed = parseFloat(e.detail) * parseFloat(this.data.DealQuantity) * this.kurs.Rate;
+    else {
+      this.data.budgetUsed = parseFloat(this.data.PricePerDealUnit) * parseFloat(this.data.DealQuantity) * this.kurs.Rate;
     }
     this.checkIsOverBudget();
   }
 
   qtyChanged(e) {
-    if(e.detail)
-      this.data.budgetUsed=parseFloat(e.detail)* parseFloat(this.data.PricePerDealUnit) * this.kurs.Rate;
-    else{
-      this.data.budgetUsed=parseFloat(this.data.PricePerDealUnit)* parseFloat(this.data.DealQuantity) * this.kurs.Rate;
+    if (e.detail)
+      this.data.budgetUsed = parseFloat(e.detail) * parseFloat(this.data.PricePerDealUnit) * this.kurs.Rate;
+    else {
+      this.data.budgetUsed = parseFloat(this.data.PricePerDealUnit) * parseFloat(this.data.DealQuantity) * this.kurs.Rate;
     }
     // this.data.budgetUsed=parseFloat(e.srcElement.value)* this.data.PricePerDealUnit * this.kurs.Rate;
     this.checkIsOverBudget();
