@@ -40,7 +40,6 @@ export class DeliveryOrderItem {
     this.data = context.data;
     this.error = context.error;
     this.options = context.options;
-    console.log(context);
     if(this.data && this.context.context.options.hasCreate) {
       if(this.context.context.items[0].data.purchaseOrderExternal.no!=""){
           this.filter = 
@@ -60,7 +59,6 @@ export class DeliveryOrderItem {
           for(var item of this.context.context.items){
             this.filter[`EPONo == "${item.data.purchaseOrderExternal.no}"`]=false;
           }
-        console.log(this.filter);
       }
       else {
         this.filter = this.context.context.options.supplierId ? 
@@ -87,7 +85,6 @@ export class DeliveryOrderItem {
         for(var item of this.context.context.items){
           this.filter[`EPONo == "${item.data.purchaseOrderExternal.no}"`]=false;
         }
-        console.log(this.filter);
       }
       
       else {
@@ -165,42 +162,44 @@ export class DeliveryOrderItem {
       }
 
       for(var item of newValue.Items) {
-        var filterGarmentCategory = {
-          "_IsDeleted": false,
-          "Name": item.Product.Name,
-        }
-        var info = { filter: JSON.stringify(filterGarmentCategory), size: 2147483647 };
-        var categoryProduct = await this.service.searchGarmentCategory(info);
-        var codeRequirmentTemp = "";
-        for (var data of categoryProduct) {
-          codeRequirmentTemp = data.codeRequirement;
-        }
+        if(item.PI!=null && item.PI!="" ){
+          var filterGarmentCategory = {
+            "_IsDeleted": false,
+            "Name": item.Product.Name,
+          }
+          var info = { filter: JSON.stringify(filterGarmentCategory), size: 2147483647 };
+          var categoryProduct = await this.service.searchGarmentCategory(info);
+          var codeRequirmentTemp = "";
+          for (var data of categoryProduct) {
+            codeRequirmentTemp = data.codeRequirement;
+          }
 
-        var fulfillment = {
-          ePOItemId : item.Id,
-          pOId : item.POId,
-          pONo : item.PONo,
-          pRId : item.PRId,
-          pRNo : item.PRNo,
-          poSerialNumber : item.PO_SerialNumber,
-          product : item.Product,
-          doQuantity : item.DOQuantity,
-          dealQuantity : item.DealQuantity,
-          conversion : item.Conversion,
-          smallQuantity : item.SmallQuantity,
-          pricePerDealUnit : item.PricePerDealUnit,
-          rONo : item.RONo,
-          currency : newValue.Currency,
-          // product : item.Product,
-          codeRequirment : codeRequirmentTemp,
-          smallUom : item.SmallUom,
-          purchaseOrderUom : item.DealUom,
-          isSave : false,
-          remark : item.Remark
-        };
-        this.data.fulfillments.push(fulfillment);
+          var fulfillment = {
+            ePOItemId : item.Id,
+            pOId : item.POId,
+            pONo : item.PONo,
+            pRId : item.PRId,
+            pRNo : item.PRNo,
+            poSerialNumber : item.PO_SerialNumber,
+            product : item.Product,
+            doQuantity : item.DOQuantity,
+            dealQuantity : item.DealQuantity,
+            conversion : item.Conversion,
+            smallQuantity : item.SmallQuantity,
+            pricePerDealUnit : item.PricePerDealUnit,
+            rONo : item.RONo,
+            currency : newValue.Currency,
+            // product : item.Product,
+            codeRequirment : codeRequirmentTemp,
+            smallUom : item.SmallUom,
+            purchaseOrderUom : item.DealUom,
+            isSave : false,
+            remark : item.Remark
+          };
+          this.data.fulfillments.push(fulfillment);
+        }
+        this.isShowing = true;
       }
-      this.isShowing = true;
         
     } else if (newValue.EPONo && (this.context.context.options.hasView || this.context.context.options.hasEdit)) {
       this.data.purchaseOrderExternal.no = newValue.EPONo;
@@ -211,45 +210,47 @@ export class DeliveryOrderItem {
       this.data.currency.Code = newValue.Currency.Code;
 
       for(var item of newValue.Items){
-        var filterGarmentCategory = {
-          "_IsDeleted": false,
-          "Name": item.Product.Name,
-        }
-        var info = { filter: JSON.stringify(filterGarmentCategory), size: 2147483647 };
-        var categoryProduct = await this.service.searchGarmentCategory(info);
-        var codeRequirmentTemp = "";
-        for (var data of categoryProduct){
-          codeRequirmentTemp = data.codeRequirement;
-        }
+        if(item.PI!=null && item.PI!="" ){
+          var filterGarmentCategory = {
+            "_IsDeleted": false,
+            "Name": item.Product.Name,
+          }
+          var info = { filter: JSON.stringify(filterGarmentCategory), size: 2147483647 };
+          var categoryProduct = await this.service.searchGarmentCategory(info);
+          var codeRequirmentTemp = "";
+          for (var data of categoryProduct){
+            codeRequirmentTemp = data.codeRequirement;
+          }
 
-        var fulfillment = {
-          ePOItemId : item.Id,
-          pOId : item.POId,
-          pONo : item.PONo,
-          pRId : item.PRId,
-          pRNo : item.PRNo,
-          poSerialNumber : item.PO_SerialNumber,
-          product : item.Product,
-          doQuantity : item.DOQuantity,
-          dealQuantity : item.DealQuantity,
-          conversion : item.Conversion,
-          smallQuantity : item.SmallQuantity,
-          pricePerDealUnit : item.PricePerDealUnit,
-          rONo : item.RONo,
-          currency : newValue.Currency,
-          // product : item.Product,
-          codeRequirment : codeRequirmentTemp,
-          smallUom : item.SmallUom,
-          purchaseOrderUom : item.DealUom,
-          remark : item.Remark
-        };
-        this.data.fulfillments.push(fulfillment);
+          var fulfillment = {
+            ePOItemId : item.Id,
+            pOId : item.POId,
+            pONo : item.PONo,
+            pRId : item.PRId,
+            pRNo : item.PRNo,
+            poSerialNumber : item.PO_SerialNumber,
+            product : item.Product,
+            doQuantity : item.DOQuantity,
+            dealQuantity : item.DealQuantity,
+            conversion : item.Conversion,
+            smallQuantity : item.SmallQuantity,
+            pricePerDealUnit : item.PricePerDealUnit,
+            rONo : item.RONo,
+            currency : newValue.Currency,
+            // product : item.Product,
+            codeRequirment : codeRequirmentTemp,
+            smallUom : item.SmallUom,
+            purchaseOrderUom : item.DealUom,
+            remark : item.Remark
+          };
+          this.data.fulfillments.push(fulfillment);
+
+        }
+          this.isShowing = true;
       }
-        this.isShowing = true;
     }
     this.activate(this.context);
     this.dataPassing ="passing data";
-    console.log("after change",this);
   }
 
   toggle() {

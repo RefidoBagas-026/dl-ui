@@ -10,6 +10,7 @@ import moment from 'moment';
 @inject(Service, BindingEngine)
 export class DataForm {
     @bindable readOnly = false;
+    @bindable isEdit = false;
     @bindable data = {};
     @bindable error = {};
     @bindable title;
@@ -49,7 +50,7 @@ export class DataForm {
         this.data = this.context.data;
         this.error = this.context.error;
         this.isItem = false;
-
+        this.ISEDIT = this.context.ISEDIT;
         if (!this.data.OrderDate) {
             this.data.OrderDate = new Date().toLocaleDateString();
         }
@@ -73,11 +74,11 @@ export class DataForm {
             }
 
         this.options.readOnly = this.readOnly;
-
+        this.options.isEdit = this.ISEDIT;
         if (this.data.useVat) {
             this.options.isUseVat = true;
         }
-        
+
         if (this.data.isIncomeTax) {
             this.options.isIncomeTax = true;
         }
@@ -109,6 +110,10 @@ export class DataForm {
             this.options.kurs = this.kurs;
         } else {
             this.options.kurs = { Rate: 1 };
+        }
+
+        if (this.data.IsPosted) {
+            this.readOnly = true;
         }
 
     }
@@ -170,27 +175,26 @@ export class DataForm {
             // this.data.IncomeTax.Name = _selectedSupplier.IncomeTaxes.name;
             // this.data.IncomeTax.Rate = _selectedSupplier.IncomeTaxes.Rate ? _selectedSupplier.IncomeTaxes.Rate : _selectedSupplier.IncomeTaxes.rate ? _selectedSupplier.IncomeTaxes.rate : 0;
             // this.data.IncomeTax.rate=this.data.IncomeTax.Rate;
-            
-            if(this.data.IsUseVat){
+
+            if (this.data.IsUseVat) {
 
                 let info = {
-                    keyword:'',
+                    keyword: '',
                     order: '{ "Rate" : "desc" }',
                     size: 1,
                 };
 
                 var defaultVat = await this.service.getDefaultVat(info);
-                console.log(defaultVat);
 
-                if(defaultVat.length > 0){
-                    if(defaultVat[0]){
-                        if(defaultVat[0].Id){
+                if (defaultVat.length > 0) {
+                    if (defaultVat[0]) {
+                        if (defaultVat[0].Id) {
                             this.data.Vat = defaultVat[0];
                             this.selectedVatTax = defaultVat[0];
                         }
                     }
                 }
-            } else{
+            } else {
                 this.data.Vat = {};
                 this.selectedVatTax = {};
 
@@ -231,8 +235,6 @@ export class DataForm {
     }
 
     selectedVatTaxChanged(newValue) {
-        console.log(newValue);
-        
         var _selectedVatTax = newValue;
         if (_selectedVatTax) {
             this.data.Vat = _selectedVatTax;
@@ -294,12 +296,15 @@ export class DataForm {
             this.data.Items.map(items => {
                 items.IsOverBudget = false;
                 items.OverBudgetRemark = "";
+                items.OverBudgetType = "";
+                items.OverBudgetAmountStr = "";
+                items.OverBudgetAmount = 0;
             })
             this.options.resetOverBudget = true;
             this.context.DetailsCollection.bind();
         }
     }
-    
+
     paymentTypeChanged(e) {
         var selectedPayment = e.srcElement.value;
         if (selectedPayment) {
@@ -329,18 +334,16 @@ export class DataForm {
     }
 
     selectedIncomeTaxChanged(newValue) {
-        console.log(newValue);       
         var _selectedIncomeTax = newValue;
         if (!_selectedIncomeTax) {
             this.data.IncomeTaxRate = 0;
             this.data.UseIncomeTax = false;
             this.data.IncomeTax = {};
-        } else if (_selectedIncomeTax.Id) {            
-            console.log(_selectedIncomeTax);
+        } else if (_selectedIncomeTax.Id) {
             this.data.IncomeTaxRate = _selectedIncomeTax.rate ? _selectedIncomeTax.rate : 0;
             this.data.UseIncomeTax = true;
             this.data.IncomeTax = _selectedIncomeTax;
-            this.data.IncomeTaxId = _selectedIncomeTax.Id;  
+            this.data.IncomeTaxId = _selectedIncomeTax.Id;
         }
     }
 
@@ -352,7 +355,7 @@ export class DataForm {
                 poItem.UseVat = false;
             }
         } else {
-           this.options.isUseVat = true;
+            this.options.isUseVat = true;
         }
     }
 
@@ -360,9 +363,9 @@ export class DataForm {
         return SupplierLoader;
     }
 
-    get supplierQuery(){
-        var result = { "Active" : true }
-        return result;   
+    get supplierQuery() {
+        var result = { "Active": true }
+        return result;
     }
 
     get currencyLoader() {
@@ -434,7 +437,8 @@ export class DataForm {
                         RemainingBudget: item.RemainingBudget,
                         Conversion: 1,
                         Remark: item.ProductRemark,
-                        Initial: parseFloat(item.RemainingBudget.toFixed(4))
+                        Initial: parseFloat(item.RemainingBudget.toFixed(4)),
+                        DefaultPricePerDealUnit: Number(item.BudgetPrice),
                     });
 
                     pr[item.PRNo + item.PO_SerialNumber + item.Product.Id] = item.RemainingBudget - item.budgetUsed;
@@ -472,7 +476,8 @@ export class DataForm {
                         totalBudget: item.BudgetPrice * item.Quantity,
                         Conversion: 1,
                         Remark: item.ProductRemark,
-                        Initial: parseFloat(item.RemainingBudget.toFixed(4))
+                        Initial: parseFloat(item.RemainingBudget.toFixed(4)),
+                        DefaultPricePerDealUnit: Number(item.BudgetPrice),
                     });
                 }
 
@@ -498,7 +503,11 @@ export class DataForm {
             "Konversi",
             "Harga Satuan",
             "Include Ppn?",
-            "Keterangan"],
+            "Keterangan",
+            "PI",
+            "ETD",
+            "ETA",
+            "Barang Datang",],
         onRemove: function () {
             this.bind();
             if (this.items) {
@@ -545,7 +554,6 @@ export class DataForm {
 
     checkOverBudgetAll() {
         if (this.data.Items) {
-
             var pr = [];
             var remaining = [];
             var items = [];

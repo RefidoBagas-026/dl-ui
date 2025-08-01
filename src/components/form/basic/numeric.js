@@ -29,9 +29,15 @@ export class Numeric {
     }
 
     render() {
+        this.fraction = this.fraction || 0;
+
+        if (typeof this.fraction === 'string') {
+            this.fraction = parseInt(this.fraction);
+        }
+
         this.options = { readOnly: (this.readOnly || '').toString().toLowerCase() === 'true', postFix: this.postfix || "", fraction: this.fraction };
-        this.value = parseFloat((this.value||'0').toString());
-        
+        this.value = parseFloat((this.value || '0').toString());
+
         this.reactComponent = ReactDOM.render(
             <FieldReact label={this.label} error={this.error}>
                 <NumericReact value={this.value} placeholder={this.placeholder} onChange={this.handleValueChange} options={this.options} />
@@ -59,7 +65,7 @@ export class Numeric {
      * @returns {void}
      * 
      */
-    valueChanged(newVal) { 
+    valueChanged(newVal) {
         this.bind();
         var event;
 
