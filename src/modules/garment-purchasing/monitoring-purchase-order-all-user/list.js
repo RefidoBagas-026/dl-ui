@@ -99,6 +99,7 @@ export class List {
                             item.index = index;
                             index++;
                             item.totalBudget = numeral(item.prBudgetPrice * item.poDefaultQty).format("0,000.00");
+                            item.isArrived = item.IsArrived ? "SUDAH" : "BELUM";
                         }
 
                         //fill table
