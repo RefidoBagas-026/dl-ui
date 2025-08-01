@@ -3,20 +3,29 @@
     <form class="form-horizontal">
         <au-autocomplete  
             value.bind="buyer" 
-            label="Kode Buyer"  
-            loader.bind="buyerLoader">
+            label="Buyer"  
+            text.bind="buyerView"
+            loader.bind="buyerLoader"
+            options.bind="controlOptions"
+            placeholder="Cari Buyer"
+            error.bind="error.buyer">
+        </au-autocomplete>
+
+        <au-autocomplete  
+            value.bind="category" 
+            label="Kategori"  
+            loader.bind="categoryLoader"
+            options.bind="controlOptions"
+            error.bind="error.category"
+            placeholder="Cari Kategori">
         </au-autocomplete>
         
         <au-textbox
             value.bind="article" 
-            label="Artikel"  >
+            label="Artikel"
+            options.bind="controlOptions"
+            placeholder="input Artikel"  >
         </au-textbox>
-
-        <au-autocomplete  
-            value.bind="buyer" 
-            label="Kode Buyer"  
-            loader.bind="buyerLoader">
-        </au-autocomplete>
 
         <div class="form-group">
             <label for="contact" class="col-sm-5 control-label"></label>

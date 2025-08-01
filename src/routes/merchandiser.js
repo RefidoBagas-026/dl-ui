@@ -989,4 +989,18 @@ module.exports = [
             iconClass: 'fa fa-calculator',
         }
     },
-];
+   {
+        route: '/merchandiser/pr-master-usage-monitoring',
+        name: 'pr-master-usage-monitoring',
+        moduleId: './modules/merchandiser/report/pr-master-usage-monitoring/index',
+        nav: true,
+        title: 'Monitoring Penggunaan PR Master',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "monitoring",
+            permission: { "L64": 1 },
+            iconClass: 'fa fa-calculator',
+        }
+    },
+]; 
