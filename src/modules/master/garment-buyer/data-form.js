@@ -36,6 +36,8 @@ export class DataForm {
         this.saveCallback = this.context.saveCallback;
 
         if (this.data.BankAccount) {
+            this.data.BankAccount.Currency.Rate = 0;
+            this.data.BankAccount.Division = {};
             this.bankAccount =
                 this.data.BankAccount
         }
