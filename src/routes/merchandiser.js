@@ -999,8 +999,8 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission: { "L67": 1 },
+            permission: { "L64": 1 },
             iconClass: 'fa fa-calculator',
         }
     },
-];
+]; 
