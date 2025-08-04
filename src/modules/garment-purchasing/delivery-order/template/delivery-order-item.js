@@ -162,7 +162,7 @@ export class DeliveryOrderItem {
       }
 
       for(var item of newValue.Items) {
-        if(item.PI!=null && item.PI!="" ){
+        // if(item.PI!=null && item.PI!="" ){
           var filterGarmentCategory = {
             "_IsDeleted": false,
             "Name": item.Product.Name,
@@ -197,7 +197,7 @@ export class DeliveryOrderItem {
             remark : item.Remark
           };
           this.data.fulfillments.push(fulfillment);
-        }
+        // }
         this.isShowing = true;
       }
         
@@ -210,7 +210,7 @@ export class DeliveryOrderItem {
       this.data.currency.Code = newValue.Currency.Code;
 
       for(var item of newValue.Items){
-        if(item.PI!=null && item.PI!="" ){
+        // if(item.PI!=null && item.PI!="" ){
           var filterGarmentCategory = {
             "_IsDeleted": false,
             "Name": item.Product.Name,
@@ -245,7 +245,7 @@ export class DeliveryOrderItem {
           };
           this.data.fulfillments.push(fulfillment);
 
-        }
+        // }
           this.isShowing = true;
       }
     }
