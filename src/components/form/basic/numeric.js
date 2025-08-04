@@ -29,7 +29,7 @@ export class Numeric {
     }
 
     render() {
-        this.fraction = this.fraction || 0;
+        // this.fraction = this.fraction || 0;
 
         if (typeof this.fraction === 'string') {
             this.fraction = parseInt(this.fraction);
