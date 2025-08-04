@@ -114,7 +114,7 @@ export class PurchaseOrderItem {
           //calculate over budget amount and type
           let overBudgetAmount = [];
           //calculate over budget type and amount when deal quantity and price per deal unit is different from default value
-          if (this.defaultDealQuantity < this.data.DealQuantity && this.defaultPricePerDealUnit < this.data.PricePerDealUnit) {
+          if (this.defaultDealQuantity < this.data.DealQuantity && this.defaultPricePerDealUnit < (this.data.PricePerDealUnit * this.kurs.Rate)) {
             let remark = ["Selisih Qty", "Selisih Harga"];
 
             // set over budget remark string
@@ -122,7 +122,7 @@ export class PurchaseOrderItem {
 
             // calculate over budget amount
             let OBQty = parseFloat((this.data.DealQuantity - this.defaultDealQuantity) * this.data.PricePerDealUnit);
-            let OBPrice = parseFloat((this.data.PricePerDealUnit - this.defaultPricePerDealUnit) * this.defaultDealQuantity);
+            let OBPrice = parseFloat(((this.data.PricePerDealUnit * this.kurs.Rate) - this.defaultPricePerDealUnit) * this.defaultDealQuantity);
 
             // set over budget amount
             overBudgetAmount.push(OBQty, OBPrice);
@@ -136,9 +136,10 @@ export class PurchaseOrderItem {
             overBudgetAmount.push(this.data.OverBudgetAmount);
           }
           // calculate over budget type and amount when price per deal unit is different from default value
-          else if (this.defaultPricePerDealUnit < this.data.PricePerDealUnit) {
+          else if (this.defaultPricePerDealUnit < (this.data.PricePerDealUnit * this.kurs.Rate)) {
             this.data.OverBudgetType = "- Selisih Harga";
-            this.data.OverBudgetAmount = parseFloat((this.data.PricePerDealUnit - this.defaultPricePerDealUnit) * this.data.DealQuantity).toFixed(4);
+            this.data.OverBudgetAmount = parseFloat(((this.data.PricePerDealUnit * this.kurs.Rate) - this.defaultPricePerDealUnit) * this.data.DealQuantity).toFixed(4);
+            console.log("OverBudgetAmount", this.data.OverBudgetAmount);
             overBudgetAmount.push(this.data.OverBudgetAmount);
           }
 
