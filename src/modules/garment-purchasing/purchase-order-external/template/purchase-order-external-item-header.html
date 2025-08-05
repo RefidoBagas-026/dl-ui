@@ -21,12 +21,17 @@
         <th width="8%">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Keterangan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </th>
+        <th width="2%" show.bind="!readOnly"></th>
         <th width="25%">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </th>
         <th width="4%">ETD</th>
         <th width="4%">ETA</th>
-        <th width="8%">Barang Datang</th>
-        <th width="2%" show.bind="!readOnly"></th>
+        <!-- <th width="8%">Barang Datang</th> -->
+        <th>
+            Barang Datang
+            <au-checkbox value.bind="options.checkedAll" disabled.bind="readOnly" change.delegate=changeCheckedAll()>
+            </au-checkbox>
+        </th>
     </tr>
 </template>
