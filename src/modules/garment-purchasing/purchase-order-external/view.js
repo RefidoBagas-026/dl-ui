@@ -68,7 +68,7 @@ export class View {
         if (!isUsedSJ && !this.data.IsApproved) {
             this.hasEdit = true;
         }
-        this.hasEdit = true;
+        // this.hasEdit = true;
        
     }
 
