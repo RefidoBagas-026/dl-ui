@@ -71,6 +71,8 @@ export class DataForm {
         if (this.data.Items)
             if (this.data.Items.length > 0) {
                 this.isItem = true;
+
+                this.options.checkedAll = this.data.Items.reduce((acc, curr) => acc && curr.IsArrived, true);
             }
 
         this.options.readOnly = this.readOnly;
