@@ -252,7 +252,9 @@ export class DataForm {
         (acc, cur) => (acc += cur),
         0
       );
-      this.data.RemainingQuantity -= dataJumlah;
+      //this.data.RemainingQuantity -= dataJumlah;
+      this.data.RemainingQuantity = Math.round((this.data.RemainingQuantity - dataJumlah) * 100) / 100;
+      
       this.dataSC = newValue;
       if (newValue.Id != this.data.SubconContractId) {
         this.data.Items.splice(0);
