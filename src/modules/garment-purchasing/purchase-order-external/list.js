@@ -15,7 +15,7 @@ export class List {
             return {}
     }
 
-    context = ["Rincian", "Cetak PDF"]
+    context = ["Rincian", "Cetak PDF", "Cetak PDF Over Budget"]
 
     columns = [
         {
@@ -104,13 +104,19 @@ export class List {
             case "Cetak PDF":
                 this.service.getPdfById(data.Id);
                 break;
+            case "Cetak PDF Over Budget":
+                this.service.getPdfOverBudgetById(data.Id);
+                    break;
         }
     }
 
     contextShowCallback(index, name, data) {
+        console.log(index, name, data);
         switch (name) {
             case "Cetak PDF":
                 return data.IsPosted;
+            case "Cetak PDF Over Budget":
+                return data.IsOverBudget && data.IsPosted;
             default:
                 return true;
         }
