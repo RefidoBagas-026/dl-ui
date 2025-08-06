@@ -1,0 +1,22 @@
+<template>
+  <require from="../css/pdfuploader-data.css"></require>
+  <div class="pdfuploader-data-container">
+    <div if.bind="!documents || documents.length === 0" class="pdfuploader-data-empty">Belum Ada Data Scanner</div>
+    <div repeat.for="doc of documents">
+      <au-table
+        data.bind="getDocLoader(doc)"
+        columns.bind="tableColumns"
+        options.bind="tableOptions"
+        page-size="1">
+      </au-table>
+      <!-- Child/detail row akan di-inject dari JS (detailFormatter) -->
+    </div>
+    
+    <!--
+    <div style="margin-top:20px;">
+      <button class="btn btn-primary" click.delegate="showEditedJson()">Lihat Data Hasil Edit</button>
+      <pre id="edited-json-view" style="background:#f8f9fa; padding:10px; border-radius:4px; margin-top:10px; max-height:300px; overflow:auto;"></pre>
+    </div>
+    -->
+  </div>
+</template>
