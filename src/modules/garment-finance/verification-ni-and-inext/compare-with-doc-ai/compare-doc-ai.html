@@ -1,0 +1,72 @@
+<template>
+  <require from="../css/compare-doc-ai.css"></require>
+  <require from="../css/upload-bar.css"></require>
+  <require from="../view/view"></require>
+  <require from="../upload/pdfuploader-data"></require>
+  <!-- Upload bar markup langsung di sini, tidak perlu require upload-bar -->
+  <form>
+    <div class="compare-doc-ai-bar">
+      <label for="ni-search" class="form-label compare-doc-ai-label">No Nota Intern</label>
+      <div class="compare-doc-ai-input-wrapper">
+        <input id="ni-search" type="text" class="form-control compare-doc-ai-input" placeholder="Cari Nota Intern..."
+          value.bind="search" input.delegate="onSearchInput($event)" autocomplete="off">
+        <div class="compare-doc-ai-autocomplete-dropdown" if.bind="showDropdown">
+          <ul class="compare-doc-ai-autocomplete-list">
+            <li repeat.for="ni of searchResults" click.delegate="selectNI(ni)">
+              ${ni.inNo}
+            </li>
+            <li if.bind="loading">Loading...</li>
+            <li if.bind="!loading && searchResults.length === 0">Tidak ada hasil</li>
+          </ul>
+        </div>
+      </div>
+      <button class="btn btn-success compare-doc-ai-btn" type="button" click.delegate="searchAction()">
+        Cari
+      </button>
+      <button class="btn btn-danger compare-doc-ai-btn" type="button" click.delegate="clearAction()">
+        Clear
+      </button>
+    </div>
+  </form>
+  <view data.bind="selectedViewData"></view>
+
+  <form>
+    <div class="upload-bar-container">
+      <label for="pdf-upload" class="upload-bar-label">Unggah File Pdf</label>
+      <div style="flex-grow:1;display:flex;align-items:center;gap:16px;">
+        <input id="pdf-upload" type="file" accept="application/pdf" class="upload-bar-input" ref="fileInput"
+          change.delegate="onFileChange($event)">
+        <!-- Button Upload dihapus sesuai permintaan -->
+        <button class="btn upload-bar-scan-btn" type="button" click.delegate="scanFile()"
+          disabled.bind="!file || uploading">
+          Scan File
+        </button>
+        <button class="btn btn-danger compare-doc-ai-btn" type="button" click.delegate="clearScanData()">
+          Clear
+        </button>
+      </div>
+      <!-- Nama file di-hide, sudah ada pada input file -->
+      <span if.bind="uploadError" class="text-danger">${uploadError}</span>
+    </div>
+  </form>
+
+  <!-- Container hasil scan PDF (fleksibel, bisa diisi tabel nanti) -->
+
+  <pdfuploader-data scanned-data.bind="scannedData"></pdfuploader-data>
+
+  <!-- Tombol cek NI dan Invoice External di bagian akhir -->
+  <button class="btn btn-success" type="button" style="margin-top:16px; float:right; margin-bottom:16px;" click.delegate="cekNiInvoiceExternal()" disabled>
+    Cek NI dan Invoice External
+  </button>
+
+  <!-- Loader overlay untuk proses scan -->
+  <div if.bind="isScanning" class="compare-loader-overlay-global">
+    <div class="compare-loader-spinner-global">
+      <i class="fa fa-spinner fa-spin" style="font-size:3rem;color:#0D2F56;"></i>
+      <div style="margin-top:16px;color:#0D2F56;font-weight:bold;font-size:1.2rem;">
+        Memproses Scanning...
+      </div>
+    </div>
+  </div>
+
+</template>
