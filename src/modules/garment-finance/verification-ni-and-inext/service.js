@@ -7,7 +7,7 @@ import { RestService } from '../../../utils/rest-service';
 const serviceUri = 'garment-invoice-external-revision';
 const serviceInternNotesUri = 'garment-intern-notes';
 const scanInvoiceExternalUri = 'garment-invoice-external-revision/scan-invoice-external';
-const compareInternalNoteDeliveryOrderUri = 'garment-purchasing-expeditions/compare-internal-note-delivery-order';
+const compareInternalNoteInvoiceExternalUri = 'garment-purchasing-expeditions/compare-internal-note-external-purchase-order';
 
 export class Service extends RestService {
     constructor(http, aggregator, config) {
@@ -116,7 +116,7 @@ export class Service extends RestService {
      * @param {Object} options - { scanResult: string, file: File }
      */
     postCompareInternalNoteInvoiceExternal(garmentInvoiceId, garmentInternNoteId, { scanResult = null, file = null } = {}) {
-        const endpoint = `${compareInternalNoteDeliveryOrderUri}?garmentInvoiceId=${garmentInvoiceId}&garmentInternNoteId=${garmentInternNoteId}`;
+        const endpoint = `${compareInternalNoteInvoiceExternalUri}?garmentInvoiceId=${garmentInvoiceId}&garmentInternNoteId=${garmentInternNoteId}`;
         
         const formData = new FormData();
         
