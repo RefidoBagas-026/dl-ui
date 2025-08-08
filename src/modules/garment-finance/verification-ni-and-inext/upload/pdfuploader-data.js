@@ -111,6 +111,24 @@ export class PdfuploaderData {
         // Autofocus pada field pertama
         const firstInput = invoiceNoCell.querySelector('input');
         if (firstInput) firstInput.focus();
+        
+        // Tambahkan event listener untuk real-time JSON update pada header fields
+        const headerInputs = rowEl.querySelectorAll('input.form-control');
+        headerInputs.forEach((input, index) => {
+          input.addEventListener('input', (e) => {
+            const value = e.target.value;
+            if (index === 0) { // InvoiceNo
+              doc.Header.InvoiceNo = value;
+            } else if (index === 1) { // TotalVat
+              doc.Header.TotalVat = parseFloat(value) || 0;
+            } else if (index === 2) { // GrandTotalAmount
+              doc.Header.GrandTotalAmount = parseFloat(value) || 0;
+            }
+            // Real-time JSON update
+            this.showEditedJson();
+          });
+        });
+        
         // Refresh detail row agar Quantity dan Price ikut jadi input
         const nextRow = rowEl.nextElementSibling;
         if (nextRow && nextRow.classList.contains('detail-row')) {
@@ -131,31 +149,36 @@ export class PdfuploaderData {
         this.editingDocId = null;
         const rowEl = saveBtn.closest('tr');
         if (!rowEl) return;
-        
+
         // Ambil semua cell yang ada input
         const cells = rowEl.querySelectorAll('td');
         if (cells.length < 5) return;
-        
+
         // Simpan perubahan dari semua input
-        const invoiceNoInput = cells[0].querySelector('input');
-        if (invoiceNoInput) {
-          doc.Header.InvoiceNo = invoiceNoInput.value;
+
+        // PATCH: Update langsung pada root scannedData agar parent ikut berubah
+        const docIndex = this.scannedData && this.scannedData.Document ? this.scannedData.Document.indexOf(doc) : -1;
+        if (docIndex !== -1) {
+          const invoiceNoInput = cells[0].querySelector('input');
+          if (invoiceNoInput) {
+            this.scannedData.Document[docIndex].Header.InvoiceNo = invoiceNoInput.value;
+          }
+
+          // Supplier dan VatDate tidak diedit
+
+          const totalVatInput = cells[3].querySelector('input');
+          if (totalVatInput) {
+            this.scannedData.Document[docIndex].Header.TotalVat = parseFloat(totalVatInput.value) || 0;
+          }
+
+          const grandTotalInput = cells[4].querySelector('input');
+          if (grandTotalInput) {
+            this.scannedData.Document[docIndex].Header.GrandTotalAmount = parseFloat(grandTotalInput.value) || 0;
+          }
         }
-        
-        // Supplier dan VatDate tidak diedit
-        
-        const totalVatInput = cells[3].querySelector('input');
-        if (totalVatInput) {
-          doc.Header.TotalVat = parseFloat(totalVatInput.value) || 0;
-        }
-        
-        const grandTotalInput = cells[4].querySelector('input');
-        if (grandTotalInput) {
-          doc.Header.GrandTotalAmount = parseFloat(grandTotalInput.value) || 0;
-        }
-        
+
         rowEl.classList.remove('editing');
-        
+
         // Setelah save, kembalikan semua input ke readonly display
         const updatedCells = rowEl.querySelectorAll('td');
         if (updatedCells.length >= 5) {
@@ -167,10 +190,10 @@ export class PdfuploaderData {
           // Kembalikan GrandTotalAmount ke readonly
           updatedCells[4].innerHTML = doc.Header.GrandTotalAmount ? doc.Header.GrandTotalAmount.toLocaleString('id-ID') : '';
         }
-        
-        // Auto-update JSON display setelah save (commented for production)
-        // this.showEditedJson();
-        
+
+        // Auto-update JSON display setelah save
+        this.showEditedJson();
+
         // Refresh detail row agar Quantity kembali ke read
         const nextRow = rowEl.nextElementSibling;
         if (nextRow && nextRow.classList.contains('detail-row')) {
@@ -182,21 +205,24 @@ export class PdfuploaderData {
               const itemCount = doc.Items.length;
               inputs.forEach((inputEl, idx) => {
                 const fieldType = inputEl.getAttribute('data-field');
-                const itemIdx = Math.floor(idx / 2); // Setiap item punya 2 field yang bisa diedit
-                const fieldIdx = idx % 2; // 0=Quantity, 1=PricePerDealUnit
-                
+                const itemIdx = parseInt(inputEl.getAttribute('data-itemidx'));
+
                 if (itemIdx < itemCount) {
                   const val = inputEl.value;
-                  if (fieldIdx === 0) {
+                  if (fieldType === 'ProductCode') {
+                    doc.Items[itemIdx].ProductCode = val || '';
+                  } else if (fieldType === 'Quantity') {
                     doc.Items[itemIdx].Quantity = val === '' ? null : parseFloat(val);
-                  } else if (fieldIdx === 1) {
+                  } else if (fieldType === 'PricePerDealUnit') {
                     doc.Items[itemIdx].PricePerDealUnit = val === '' ? null : parseFloat(val);
                   }
-                  
-                  // Hitung ulang TotalAmount
-                  const qty = doc.Items[itemIdx].Quantity || 0;
-                  const price = doc.Items[itemIdx].PricePerDealUnit || 0;
-                  doc.Items[itemIdx].TotalAmount = qty * price;
+
+                  // Hitung ulang TotalAmount untuk quantity dan price
+                  if (fieldType === 'Quantity' || fieldType === 'PricePerDealUnit') {
+                    const qty = doc.Items[itemIdx].Quantity || 0;
+                    const price = doc.Items[itemIdx].PricePerDealUnit || 0;
+                    doc.Items[itemIdx].TotalAmount = qty * price;
+                  }
                 }
               });
             }
@@ -204,6 +230,10 @@ export class PdfuploaderData {
             td.innerHTML = this.detailFormatter(doc);
           }
         }
+
+        // Patch: assign ulang reference scannedData agar parent ikut update
+        // (Aurelia binding: trigger update ke parent)
+        this.scannedData = Object.assign({}, this.scannedData);
       }
     };
     this._container = document.querySelector('.pdfuploader-data-container');
@@ -216,6 +246,7 @@ export class PdfuploaderData {
   attachCalculationListeners(container, doc) {
     const quantityInputs = container.querySelectorAll('.quantity-input');
     const priceInputs = container.querySelectorAll('.price-input');
+    const productCodeInputs = container.querySelectorAll('.product-code-input');
     
     const calculateTotal = (itemIdx) => {
       const qtyInput = container.querySelector(`.quantity-input[data-itemidx='${itemIdx}']`);
@@ -235,6 +266,9 @@ export class PdfuploaderData {
           doc.Items[itemIdx].Quantity = qty;
           doc.Items[itemIdx].PricePerDealUnit = price;
           doc.Items[itemIdx].TotalAmount = total;
+          
+          // Real-time JSON update
+          this.showEditedJson();
         }
       }
     };
@@ -254,6 +288,22 @@ export class PdfuploaderData {
         calculateTotal(itemIdx);
       });
     });
+
+    // Add listeners untuk product code inputs
+    productCodeInputs.forEach(input => {
+      input.addEventListener('input', (e) => {
+        const itemIdx = parseInt(e.target.getAttribute('data-itemidx'));
+        const productCode = e.target.value;
+        
+        // Update data model
+        if (doc.Items[itemIdx]) {
+          doc.Items[itemIdx].ProductCode = productCode;
+          
+          // Real-time JSON update untuk product code
+          this.showEditedJson();
+        }
+      });
+    });
   }
 
   // Formatter untuk detail row (Items)
@@ -264,7 +314,7 @@ export class PdfuploaderData {
       <table class='table table-bordered table-sm' style='background:#fff;'>
         <thead>
           <tr>
-            <th style='display: none;'>Kode Produk</th>
+            <th>Kode Produk</th>
             <th>Nama Barang</th>
             <th>Quantity</th>
             <th>Harga Satuan</th>
@@ -276,7 +326,11 @@ export class PdfuploaderData {
     for (let i = 0; i < doc.Items.length; i++) {
       const item = doc.Items[i];
       html += `<tr>
-        <td style='display: none;'>${item.ProductCode || ''}</td>
+        <td>
+          ${isEditing
+            ? `<input type='text' class='form-control form-control-sm product-code-input' value='${item.ProductCode || ''}' style='width:100%' data-field='ProductCode' data-itemidx='${i}' />`
+            : `${item.ProductCode || ''}`}
+        </td>
         <td>${item.ProductName || ''}</td>
         <td>
           ${isEditing
@@ -334,8 +388,7 @@ export class PdfuploaderData {
     return (info) => this.loader(info, doc);
   }
 
-  // Fungsi untuk menampilkan hasil edit JSON ke area <pre> (commented for production)
-  /*
+  // Fungsi untuk menampilkan hasil edit JSON ke area <pre>
   showEditedJson() {
     const json = this.getEditedJson();
     const pre = document.getElementById('edited-json-view');
@@ -343,5 +396,4 @@ export class PdfuploaderData {
       pre.textContent = JSON.stringify(json, null, 2);
     }
   }
-  */
 }

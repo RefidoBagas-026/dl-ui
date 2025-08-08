@@ -13,6 +13,7 @@ export class CompareDocAi {
     this.uploading = false;
     this.uploadError = '';
     this.isScanning = false; // loader scanning
+    this.pdfUploaderComponent = null; // Reference ke pdfuploader-data component
   }
 
   // ...existing code...
@@ -193,10 +194,13 @@ export class CompareDocAi {
     }
     const garmentInternNoteId = this.selectedNotaInternDetail.Id;
     const garmentInvoiceId = items[0].garmentInvoice.Id;
-    // Validasi prioritas scannedData
+    
+    // Selalu ambil hasil edit dari pdfUploaderComponent jika ada scannedData
     let postData = {};
-    if (this.scannedData && this.scannedData.data) {
-      postData = { scanResult: JSON.stringify(this.scannedData.data) };
+    if (this.pdfUploaderComponent && this.scannedData) {
+      const editedData = this.pdfUploaderComponent.getEditedJson();
+      postData = { scanResult: JSON.stringify(editedData) };
+      // console.log('DATA YANG DIKIRIM KE BACKEND:', editedData);
     } else if (this.file) {
       postData = { file: this.file };
     } else {
