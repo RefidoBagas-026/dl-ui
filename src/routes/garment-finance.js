@@ -70,7 +70,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "J3": 1 },
+      permission: { "J53": 1 },
       iconClass: "fa fa-dashboard",
     },
   },
@@ -84,7 +84,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "J3": 1 },
+      permission: { "J54": 1 },
       iconClass: "fa fa-dashboard",
     },
   },
