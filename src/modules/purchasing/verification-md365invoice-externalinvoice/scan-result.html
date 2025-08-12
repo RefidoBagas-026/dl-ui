@@ -1,0 +1,137 @@
+<template>
+  <div class="scan-result-section" if.bind="scanData">
+    <!-- DEBUG OUTPUT -->
+    <div style="background:#ffe;border:1px solid #cc0;padding:8px;margin-bottom:12px;">
+      <b>DEBUG scanData:</b>
+      <pre>${scanData & json}</pre>
+      <b>DEBUG header:</b>
+      <pre>${header & json}</pre>
+      <b>DEBUG items:</b>
+      <pre>${items & json}</pre>
+      <b>DEBUG poNumbers:</b>
+      <pre>${poNumbers & json}</pre>
+      <b>DEBUG sjNumbers:</b>
+      <pre>${sjNumbers & json}</pre>
+      <b>DEBUG fakturList:</b>
+      <pre>${fakturList & json}</pre>
+    </div>
+    <h3>Tabel 1: Header</h3>
+    <table class="table table-bordered table-sm">
+      <thead>
+        <tr>
+          <th>No Invoice</th>
+          <th>Tanggal Invoice</th>
+          <th>DPP</th>
+          <th>Nilai PPN</th>
+          <th>Nilai PPh</th>
+          <th>Total Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input class="form-control" value.bind="header.noInvoice"></td>
+          <td><input class="form-control" type="date" value.bind="header.tanggalInvoice"></td>
+          <td><input class="form-control" value.bind="header.dpp"></td>
+          <td><input class="form-control" value.bind="header.nilaiPpn"></td>
+          <td><input class="form-control" value.bind="header.nilaiPph"></td>
+          <td><input class="form-control" value.bind="header.totalAmount"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Items</h4>
+    <table class="table table-bordered table-sm">
+      <thead>
+        <tr>
+          <th>Kode Barang</th>
+          <th>Nama Barang</th>
+          <th>QTY</th>
+          <th>Harga Per Qty</th>
+          <th>Total</th>
+          <th style="width: 70px;">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr repeat.for="item of items; let i = $index">
+          <td><input class="form-control" value.bind="item.kodeBarang"></td>
+          <td><input class="form-control" value.bind="item.namaBarang"></td>
+          <td><input class="form-control" type="number" value.bind="item.qty" change.delegate="recalcItem(item)"></td>
+          <td><input class="form-control" type="number" value.bind="item.hargaPerQty" change.delegate="recalcItem(item)"></td>
+          <td><input class="form-control" type="number" value.bind="item.total" readonly></td>
+          <td>
+            <button class="btn btn-danger btn-sm" click.delegate="removeItem(i)">Hapus</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-secondary btn-sm" click.delegate="addItem()">Tambah Item</button>
+
+    <hr/>
+    <h3>Tabel 2: PO</h3>
+    <table class="table table-bordered table-sm">
+      <thead>
+        <tr>
+          <th>Nomor PO</th>
+          <th style="width: 70px;">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr repeat.for="po of poNumbers; let i = $index">
+          <td><input class="form-control" value.bind="poNumbers[i]"></td>
+          <td>
+            <button class="btn btn-danger btn-sm" click.delegate="removePO(i)">Hapus</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-secondary btn-sm" click.delegate="addPO()">Tambah PO</button>
+
+    <hr/>
+    <h3>Tabel 3: SJ</h3>
+    <table class="table table-bordered table-sm">
+      <thead>
+        <tr>
+          <th>Nomor SJ</th>
+          <th style="width: 70px;">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr repeat.for="sj of sjNumbers; let i = $index">
+          <td><input class="form-control" value.bind="sjNumbers[i]"></td>
+          <td>
+            <button class="btn btn-danger btn-sm" click.delegate="removeSJ(i)">Hapus</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-secondary btn-sm" click.delegate="addSJ()">Tambah SJ</button>
+
+    <hr/>
+    <h3>Tabel 4: Faktur Pajak</h3>
+    <table class="table table-bordered table-sm">
+      <thead>
+        <tr>
+          <th>No Faktur</th>
+          <th>Tanggal Faktur Pajak</th>
+          <th>Nilai Faktur</th>
+          <th style="width: 70px;">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr repeat.for="fp of fakturList; let i = $index">
+          <td><input class="form-control" value.bind="fp.noFaktur"></td>
+          <td><input class="form-control" type="date" value.bind="fp.tanggalFaktur"></td>
+          <td><input class="form-control" type="number" value.bind="fp.nilaiFaktur"></td>
+          <td>
+            <button class="btn btn-danger btn-sm" click.delegate="removeFaktur(i)">Hapus</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-secondary btn-sm" click.delegate="addFaktur()">Tambah Faktur</button>
+
+    <div class="mt-3">
+      <button class="btn btn-primary" click.delegate="saveScanResult()">Simpan Revisi</button>
+    </div>
+  </div>
+</template>
