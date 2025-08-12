@@ -25,9 +25,24 @@ export class View {
     { header: 'Harga Satuan', value: 'pricePerDealUnit' },
     { header: 'Harga Total', value: 'priceTotal' }
   ];
+
   pageSize = 10;
   currentPage = 1;
   totalRows = 0;
+
+  get totalPages() {
+    return Math.max(1, Math.ceil(this.totalRows / this.pageSize));
+  }
+
+  get pages() {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  goToPage(page) {
+    if (page < 1 || page > this.totalPages || page === this.currentPage) return;
+    this.currentPage = page;
+    this.fetchRevisionData();
+  }
 
   constructor(service, router) {
     this.service = service;
