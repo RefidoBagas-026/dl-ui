@@ -22,8 +22,8 @@ export class PdfuploaderData {
   tableColumns = [
     { field: 'InvoiceNo', title: 'Nomor Invoice External' },
     { field: 'SupplierName', title: 'Supplier' },
-    { field: 'VatDate', title: 'Tanggal VAT' },
-    { field: 'TotalVat', title: 'Total VAT', formatter: (value) => value ? value.toLocaleString('id-ID') : '' },
+    { field: 'VatDate', title: 'Tanggal Faktur Pajak' },
+    { field: 'TotalVat', title: 'Nominal Faktur', formatter: (value) => value ? value.toLocaleString('id-ID') : '' },
     { field: 'GrandTotalAmount', title: 'Total Amount', formatter: (value) => value ? value.toLocaleString('id-ID') : '' },
     {
       field: 'aksi',
@@ -88,30 +88,30 @@ export class PdfuploaderData {
         // Ambil semua cell yang bisa diedit
         const cells = rowEl.querySelectorAll('td');
         if (cells.length < 5) return;
-        
+
         // Edit InvoiceNo (cell 0)
         const invoiceNoCell = cells[0];
         const originalInvoiceNo = doc.Header.InvoiceNo;
         invoiceNoCell.innerHTML = `<input type='text' class='form-control form-control-sm' value='${originalInvoiceNo}' style='width:100%' />`;
-        
+
         // Supplier tetap (cell 1) - tidak diedit
-        
+
         // VatDate tetap (cell 2) - tidak diedit
-        
+
         // Edit TotalVat (cell 3)
         const totalVatCell = cells[3];
         const originalTotalVat = doc.Header.TotalVat || '';
         totalVatCell.innerHTML = `<input type='number' class='form-control form-control-sm' value='${originalTotalVat}' style='width:100%' />`;
-        
+
         // Edit GrandTotalAmount (cell 4)
         const grandTotalCell = cells[4];
         const originalGrandTotal = doc.Header.GrandTotalAmount || '';
         grandTotalCell.innerHTML = `<input type='number' class='form-control form-control-sm' value='${originalGrandTotal}' style='width:100%' />`;
-        
+
         // Autofocus pada field pertama
         const firstInput = invoiceNoCell.querySelector('input');
         if (firstInput) firstInput.focus();
-        
+
         // Tambahkan event listener untuk real-time JSON update pada header fields
         const headerInputs = rowEl.querySelectorAll('input.form-control');
         headerInputs.forEach((input, index) => {
@@ -128,7 +128,7 @@ export class PdfuploaderData {
             this.showEditedJson();
           });
         });
-        
+
         // Refresh detail row agar Quantity dan Price ikut jadi input
         const nextRow = rowEl.nextElementSibling;
         if (nextRow && nextRow.classList.contains('detail-row')) {
@@ -247,32 +247,32 @@ export class PdfuploaderData {
     const quantityInputs = container.querySelectorAll('.quantity-input');
     const priceInputs = container.querySelectorAll('.price-input');
     const productCodeInputs = container.querySelectorAll('.product-code-input');
-    
+
     const calculateTotal = (itemIdx) => {
       const qtyInput = container.querySelector(`.quantity-input[data-itemidx='${itemIdx}']`);
       const priceInput = container.querySelector(`.price-input[data-itemidx='${itemIdx}']`);
       const totalCell = container.querySelector(`.total-amount-${itemIdx}`);
-      
+
       if (qtyInput && priceInput && totalCell) {
         const qty = parseFloat(qtyInput.value) || 0;
         const price = parseFloat(priceInput.value) || 0;
         const total = qty * price;
-        
+
         // Update display
         totalCell.textContent = total.toLocaleString('id-ID');
-        
+
         // Update data model
         if (doc.Items[itemIdx]) {
           doc.Items[itemIdx].Quantity = qty;
           doc.Items[itemIdx].PricePerDealUnit = price;
           doc.Items[itemIdx].TotalAmount = total;
-          
+
           // Real-time JSON update
           this.showEditedJson();
         }
       }
     };
-    
+
     // Add listeners untuk quantity inputs
     quantityInputs.forEach(input => {
       input.addEventListener('input', (e) => {
@@ -280,7 +280,7 @@ export class PdfuploaderData {
         calculateTotal(itemIdx);
       });
     });
-    
+
     // Add listeners untuk price inputs
     priceInputs.forEach(input => {
       input.addEventListener('input', (e) => {
@@ -294,11 +294,11 @@ export class PdfuploaderData {
       input.addEventListener('input', (e) => {
         const itemIdx = parseInt(e.target.getAttribute('data-itemidx'));
         const productCode = e.target.value;
-        
+
         // Update data model
         if (doc.Items[itemIdx]) {
           doc.Items[itemIdx].ProductCode = productCode;
-          
+
           // Real-time JSON update untuk product code
           this.showEditedJson();
         }
@@ -328,19 +328,19 @@ export class PdfuploaderData {
       html += `<tr>
         <td>
           ${isEditing
-            ? `<input type='text' class='form-control form-control-sm product-code-input' value='${item.ProductCode || ''}' style='width:100%' data-field='ProductCode' data-itemidx='${i}' />`
-            : `${item.ProductCode || ''}`}
+          ? `<input type='text' class='form-control form-control-sm product-code-input' value='${item.ProductCode || ''}' style='width:100%' data-field='ProductCode' data-itemidx='${i}' />`
+          : `${item.ProductCode || ''}`}
         </td>
         <td>${item.ProductName || ''}</td>
         <td>
           ${isEditing
-            ? `<input type='number' class='form-control form-control-sm quantity-input' value='${item.Quantity == null ? '' : item.Quantity}' style='width:100%' data-field='Quantity' data-itemidx='${i}' />`
-            : `${item.Quantity == null ? '' : item.Quantity.toLocaleString('id-ID')}`}
+          ? `<input type='number' class='form-control form-control-sm quantity-input' value='${item.Quantity == null ? '' : item.Quantity}' style='width:100%' data-field='Quantity' data-itemidx='${i}' />`
+          : `${item.Quantity == null ? '' : item.Quantity.toLocaleString('id-ID')}`}
         </td>
         <td>
           ${isEditing
-            ? `<input type='number' class='form-control form-control-sm price-input' value='${item.PricePerDealUnit == null ? '' : item.PricePerDealUnit}' style='width:100%' data-field='PricePerDealUnit' data-itemidx='${i}' />`
-            : `${item.PricePerDealUnit ? item.PricePerDealUnit.toLocaleString('id-ID') : ''}`}
+          ? `<input type='number' class='form-control form-control-sm price-input' value='${item.PricePerDealUnit == null ? '' : item.PricePerDealUnit}' style='width:100%' data-field='PricePerDealUnit' data-itemidx='${i}' />`
+          : `${item.PricePerDealUnit ? item.PricePerDealUnit.toLocaleString('id-ID') : ''}`}
         </td>
         <td class='total-amount-${i}'>${item.TotalAmount ? item.TotalAmount.toLocaleString('id-ID') : ''}</td>
       </tr>`;
