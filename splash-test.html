@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
-    <title><%- htmlWebpackPlugin.options.metadata.title %></title>
+    <title>Test Splash Screen</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
-    <!-- imported CSS are concatenated and added automatically -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     
     <!-- Inline Splash Screen Styles -->
     <style>
@@ -144,9 +141,9 @@
         .progress-text { font-size: 12px; }
       }
     </style>
-  </head>
-  <body aurelia-app="main">
-    <!-- New Splash Screen -->
+</head>
+<body>
+    <!-- Splash Screen -->
     <div id="splash-screen" class="splash-screen">
       <div class="splash-logo-container">
         <svg class="splash-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -206,148 +203,52 @@
         </div>
       </div>
     </div>
-
-    <!-- Old splash screen as fallback -->
-    <div class="splash" style="display: none;">
-      <div class="message"><%- htmlWebpackPlugin.options.metadata.title %></div>
-      <i class="fa fa-spinner fa-spin"></i>
-    </div>
     
-    <!-- Inline Splash Screen JavaScript -->
     <script>
-      (function() {
-        'use strict';
+      // Demo script
+      let progress = 0;
+      const progressBar = document.getElementById('progress-fill');
+      const progressText = document.getElementById('progress-text');
+      
+      const updateProgress = (value, text) => {
+        progressBar.style.width = value + '%';
+        if (text) {
+          progressText.innerHTML = '<span class="loading-dots">' + text + '</span>';
+        }
+      };
+      
+      const steps = [
+        { progress: 10, text: 'Memuat aplikasi', delay: 500 },
+        { progress: 25, text: 'Menginisialisasi framework', delay: 800 },
+        { progress: 40, text: 'Memuat komponen', delay: 600 },
+        { progress: 60, text: 'Menyiapkan antarmuka', delay: 700 },
+        { progress: 80, text: 'Konfigurasi sistem', delay: 500 },
+        { progress: 95, text: 'Finalisasi', delay: 400 },
+        { progress: 100, text: 'Aplikasi siap', delay: 800 }
+      ];
 
-        class SplashScreenManager {
-          constructor() {
-            this.progressBar = null;
-            this.progressText = null;
-            this.splashScreen = null;
-            this.currentProgress = 0;
-            this.loadedResources = 0;
-            this.totalResources = 0;
-            this.isInitialized = false;
-          }
-
-          init() {
-            if (this.isInitialized) return;
+      let currentStep = 0;
+      
+      const runStep = () => {
+        if (currentStep < steps.length) {
+          const step = steps[currentStep];
+          setTimeout(() => {
+            updateProgress(step.progress, step.text);
+            currentStep++;
+            runStep();
             
-            this.splashScreen = document.getElementById('splash-screen');
-            this.progressBar = document.getElementById('progress-fill');
-            this.progressText = document.getElementById('progress-text');
-            
-            this.startProgressSimulation();
-            this.trackResourceLoading();
-            this.isInitialized = true;
-          }
-
-          trackResourceLoading() {
-            const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
-            const scripts = document.querySelectorAll('script[src]');
-            
-            this.totalResources = stylesheets.length + scripts.length + 5;
-            
-            stylesheets.forEach(link => {
-              if (link.sheet && link.sheet.cssRules) {
-                this.onResourceLoaded();
-              } else {
-                link.addEventListener('load', () => this.onResourceLoaded());
-                link.addEventListener('error', () => this.onResourceLoaded());
-              }
-            });
-
-            setTimeout(() => {
-              const images = document.querySelectorAll('img');
-              images.forEach(img => {
-                if (img.complete) {
-                  this.onResourceLoaded();
-                } else {
-                  img.addEventListener('load', () => this.onResourceLoaded());
-                  img.addEventListener('error', () => this.onResourceLoaded());
-                }
-              });
-            }, 500);
-          }
-
-          onResourceLoaded() {
-            this.loadedResources++;
-            const resourceProgress = Math.min((this.loadedResources / this.totalResources) * 40, 40);
-            this.updateProgress(Math.max(this.currentProgress, resourceProgress));
-          }
-
-          startProgressSimulation() {
-            const steps = [
-              { progress: 10, text: 'Memuat aplikasi', delay: 300 },
-              { progress: 25, text: 'Menginisialisasi framework', delay: 600 },
-              { progress: 40, text: 'Memuat komponen', delay: 800 },
-              { progress: 60, text: 'Menyiapkan antarmuka', delay: 700 },
-              { progress: 80, text: 'Konfigurasi sistem', delay: 500 },
-              { progress: 90, text: 'Finalisasi', delay: 400 }
-            ];
-
-            let currentStep = 0;
-            
-            const runStep = () => {
-              if (currentStep < steps.length) {
-                const step = steps[currentStep];
-                setTimeout(() => {
-                  this.updateProgress(step.progress, step.text);
-                  currentStep++;
-                  runStep();
-                }, step.delay);
-              }
-            };
-
-            setTimeout(runStep, 200);
-          }
-
-          updateProgress(progress, text) {
-            if (!this.progressBar) return;
-            
-            this.currentProgress = Math.max(this.currentProgress, progress);
-            this.progressBar.style.width = this.currentProgress + '%';
-            
-            if (text && this.progressText) {
-              this.progressText.innerHTML = '<span class="loading-dots">' + text + '</span>';
+            // Hide splash screen when complete
+            if (step.progress === 100) {
+              setTimeout(() => {
+                document.getElementById('splash-screen').classList.add('hide');
+              }, 1000);
             }
-          }
-
-          markAppReady() {
-            this.updateProgress(100, 'Aplikasi siap');
-            
-            setTimeout(() => {
-              if (this.splashScreen) {
-                this.splashScreen.classList.add('hide');
-                
-                setTimeout(() => {
-                  if (this.splashScreen && this.splashScreen.parentNode) {
-                    this.splashScreen.parentNode.removeChild(this.splashScreen);
-                  }
-                }, 500);
-              }
-            }, 800);
-          }
-
-          hide() {
-            this.markAppReady();
-          }
+          }, step.delay);
         }
+      };
 
-        window.splashManager = new SplashScreenManager();
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', function() {
-            window.splashManager.init();
-          });
-        } else {
-          window.splashManager.init();
-        }
-
-      })();
+      // Start demo
+      setTimeout(runStep, 500);
     </script>
-    <% if (htmlWebpackPlugin.options.metadata.ENV === 'development') { %>
-    <!-- Webpack Dev Server reload -->
-    <script src="/webpack-dev-server.js"></script>
-    <% } %>
-  </body>
+</body>
 </html>
