@@ -43,6 +43,27 @@ export class View {
     { field: 'invoiceDate', title: 'Tanggal Invoice', formatter: (value) => {
       return View.formatDateWithIndonesianMonth(value);
     } },
+  { field: 'vatRate', title: 'Nilai PPN', formatter: (value) => {
+      if (value == null || value === '') return '';
+      const num = Number(value);
+      if (isNaN(num)) return value;
+      // Tampilkan sebagai persentase tanpa desimal jika bilangan bulat, else 2 desimal
+      return Number.isInteger(num) ? `${num}%` : `${num.toFixed(2)}%`;
+    } },
+    { field: 'vatAmount', title: 'Jumlah PPN', formatter: (value, row) => {
+      let val = value;
+      if ((val == null || val === '') && row && row.totalAmount && row.vatRate != null) {
+        const total = typeof row.totalAmount === 'string' ? Number(row.totalAmount.replace(/[,]/g,'')) : Number(row.totalAmount);
+        const rate = Number(row.vatRate);
+        if (!isNaN(total) && !isNaN(rate)) {
+          val = +(total * (rate/100)).toFixed(2);
+        }
+      }
+      if (val == null || val === '') return '';
+      const num = Number(val);
+      if (isNaN(num)) return val;
+      return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    } },
     { field: 'totalAmount', title: 'Total Amount', formatter: (value) => {
       if (value == null || value === '') return '';
       const num = Number(value);
@@ -120,14 +141,14 @@ export class View {
       { header: "Nomor RO", value: "roNo" },
       { header: "Term Pembayaran", value: "deliveryOrder.paymentMethod" },
       { header: "Tipe Pembayaran", value: "deliveryOrder.paymentType" },
-      { header: "Tanggal Jatuh Tempo", value: "paymentDueDate" },
-      { header: "Kode Barang", value: "product.Code" },
-      { header: "Barang", value: "product.Name" },
+      { header: "Tanggal Jatuh Tempo", value: "deliveryOrder.doDate" },
+      { header: "Kode - Nama Barang", value: "__productCodeName" },
       { header: "Jumlah", value: "doQuantity" },
       { header: "Satuan", value: "uoms.Unit" },
       { header: "Harga Satuan", value: "pricePerDealUnit" },
       { header: "Harga Total", value: "priceTotal" },
-      { header: "Diterima Unit", value: "unit.Name" }
+    // Kolom ini sekarang menampilkan status penerimaan (Sudah / Belum) berdasarkan receiptQuantity
+      { header: "Diterima Unit", value: "__receiptStatus" }
     ];
 
     // Ambil details dari items[0]
@@ -158,8 +179,38 @@ export class View {
         } else if (col.value === 'uoms.Unit') {
           val = (detail.uoms && detail.uoms.Unit) ? detail.uoms.Unit : (detail.uomUnit && detail.uomUnit.Unit ? detail.uomUnit.Unit : '');
         } else if (col.value === 'paymentDueDate') {
-          // Format tanggal dd-mmm-yyyy dengan nama bulan lengkap bahasa Inggris
+          // (Legacy) Jika masih ada referensi paymentDueDate tidak terpakai, fallback format
           val = View.formatDateWithIndonesianMonth(detail.paymentDueDate);
+        } else if (col.value === 'deliveryOrder.doDate') {
+          val = View.formatDateWithIndonesianMonth(detail.deliveryOrder && detail.deliveryOrder.doDate);
+        } else if (col.value === '__receiptStatus') {
+          const receiptQty = detail.receiptQuantity != null ? Number(detail.receiptQuantity) : 0;
+            // Sudah jika receiptQuantity > 0 else Belum
+          val = receiptQty > 0 ? 'Sudah' : 'Belum';
+        } else if (col.value === '__productCodeName') {
+          const code = detail.product && detail.product.Code ? detail.product.Code : '';
+            const name = detail.product && detail.product.Name ? detail.product.Name : '';
+            val = code && name ? `${code} - ${name}` : (code || name || '');
+        } else if (col.value === 'pricePerDealUnit') {
+          const price = Number(detail.pricePerDealUnit);
+          if (!isNaN(price)) {
+            // Format 0,000.00 (US style grouping, 2 decimals)
+            val = price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          } else {
+            val = detail.pricePerDealUnit || '';
+          }
+        } else if (col.value === 'priceTotal') {
+          // Hitung ulang jika belum ada atau bukan angka
+          const rawPriceTotal = detail.priceTotal;
+          const unitPrice = parseFloat(detail.pricePerDealUnit);
+          const qty = parseFloat(detail.doQuantity !== undefined ? detail.doQuantity : detail.quantity);
+          let computed = !isNaN(unitPrice) && !isNaN(qty) ? unitPrice * qty : rawPriceTotal;
+          if (computed !== undefined && computed !== null && !isNaN(computed)) {
+            const fixed = Number(computed.toFixed(2));
+            val = fixed.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          } else {
+            val = '';
+          }
         } else {
           col.value.split('.').forEach(k => {
             val = val && val[k] !== undefined ? val[k] : '';
