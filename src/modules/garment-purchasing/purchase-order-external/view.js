@@ -72,7 +72,7 @@ export class View {
                 this.hasEdit = false;
             }
         }
-        // this.hasEdit = true;
+        this.hasEdit = true;
        
     }
 
