@@ -124,41 +124,105 @@ export class CompareDocAi {
   }
 
   async searchAction() {
-    if (this.selectedNotaIntern) {
-      // Fetch detail dan simpan ke variabel khusus
-      const response = await this.service.getInternNoteById(this.selectedNotaIntern.Id);
-      let detail = response.data || response || {};
-      this.selectedNotaInternDetail = detail;
-      // Flatten invoice fields from items[0].garmentInvoice
-      const item = (detail.items && detail.items[0]) ? detail.items[0] : {};
-      const invoice = item.garmentInvoice || {};
-      detail.invoiceNo = invoice.invoiceNo || '';
-      detail.invoiceDate = invoice.invoiceDate || '';
-      detail.totalAmount = invoice.totalAmount || '';
-      // Pastikan semua field yang dibutuhkan di tabel terisi
-      detail.inNo = detail.inNo || this.selectedNotaIntern.inNo || '';
-      detail.inDate = detail.inDate || this.selectedNotaIntern.inDate || '';
-      detail.currencyCode = (detail.currency && detail.currency.Code) ? detail.currency.Code : (detail.currencyCode || '');
-      detail.supplierName = (detail.supplier && detail.supplier.Name) ? detail.supplier.Name : (detail.supplierName || '');
-      detail.remark = detail.remark || '';
-      detail.CreatedBy = detail.CreatedBy || '';
+    if (!this.selectedNotaIntern) {
+      this.selectedViewData = [];
+      this.selectedNotaInternDetail = null;
+      return;
+    }
 
-      // Inject pOSerialNumber ke setiap detail dari detail, bukan dari item
-      if (item.details && Array.isArray(item.details)) {
-        item.details = item.details.map(d => ({
-          ...d,
-          pOSerialNumber: d.pOSerialNumber || d.poSerialNumber || ''
-        }));
+    // Ambil garmentInvoiceId dari hasil search (internal note list)
+    const firstItem = (this.selectedNotaIntern.items && this.selectedNotaIntern.items[0]) ? this.selectedNotaIntern.items[0] : null;
+    const garmentInvoice = firstItem && firstItem.garmentInvoice ? firstItem.garmentInvoice : null;
+    if (!garmentInvoice || !garmentInvoice.Id) {
+      alert('Garment Invoice tidak ditemukan pada Nota Intern yang dipilih');
+      return;
+    }
+
+    try {
+      // Sekarang memanggil endpoint invoice (getInternNoteById sudah diarahkan ke garment-invoices)
+      const response = await this.service.getInternNoteById(garmentInvoice.Id);
+      const invoiceDetail = response.data || response || {};
+
+      // Bentuk objek gabungan untuk kebutuhan tabel (prioritas tampil invoice terlebih dahulu)
+      const merged = {
+        // Field dari Nota Intern (fallback agar kolom tidak kosong)
+        inNo: invoiceDetail.internNoteNo || this.selectedNotaIntern.inNo || '',
+        inDate: this.selectedNotaIntern.inDate || '',
+        supplierName: (this.selectedNotaIntern.supplier && this.selectedNotaIntern.supplier.Name) ? this.selectedNotaIntern.supplier.Name : '',
+        CreatedBy: this.selectedNotaIntern.CreatedBy || invoiceDetail.CreatedBy || '',
+        // Field invoice
+        invoiceNo: invoiceDetail.invoiceNo || invoiceDetail.InvoiceNo || garmentInvoice.invoiceNo || '',
+        invoiceDate: invoiceDetail.invoiceDate || invoiceDetail.InvoiceDate || '',
+        totalAmount: invoiceDetail.totalAmount || invoiceDetail.grandTotal || invoiceDetail.GrandTotalAmount || '',
+        remark: invoiceDetail.remark || '',
+        currencyCode: (invoiceDetail.currency && invoiceDetail.currency.Code) ? invoiceDetail.currency.Code : '',
+        // Jenis PPN (vat rate) diambil dari beberapa kemungkinan properti
+        vatRate: (function(det){
+          if (det.vatRate != null) return det.vatRate;
+          if (det.vat && (det.vat.rate != null)) return det.vat.rate;
+          if (det.vat && (det.vat.Rate != null)) return det.vat.Rate;
+          if (det.VatRate != null) return det.VatRate;
+          return null;
+        })(invoiceDetail),
+        // Jumlah PPN dihitung (jika tersedia) = totalAmount * (vatRate/100)
+        vatAmount: (function(det){
+          let rate = null;
+          if (det.vatRate != null) rate = det.vatRate; else if (det.vat && det.vat.rate != null) rate = det.vat.rate; else if (det.vat && det.vat.Rate != null) rate = det.vat.Rate; else if (det.VatRate != null) rate = det.VatRate;
+          const total = det.totalAmount || det.grandTotal || det.GrandTotalAmount;
+          const numTotal = typeof total === 'string' ? Number(total.replace(/[,]/g,'')) : Number(total);
+          const numRate = Number(rate);
+          if (!isNaN(numTotal) && !isNaN(numRate)) {
+            return +(numTotal * (numRate/100)).toFixed(2);
+          }
+          return null;
+        })(invoiceDetail),
+        // Simpan kedua ID eksplisit
+        garmentInvoiceId: invoiceDetail.Id || garmentInvoice.Id || null,
+        garmentInternNoteId: this.selectedNotaIntern.Id || null,
+        // Pertahankan Id untuk kompatibilitas lama (pakai invoice Id agar tidak bentrok)
+        Id: invoiceDetail.Id || garmentInvoice.Id || this.selectedNotaIntern.Id,
+        // Simpan struktur items agar detailFormatter tetap bisa berjalan (gunakan items dari invoice jika ada, fallback ke nota intern)
+        items: invoiceDetail.items && invoiceDetail.items.length ? invoiceDetail.items : (this.selectedNotaIntern.items || [])
+      };
+
+      // Normalisasi pOSerialNumber di dalam details bila struktur menyerupai sebelumnya
+      if (merged.items && merged.items.length) {
+        merged.items.forEach(item => {
+          if (item.details && Array.isArray(item.details)) {
+            item.details = item.details.map(d => {
+              // Hitung paymentDueDate jika belum ada (invoiceDate + paymentDueDays)
+              let paymentDueDate = d.paymentDueDate;
+              if (!paymentDueDate) {
+                const baseDateStr = merged.invoiceDate || invoiceDetail.invoiceDate;
+                if (baseDateStr && d.paymentDueDays) {
+                  const baseDate = new Date(baseDateStr);
+                  if (!isNaN(baseDate)) {
+                    baseDate.setDate(baseDate.getDate() + d.paymentDueDays);
+                    paymentDueDate = baseDate.toISOString();
+                  }
+                }
+              }
+              return {
+                ...d,
+                paymentDueDate, // baru atau existing
+                pOSerialNumber: d.pOSerialNumber || d.poSerialNumber || '',
+                unit: d.unit ? d.unit : (d.uoms ? { Name: d.uoms.Unit } : undefined), // agar kolom Diterima Unit tidak kosong total
+                // Inject deliveryOrder reference agar detailFormatter bisa akses paymentMethod & paymentType
+                deliveryOrder: d.deliveryOrder || item.deliveryOrder || undefined,
+              };
+            });
+          }
+        });
       }
 
-      this.selectedViewData = [detail];
-      // Trigger refresh pada child au-table
+      this.selectedNotaInternDetail = merged; // Simpan untuk proses lanjut (cek compare)
+      this.selectedViewData = [merged];
+
       if (window.table && typeof window.table.refresh === 'function') {
         window.table.refresh();
       }
-    } else {
-      this.selectedViewData = [];
-      this.selectedNotaInternDetail = null;
+    } catch (e) {
+      alert('Gagal mengambil data Garment Invoice: ' + (e && e.message ? e.message : e));
     }
   }
 
@@ -182,18 +246,28 @@ export class CompareDocAi {
 
   // Handler tombol Cek NI dan Invoice External
   cekNiInvoiceExternal() {
-    // Validasi hasil pencarian detail Nota Intern
-    if (!this.selectedNotaInternDetail || !this.selectedNotaInternDetail.Id) {
-      alert('Maaf anda harus mencari No Nota Intern terlebih dahulu');
+    if (!this.selectedNotaInternDetail) {
+      alert('Maaf anda harus mencari data terlebih dahulu');
       return;
     }
-    const items = this.selectedNotaInternDetail.items || [];
-    if (!items.length || !items[0].garmentInvoice || !items[0].garmentInvoice.Id) {
-      alert('Maaf data Invoice tidak ditemukan pada Nota Intern yang dipilih');
+    const garmentInvoiceId = this.selectedNotaInternDetail.garmentInvoiceId;
+    const garmentInternNoteId = this.selectedNotaInternDetail.garmentInternNoteId;
+    // console.log('[cekNiInvoiceExternal] Collected IDs', {
+    //   garmentInvoiceId,
+    //   garmentInternNoteId,
+    //   selectedNotaInternDetailId: this.selectedNotaInternDetail.Id,
+    //   mergedObject: this.selectedNotaInternDetail
+    // });
+    if (!garmentInvoiceId) {
+      // console.warn('[cekNiInvoiceExternal] garmentInvoiceId missing');
+      alert('Maaf data Invoice tidak ditemukan');
       return;
     }
-    const garmentInternNoteId = this.selectedNotaInternDetail.Id;
-    const garmentInvoiceId = items[0].garmentInvoice.Id;
+    if (!garmentInternNoteId) {
+      // console.warn('[cekNiInvoiceExternal] garmentInternNoteId missing');
+      alert('Maaf data Nota Intern tidak ditemukan');
+      return;
+    }
     
     // Selalu ambil hasil edit dari pdfUploaderComponent jika ada scannedData
     let postData = {};

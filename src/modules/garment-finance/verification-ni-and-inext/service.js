@@ -6,6 +6,7 @@ import { RestService } from '../../../utils/rest-service';
 
 const serviceUri = 'garment-invoice-external-revision';
 const serviceInternNotesUri = 'garment-intern-notes';
+const serviceInvoiceGarmentUri = 'garment-invoices';
 const scanInvoiceExternalUri = 'garment-invoice-external-revision/scan-invoice-external';
 const compareInternalNoteInvoiceExternalUri = 'garment-purchasing-expeditions/compare-internal-note-external-purchase-order';
 
@@ -75,6 +76,7 @@ export class Service extends RestService {
      */
     searchInternNotes(info) {
         const endpoint = serviceInternNotesUri;
+        //const endpoint = `${serviceInvoiceGarmentUri}`;
         return this.purchasingService.list(endpoint, info);
     }
 
@@ -83,7 +85,8 @@ export class Service extends RestService {
      * @param {string} id - Nota Intern ID
      */
     getInternNoteById(id) {
-        const endpoint = `${serviceInternNotesUri}/${id}`;
+    // Menggunakan endpoint invoice garment sesuai permintaan
+    const endpoint = `${serviceInvoiceGarmentUri}/${id}`;
         return this.purchasingService.get(endpoint);
     }
 

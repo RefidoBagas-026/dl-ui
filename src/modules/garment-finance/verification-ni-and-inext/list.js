@@ -135,6 +135,25 @@ export class List {
     { field: 'invoiceNo', title: 'Invoice', width: 150, align: 'left', sortable: true },
     { field: 'inNo', title: 'No NI', width: 150, align: 'left', sortable: true },
     { field: 'supplierName', title: 'Nama Supplier', width: 200, align: 'left', sortable: true },
+    { field: 'vatRate', title: 'Nilai PPN', width: 120, align: 'right', sortable: true, formatter: (value) => {
+      if (value == null || value === '') return '';
+      const num = Number(value);
+      if (isNaN(num)) return value;
+      // Hilangkan .00; kalau punya desimal lain tampilkan tanpa trailing zero berlebihan
+      let display = num.toFixed(2); // two decimals
+      if (display.endsWith('.00')) {
+        display = display.slice(0, -3);
+      } else {
+        display = parseFloat(display).toString(); // trim trailing zeros
+      }
+      return display + '%';
+    }},
+    { field: 'totalVat', title: 'Jumlah PPN', width: 120, align: 'right', sortable: true, formatter: (value) => {
+      if (value == null || value === '') return '';
+      const num = Number(value);
+      if (isNaN(num)) return value;
+      return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }},
     { field: 'totalAmount', title: 'Total Amount', width: 120, align: 'right', sortable: true, formatter: (value) => {
       if (value == null || value === '') return '';
       const num = Number(value);
