@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
-    <title><%- htmlWebpackPlugin.options.metadata.title %></title>
+    <title>Test Splash Screen</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
-    <!-- imported CSS are concatenated and added automatically -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     
-    <!-- Inline Splash Screen Styles -->
-    <style>
+    <!-- Inline Splash Screen Styles -        updateProgress(value, text) {
+          this.currentProgress = Math.max(this.currentProgress, Math.min(value, 100));
+          this.progressBar.style.width = this.currentProgress + '%';
+          if (text) {
+            // Hapus bagian persentase, hanya tampilkan teks loading saja
+            this.progressText.innerHTML = '<span class="loading-dots">' + text + '</span>';
+          }
+          console.log('Progress: ' + this.currentProgress + '%');
+        }style>
       /* Splash Screen Styles */
       .splash-screen {
         position: fixed;
@@ -72,10 +76,9 @@
         background: linear-gradient(90deg, #ffffff 0%, #e6f3ff 50%, #ffffff 100%);
         width: 0%;
         border-radius: 20px;
-        transition: width 0.5s ease-out;
+        transition: width 0.3s ease-out;
         position: relative;
         box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
-        opacity: 0.95;
       }
 
       .progress-bar-fill::before {
@@ -85,25 +88,8 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%);
+        background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
         animation: shimmer 2s linear infinite;
-        border-radius: 20px;
-      }
-
-      .progress-bar-fill::after {
-        content: '';
-        position: absolute;
-        top: 1px;
-        left: 1px;
-        right: 1px;
-        bottom: 1px;
-        background: linear-gradient(90deg, 
-          rgba(255, 255, 255, 0.9) 0%, 
-          rgba(230, 243, 255, 0.8) 30%,
-          rgba(255, 255, 255, 0.7) 70%,
-          rgba(255, 255, 255, 0.9) 100%
-        );
-        border-radius: 18px;
       }
 
       .progress-text {
@@ -162,9 +148,9 @@
         .progress-text { font-size: 12px; }
       }
     </style>
-  </head>
-  <body aurelia-app="main">
-    <!-- New Splash Screen -->
+</head>
+<body>
+    <!-- Splash Screen -->
     <div id="splash-screen" class="splash-screen">
       <div class="splash-logo-container">
         <svg class="splash-logo" viewBox="0 0 225 225" xmlns="http://www.w3.org/2000/svg">
@@ -173,7 +159,6 @@
           <path d="M0 0 C-0.33773437 0.76183594 -0.67546875 1.52367187 -1.0234375 2.30859375 C-1.46945313 3.34113281 -1.91546875 4.37367187 -2.375 5.4375 C-2.81585938 6.44683594 -3.25671875 7.45617187 -3.7109375 8.49609375 C-9.88362853 25.27459027 -6.97232684 41.40822897 -3.22485352 58.4296875 C0.18433513 74.06617093 0.46520374 87.35763962 -3 103 C-1.42025391 102.50113281 -1.42025391 102.50113281 0.19140625 101.9921875 C7.68010972 100.04128424 13.48119798 101.46690313 20.12109375 105.12890625 C23.2172704 106.56434781 25.67678247 106.51126424 29 106 C31.58333333 104.58333333 31.58333333 104.58333333 33 102 C33.33417929 98.3324787 33.33417929 98.3324787 33 95 C32.29875 95.495 31.5975 95.99 30.875 96.5 C27.48749667 98.26739304 25.7664742 98.6277457 22 98 C18.51509139 95.44440035 17.21599203 93.69879775 15.9375 89.5625 C16.01755098 84.99959389 16.89495729 83.33224095 20 80 C23.90441691 77.67594232 27.15108116 76.97122309 31.6875 77.125 C35.80554217 78.21278472 38.67604058 79.0653253 41.16015625 82.6953125 C44.74065409 89.24030855 45.7516884 94.9954551 43.8125 102.1875 C41.72754282 108.3385954 38.87531547 112.06234226 33 115 C23.75580137 117.95071519 13.45817885 116.07389804 4.25 114 C-8.22795976 111.21564202 -20.37218317 111.24296214 -33 113 C-32.27683594 111.67548828 -32.27683594 111.67548828 -31.5390625 110.32421875 C-21.65485174 91.75522371 -23.82402428 74.3083497 -26.86376953 54.15014648 C-31.56727261 22.66867245 -31.56727261 22.66867245 -23.9375 10.25 C-18.77988301 3.65884596 -8.41592214 -2.49563059 0 0 Z " fill="#1863B0" transform="translate(142,45)"/>
           <path d="M0 0 C0.495 0.99 0.495 0.99 1 2 C0.14274739 4.25179734 -0.77375891 6.42553383 -1.75 8.625 C-8.96011254 25.74536843 -9.87424765 43.84743116 -4.953125 61.82421875 C-1.48290193 75.27580507 -3.22689046 90.76796029 -9.54296875 102.984375 C-15.54189526 113.14274026 -22.92352373 118.9932627 -34 123 C-44.44264818 125.54976013 -53.98638255 124.10138875 -63.2578125 118.6796875 C-70.47013962 113.66122414 -76.02222402 106.65276991 -78 98 C-79.68219718 87.07973666 -79.34031639 76.40637984 -73 67 C-67.76229469 60.35071453 -61.86325306 56.91492789 -54 54 C-53.31292969 53.7421875 -52.62585938 53.484375 -51.91796875 53.21875 C-48.25580423 52.00600707 -45.58815087 51.52121309 -42 53 C-40.61696775 55.70906317 -39.62339026 58.08044186 -38.6875 60.9375 C-38.42388672 61.67935547 -38.16027344 62.42121094 -37.88867188 63.18554688 C-36 68.59646916 -36 68.59646916 -36 71 C-36.94101563 71.09796875 -37.88203125 71.1959375 -38.8515625 71.296875 C-47.43808987 72.32796938 -52.19807424 73.09246519 -58.25 79.3125 C-62.57814218 85.95928978 -62.47145071 92.45219887 -61 100 C-59.37488698 105.06018604 -57.38094199 109.77871912 -53 113 C-45.00841743 116.45091065 -37.2063855 116.67745041 -29 114 C-23.0804667 111.20372522 -20.23493013 107.04392396 -18 101 C-14.02915798 87.9226936 -19.82020197 75.0407082 -24.48657227 62.98828125 C-29.30517509 50.35312682 -32.18667448 34.35609095 -27.4375 21.25 C-22.53585862 11.51527166 -14.210517 4.59234483 -3.9375 1.125 C-2.62912767 0.7358431 -1.31799511 0.35520436 0 0 Z " fill="#2159A6" transform="translate(115,42)"/>
           <path d="M0 0 C17.49744297 16.39144577 29.63871783 38.98169493 32.875 62.8125 C32.98457031 63.61558594 33.09414062 64.41867188 33.20703125 65.24609375 C36.49205221 93.32207287 28.81762402 120.93862616 11.69140625 143.3671875 C-5.58556724 164.98346516 -30.39944231 180.40383571 -58.125 183.8125 C-73.74938781 185.0031168 -89.18380335 184.80377312 -104.125 179.8125 C-105.26453125 179.43867188 -106.4040625 179.06484375 -107.578125 178.6796875 C-134.11091676 169.18572647 -156.20784556 149.9619307 -168.4375 124.5 C-180.09315081 99.22491183 -182.54604908 69.23148216 -173.125 42.8125 C-162.42161668 14.78969091 -142.4963918 -6.65655484 -115.296875 -19.3984375 C-75.86275221 -36.88967823 -32.16618702 -27.31091351 0 0 Z M-150.1875 11 C-168.14168658 31.82540266 -176.62243498 58.81214906 -174.9140625 86.15234375 C-173.11449935 106.9768885 -165.42729313 126.63920835 -152.125 142.8125 C-151.32578125 143.78703125 -150.5265625 144.7615625 -149.703125 145.765625 C-133.94863969 164.25976242 -110.44084215 177.34856103 -86.125 179.8125 C-52.82435043 181.25437197 -25.97316068 174.46413819 -1.125 151.8125 C-0.45984375 151.22984375 0.2053125 150.6471875 0.890625 150.046875 C19.37491422 132.94458871 28.64557139 106.94921503 30.078125 82.3203125 C30.44943327 55.5242326 22.14524502 29.75180492 3.875 9.8125 C2.64330078 8.44158203 2.64330078 8.44158203 1.38671875 7.04296875 C-17.5010215 -12.964045 -42.90405571 -22.61853195 -70.01953125 -24.375 C-101.06852934 -25.11980355 -129.17080392 -11.43168156 -150.1875 11 Z " fill="#3F78AF" transform="translate(185.125,34.1875)"/>
-          <!-- Additional paths from the original logo -->
           <path d="M0 0 C0 2 0 4 0 6 C-2.01171875 7.3671875 -2.01171875 7.3671875 -4.6875 8.875 C-14.31162306 14.51952787 -19.99343276 20.833403 -23.39794922 31.57592773 C-24.38151194 35.53610383 -24.53271152 39.37092039 -24.5 43.4375 C-24.49427979 44.26934814 -24.48855957 45.10119629 -24.48266602 45.95825195 C-24.28881254 52.62824735 -23.04156668 57.57363255 -19 63 C-18.49210937 63.71285156 -17.98421875 64.42570312 -17.4609375 65.16015625 C-10.25946526 74.28998479 -0.05458976 78.91344923 11.34375 80.28125 C21.8949583 80.7270757 30.24392106 75.99966767 38.99609375 70.7421875 C42 69 42 69 45 68 C44.34 70.64 43.68 73.28 43 76 C43.95777344 75.71125 44.91554688 75.4225 45.90234375 75.125 C62.02080091 70.51621194 76.30535728 71.70195524 92.65185547 74.57617188 C103.57210256 76.45845339 113.61515829 77.85596906 123.125 71.3125 C128.00493244 67.4962622 130.73631579 63.11950779 132 57 C132.85856873 49.89217694 131.57782651 43.22272514 128 37 C123.60753438 32.51090013 118.47516926 30.12071012 112.19921875 29.8359375 C106.68620764 30.24721009 103.12665241 31.96923291 99.0625 35.6875 C95.57676955 41.28579436 95.58979744 45.77908311 96.9375 52 C97.288125 53.32 97.63875 54.64 98 56 C94.37 56 90.74 56 87 56 C87.309375 54.411875 87.61875 52.82375 87.9375 51.1875 C88.98321516 45.47685695 89.57468311 39.78654818 90 34 C90.33 34 90.66 34 91 34 C91.33 32.02 91.66 30.04 92 28 C92.66 28.33 93.32 28.66 94 29 C94.495 30.485 94.495 30.485 95 32 C95.721875 31.21625 96.44375 30.4325 97.1875 29.625 C102.28308942 24.86911655 107.10642814 24.49211038 113.8671875 24.625 C121.46163747 25.53406134 127.48998456 29.63545972 132.59765625 35.17578125 C136.6549706 40.45368042 138.34987926 46.68204388 137.65234375 53.296875 C135.90262685 61.74905937 133.88697703 70.00156424 126.9375 75.6875 C120.90854897 79.58858596 116.03484544 80.19280331 109 80.1875 C108.11151367 80.18814453 107.22302734 80.18878906 106.30761719 80.18945312 C100.23021972 80.1421582 94.28234837 79.71693648 88.25 79 C69.3099232 76.78938382 52.51165511 77.9266333 35 86 C33.515 86.495 33.515 86.495 32 87 C32.165 86.38125 32.33 85.7625 32.5 85.125 C33.07634644 83.03936614 33.07634644 83.03936614 33 81 C32.3915625 81.28875 31.783125 81.5775 31.15625 81.875 C21.23040954 86.07888537 10.36401835 86.81365549 0.0625 83.375 C-7.28466337 80.24831243 -13.64925869 75.94526813 -19 70 C-19.845625 69.071875 -20.69125 68.14375 -21.5625 67.1875 C-29.2950745 57.70415391 -30.82597181 46.94381458 -30 35 C-28.14661674 23.17884125 -22.35906442 12.50763425 -13 5 C-8.5628743 2.00292992 -5.43282402 0 0 0 Z " fill="#346EB4" transform="translate(58,88)"/>
         </svg>
       </div>
@@ -187,238 +172,95 @@
         </div>
       </div>
     </div>
-
-    <!-- Old splash screen as fallback -->
-    <div class="splash" style="display: none;">
-      <div class="message"><%- htmlWebpackPlugin.options.metadata.title %></div>
-      <i class="fa fa-spinner fa-spin"></i>
-    </div>
     
-    <!-- Inline Splash Screen JavaScript -->
     <script>
-      (function() {
-        'use strict';
-
-        class SplashScreenManager {
-          constructor() {
-            this.progressBar = null;
-            this.progressText = null;
-            this.splashScreen = null;
-            this.currentProgress = 0;
-            this.loadedResources = 0;
-            this.totalResources = 0;
-            this.isInitialized = false;
-            this.simulationSteps = [];
-            this.currentStepIndex = 0;
-            this.stepInterval = null;
+      // Enhanced demo script with realistic progress
+      class DemoProgressManager {
+        constructor() {
+          this.currentProgress = 0;
+          this.progressBar = document.getElementById('progress-fill');
+          this.progressText = document.getElementById('progress-text');
+          this.stepIndex = 0;
+          this.loadedResources = 0;
+          this.totalResources = 12;
+        }
+        
+        updateProgress(value, text) {
+          this.currentProgress = Math.max(this.currentProgress, Math.min(value, 100));
+          this.progressBar.style.width = this.currentProgress + '%';
+          if (text) {
+            const displayText = text + ` (${Math.round(this.currentProgress)}%)`;
+            this.progressText.innerHTML = '<span class="loading-dots">' + displayText + '</span>';
           }
-
-          init() {
-            if (this.isInitialized) return;
-            
-            this.splashScreen = document.getElementById('splash-screen');
-            this.progressBar = document.getElementById('progress-fill');
-            this.progressText = document.getElementById('progress-text');
-            
-            // Start immediately
-            this.updateProgress(0, 'Memulai...');
-            
-            // Start progress simulation after DOM elements are ready
-            setTimeout(() => {
-              this.setupProgressSteps();
-              this.trackResourceLoading();
-              this.startProgressAnimation();
-            }, 100);
-            
-            this.isInitialized = true;
-          }
-
-          setupProgressSteps() {
-            this.simulationSteps = [
-              { progress: 5, text: 'Memuat aplikasi', minDelay: 200 },
-              { progress: 15, text: 'Menginisialisasi framework', minDelay: 400 },
-              { progress: 30, text: 'Memuat komponen', minDelay: 600 },
-              { progress: 50, text: 'Memuat resource', minDelay: 800 },
-              { progress: 70, text: 'Menyiapkan antarmuka', minDelay: 500 },
-              { progress: 85, text: 'Konfigurasi sistem', minDelay: 400 },
-              { progress: 95, text: 'Finalisasi', minDelay: 300 }
-            ];
-          }
-
-          trackResourceLoading() {
-            // Track existing resources
-            const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
-            const scripts = document.querySelectorAll('script[src]');
-            
-            this.totalResources = Math.max(stylesheets.length + scripts.length + 8, 15);
-            
-            // Add load event listeners
-            stylesheets.forEach(link => {
-              if (link.sheet) {
-                this.onResourceLoaded('CSS loaded');
-              } else {
-                link.addEventListener('load', () => this.onResourceLoaded('CSS loaded'));
-                link.addEventListener('error', () => this.onResourceLoaded('CSS error'));
-              }
-            });
-
-            scripts.forEach(script => {
-              script.addEventListener('load', () => this.onResourceLoaded('Script loaded'));
-              script.addEventListener('error', () => this.onResourceLoaded('Script error'));
-            });
-
-            // Track window load
-            if (document.readyState === 'complete') {
-              this.onResourceLoaded('Document ready');
-            } else {
-              window.addEventListener('load', () => this.onResourceLoaded('Window loaded'));
-              document.addEventListener('readystatechange', () => {
-                if (document.readyState === 'interactive') {
-                  this.onResourceLoaded('DOM interactive');
-                } else if (document.readyState === 'complete') {
-                  this.onResourceLoaded('DOM complete');
-                }
-              });
-            }
-
-            // Simulate additional resources being loaded
-            setTimeout(() => this.onResourceLoaded('Bootstrap loaded'), 300);
-            setTimeout(() => this.onResourceLoaded('Font Awesome loaded'), 500);
-            setTimeout(() => this.onResourceLoaded('Aurelia framework loaded'), 800);
-            setTimeout(() => this.onResourceLoaded('App modules loaded'), 1200);
-            setTimeout(() => this.onResourceLoaded('Configuration loaded'), 1500);
-          }
-
-          onResourceLoaded(resourceName) {
+          console.log(`Progress: ${this.currentProgress}%`);
+        }
+        
+        simulateResourceLoad(name, delay) {
+          setTimeout(() => {
             this.loadedResources++;
-            console.log('Resource loaded: ' + resourceName + ' (' + this.loadedResources + '/' + this.totalResources + ')');
+            console.log(`Resource loaded: ${name} (${this.loadedResources}/${this.totalResources})`);
             
-            // Update progress based on loaded resources (up to 60% of total progress)
-            const resourceProgress = Math.min((this.loadedResources / this.totalResources) * 60, 60);
-            
+            const resourceProgress = (this.loadedResources / this.totalResources) * 60;
             if (resourceProgress > this.currentProgress) {
-              this.updateProgress(resourceProgress);
+              this.updateProgress(resourceProgress, `Memuat ${name}`);
             }
-          }
-
-          startProgressAnimation() {
-            this.stepInterval = setInterval(() => {
-              if (this.currentStepIndex < this.simulationSteps.length) {
-                const step = this.simulationSteps[this.currentStepIndex];
-                
-                // Only advance if we haven't reached this step yet
-                if (this.currentProgress < step.progress) {
-                  this.updateProgress(step.progress, step.text);
-                }
-                
-                this.currentStepIndex++;
-              } else {
-                // All simulation steps done, check if we can finish
-                if (this.loadedResources >= this.totalResources * 0.8) { // 80% of resources loaded
-                  this.finishLoading();
-                }
-                clearInterval(this.stepInterval);
-              }
-            }, 300); // Update every 300ms for visible progress
-          }
-
-          updateProgress(progress, text) {
-            if (!this.progressBar) return;
-            
-            // Ensure progress only goes forward
-            const newProgress = Math.max(this.currentProgress, Math.min(progress, 100));
-            
-            if (newProgress !== this.currentProgress) {
-              this.currentProgress = newProgress;
-              this.progressBar.style.width = this.currentProgress + '%';
-              
-              console.log('Progress updated: ' + this.currentProgress + '%');
-            }
-            
-            if (text && this.progressText) {
-              // Hapus bagian persentase, hanya tampilkan teks loading saja
-              this.progressText.innerHTML = '<span class="loading-dots">' + text + '</span>';
-            }
-          }
-
-          finishLoading() {
-            if (this.currentProgress < 100) {
-              // Animate to 100%
-              const finalSteps = [
-                { progress: 98, text: 'Menyelesaikan...', delay: 200 },
-                { progress: 100, text: 'Aplikasi siap', delay: 300 }
-              ];
-              
-              let stepIndex = 0;
-              const finishStep = () => {
-                if (stepIndex < finalSteps.length) {
-                  const step = finalSteps[stepIndex];
-                  this.updateProgress(step.progress, step.text);
-                  stepIndex++;
-                  setTimeout(finishStep, step.delay);
-                } else {
-                  this.hideAfterDelay();
-                }
-              };
-              
-              setTimeout(finishStep, 100);
-            } else {
-              this.hideAfterDelay();
-            }
-          }
-
-          hideAfterDelay() {
-            setTimeout(() => {
-              if (this.splashScreen) {
-                this.splashScreen.classList.add('hide');
-                
-                setTimeout(() => {
-                  if (this.splashScreen && this.splashScreen.parentNode) {
-                    this.splashScreen.parentNode.removeChild(this.splashScreen);
-                  }
-                }, 500);
-              }
-            }, 800);
-          }
-
-          markAppReady() {
-            console.log('App marked as ready');
-            if (this.currentProgress < 95) {
-              this.updateProgress(95, 'Aplikasi siap');
-            }
-            
-            setTimeout(() => this.finishLoading(), 200);
-          }
-
-          hide() {
-            this.markAppReady();
-          }
+          }, delay);
         }
-
-        // Initialize immediately
-        window.splashManager = new SplashScreenManager();
-
-        // Start as soon as possible
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', function() {
-            window.splashManager.init();
-          });
-        } else {
-          window.splashManager.init();
+        
+        start() {
+          const steps = [
+            { progress: 5, text: 'Memulai aplikasi', delay: 200 },
+            { progress: 15, text: 'Menginisialisasi framework', delay: 600 },
+            { progress: 30, text: 'Memuat komponen', delay: 400 },
+            { progress: 50, text: 'Memuat resource', delay: 500 },
+            { progress: 70, text: 'Menyiapkan antarmuka', delay: 400 },
+            { progress: 85, text: 'Konfigurasi sistem', delay: 300 },
+            { progress: 95, text: 'Finalisasi', delay: 300 },
+            { progress: 100, text: 'Aplikasi siap', delay: 500 }
+          ];
+          
+          // Simulate resources loading
+          this.simulateResourceLoad('Bootstrap CSS', 300);
+          this.simulateResourceLoad('Font Awesome', 500);
+          this.simulateResourceLoad('jQuery', 700);
+          this.simulateResourceLoad('Aurelia Framework', 900);
+          this.simulateResourceLoad('App Modules', 1200);
+          this.simulateResourceLoad('Configurations', 1400);
+          this.simulateResourceLoad('Templates', 1600);
+          this.simulateResourceLoad('Services', 1800);
+          this.simulateResourceLoad('Components', 2000);
+          this.simulateResourceLoad('Routes', 2200);
+          this.simulateResourceLoad('Translations', 2400);
+          this.simulateResourceLoad('Final Setup', 2600);
+          
+          // Run progress steps
+          let stepIndex = 0;
+          const runStep = () => {
+            if (stepIndex < steps.length) {
+              const step = steps[stepIndex];
+              setTimeout(() => {
+                this.updateProgress(step.progress, step.text);
+                stepIndex++;
+                runStep();
+                
+                // Hide splash screen when complete
+                if (step.progress === 100) {
+                  setTimeout(() => {
+                    document.getElementById('splash-screen').classList.add('hide');
+                  }, 1000);
+                }
+              }, step.delay);
+            }
+          };
+          
+          this.updateProgress(0, 'Memulai...');
+          setTimeout(runStep, 100);
         }
+      }
 
-        // Also try to init immediately if DOM is already ready
-        setTimeout(() => {
-          if (window.splashManager && !window.splashManager.isInitialized) {
-            window.splashManager.init();
-          }
-        }, 50);
-
-      })();
+      // Start demo
+      const demo = new DemoProgressManager();
+      setTimeout(() => demo.start(), 100);
     </script>
-    <% if (htmlWebpackPlugin.options.metadata.ENV === 'development') { %>
-    <!-- Webpack Dev Server reload -->
-    <script src="/webpack-dev-server.js"></script>
-    <% } %>
-  </body>
+</body>
 </html>

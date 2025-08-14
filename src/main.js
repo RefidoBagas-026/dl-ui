@@ -6,6 +6,7 @@ import '../styles/styles.components.css';
 import '../styles/styles.login.css';
 import '../styles/styles.theme.css';
 import '../styles/dashboard.css';
+import '../styles/splash-screen.css';
 import 'bootstrap';
 import authConfig from "../auth-config";
 
@@ -162,6 +163,13 @@ export async function configure(aurelia) {
 
     await aurelia.start();
     aurelia.setRoot('app');
+
+    // Mark app as ready for splash screen
+    setTimeout(() => {
+        if (window.splashManager) {
+            window.splashManager.markAppReady();
+        }
+    }, 1000);
 
     // if you would like your website to work offline (Service Worker), 
     // install and enable the @easy-webpack/config-offline package in webpack.config.js and uncomment the following code:
