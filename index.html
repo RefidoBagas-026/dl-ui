@@ -72,9 +72,10 @@
         background: linear-gradient(90deg, #ffffff 0%, #e6f3ff 50%, #ffffff 100%);
         width: 0%;
         border-radius: 20px;
-        transition: width 0.3s ease-out;
+        transition: width 0.5s ease-out;
         position: relative;
         box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+        opacity: 0.95;
       }
 
       .progress-bar-fill::before {
@@ -84,8 +85,25 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+        background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%);
         animation: shimmer 2s linear infinite;
+        border-radius: 20px;
+      }
+
+      .progress-bar-fill::after {
+        content: '';
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        right: 1px;
+        bottom: 1px;
+        background: linear-gradient(90deg, 
+          rgba(255, 255, 255, 0.9) 0%, 
+          rgba(230, 243, 255, 0.8) 30%,
+          rgba(255, 255, 255, 0.7) 70%,
+          rgba(255, 255, 255, 0.9) 100%
+        );
+        border-radius: 18px;
       }
 
       .progress-text {
@@ -149,51 +167,14 @@
     <!-- New Splash Screen -->
     <div id="splash-screen" class="splash-screen">
       <div class="splash-logo-container">
-        <svg class="splash-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <!-- Outer circle -->
-          <circle class="logo-circle" cx="100" cy="100" r="90" 
-                  fill="none" stroke="#ffffff" stroke-width="3" opacity="0.8"/>
-          
-          <!-- Inner circle -->
-          <circle class="logo-circle" cx="100" cy="100" r="70" 
-                  fill="none" stroke="#ffffff" stroke-width="2" opacity="0.6"/>
-          
-          <!-- Letter L design based on your logo -->
-          <g class="logo-letter">
-            <!-- Main L curve -->
-            <path d="M 60 60 Q 80 45 100 60 Q 120 75 140 60 Q 160 45 170 70 Q 165 90 150 100 Q 130 110 120 130 Q 110 150 100 140 Q 90 130 85 110 Q 80 90 70 85 Q 60 80 60 60 Z" 
-                  fill="#ffffff" opacity="0.9"/>
-            
-            <!-- Inner curve detail -->
-            <path d="M 80 80 Q 95 70 110 80 Q 125 90 130 100 Q 125 110 115 115 Q 105 120 100 110 Q 95 100 90 95 Q 85 90 80 80 Z" 
-                  fill="#1a4d72" opacity="0.8"/>
-            
-            <!-- Bottom curl -->
-            <circle cx="120" cy="130" r="15" fill="#ffffff" opacity="0.7"/>
-            <circle cx="120" cy="130" r="8" fill="#1a4d72" opacity="0.8"/>
-            
-            <!-- Left curl -->
-            <circle cx="70" cy="85" r="12" fill="#ffffff" opacity="0.7"/>
-            <circle cx="70" cy="85" r="6" fill="#1a4d72" opacity="0.8"/>
-            
-            <!-- Right top curve -->
-            <circle cx="150" cy="75" r="10" fill="#ffffff" opacity="0.7"/>
-            <circle cx="150" cy="75" r="5" fill="#1a4d72" opacity="0.8"/>
-          </g>
-          
-          <!-- Decorative dots -->
-          <circle cx="50" cy="100" r="3" fill="#ffffff" opacity="0.6">
-            <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="150" cy="100" r="3" fill="#ffffff" opacity="0.6">
-            <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="0.5s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="100" cy="50" r="3" fill="#ffffff" opacity="0.6">
-            <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="1s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="100" cy="150" r="3" fill="#ffffff" opacity="0.6">
-            <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="1.5s" repeatCount="indefinite"/>
-          </circle>
+        <svg class="splash-logo" viewBox="0 0 225 225" xmlns="http://www.w3.org/2000/svg">
+          <!-- DanLiris Original Logo from logo-transparent.svg -->
+          <path d="M0 0 C1 3 1 3 0.0625 5.1875 C-0.288125 5.785625 -0.63875 6.38375 -1 7 C-0.37996094 6.7834375 0.24007812 6.566875 0.87890625 6.34375 C9.10141882 3.75850587 16.46212439 3.68890332 25 4 C26 6 26 6 25.42675781 7.87255859 C25.10545898 8.62359863 24.78416016 9.37463867 24.453125 10.1484375 C23.92912109 11.39911011 23.92912109 11.39911011 23.39453125 12.67504883 C23.01683594 13.56603271 22.63914062 14.4570166 22.25 15.375 C13.62236478 36.59144464 12.9872468 55.71493113 18.51269531 77.9375 C19.60788493 82.57285164 20.28604408 87.29352745 21 92 C21.721875 91.21625 22.44375 90.4325 23.1875 89.625 C28.28308942 84.86911655 33.10642814 84.49211038 39.8671875 84.625 C47.46163747 85.53406134 53.48998456 89.63545972 58.59765625 95.17578125 C62.6549706 100.45368042 64.34987926 106.68204388 63.65234375 113.296875 C61.90262685 121.74905937 59.88697703 130.00156424 52.9375 135.6875 C46.90854897 139.58858596 42.03484544 140.19280331 35 140.1875 C34.11151367 140.18814453 33.22302734 140.18878906 32.30761719 140.18945312 C26.23021972 140.1421582 20.28234837 139.71693648 14.25 139 C-4.6900768 136.78938382 -21.48834489 137.9266333 -39 146 C-39.99 146.33 -40.98 146.66 -42 147 C-41.835 146.38125 -41.67 145.7625 -41.5 145.125 C-40.92365356 143.03936614 -40.92365356 143.03936614 -41 141 C-41.91265625 141.433125 -41.91265625 141.433125 -42.84375 141.875 C-52.76959046 146.07888537 -63.63598165 146.81365549 -73.9375 143.375 C-81.28466337 140.24831243 -87.64925869 135.94526813 -93 130 C-93.845625 129.071875 -94.69125 128.14375 -95.5625 127.1875 C-103.2950745 117.70415391 -104.82597181 106.94381458 -104 95 C-102.18077815 83.39672785 -96.47953403 72.13222084 -87 65 C-77.61688768 59.33430211 -68.1637497 55.41243423 -57 56 C-57.03480469 55.42894531 -57.06960937 54.85789063 -57.10546875 54.26953125 C-57.55854838 40.69871765 -53.72016935 27.9606093 -44.5 17.8125 C-32.10869167 6.42463095 -16.34021743 2.06700487 0 0 Z M-39 20 C-47.39194391 28.43908966 -50.49780686 38.2160063 -51.25 49.875 C-51.01364624 63.84350697 -46.67588254 76.99510394 -42 90 C-36.22588013 106.06865163 -36.22588013 106.06865163 -39.953125 115.140625 C-42.60706722 119.85434328 -46.97042953 122.31357091 -52 124 C-58.08244203 124.68172931 -63.97525094 124.82838023 -69 121 C-73.03152234 116.72186858 -74.35184223 112.72256913 -74.5625 106.875 C-74.32739871 101.82985337 -73.57356837 98.76165092 -70 95 C-64.54128504 90.87811319 -60.56173731 89.87093726 -53.8125 89.4375 C-52.54019531 89.35371094 -51.26789063 89.26992187 -49.95703125 89.18359375 C-48.98121094 89.12300781 -48.00539062 89.06242187 -47 89 C-48.61663755 82.30655329 -50.68167789 75.8299949 -53.0625 69.375 C-53.3198291 68.66408203 -53.5771582 67.95316406 -53.84228516 67.22070312 C-55.05065714 63.40397369 -55.05065714 63.40397369 -58 61 C-67.59670217 62.6256096 -76.06505162 65.19319869 -84 71 C-85.0725 71.763125 -86.145 72.52625 -87.25 73.3125 C-95.06354598 80.94846539 -99.28379564 90.10277854 -99.51953125 101.03955078 C-99.51308594 101.83087402 -99.50664063 102.62219727 -99.5 103.4375 C-99.49355469 104.27007324 -99.48710938 105.10264648 -99.48046875 105.96044922 C-99.28186958 112.64095955 -98.07919543 117.58092285 -94 123 C-93.12794922 124.17949219 -93.12794922 124.17949219 -92.23828125 125.3828125 C-84.56960868 134.80921327 -74.67366844 139.83915979 -62.65625 141.28125 C-49.97942111 141.81689066 -39.1637343 134.77582287 -29 128 C-29.99 130.97 -30.98 133.94 -32 137 C-30.45505859 136.566875 -30.45505859 136.566875 -28.87890625 136.125 C-12.3770193 131.72083974 1.91028156 132.63266516 18.65209961 135.57617188 C29.51865403 137.44934221 39.57922643 138.86170013 49.0625 132.375 C54.14413452 128.40314773 57.75850007 123.39372463 59 117 C59.86237594 109.86065822 58.47908991 103.29549602 55 97 C50.88296533 92.51680824 46.0179646 89.96717288 40 89 C33.19206659 89.02608404 29.05959125 90.98721764 24.25 95.6875 C21.55434582 99.13147459 20.82315753 102.67539784 21 107 C21.48176196 109.76776968 22.18094213 112.30192703 23 115 C18.05 115.495 18.05 115.495 13 116 C13.32097656 114.85015625 13.64195312 113.7003125 13.97265625 112.515625 C15.02469453 108.26274395 15.42207406 104.12566532 15.4375 99.75 C15.44136719 98.94844482 15.44523437 98.14688965 15.44921875 97.32104492 C15.31418939 89.81355309 13.9514877 82.66191294 12.5 75.3125 C7.80443042 51.18230798 8.82461998 31.09000118 20 9 C8.78435445 8.34876897 -0.41949999 9.94276358 -10 16 C-9.34 13.36 -8.68 10.72 -8 8 C-18.81515404 8 -30.77906415 13.16754997 -39 20 Z M-69 100.1875 C-70.43011999 104.20971247 -70.67565674 107.78271399 -70 112 C-67.92253486 116.08073511 -66.24881128 118.3397185 -62 120 C-57.15193986 120.55633477 -52.56246688 120.61847647 -48 118.8125 C-43.69474475 114.91086243 -42.40411398 111.02012091 -41.9296875 105.35546875 C-42.04899125 101.35879315 -43.21311036 98.57377928 -45 95 C-53.59414639 92.13528454 -62.77391661 93.3777213 -69 100.1875 Z " fill="#3274B8" transform="translate(132,28)"/>
+          <path d="M0 0 C-0.33773437 0.76183594 -0.67546875 1.52367187 -1.0234375 2.30859375 C-1.46945313 3.34113281 -1.91546875 4.37367187 -2.375 5.4375 C-2.81585938 6.44683594 -3.25671875 7.45617187 -3.7109375 8.49609375 C-9.88362853 25.27459027 -6.97232684 41.40822897 -3.22485352 58.4296875 C0.18433513 74.06617093 0.46520374 87.35763962 -3 103 C-1.42025391 102.50113281 -1.42025391 102.50113281 0.19140625 101.9921875 C7.68010972 100.04128424 13.48119798 101.46690313 20.12109375 105.12890625 C23.2172704 106.56434781 25.67678247 106.51126424 29 106 C31.58333333 104.58333333 31.58333333 104.58333333 33 102 C33.33417929 98.3324787 33.33417929 98.3324787 33 95 C32.29875 95.495 31.5975 95.99 30.875 96.5 C27.48749667 98.26739304 25.7664742 98.6277457 22 98 C18.51509139 95.44440035 17.21599203 93.69879775 15.9375 89.5625 C16.01755098 84.99959389 16.89495729 83.33224095 20 80 C23.90441691 77.67594232 27.15108116 76.97122309 31.6875 77.125 C35.80554217 78.21278472 38.67604058 79.0653253 41.16015625 82.6953125 C44.74065409 89.24030855 45.7516884 94.9954551 43.8125 102.1875 C41.72754282 108.3385954 38.87531547 112.06234226 33 115 C23.75580137 117.95071519 13.45817885 116.07389804 4.25 114 C-8.22795976 111.21564202 -20.37218317 111.24296214 -33 113 C-32.27683594 111.67548828 -32.27683594 111.67548828 -31.5390625 110.32421875 C-21.65485174 91.75522371 -23.82402428 74.3083497 -26.86376953 54.15014648 C-31.56727261 22.66867245 -31.56727261 22.66867245 -23.9375 10.25 C-18.77988301 3.65884596 -8.41592214 -2.49563059 0 0 Z " fill="#1863B0" transform="translate(142,45)"/>
+          <path d="M0 0 C0.495 0.99 0.495 0.99 1 2 C0.14274739 4.25179734 -0.77375891 6.42553383 -1.75 8.625 C-8.96011254 25.74536843 -9.87424765 43.84743116 -4.953125 61.82421875 C-1.48290193 75.27580507 -3.22689046 90.76796029 -9.54296875 102.984375 C-15.54189526 113.14274026 -22.92352373 118.9932627 -34 123 C-44.44264818 125.54976013 -53.98638255 124.10138875 -63.2578125 118.6796875 C-70.47013962 113.66122414 -76.02222402 106.65276991 -78 98 C-79.68219718 87.07973666 -79.34031639 76.40637984 -73 67 C-67.76229469 60.35071453 -61.86325306 56.91492789 -54 54 C-53.31292969 53.7421875 -52.62585938 53.484375 -51.91796875 53.21875 C-48.25580423 52.00600707 -45.58815087 51.52121309 -42 53 C-40.61696775 55.70906317 -39.62339026 58.08044186 -38.6875 60.9375 C-38.42388672 61.67935547 -38.16027344 62.42121094 -37.88867188 63.18554688 C-36 68.59646916 -36 68.59646916 -36 71 C-36.94101563 71.09796875 -37.88203125 71.1959375 -38.8515625 71.296875 C-47.43808987 72.32796938 -52.19807424 73.09246519 -58.25 79.3125 C-62.57814218 85.95928978 -62.47145071 92.45219887 -61 100 C-59.37488698 105.06018604 -57.38094199 109.77871912 -53 113 C-45.00841743 116.45091065 -37.2063855 116.67745041 -29 114 C-23.0804667 111.20372522 -20.23493013 107.04392396 -18 101 C-14.02915798 87.9226936 -19.82020197 75.0407082 -24.48657227 62.98828125 C-29.30517509 50.35312682 -32.18667448 34.35609095 -27.4375 21.25 C-22.53585862 11.51527166 -14.210517 4.59234483 -3.9375 1.125 C-2.62912767 0.7358431 -1.31799511 0.35520436 0 0 Z " fill="#2159A6" transform="translate(115,42)"/>
+          <path d="M0 0 C17.49744297 16.39144577 29.63871783 38.98169493 32.875 62.8125 C32.98457031 63.61558594 33.09414062 64.41867188 33.20703125 65.24609375 C36.49205221 93.32207287 28.81762402 120.93862616 11.69140625 143.3671875 C-5.58556724 164.98346516 -30.39944231 180.40383571 -58.125 183.8125 C-73.74938781 185.0031168 -89.18380335 184.80377312 -104.125 179.8125 C-105.26453125 179.43867188 -106.4040625 179.06484375 -107.578125 178.6796875 C-134.11091676 169.18572647 -156.20784556 149.9619307 -168.4375 124.5 C-180.09315081 99.22491183 -182.54604908 69.23148216 -173.125 42.8125 C-162.42161668 14.78969091 -142.4963918 -6.65655484 -115.296875 -19.3984375 C-75.86275221 -36.88967823 -32.16618702 -27.31091351 0 0 Z M-150.1875 11 C-168.14168658 31.82540266 -176.62243498 58.81214906 -174.9140625 86.15234375 C-173.11449935 106.9768885 -165.42729313 126.63920835 -152.125 142.8125 C-151.32578125 143.78703125 -150.5265625 144.7615625 -149.703125 145.765625 C-133.94863969 164.25976242 -110.44084215 177.34856103 -86.125 179.8125 C-52.82435043 181.25437197 -25.97316068 174.46413819 -1.125 151.8125 C-0.45984375 151.22984375 0.2053125 150.6471875 0.890625 150.046875 C19.37491422 132.94458871 28.64557139 106.94921503 30.078125 82.3203125 C30.44943327 55.5242326 22.14524502 29.75180492 3.875 9.8125 C2.64330078 8.44158203 2.64330078 8.44158203 1.38671875 7.04296875 C-17.5010215 -12.964045 -42.90405571 -22.61853195 -70.01953125 -24.375 C-101.06852934 -25.11980355 -129.17080392 -11.43168156 -150.1875 11 Z " fill="#3F78AF" transform="translate(185.125,34.1875)"/>
+          <!-- Additional paths from the original logo -->
+          <path d="M0 0 C0 2 0 4 0 6 C-2.01171875 7.3671875 -2.01171875 7.3671875 -4.6875 8.875 C-14.31162306 14.51952787 -19.99343276 20.833403 -23.39794922 31.57592773 C-24.38151194 35.53610383 -24.53271152 39.37092039 -24.5 43.4375 C-24.49427979 44.26934814 -24.48855957 45.10119629 -24.48266602 45.95825195 C-24.28881254 52.62824735 -23.04156668 57.57363255 -19 63 C-18.49210937 63.71285156 -17.98421875 64.42570312 -17.4609375 65.16015625 C-10.25946526 74.28998479 -0.05458976 78.91344923 11.34375 80.28125 C21.8949583 80.7270757 30.24392106 75.99966767 38.99609375 70.7421875 C42 69 42 69 45 68 C44.34 70.64 43.68 73.28 43 76 C43.95777344 75.71125 44.91554688 75.4225 45.90234375 75.125 C62.02080091 70.51621194 76.30535728 71.70195524 92.65185547 74.57617188 C103.57210256 76.45845339 113.61515829 77.85596906 123.125 71.3125 C128.00493244 67.4962622 130.73631579 63.11950779 132 57 C132.85856873 49.89217694 131.57782651 43.22272514 128 37 C123.60753438 32.51090013 118.47516926 30.12071012 112.19921875 29.8359375 C106.68620764 30.24721009 103.12665241 31.96923291 99.0625 35.6875 C95.57676955 41.28579436 95.58979744 45.77908311 96.9375 52 C97.288125 53.32 97.63875 54.64 98 56 C94.37 56 90.74 56 87 56 C87.309375 54.411875 87.61875 52.82375 87.9375 51.1875 C88.98321516 45.47685695 89.57468311 39.78654818 90 34 C90.33 34 90.66 34 91 34 C91.33 32.02 91.66 30.04 92 28 C92.66 28.33 93.32 28.66 94 29 C94.495 30.485 94.495 30.485 95 32 C95.721875 31.21625 96.44375 30.4325 97.1875 29.625 C102.28308942 24.86911655 107.10642814 24.49211038 113.8671875 24.625 C121.46163747 25.53406134 127.48998456 29.63545972 132.59765625 35.17578125 C136.6549706 40.45368042 138.34987926 46.68204388 137.65234375 53.296875 C135.90262685 61.74905937 133.88697703 70.00156424 126.9375 75.6875 C120.90854897 79.58858596 116.03484544 80.19280331 109 80.1875 C108.11151367 80.18814453 107.22302734 80.18878906 106.30761719 80.18945312 C100.23021972 80.1421582 94.28234837 79.71693648 88.25 79 C69.3099232 76.78938382 52.51165511 77.9266333 35 86 C33.515 86.495 33.515 86.495 32 87 C32.165 86.38125 32.33 85.7625 32.5 85.125 C33.07634644 83.03936614 33.07634644 83.03936614 33 81 C32.3915625 81.28875 31.783125 81.5775 31.15625 81.875 C21.23040954 86.07888537 10.36401835 86.81365549 0.0625 83.375 C-7.28466337 80.24831243 -13.64925869 75.94526813 -19 70 C-19.845625 69.071875 -20.69125 68.14375 -21.5625 67.1875 C-29.2950745 57.70415391 -30.82597181 46.94381458 -30 35 C-28.14661674 23.17884125 -22.35906442 12.50763425 -13 5 C-8.5628743 2.00292992 -5.43282402 0 0 0 Z " fill="#346EB4" transform="translate(58,88)"/>
         </svg>
       </div>
       
@@ -227,6 +208,9 @@
             this.loadedResources = 0;
             this.totalResources = 0;
             this.isInitialized = false;
+            this.simulationSteps = [];
+            this.currentStepIndex = 0;
+            this.stepInterval = null;
           }
 
           init() {
@@ -236,85 +220,154 @@
             this.progressBar = document.getElementById('progress-fill');
             this.progressText = document.getElementById('progress-text');
             
-            this.startProgressSimulation();
-            this.trackResourceLoading();
+            // Start immediately
+            this.updateProgress(0, 'Memulai...');
+            
+            // Start progress simulation after DOM elements are ready
+            setTimeout(() => {
+              this.setupProgressSteps();
+              this.trackResourceLoading();
+              this.startProgressAnimation();
+            }, 100);
+            
             this.isInitialized = true;
           }
 
+          setupProgressSteps() {
+            this.simulationSteps = [
+              { progress: 5, text: 'Memuat aplikasi', minDelay: 200 },
+              { progress: 15, text: 'Menginisialisasi framework', minDelay: 400 },
+              { progress: 30, text: 'Memuat komponen', minDelay: 600 },
+              { progress: 50, text: 'Memuat resource', minDelay: 800 },
+              { progress: 70, text: 'Menyiapkan antarmuka', minDelay: 500 },
+              { progress: 85, text: 'Konfigurasi sistem', minDelay: 400 },
+              { progress: 95, text: 'Finalisasi', minDelay: 300 }
+            ];
+          }
+
           trackResourceLoading() {
+            // Track existing resources
             const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
             const scripts = document.querySelectorAll('script[src]');
             
-            this.totalResources = stylesheets.length + scripts.length + 5;
+            this.totalResources = Math.max(stylesheets.length + scripts.length + 8, 15);
             
+            // Add load event listeners
             stylesheets.forEach(link => {
-              if (link.sheet && link.sheet.cssRules) {
-                this.onResourceLoaded();
+              if (link.sheet) {
+                this.onResourceLoaded('CSS loaded');
               } else {
-                link.addEventListener('load', () => this.onResourceLoaded());
-                link.addEventListener('error', () => this.onResourceLoaded());
+                link.addEventListener('load', () => this.onResourceLoaded('CSS loaded'));
+                link.addEventListener('error', () => this.onResourceLoaded('CSS error'));
               }
             });
 
-            setTimeout(() => {
-              const images = document.querySelectorAll('img');
-              images.forEach(img => {
-                if (img.complete) {
-                  this.onResourceLoaded();
-                } else {
-                  img.addEventListener('load', () => this.onResourceLoaded());
-                  img.addEventListener('error', () => this.onResourceLoaded());
+            scripts.forEach(script => {
+              script.addEventListener('load', () => this.onResourceLoaded('Script loaded'));
+              script.addEventListener('error', () => this.onResourceLoaded('Script error'));
+            });
+
+            // Track window load
+            if (document.readyState === 'complete') {
+              this.onResourceLoaded('Document ready');
+            } else {
+              window.addEventListener('load', () => this.onResourceLoaded('Window loaded'));
+              document.addEventListener('readystatechange', () => {
+                if (document.readyState === 'interactive') {
+                  this.onResourceLoaded('DOM interactive');
+                } else if (document.readyState === 'complete') {
+                  this.onResourceLoaded('DOM complete');
                 }
               });
-            }, 500);
+            }
+
+            // Simulate additional resources being loaded
+            setTimeout(() => this.onResourceLoaded('Bootstrap loaded'), 300);
+            setTimeout(() => this.onResourceLoaded('Font Awesome loaded'), 500);
+            setTimeout(() => this.onResourceLoaded('Aurelia framework loaded'), 800);
+            setTimeout(() => this.onResourceLoaded('App modules loaded'), 1200);
+            setTimeout(() => this.onResourceLoaded('Configuration loaded'), 1500);
           }
 
-          onResourceLoaded() {
+          onResourceLoaded(resourceName) {
             this.loadedResources++;
-            const resourceProgress = Math.min((this.loadedResources / this.totalResources) * 40, 40);
-            this.updateProgress(Math.max(this.currentProgress, resourceProgress));
+            console.log('Resource loaded: ' + resourceName + ' (' + this.loadedResources + '/' + this.totalResources + ')');
+            
+            // Update progress based on loaded resources (up to 60% of total progress)
+            const resourceProgress = Math.min((this.loadedResources / this.totalResources) * 60, 60);
+            
+            if (resourceProgress > this.currentProgress) {
+              this.updateProgress(resourceProgress);
+            }
           }
 
-          startProgressSimulation() {
-            const steps = [
-              { progress: 10, text: 'Memuat aplikasi', delay: 300 },
-              { progress: 25, text: 'Menginisialisasi framework', delay: 600 },
-              { progress: 40, text: 'Memuat komponen', delay: 800 },
-              { progress: 60, text: 'Menyiapkan antarmuka', delay: 700 },
-              { progress: 80, text: 'Konfigurasi sistem', delay: 500 },
-              { progress: 90, text: 'Finalisasi', delay: 400 }
-            ];
-
-            let currentStep = 0;
-            
-            const runStep = () => {
-              if (currentStep < steps.length) {
-                const step = steps[currentStep];
-                setTimeout(() => {
+          startProgressAnimation() {
+            this.stepInterval = setInterval(() => {
+              if (this.currentStepIndex < this.simulationSteps.length) {
+                const step = this.simulationSteps[this.currentStepIndex];
+                
+                // Only advance if we haven't reached this step yet
+                if (this.currentProgress < step.progress) {
                   this.updateProgress(step.progress, step.text);
-                  currentStep++;
-                  runStep();
-                }, step.delay);
+                }
+                
+                this.currentStepIndex++;
+              } else {
+                // All simulation steps done, check if we can finish
+                if (this.loadedResources >= this.totalResources * 0.8) { // 80% of resources loaded
+                  this.finishLoading();
+                }
+                clearInterval(this.stepInterval);
               }
-            };
-
-            setTimeout(runStep, 200);
+            }, 300); // Update every 300ms for visible progress
           }
 
           updateProgress(progress, text) {
             if (!this.progressBar) return;
             
-            this.currentProgress = Math.max(this.currentProgress, progress);
-            this.progressBar.style.width = this.currentProgress + '%';
+            // Ensure progress only goes forward
+            const newProgress = Math.max(this.currentProgress, Math.min(progress, 100));
+            
+            if (newProgress !== this.currentProgress) {
+              this.currentProgress = newProgress;
+              this.progressBar.style.width = this.currentProgress + '%';
+              
+              console.log('Progress updated: ' + this.currentProgress + '%');
+            }
             
             if (text && this.progressText) {
+              // Hapus bagian persentase, hanya tampilkan teks loading saja
               this.progressText.innerHTML = '<span class="loading-dots">' + text + '</span>';
             }
           }
 
-          markAppReady() {
-            this.updateProgress(100, 'Aplikasi siap');
-            
+          finishLoading() {
+            if (this.currentProgress < 100) {
+              // Animate to 100%
+              const finalSteps = [
+                { progress: 98, text: 'Menyelesaikan...', delay: 200 },
+                { progress: 100, text: 'Aplikasi siap', delay: 300 }
+              ];
+              
+              let stepIndex = 0;
+              const finishStep = () => {
+                if (stepIndex < finalSteps.length) {
+                  const step = finalSteps[stepIndex];
+                  this.updateProgress(step.progress, step.text);
+                  stepIndex++;
+                  setTimeout(finishStep, step.delay);
+                } else {
+                  this.hideAfterDelay();
+                }
+              };
+              
+              setTimeout(finishStep, 100);
+            } else {
+              this.hideAfterDelay();
+            }
+          }
+
+          hideAfterDelay() {
             setTimeout(() => {
               if (this.splashScreen) {
                 this.splashScreen.classList.add('hide');
@@ -328,13 +381,24 @@
             }, 800);
           }
 
+          markAppReady() {
+            console.log('App marked as ready');
+            if (this.currentProgress < 95) {
+              this.updateProgress(95, 'Aplikasi siap');
+            }
+            
+            setTimeout(() => this.finishLoading(), 200);
+          }
+
           hide() {
             this.markAppReady();
           }
         }
 
+        // Initialize immediately
         window.splashManager = new SplashScreenManager();
 
+        // Start as soon as possible
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', function() {
             window.splashManager.init();
@@ -342,6 +406,13 @@
         } else {
           window.splashManager.init();
         }
+
+        // Also try to init immediately if DOM is already ready
+        setTimeout(() => {
+          if (window.splashManager && !window.splashManager.isInitialized) {
+            window.splashManager.init();
+          }
+        }, 50);
 
       })();
     </script>
