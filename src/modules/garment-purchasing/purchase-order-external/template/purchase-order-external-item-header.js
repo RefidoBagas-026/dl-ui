@@ -6,7 +6,8 @@ export class PurchaseOrderItemHeader {
     this.items = context.items;
     this.error = context.error;
     this.options = context.options;
-    this.readOnly = (this.options.readOnly === 'true')
+   // this.readOnly = (this.options.readOnly === 'true')
+    this.isEdit=this.options.isEdit || false;
     this.isUseIncomeTax = this.options.isUseIncomeTax || false;
   }
 
