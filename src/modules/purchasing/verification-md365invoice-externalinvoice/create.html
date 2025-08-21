@@ -1,0 +1,10 @@
+<template>
+    <require from="./data-form"></require>
+    <data-form title="Verifikasi Invoice dan Dokumen Eksternal" error.bind="error"></data-form>
+
+    <!-- Floating action buttons at bottom-right of the create page -->
+    <div class="btn-group" style="position: fixed; right: 20px; bottom: 20px; z-index: 1000;">
+        <button class="btn btn-default" click.delegate="cancel($event)">Kembali</button>
+        <button class="btn btn-success" click.delegate="save($event)">Cek Invoice</button>
+    </div>
+</template>
