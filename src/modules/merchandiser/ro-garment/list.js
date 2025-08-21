@@ -7,7 +7,8 @@ import { AuthService } from "aurelia-authentication";
 @inject(Router, Service, AuthService)
 export class List {
     dataToBePosted = [];
-    context = ["Rincian", "Cetak PDF"];
+    context = ["Rincian", "Cetak PDF by Style", "Cetak PDF by SKU", 
+        "Cetak PDF by Size", "Cetak PDF by Color", "Cetak PDF by Destination", "Cetak PDF by Nomor PO"];
     options = {};
     columns = [
         {
@@ -120,8 +121,23 @@ export class List {
             case "Rincian":
                 this.router.navigateToRoute('view', { id: data.Id });
                 break;
-            case "Cetak PDF":
-                this.service.getPdfById(data.Id);
+            case "Cetak PDF by Style":
+                this.service.getPdfById(data.Id, "style");
+                break;
+            case "Cetak PDF by SKU":
+                this.service.getPdfById(data.Id, "sku");
+                break;
+            case "Cetak PDF by Color":
+                this.service.getPdfById(data.Id, "color");
+                break;
+            case "Cetak PDF by Size":
+                this.service.getPdfById(data.Id, "size");
+                break;
+            case "Cetak PDF by Destination":
+                this.service.getPdfById(data.Id, "destination");
+                break;
+            case "Cetak PDF by Nomor PO":
+                this.service.getPdfById(data.Id, "po");
                 break;
         }
     }

@@ -1,7 +1,7 @@
 export class ROGarmentSizeBreakdownDetailFooter {
     activate(context) {
         this.context = context;
-        this.colspan = this.context.options.readOnly === true ? 2 : 3;
+        this.colspan = 3;
     }
 
     get totalQuantity() {

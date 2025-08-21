@@ -12,9 +12,10 @@ export class ROGarmentSizeBreakdown {
     RO_Garment_SizeBreakdown_DetailsInfo = {
         columns: [
             { header: "No.", value: "SizeBreakdownDetailIndex" },
-            { header: "Keterangan", value: "Information" },
+            { header: "Description", value: "Information" },
             { header: "Size", value: "Size" },
             { header: "Quantity", value: "Quantity" },
+            { header: "Remark", value: "RemarkMTM" },
         ],
         options: { readOnly: this.readOnly },
         onAdd: function () {
@@ -43,6 +44,9 @@ export class ROGarmentSizeBreakdown {
         this.error = this.context.error;
         this.RO_Garment_SizeBreakdown_DetailsInfo.options.readOnly = this.readOnly;
         this.shown = false;
+        for(var detail of this.data.RO_Garment_SizeBreakdown_Details) {
+            detail.Remark = this.data.PONo + ";" + this.data.Style + ";" + this.data.Color.Name + ";" + detail.Fit;
+        }
     }
 
     get total() {

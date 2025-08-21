@@ -2,6 +2,7 @@ import { BindingEngine, bindable, computedFrom, inject } from 'aurelia-framework
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { forEach } from '../../../routes/general';
+var moment = require("moment");
 const costCalculationGarmentLoader = require('../../../loader/cost-calculation-garment-loader');
 
 @inject(Router, Service, BindingEngine)
@@ -292,5 +293,197 @@ export class DataForm {
       reader.readAsDataURL(documentInput.files[0]);
     }
   }
+
+  download() {
+    var endpoint = 'ro-garments/download-template';
+    var request = {
+        method: 'GET'
+    };
+
+    var getRequest = this.service.endpoint.client.fetch(endpoint, request);
+    this.service._downloadFile(getRequest);
+    this.service.publish(getRequest);
+  }
+  
+  viewData() {
+    this.disabled = true;
+    var totalQty = 0;
+    const fileInput = document.getElementById("fileCsv");
+    const fileList = fileInput.files;
+
+    if (!fileList || fileList.length === 0) {
+      alert("Silakan pilih file terlebih dahulu.");
+      return;
+    }
+
+    const file = fileList[0];
+    const reader = new FileReader();
+
+    const itemMap = {}; // gunakan object untuk indexing
+    const err = [];
+    var SizeBreakdownIndex = 0;
+    var SizeBreakdownDetailIndex = 0;
+    reader.onload = (event) => {
+      const data = new Uint8Array(event.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+      const table = document.getElementById("csv-table");
+      table.innerHTML = "";
+
+      rows.forEach((row, rowIndex) => {
+        if (rowIndex === 0) {
+          const thead = document.createElement("thead");
+          const headerRow = document.createElement("tr");
+          row.slice(0, 16).forEach(cell => {
+            const th = document.createElement("th");
+            th.textContent = (cell || "").trim();
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+          table.appendChild(thead);
+          return;
+        }
+        const tr = document.createElement("tr");
+
+        for (let a = 0; a < 16; a++) {
+          const td = document.createElement("td");
+
+          const colLetter = this.getExcelColumnName(a);
+          const cellRef = `${colLetter}${rowIndex + 1 }`; // +1 karena zero-based, +1 lagi karena baris header
+
+          if (row[a] === undefined) {
+            row[a] = "";
+          }
+          if(a<=6 && row[a] === "") {
+            err.push(`Sel ${cellRef} tidak terisi`);
+            td.style.backgroundColor = "#ffcccc";
+          }
+          else if(a===6){
+            const v = String(row[a]).trim();
+            if (isNaN(Number(v))) {
+              err.push(`Sel ${cellRef} harus berupa angka`);
+              td.style.backgroundColor = "#ffcccc";
+            }
+          }
+          if ([7, 8, 9].includes(a)) {
+            const value = String(row[a]).trim();
+            if (value != "" && isNaN(Number(value))) {
+              err.push(`Sel ${cellRef} harus berupa angka`);
+              td.style.backgroundColor = "#ffcccc";
+            }
+          }
+
+          td.textContent = String(row[a]).trim();
+          td.style.height = "30px";
+          tr.appendChild(td);
+        }
+
+        table.appendChild(tr);
+
+        if (err.length === 0) {
+          const [
+            PONo, Style, Color, Size, Fit, Destination,
+            QuantityRaw, TopSampleQtyRaw, ShippingSampleQtyRaw, KeepingSampleQtyRaw, RemarkMTM,
+            Customer, SeasonCode, ShipMode, Barcode, PackType
+          ] = row.map(cell => String(cell != null ? cell : "").trim());
+
+          const Quantity = Number(QuantityRaw) || 0;
+          const TopSampleQty = Number(TopSampleQtyRaw) || 0;
+          const ShippingSampleQty = Number(ShippingSampleQtyRaw) || 0;
+          const KeepingSampleQty = Number(KeepingSampleQtyRaw) || 0;
+          // let DueDateFormatted = null;
+          // let ExFactoryDateFormatted = null;
+
+          // if (DueDate && !isNaN(DueDate)) {
+          //   DueDateFormatted = this.convertExcelDateToMoment(Number(DueDate)).format("YYYY-MM-DD");
+          // }
+          // if (ExFactoryDate && !isNaN(ExFactoryDate)) {
+          //   ExFactoryDateFormatted = this.convertExcelDateToMoment(Number(ExFactoryDate)).format("YYYY-MM-DD");
+
+          // }
+
+          totalQty += Quantity;
+          const key = `${PONo}-${Style}-${Destination}-${Color}`;
+
+          const detailItem = {
+            Destination,
+            SizeBreakdownDetailIndex: 0,
+            Size,
+            Quantity,
+            Barcode,
+            PackType,
+            Fit,
+            RemarkMTM,
+            TopSampleQty,
+            ShippingSampleQty,
+            KeepingSampleQty
+          };
+
+          if (!itemMap[key]) {
+            SizeBreakdownDetailIndex=0;
+            itemMap[key] = {
+              SizeBreakdownIndex: SizeBreakdownIndex++,
+              PONo,
+              Style,
+              Color:{Id: 0, Name: Color},
+              Total: Quantity || 0,
+              Customer,
+              SeasonCode,
+              ShipMode,
+              RO_Garment_SizeBreakdown_Details: [detailItem]
+            };
+          } else {
+            SizeBreakdownDetailIndex=itemMap[key].RO_Garment_SizeBreakdown_Details.length;
+            console.log(itemMap[key].RO_Garment_SizeBreakdown_Details.length);
+            detailItem.SizeBreakdownDetailIndex = SizeBreakdownDetailIndex;
+            itemMap[key].RO_Garment_SizeBreakdown_Details.push(detailItem);
+            itemMap[key].Total += Quantity || 0;
+          }
+        }
+      });
+      console.log(err);
+      // ⏬ Pemindahan mapping ke RO_Garment_SizeBreakdowns setelah parsing selesai
+      if (err.length === 0) {
+        this.data.error =[];
+        this.shown = true;
+        this.data.RO_Garment_SizeBreakdowns = Object.values(itemMap);
+        console.log(this.data.RO_Garment_SizeBreakdowns);
+      } else {
+        this.data.error = err;
+        alert(`Mohon periksa kembali file XLSX Anda. Terdapat ${err.length} kesalahan.`);
+      }
+    };
+    //this.data.total= totalQty;
+
+    this.shown = true;
+    reader.readAsArrayBuffer(file);
+  }
+
+  // excelDateToJSDate(serial) {
+  //   const utc_days = Math.floor(serial - 25569);
+  //   const utc_value = utc_days * 86400;
+  //   const date_info = new Date(utc_value * 1000);
+  //   return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate());
+  // }
+
+  getExcelColumnName(colIndex) {
+    let columnName = "";
+    let dividend = colIndex + 1;
+
+    while (dividend > 0) {
+      let modulo = (dividend - 1) % 26;
+      columnName = String.fromCharCode(65 + modulo) + columnName;
+      dividend = Math.floor((dividend - modulo) / 26);
+    }
+
+    return columnName;
+  }
+
+  // convertExcelDateToMoment(excelDateNumber) {
+  //   return moment("1900-01-01").add(excelDateNumber - 2, 'days'); // Excel has an offset bug for leap year 1900
+  // }
+
 }
 
