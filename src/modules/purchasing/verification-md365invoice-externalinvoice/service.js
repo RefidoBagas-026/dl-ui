@@ -1,14 +1,35 @@
-import { inject, Lazy } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-fetch-client';
+import { inject } from 'aurelia-framework';
 import { RestService } from '../../../utils/rest-service';
 
-
+const serviceUri = 'txt-D365-invoice-revision';
 const serviceUriScan = 'txt-D365-invoice-revision/scan-invoice';
+const compareInvoiceUri = 'txt-D365-invoice-revision/compare-invoice';
 
+
+@inject()
 export class Service extends RestService {
-
-    constructor(http, aggregator, config, endpoint) {
+    constructor(http, aggregator, config) {
         super(http, aggregator, config, "purchasing-azure");
+    }
+
+    /**
+     * Search data list for Invoice External revision
+     * @param {Object} info - Search parameters (keyword, page, size, order)
+     */
+    search(info) {
+        const endpoint = `${serviceUri}`;
+        return super.list(endpoint, info);
+    }
+
+    // this for get data invoice
+    getInvoiceData(invoiceId) {
+        return this.endpoint.client.fetch(`${serviceUri}/${invoiceId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch invoice data: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            });
     }
 
     // Upload file PDF ke endpoint scan invoice
@@ -30,42 +51,63 @@ export class Service extends RestService {
         });
     }
 
-}
-// service.js for verification-md365invoice-externalinvoice
-export class VerificationMD365InvoiceExternalInvoiceService {
-    async getInvoiceList() {
-        // Dummy data, replace with API call if available
-        return [
-            { noInvoice: "INV-001" },
-            { noInvoice: "INV-002" },
-            { noInvoice: "INV-003" }
-        ];
+    /**
+     * Compare Invoice D365 dengan hasil scan/file
+     * @param {Object} invoiceObj - Data invoice D365 (akan di-JSON.stringify)
+     * @param {Object} options - { scanResult: string, file: File }
+     */
+    postCompareInvoice(invoiceObj, options = {}) {
+        const { scanResult = null, file = null } = options;
+
+        if (!invoiceObj) {
+            alert('D365 invoice data is required');
+            return Promise.reject(new Error('D365 invoice data is required'));
+        }
+
+        const formData = new FormData();
+        formData.append('D365Invoice', JSON.stringify(invoiceObj));
+
+        if (scanResult) {
+            formData.append('ScanResult', scanResult);
+        } else if (file) {
+            formData.append('File', file);
+        } else {
+            alert('Either scanResult or file is required');
+            return Promise.reject(new Error('Either scanResult or file is required'));
+        }
+
+        return this.endpoint.client.fetch(compareInvoiceUri, {
+            method: 'POST',
+            body: formData
+        }).then(response => {
+            if (!response.ok) {
+                alert(`Request failed: ${response.status} ${response.statusText}`);
+                throw new Error(`Request failed: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        }).catch(error => {
+            alert(`Error: ${error.message}`);
+            throw error;
+        });
     }
 
-    async getInvoiceData(noInvoice) {
-        // Dummy data, replace with API call if available
-        return {
-            items: [
-                {
-                    noInvoice,
-                    tanggalInvoice: "2025-07-23",
-                    noFakturPajak: "FP-12345",
-                    totalPerItem: 100000,
-                    totalInvoice: 110000,
-                    mataUang: "IDR",
-                    namaBarang: "Barang A",
-                    qty: 10,
-                    hargaPerItem: 10000,
-                    tanggalFakturPajak: "2025-07-22",
-                    nilaiPPNInvoice: 10000,
-                    nilaiPPNFakturPajak: 10000,
-                    noPO: "PO-001",
-                    noSuratJalan: "SJ-001",
-                    nilaiPPh: 5000,
-                    totalDPP: 95000,
-                    grandTotal: 115000
-                }
-            ]
-        };
+    /**
+     * Get Invoice External revision by ID
+     * @param {string} id - Invoice External revision ID
+     */
+    getById(id) {
+        const endpoint = `${serviceUri}/${id}`;
+        return super.get(endpoint);
+    }
+
+    /**
+     * Delete Invoice External revision by ID
+     * @param {string} id - Invoice External revision ID
+     */
+    delete(id) {
+        const endpoint = `${serviceUri}/${id}`;
+        return super.delete(endpoint);
     }
 }
+
+
