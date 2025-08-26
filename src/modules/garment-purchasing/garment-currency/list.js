@@ -64,4 +64,15 @@ export class List {
   upload() {
     this.router.navigateToRoute('upload');
   }
+
+  async postKursCeisa() {
+    try {
+      var created = await this.service.postCurr();
+      alert(created);
+       this.tableList.refresh();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
 }
