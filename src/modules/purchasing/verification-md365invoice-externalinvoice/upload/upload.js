@@ -22,6 +22,9 @@ export class Upload {
 		if (model && typeof model.onResult === 'function') {
 			this.onResult = model.onResult;
 		}
+		if (model && typeof model.onFileSelected === 'function') {
+			this.onFileSelected = model.onFileSelected;
+		}
 	}
 
 	onFileChanged(evt) {
@@ -35,6 +38,9 @@ export class Upload {
 				this.error.file = 'Hanya file PDF yang diperbolehkan';
 				this.selectedFile = null;
 			}
+		}
+		if (typeof this.onFileSelected === 'function') {
+			this.onFileSelected(this.selectedFile);
 		}
 	}
 
@@ -79,6 +85,10 @@ export class Upload {
 		if (typeof this.onResult === 'function') {
 			try { this.onResult(null); } catch (_) { /* noop */ }
 		}
+        // beritahu parent untuk mengosongkan file yang dipilih
+        if (typeof this.onFileSelected === 'function') {
+            try { this.onFileSelected(null); } catch (_) { /* noop */ }
+        }
 	}
 }
 

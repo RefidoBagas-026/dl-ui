@@ -10,6 +10,7 @@ export class ScanResultItem {
 
   itemsChanged() {
     this.items = Array.isArray(this.items) ? this.items : [];
+    this._buildTable();
   }
 
   _buildTable() {

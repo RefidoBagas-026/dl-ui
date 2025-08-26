@@ -12,6 +12,8 @@ export class DataForm {
     @bindable title;
     @bindable options = { readOnly: true };
     @bindable d365Invoice;
+    // Toggle to show raw JSON panel; default hidden per request
+    showScanJson = false;
 
     controlOptions = {
         label: {
@@ -28,6 +30,7 @@ export class DataForm {
     this.uploadVm = PLATFORM.moduleName('./upload/upload');
     this.scanResultVm = PLATFORM.moduleName('./upload/scan-result');
     this.scanResultDataVm = PLATFORM.moduleName('./upload/scan-result-data');
+    this.scanResultDataKey = 0; // untuk force refresh compose
     }
 
     itemsInfoReadOnly = {
@@ -41,7 +44,8 @@ export class DataForm {
         this.data = this.context.data;
         this.error = this.context.error;
         this.options.readOnly = this.readOnly;
-    this.scanResult = null; // hasil upload
+        this.scanResult = null; // hasil upload
+        this.showScanResultData = true; // kontrol untuk destroy/recreate komponen
     }
 
     get d365InvoiceLoader() {
@@ -63,6 +67,33 @@ export class DataForm {
 
     // Upload handlers are implemented in upload/upload.js
     handleUploadResult = (result) => {
-        this.scanResult = result;
+        // Completely destroy the component first
+        this.showScanResultData = false;
+        this.scanResult = null;
+        this.scanResultDataKey++;
+        
+        // Wait for DOM to update, then recreate with new data
+        setTimeout(() => {
+            this.scanResult = result;
+            this.scanResultDataKey++;
+            this.showScanResultData = true; // Recreate component
+        }, 150);
+        
+        try {
+            if (!result) {
+                // Best-effort: collapse items in child view to avoid stale DOM
+                if (this.scanResultDataVm && this.scanResultDataVm.viewModel) {
+                    const vm = this.scanResultDataVm.viewModel;
+                    vm.showItems = false;
+                    vm.header = null;
+                    vm.items = [];
+                    vm.headerData = [];
+                }
+            }
+        } catch(_) {}
+    }
+
+    handleFileSelected = (file) => {
+        this.selectedFile = file;
     }
 }
