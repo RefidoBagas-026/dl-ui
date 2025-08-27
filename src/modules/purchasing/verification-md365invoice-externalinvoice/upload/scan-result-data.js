@@ -1,4 +1,5 @@
 import { bindable } from 'aurelia-framework';
+import { event } from 'jquery';
 
 // Local logger: hidden by default; flip to true to re-enable debug logs for this module only
 const DEBUG_UPLOAD = false;
@@ -92,14 +93,37 @@ export class ScanResultData {
 					<div style="white-space:nowrap; display:inline-flex; align-items:center;">
 						<button class="btn btn-info btn-sm toggle-items">i</button>
 						<button class="btn btn-warning btn-sm action-edit" title="Edit" style="margin-left:6px;"><i class="fa fa-edit"></i></button>
-						<button class="btn btn-success btn-sm action-save" title="Simpan" style="margin-left:6px;"><i class="fa fa-save"></i></button>
+						<button class="btn btn-success btn-sm action-save" title="Simpan" style="margin-left:6px;" disabled><i class="fa fa-save"></i></button>
 					</div>`
 				,
-				events: {
-					'click .toggle-items': function (e) { try { if (e) { e.preventDefault(); e.stopPropagation(); } } catch(_) {} self.toggleItems(); },
-					'click .action-edit': function (e) { try { if (e) { e.preventDefault(); e.stopPropagation(); } } catch(_) {} self.startEdit(); },
-					'click .action-save': function (e) { try { if (e) { e.preventDefault(); e.stopPropagation(); } } catch(_) {} self.saveEdit(); }
-				}
+				// events: {
+				// 	'click .toggle-items': function (e) { try { if (e) { e.preventDefault(); e.stopPropagation(); } } catch(_) {} self.toggleItems(); },
+				// 	'click .action-edit': function (e) { try { if (e) { e.preventDefault(); e.stopPropagation(); } } catch(_) {} self.startEdit(); },
+				// 	'click .action-save': function (e) { try { if (e) { e.preventDefault(); e.stopPropagation(); } } catch(_) {} self.saveEdit(); }
+				// }
+				events: { 
+					
+						'click .toggle-items': function (e) {
+							try { if (e) { e.preventDefault(); e.stopPropagation(); } } catch(_) {}
+							self.toggleItems();
+						},
+						'click .action-edit': function (e) {
+							try { if (e) { e.preventDefault(); e.stopPropagation(); } } catch(_) {}
+							self.startEdit();
+							// Aktifkan tombol Save yang sebidang dengan tombol Edit ini
+							const $cell = $(e.currentTarget).closest('td');
+							$cell.find('.action-save').prop('disabled', false);
+						},
+						'click .action-save': function (e) {
+							try { if (e) { e.preventDefault(); e.stopPropagation(); } } catch(_) {}
+							// Guard tambahan (opsional)
+							if ($(e.currentTarget).prop('disabled')) return;
+							self.saveEdit();
+							// Setelah berhasil simpan, nonaktifkan kembali
+							const $cell = $(e.currentTarget).closest('td');
+							$cell.find('.action-save').prop('disabled', true);
+						}
+				} // Handled by delegated click listener on panel
 			}
 		];
 	}
@@ -248,42 +272,90 @@ export class ScanResultData {
 			} catch(_) {}
 		}, 200);
 	}
+	// saveEdit() {
+	// 	// Persist first, then exit edit mode, then render as readonly
+	// 	try { this._persistHeaderFromInputs(); } catch(_) {}
+	// 	try { this._persistItemsFromInputs(); } catch(_) {}
+	// 	try {
+	// 		logger.log('Support ref on save:', this.supportRef);
+	// 		if (this.supportRef && this.supportRef.saveEdit) {
+	// 			logger.log('Calling supportRef.saveEdit()');
+	// 			this.supportRef.saveEdit();
+	// 		} else {
+	// 			logger.log('supportRef not ready or no saveEdit');
+	// 		}
+	// 	} catch(e) { logger.warn('Error calling supportRef.saveEdit', e); }
+	// 	this.editing = false;
+	// 	try { this._renderHeaderReadonly(); } catch(_) {}
+	// 	try { this._renderItemsReadonly(); } catch(_) {}
+	// 		// Force refresh bound data so au-table re-renders with latest values
+	// 		try {
+	// 			// Header data
+	// 			const newHeader = this.header ? { ...this.header } : null;
+	// 			this.headerData = newHeader ? [newHeader] : [];
+	// 			// Items data (trigger child component change detection)
+	// 			if (Array.isArray(this.items)) {
+	// 				this.items = this.items.map(it => ({ ...it }));
+	// 			}
+	// 			// Support tables: reassign arrays to new refs
+	// 			if (this.supportRef) {
+	// 				if (Array.isArray(this.supportRef.poRows)) this.supportRef.poRows = this.supportRef.poRows.map(r => ({ ...r }));
+	// 				if (Array.isArray(this.supportRef.doRows)) this.supportRef.doRows = this.supportRef.doRows.map(r => ({ ...r }));
+	// 				if (Array.isArray(this.supportRef.taxRows)) this.supportRef.taxRows = this.supportRef.taxRows.map(r => ({ ...r }));
+	// 			}
+	// 		} catch(_) {}
+	// 	// Apply edits back into underlying scanResult JSON and refresh viewer
+	// 	try { this._applyEditsToResult(); } catch(e) { logger.warn('Error applying edits to result', e); }
+	// 	try { this.showEditedJson(); } catch(_) {}
+	// }
+
 	saveEdit() {
-		// Persist first, then exit edit mode, then render as readonly
-		try { this._persistHeaderFromInputs(); } catch(_) {}
-		try { this._persistItemsFromInputs(); } catch(_) {}
-		try {
-			logger.log('Support ref on save:', this.supportRef);
-			if (this.supportRef && this.supportRef.saveEdit) {
+  // Persist first, then exit edit mode, then render as readonly
+			try { this._persistHeaderFromInputs(); } catch(_) {}
+			try { this._persistItemsFromInputs(); } catch(_) {}
+
+			try {
+				logger.log('Support ref on save:', this.supportRef);
+				if (this.supportRef && this.supportRef.saveEdit) {
 				logger.log('Calling supportRef.saveEdit()');
 				this.supportRef.saveEdit();
-			} else {
+				} else {
 				logger.log('supportRef not ready or no saveEdit');
-			}
-		} catch(e) { logger.warn('Error calling supportRef.saveEdit', e); }
-		this.editing = false;
-		try { this._renderHeaderReadonly(); } catch(_) {}
-		try { this._renderItemsReadonly(); } catch(_) {}
-			// Force refresh bound data so au-table re-renders with latest values
+				}
+			} catch(e) { logger.warn('Error calling supportRef.saveEdit', e); }
+
+			this.editing = false;
+
+			// Selalu render header kembali ke readonly
+			try { this._renderHeaderReadonly(); } catch(_) {}
+
+			// HANYA render items bila items sedang ditampilkan
+			try { if (this.showItems) { this._renderItemsReadonly(); } } catch(_) {}
+
+			// Force refresh bound data supaya au-table re-render dengan nilai terbaru
 			try {
 				// Header data
 				const newHeader = this.header ? { ...this.header } : null;
 				this.headerData = newHeader ? [newHeader] : [];
+
 				// Items data (trigger child component change detection)
 				if (Array.isArray(this.items)) {
-					this.items = this.items.map(it => ({ ...it }));
+				this.items = this.items.map(it => ({ ...it }));
 				}
+
 				// Support tables: reassign arrays to new refs
 				if (this.supportRef) {
-					if (Array.isArray(this.supportRef.poRows)) this.supportRef.poRows = this.supportRef.poRows.map(r => ({ ...r }));
-					if (Array.isArray(this.supportRef.doRows)) this.supportRef.doRows = this.supportRef.doRows.map(r => ({ ...r }));
-					if (Array.isArray(this.supportRef.taxRows)) this.supportRef.taxRows = this.supportRef.taxRows.map(r => ({ ...r }));
+				if (Array.isArray(this.supportRef.poRows))  this.supportRef.poRows  = this.supportRef.poRows.map(r => ({ ...r }));
+				if (Array.isArray(this.supportRef.doRows))  this.supportRef.doRows  = this.supportRef.doRows.map(r => ({ ...r }));
+				if (Array.isArray(this.supportRef.taxRows)) this.supportRef.taxRows = this.supportRef.taxRows.map(r => ({ ...r }));
 				}
 			} catch(_) {}
-		// Apply edits back into underlying scanResult JSON and refresh viewer
-		try { this._applyEditsToResult(); } catch(e) { logger.warn('Error applying edits to result', e); }
-		try { this.showEditedJson(); } catch(_) {}
+
+			// Apply edits back into underlying scanResult JSON and refresh viewer
+			try { this._applyEditsToResult(); } catch(e) { logger.warn('Error applying edits to result', e); }
+			try { this.showEditedJson(); } catch(_) {}
 	}
+
 
 	// Merge latest edits back into the original result structure, best-effort without changing shape drastically
 	_applyEditsToResult() {
@@ -363,6 +435,7 @@ export class ScanResultData {
 		return tr || null;
 	}
 	_getItemsTable() {
+		if (!this.showItems) return null;
 		// Prefer the ACTUAL rendered body table from bootstrap-table inside items container
 		if (this.itemsContainer) {
 			// Bootstrap-table wraps the original table and renders rows into
