@@ -65,7 +65,7 @@ export class ScanResultSuport {
     // Tambah kolom Tanggal Jatuh Tempo (TaxInvoiceDateOffset)
     this.taxColumns = [
       { field: 'TaxInvoiceNumber', title: 'No. Faktur Pajak' },
-      { field: 'TaxInvoiceDate', title: 'Tanggal Faktur', formatter: (v) => this.formatDate(v) },
+      // { field: 'TaxInvoiceDate', title: 'Tanggal Faktur', formatter: (v) => this.formatDate(v) },
       { field: 'TaxInvoiceDateOffset', title: 'Tanggal Jatuh Tempo', formatter: (v) => this.formatDate(v) },
       { field: 'ValueAddedTax', title: 'PPN', align: 'right', formatter: (v) => this.formatNumber(v) }
     ];
@@ -234,8 +234,8 @@ export class ScanResultSuport {
     // Editable: [0] TaxInvoiceNumber (text), [2] TaxInvoiceDateOffset (text/number string), [3] ValueAddedTax (number)
     const map = [
       { idx: 0, field: 'TaxInvoiceNumber', type: 'text' },
-      { idx: 2, field: 'TaxInvoiceDateOffset', type: 'date' },
-      { idx: 3, field: 'ValueAddedTax', type: 'number' }
+      { idx: 1, field: 'TaxInvoiceDateOffset', type: 'date' },
+      { idx: 2, field: 'ValueAddedTax', type: 'number' }
     ];
   map.forEach(m => {
       const td = tr.cells[m.idx]; if (!td) return;
@@ -275,9 +275,9 @@ export class ScanResultSuport {
     // Sync kembali tampilan
     const set = [
       { idx: 0, value: tax.TaxInvoiceNumber },
-      { idx: 1, value: this.formatDate(tax.TaxInvoiceDate) },
-      { idx: 2, value: this.formatDate(tax.TaxInvoiceDateOffset) },
-      { idx: 3, value: this.formatNumber(tax.ValueAddedTax) }
+      // { idx: 1, value: this.formatDate(tax.TaxInvoiceDate) },
+      { idx: 1, value: this.formatDate(tax.TaxInvoiceDateOffset) },
+      { idx: 2, value: this.formatNumber(tax.ValueAddedTax) }
     ];
     set.forEach(s => { const td = tr.cells[s.idx]; if (td) td.textContent = s.value == null ? '' : String(s.value); });
   }
