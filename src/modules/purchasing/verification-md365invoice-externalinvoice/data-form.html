@@ -75,7 +75,7 @@
             value.bind="d365Invoice.PPHValue" 
             format="0.00"
             read-only.bind="true"
-            if.bind="data.isChecked && d365InvoiceIsSelected"
+            if.bind="d365InvoiceIsSelected"
             options.bind="controlOptions">
         </au-textbox>
 
@@ -84,7 +84,7 @@
             value.bind="d365Invoice.TotalInvoiceSum" 
             format="0.00"
             read-only.bind="true"
-            if.bind="data.isChecked && d365InvoiceIsSelected"
+            if.bind="d365InvoiceIsSelected"
             options.bind="controlOptions">
         </au-textbox>
 
@@ -100,12 +100,12 @@
         <!-- Upload section moved to the bottom of the form -->
         <div class="row" style="margin-top: 20px;">
             <div class="col-md-12">
-                <compose view-model.bind="uploadVm" model.bind="{ onResult: handleUploadResult }"></compose>
+                <compose view-model.bind="uploadVm" model.bind="{ onResult: handleUploadResult, onFileSelected: handleFileSelected }"></compose>
             </div>
         </div>
 
         <!-- Scan result displayed below upload section -->
-        <div class="row">
+        <div class="row" if.bind="showScanJson">
             <div class="col-md-12">
                 <compose view-model.bind="scanResultVm" model.bind="{ result: scanResult }"></compose>
             </div>
@@ -114,7 +114,13 @@
         <!-- Tabular view for scan result (header + items toggle) -->
         <div class="row">
             <div class="col-md-12">
-                <compose view-model.bind="scanResultDataVm" model.bind="{ result: scanResult }"></compose>
+                <div if.bind="showScanResultData">
+                    <compose 
+                        view-model.bind="scanResultDataVm" 
+                        model.bind="{ result: scanResult, key: scanResultDataKey }"
+                        strategy="replace-part">
+                    </compose>
+                </div>
             </div>
         </div>
 

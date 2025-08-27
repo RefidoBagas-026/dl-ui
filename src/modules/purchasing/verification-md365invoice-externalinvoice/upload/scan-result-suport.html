@@ -1,6 +1,6 @@
 <template>
   <!-- Tabel Purchase Order -->
-  <div if.bind="hasPO" style="margin-top:10px;">
+  <div if.bind="hasPO" style="margin-top:10px;" ref="poContainer">
     <au-table
       data.bind="poRows"
       columns.bind="poColumns"
@@ -11,7 +11,7 @@
   </div>
 
   <!-- Tabel Delivery Order (Surat Jalan) -->
-  <div if.bind="hasDO" style="margin-top:10px;">
+  <div if.bind="hasDO" style="margin-top:10px;" ref="doContainer">
     <au-table
       data.bind="doRows"
       columns.bind="doColumns"
@@ -22,7 +22,7 @@
   </div>
 
   <!-- Tabel Faktur Pajak -->
-  <div if.bind="hasTax" style="margin-top:10px;">
+  <div if.bind="hasTax" style="margin-top:10px;" ref="taxContainer">
     <au-table
       data.bind="taxRows"
       columns.bind="taxColumns"

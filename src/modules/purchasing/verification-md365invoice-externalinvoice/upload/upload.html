@@ -5,7 +5,7 @@
 		<div class="panel-body">
 			<div>
 				<input type="file" id="pdfFile" name="file" accept="application/pdf" change.delegate="onFileChanged($event)" ref="fileInput">
-				<button class="btn btn-success pull-right" style="margin-left:10px;" disabled.bind="disabled || !selectedFile" click.delegate="upload()">Upload</button>
+				<button class="btn btn-success pull-right" style="margin-left:10px;" disabled.bind="disabled || !selectedFile" click.delegate="upload()">Scan File</button>
 				<button class="btn btn-default pull-right" style="margin-left:10px;" disabled.bind="disabled" click.delegate="clear()">Clear</button>
 			</div>
 			<div class="text-center" style="margin-top:5px;">

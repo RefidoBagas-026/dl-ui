@@ -1,0 +1,54 @@
+<template>
+  <au-input-form title="Detail Invoice" with.bind="context">
+    <!-- <au-textbox label="ID" value.bind="data.Id" read-only="true" options.bind="controlOptions"></au-textbox>
+    <au-textbox label="Invoice No" value.bind="data.invoiceNo" read-only="true" options.bind="controlOptions"></au-textbox> -->
+    <au-textbox label="Nama Invoice" value.bind="data.invoiceNo" read-only="true" options.bind="controlOptions"></au-textbox>
+    <au-datepicker label="Tgl. Invoice" value.bind="data.invoiceDate" read-only="true" options.bind="controlOptions"></au-datepicker>
+    <au-datepicker label="Tgl. Faktur Pajak" value.bind="data.fakturPajakDate" read-only="true" options.bind="controlOptions"></au-datepicker>
+    <au-textbox label="No. Faktur Pajak" value.bind="data.fakturPajak" read-only="true" options.bind="controlOptions"></au-textbox>
+    <!-- <au-textbox label="No. Surat Jalan" value.bind="data.productReceipts.productReceipts" read-only="true" options.bind="controlOptions"></au-textbox> -->
+    <au-textbox label="Mata Uang" value.bind="data.currencyCode" read-only="true" options.bind="controlOptions"></au-textbox>
+    <au-textbox label="DPP" value.bind="data.lineAmountSum" format="0.00" read-only="true" options.bind="controlOptions"></au-textbox>
+    <au-textbox label="Nilai PPN" value.bind="data.ppnValue" format="0.00" read-only="true" options.bind="controlOptions"></au-textbox>
+    <au-textbox label="Nilai PPH" value.bind="data.pphValue" format="0.00" read-only="true" options.bind="controlOptions"></au-textbox>
+    <au-textbox label="Grand Total" value.bind="data.totalInvoiceSum" format="0.00" read-only="true" options.bind="controlOptions"></au-textbox>
+
+    <!-- Tabel khusus invoiceNo dan tombol 'i' -->
+    <au-table
+      data.bind="[data]"
+      columns.bind="[ { field: 'invoiceNo', title: 'Nomor Invoice' }, { field: 'actions', title: '', formatter: actionFormatter } ]"
+      options.bind="tableOptions"
+      view-model.ref="specialTable">
+    </au-table>
+
+    <!-- Tabel items invoice, muncul saat tombol 'i' diklik -->
+    <au-collection
+      if.bind="showItemsTable"
+      items.bind="itemsData"
+      columns.bind="itemsColumns"
+      read-only="true"
+      options.bind="{ control: { length: 12 } }">
+    </au-collection>
+
+    <!-- Tabel Nomor PO, selalu tampil -->
+    <au-table
+      data.bind="data.purchaseOrders"
+      columns.bind="poColumns"
+      options.bind="tableOptions"
+      view-model.ref="poTable">
+    </au-table>
+
+    <!-- Tabel Surat Jalan, selalu tampil -->
+    <au-table
+      data.bind="data.productReceipts"
+      columns.bind="sjColumns"
+      options.bind="tableOptions"
+      view-model.ref="sjTable"
+      style="margin-bottom:24px;">
+    </au-table>
+    <div style="height: 56px;"></div>
+    <div slot="actions" class="btn-group">
+      <button class="btn btn-default" click.delegate="cancel($event)" if.one-way="hasCancel">Kembali</button>
+    </div>
+  </au-input-form>
+</template>
