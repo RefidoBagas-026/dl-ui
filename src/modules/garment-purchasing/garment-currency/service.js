@@ -31,4 +31,9 @@ export class Service extends RestService {
     return super.delete(endpoint, data);
   }
 
+  postCurr() {
+    var endpoint = `${serviceUri}/post-kurs-ceisa`;
+    return super.get(endpoint);
+  }
+
 }
