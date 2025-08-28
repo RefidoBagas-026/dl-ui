@@ -31,21 +31,22 @@
     </au-collection>
 
     <!-- Tabel Nomor PO, selalu tampil -->
-    <au-table
-      data.bind="data.purchaseOrders"
-      columns.bind="poColumns"
-      options.bind="tableOptions"
-      view-model.ref="poTable">
-    </au-table>
+<au-table
+  data.bind="data.purchaseOrders"
+  columns.bind="poColumns"
+  options.bind="poTableOptions"
+  view-model.ref="poTable">
+</au-table>
 
-    <!-- Tabel Surat Jalan, selalu tampil -->
-    <au-table
-      data.bind="data.productReceipts"
-      columns.bind="sjColumns"
-      options.bind="tableOptions"
-      view-model.ref="sjTable"
-      style="margin-bottom:24px;">
-    </au-table>
+<!-- Tabel Surat Jalan, selalu tampil -->
+<au-table
+  data.bind="data.productReceipts"
+  columns.bind="sjColumns"
+  options.bind="sjTableOptions"
+  view-model.ref="sjTable"
+  style="margin-bottom:24px;">
+</au-table>
+
     <div style="height: 56px;"></div>
     <div slot="actions" class="btn-group">
       <button class="btn btn-default" click.delegate="cancel($event)" if.one-way="hasCancel">Kembali</button>

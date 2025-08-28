@@ -81,7 +81,7 @@ export class ScanResultData {
 		this.tableOptions = { pagination: false, search: false, showColumns: false, showToggle: false, pageSize: 50, locale: 'id-ID' };
 		this.headerColumns = [
 			{ field: 'InvoiceNumber', title: 'Nomor Invoice' },
-			{ field: 'InvoiceDateOffset', title: 'Tanggal Jatuh Tempo', formatter: (v) => self.formatDateLong(v) },
+			{ field: 'InvoiceDateOffset', title: 'Tanggal Invoice', formatter: (v) => self.formatDateLong(v) },
 			{ field: 'GrandTotalBeforeTax', title: 'DPP', align: 'right', formatter: (v) => self.formatNumber(v) },
 			{ field: 'ValueAddedTax', title: 'PPN', align: 'right', formatter: (v) => self.formatNumber(v) },
 			{ field: 'IncomeTax', title: 'PPH', align: 'right', formatter: (v) => self.formatNumber(v) },
