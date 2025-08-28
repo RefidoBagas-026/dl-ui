@@ -23,8 +23,8 @@ export class PdfuploaderData {
     { field: 'InvoiceNo', title: 'Nomor Invoice External' },
     { field: 'SupplierName', title: 'Supplier' },
     { field: 'VatDate', title: 'Tanggal Faktur Pajak' },
-    { field: 'TotalVat', title: 'Nominal Faktur', formatter: (value) => value ? value.toLocaleString('id-ID') : '' },
-    { field: 'GrandTotalAmount', title: 'Total Amount', formatter: (value) => value ? value.toLocaleString('id-ID') : '' },
+  { field: 'TotalVat', title: 'Nominal Faktur', formatter: (value) => value != null ? value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '' },
+  { field: 'GrandTotalAmount', title: 'Total Amount', formatter: (value) => value != null ? value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '' },
     {
       field: 'aksi',
       title: 'Aksi',
@@ -340,9 +340,9 @@ export class PdfuploaderData {
         <td>
           ${isEditing
           ? `<input type='number' class='form-control form-control-sm price-input' value='${item.PricePerDealUnit == null ? '' : item.PricePerDealUnit}' style='width:100%' data-field='PricePerDealUnit' data-itemidx='${i}' />`
-          : `${item.PricePerDealUnit ? item.PricePerDealUnit.toLocaleString('id-ID') : ''}`}
+            : `${item.PricePerDealUnit != null ? item.PricePerDealUnit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}`}
         </td>
-        <td class='total-amount-${i}'>${item.TotalAmount ? item.TotalAmount.toLocaleString('id-ID') : ''}</td>
+    <td class='total-amount-${i}'>${item.TotalAmount != null ? item.TotalAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}</td>
       </tr>`;
     }
     html += `</tbody></table></div>`;
