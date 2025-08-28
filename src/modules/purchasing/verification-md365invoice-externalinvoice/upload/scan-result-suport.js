@@ -66,7 +66,7 @@ export class ScanResultSuport {
     this.taxColumns = [
       { field: 'TaxInvoiceNumber', title: 'No. Faktur Pajak' },
       // { field: 'TaxInvoiceDate', title: 'Tanggal Faktur', formatter: (v) => this.formatDate(v) },
-      { field: 'TaxInvoiceDateOffset', title: 'Tanggal Jatuh Tempo', formatter: (v) => this.formatDate(v) },
+      { field: 'TaxInvoiceDateOffset', title: 'Tanggal Faktur', formatter: (v) => this.formatDate(v) },
       { field: 'ValueAddedTax', title: 'PPN', align: 'right', formatter: (v) => this.formatNumber(v) }
     ];
   }

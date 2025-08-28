@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 
 @inject(Router)
 export class View {
+  // Opsi umum
   tableOptions = {
     pagination: false,
     showColumns: false,
@@ -13,11 +14,14 @@ export class View {
     searchOnEnterKey: false,
     showRefresh: false,
     smartDisplay: false,
+    // JANGAN taruh formatNoMatches di sini kalau hanya ingin untuk tabel tertentu
   };
+
   hasCancel = true;
   data = null;
   id = null;
 
+  // ITEMS
   showItemsTable = false;
   itemsData = [];
   itemsColumns = [
@@ -27,44 +31,63 @@ export class View {
     { header: 'Total', value: 'lineAmount' }
   ];
 
+  // PO
   showPOsTable = false;
   poData = [];
   poColumns = [
-    { field: 'PONo', title: 'Nomor PO' }
+    {
+      field: 'PONo',
+      title: 'Nomor PO',
+      formatter: (value, row) => (row && row.message) ? row.message : value
+    }
   ];
+  // opsi khusus PO (di-set di constructor)
 
+  // SURAT JALAN
   showSJTable = false;
   sjData = [];
   sjColumns = [
-    { field: 'productReceipts', title: 'Nomor Surat Jalan' }
+    {
+      field: 'productReceipts',
+      title: 'Nomor Surat Jalan',
+      formatter: (value, row) => (row && row.message) ? row.message : value
+    }
   ];
+  // opsi khusus SJ (di-set di constructor)
 
   constructor(router) {
     this.router = router;
 
-    // Formatter untuk kolom tombol 'i' di au-table / bootstrap-table
-    // Sisipkan data-id agar mudah diketahui baris mana yang diklik.
+    // Tombol "i"
     this.actionFormatter = (value, row) =>
       `<button type="button" class="btn btn-primary btn-sm" data-action="info" data-id="${row.Id}">i</button>`;
 
-    // Ikat handler agar bisa dilepas saat detached
     this.onTableClick = this.onTableClick.bind(this);
+
+    // === OPSI KHUSUS TIAP TABEL ===
+    // Hanya tabel PO & SJ yang mengganti pesan kosong
+    this.poTableOptions = {
+      ...this.tableOptions,
+      formatNoMatches: () => 'Data sudah sesuai'
+    };
+    this.sjTableOptions = {
+      ...this.tableOptions,
+      formatNoMatches: () => 'Data sudah sesuai'
+    };
   }
 
   activate(params) {
-  const idParam = params && params.id;
+    const idParam = params && params.id;
     this.id = typeof idParam === 'string' ? Number(idParam) : idParam;
 
     const list = Array.isArray(window.listData) ? window.listData : [];
-    this.data =
-      list.find(d => String(d.Id) === String(this.id)) || null;
+    this.data = list.find(d => String(d.Id) === String(this.id)) || null;
 
     console.log('[View] Semua data invoice:', list);
     console.log('[View] Data invoice yang dipilih:', this.data);
   }
 
   attached() {
-    // Delegasi klik ke tabel (ganti selector sesuai ref elemen tabel Kakak)
     const table = document.querySelector('table');
     if (table) table.addEventListener('click', this.onTableClick);
   }
@@ -83,11 +106,12 @@ export class View {
 
     if (action === 'info') {
       this.showInfo(id);
-      // Ambil items dari invoice yang dipilih dan toggle tabel
+
       const list = Array.isArray(window.listData) ? window.listData : [];
       const row = list.find(x => String(x.Id) === String(id));
+
+      // ===== ITEMS =====
       if (row && Array.isArray(row.items)) {
-        // Jika sudah tampil dan id sama, maka hide
         if (this.showItemsTable && this.itemsData === row.items) {
           this.showItemsTable = false;
           this.itemsData = [];
@@ -100,14 +124,15 @@ export class View {
         this.showItemsTable = false;
       }
 
-      // Ambil purchaseOrders dari invoice yang dipilih dan tampilkan tabel PO
-      if (row && Array.isArray(row.purchaseOrders)) {
-        this.poData = row.purchaseOrders;
-        this.showPOsTable = true;
-      } else {
-        this.poData = [];
-        this.showPOsTable = false;
-      }
+      // ===== PO =====
+      // Boleh kosong; pesan kosong akan diganti oleh formatNoMatches
+      this.poData = (row && Array.isArray(row.purchaseOrders)) ? row.purchaseOrders : [];
+      this.showPOsTable = true;
+
+      // ===== SURAT JALAN =====
+      // Boleh kosong; pesan kosong akan diganti oleh formatNoMatches
+      this.sjData = (row && Array.isArray(row.productReceipts)) ? row.productReceipts : [];
+      this.showSJTable = true;
     }
   }
 
@@ -115,8 +140,6 @@ export class View {
     const list = Array.isArray(window.listData) ? window.listData : [];
     const row = list.find(x => String(x.Id) === String(id));
     if (!row) return;
-
-    // Contoh aksi: navigasi ke halaman view/detail lain
     this.router.navigateToRoute('view', { id: row.Id });
   }
 
