@@ -6,9 +6,9 @@ export class InvoiceItemDetail {
 	detailsColumns = [
 	{ header: "Kode Barang", value: "ItemId" },
 	{ header: "Nama Barang", value: "ItemName" },
-	{ header: "Quntity", value: "Quantity" },
+	{ header: "Quantity", value: "Quantity" },
 	{ header: "Harga Per Item", value: "UnitPrice" },
-	{ header: "Total", value: "TotalInvoice" }
+	{ header: "Total", value: "LineAmount" }
 	];
 
 		activate(model) {
