@@ -88,20 +88,6 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
-  {
-    route: "/garment-finance/verification-ni-and-inext",
-    name: "verification-ni-and-inext",
-    moduleId: "./modules/garment-finance/verification-ni-and-inext/index",
-    nav: true,
-    title: "Verifikasi NI dan Invoice External Garment",
-    auth: true,
-    settings: {
-      group: "g-finance",
-      subGroup: "ekspedisi ni",
-      permission: { "J3": 1 },
-      iconClass: "fa fa-dashboard",
-    },
-  },
 {
     route: '/garment-finance/garment-purchasing-expedition-report',
     name: 'garment-purchasing-expedition-report',
