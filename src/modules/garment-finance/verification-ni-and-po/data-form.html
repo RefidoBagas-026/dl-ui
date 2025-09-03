@@ -1,0 +1,17 @@
+<template>
+    <au-input-form title.bind="title" with.bind="context">
+        <div slot="actions" class="btn-group">
+            <button class="btn btn-default" click.delegate="context.cancel($event)" if.one-way="context.hasCancel">Kembali</button>
+            <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Cek NI dan PO</button>
+        </div>
+
+        <au-autocomplete value.bind="internalNote" error.bind="error.internalNote" label="No Nota Intern" loader.bind="internalNoteLoader" text="inNo"
+            placeholder="Cari Nomor Intern..." options.bind="controlOptions">
+        </au-autocomplete>
+
+        <au-collection items.one-way="selectedInternalNote" columns.bind="itemsInfo.columns" show.bind="internalNote.Id"
+            item-template="modules/garment-finance/verification-ni-and-po/template/intern-note-header">
+        </au-collection>
+
+    </au-input-form>
+</template>
