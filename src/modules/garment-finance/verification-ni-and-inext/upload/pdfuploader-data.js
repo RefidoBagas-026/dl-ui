@@ -2,6 +2,31 @@ import { customElement, bindable } from 'aurelia-framework';
 
 @customElement('pdfuploader-data')
 export class PdfuploaderData {
+  // Helper: parse string angka dengan format Indonesia ("1.982.300,00") menjadi Number 1982300.00
+  // - Menghapus spasi, pemisah ribuan '.'
+  // - Mengganti koma desimal "," menjadi "."
+  // - Jika input sudah berformat internasional, tetap diparse normal
+  parseLocaleNumber(str) {
+    if (str == null) return null;
+    if (typeof str === 'number') return isNaN(str) ? null : str;
+    let s = String(str).trim();
+    if (!s) return null;
+    // Hilangkan semua spasi non-breaking dan biasa
+    s = s.replace(/\s+/g, '');
+    // Jika mengandung koma dan/atau titik, coba normalisasi gaya Indonesia
+    // Kasus umum: "1.982.300,00" → hapus '.' → "1982300,00" → ganti ',' → '.' → "1982300.00"
+    if (/,/.test(s)) {
+      s = s.replace(/\./g, '');
+      s = s.replace(/,/g, '.');
+    } else {
+      // Tidak ada koma, bisa jadi sudah format internasional dengan titik desimal
+      // Hapus pemisah ribuan jika ada (misal "1,982,300.00"): sudah ditangani oleh parseFloat di banyak kasus,
+      // namun untuk konsistensi remove comma grouping
+      s = s.replace(/,/g, '');
+    }
+    const n = parseFloat(s);
+    return isNaN(n) ? null : n;
+  }
   // Mendapatkan JSON hasil edit (deep clone agar aman untuk export)
   getEditedJson() {
     return JSON.parse(JSON.stringify(this.scannedData));
@@ -23,8 +48,17 @@ export class PdfuploaderData {
     { field: 'InvoiceNo', title: 'Nomor Invoice External' },
     { field: 'SupplierName', title: 'Supplier' },
     { field: 'VatDate', title: 'Tanggal Faktur Pajak' },
-  { field: 'TotalVat', title: 'Nominal Faktur', formatter: (value) => value != null ? value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '' },
-  { field: 'GrandTotalAmount', title: 'Total Amount', formatter: (value) => value != null ? value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '' },
+  { field: 'TotalVat', title: 'Nominal Faktur', formatter: (value) => {
+    // Tampilkan selalu dengan format Indonesia dan 2 desimal
+    if (value == null || value === '') return '';
+    const num = Number(value);
+    return isNaN(num) ? value : num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  } },
+  { field: 'GrandTotalAmount', title: 'Total Amount', formatter: (value) => {
+    if (value == null || value === '') return '';
+    const num = Number(value);
+    return isNaN(num) ? value : num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  } },
     {
       field: 'aksi',
       title: 'Aksi',
@@ -100,13 +134,20 @@ export class PdfuploaderData {
 
         // Edit TotalVat (cell 3)
         const totalVatCell = cells[3];
-        const originalTotalVat = doc.Header.TotalVat || '';
-        totalVatCell.innerHTML = `<input type='number' class='form-control form-control-sm' value='${originalTotalVat}' style='width:100%' />`;
+        const originalTotalVat = doc.Header.TotalVat;
+        const totalVatDisplay = (originalTotalVat != null && !isNaN(Number(originalTotalVat)))
+          ? Number(originalTotalVat).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          : (originalTotalVat || '');
+        // Ganti ke input text agar bisa menerima format lokal (mis. 198.300,00)
+        totalVatCell.innerHTML = `<input type='text' class='form-control form-control-sm' value='${totalVatDisplay}' style='width:100%' />`;
 
         // Edit GrandTotalAmount (cell 4)
         const grandTotalCell = cells[4];
-        const originalGrandTotal = doc.Header.GrandTotalAmount || '';
-        grandTotalCell.innerHTML = `<input type='number' class='form-control form-control-sm' value='${originalGrandTotal}' style='width:100%' />`;
+        const originalGrandTotal = doc.Header.GrandTotalAmount;
+        const grandTotalDisplay = (originalGrandTotal != null && !isNaN(Number(originalGrandTotal)))
+          ? Number(originalGrandTotal).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          : (originalGrandTotal || '');
+        grandTotalCell.innerHTML = `<input type='text' class='form-control form-control-sm' value='${grandTotalDisplay}' style='width:100%' />`;
 
         // Autofocus pada field pertama
         const firstInput = invoiceNoCell.querySelector('input');
@@ -119,10 +160,12 @@ export class PdfuploaderData {
             const value = e.target.value;
             if (index === 0) { // InvoiceNo
               doc.Header.InvoiceNo = value;
-            } else if (index === 1) { // TotalVat
-              doc.Header.TotalVat = parseFloat(value) || 0;
-            } else if (index === 2) { // GrandTotalAmount
-              doc.Header.GrandTotalAmount = parseFloat(value) || 0;
+            } else if (index === 1) { // TotalVat (Nominal Faktur) - terima format lokal
+              const parsed = this.parseLocaleNumber(value);
+              doc.Header.TotalVat = parsed != null ? parsed : 0;
+            } else if (index === 2) { // GrandTotalAmount (Total Amount) - terima format lokal
+              const parsed = this.parseLocaleNumber(value);
+              doc.Header.GrandTotalAmount = parsed != null ? parsed : 0;
             }
             // Real-time JSON update
             this.showEditedJson();
@@ -168,12 +211,14 @@ export class PdfuploaderData {
 
           const totalVatInput = cells[3].querySelector('input');
           if (totalVatInput) {
-            this.scannedData.Document[docIndex].Header.TotalVat = parseFloat(totalVatInput.value) || 0;
+            const parsed = this.parseLocaleNumber(totalVatInput.value);
+            this.scannedData.Document[docIndex].Header.TotalVat = parsed != null ? parsed : 0;
           }
 
           const grandTotalInput = cells[4].querySelector('input');
           if (grandTotalInput) {
-            this.scannedData.Document[docIndex].Header.GrandTotalAmount = parseFloat(grandTotalInput.value) || 0;
+            const parsedGrand = this.parseLocaleNumber(grandTotalInput.value);
+            this.scannedData.Document[docIndex].Header.GrandTotalAmount = parsedGrand != null ? parsedGrand : 0;
           }
         }
 
@@ -185,10 +230,14 @@ export class PdfuploaderData {
           // Kembalikan InvoiceNo ke readonly
           updatedCells[0].innerHTML = doc.Header.InvoiceNo;
           // Supplier dan VatDate sudah readonly
-          // Kembalikan TotalVat ke readonly
-          updatedCells[3].innerHTML = doc.Header.TotalVat ? doc.Header.TotalVat.toLocaleString('id-ID') : '';
-          // Kembalikan GrandTotalAmount ke readonly
-          updatedCells[4].innerHTML = doc.Header.GrandTotalAmount ? doc.Header.GrandTotalAmount.toLocaleString('id-ID') : '';
+          // Kembalikan TotalVat ke readonly (format Indonesia, 2 desimal)
+          updatedCells[3].innerHTML = (doc.Header.TotalVat != null && !isNaN(Number(doc.Header.TotalVat)))
+            ? Number(doc.Header.TotalVat).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : '';
+          // Kembalikan GrandTotalAmount ke readonly (format Indonesia, 2 desimal)
+          updatedCells[4].innerHTML = (doc.Header.GrandTotalAmount != null && !isNaN(Number(doc.Header.GrandTotalAmount)))
+            ? Number(doc.Header.GrandTotalAmount).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : '';
         }
 
         // Auto-update JSON display setelah save
