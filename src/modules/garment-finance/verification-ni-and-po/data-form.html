@@ -1,4 +1,6 @@
 <template>
+    <require from="../verification-ni-and-po/css/compare-doc.css"></require>
+    <require from="../verification-ni-and-po/css/upload-bar.css"></require>
     <au-input-form title.bind="title" with.bind="context">
         <div slot="actions" class="btn-group">
             <button class="btn btn-default" click.delegate="context.cancel($event)" if.one-way="context.hasCancel">Kembali</button>
@@ -13,5 +15,26 @@
             item-template="modules/garment-finance/verification-ni-and-po/template/intern-note-header">
         </au-collection>
 
+        <div class="upload-bar-container">
+          <label for="pdf-upload" class="upload-bar-label">Unggah File Pdf</label>
+          <div style="flex-grow:1;display:flex;align-items:center;gap:16px;">
+            <input id="pdf-upload" type="file" accept="application/pdf" class="upload-bar-input" 
+              change.delegate="onFileChange($event)" value.bind="data.purchaseOrderFile">
+            <button class="btn upload-bar-scan-btn" type="button" click.delegate="context.scanFile($event)"
+              disabled.bind="!data.purchaseOrderFile || error.uploadError">
+              Scan File
+            </button>
+            <button class="btn btn-danger compare-doc-ai-btn" type="button" click.delegate="clearScanData()">
+              Clear
+            </button>
+          </div>
+          <span if.bind="error.uploadError" class="text-danger">${error.uploadError}</span>
+        </div>
+
+        <au-collection items.bind="data.PurchaseOrder" columns.bind="scanResultsInfo.columns" show.bind="data.PurchaseOrder.length > 0"
+            add.bind="scanResultsInfo.onAdd"
+            remove.bind="scanResultsInfo.onRemove"
+            item-template="modules/garment-finance/verification-ni-and-po/template/scan-po-header">
+        </au-collection>
     </au-input-form>
 </template>

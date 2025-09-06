@@ -3,25 +3,22 @@
         <td>
             <au-textbox
 				value.bind="data.PO_SerialNumber"
-				read-only.bind="readOnly">
+				read-only.bind="true">
 			</au-textbox>
         </td>
         <td>
             <au-numeric value.bind="data.DealQuantity"
-                        read-only.bind="readOnly"
+                        read-only.bind="true"
                         format="0.00"
                         options.bind="controlOptions">
             </au-numeric>
         </td>
         <td>
             <au-numeric value.bind="data.PricePerDealUnit"
-                        read-only.bind="readOnly"
+                        read-only.bind="true"
                         format="0.00"
                         options.bind="controlOptions">
             </au-numeric>
         </td>
-        <td if.bind="!readOnly">
-			<button class="btn btn-danger pull-right" click.delegate="onremove(data)">-</button>
-		</td>
     </tr>
 </template>

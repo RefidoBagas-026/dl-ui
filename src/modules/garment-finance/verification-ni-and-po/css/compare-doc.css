@@ -385,3 +385,8 @@
 }
 
 
+.compare-doc-ai-btn {
+  height: 38px;
+  white-space: nowrap;
+  min-width: 80px;
+}
