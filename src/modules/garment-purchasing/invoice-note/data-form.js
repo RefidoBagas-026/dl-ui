@@ -36,6 +36,7 @@ export class DataForm {
         , onAdd: function () {
             // this.context.ItemsCollection.bind();
             this.data.items.push({});
+            console.log(this.data.items);
         }.bind(this),
  
     };
