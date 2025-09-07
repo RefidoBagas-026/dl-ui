@@ -27,7 +27,6 @@ export class ScanPOHeader {
     }
 
     async activate(context) {
-        console.log(context);
         this.context = context;
         this.isShowing = false;
         this.data = context.data;
@@ -43,7 +42,6 @@ export class ScanPOHeader {
 
     async purchaseOrderChanged(newValue, oldValue) {
         if (newValue) {
-            console.log("Perubahan loader");
             var purchaseOrderById = await this.service.getExternalPurchaseOrderById(newValue.Id);
             this.data.EPONo = newValue.EPONo;
             this.data.Items = purchaseOrderById.Items;
@@ -58,7 +56,6 @@ export class ScanPOHeader {
     }
 
     externalPurchaseOrderView = (externalPurchaseOrder) => {
-        console.log(externalPurchaseOrder);
         return `${externalPurchaseOrder.EPONo}`
     }
 }
