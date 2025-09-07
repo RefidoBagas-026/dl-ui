@@ -53,6 +53,15 @@ export class DataForm {
         return this.internalNote && [this.internalNote];
     }
 
+    internalNoteChanged(newValue, oldValue) {
+        if (newValue) {
+            this.data.internalNote = newValue;
+            this.error.internalNote = null;
+        } else {
+            this.data.internalNote = null;
+        }
+    }
+
     onFileChange(event) {
         const files = event.target.files;
         if (files && files[0]) {
