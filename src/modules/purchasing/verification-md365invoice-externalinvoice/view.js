@@ -148,7 +148,7 @@ export class View {
   }
 
   cancel() {
-    if (confirm('Apakah Kakak yakin akan keluar?')) {
+    if (confirm('Apakah Anda yakin akan kembali?')) {
       this.router.navigateToRoute('list');
     }
   }
