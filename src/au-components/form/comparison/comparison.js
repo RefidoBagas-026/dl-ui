@@ -1,5 +1,6 @@
 import { bindable, customElement } from 'aurelia-framework';
 import { inject } from 'aurelia-dependency-injection';
+import moment from 'moment';
 
 @customElement('au-comparison')
 @inject(Element)
@@ -39,11 +40,12 @@ export class Comparison {
         }
       }
       
-      // Handle date formatting (you can extend this as needed)
+      // Handle date formatting (same as au-datepicker)
       if (this.format === 'date') {
-        const date = new Date(value);
-        if (!isNaN(date.getTime())) {
-          return date.toLocaleDateString('id-ID');
+        if (value) {
+          return moment(value).format("DD-MMM-YYYY");
+        } else {
+          return "";
         }
       }
     }
