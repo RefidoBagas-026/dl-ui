@@ -20,6 +20,7 @@ export class View {
   hasCancel = true;
   data = null;
   id = null;
+  controlOptions = {}; // Options for form controls
 
   // ITEMS
   showItemsTable = false;
