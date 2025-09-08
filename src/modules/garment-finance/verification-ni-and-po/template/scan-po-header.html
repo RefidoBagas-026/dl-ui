@@ -1,0 +1,24 @@
+<template>
+    <tr>
+        <td>
+            <div class="col-sm-7">
+                <au-autocomplete value.bind="purchaseOrder" error.bind="error.externalPurchaseOrder" loader.bind="externalPurchaseOrderLoader" text.bind="externalPurchaseOrderView"
+                    placeholder="Cari Nomor PO Eksternal..." options.bind="controlOptions">
+                </au-autocomplete>
+            </div>
+            <div class="col-sm-1 pull-right">
+                <button class="btn btn-info pull-right" if.bind="purchaseOrder.Items" click.delegate="toggle()">i</button>
+            </div>
+        </td>
+        <td>
+            <button class="btn btn-danger pull-right" click.delegate="onremove(context.data)">-</button>
+        </td>
+    </tr>
+    <tr show.bind="isShowing">
+        <td colspan="5">
+            <au-collection items.one-way="data.Items" columns.bind="itemsInfo.columns"
+                item-template="modules/garment-finance/verification-ni-and-po/template/scan-po-item">
+            </au-collection>
+        </td>
+    </tr>
+</template>
