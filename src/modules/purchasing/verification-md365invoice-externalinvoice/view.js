@@ -20,6 +20,7 @@ export class View {
   hasCancel = true;
   data = null;
   id = null;
+  controlOptions = {}; // Options for form controls
 
   // ITEMS
   showItemsTable = false;
@@ -83,6 +84,15 @@ export class View {
     const list = Array.isArray(window.listData) ? window.listData : [];
     this.data = list.find(d => String(d.Id) === String(this.id)) || null;
 
+    this.data.purchaseOrders = this.data.purchaseOrders.filter(item => item.PONo !== item.PONoScanResult);
+    this.data.productReceipts = this.data.productReceipts.filter(item => item.productReceipts !== item.productReceiptsScanResult);
+
+    this.highlightDifferencesFakturPajakDate = this.data.fakturPajakDate == "1900-01-01T12:00:00" ? false : true;
+    this.highlightDifferencesInvoiceDate = this.data.invoiceDate == "1900-01-01T12:00:00" ? false : true;
+
+    this.data.fakturPajakDate = this.data.fakturPajakDate == "1900-01-01T12:00:00" ? null : this.data.fakturPajakDate;
+    this.data.invoiceDate = this.data.invoiceDate == "1900-01-01T12:00:00" ? null : this.data.invoiceDate;
+
     console.log('[View] Semua data invoice:', list);
     console.log('[View] Data invoice yang dipilih:', this.data);
   }
@@ -144,7 +154,7 @@ export class View {
   }
 
   cancel() {
-    if (confirm('Apakah Kakak yakin akan keluar?')) {
+    if (confirm('Apakah Anda yakin akan kembali?')) {
       this.router.navigateToRoute('list');
     }
   }
