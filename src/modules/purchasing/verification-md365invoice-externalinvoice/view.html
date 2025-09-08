@@ -2,16 +2,93 @@
   <au-input-form title="Detail Invoice" with.bind="context">
     <!-- <au-textbox label="ID" value.bind="data.Id" read-only="true" options.bind="controlOptions"></au-textbox>
     <au-textbox label="Invoice No" value.bind="data.invoiceNo" read-only="true" options.bind="controlOptions"></au-textbox> -->
-    <au-textbox label="Nama Invoice" value.bind="data.invoiceNo" read-only="true" options.bind="controlOptions"></au-textbox>
-    <au-datepicker label="Tgl. Invoice" value.bind="data.invoiceDate" read-only="true" options.bind="controlOptions"></au-datepicker>
-    <au-datepicker label="Tgl. Faktur Pajak" value.bind="data.fakturPajakDate" read-only="true" options.bind="controlOptions"></au-datepicker>
-    <au-textbox label="No. Faktur Pajak" value.bind="data.fakturPajak" read-only="true" options.bind="controlOptions"></au-textbox>
-    <!-- <au-textbox label="No. Surat Jalan" value.bind="data.productReceipts.productReceipts" read-only="true" options.bind="controlOptions"></au-textbox> -->
-    <au-textbox label="Mata Uang" value.bind="data.currencyCode" read-only="true" options.bind="controlOptions"></au-textbox>
-    <au-textbox label="DPP" value.bind="data.lineAmountSum" format="0.00" read-only="true" options.bind="controlOptions"></au-textbox>
-    <au-textbox label="Nilai PPN" value.bind="data.ppnValue" format="0.00" read-only="true" options.bind="controlOptions"></au-textbox>
-    <au-textbox label="Nilai PPH" value.bind="data.pphValue" format="0.00" read-only="true" options.bind="controlOptions"></au-textbox>
-    <au-textbox label="Grand Total" value.bind="data.totalInvoiceSum" format="0.00" read-only="true" options.bind="controlOptions"></au-textbox>
+    <!-- Side-by-side comparisons -->
+    <au-comparison 
+      label="Nama Invoice" 
+      value1.bind="data.invoiceNo" 
+      value2.bind="data.invoiceNoScanResult" 
+      label1="Data 365" 
+      label2="Data Hasil Scan" 
+      options.bind="controlOptions">
+    </au-comparison>
+    
+    <au-comparison 
+      label="Tanggal Invoice" 
+      value1.bind="data.invoiceDate" 
+      value2.bind="data.invoiceDateScanResult" 
+      label1="Data 365" 
+      label2="Data Hasil Scan" 
+      format="date"
+      options.bind="controlOptions">
+    </au-comparison>
+    
+    <au-comparison 
+      label="Tanggal Faktur Pajak" 
+      value1.bind="data.fakturPajakDate" 
+      value2.bind="data.fakturPajakDateScanResult" 
+      label1="Data 365" 
+      label2="Data Hasil Scan" 
+      format="date"
+      options.bind="controlOptions">
+    </au-comparison>
+    
+    <au-comparison 
+      label="No. Faktur Pajak" 
+      value1.bind="data.fakturPajak" 
+      value2.bind="data.fakturPajakScanResult" 
+      label1="Data 365" 
+      label2="Data Hasil Scan" 
+      options.bind="controlOptions">
+    </au-comparison>
+    
+    <au-comparison 
+      label="Mata Uang" 
+      value1.bind="data.currencyCode" 
+      value2.bind="data.currencyCodeScanResult" 
+      label1="Data 365" 
+      label2="Data Hasil Scan" 
+      options.bind="controlOptions">
+    </au-comparison>
+    
+    <au-comparison 
+      label="DPP" 
+      value1.bind="data.lineAmountSum" 
+      value2.bind="data.lineAmountSumScanResult" 
+      label1="Data 365" 
+      label2="Data Hasil Scan" 
+      format="0.00"
+      options.bind="controlOptions">
+    </au-comparison>
+    
+    <au-comparison 
+      label="Nilai PPN" 
+      value1.bind="data.PPNValue" 
+      value2.bind="data.PPNValueScanResult" 
+      label1="Data 365" 
+      label2="Data Hasil Scan" 
+      format="0.00"
+      options.bind="controlOptions">
+    </au-comparison>
+    
+    <au-comparison 
+      label="Nilai PPH" 
+      value1.bind="data.PPHValue" 
+      value2.bind="data.PPHValueScanResult" 
+      label1="Data 365" 
+      label2="Data Hasil Scan" 
+      format="0.00"
+      options.bind="controlOptions">
+    </au-comparison>
+    
+    <au-comparison 
+      label="Grand Total" 
+      value1.bind="data.totalInvoiceSum" 
+      value2.bind="data.totalInvoiceSumScanResult" 
+      label1="Data 365" 
+      label2="Data Hasil Scan" 
+      format="0.00"
+      options.bind="controlOptions">
+    </au-comparison>
 
     <!-- Tabel khusus invoiceNo dan tombol 'i' -->
     <au-table
