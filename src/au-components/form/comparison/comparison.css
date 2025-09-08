@@ -45,7 +45,6 @@
   background-color: #ffebee;
   border-color: #f44336;
   box-shadow: 0 0 8px rgba(244, 67, 54, 0.3);
-  animation: pulse-red 2s infinite;
 }
 
 .comparison-value .form-control-static {
@@ -145,7 +144,6 @@
   border: 2px solid #ff5722;
   border-radius: 6px;
   opacity: 0;
-  animation: flash-border 0.6s ease-in-out;
 }
 
 @keyframes flash-border {
