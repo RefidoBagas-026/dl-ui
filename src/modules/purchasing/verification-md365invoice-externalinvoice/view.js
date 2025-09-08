@@ -84,6 +84,9 @@ export class View {
     const list = Array.isArray(window.listData) ? window.listData : [];
     this.data = list.find(d => String(d.Id) === String(this.id)) || null;
 
+    this.data.purchaseOrders = this.data.purchaseOrders.filter(item => item.PONo !== item.PONoScanResult);
+    this.data.productReceipts = this.data.productReceipts.filter(item => item.productReceipts !== item.productReceiptsScanResult);
+
     console.log('[View] Semua data invoice:', list);
     console.log('[View] Data invoice yang dipilih:', this.data);
   }
