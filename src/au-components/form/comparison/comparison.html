@@ -1,0 +1,42 @@
+<template>
+  <require from="../_layout"></require>
+  <require from="./comparison.css"></require>
+  
+  <au-layout options.bind="controlOptions">
+    <div class="au-comparison-container">
+      <!-- Main comparison label -->
+      <div class="comparison-main-label" if.bind="label">
+        ${label}
+      </div>
+      
+      <!-- Side by side comparison -->
+      <div class="comparison-row">
+        <!-- Left side (Value 1) -->
+        <div class="comparison-column">
+          <div class="comparison-sub-label">${label1}</div>
+          <div class="comparison-value" class.bind="isDifferent ? 'different' : ''">
+            <div class="form-control-static">${formattedValue1 || '-'}</div>
+          </div>
+        </div>
+        
+        <!-- Right side (Value 2) -->
+        <div class="comparison-column">
+          <div class="comparison-sub-label">${label2}</div>
+          <div class="comparison-value" class.bind="isDifferent ? 'different' : ''">
+            <div class="form-control-static">${formattedValue2 || '-'}</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Difference indicator -->
+      <div class="comparison-status" if.bind="isDifferent">
+        <i class="fa fa-exclamation-triangle text-warning"></i>
+        <span class="text-warning">Data tidak sesuai</span>
+      </div>
+      <div class="comparison-status" if.bind="!isDifferent && value1 && value2">
+        <i class="fa fa-check text-success"></i>
+        <span class="text-success">Data sesuai</span>
+      </div>
+    </div>
+  </au-layout>
+</template>

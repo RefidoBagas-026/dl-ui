@@ -4,6 +4,8 @@ export function configure(config) {
     // './dialog/index',
     './form/autocomplete/autocomplete',
     './form/collection/collection',
+    './form/comparison/comparison',
+    './form/comparison/comparison-editable',
     './form/checkbox',
     './form/dropdown',
     './form/multiline',
