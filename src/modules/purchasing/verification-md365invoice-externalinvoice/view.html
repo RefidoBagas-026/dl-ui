@@ -8,13 +8,14 @@
       value1.bind="data.invoiceNo" 
       value2.bind="data.invoiceNoScanResult" 
       label1="Data 365" 
-      label2="Data Hasil Scan" 
+      label2="Data Hasil Scan"
+      highlight-differences.bind="highlightDifferencesInvoiceNo" 
       options.bind="controlOptions">
     </au-comparison>
     
     <au-comparison 
       label="Tanggal Invoice" 
-      value1.bind="data.invoiceDate" 
+      value1.bind="cleanedInvoiceDate" 
       value2.bind="data.invoiceDateScanResult" 
       label1="Data 365" 
       label2="Data Hasil Scan" 
@@ -25,7 +26,7 @@
     
     <au-comparison 
       label="Tanggal Faktur Pajak" 
-      value1.bind="data.fakturPajakDate" 
+      value1.bind="cleanedFakturPajakDate" 
       value2.bind="data.fakturPajakDateScanResult" 
       label1="Data 365" 
       label2="Data Hasil Scan" 
@@ -39,7 +40,8 @@
       value1.bind="data.fakturPajak" 
       value2.bind="data.fakturPajakScanResult" 
       label1="Data 365" 
-      label2="Data Hasil Scan" 
+      label2="Data Hasil Scan"
+      highlight-differences.bind="highlightDifferencesFakturPajak" 
       options.bind="controlOptions">
     </au-comparison>
     
@@ -112,7 +114,7 @@
 
     <!-- Tabel Nomor PO, selalu tampil -->
 <au-table
-  data.bind="data.purchaseOrders"
+  data.bind="filteredPurchaseOrders"
   columns.bind="poColumns"
   options.bind="poTableOptions"
   view-model.ref="poTable">
@@ -120,7 +122,7 @@
 
 <!-- Tabel Surat Jalan, selalu tampil -->
 <au-table
-  data.bind="data.productReceipts"
+  data.bind="filteredProductReceipts"
   columns.bind="sjColumns"
   options.bind="sjTableOptions"
   view-model.ref="sjTable"

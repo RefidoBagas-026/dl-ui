@@ -1,8 +1,10 @@
-import { inject } from 'aurelia-framework';
+import { inject, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 
 @inject(Router)
 export class View {
+  // ===== CONSTANTS =====
+  static DEFAULT_DATE = "1900-01-01T12:00:00";
   // Opsi umum
   tableOptions = {
     pagination: false,
@@ -77,21 +79,113 @@ export class View {
     };
   }
 
+  // ===== COMPUTED PROPERTIES FOR BETTER PERFORMANCE =====
+
+  /**
+   * Safe getter for data to prevent null reference errors
+   * @returns {Object} The data object or empty object if null/undefined
+   */
+  @computedFrom('data')
+  get safeData() {
+    return this.data || {};
+  }
+  
+  /**
+   * Filters purchase orders where PONo differs from PONoScanResult
+   * Uses computedFrom for performance optimization
+   */
+  @computedFrom('safeData.purchaseOrders', 'safeData.purchaseOrders.length')
+  get filteredPurchaseOrders() {
+    const { purchaseOrders } = this.safeData;
+    if (!purchaseOrders || !Array.isArray(purchaseOrders)) {
+      return [];
+    }
+    return purchaseOrders.filter(item => 
+      item && item.PONo !== item.PONoScanResult
+    );
+  }
+
+  /**
+   * Filters product receipts where productReceipts differs from productReceiptsScanResult
+   * Uses computedFrom for performance optimization
+   */
+  @computedFrom('safeData.productReceipts', 'safeData.productReceipts.length')
+  get filteredProductReceipts() {
+    const { productReceipts } = this.safeData;
+    if (!productReceipts || !Array.isArray(productReceipts)) {
+      return [];
+    }
+    return productReceipts.filter(item => 
+      item && item.productReceipts !== item.productReceiptsScanResult
+    );
+  }
+
+  /**
+   * Determines if faktur pajak date should highlight differences
+   * Returns false if date is default value (1900-01-01T12:00:00)
+   */
+  @computedFrom('safeData.fakturPajakDate')
+  get highlightDifferencesFakturPajakDate() {
+    return this.isValidDate(this.safeData.fakturPajakDate);
+  }
+
+  /**
+   * Determines if invoice date should highlight differences
+   * Returns false if date is default value (1900-01-01T12:00:00)
+   */
+  @computedFrom('safeData.invoiceDate')
+  get highlightDifferencesInvoiceDate() {
+    return this.isValidDate(this.safeData.invoiceDate);
+  }
+
+  @computedFrom('safeData.invoiceNo')
+  get highlightDifferencesInvoiceNo() {
+    return this.safeData.invoiceNo ? true : false;
+  }
+
+  @computedFrom('safeData.fakturPajak')
+  get highlightDifferencesFakturPajak() {
+    return this.safeData.fakturPajak ? true : false;
+  }
+
+  /**
+   * Returns cleaned faktur pajak date (null if default value)
+   * Prevents display of meaningless default dates
+   */
+  @computedFrom('safeData.fakturPajakDate')
+  get cleanedFakturPajakDate() {
+    const { fakturPajakDate } = this.safeData;
+    return this.isValidDate(fakturPajakDate) ? fakturPajakDate : null;
+  }
+
+  /**
+   * Returns cleaned invoice date (null if default value)  
+   * Prevents display of meaningless default dates
+   */
+  @computedFrom('safeData.invoiceDate')
+  get cleanedInvoiceDate() {
+    const { invoiceDate } = this.safeData;
+    return this.isValidDate(invoiceDate) ? invoiceDate : null;
+  }
+
+  /**
+   * Helper method to check if date is valid (not the default 1900-01-01T12:00:00)
+   * @param {string} dateString - The date string to validate
+   * @returns {boolean} - True if date is valid and not default
+   */
+  isValidDate(dateString) {
+    if (!dateString) return false;
+    
+    // Check if it's the default invalid date
+    return dateString !== View.DEFAULT_DATE;
+  }
+
   activate(params) {
     const idParam = params && params.id;
     this.id = typeof idParam === 'string' ? Number(idParam) : idParam;
 
     const list = Array.isArray(window.listData) ? window.listData : [];
     this.data = list.find(d => String(d.Id) === String(this.id)) || null;
-
-    this.data.purchaseOrders = this.data.purchaseOrders.filter(item => item.PONo !== item.PONoScanResult);
-    this.data.productReceipts = this.data.productReceipts.filter(item => item.productReceipts !== item.productReceiptsScanResult);
-
-    this.highlightDifferencesFakturPajakDate = this.data.fakturPajakDate == "1900-01-01T12:00:00" ? false : true;
-    this.highlightDifferencesInvoiceDate = this.data.invoiceDate == "1900-01-01T12:00:00" ? false : true;
-
-    this.data.fakturPajakDate = this.data.fakturPajakDate == "1900-01-01T12:00:00" ? null : this.data.fakturPajakDate;
-    this.data.invoiceDate = this.data.invoiceDate == "1900-01-01T12:00:00" ? null : this.data.invoiceDate;
 
     console.log('[View] Semua data invoice:', list);
     console.log('[View] Data invoice yang dipilih:', this.data);
