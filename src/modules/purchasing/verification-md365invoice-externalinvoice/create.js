@@ -91,7 +91,7 @@ export class Create {
             // Kirim ke backend, biarkan service.js yang handle FormData
             const service = this.service || (vm && vm.service);
             const response = await service.postCompareInvoice(selected, {
-                scanResult: JSON.stringify(scanResultToSend),
+                scanResult: scanResultToSend ? JSON.stringify(scanResultToSend) : null,
                 file: file
             });
             // Sukses
