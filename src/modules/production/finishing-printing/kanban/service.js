@@ -133,4 +133,9 @@ export class Service extends RestService {
     var endpoint = `${serviceUri}/pdf/${id}`;
     return super.getPdf(endpoint);
   }
+
+  getPdfByIdFlow(id) {
+    var endpoint = `${serviceUri}/pdf-flow/${id}`;
+    return super.getPdf(endpoint);
+  }
 }
