@@ -11,8 +11,9 @@ export class List {
     @bindable KtgrItem;
     @bindable selectedUnit;
 
-    KategoriItem = ['','BAHAN BAKU','BAHAN PENDUKUNG', 'BAHAN EMBALACE'];
+    KategoriItem = ['','BAHAN BAKU','BAHAN PENDUKUNG', 'BAHAN EMBALACE','SUBCON'];
     //unitOption = ['','CENTRAL 2A', 'CENTRAL 2B','CENTRAL 2C/EX. K4','CENTRAL 1A/EX. K3','CENTRAL 1B'];
+    
 
     async bind(context) {
         this.context = context;
@@ -55,11 +56,17 @@ export class List {
     };
 
     search() {
+        const categoryMap = {
+        "BAHAN BAKU": "BB",
+        "BAHAN PENDUKUNG": "BP",
+        "BAHAN EMBALACE": "BE",
+        "SUBCON": "SISA SUBCON",
+        };
         let args = {
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : null,
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            category : this.category ? this.category : "",
             unit : this.unit ? this.unit.Code : "",
+            category : categoryMap[this.KtgrItem] || "",
           }
 
         this.service.search(args)
