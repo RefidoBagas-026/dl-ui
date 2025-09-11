@@ -1,69 +1,24 @@
-
 <template>
-  <h1 class="page-header">Verifikasi Invoice dan Dokumen Eksternal</h1>
-  <div class="form-group">
-    <label for="invoiceSelect">Pilih Invoice</label>
-    <select id="invoiceSelect" value.bind="selectedInvoice" class="form-control">
-      <option value="">Pilih Invoice</option>
-      <option repeat.for="invoice of invoices" model.bind="invoice">${invoice.noInvoice}</option>
-    </select>
-    <button class="btn btn-primary" click.delegate="loadInvoiceData()">Muat Data Invoice</button>
-  </div>
-  <div if.bind="invoiceData">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Nomor Invoice</th>
-          <th>Tanggal Invoice</th>
-          <th>Nomor Faktur Pajak</th>
-          <th>Total per Item</th>
-          <th>Total Invoice</th>
-          <th>Mata Uang</th>
-          <th>Nama Barang</th>
-          <th>Qty</th>
-          <th>Harga per Item</th>
-          <th>Tanggal Faktur Pajak</th>
-          <th>Nilai PPN pada Invoice</th>
-          <th>Nilai PPN pada Faktur Pajak</th>
-          <th>Nomor Purchase Order</th>
-          <th>Nomor Surat Jalan</th>
-          <th>Nilai PPh</th>
-          <th>Total DPP</th>
-          <th>Grand Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr repeat.for="item of invoiceData.items">
-          <td>${item.noInvoice}</td>
-          <td>${item.tanggalInvoice}</td>
-          <td>${item.noFakturPajak}</td>
-          <td>${item.totalPerItem}</td>
-          <td>${item.totalInvoice}</td>
-          <td>${item.mataUang}</td>
-          <td>${item.namaBarang}</td>
-          <td>${item.qty}</td>
-          <td>${item.hargaPerItem}</td>
-          <td>${item.tanggalFakturPajak}</td>
-          <td>${item.nilaiPPNInvoice}</td>
-          <td>${item.nilaiPPNFakturPajak}</td>
-          <td>${item.noPO}</td>
-          <td>${item.noSuratJalan}</td>
-          <td>${item.nilaiPPh}</td>
-          <td>${item.totalDPP}</td>
-          <td>${item.grandTotal}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- Upload PDF Section (Required) -->
-    <div class="mt-4">
-      <label><b>Upload PDF Invoice/Dokumen Eksternal <span style="color:red">*</span></b></label>
-      <require from="./upload.html"></require>
-      <upload files.bind="files" uploaded-files.bind="uploadedFiles" after-upload.call="onAfterUpload()"></upload>
-    </div>
-    <!-- Scan Result Section -->
-    <div class="mt-4">
-      <require from="./scan-result.html"></require>
-      <scan-result scan-data.bind="scanData"></scan-result>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="page-header">Verifikasi Invoice dan Dokumen Eksternal</h1>
+        <div class="btn-group" style="margin-bottom: 8px;">
+          <button class="btn btn-success" click.delegate="create()">Verifikasi Invoice</button>
+        </div>
+        <div class="table-responsive">
+          <au-table
+            view-model.ref="table"
+            data.bind="loader"
+            columns.bind="columns"
+            sortable.bind="true"
+            page-size="25"
+              options.bind="tableOptions"
+              context.bind="context"
+              context-click.delegate="contextClickCallback($event)">
+          </au-table>
+        </div>
+      </div>
     </div>
   </div>
 </template>

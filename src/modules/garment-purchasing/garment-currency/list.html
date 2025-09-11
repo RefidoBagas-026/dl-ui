@@ -2,6 +2,7 @@
   <h1 class="page-header">Mata Uang Garment</h1>
 
   <au-table
+  view-model.ref="tableList"
     data.bind="loader"
     columns.bind="columns"
     sortable.bind="true"
@@ -10,6 +11,9 @@
     context-click.delegate="contextCallback($event)">
     <div slot="toolbar" class="btn-group">
       <button class="btn btn-default" click.delegate="upload()">Unggah CSV</button>
+    </div>
+    <div slot="toolbar" class="btn-group">
+      <button class="btn btn-primary" click.delegate="postKursCeisa()">Update Currency BC</button>
     </div>
   </au-table>
 </template>

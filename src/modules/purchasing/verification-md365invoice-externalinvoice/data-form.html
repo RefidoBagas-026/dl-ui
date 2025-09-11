@@ -1,0 +1,128 @@
+<template>
+    <au-input-form title.bind="title" with.bind="context">
+        
+
+        <div slot="actions" class="btn-group">
+            <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button>
+        </div>
+
+        <au-autocomplete value.bind="d365Invoice" label="Nomor Invoice" loader.bind="d365InvoiceLoader" text.bind="d365InvoiceView"
+            placeholder="cari nomor invoice" key="InvoiceId" options.bind="controlOptions"  read-only.bind="!readOnly" >
+        </au-autocomplete>
+
+        <au-textbox 
+            label="Nama Invoice" 
+            value.bind="d365Invoice.InvoiceName" 
+            
+            read-only.bind="true"
+            if.bind="d365InvoiceIsSelected"
+            options.bind="controlOptions">
+        </au-textbox>
+
+    <au-datepicker label="Tgl. Invoice" value.bind="d365Invoice.InvoiceDate" read-only.bind="true" if.bind="d365InvoiceIsSelected" options.bind="controlOptions">
+        </au-datepicker>
+
+    <au-datepicker label="Tgl. Faktur Pajak" value.bind="d365Invoice.FakturPajakDate" read-only.bind="true" if.bind="d365InvoiceIsSelected" options.bind="controlOptions">
+        </au-datepicker>
+
+        <au-textbox 
+            label="No. Faktur Pajak" 
+            value.bind="d365Invoice.FakturPajak" 
+            
+            read-only.bind="true"
+            if.bind="d365InvoiceIsSelected"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-textbox 
+            label="No. Surat Jalan" 
+            value.bind="d365Invoice.ProductReceipts" 
+            
+            read-only.bind="true"
+            if.bind="d365InvoiceIsSelected"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-textbox 
+            label="Mata Uang" 
+            value.bind="d365Invoice.CurrencyCode" 
+            
+            read-only.bind="true"
+            if.bind="d365InvoiceIsSelected"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-textbox 
+            label="DPP" 
+            value.bind="d365Invoice.LineAmountSum" 
+            format="0.00"
+            read-only.bind="true"
+            if.bind="d365InvoiceIsSelected"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-textbox 
+            label="Nilai PPN" 
+            value.bind="d365Invoice.PPNValue" 
+            format="0.00"
+            read-only.bind="true"
+            if.bind="d365InvoiceIsSelected"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-textbox 
+            label="Nilai PPH" 
+            value.bind="d365Invoice.PPHValue" 
+            format="0.00"
+            read-only.bind="true"
+            if.bind="d365InvoiceIsSelected"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-textbox 
+            label="Grand Total" 
+            value.bind="d365Invoice.TotalInvoiceSum" 
+            format="0.00"
+            read-only.bind="true"
+            if.bind="d365InvoiceIsSelected"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-collection
+            items.bind="d365Invoice.Items"
+            columns.bind="itemsInfoReadOnly.columnsReadOnly"
+            if.bind="d365InvoiceIsSelected"
+            read-only.bind="true"
+            options.bind="options"
+            item-template="modules/purchasing/verification-md365invoice-externalinvoice/template/invoice-item">
+        </au-collection>
+
+        <!-- Upload section moved to the bottom of the form -->
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-12">
+                <compose view-model.bind="uploadVm" model.bind="{ onResult: handleUploadResult, onFileSelected: handleFileSelected }"></compose>
+            </div>
+        </div>
+
+        <!-- Scan result displayed below upload section -->
+        <div class="row" if.bind="showScanJson">
+            <div class="col-md-12">
+                <compose view-model.bind="scanResultVm" model.bind="{ result: scanResult }"></compose>
+            </div>
+        </div>
+
+        <!-- Tabular view for scan result (header + items toggle) -->
+        <div class="row">
+            <div class="col-md-12">
+                <div if.bind="showScanResultData">
+                    <compose 
+                        view-model.bind="scanResultDataVm" 
+                        model.bind="{ result: scanResult, key: scanResultDataKey }"
+                        strategy="replace-part">
+                    </compose>
+                </div>
+            </div>
+        </div>
+
+    </au-input-form>
+</template>
