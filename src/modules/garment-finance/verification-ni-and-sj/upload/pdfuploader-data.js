@@ -4,9 +4,14 @@ import { customElement, bindable } from 'aurelia-framework';
 export class PdfuploaderData {
   // Mendapatkan JSON hasil edit (deep clone agar aman untuk export)
   getEditedJson() {
-    return JSON.parse(JSON.stringify(this.scannedData));
+    // return JSON.parse(JSON.stringify(this.scannedData));
+    const src = (this.scannedData && typeof this.scannedData === 'object')
+    ? this.scannedData
+    : { Document: [] }; // default aman
+  return JSON.parse(JSON.stringify(src));
   }
-  // Status dokumen yang sedang diedit
+
+  // Status dokumen yang sedang diedit (pakai kunci dokumen, bukan index lokal)
   editingDocId = null;
   @bindable scannedData;
 
@@ -24,14 +29,15 @@ export class PdfuploaderData {
     {
       field: 'aksi',
       title: 'Aksi',
-      formatter: (v, row, idx) => `
-        <button class='btn btn-info btn-sm' data-toggle='expand' data-docid='${idx}'>i</button>
+      // PENTING: gunakan kunci baris (_docKey) yang berasal dari loader, JANGAN pakai idx local
+      formatter: (v, row /*, idx */) => `
+        <button class='btn btn-info btn-sm' data-toggle='expand' data-docid='${row._docKey}'>i</button>
         <span style='margin-left: 4px;'></span>
-        <button class='btn btn-warning btn-sm' title='Edit' data-toggle='edit' data-docid='${idx}'>
+        <button class='btn btn-warning btn-sm' title='Edit' data-toggle='edit' data-docid='${row._docKey}'>
           <i class='fa fa-edit'></i>
         </button>
         <span style='margin-left: 4px;'></span>
-        <button class='btn btn-success btn-sm' title='Save' data-toggle='save' data-docid='${idx}'>
+        <button class='btn btn-success btn-sm' title='Save' data-toggle='save' data-docid='${row._docKey}'>
           <i class='fa fa-save'></i>
         </button>
       `,
@@ -40,13 +46,24 @@ export class PdfuploaderData {
       sortable: false
     }
   ];
+
+  // Helper: ambil doc berdasarkan kunci (DocumentNumber atau index numerik global)
+  getDocById(docId) {
+    const asNum = Number(docId);
+    if (!Number.isNaN(asNum) && Number.isFinite(asNum)) {
+      return this.documents[asNum];
+    }
+    return this.documents.find(d => d && d.Header && d.Header.DocumentNumber === docId);
+  }
+
   attached() {
-    // Event delegation untuk tombol expand/collapse
+    // Event delegation untuk tombol expand/edit/save
     this._expandHandler = (e) => {
+      // === Expand/Collapse ===
       const btn = e.target.closest('[data-toggle="expand"]');
       if (btn) {
-        const docIdx = parseInt(btn.getAttribute('data-docid'), 10);
-        const doc = this.documents[docIdx];
+        const key = btn.getAttribute('data-docid');
+        const doc = this.getDocById(key);
         if (!doc) return;
         const rowEl = btn.closest('tr');
         if (!rowEl) return;
@@ -69,13 +86,14 @@ export class PdfuploaderData {
           rowEl.parentNode.insertBefore(detailRow, rowEl.nextSibling);
         }
       }
-      // Event handler untuk tombol Edit
+
+      // === Edit ===
       const editBtn = e.target.closest('[data-toggle="edit"]');
       if (editBtn) {
-        const docIdx = parseInt(editBtn.getAttribute('data-docid'), 10);
-        const doc = this.documents[docIdx];
+        const key = editBtn.getAttribute('data-docid');
+        const doc = this.getDocById(key);
         if (!doc) return;
-        this.editingDocId = docIdx;
+        this.editingDocId = key; // simpan kunci, bukan index lokal
         const rowEl = editBtn.closest('tr');
         if (!rowEl) return;
         // Cek apakah sudah dalam mode edit
@@ -97,11 +115,12 @@ export class PdfuploaderData {
           if (td) td.innerHTML = this.detailFormatter(doc);
         }
       }
-      // Event handler untuk tombol Save
+
+      // === Save ===
       const saveBtn = e.target.closest('[data-toggle="save"]');
       if (saveBtn) {
-        const docIdx = parseInt(saveBtn.getAttribute('data-docid'), 10);
-        const doc = this.documents[docIdx];
+        const key = saveBtn.getAttribute('data-docid');
+        const doc = this.getDocById(key);
         if (!doc) return;
         this.editingDocId = null;
         const rowEl = saveBtn.closest('tr');
@@ -137,11 +156,13 @@ export class PdfuploaderData {
         }
       }
     };
+
     this._container = document.querySelector('.pdfuploader-data-container');
     if (this._container) {
       this._container.addEventListener('click', this._expandHandler);
     }
   }
+
   // Formatter untuk detail row (Items)
   detailFormatter(doc) {
     if (!doc.Items || !doc.Items.length) return '<em>Tidak ada detail barang</em>';
@@ -150,20 +171,20 @@ export class PdfuploaderData {
       <table class='table table-bordered table-sm' style='background:#fff;'>
         <thead>
           <tr>
-           
             <th>Nama Barang</th>
             <th>Quantity</th>
           </tr>
         </thead>
         <tbody>`;
-    const isEditing = this.editingDocId !== null && this.documents[this.editingDocId] === doc;
+    const isEditing = this.editingDocId !== null && this.editingDocId === (doc.Header && doc.Header.DocumentNumber);
     for (const item of doc.Items) {
+      const qty = item.Quantity == null ? '' : (typeof item.Quantity === 'number' ? item.Quantity.toLocaleString('id-ID') : item.Quantity);
       html += `<tr>
         <td>${item.ProductDescription || ''}</td>
         <td>
           ${isEditing
-            ? `<input type='text' class='form-control form-control-sm' value='${item.Quantity == null ? '' : item.Quantity}' style='width:100%' ${isEditing ? '' : 'readonly'} />`
-            : `${item.Quantity == null ? '' : item.Quantity.toLocaleString('id-ID')}`}
+            ? `<input type='text' class='form-control form-control-sm' value='${item.Quantity == null ? '' : item.Quantity}' style='width:100%' />`
+            : `${qty}`}
         </td>
       </tr>`;
     }
@@ -196,7 +217,8 @@ export class PdfuploaderData {
     return {
       total: 1,
       data: [{
-        DocumentNumber: doc.Header.DocumentNumber
+        DocumentNumber: doc.Header.DocumentNumber,
+        _docKey: doc.Header.DocumentNumber // kunci unik untuk tombol aksi
       }]
     };
   }
@@ -208,10 +230,23 @@ export class PdfuploaderData {
 
   // Fungsi untuk menampilkan hasil edit JSON ke area <pre>
   showEditedJson() {
-    const json = this.getEditedJson();
+     // Jika belum ada data, tampilkan pesan informatif & hentikan
+  if (!this.scannedData || typeof this.scannedData !== 'object') {
     const pre = document.getElementById('edited-json-view');
     if (pre) {
-      pre.textContent = JSON.stringify(json, null, 2);
+      pre.textContent = '// belum ada data yang di-bind ke scannedData';
     }
+    return;
   }
+
+  // Aman karena getEditedJson sudah guard
+  const json = this.getEditedJson();
+  const pre = document.getElementById('edited-json-view');
+  if (pre) {
+    pre.textContent = JSON.stringify(json, null, 2);
+  }
+  }
+
+  _expandHandler = null;
+  _container = null;
 }
