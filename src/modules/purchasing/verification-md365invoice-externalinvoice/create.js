@@ -26,7 +26,7 @@ export class Create {
         if (selected && selected.purchaseOrders) {
             delete selected.purchaseOrders;
         }
-        if (!selected || !(selected.InvoiceId || selected.InvoiceNo)) {
+        if (!selected || !(selected.InvoiceId || selected.InvoiceNoDesc)) {
             alert('Anda harus memilih Nomor Invoice terlebih dahulu.');
             return;
         }
