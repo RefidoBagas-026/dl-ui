@@ -54,7 +54,7 @@ export class DataForm {
 
     d365InvoiceView = (d365Invoice) => {
         if (!d365Invoice) return '';
-        const no = d365Invoice.InvoiceNo || '';
+        const no = d365Invoice.InvoiceNoDesc || '';
         const pos = d365Invoice.purchaseOrders || '';
         if (!no && !pos) return '';
         return pos ? `${no || ''} - ${pos}` : `${no}`;
@@ -62,7 +62,7 @@ export class DataForm {
 
     @computedFrom("d365Invoice")
     get d365InvoiceIsSelected() {
-        return !!(this.d365Invoice && (this.d365Invoice.InvoiceId || this.d365Invoice.InvoiceNo));
+        return !!(this.d365Invoice && (this.d365Invoice.InvoiceId || this.d365Invoice.InvoiceNoDesc));
     }
 
     // Upload handlers are implemented in upload/upload.js
