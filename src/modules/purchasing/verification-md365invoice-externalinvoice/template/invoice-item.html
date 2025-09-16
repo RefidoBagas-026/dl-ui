@@ -1,0 +1,24 @@
+<template>
+    <tr>
+        <td>
+            <div class="col-sm-7">
+                <au-textbox 
+                    value.bind="data.PONo" 
+                    read-only.bind="true"
+                    options.bind="controlOptions">
+                </au-textbox>
+            </div>
+            <div class="col-sm-1  pull-right">
+                <button class="btn btn-info pull-right" if.bind="data.details" click.delegate="toggle()">i</button>
+            </div>
+        </td>
+    </tr>
+    <tr if.bind="isShowing">
+        <td>
+            <compose view="modules/purchasing/verification-md365invoice-externalinvoice/template/invoice-item-detail.html"
+                     view-model="modules/purchasing/verification-md365invoice-externalinvoice/template/invoice-item-detail"
+                     model.bind="{ items: data.details, options: options }">
+            </compose>
+        </td>
+    </tr>
+</template>
