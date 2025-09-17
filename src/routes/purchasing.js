@@ -546,7 +546,7 @@ module.exports = [
             group: "purchasing",
             subGroup: "monitoring",
             
-            permission: { "E40": 1},
+            permission: { "E41": 1},
             iconClass: 'fa fa-dashboard'
         }
     },
