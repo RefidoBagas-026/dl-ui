@@ -1,0 +1,79 @@
+<!-- EXAMPLES OF HOW TO USE THE COMPARISON COMPONENTS -->
+
+<!-- Basic comparison (read-only) -->
+<au-comparison 
+  label="Invoice Number" 
+  value1.bind="data.invoiceNo" 
+  value2.bind="data.invoiceNo2" 
+  label1="System Data" 
+  label2="Uploaded Data">
+</au-comparison>
+
+<!-- With custom labels -->
+<au-comparison 
+  label="Invoice Date" 
+  value1.bind="data.invoiceDate" 
+  value2.bind="data.invoiceDate2" 
+  label1="Database" 
+  label2="Excel File" 
+  format="date">
+</au-comparison>
+
+<!-- With numeric formatting -->
+<au-comparison 
+  label="Total Amount" 
+  value1.bind="data.totalAmount" 
+  value2.bind="data.totalAmount2" 
+  label1="Calculated" 
+  label2="Manual Entry" 
+  format="0.00">
+</au-comparison>
+
+<!-- Editable comparison -->
+<au-comparison-editable 
+  label="Tax Number" 
+  value1.bind="data.taxNumber" 
+  value2.bind="data.taxNumber2" 
+  label1="System" 
+  label2="Manual Input" 
+  read-only1="true" 
+  read-only2="false"
+  placeholder2="Enter tax number...">
+</au-comparison-editable>
+
+<!-- Without difference highlighting -->
+<au-comparison 
+  label="Currency" 
+  value1.bind="data.currency" 
+  value2.bind="data.currency2" 
+  label1="Default" 
+  label2="Override" 
+  highlight-differences="false">
+</au-comparison>
+
+<!-- In your view.js file, make sure you have sample data like this:
+export class View {
+  data = {
+    invoiceNo: 'INV-001',
+    invoiceNo2: 'INV-002',  // Different value will show red background
+    invoiceDate: '2023-12-01',
+    invoiceDate2: '2023-12-01',  // Same value will show green checkmark
+    totalAmount: 1000.50,
+    totalAmount2: 1000.50,
+    taxNumber: 'TAX123',
+    taxNumber2: '',  // Empty will allow editing
+    currency: 'IDR',
+    currency2: 'IDR'
+  };
+  
+  controlOptions = {};
+  
+  // Optional: Listen to changes from editable comparison
+  attached() {
+    this.element.addEventListener('comparison-change', (event) => {
+      console.log('Comparison changed:', event.detail);
+      // Handle the change event as needed
+    });
+  }
+}
+-->

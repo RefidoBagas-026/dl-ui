@@ -535,6 +535,21 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
+     {
+        route: 'purchase-order/verification-md365invoice-externalinvoice',
+        name: 'verification-md365invoice-externalinvoice',
+        moduleId: './modules/purchasing/verification-md365invoice-externalinvoice/index',
+        nav: true,
+        title: 'Verifikasi MD365 Invoice - External Invoice',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "monitoring",
+            
+            permission: { "E41": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
     {
         route: 'po/reports/ketepatan/staff',
         name: 'purchase-order-reports-ketepatan-staff',
