@@ -23,6 +23,14 @@ export class View {
         this.data = await this.service.getById(id);
         this.isVBWithPO = await this.serviceFinance.getVbWithPO(id);
         var kurs = await this.service.getKurs(this.data.Currency.Code, new Date(this.data.OrderDate).toLocaleDateString());
+
+        var arg = {
+            keyword: this.data.EPONo,
+        }
+
+        var dispo= await this.service.searchDispo(arg);
+        var isDispo= dispo.data.Data.length; 
+        
         this.kurs=kurs[0];
         var isUsedSJ=false;
         for(var item of this.data.Items){
@@ -71,6 +79,9 @@ export class View {
                 this.hasUnpost = true;
                 this.hasEdit = false;
             }
+        }
+        if(isDispo>0){
+            this.hasUnpost =false;
         }
         this.hasEdit = true;
        

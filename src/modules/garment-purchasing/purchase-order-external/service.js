@@ -6,6 +6,7 @@ import { Config } from "aurelia-api";
 import moment from 'moment';
 
 const serviceUri = 'garment-external-purchase-orders';
+const DispoServiceUri = 'garment-disposition-purchase';
 
 export class Service extends RestService {
 
@@ -169,6 +170,11 @@ export class Service extends RestService {
     getUENById(id) {
         var endpoint = `garment-unit-expenditure-notes/${id}`;
         return super.get(endpoint);
+    }
+
+    searchDispo(info) {
+        var endpoint = `${DispoServiceUri}`;
+        return super.list(endpoint, info);
     }
 }
 
