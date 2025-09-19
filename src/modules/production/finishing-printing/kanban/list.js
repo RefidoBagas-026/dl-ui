@@ -17,7 +17,7 @@ export class List {
     }
 
     setContext() {
-        this.context = ["Rincian", "Cetak PDF"];
+        this.context = ["Rincian", "Cetak PDF", "Cetak PDF Flow"];
     }
 
     setColumns() {
@@ -191,6 +191,9 @@ export class List {
                 break;
             case "Cetak PDF":
                 this.service.getPdfById(data.Id);
+                break;
+            case "Cetak PDF Flow":
+                this.service.getPdfByIdFlow(data.Id);
                 break;
         }
     }
