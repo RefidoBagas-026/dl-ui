@@ -137,6 +137,8 @@ export class List {
         { field: "UnitName", title: "Nama Unit", sortable: false },
         { field: "INNo", title: "No Nota Intern", sortable: false },
         { field: "TermPayment", title: "Term Pembayaran", sortable: false },
+        { field: "diffArrival", title: "Selisih Kedatangan dengan PO", sortable: false },
+        { field: "surplus", title: "% Kelebihan Kedatangan", sortable: false },
     ];
 
     search() {
@@ -201,6 +203,7 @@ export class List {
                             for (var a of result.data) {
                                 index++;
                                 a.index = index;
+                                a.surplus= a.surplusArrival + "%";
                             }
                             return {
                                 total: result.info.total,
@@ -214,6 +217,7 @@ export class List {
                             for (var a of result.data) {
                                 index++;
                                 a.index = index;
+                                a.surplus= a.surplusArrival + "%";
                             }
                             return {
                                 total: result.info.total,
