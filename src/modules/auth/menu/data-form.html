@@ -14,22 +14,22 @@
         ></au-textbox>
 
         <au-textbox
-          label="Nama Divisi"
-          value.bind="data.Division.Name"
-          error.bind="error.Division.Name"
+          label="Menu"
+          value.bind="data.Menu"
+          error.bind="error.Menu"
           read-only.bind="readOnly"
         ></au-textbox>
 
         <au-multiline
-          label="Nama Unit"
-          value.bind="data.Name"
-          error.bind="error.Name"
+          label="Nama Menu"
+          value.bind="data.MenuName"
+          error.bind="error.MenuName"
           read-only.bind="readOnly"
         ></au-multiline>
 
         <au-autocomplete
-          label="Unit Pembukuan"
-          value.bind="accountingUnit.Name"
+          label="Sub Menu Dari"
+          value.bind="data.SubMenu"
           read-only.bind="readOnly"
         >
         </au-autocomplete>
