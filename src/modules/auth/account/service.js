@@ -1,9 +1,9 @@
-import {inject, Lazy} from 'aurelia-framework';
-import {HttpClient} from 'aurelia-fetch-client';
-import {RestService} from '../../../utils/rest-service'; 
+import { inject, Lazy } from 'aurelia-framework';
+import { HttpClient } from 'aurelia-fetch-client';
+import { RestService } from '../../../utils/rest-service';
 
 const serviceUri = "accounts";
- 
+
 export class Service extends RestService {
 
   constructor(http, aggregator, config, api) {
@@ -41,10 +41,8 @@ export class Service extends RestService {
   }
 
   updatePass(data) {
-    console.log("data",data)
+    console.log("data", data)
     var endpoint = `${serviceUri}/changePass`;
     return super.put(endpoint, data);
   }
-
-
 }

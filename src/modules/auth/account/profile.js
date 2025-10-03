@@ -4,7 +4,7 @@ export class Profile {
     @bindable readOnly = false;
     @bindable data = {};
     @bindable error = {};
-    genders = ["male","female"];
+    genders = ["male", "female"];
     constructor(router, service) {
     }
 }
