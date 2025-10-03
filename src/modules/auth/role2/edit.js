@@ -3,6 +3,7 @@ import { Router } from "aurelia-router";
 import { contains } from "underscore";
 import { push } from "../../../routes/general";
 import { Service, CoreService } from "./service";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, CoreService)
 export class Edit {
@@ -16,7 +17,8 @@ export class Edit {
   info = { page: 1, size: 2000 };
 
   async activate(params) {
-    var id = params.id;
+    const decoded = Base64Helper.decode(params.id);
+    var id = decoded;
     this.data = await this.service.getById(id);
   }
 
@@ -32,13 +34,12 @@ export class Edit {
       size: this.info.size,
       order: order,
     };
-    // console.log(arg);
+
     var selectedCode = [];
-    // console.log(this.data.permissions);
     this.data.permissions.forEach((e) => {
       selectedCode.push(e.Code);
     });
-    // console.log(selectedCode);
+
     this.coreService.searchMenu(arg).then((result) => {
       this.master = [];
       this.auth = [];
@@ -367,6 +368,7 @@ export class Edit {
 
     // console.log(bootstrapTableOptions);
   }
+  
   fillTableAuth() {
     //PREPARING
     let columns = [];
@@ -1007,7 +1009,6 @@ export class Edit {
       width: 20,
     });
     columns.push({ field: "MenuName", title: "MenuName" });
-    // columns.push({ field: 'permission', value:1 });
 
     var bootstrapTableOptions = {
       columns: columns,
@@ -1015,13 +1016,10 @@ export class Edit {
       fixedColumns: false,
       fixedNumber: 1,
     };
-    //bootstrapTableOptions.height = 150;
 
     $(this.tableDash)
       .bootstrapTable("destroy")
       .bootstrapTable(bootstrapTableOptions);
-
-    // console.log(bootstrapTableOptions);
   }
 
   delete() {
@@ -1045,7 +1043,6 @@ export class Edit {
       .update(this.data)
       .then((result) => {
         alert("Data Berhasil DiUbah.");
-        // console.log(result);
       })
       .catch((e) => {
         this.error = e;
