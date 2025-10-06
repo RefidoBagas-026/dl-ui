@@ -1,24 +1,25 @@
-import {inject} from 'aurelia-framework';
-import {Service} from "./service";
-import {Router} from 'aurelia-router';
+import { inject } from 'aurelia-framework';
+import { Service } from "./service";
+import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
-    context = ["Rincian"];
-    columns = [
+	context = ["Rincian"];
+	columns = [
 		{ field: "Name", title: "Nama" },
 		{ field: "Website", title: "Website" },
 		{ field: "Industry", title: "Industri" },
 		{ field: "PhoneNumber", title: "Nomor Telepon" },
 		{ field: "City", title: "Kota" },
-    ];
+	];
 
 	constructor(router, service) {
-        this.service = service;
-        this.router = router;
-    }
+		this.service = service;
+		this.router = router;
+	}
 
-    loader = (info) => {
+	loader = (info) => {
 		var order = {};
 		if (info.sort)
 			order[info.sort] = info.order;
@@ -38,21 +39,23 @@ export class List {
 					data: result.data
 				}
 			});
-    }
+	}
 
-    contextCallback(event) {
+	contextCallback(event) {
 		var arg = event.detail;
 		var data = arg.data;
 		switch (arg.name) {
 			case "Rincian":
-				this.router.navigateToRoute('view', { id: data.Id });
+				const encoded = Base64Helper.encode(data.Id);
+				this.router.navigateToRoute('view', { id: encoded });
 				break;
 		}
-    }
+	}
 
-    view(data) {
-        this.router.navigateToRoute('view', { id: data.Id });
-    }
+	view(data) {
+		const encoded = Base64Helper.encode(data.Id);
+		this.router.navigateToRoute('view', { id: encoded });
+	}
 
 	create() {
 		this.router.navigateToRoute('create');

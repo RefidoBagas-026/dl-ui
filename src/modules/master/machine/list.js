@@ -1,12 +1,12 @@
-import {inject} from 'aurelia-framework';
-import {Service} from "./service";
-import {Router} from 'aurelia-router';
-console.log("masuk ke list.js");
+import { inject } from 'aurelia-framework';
+import { Service } from "./service";
+import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
+
 @inject(Router, Service)
 export class List {
-  
-    context = ["detail"];
-    columns = [
+  context = ["detail"];
+  columns = [
     { field: "Name", title: "Nama" },
     { field: "Unit.Name", title: "Unit" },
     { field: "Process", title: "Proses" },
@@ -29,7 +29,7 @@ export class List {
     }
 
     return this.service.search(arg)
-    
+
       .then(result => {
         console.log("masuk ke search");
         return {
@@ -39,24 +39,24 @@ export class List {
       });
   }
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-    }
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
+  }
 
-    contextCallback(event) {
+  contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     switch (arg.name) {
       case "detail":
-        this.router.navigateToRoute('view', { id: data.Id });
+        const encoded = Base64Helper.encode(data.Id);
+        this.router.navigateToRoute('view', { id: encoded });
         break;
     }
   }
 
-
-    create() {
-        this.router.navigateToRoute('create');
-        console.log("masuk ke create");
-    }
+  create() {
+    this.router.navigateToRoute('create');
+    console.log("masuk ke create");
+  }
 }

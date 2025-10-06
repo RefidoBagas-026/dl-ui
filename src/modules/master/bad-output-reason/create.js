@@ -1,6 +1,6 @@
-import {inject, Lazy} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
-import {Service} from './service';
+import { inject, Lazy } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { Service } from './service';
 import { activationStrategy } from 'aurelia-router';
 
 
@@ -8,14 +8,14 @@ import { activationStrategy } from 'aurelia-router';
 export class Create {
     hasCancel = true;
     hasSave = true;
-    
+
     constructor(router, service) {
         this.router = router;
         this.service = service;
     }
 
-    bind(){
-        this.data = { machines:[] };
+    bind() {
+        this.data = { machines: [] };
         this.error = {};
         this.item = "";
     }
@@ -35,18 +35,17 @@ export class Create {
     }
 
     save(event) {
-        if(this.data.MachineDetails.length > 0){
+        if (this.data.MachineDetails.length > 0) {
             this.item = "";
             this.service.create(this.data)
                 .then(result => {
-                    //console.log(result);
                     alert("Data berhasil dibuat");
-                    this.router.navigateToRoute('create', {}, {replace:true, trigger:true});
+                    this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
                 })
                 .catch(e => {
                     this.error = e;
                 })
-        }else{
+        } else {
             this.item = "machine is required";
         }
     }

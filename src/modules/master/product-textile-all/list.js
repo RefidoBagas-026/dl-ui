@@ -1,16 +1,16 @@
 import { inject } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
-    context = ["detail"];
-    columns = [
+  context = ["detail"];
+  columns = [
     { field: "Code", title: "Kode Barang" },
     { field: "Name", title: "Nama Barang" },
     { field: "UomUnit", title: "Satuan Default" },
-    { field: "BuyerType", title : "Jenis"},
-    
+    { field: "BuyerType", title: "Jenis" },
   ];
 
   loader = (info) => {
@@ -27,8 +27,8 @@ export class List {
 
     return this.service.search(arg)
       .then(result => {
-        for(var a of result.data){
-          a.UomUnit=a.UOM.Unit;
+        for (var a of result.data) {
+          a.UomUnit = a.UOM.Unit;
         }
         return {
           total: result.info.total,
@@ -37,28 +37,27 @@ export class List {
       });
   }
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-        
-    }
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
+  }
 
-    contextCallback(event) {
+  contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     switch (arg.name) {
       case "detail":
-        this.router.navigateToRoute('view', { id: data.Id });
+        const encoded = Base64Helper.encode(data.Id);
+        this.router.navigateToRoute('view', { id: encoded });
         break;
     }
   }
 
-    upload() {
-        this.router.navigateToRoute('upload');
-    }
-    
-    create() {
-        this.router.navigateToRoute('create');
-    }
+  upload() {
+    this.router.navigateToRoute('upload');
+  }
 
+  create() {
+    this.router.navigateToRoute('create');
+  }
 }

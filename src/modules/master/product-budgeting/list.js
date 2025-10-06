@@ -1,19 +1,20 @@
 import { inject } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
-    context = ["detail", "nonaktif", "detail "];
-    //context2 = ["detail", "nonaktif"];
-    columns = [
-      {
-        field: "isPosting", title: "Post", checkbox: true, sortable: false,
-        formatter: function (value, data, index) {
-          this.checkboxEnabled = !data.IsPosted;
-          return ""
-        }
-      },
+  context = ["detail", "nonaktif", "detail "];
+  //context2 = ["detail", "nonaktif"];
+  columns = [
+    {
+      field: "isPosting", title: "Post", checkbox: true, sortable: false,
+      formatter: function (value, data, index) {
+        this.checkboxEnabled = !data.IsPosted;
+        return ""
+      }
+    },
     { field: "Code", title: "Kode Barang" },
     { field: "Name", title: "Nama Barang" },
     { field: "UomUnit", title: "Satuan Default" },
@@ -49,10 +50,10 @@ export class List {
 
     return this.service.search(arg)
       .then(result => {
-        for(var a of result.data){
-          a.UomUnit=a.UOM.Unit;
-          a.CurrencyCode=a.Currency.Code;
-          
+        for (var a of result.data) {
+          a.UomUnit = a.UOM.Unit;
+          a.CurrencyCode = a.Currency.Code;
+
         }
         return {
           total: result.info.total,
@@ -61,24 +62,23 @@ export class List {
       });
   }
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-        this.accessoriesId = "";
-        this.accessories = [];
-    }
-    
-    contextCallback(event) {
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
+    this.accessoriesId = "";
+    this.accessories = [];
+  }
+
+  contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
-    console.log(data);
-    console.log(event);
+    const encoded = Base64Helper.encode(data.Id);
     switch (arg.name) {
       case "detail":
-        this.router.navigateToRoute('view', { id: data.Id });
+        this.router.navigateToRoute('view', { id: encoded });
         break;
       case "detail ":
-        this.router.navigateToRoute('view', { id: data.Id });
+        this.router.navigateToRoute('view', { id: encoded });
         break;
       case "nonaktif":
         this.service.nonActived(data.Id).then(result => {
@@ -91,16 +91,14 @@ export class List {
   }
 
   contextShowCallback(index, name, data) {
-    console.log(data);
-    
     switch (name) {
-        case "detail ":
-        case "nonaktif":
-            return data.IsPosted;
-        case "detail":
-            return !data.IsPosted;
-        default:
-            return true;
+      case "detail ":
+      case "nonaktif":
+        return data.IsPosted;
+      case "detail":
+        return !data.IsPosted;
+      default:
+        return true;
     }
 
     // switch(data.IsPosted){
@@ -109,7 +107,8 @@ export class List {
     //   case false:
     //     return name;
     // }
-}
+  }
+
   posting() {
     if (this.dataToBePosted.length > 0) {
       this.service.post(this.dataToBePosted).then(result => {
@@ -120,14 +119,15 @@ export class List {
     }
   }
 
-    upload() {
-        this.router.navigateToRoute('upload');
-    }
-    
-    create() {
-        this.router.navigateToRoute('create');
-    }
-    download() {
-      this.service.download();
+  upload() {
+    this.router.navigateToRoute('upload');
+  }
+
+  create() {
+    this.router.navigateToRoute('create');
+  }
+
+  download() {
+    this.service.download();
   }
 }

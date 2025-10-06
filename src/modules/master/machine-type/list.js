@@ -1,16 +1,17 @@
-import {inject} from 'aurelia-framework';
-import {Service} from "./service";
-import {Router} from 'aurelia-router';
+import { inject } from 'aurelia-framework';
+import { Service } from "./service";
+import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
-    context = ["detail"];
-    columns = [
+  context = ["detail"];
+  columns = [
     { field: "Name", title: "Nama" },
     { field: "Indicators", title: "Indikator" },
-    ];
+  ];
 
-    loader = (info) => {
+  loader = (info) => {
     var order = {};
     if (info.sort)
       order[info.sort] = info.order;
@@ -26,19 +27,19 @@ export class List {
     return this.service.search(arg)
       .then(result => {
         var data = {}
-                data.total = result.info.total;
-                data.data = result.data;
-                data.data.forEach(s => {
-                    s.Indicators.toString = function () {
-                        var str = "<ul>";
-                        for (var item of s.Indicators) {
-                            str += `<li>${item.Indicator}</li>`;
-                        }
-                        str += "</ul>";
-                        return str;
-                    }
-                });
-                // return data;
+        data.total = result.info.total;
+        data.data = result.data;
+        data.data.forEach(s => {
+          s.Indicators.toString = function () {
+            var str = "<ul>";
+            for (var item of s.Indicators) {
+              str += `<li>${item.Indicator}</li>`;
+            }
+            str += "</ul>";
+            return str;
+          }
+        });
+        // return data;
         return {
           total: result.info.total,
           data: result.data
@@ -46,25 +47,25 @@ export class List {
       });
   }
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-        this.machineTypeId = "";
-        this.machineType = [];
-    }
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
+    this.machineTypeId = "";
+    this.machineType = [];
+  }
 
-    contextCallback(event) {
+  contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     switch (arg.name) {
       case "detail":
-        this.router.navigateToRoute('view', { id: data.Id });
+        const encoded = Base64Helper.encode(data.Id);
+        this.router.navigateToRoute('view', { id: encoded });
         break;
     }
   }
 
-    create() {
-        this.router.navigateToRoute('create');
-    }
-
+  create() {
+    this.router.navigateToRoute('create');
+  }
 }
