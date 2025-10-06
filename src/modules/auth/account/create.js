@@ -21,9 +21,9 @@ export class Create {
     }
 
     save() {
-        var validate = PasswordValidator.validate(this.data.password);
+        // var validate = PasswordValidator.validate(this.data.password);
 
-        if (validate == null) {
+        // if (validate == null) {
             this.service.create(this.data)
                 .then(result => {
                     this.list();
@@ -31,8 +31,8 @@ export class Create {
                 .catch(e => {
                     this.error = e;
                 })
-        } else {
-            alert(validate);
-        }
+        // } else {
+        //     alert(validate);
+        // }
     }
 }
