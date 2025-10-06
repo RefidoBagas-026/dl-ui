@@ -8,7 +8,7 @@ import { AuthService } from "aurelia-authentication";
 export class List {
     dataToBePosted = [];
     context = ["Rincian", "Cetak PDF by Style", "Cetak PDF by SKU", 
-        "Cetak PDF by Size", "Cetak PDF by Color", "Cetak PDF by Destination", "Cetak PDF by Nomor PO"];
+        "Cetak PDF by Size", "Cetak PDF by Color", "Cetak PDF by Destination", "Cetak PDF by Nomor PO", "Cetak PDF"];
     options = {};
     columns = [
         {
@@ -138,6 +138,9 @@ export class List {
                 break;
             case "Cetak PDF by Nomor PO":
                 this.service.getPdfById(data.Id, "po");
+                break;
+            case "Cetak PDF":
+                this.service.getPdfById(data.Id, "all");
                 break;
         }
     }
