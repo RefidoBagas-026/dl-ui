@@ -1,7 +1,7 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
-
+import { PasswordValidator } from '../../../utils/password-validator';
 
 @inject(Router, Service)
 export class Create {
@@ -9,7 +9,7 @@ export class Create {
         this.router = router;
         this.service = service;
         this.data = { profile: {}, roles: [] };
-        this.error = { profile: {},roles: [] };
+        this.error = { profile: {}, roles: [] };
     }
 
     activate(params) {
@@ -21,12 +21,18 @@ export class Create {
     }
 
     save() {
-        this.service.create(this.data)
-            .then(result => {
-                this.list();
-            })
-            .catch(e => {
-                this.error = e;
-            })
+        // var validate = PasswordValidator.validate(this.data.password);
+
+        // if (validate == null) {
+            this.service.create(this.data)
+                .then(result => {
+                    this.list();
+                })
+                .catch(e => {
+                    this.error = e;
+                })
+        // } else {
+        //     alert(validate);
+        // }
     }
 }
