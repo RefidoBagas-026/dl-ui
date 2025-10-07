@@ -4,10 +4,10 @@ import { Router } from 'aurelia-router';
 
 @inject(Router, Service)
 export class List {
-    // data = [];
-    // info = { page: 1, keyword: '' };
-    context = ["detail"];
-    columns = [
+  // data = [];
+  // info = { page: 1, keyword: '' };
+  context = ["detail"];
+  columns = [
     { field: "Code", title: "Kode Barang" },
     { field: "Name", title: "Nama Barang" },
     { field: "Composition", title: "Komposisi" },
@@ -32,8 +32,8 @@ export class List {
 
     return this.service.search(arg)
       .then(result => {
-        for(var a of result.data){
-          a.UomUnit=a.UOM.Unit;
+        for (var a of result.data) {
+          a.UomUnit = a.UOM.Unit;
         }
         return {
           total: result.info.total,
@@ -42,19 +42,20 @@ export class List {
       });
   }
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-        this.accessoriesId = "";
-        this.accessories = [];
-    }
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
+    this.accessoriesId = "";
+    this.accessories = [];
+  }
 
-    contextCallback(event) {
+  contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     switch (arg.name) {
       case "detail":
-        this.router.navigateToRoute('view', { id: data.Id });
+        const encoded = Base64Helper.encode(data.Id);
+        this.router.navigateToRoute('view', { id: encoded });
         break;
     }
   }

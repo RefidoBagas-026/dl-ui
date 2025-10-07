@@ -1,7 +1,7 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
-
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class Edit {
@@ -13,18 +13,21 @@ export class Edit {
     }
 
     async activate(params) {
-        var id = params.id;
+        const decoded = Base64Helper.decode(params.id);
+        var id = decoded;
+
         this.data = await this.service.getById(id);
         this.error = {};
         this.item = "";
     }
 
     cancel() {
-        this.router.navigateToRoute('view', { id: this.data.Id });
+        const encoded = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute('view', { id: encoded });
     }
 
     save() {
-        if(this.data.machines.length > 0){
+        if (this.data.MachineDetails.length > 0) {
             this.item = "";
             this.service.update(this.data)
                 .then(result => {
@@ -33,7 +36,7 @@ export class Edit {
                 .catch(e => {
                     this.error = e;
                 })
-        }else{
+        } else {
             this.item = "machine is required";
         }
     }

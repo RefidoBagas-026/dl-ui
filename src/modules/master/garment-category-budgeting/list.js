@@ -1,17 +1,18 @@
 import { inject } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
     context = ["Detail"];
     columns = [
-    { field: "code", title: "Kode Kategori" },
-    { field: "name", title: "Nama kategori" },
-    { field: "UOM.Unit", title: "Satuan Default" },
-    { field: "categoryType", title: "Tipe Kategori" },
-    { field: "codeRequirement", title: "Jenis Kategori" },    
-  ];
+        { field: "code", title: "Kode Kategori" },
+        { field: "name", title: "Nama kategori" },
+        { field: "UOM.Unit", title: "Satuan Default" },
+        { field: "categoryType", title: "Tipe Kategori" },
+        { field: "codeRequirement", title: "Jenis Kategori" },
+    ];
 
     loader = (info) => {
         var order = {};
@@ -28,9 +29,9 @@ export class List {
 
         return this.service.search(arg)
             .then(result => {
-                for(var a of result.data){
-                    a.UomUnit=a.UOM.Unit;
-        }       
+                for (var a of result.data) {
+                    a.UomUnit = a.UOM.Unit;
+                }
                 return {
                     total: result.info.total,
                     data: result.data
@@ -48,7 +49,8 @@ export class List {
         var data = arg.data;
         switch (arg.name) {
             case "Detail":
-                this.router.navigateToRoute('view', { id: data.Id });
+                const encoded = Base64Helper.encode(data.Id);
+                this.router.navigateToRoute('view', { id: encoded });
                 break;
         }
     }
@@ -56,5 +58,4 @@ export class List {
     create() {
         this.router.navigateToRoute('create');
     }
-
 }

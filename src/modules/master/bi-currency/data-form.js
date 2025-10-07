@@ -11,6 +11,7 @@ export class DataForm {
     deleteText: "Hapus",
     editText: "Ubah",
   }
+
   @computedFrom("data.Id")
   get isEdit() {
     return (this.data.Id || '').toString() != '';
@@ -35,11 +36,9 @@ export class DataForm {
     if (this.data.Month)
       this.selectedMonth = this.monthOptions.find((element) => element.value == this.data.Month);
 
-
-    console.log(this.selectedMonth)
-
-
-
+    console.log(this.data);
+    if (this.data.Currency.Id)
+      this.data.CurrencyId = this.data.Currency.Id
   }
 
   yearOptions = [];
@@ -91,5 +90,4 @@ export class DataForm {
   get currencyLoader() {
     return CurrencyLoader;
   }
-
 } 
