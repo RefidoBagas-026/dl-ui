@@ -1,7 +1,8 @@
-import {inject, Lazy} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
-import {Service} from './service';
-
+import { inject, Lazy } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { Service } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
+import { PasswordValidator } from '../../../utils/password-validator';
 
 @inject(Router, Service)
 export class Edit {
@@ -11,22 +12,30 @@ export class Edit {
     }
 
     async activate(params) {
-        var id = params.id;
+        const decoded = Base64Helper.decode(params.id);
+        var id = decoded;
         this.data = await this.service.getById(id);
         this.data.password = "";
     }
 
     view() {
-        this.router.navigateToRoute('view', { id: this.data._id });
+        const encoded = Base64Helper.encode(this.data._id);
+        this.router.navigateToRoute('view', { id: encoded });
     }
 
     save() {
-        this.service.update(this.data)
-            .then(result => {
-                this.view();
-            })
-            .catch(e => {
-                this.error = e;
-            })
+        // var validate = this.data.password !== "" ? PasswordValidator.validate(this.data.password) : null;
+
+        // if (validate == null) {
+            this.service.update(this.data)
+                .then(result => {
+                    this.view();
+                })
+                .catch(e => {
+                    this.error = e;
+                })
+        // } else {
+        //     alert(validate);
+        // }
     }
 }

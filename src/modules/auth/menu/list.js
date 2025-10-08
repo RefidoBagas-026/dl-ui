@@ -1,6 +1,7 @@
 import { inject } from "aurelia-framework";
 import { Service } from "./service";
 import { Router } from "aurelia-router";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
@@ -42,10 +43,10 @@ export class List {
       //   });
       // }
       // return Promise.all(resultPromise).then((newResult) => {
-        return {
-          total: result.info.total,
-          data: result.data,
-        };
+      return {
+        total: result.info.total,
+        data: result.data,
+      };
       // });
     });
   };
@@ -62,8 +63,10 @@ export class List {
     var data = arg.data;
     switch (arg.name) {
       case "detail":
+        const encoded = Base64Helper.encode(data.Id);
+        console.log(encoded);
         this.router.navigateToRoute("view", {
-          Id: data.Id,
+          Id: encoded
         });
         break;
     }
@@ -76,11 +79,11 @@ export class List {
   download() {
     var endpoint = 'master/menus/download';
     var request = {
-        method: 'GET'
+      method: 'GET'
     };
 
     var getRequest = this.service.endpoint.client.fetch(endpoint, request);
     this.service._downloadFile(getRequest);
     this.service.publish(getRequest);
-}
+  }
 }
