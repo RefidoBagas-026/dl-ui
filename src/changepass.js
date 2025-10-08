@@ -31,12 +31,12 @@ export class ChangePass {
         this.data = {};
         if (this.password1 == this.password2) {
 
-            this.statusMessage = PasswordValidator.validate(this.password1);
+            // this.statusMessage = PasswordValidator.validate(this.password1);
 
-            if (this.statusMessage) {
-                alert(this.statusMessage);
-                this.disabledButton = false;
-            } else {
+            // if (this.statusMessage) {
+            //     alert(this.statusMessage);
+            //     this.disabledButton = false;
+            // } else {
                 this.data.username = this.username;
                 this.data.password = this.password1;
 
@@ -49,7 +49,7 @@ export class ChangePass {
                         this.error = e;
                         this.disabledButton = false;
                     })
-            }
+            // }
         } else {
             alert("Kata Sandi dan Konfirmasi Kata Sandi harus sama.")
             this.disabledButton = false;

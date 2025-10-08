@@ -1,6 +1,7 @@
 import { inject } from "aurelia-framework";
 import { Service } from "./service";
 import { Router } from "aurelia-router";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
@@ -10,30 +11,7 @@ export class List {
   columns = [
     { field: "Code", title: "Kode" },
     { field: "Name", title: "Nama" },
-    // { field: "AccountingCategory.Name", title: "Kategori Pembukuan" },
   ];
-
-  /*
-  loader = (info) => {
-    var order = {};
-    if (info.sort) order[info.sort] = info.order;
-
-    var arg = {
-      page: parseInt(info.offset / info.limit, 10) + 1,
-      size: info.limit,
-      keyword: info.search,
-      select: ["Code", "Name"],
-      order: order,
-    };
-
-    return this.service.search(arg).then((result) => {
-      return {
-        total: result.info.total,
-        data: result.data,
-      };
-    });
-  };
-  */
 
   loader = (info) => {
     var order = {};
@@ -51,16 +29,6 @@ export class List {
       var resultPromise = [];
       if (result && result.data && result.data.length > 0) {
         resultPromise = result.data.map((datum) => {
-          // if (datum.AccountingCategoryId !== 0) {
-          //   return this.service
-          //     .getAccountingCategory(datum.AccountingCategoryId)
-          //     .then((ac) => {
-          //       datum.AccountingCategory = ac;
-          //       return Promise.resolve(datum);
-          //     });
-          // } else {
-          //   return Promise.resolve(datum);
-          // }
           return Promise.resolve(datum);
         });
       }
@@ -83,9 +51,11 @@ export class List {
   contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
-    switch (arg.Name) {
+
+    switch (arg.name) {
       case "detail":
-        this.router.navigateToRoute("view", { id: data.Id });
+        const encoded = Base64Helper.encode(data.Id);
+        this.router.navigateToRoute('view', { id: encoded });
         break;
     }
   }

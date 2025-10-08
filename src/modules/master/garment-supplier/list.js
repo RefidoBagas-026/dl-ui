@@ -1,13 +1,14 @@
-import {inject} from 'aurelia-framework';
-import {Service} from "./service";
-import {Router} from 'aurelia-router';
+import { inject } from 'aurelia-framework';
+import { Service } from "./service";
+import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
-    // data = [];
-    // info = { page: 1, keyword: '' };
-    context = ["detail"];
-    columns = [
+  // data = [];
+  // info = { page: 1, keyword: '' };
+  context = ["detail"];
+  columns = [
     { field: "code", title: "Kode" },
     { field: "name", title: "Nama" },
     { field: "address", title: "Alamat" },
@@ -55,7 +56,7 @@ export class List {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      select:["code","name","address","country","import","NPWP","usevat", "IsPosted"],
+      select: ["code", "name", "address", "country", "import", "NPWP", "usevat", "IsPosted"],
       order: order
     }
 
@@ -75,17 +76,18 @@ export class List {
       return {}
   }
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-    }
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
+  }
 
-    contextCallback(event) {
+  contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     switch (arg.name) {
       case "detail":
-        this.router.navigateToRoute('view', { id: data.Id });
+        const encoded = Base64Helper.encode(data.Id);
+        this.router.navigateToRoute('view', { id: encoded });
         break;
     }
   }

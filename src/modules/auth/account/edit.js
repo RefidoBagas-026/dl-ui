@@ -24,9 +24,9 @@ export class Edit {
     }
 
     save() {
-        var validate = this.data.password !== "" ? PasswordValidator.validate(this.data.password) : null;
+        // var validate = this.data.password !== "" ? PasswordValidator.validate(this.data.password) : null;
 
-        if (validate == null) {
+        // if (validate == null) {
             this.service.update(this.data)
                 .then(result => {
                     this.view();
@@ -34,8 +34,8 @@ export class Edit {
                 .catch(e => {
                     this.error = e;
                 })
-        } else {
-            alert(validate);
-        }
+        // } else {
+        //     alert(validate);
+        // }
     }
 }

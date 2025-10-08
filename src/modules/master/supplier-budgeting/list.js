@@ -1,6 +1,7 @@
 import { inject } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
@@ -50,7 +51,7 @@ export class List {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      select:["code","name","address","country","import","NPWP","IsPosted"],
+      select: ["code", "name", "address", "country", "import", "NPWP", "IsPosted"],
       order: order
     }
 
@@ -91,14 +92,13 @@ export class List {
   contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
-    console.log(data);
-    console.log(event);
+    const encoded = Base64Helper.encode(data._id);
     switch (arg.name) {
       case "detail":
-        this.router.navigateToRoute('view', { id: data._id });
+        this.router.navigateToRoute('view', { id: encoded });
         break;
       case "detail ":
-        this.router.navigateToRoute('view', { id: data._id });
+        this.router.navigateToRoute('view', { id: encoded });
         break;
       case "nonaktif":
         this.service.nonActived(data._id).then(result => {
@@ -112,18 +112,18 @@ export class List {
 
   contextShowCallback(index, name, data) {
     console.log(data);
-    
+
     switch (name) {
-        case "detail ":
-        case "nonaktif":
-            return data.IsPosted;
-        case "detail":
-            return !data.IsPosted;
-        default:
-            return true;
+      case "detail ":
+      case "nonaktif":
+        return data.IsPosted;
+      case "detail":
+        return !data.IsPosted;
+      default:
+        return true;
     }
-}
-  
+  }
+
   posting() {
     if (this.dataToBePosted.length > 0) {
       this.service.post(this.dataToBePosted).then(result => {
@@ -140,5 +140,5 @@ export class List {
 
   upload() {
     this.router.navigateToRoute('upload');
-  } 
+  }
 } 
