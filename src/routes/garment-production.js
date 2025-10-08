@@ -25,13 +25,12 @@ module.exports = [
             group: "g-production",
             subGroup: "master",
             // permission: { "C9": 1, "C1A": 1, "C1B": 1, "C2A": 1, "C2B": 1, "C2C": 1, "P": 1 },
-            permission: { "O74": 1 },
+            permission: { "O79": 1 },
             iconClass: 'fa fa-dashboard'
         }
     }, 
     
-    
-    
+
     
     {
         route: '/garment-production/scrap-source',
