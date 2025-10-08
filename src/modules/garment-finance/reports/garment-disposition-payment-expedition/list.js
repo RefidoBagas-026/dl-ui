@@ -220,15 +220,17 @@ export class List {
     let startDate = this.info.startDate && this.info.startDate != "Invalid Date" ? moment(this.info.startDate).format("YYYY-MM-DD") : null;
     let endDate = this.info.endDate && this.info.endDate != "Invalid Date" ? moment(this.info.endDate).format("YYYY-MM-DD") : null;
     let purchasingStaff = this.info && this.info.account ? this.info.account.username : "";
+    let dueStart = this.info.dueStart && this.info.dueStart != "Invalid Date" ? moment(this.info.dueStart).format("YYYY-MM-DD") : null;
+    let dueEnd = this.info.dueEnd && this.info.dueEnd != "Invalid Date" ? moment(this.info.dueEnd).format("YYYY-MM-DD") : null;
 
 
     let params = {
-      dispositionId, epoId, supplierId, position, startDate, endDate, purchasingStaff
+      dispositionId, epoId, supplierId, position, startDate, endDate, purchasingStaff, dueStart, dueEnd
     };
 
     if (!startDate || !endDate) {
-      this.error.startDate = "Tanggal Awal Harus Diisi";
-      this.error.startDate = "Tanggal Akhir Harus Diisi";
+      this.error.startDate = "Tanggal Awal Disposisi Harus Diisi";
+      this.error.endDate = "Tanggal Akhir Disposisi Harus Diisi";
       return { total: 0, data: [] };
     } else {
       return this.flag
@@ -258,14 +260,16 @@ export class List {
     let startDate = this.info.startDate && this.info.startDate != "Invalid Date" ? moment(this.info.startDate).format("YYYY-MM-DD") : null;
     let endDate = this.info.endDate && this.info.endDate != "Invalid Date" ? moment(this.info.endDate).format("YYYY-MM-DD") : null;
     let purchasingStaff = this.info && this.info.account ? this.info.account.username : "";
+    let dueStart = this.info.dueStart && this.info.dueStart != "Invalid Date" ? moment(this.info.dueStart).format("YYYY-MM-DD") : null;
+    let dueEnd = this.info.dueEnd && this.info.dueEnd != "Invalid Date" ? moment(this.info.dueEnd).format("YYYY-MM-DD") : null;
 
 
     let params = {
-      dispositionId, epoId, supplierId, position, startDate, endDate, purchasingStaff
+      dispositionId, epoId, supplierId, position, startDate, endDate, purchasingStaff, dueStart, dueEnd
     };
     if (!startDate || !endDate) {
       this.error.startDate = "Tanggal Awal Harus Diisi";
-      this.error.startDate = "Tanggal Akhir Harus Diisi";
+      this.error.endDate = "Tanggal Akhir Harus Diisi";
     } else {
       this.service.getXls(params);
     }
@@ -279,10 +283,12 @@ export class List {
     let startDate = this.info.startDate && this.info.startDate != "Invalid Date" ? moment(this.info.startDate).format("YYYY-MM-DD") : null;
     let endDate = this.info.endDate && this.info.endDate != "Invalid Date" ? moment(this.info.endDate).format("YYYY-MM-DD") : null;
     let purchasingStaff = this.info && this.info.account ? this.info.account.username : "";
+    let dueStart = this.info.dueStart && this.info.dueStart != "Invalid Date" ? moment(this.info.dueStart).format("YYYY-MM-DD") : null;
+    let dueEnd = this.info.dueEnd && this.info.dueEnd != "Invalid Date" ? moment(this.info.dueEnd).format("YYYY-MM-DD") : null;
 
 
     let params = {
-      dispositionId, supplierId, position, startDate, endDate, purchasingStaff
+      dispositionId, supplierId, position, startDate, endDate, purchasingStaff, dueStart, dueEnd
     };
 
     this.service.getPdf(params);
@@ -299,6 +305,8 @@ export class List {
     this.info.startDate = null;
     this.info.endDate = null;
     this.info.account = undefined;
+    this.info.dueEnd = null;
+    this.info.dueStart = null;
     this.data = [];
     this.tableList.refresh();
   }
