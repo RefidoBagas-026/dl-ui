@@ -72,6 +72,7 @@ export class Create {
                 }
             }
         }
+        this.data.SewingOutDate = this.data.SewingOutDate ? moment.utc(this.data.SewingOutDate).local().format() : null;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");

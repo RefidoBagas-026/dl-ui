@@ -2,7 +2,7 @@ import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { activationStrategy } from 'aurelia-router';
-
+var moment = require('moment');
 @inject(Router, Service)
 export class Create {
     constructor(router, service) {
@@ -40,6 +40,7 @@ export class Create {
                 }
             }
         }
+        this.data.CuttingInDate = this.data.CuttingInDate ? moment.utc(this.data.CuttingInDate).local().format() : null;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");

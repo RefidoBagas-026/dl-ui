@@ -31,6 +31,7 @@ export class Create {
     }
 
     saveCallback(event) {
+        this.data.FinishingInDate = this.data.FinishingInDate ? moment.utc(this.data.FinishingInDate).local().format() : null;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
