@@ -89,6 +89,7 @@ export class List {
         { field: "orderQuantity", title: "Panjang SPP (M)" },
         { field: "orderType", title: "Jenis Order" },
         { field: "processType", title: "Jenis Proses" },
+        { field: "materialOrigin", title: "Asal Material" },
         { field: "construction", title: "Konstruksi" },
         { field: "designCode", title: "Motif" },
         // { field: "designCode", title: "Motif" },
