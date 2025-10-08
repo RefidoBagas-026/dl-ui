@@ -45,6 +45,7 @@ export class Create {
                 }
             }
         }
+        this.data.CuttingOutDate = this.data.CuttingOutDate ? moment.utc(this.data.CuttingOutDate).local().format() : null;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");

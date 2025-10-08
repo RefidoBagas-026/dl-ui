@@ -42,6 +42,7 @@ export class Create {
 
         }else
         {
+        this.data.ExpenditureDate = this.data.ExpenditureDate ? moment.utc(this.data.ExpenditureDate).local().format() : null;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");

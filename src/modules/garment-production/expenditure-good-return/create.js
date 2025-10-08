@@ -45,6 +45,7 @@ export class Create {
                 }
             }
         }
+        this.data.ReturDate = this.data.ReturDate ? moment.utc(this.data.ReturDate).local().format() : null;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
