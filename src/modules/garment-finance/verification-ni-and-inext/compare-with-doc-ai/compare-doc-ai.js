@@ -157,7 +157,7 @@ export class CompareDocAi {
         remark: invoiceDetail.remark || '',
         currencyCode: (invoiceDetail.currency && invoiceDetail.currency.Code) ? invoiceDetail.currency.Code : '',
         // Jenis PPN (vat rate) diambil dari beberapa kemungkinan properti
-        vatRate: (function(det){
+        vatRate: (function (det) {
           if (det.vatRate != null) return det.vatRate;
           if (det.vat && (det.vat.rate != null)) return det.vat.rate;
           if (det.vat && (det.vat.Rate != null)) return det.vat.Rate;
@@ -165,16 +165,29 @@ export class CompareDocAi {
           return null;
         })(invoiceDetail),
         // Jumlah PPN dihitung (jika tersedia) = totalAmount * (vatRate/100)
-        vatAmount: (function(det){
-          let rate = null;
-          if (det.vatRate != null) rate = det.vatRate; else if (det.vat && det.vat.rate != null) rate = det.vat.rate; else if (det.vat && det.vat.Rate != null) rate = det.vat.Rate; else if (det.VatRate != null) rate = det.VatRate;
-          const total = det.totalAmount || det.grandTotal || det.GrandTotalAmount;
-          const numTotal = typeof total === 'string' ? Number(total.replace(/[,]/g,'')) : Number(total);
-          const numRate = Number(rate);
-          if (!isNaN(numTotal) && !isNaN(numRate)) {
-            return +(numTotal * (numRate/100)).toFixed(2);
+        vatAmount: (function (det) {
+          // let rate = null;
+          // if (det.vatRate != null) rate = det.vatRate; else if (det.vat && det.vat.rate != null) rate = det.vat.rate; else if (det.vat && det.vat.Rate != null) rate = det.vat.Rate; else if (det.VatRate != null) rate = det.VatRate;
+          // const total = det.totalAmount || det.grandTotal || det.GrandTotalAmount;
+          // const numTotal = typeof total === 'string' ? Number(total.replace(/[,]/g,'')) : Number(total);
+          // const numRate = Number(rate);
+          // if (!isNaN(numTotal) && !isNaN(numRate)) {
+          //   return +(numTotal * (numRate/100)).toFixed(2);
+          // }
+          // return null;
+          let vat = 0;
+          if (det.useVat && det.isPayVat) {
+            det.items.forEach(item => {
+              item.details.forEach(d => {
+                if (det.vatRate == 12) {
+                  vat += d.pricePerDealUnit * d.doQuantity * 0.12 * 11 / 12;
+                } else {
+                  vat += d.pricePerDealUnit * d.doQuantity * det.vatRate / 100;
+                }
+              });
+            });
           }
-          return null;
+          return vat;
         })(invoiceDetail),
         // Simpan kedua ID eksplisit
         garmentInvoiceId: invoiceDetail.Id || garmentInvoice.Id || null,
@@ -268,7 +281,7 @@ export class CompareDocAi {
       alert('Maaf data Nota Intern tidak ditemukan');
       return;
     }
-    
+
     // Selalu ambil hasil edit dari pdfUploaderComponent jika ada scannedData
     let postData = {};
     if (this.pdfUploaderComponent && this.scannedData) {
