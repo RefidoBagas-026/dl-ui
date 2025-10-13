@@ -9,7 +9,7 @@ var BuyerLoader = require('../../../loader/garment-buyers-loader');
 
 @inject(Router, BindingEngine, Service)
 export class List {
-  reprosesOption = ['','Bahan Baku', 'Bahan Pendukung'];
+  reprosesOption = ['','Bahan Baku', 'Bahan Pendukung', 'Bahan Embalase'];
 
   
     purchaseRequest = {};
