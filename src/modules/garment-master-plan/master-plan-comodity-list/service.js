@@ -4,13 +4,12 @@ import { RestService } from '../../../utils/rest-service';
 import { Container } from 'aurelia-dependency-injection';
 import { Config } from "aurelia-api";
 
-
-const serviceUri = 'master-plan-comodities';
+const serviceUri = 'master/garment-comodities';
 
 export class Service extends RestService {
 
     constructor(http, aggregator, config, endpoint) {
-        super(http, aggregator, config, "garment-master-plan");
+        super(http, aggregator, config, "core");
     }
 
     search(info) {

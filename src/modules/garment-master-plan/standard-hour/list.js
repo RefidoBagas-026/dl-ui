@@ -1,28 +1,29 @@
-import {inject} from 'aurelia-framework';
-import {Service} from "./service";
-import {Router} from 'aurelia-router';
+import { inject } from 'aurelia-framework';
+import { Service } from "./service";
+import { Router } from 'aurelia-router';
 import moment from 'moment';
+import {Base64Helper} from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
-    context = ["detail"];
-    columns = [
-        { field: "BuyerName", title: "Buyer" },
-        { field: "ComodityName", title: "Comodity" },
-        { 
-            field: "_LastModifiedUtc", title: "Tanggal Update", 
-            formatter: function (value, data, index) {
-                return moment(value).format("DD MMM YYYY");
-            }
-        },
-        { field: "SMVCutting", title: "SMV Cutting" },
-        { field: "SMVSewing", title: "SMV Sewing" },
-        { field: "SMVFinishing", title: "SMV Finishing" },
-    ];
-    options = {};
+  context = ["detail"];
+  columns = [
+    { field: "BuyerName", title: "Buyer" },
+    { field: "ComodityName", title: "Comodity" },
+    {
+      field: "_LastModifiedUtc", title: "Tanggal Update",
+      formatter: function (value, data, index) {
+        return moment(value).format("DD MMM YYYY");
+      }
+    },
+    { field: "SMVCutting", title: "SMV Cutting" },
+    { field: "SMVSewing", title: "SMV Sewing" },
+    { field: "SMVFinishing", title: "SMV Finishing" },
+  ];
+  options = {};
 
-    loader = (info) => {
-        var order = {};
+  loader = (info) => {
+    var order = {};
     if (info.sort)
       order[info.sort] = info.order;
 
@@ -40,28 +41,29 @@ export class List {
           data: result.data
         }
       });
-    }
+  }
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-    }
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
+  }
 
-    attached() {
-      this.options.height = $(window).height() - $('nav.navbar').height() - $('h1.page-header').height();
-    }
+  attached() {
+    this.options.height = $(window).height() - $('nav.navbar').height() - $('h1.page-header').height();
+  }
 
-    contextClickCallback(event) {
-        var arg = event.detail;
-        var data = arg.data;
-        switch (arg.name) {
-            case "detail":
-                this.router.navigateToRoute('view', { id: data.Id });
-                break;
-        }
+  contextClickCallback(event) {
+    var arg = event.detail;
+    var data = arg.data;
+    switch (arg.name) {
+      case "detail":
+        const encoded = Base64Helper.encode(data.Id);
+        this.router.navigateToRoute('view', { id: encoded });
+        break;
     }
+  }
 
-    create() {
-        this.router.navigateToRoute('create');
-    }
+  create() {
+    this.router.navigateToRoute('create');
+  }
 }
