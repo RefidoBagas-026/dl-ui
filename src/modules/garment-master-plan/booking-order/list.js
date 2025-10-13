@@ -1,79 +1,87 @@
-import {inject} from 'aurelia-framework';
-import {Service} from "./service";
-import {Router} from 'aurelia-router';
+import { inject } from 'aurelia-framework';
+import { Service } from "./service";
+import { Router } from 'aurelia-router';
 import moment from 'moment';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
 
     rowFormatter(data, index) {
         var today = new Date();
-        today.setDate(today.getDate()+45);
+        today.setDate(today.getDate() + 45);
         var deliveryDates = new Date(Date.parse(data.DeliveryDate));
-        if (data.IsBlockingPlan == true && deliveryDates > today){
+        if (data.IsBlockingPlan == true && deliveryDates > today) {
             return { classes: "success" }
-        }else if(deliveryDates< today){
+        } else if (deliveryDates < today) {
             return { classes: "danger" }
         }
         else
-          return {}
-      }
+            return {}
+    }
     context = ["detail"];
 
     options = {};
 
     columns = [
         { field: "BookingOrderNo", title: "Kode Booking" },
-        { field: "BookingOrderDate", title: "Tanggal Booking", formatter: function (value, data, index) {
+        {
+            field: "BookingOrderDate", title: "Tanggal Booking", formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY");
             }
-         },
-         { field: "BuyerName", title: "Buyer" },
-         { field: "OrderQuantity", title: "Jumlah Order" },
+        },
+        { field: "BuyerName", title: "Buyer" },
+        { field: "OrderQuantity", title: "Jumlah Order" },
         {
             field: "DeliveryDate", title: "Tanggal Pengiriman", formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY");
             }
         },
         { field: "Remark", title: "Keterangan" },
-        { field: "statusBook", title: "Status Booking Order", formatter: function (value, data, index) {
-            if(data.IsBlockingPlan == true){
-                return "Sudah Dibuat Master Plan";
-            }else{
-                if(data.ConfirmedQuantity == 0){
-                    return "Booking";
-                }else if(data.ConfirmedQuantity > 0){
-                    return "Confirmed";
+        {
+            field: "statusBook", title: "Status Booking Order", formatter: function (value, data, index) {
+                if (data.IsBlockingPlan == true) {
+                    return "Sudah Dibuat Master Plan";
+                } else {
+                    if (data.ConfirmedQuantity == 0) {
+                        return "Booking";
+                    } else if (data.ConfirmedQuantity > 0) {
+                        return "Confirmed";
+                    }
                 }
             }
-        } },
-        { field: "statusConfirm", title: "Status Jumlah Confirm", formatter: function (value, data, index) {
-            if(data.ConfirmedQuantity === 0){
-                return "Belum Confirm";
-            } else if (data.ConfirmedQuantity > 0 && (data.OrderQuantity > data.ConfirmedQuantity)){
-                var total = data.OrderQuantity - data.ConfirmedQuantity;
-                return "-"+total;
-            } else if(data.OrderQuantity === data.ConfirmedQuantity){
-                return 0;
-            } else if(data.ConfirmedQuantity > data.OrderQuantity){
-                var total1 = data.ConfirmedQuantity - data.OrderQuantity;
-                return "+"+total1;
+        },
+        {
+            field: "statusConfirm", title: "Status Jumlah Confirm", formatter: function (value, data, index) {
+                if (data.ConfirmedQuantity === 0) {
+                    return "Belum Confirm";
+                } else if (data.ConfirmedQuantity > 0 && (data.OrderQuantity > data.ConfirmedQuantity)) {
+                    var total = data.OrderQuantity - data.ConfirmedQuantity;
+                    return "-" + total;
+                } else if (data.OrderQuantity === data.ConfirmedQuantity) {
+                    return 0;
+                } else if (data.ConfirmedQuantity > data.OrderQuantity) {
+                    var total1 = data.ConfirmedQuantity - data.OrderQuantity;
+                    return "+" + total1;
+                }
             }
-        } },
-        { field: "statusOrder", title: "Status Sisa Order", formatter: function (value, data, index) {
-            var today = new Date();
-            today.setDate(today.getDate()+45);
-            var deliveryDates = new Date(Date.parse(data.DeliveryDate));
-            if(data.ConfirmedQuantity < data.OrderQuantity && deliveryDates > today){
-                return "On Proses";
-            } 
-            else if (data.ConfirmedQuantity >= data.OrderQuantity){
-                return "-";
-            } 
-            else if(data.ConfirmedQuantity < data.OrderQuantity && deliveryDates <= today){
-                return "Expired";
+        },
+        {
+            field: "statusOrder", title: "Status Sisa Order", formatter: function (value, data, index) {
+                var today = new Date();
+                today.setDate(today.getDate() + 45);
+                var deliveryDates = new Date(Date.parse(data.DeliveryDate));
+                if (data.ConfirmedQuantity < data.OrderQuantity && deliveryDates > today) {
+                    return "On Proses";
+                }
+                else if (data.ConfirmedQuantity >= data.OrderQuantity) {
+                    return "-";
+                }
+                else if (data.ConfirmedQuantity < data.OrderQuantity && deliveryDates <= today) {
+                    return "Expired";
+                }
             }
-        } }
+        }
     ];
 
     loader = (info) => {
@@ -98,7 +106,7 @@ export class List {
                     data: result.data
                 }
             });
-    
+
     }
 
     constructor(router, service) {
@@ -115,7 +123,8 @@ export class List {
         var data = arg.data;
         switch (arg.name) {
             case "detail":
-                this.router.navigateToRoute('view', { id: data.Id });
+                const encoded = Base64Helper.encode(data.Id);
+                this.router.navigateToRoute('view', { id: encoded });
                 break;
         }
     }
