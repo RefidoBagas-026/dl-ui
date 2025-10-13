@@ -4,18 +4,18 @@ import { Service } from './service';
 import moment from 'moment';
 import { Dialog } from '../../../components/dialog/dialog';
 import { AlertView } from './custom-dialog-view/alert-view';
-
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, Dialog)
 export class View {
-  hasCancel = true;
-  hasEdit = true;
-  hasDelete = true;
+    hasCancel = true;
+    hasEdit = true;
+    hasDelete = true;
 
     constructor(router, service, dialog) {
         this.router = router;
         this.service = service;
-        this.isView=true;
+        this.isView = true;
         this.dialog = dialog;
     }
 
@@ -24,62 +24,62 @@ export class View {
     }
 
     async activate(params) {
-        var id = params.id;
+        const decoded = Base64Helper.decode(params.id);
+        var id = decoded;
         this.data = await this.service.getById(id);
-        this.data.booking=JSON.parse(this.data.BookingItems);
-        if(this.data.Status=== "Booking Dihapus" || this.data.Status=== "Booking Expired"){
-            this.hasEdit=false;
+        this.data.booking = JSON.parse(this.data.BookingItems);
+        if (this.data.Status === "Booking Dihapus" || this.data.Status === "Booking Expired") {
+            this.hasEdit = false;
         }
-        else if(this.data.Status=== "Booking Dibatalkan"){
-            this.hasEdit=false;
+        else if (this.data.Status === "Booking Dibatalkan") {
+            this.hasEdit = false;
         }
-        if(this.data.Status!== "Booking Dihapus")
-        {
-            if(this.data && this.data.BookingOrderId){
+        if (this.data.Status !== "Booking Dihapus") {
+            if (this.data && this.data.BookingOrderId) {
                 this.booking = {};
                 var bookingData = await this.service.getBookingById(this.data.BookingOrderId);
-                if(moment(this.data.BookingDate).format("DD MMM YYYY") !== moment(bookingData.BookingDate).format("DD MMM YYYY"))
+                if (moment(this.data.BookingDate).format("DD MMM YYYY") !== moment(bookingData.BookingDate).format("DD MMM YYYY"))
                     this.booking["BookingDate"] = bookingData.BookingDate;
-                if(this.data.OrderQuantity !== bookingData.OrderQuantity)
+                if (this.data.OrderQuantity !== bookingData.OrderQuantity)
                     this.booking["OrderQuantity"] = bookingData.OrderQuantity;
-                if(moment(this.data.DeliveryDate).format("DD MMM YYYY") !== moment(bookingData.DeliveryDate).format("DD MMM YYYY"))
+                if (moment(this.data.DeliveryDate).format("DD MMM YYYY") !== moment(bookingData.DeliveryDate).format("DD MMM YYYY"))
                     this.booking["DeliveryDate"] = bookingData.DeliveryDate;
-                if(this.data.Remark !== bookingData.Remark)
+                if (this.data.Remark !== bookingData.Remark)
                     this.booking["Remark"] = bookingData.Remark;
                 var details = [];
-                var bookItems=[];
-                var index=0;
-                for(var detail of this.data.booking){
+                var bookItems = [];
+                var index = 0;
+                for (var detail of this.data.booking) {
                     var bookingDetail = bookingData.Items.find(item => item.Id === detail.Id);
-                    if(bookingDetail){
-                        if(bookingDetail.ComodityId !== detail.ComodityId){
-                            detail["bookingMasterPlanComodity"] ={ name: bookingDetail.ComodityName, code: bookingDetail.ComodityCode};
+                    if (bookingDetail) {
+                        if (bookingDetail.ComodityId !== detail.ComodityId) {
+                            detail["bookingMasterPlanComodity"] = { name: bookingDetail.ComodityName, code: bookingDetail.ComodityCode };
                             detail["bookingMasterPlanComodityId"] = bookingDetail.ComodityId;
                         }
-                        if(bookingDetail.ConfirmQuantity !== detail.ConfirmQuantity){
+                        if (bookingDetail.ConfirmQuantity !== detail.ConfirmQuantity) {
                             detail["bookingQuantity"] = bookingDetail.ConfirmQuantity;
                         }
-                        if(bookingDetail.Remark !== detail.Remark)
+                        if (bookingDetail.Remark !== detail.Remark)
                             detail["bookingRemark"] = bookingDetail.Remark;
-                        if(bookingDetail.DeliveryDate && detail.DeliveryDate && moment(bookingDetail.DeliveryDate).format("DD MMM YYYY") !== moment(detail.DeliveryDate).format("DD MMM YYYY"))
+                        if (bookingDetail.DeliveryDate && detail.DeliveryDate && moment(bookingDetail.DeliveryDate).format("DD MMM YYYY") !== moment(detail.DeliveryDate).format("DD MMM YYYY"))
                             detail["bookingDeliveryDate"] = moment(bookingDetail.DeliveryDate).format("DD MMM YYYY");//`${(new Date(bookingDetail.deliveryDate)).getDay()} - ${((new Date(bookingDetail.deliveryDate)).getMonth() + 1)} - ${(new Date(bookingDetail.deliveryDate)).getFullYear()}`;
-                    }else{
+                    } else {
                         detail["deletedData"] = "Md telah menghapus detail ini"
                     }
                     details.push(detail);
                 }
-                for(var item of bookingData.Items){
+                for (var item of bookingData.Items) {
                     var detail = this.data.booking.find(detail => detail.Id === item.Id);
-                    if(!detail){
-                        var newDetail= {
-                            Id:item.Id,
-                            ComodityId:item.ComodityId,
-                            ComodityName:item.ComodityName,
-                            ComodityCode:item.ComodityCode,
-                            ConfirmQuantity:item.ConfirmQuantity,
-                            Remark:item.Remark,
-                            DeliveryDate:item.DeliveryDate,
-                            newData:"Md telah menambah detail ini"
+                    if (!detail) {
+                        var newDetail = {
+                            Id: item.Id,
+                            ComodityId: item.ComodityId,
+                            ComodityName: item.ComodityName,
+                            ComodityCode: item.ComodityCode,
+                            ConfirmQuantity: item.ConfirmQuantity,
+                            Remark: item.Remark,
+                            DeliveryDate: item.DeliveryDate,
+                            newData: "Md telah menambah detail ini"
                         }
                         details.push(newDetail);
                     }
@@ -95,9 +95,10 @@ export class View {
     }
 
     edit(event) {
-        this.router.navigateToRoute('edit', { id: this.data.Id });
-    }   
-    
+        const encoded = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute('edit', { id: encoded });
+    }
+
     delete(event) {
         // this.service.delete(this.data)
         //     .then(result => {
@@ -113,5 +114,5 @@ export class View {
                         });
                 }
             });
-    }  
+    }
 }

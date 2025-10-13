@@ -2,13 +2,15 @@ import {inject} from 'aurelia-framework';
 import {Service} from "./service";
 import {Router} from 'aurelia-router';
 import moment from 'moment';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
+
 
 @inject(Router, Service)
 export class List {
     context = ["detail"];
     columns = [
-        { field: "code", title: "Kode Komoditas" },
-        { field: "name", title: "Nama Komoditas", }
+        { field: "Code", title: "Kode Komoditas" },
+        { field: "Name", title: "Nama Komoditas", }
     ];
 
     loader = (info) => {
@@ -19,7 +21,7 @@ export class List {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             keyword: info.search,
-            select:["code", "name"],
+            select:["Code", "Name"],
             order: order
         }
 
@@ -46,7 +48,8 @@ export class List {
         var data = arg.data;
         switch (arg.name) {
             case "detail":
-                this.router.navigateToRoute('view', { id: data._id });
+                const encoded = Base64Helper.encode(data.Id);
+                this.router.navigateToRoute('view', { id: encoded });
                 break;
         }
     }
