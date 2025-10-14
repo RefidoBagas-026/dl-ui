@@ -24,15 +24,17 @@ export class List{
     };
 
     @bindable UnitItem;
-    UnitItems = ['','KONFEKSI 2A','KONFEKSI 2B','KONFEKSI 2C','KONFEKSI 1A','KONFEKSI 1B']
-
+    // UnitItems = ['','KONFEKSI 2A','KONFEKSI 2B','KONFEKSI 2C','KONFEKSI 1A','KONFEKSI 1B']
+    
     search(){
             this.info.page = 1;
             this.info.total=0;
             this.searching();        
     }
     activate() {
-       
+       this.UnitItems = ['GMT - GARMENT'];
+       this.unit = "GARMENT";
+       this.unitname = "GMT";
     }
 
     tableData = []
@@ -73,35 +75,41 @@ export class List{
 
     }
 
-    UnitItemChanged(newvalue){
+    // UnitItemChanged(newvalue){
         
-        if (newvalue) {
-            if (newvalue === "KONFEKSI 2A") {
-                this.unit = "C2A";
-                this.unitname = "KONFEKSI 2A";
-            }
-            else if (newvalue === "KONFEKSI 2B") { 
-                this.unit = "C2B";
-                this.unitname = "KONFEKSI 2B";
-            }
-            else if (newvalue === "KONFEKSI 2C") {
-                this.unit = "C2C"; 
-                this.unitname = "KONFEKSI 2C";
-            }else if(newvalue === "KONFEKSI 1A"){
-                this.unit = "C1A";
-                this.unitname = "KONFEKSI 1A";
-            }else if(newvalue === "KONFEKSI 1B"){
-                this.unit = "C1B";
-                this.unitname = "KONFEKSI 1B";
-            }else{
-                this.unit = "";
-                this.unitname = "";
-            }
-        }else{
-            this.unit = "";
-            this.unitname = "";
-        }
-    }
+    //     if (newvalue) {
+    //         if (newvalue === "GARMENT") {
+    //             this.unit = "GMT";
+    //             this.unitname = "GARMENT";
+    //         }
+            
+    //         if (newvalue === "KONFEKSI 2A") {
+    //             this.unit = "C2A";
+    //             this.unitname = "KONFEKSI 2A";
+    //         }
+    //         else if (newvalue === "KONFEKSI 2B") { 
+    //             this.unit = "C2B";
+    //             this.unitname = "KONFEKSI 2B";
+    //         }
+    //         else if (newvalue === "KONFEKSI 2C") {
+    //             this.unit = "C2C"; 
+    //             this.unitname = "KONFEKSI 2C";
+    //         }else if(newvalue === "KONFEKSI 1A"){
+    //             this.unit = "C1A";
+    //             this.unitname = "KONFEKSI 1A";
+    //         }else if(newvalue === "KONFEKSI 1B"){
+    //             this.unit = "C1B";
+    //             this.unitname = "KONFEKSI 1B";
+    //         else{
+    //             this.unit = "";
+    //             this.unitname = "";
+    //         }
+            
+    //     }else{
+    //         this.unit = "";
+    //         this.unitname = "";
+    //     }
+    // }
 
     ExportToExcel() {
         let args = {            
