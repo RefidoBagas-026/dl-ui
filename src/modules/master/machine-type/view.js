@@ -28,7 +28,7 @@ export class View {
 
     editCallback(event) {
         const encoded = Base64Helper.encode(this.data.Id);
-        this.router.navigateToRoute('view', { id: encoded });
+        this.router.navigateToRoute('edit', { id: encoded });
     }
 
     deleteCallback(event) {
