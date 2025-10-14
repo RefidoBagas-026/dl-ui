@@ -81,7 +81,7 @@ export class MainPage {
 
     var formData = new FormData();
     if (this.data.PurchaseOrder.length > 0) {
-      formData.append("ScanResults", JSON.stringify(this.data.PurchaseOrder));
+      formData.append("ScanResult", JSON.stringify(this.data.PurchaseOrder));
     } else {
       var fileInput = document.getElementById('pdf-upload');
       var fileList = fileInput.files;
