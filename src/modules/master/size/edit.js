@@ -24,7 +24,8 @@ export class Edit {
     saveCallback(event) {
         this.service.update(this.data)
             .then(result => {
-                this.router.navigateToRoute('view', { id: this.data.Id });
+                const encoded = Base64Helper.encode(this.data.Id);
+                this.router.navigateToRoute('view', { id: encoded });
             })
             .catch(e => {
                 this.error = e;

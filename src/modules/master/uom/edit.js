@@ -11,8 +11,9 @@ export class Edit {
   }
 
   async activate(params) {
-    const decoded = Base64Helper.decodeUnicode(params.id);
+    const decoded = Base64Helper.decode(params.id);
     var id = decoded;
+
     this.data = await this.service.getById(id);
   }
 
