@@ -83,6 +83,8 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
+
+    
     // {
     //     route: '/garment-master-plan/working-hours-standard',
     //     name: 'working-hours-standard',
@@ -364,5 +366,19 @@ module.exports = [
             permission: { "I22": 1 },
             iconClass: 'fa fa-dashboard'
         }
-    }
+    },
+    {
+        route: '/garment-master-plan/master-plan-category-comodity',
+        name: 'master-plan-category-comodity',
+        moduleId: './modules/garment-master-plan/master-plan-category-comodity/index',
+        nav: true,
+        title: 'Kategori Komoditi',
+        auth: true,
+        settings: {
+            group: "g-master-plan",
+            // permission: { "C9": 1 },
+            permission: { "I23": 1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
 ]
