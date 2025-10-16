@@ -12,7 +12,7 @@ export class PdfuploaderData {
 
   get documents() {
     // Ambil array dokumen dari hasil scan
-    return this.scannedData && this.scannedData.Document ? this.scannedData.Document : [];
+    return this.scannedData ? [this.scannedData] : [];
   }
 
   // State dokumen yang di-expand (pakai Set dokumen)
@@ -20,11 +20,55 @@ export class PdfuploaderData {
 
   // Kolom untuk au-table (header)
   tableColumns = [
-    { field: 'InvoiceNo', title: 'Nomor Invoice External' },
+    { field: 'InvoiceDocumentNumber', title: 'Nomor Invoice External' },
     { field: 'SupplierName', title: 'Supplier' },
-    { field: 'VatDate', title: 'Tanggal Faktur Pajak' },
-  { field: 'TotalVat', title: 'Nominal Faktur', formatter: (value) => value != null ? value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '' },
-  { field: 'GrandTotalAmount', title: 'Total Amount', formatter: (value) => value != null ? value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '' },
+    {
+      field: 'TaxInvoiceDateParsed', title: 'Tanggal Faktur Pajak', formatter: (value) => {
+        if (!value) return '';
+        const d = new Date(value);
+        if (isNaN(d)) return value;
+        const day = d.toLocaleDateString('id-ID', { day: '2-digit' });
+        const month = d.toLocaleDateString('id-ID', { month: 'long' });
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
+      }
+    },
+    {
+      field: 'TaxInvoiceValueAddedTaxAmount', title: 'Nominal Faktur', formatter: (value) => {
+        // Tampilkan selalu dengan format Indonesia dan 2 desimal
+        if (value == null || value === '') return '';
+        const num = Number(value);
+        return isNaN(num) ? value : num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    },
+    {
+      field: 'IdrTotalPriceBeforeTax', title: 'DPP (IDR)', formatter: (value) => {
+        if (value == null || value === '') return Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const num = Number(value);
+        return isNaN(num) ? value : num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    },
+    {
+      field: 'IdrTotalPriceAfterTax', title: 'Total Amount (IDR)', formatter: (value) => {
+        if (value == null || value === '') return Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const num = Number(value);
+        return isNaN(num) ? value : num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    },
+    {
+      field: 'NonIdrTotalPriceBeforeTax', title: 'DPP (Non-IDR)', formatter: (value) => {
+        if (value == null || value === '') return Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const num = Number(value);
+        return isNaN(num) ? value : num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    },
+    {
+      field: 'NonIdrTotalPriceAfterTax', title: 'Total Amount (Non-IDR)', formatter: (value) => {
+        if (value == null || value === '') return Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const num = Number(value);
+        return isNaN(num) ? value : num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    },
     {
       field: 'aksi',
       title: 'Aksi',
@@ -67,7 +111,7 @@ export class PdfuploaderData {
           const detailRow = document.createElement('tr');
           detailRow.className = 'detail-row';
           const td = document.createElement('td');
-          td.colSpan = 6;
+          td.colSpan = 9;
           td.innerHTML = this.detailFormatter(doc);
           detailRow.appendChild(td);
           rowEl.parentNode.insertBefore(detailRow, rowEl.nextSibling);
@@ -87,26 +131,72 @@ export class PdfuploaderData {
         rowEl.classList.add('editing');
         // Ambil semua cell yang bisa diedit
         const cells = rowEl.querySelectorAll('td');
-        if (cells.length < 5) return;
+        if (cells.length < 8) return;
 
         // Edit InvoiceNo (cell 0)
         const invoiceNoCell = cells[0];
-        const originalInvoiceNo = doc.Header.InvoiceNo;
+        const originalInvoiceNo = doc.Header.InvoiceDocumentNumber;
         invoiceNoCell.innerHTML = `<input type='text' class='form-control form-control-sm' value='${originalInvoiceNo}' style='width:100%' />`;
 
         // Supplier tetap (cell 1) - tidak diedit
 
         // VatDate tetap (cell 2) - tidak diedit
+        const vatDateCell = cells[2];
+        const originalVatDate = doc.Header.TaxInvoiceDateParsed;
+        let parseDate = '';
+        if (!originalVatDate) {
+          parseDate = '';
+        }
+        const d = new Date(originalVatDate);
+        if (isNaN(d)) {
+          parseDate = '';
+        }
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        parseDate = `${y}-${m}-${day}`;
+        vatDateCell.innerHTML = `<input type='date' class='form-control form-control-sm' value='${parseDate}' style='width:100%' />`;
 
         // Edit TotalVat (cell 3)
         const totalVatCell = cells[3];
-        const originalTotalVat = doc.Header.TotalVat || '';
-        totalVatCell.innerHTML = `<input type='number' class='form-control form-control-sm' value='${originalTotalVat}' style='width:100%' />`;
+        const originalTotalVat = doc.Header.TaxInvoiceValueAddedTaxAmount;
+        const totalVatDisplay = (originalTotalVat != null && !isNaN(Number(originalTotalVat)))
+          ? Number(originalTotalVat).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          : (originalTotalVat || '');
+        // Ganti ke input text agar bisa menerima format lokal (mis. 198.300,00)
+        totalVatCell.innerHTML = `<input type='text' class='form-control form-control-sm' value='${totalVatDisplay}' style='width:100%' />`;
 
-        // Edit GrandTotalAmount (cell 4)
+        // Edit IdrTotalPriceBeforeTax (cell 4)
         const grandTotalCell = cells[4];
-        const originalGrandTotal = doc.Header.GrandTotalAmount || '';
-        grandTotalCell.innerHTML = `<input type='number' class='form-control form-control-sm' value='${originalGrandTotal}' style='width:100%' />`;
+        const originalGrandTotal = doc.Header.IdrTotalPriceBeforeTax;
+        const grandTotalDisplay = (originalGrandTotal != null && !isNaN(Number(originalGrandTotal)))
+          ? Number(originalGrandTotal).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          : (originalGrandTotal || Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+        grandTotalCell.innerHTML = `<input type='text' class='form-control form-control-sm' value='${grandTotalDisplay}' style='width:100%' />`;
+
+        // Edit IdrTotalPriceAfterTax (cell 5)
+        const grandTotalCell2 = cells[5];
+        const originalGrandTotal2 = doc.Header.IdrTotalPriceAfterTax;
+        const grandTotalDisplay2 = (originalGrandTotal2 != null && !isNaN(Number(originalGrandTotal2)))
+          ? Number(originalGrandTotal2).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          : (originalGrandTotal2 || Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+        grandTotalCell2.innerHTML = `<input type='text' class='form-control form-control-sm' value='${grandTotalDisplay2}' style='width:100%' />`;
+
+        // Edit NonIdrTotalPriceBeforeTax (cell 6)
+        const grandTotalCell3 = cells[6];
+        const originalGrandTotal3 = doc.Header.NonIdrTotalPriceBeforeTax;
+        const grandTotalDisplay3 = (originalGrandTotal3 != null && !isNaN(Number(originalGrandTotal3)))
+          ? Number(originalGrandTotal3).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          : (originalGrandTotal3 || Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+        grandTotalCell3.innerHTML = `<input type='text' class='form-control form-control-sm' value='${grandTotalDisplay3}' style='width:100%' />`;
+
+        // Edit NonIdrTotalPriceAfterTax (cell 7)
+        const grandTotalCell4 = cells[7];
+        const originalGrandTotal4 = doc.Header.NonIdrTotalPriceAfterTax;
+        const grandTotalDisplay4 = (originalGrandTotal4 != null && !isNaN(Number(originalGrandTotal4)))
+          ? Number(originalGrandTotal4).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          : (originalGrandTotal4 || Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+        grandTotalCell4.innerHTML = `<input type='text' class='form-control form-control-sm' value='${grandTotalDisplay4}' style='width:100%' />`;
 
         // Autofocus pada field pertama
         const firstInput = invoiceNoCell.querySelector('input');
@@ -118,11 +208,24 @@ export class PdfuploaderData {
           input.addEventListener('input', (e) => {
             const value = e.target.value;
             if (index === 0) { // InvoiceNo
-              doc.Header.InvoiceNo = value;
-            } else if (index === 1) { // TotalVat
-              doc.Header.TotalVat = parseFloat(value) || 0;
-            } else if (index === 2) { // GrandTotalAmount
-              doc.Header.GrandTotalAmount = parseFloat(value) || 0;
+              doc.Header.InvoiceDocumentNumber = value;
+            } else if (index === 1) { // VatDate
+              doc.Header.TaxInvoiceDateParsed = value;
+            } else if (index === 2) { // TotalVat (Nominal Faktur) - terima format lokal
+              const parsed = this.parseLocaleNumber(value);
+              doc.Header.TaxInvoiceValueAddedTaxAmount = parsed != null ? parsed : 0;
+            } else if (index === 3) { // DPP IDR - terima format lokal
+              const parsed = this.parseLocaleNumber(value);
+              doc.Header.IdrTotalPriceBeforeTax = parsed != null ? parsed : 0;
+            } else if (index === 4) { // Total Amount IDR - terima format lokal
+              const parsed = this.parseLocaleNumber(value);
+              doc.Header.IdrTotalPriceAfterTax = parsed != null ? parsed : 0;
+            } else if (index === 5) { // DPP Non-IDR - terima format lokal
+              const parsed = this.parseLocaleNumber(value);
+              doc.Header.NonIdrTotalPriceBeforeTax = parsed != null ? parsed : 0;
+            } else if (index === 6) { // Total Amount Non-IDR - terima format lokal
+              const parsed = this.parseLocaleNumber(value);
+              doc.Header.NonIdrTotalPriceAfterTax = parsed != null ? parsed : 0;
             }
             // Real-time JSON update
             this.showEditedJson();
@@ -152,28 +255,52 @@ export class PdfuploaderData {
 
         // Ambil semua cell yang ada input
         const cells = rowEl.querySelectorAll('td');
-        if (cells.length < 5) return;
+        if (cells.length < 8) return;
 
         // Simpan perubahan dari semua input
 
         // PATCH: Update langsung pada root scannedData agar parent ikut berubah
-        const docIndex = this.scannedData && this.scannedData.Document ? this.scannedData.Document.indexOf(doc) : -1;
-        if (docIndex !== -1) {
+        // Karena documents() return [this.scannedData], maka doc === this.scannedData
+        if (this.scannedData && doc === this.scannedData) {
           const invoiceNoInput = cells[0].querySelector('input');
           if (invoiceNoInput) {
-            this.scannedData.Document[docIndex].Header.InvoiceNo = invoiceNoInput.value;
+            this.scannedData.Header.InvoiceDocumentNumber = invoiceNoInput.value;
           }
 
           // Supplier dan VatDate tidak diedit
+          const vatDateInput = cells[2].querySelector('input');
+          if (vatDateInput) {
+            this.scannedData.Header.TaxInvoiceDateParsed = vatDateInput.value;
+          }
 
           const totalVatInput = cells[3].querySelector('input');
           if (totalVatInput) {
-            this.scannedData.Document[docIndex].Header.TotalVat = parseFloat(totalVatInput.value) || 0;
+            const parsed = this.parseLocaleNumber(totalVatInput.value);
+            this.scannedData.Header.TaxInvoiceValueAddedTaxAmount = parsed != null ? parsed : 0;
           }
 
           const grandTotalInput = cells[4].querySelector('input');
           if (grandTotalInput) {
-            this.scannedData.Document[docIndex].Header.GrandTotalAmount = parseFloat(grandTotalInput.value) || 0;
+            const parsedGrand = this.parseLocaleNumber(grandTotalInput.value);
+            this.scannedData.Header.IdrTotalPriceBeforeTax = parsedGrand != null ? parsedGrand : 0;
+          }
+
+          const grandTotalInput2 = cells[5].querySelector('input');
+          if (grandTotalInput2) {
+            const parsedGrand = this.parseLocaleNumber(grandTotalInput2.value);
+            this.scannedData.Header.IdrTotalPriceAfterTax = parsedGrand != null ? parsedGrand : 0;
+          }
+
+          const grandTotalInput3 = cells[6].querySelector('input');
+          if (grandTotalInput3) {
+            const parsedGrand = this.parseLocaleNumber(grandTotalInput3.value);
+            this.scannedData.Header.NonIdrTotalPriceBeforeTax = parsedGrand != null ? parsedGrand : 0;
+          }
+
+          const grandTotalInput4 = cells[7].querySelector('input');
+          if (grandTotalInput4) {
+            const parsedGrand = this.parseLocaleNumber(grandTotalInput4.value);
+            this.scannedData.Header.NonIdrTotalPriceAfterTax = parsedGrand != null ? parsedGrand : 0;
           }
         }
 
@@ -181,14 +308,43 @@ export class PdfuploaderData {
 
         // Setelah save, kembalikan semua input ke readonly display
         const updatedCells = rowEl.querySelectorAll('td');
-        if (updatedCells.length >= 5) {
+        if (updatedCells.length >= 8) {
           // Kembalikan InvoiceNo ke readonly
-          updatedCells[0].innerHTML = doc.Header.InvoiceNo;
+          updatedCells[0].innerHTML = doc.Header.InvoiceDocumentNumber;
           // Supplier dan VatDate sudah readonly
-          // Kembalikan TotalVat ke readonly
-          updatedCells[3].innerHTML = doc.Header.TotalVat ? doc.Header.TotalVat.toLocaleString('id-ID') : '';
-          // Kembalikan GrandTotalAmount ke readonly
-          updatedCells[4].innerHTML = doc.Header.GrandTotalAmount ? doc.Header.GrandTotalAmount.toLocaleString('id-ID') : '';
+          let dateParsed = '';
+          const value = doc.Header.TaxInvoiceDateParsed;
+          if (!value) {
+            dateParsed = '';
+          } else {
+            const d = new Date(value);
+            if (isNaN(d)) {
+              dateParsed = value;
+            } else {
+              const day = d.toLocaleDateString('id-ID', { day: '2-digit' });
+              const month = d.toLocaleDateString('id-ID', { month: 'long' });
+              const year = d.getFullYear();
+              dateParsed = `${day}-${month}-${year}`;
+            }
+          }
+          updatedCells[2].innerHTML = dateParsed;
+          // Kembalikan TotalVat ke readonly (format Indonesia, 2 desimal)
+          updatedCells[3].innerHTML = (doc.Header.TaxInvoiceValueAddedTaxAmount != null && !isNaN(Number(doc.Header.TaxInvoiceValueAddedTaxAmount)))
+            ? Number(doc.Header.TaxInvoiceValueAddedTaxAmount).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : '';
+          // Kembalikan GrandTotalAmount ke readonly (format Indonesia, 2 desimal)
+          updatedCells[4].innerHTML = (doc.Header.IdrTotalPriceBeforeTax != null && !isNaN(Number(doc.Header.IdrTotalPriceBeforeTax)))
+            ? Number(doc.Header.IdrTotalPriceBeforeTax).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          updatedCells[5].innerHTML = (doc.Header.IdrTotalPriceAfterTax != null && !isNaN(Number(doc.Header.IdrTotalPriceAfterTax)))
+            ? Number(doc.Header.IdrTotalPriceAfterTax).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          updatedCells[6].innerHTML = (doc.Header.NonIdrTotalPriceBeforeTax != null && !isNaN(Number(doc.Header.NonIdrTotalPriceBeforeTax)))
+            ? Number(doc.Header.NonIdrTotalPriceBeforeTax).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          updatedCells[7].innerHTML = (doc.Header.NonIdrTotalPriceAfterTax != null && !isNaN(Number(doc.Header.NonIdrTotalPriceAfterTax)))
+            ? Number(doc.Header.NonIdrTotalPriceAfterTax).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : Number(0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
         // Auto-update JSON display setelah save
@@ -209,19 +365,8 @@ export class PdfuploaderData {
 
                 if (itemIdx < itemCount) {
                   const val = inputEl.value;
-                  if (fieldType === 'ProductCode') {
-                    doc.Items[itemIdx].ProductCode = val || '';
-                  } else if (fieldType === 'Quantity') {
+                  if (fieldType === 'Quantity') {
                     doc.Items[itemIdx].Quantity = val === '' ? null : parseFloat(val);
-                  } else if (fieldType === 'PricePerDealUnit') {
-                    doc.Items[itemIdx].PricePerDealUnit = val === '' ? null : parseFloat(val);
-                  }
-
-                  // Hitung ulang TotalAmount untuk quantity dan price
-                  if (fieldType === 'Quantity' || fieldType === 'PricePerDealUnit') {
-                    const qty = doc.Items[itemIdx].Quantity || 0;
-                    const price = doc.Items[itemIdx].PricePerDealUnit || 0;
-                    doc.Items[itemIdx].TotalAmount = qty * price;
                   }
                 }
               });
@@ -264,8 +409,6 @@ export class PdfuploaderData {
         // Update data model
         if (doc.Items[itemIdx]) {
           doc.Items[itemIdx].Quantity = qty;
-          doc.Items[itemIdx].PricePerDealUnit = price;
-          doc.Items[itemIdx].TotalAmount = total;
 
           // Real-time JSON update
           this.showEditedJson();
@@ -288,22 +431,6 @@ export class PdfuploaderData {
         calculateTotal(itemIdx);
       });
     });
-
-    // Add listeners untuk product code inputs
-    productCodeInputs.forEach(input => {
-      input.addEventListener('input', (e) => {
-        const itemIdx = parseInt(e.target.getAttribute('data-itemidx'));
-        const productCode = e.target.value;
-
-        // Update data model
-        if (doc.Items[itemIdx]) {
-          doc.Items[itemIdx].ProductCode = productCode;
-
-          // Real-time JSON update untuk product code
-          this.showEditedJson();
-        }
-      });
-    });
   }
 
   // Formatter untuk detail row (Items)
@@ -314,11 +441,9 @@ export class PdfuploaderData {
       <table class='table table-bordered table-sm' style='background:#fff;'>
         <thead>
           <tr>
-            <th>Kode Produk</th>
-            <th>Nama Barang</th>
+            <th>Kode Barang</th>
+            <th>Nama barang</th>
             <th>Quantity</th>
-            <th>Harga Satuan</th>
-            <th>Total Amount</th>
           </tr>
         </thead>
         <tbody>`;
@@ -326,23 +451,13 @@ export class PdfuploaderData {
     for (let i = 0; i < doc.Items.length; i++) {
       const item = doc.Items[i];
       html += `<tr>
-        <td>
-          ${isEditing
-          ? `<input type='text' class='form-control form-control-sm product-code-input' value='${item.ProductCode || ''}' style='width:100%' data-field='ProductCode' data-itemidx='${i}' />`
-          : `${item.ProductCode || ''}`}
-        </td>
+        <td>${item.ProductCode || ''}</td>
         <td>${item.ProductName || ''}</td>
         <td>
           ${isEditing
           ? `<input type='number' class='form-control form-control-sm quantity-input' value='${item.Quantity == null ? '' : item.Quantity}' style='width:100%' data-field='Quantity' data-itemidx='${i}' />`
           : `${item.Quantity == null ? '' : item.Quantity.toLocaleString('id-ID')}`}
         </td>
-        <td>
-          ${isEditing
-          ? `<input type='number' class='form-control form-control-sm price-input' value='${item.PricePerDealUnit == null ? '' : item.PricePerDealUnit}' style='width:100%' data-field='PricePerDealUnit' data-itemidx='${i}' />`
-            : `${item.PricePerDealUnit != null ? item.PricePerDealUnit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}`}
-        </td>
-    <td class='total-amount-${i}'>${item.TotalAmount != null ? item.TotalAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}</td>
       </tr>`;
     }
     html += `</tbody></table></div>`;
@@ -374,11 +489,14 @@ export class PdfuploaderData {
     return {
       total: 1,
       data: [{
-        InvoiceNo: doc.Header.InvoiceNo,
+        InvoiceDocumentNumber: doc.Header.InvoiceDocumentNumber,
         SupplierName: doc.Header.SupplierName,
-        VatDate: doc.Header.VatDate,
-        TotalVat: doc.Header.TotalVat,
-        GrandTotalAmount: doc.Header.GrandTotalAmount
+        TaxInvoiceDateParsed: doc.Header.TaxInvoiceDateParsed,
+        TaxInvoiceValueAddedTaxAmount: doc.Header.TaxInvoiceValueAddedTaxAmount,
+        IdrTotalPriceBeforeTax: doc.Header.IdrTotalPriceBeforeTax,
+        IdrTotalPriceAfterTax: doc.Header.IdrTotalPriceAfterTax,
+        NonIdrTotalPriceBeforeTax: doc.Header.NonIdrTotalPriceBeforeTax,
+        NonIdrTotalPriceAfterTax: doc.Header.NonIdrTotalPriceAfterTax
       }]
     };
   }

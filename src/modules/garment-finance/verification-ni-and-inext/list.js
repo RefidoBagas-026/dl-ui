@@ -97,7 +97,7 @@ export class List {
           item.invoiceNo = item.invoiceNo || item.INNo || 'N/A';
           item.inNo = item.inNo || 'N/A';
           item.supplierName = item.supplierName || 'N/A';
-          item.totalAmount = item.totalAmount || 0;
+          item.totalAmountBeforeTax = item.totalAmountBeforeTax || 0;
         });
         return {
           total: data.total,
@@ -154,7 +154,7 @@ export class List {
       if (isNaN(num)) return value;
       return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }},
-    { field: 'totalAmount', title: 'Total Amount', width: 120, align: 'right', sortable: true, formatter: (value) => {
+    { field: 'totalAmountBeforeTax', title: 'Total Amount', width: 120, align: 'right', sortable: true, formatter: (value) => {
       if (value == null || value === '') return '';
       const num = Number(value);
       if (isNaN(num)) return value;
@@ -205,14 +205,14 @@ export class List {
     `;
 
     items.forEach((item, idx) => {
-      const quantity = item.internNoteQuantity || 0;
+      const quantity = item.quantity || 0;
       const pricePerUnit = item.pricePerDealUnit || 0;
-      const totalPrice = quantity * pricePerUnit;
+      const totalPrice = parseFloat(quantity).toFixed(2) * parseFloat(pricePerUnit);
 
       html += `
         <tr>
           <td>${idx + 1}</td>
-          <td>${item.InternalNoteDONo || 'N/A'}</td>
+          <td>${item.doNo || 'N/A'}</td>
           <td style="text-align:right">${quantity.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
           <td style="text-align:right">${pricePerUnit.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
           <td style="text-align:right">${totalPrice.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
