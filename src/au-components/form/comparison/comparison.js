@@ -15,6 +15,8 @@ export class Comparison {
     @bindable readOnly = true;
     @bindable highlightDifferences = true;
     @bindable useAbsolute = false;
+    @bindable remark = '';
+    @bindable remarkType = 'info'; // 'info', 'warning', 'success', 'danger'
 
     constructor(element) {
         this.element = element;
@@ -65,6 +67,34 @@ export class Comparison {
     get isDifferent() {
         if (!this.highlightDifferences) return false;
         return this.formattedValue1 !== this.formattedValue2;
+    }
+
+    get shouldShowComparison() {
+        return this.highlightDifferences;
+    }
+
+    get shouldShowRemark() {
+        return !this.highlightDifferences && this.remark;
+    }
+
+    get remarkClass() {
+        const baseClass = 'comparison-remark';
+        const typeClass = `comparison-remark-${this.remarkType}`;
+        return `${baseClass} ${typeClass}`;
+    }
+
+    get remarkIcon() {
+        switch (this.remarkType) {
+            case 'warning':
+                return 'fa-exclamation-triangle';
+            case 'success':
+                return 'fa-check-circle';
+            case 'danger':
+                return 'fa-times-circle';
+            case 'info':
+            default:
+                return 'fa-info-circle';
+        }
     }
 
     get controlOptions() {

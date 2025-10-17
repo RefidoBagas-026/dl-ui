@@ -8,13 +8,23 @@ export class List {
   navigateToMainPage() {
     this.router.navigateToRoute('main-page');
   }
-  
+
   constructor(router, service) {
     this.router = router;
     this.service = service;
-    
+
     // Bind viewModel reference untuk button onclick
     window.viewModel = this;
+  }
+
+  context = ["Rincian"];
+
+  contextClickCallback(event) {
+    var arg = event.detail;
+    var data = arg.data;
+    if (arg.name === "Rincian") {
+      this.router.navigateToRoute('view', { id: data.Id });
+    }
   }
 
   // Lifecycle method untuk memastikan tabel ter-render dengan benar
@@ -92,12 +102,13 @@ export class List {
         data.data = result.data;
         // Simpan data hasil load ke property agar bisa diakses event handler
         this.loadedData = data.data;
+        window.listData = data.data;
         data.data.forEach(item => {
           // Pastikan field yang diperlukan ada
           item.invoiceNo = item.invoiceNo || item.INNo || 'N/A';
           item.inNo = item.inNo || 'N/A';
           item.supplierName = item.supplierName || 'N/A';
-          item.totalAmount = item.totalAmount || 0;
+          item.totalAmountBeforeTax = item.totalAmountBeforeTax || 0;
         });
         return {
           total: data.total,
@@ -108,15 +119,7 @@ export class List {
 
   // Konfigurasi options untuk table
   tableOptions = {
-    pagination: true,
-    showColumns: true,
-    search: true,
-    showToggle: true,
-    striped: true,
-    sortable: true,
-    searchOnEnterKey: true,
     showRefresh: true,
-    smartDisplay: true,
     // Nonaktifkan detailView bawaan agar tombol custom yang berfungsi
     // detailView: true,
     // detailViewIcon: true,
@@ -135,35 +138,41 @@ export class List {
     { field: 'invoiceNo', title: 'Invoice', width: 150, align: 'left', sortable: true },
     { field: 'inNo', title: 'No NI', width: 150, align: 'left', sortable: true },
     { field: 'supplierName', title: 'Nama Supplier', width: 200, align: 'left', sortable: true },
-    { field: 'vatRate', title: 'Nilai PPN', width: 120, align: 'right', sortable: true, formatter: (value) => {
-      if (value == null || value === '') return '';
-      const num = Number(value);
-      if (isNaN(num)) return value;
-      // Hilangkan .00; kalau punya desimal lain tampilkan tanpa trailing zero berlebihan
-      let display = num.toFixed(2); // two decimals
-      if (display.endsWith('.00')) {
-        display = display.slice(0, -3);
-      } else {
-        display = parseFloat(display).toString(); // trim trailing zeros
+    {
+      field: 'vatRate', title: 'Nilai PPN', width: 120, align: 'right', sortable: true, formatter: (value) => {
+        if (value == null || value === '') return '';
+        const num = Number(value);
+        if (isNaN(num)) return value;
+        // Hilangkan .00; kalau punya desimal lain tampilkan tanpa trailing zero berlebihan
+        let display = num.toFixed(2); // two decimals
+        if (display.endsWith('.00')) {
+          display = display.slice(0, -3);
+        } else {
+          display = parseFloat(display).toString(); // trim trailing zeros
+        }
+        return display + '%';
       }
-      return display + '%';
-    }},
-    { field: 'totalVat', title: 'Jumlah PPN', width: 120, align: 'right', sortable: true, formatter: (value) => {
-      if (value == null || value === '') return '';
-      const num = Number(value);
-      if (isNaN(num)) return value;
-      return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }},
-    { field: 'totalAmount', title: 'Total Amount', width: 120, align: 'right', sortable: true, formatter: (value) => {
-      if (value == null || value === '') return '';
-      const num = Number(value);
-      if (isNaN(num)) return value;
-      return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }},
-    { 
-      field: 'actions', 
-      title: 'Aksi', 
-      width: 100, 
+    },
+    {
+      field: 'totalVat', title: 'Jumlah PPN', width: 120, align: 'right', sortable: true, formatter: (value) => {
+        if (value == null || value === '') return '';
+        const num = Number(value);
+        if (isNaN(num)) return value;
+        return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    },
+    {
+      field: 'totalAmountBeforeTax', title: 'Total Amount', width: 120, align: 'right', sortable: true, formatter: (value) => {
+        if (value == null || value === '') return '';
+        const num = Number(value);
+        if (isNaN(num)) return value;
+        return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    },
+    {
+      field: 'actions',
+      title: 'Aksi',
+      width: 100,
       align: 'center',
       sortable: false,
       formatter: (value, row, index) => {
@@ -183,7 +192,7 @@ export class List {
   // Function untuk format detail view (child table)
   detailFormatter(index, row) {
     var items = row.items || [];
-    
+
     if (items.length === 0) {
       return '<div class="alert alert-info">Tidak ada item</div>';
     }
@@ -195,27 +204,23 @@ export class List {
             <tr>
               <th width="40">No</th>
               <th width="150">No Surat Jalan</th>
-              <th width="80">Qty</th>
-              <th width="120">Harga Satuan</th>
-              <th width="120">Harga Total</th>
-              <th>Keterangan</th>
+              <th width="150">Nama Barang</th>
+              <th width="120">Quantity</th>
+              <th width="150">Keterangan</th>
             </tr>
           </thead>
           <tbody>
     `;
 
     items.forEach((item, idx) => {
-      const quantity = item.internNoteQuantity || 0;
-      const pricePerUnit = item.pricePerDealUnit || 0;
-      const totalPrice = quantity * pricePerUnit;
+      const quantity = item.quantity || 0;
 
       html += `
         <tr>
           <td>${idx + 1}</td>
-          <td>${item.InternalNoteDONo || 'N/A'}</td>
+          <td>${item.doNo || 'N/A'}</td>
+          <td>${item.productName || 'N/A'}</td>
           <td style="text-align:right">${quantity.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td style="text-align:right">${pricePerUnit.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td style="text-align:right">${totalPrice.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
           <td>${item.remarkDescription || 'N/A'}</td>
         </tr>
       `;

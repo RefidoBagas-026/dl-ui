@@ -10,7 +10,7 @@
       </div>
       
       <!-- Side by side comparison -->
-      <div class="comparison-row">
+      <div class="comparison-row" if.bind="shouldShowComparison">
         <!-- Left side (Value 1) -->
         <div class="comparison-column">
           <div class="comparison-sub-label">${label1}</div>
@@ -29,13 +29,28 @@
       </div>
       
       <!-- Difference indicator -->
-      <div class="comparison-status" if.bind="isDifferent">
+      <div class="comparison-status" if.bind="shouldShowComparison && isDifferent">
         <i class="fa fa-exclamation-triangle text-warning"></i>
         <span class="text-warning">Data tidak sesuai</span>
       </div>
-      <div class="comparison-status" if.bind="!isDifferent">
+      <div class="comparison-status" if.bind="shouldShowComparison && !isDifferent">
         <i class="fa fa-check text-success"></i>
         <span class="text-success">Data sesuai</span>
+      </div>
+
+      <!-- Remark section when comparison is disabled -->
+      <div class="comparison-remark-container" if.bind="shouldShowRemark">
+        <div class.bind="remarkClass">
+          <i class.bind="'fa ' + remarkIcon"></i>
+          <span class="comparison-remark-text">${remark}</span>
+        </div>
+      </div>
+
+      <!-- Single value display when comparison is disabled and no remark -->
+      <div class="comparison-single-value" if.bind="!shouldShowComparison && !shouldShowRemark">
+        <div class="comparison-value">
+          <div class="form-control-static">${formattedValue1 || formattedValue2 || '-'}</div>
+        </div>
       </div>
     </div>
   </au-layout>

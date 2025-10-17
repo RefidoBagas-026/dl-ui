@@ -193,3 +193,119 @@
     border-color: #c62828;
   }
 }
+
+/* Remark styles for when comparison is disabled */
+.comparison-remark-container {
+  margin-top: 10px;
+}
+
+.comparison-remark {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  border: 1px solid;
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.comparison-remark i {
+  margin-right: 8px;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.comparison-remark-text {
+  flex: 1;
+  line-height: 1.4;
+}
+
+/* Remark type styles */
+.comparison-remark-info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
+.comparison-remark-warning {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+
+.comparison-remark-success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+.comparison-remark-danger {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+/* Single value display when comparison is disabled */
+.comparison-single-value {
+  margin-top: 10px;
+}
+
+.comparison-single-value .comparison-value {
+  text-align: center;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+/* Enhanced responsive design for remark functionality */
+@media (max-width: 768px) {
+  .comparison-remark {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .comparison-remark i {
+    margin-right: 6px;
+    font-size: 13px;
+  }
+  
+  .comparison-single-value .comparison-value {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+/* Dark theme support for remark styles */
+@media (prefers-color-scheme: dark) {
+  .comparison-remark-info {
+    color: #9acfea;
+    background-color: #0f2940;
+    border-color: #1e4a5f;
+  }
+  
+  .comparison-remark-warning {
+    color: #d4b157;
+    background-color: #3d3315;
+    border-color: #5f4e1a;
+  }
+  
+  .comparison-remark-success {
+    color: #90c695;
+    background-color: #1e3e20;
+    border-color: #2d5a2f;
+  }
+  
+  .comparison-remark-danger {
+    color: #e08284;
+    background-color: #3d1e1f;
+    border-color: #5a2d2e;
+  }
+  
+  .comparison-single-value .comparison-value {
+    background-color: #2a2a2a;
+    border-color: #444;
+    color: #e0e0e0;
+  }
+}

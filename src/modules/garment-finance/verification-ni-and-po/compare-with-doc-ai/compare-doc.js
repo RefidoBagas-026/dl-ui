@@ -127,7 +127,7 @@ export class CompareDoc {
       }
       // Append as collections
       if (scanResultsArr.length > 0) {
-        formData.append('ScanResults', JSON.stringify(scanResultsArr));
+        formData.append('ScanResult', JSON.stringify(scanResultsArr));
       }
       if (filesArr.length > 0) {
         for (let i = 0; i < filesArr.length; i++) {

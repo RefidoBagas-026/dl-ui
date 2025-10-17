@@ -14,7 +14,8 @@ export class Index {
         name: 'main-page',
         nav: false,
         title: 'Main Page'
-      }
+      },
+      { route: 'view/:id', moduleId: './view/view-compare-result', name: 'view', nav: false, title: 'View: Verifikasi NI dan Invoice External' },
     ]);
 
     this.router = router;
