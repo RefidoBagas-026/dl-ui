@@ -28,9 +28,15 @@ export class View {
   }   
    
   delete(event) {
-    this.service.delete(this.data)
-        .then(result => {
-          this.cancel();
-        });
+    if (confirm("Apakah anda yakin akan menghapus data ini?")){
+      this.service.delete(this.data)
+              .then(result => {
+                  this.cancel();
+              })
+              .catch(e => {
+                  this.error = e;
+              })
+    }
+          
   }  
 }
