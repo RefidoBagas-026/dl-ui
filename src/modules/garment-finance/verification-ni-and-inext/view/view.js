@@ -31,7 +31,29 @@ export class View {
 
   @computedFrom('safeData.isPayVat', 'safeData.useVat')
   get highlightDifferencesTax() {
-    return this.safeData.isPayVat && this.safeData.useVat ? true : false;
+    return this.safeData.isPayVat && this.safeData.useVat;
+  }
+
+  @computedFrom('safeData.isPayVat', 'safeData.useVat')
+  get taxComparisonRemark() {
+    if (!this.safeData.isPayVat && !this.safeData.useVat) {
+      return 'Tidak ada pajak yang digunakan pada transaksi ini';
+    }
+    if (!this.safeData.isPayVat) {
+      return 'Pajak tidak dibayar pada transaksi ini';
+    }
+    if (!this.safeData.useVat) {
+      return 'VAT tidak digunakan pada transaksi ini';
+    }
+    return '';
+  }
+
+  @computedFrom('safeData.isPayVat', 'safeData.useVat')
+  get taxRemarkType() {
+    if (!this.safeData.isPayVat && !this.safeData.useVat) {
+      return 'info';
+    }
+    return 'info';
   }
 
   itemsInfoReadOnly = {

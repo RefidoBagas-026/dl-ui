@@ -37,7 +37,9 @@
       label1="Data DMS" 
       label2="Data Hasil Scan" 
       format="0.00"
-      highlight-differences.bind="highlightDifferencesTax">
+      highlight-differences.bind="highlightDifferencesTax"
+      remark.bind="taxComparisonRemark"
+      remark-type.bind="taxRemarkType">
     </au-comparison>
 
     <au-comparison 
@@ -47,7 +49,9 @@
       label1="Data DMS" 
       label2="Data Hasil Scan" 
       format="date"
-      highlight-differences.bind="highlightDifferencesTax">
+      highlight-differences.bind="highlightDifferencesTax"
+      remark.bind="taxComparisonRemark"
+      remark-type.bind="taxRemarkType">
     </au-comparison>
 
     <au-collection items.bind="data.items" columns.bind="itemsInfoReadOnly.columnsReadOnly" show.bind="data.items.length > 0"
