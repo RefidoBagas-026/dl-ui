@@ -1,0 +1,62 @@
+<template>
+  <!-- Debug log dihapus agar tampilan bersih -->
+  <!-- <au-table 
+    view-model.ref="table"
+    data.bind="loader" 
+    columns.bind="columns" 
+    sortable.bind="true" 
+    page-size="25"
+    options.bind="tableOptions">
+  </au-table> -->
+
+  <au-input-form title="Detail Invoice" with.bind="context">
+    <div slot="actions" class="btn-group">
+      <button class="btn btn-default" click.delegate="cancel($event)">Kembali</button>
+    </div>
+    <au-comparison 
+      label="Nomor Invoice" 
+      value1.bind="data.invoiceNo" 
+      value2.bind="data.invoiceNoScanResult" 
+      label1="Data DMS" 
+      label2="Data Hasil Scan">
+    </au-comparison>
+
+    <au-comparison 
+      label="DPP" 
+      value1.bind="data.totalAmountBeforeTax" 
+      value2.bind="data.totalAmountBeforeTaxScanResult" 
+      label1="Data DMS" 
+      label2="Data Hasil Scan" 
+      format="0.00">
+    </au-comparison>
+
+    <au-comparison 
+      label="Total PPN" 
+      value1.bind="data.totalVat" 
+      value2.bind="data.totalVatScanResult" 
+      label1="Data DMS" 
+      label2="Data Hasil Scan" 
+      format="0.00"
+      highlight-differences.bind="highlightDifferencesTax"
+      remark.bind="taxComparisonRemark"
+      remark-type.bind="taxRemarkType">
+    </au-comparison>
+
+    <au-comparison 
+      label="Tanggal PPN" 
+      value1.bind="data.taxInvoiceDate" 
+      value2.bind="data.taxInvoiceDateScanResult" 
+      label1="Data DMS" 
+      label2="Data Hasil Scan" 
+      format="date"
+      highlight-differences.bind="highlightDifferencesTax"
+      remark.bind="taxComparisonRemark"
+      remark-type.bind="taxRemarkType">
+    </au-comparison>
+
+    <au-collection items.bind="data.items" columns.bind="itemsInfoReadOnly.columnsReadOnly" show.bind="data.items.length > 0"
+        read-only.bind="true"  
+        item-template="modules/garment-finance/verification-ni-and-inext/template/external-invoice-revision-item">
+    </au-collection>
+  </au-input-form>
+</template>
