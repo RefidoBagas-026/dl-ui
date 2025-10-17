@@ -169,17 +169,19 @@ export class PdfuploaderData {
         const vatDateCell = cells[2];
         const originalVatDate = doc.Header.TaxInvoiceDateParsed;
         let parseDate = '';
-        if (!originalVatDate) {
-          parseDate = '';
-        }
+        // if (!originalVatDate) {
+        //   parseDate = '';
+        // }
         const d = new Date(originalVatDate);
-        if (isNaN(d)) {
+        if (!originalVatDate || isNaN(d)) {
           parseDate = '';
+        } else {
+          const y = d.getFullYear();
+          const m = String(d.getMonth() + 1).padStart(2, '0');
+          const day = String(d.getDate()).padStart(2, '0');
+          parseDate = `${y}-${m}-${day}`;
         }
-        const y = d.getFullYear();
-        const m = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        parseDate = `${y}-${m}-${day}`;
+
         vatDateCell.innerHTML = `<input type='date' class='form-control form-control-sm' value='${parseDate}' style='width:100%' />`;
 
         // Edit TotalVat (cell 3)

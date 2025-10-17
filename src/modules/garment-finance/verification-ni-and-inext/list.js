@@ -204,10 +204,9 @@ export class List {
             <tr>
               <th width="40">No</th>
               <th width="150">No Surat Jalan</th>
-              <th width="80">Qty</th>
-              <th width="120">Harga Satuan</th>
-              <th width="120">Harga Total</th>
-              <th>Keterangan</th>
+              <th width="150">Nama Barang</th>
+              <th width="120">Quantity</th>
+              <th width="150">Keterangan</th>
             </tr>
           </thead>
           <tbody>
@@ -215,16 +214,13 @@ export class List {
 
     items.forEach((item, idx) => {
       const quantity = item.quantity || 0;
-      const pricePerUnit = item.pricePerDealUnit || 0;
-      const totalPrice = parseFloat(quantity).toFixed(2) * parseFloat(pricePerUnit);
 
       html += `
         <tr>
           <td>${idx + 1}</td>
           <td>${item.doNo || 'N/A'}</td>
+          <td>${item.productName || 'N/A'}</td>
           <td style="text-align:right">${quantity.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td style="text-align:right">${pricePerUnit.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td style="text-align:right">${totalPrice.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
           <td>${item.remarkDescription || 'N/A'}</td>
         </tr>
       `;
