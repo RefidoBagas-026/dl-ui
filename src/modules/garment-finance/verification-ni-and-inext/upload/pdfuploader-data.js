@@ -227,35 +227,8 @@ export class PdfuploaderData {
         const firstInput = invoiceNoCell.querySelector('input');
         if (firstInput) firstInput.focus();
 
-        // Tambahkan event listener untuk real-time JSON update pada header fields
-        const headerInputs = rowEl.querySelectorAll('input.form-control');
-        headerInputs.forEach((input, index) => {
-          input.addEventListener('input', (e) => {
-            const value = e.target.value;
-            if (index === 0) { // InvoiceNo
-              doc.Header.InvoiceDocumentNumber = value;
-            } else if (index === 1) { // VatDate
-              doc.Header.TaxInvoiceDateParsed = value;
-            } else if (index === 2) { // TotalVat (Nominal Faktur) - terima format lokal
-              const parsed = this.parseLocaleNumber(value);
-              doc.Header.TaxInvoiceValueAddedTaxAmount = parsed != null ? parsed : 0;
-            } else if (index === 3) { // DPP IDR - terima format lokal
-              const parsed = this.parseLocaleNumber(value);
-              doc.Header.IdrTotalPriceBeforeTax = parsed != null ? parsed : 0;
-            } else if (index === 4) { // Total Amount IDR - terima format lokal
-              const parsed = this.parseLocaleNumber(value);
-              doc.Header.IdrTotalPriceAfterTax = parsed != null ? parsed : 0;
-            } else if (index === 5) { // DPP Non-IDR - terima format lokal
-              const parsed = this.parseLocaleNumber(value);
-              doc.Header.NonIdrTotalPriceBeforeTax = parsed != null ? parsed : 0;
-            } else if (index === 6) { // Total Amount Non-IDR - terima format lokal
-              const parsed = this.parseLocaleNumber(value);
-              doc.Header.NonIdrTotalPriceAfterTax = parsed != null ? parsed : 0;
-            }
-            // Real-time JSON update
-            this.showEditedJson();
-          });
-        });
+        // Removed real-time event listeners to prevent data changes before save
+        // Data will only be updated when Save button is clicked
 
         // Refresh detail row agar Quantity dan Price ikut jadi input
         const nextRow = rowEl.nextElementSibling;
@@ -428,16 +401,8 @@ export class PdfuploaderData {
         const price = parseFloat(priceInput.value) || 0;
         const total = qty * price;
 
-        // Update display
+        // Update display only, don't update data model until save
         totalCell.textContent = total.toLocaleString('id-ID');
-
-        // Update data model
-        if (doc.Items[itemIdx]) {
-          doc.Items[itemIdx].Quantity = qty;
-
-          // Real-time JSON update
-          this.showEditedJson();
-        }
       }
     };
 
