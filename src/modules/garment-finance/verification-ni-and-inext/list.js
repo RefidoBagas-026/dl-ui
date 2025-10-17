@@ -8,13 +8,23 @@ export class List {
   navigateToMainPage() {
     this.router.navigateToRoute('main-page');
   }
-  
+
   constructor(router, service) {
     this.router = router;
     this.service = service;
-    
+
     // Bind viewModel reference untuk button onclick
     window.viewModel = this;
+  }
+
+  context = ["Rincian"];
+
+  contextClickCallback(event) {
+    var arg = event.detail;
+    var data = arg.data;
+    if (arg.name === "Rincian") {
+      this.router.navigateToRoute('view', { id: data.Id });
+    }
   }
 
   // Lifecycle method untuk memastikan tabel ter-render dengan benar
@@ -92,6 +102,7 @@ export class List {
         data.data = result.data;
         // Simpan data hasil load ke property agar bisa diakses event handler
         this.loadedData = data.data;
+        window.listData = data.data;
         data.data.forEach(item => {
           // Pastikan field yang diperlukan ada
           item.invoiceNo = item.invoiceNo || item.INNo || 'N/A';
@@ -108,15 +119,7 @@ export class List {
 
   // Konfigurasi options untuk table
   tableOptions = {
-    pagination: true,
-    showColumns: true,
-    search: true,
-    showToggle: true,
-    striped: true,
-    sortable: true,
-    searchOnEnterKey: true,
     showRefresh: true,
-    smartDisplay: true,
     // Nonaktifkan detailView bawaan agar tombol custom yang berfungsi
     // detailView: true,
     // detailViewIcon: true,
@@ -135,35 +138,41 @@ export class List {
     { field: 'invoiceNo', title: 'Invoice', width: 150, align: 'left', sortable: true },
     { field: 'inNo', title: 'No NI', width: 150, align: 'left', sortable: true },
     { field: 'supplierName', title: 'Nama Supplier', width: 200, align: 'left', sortable: true },
-    { field: 'vatRate', title: 'Nilai PPN', width: 120, align: 'right', sortable: true, formatter: (value) => {
-      if (value == null || value === '') return '';
-      const num = Number(value);
-      if (isNaN(num)) return value;
-      // Hilangkan .00; kalau punya desimal lain tampilkan tanpa trailing zero berlebihan
-      let display = num.toFixed(2); // two decimals
-      if (display.endsWith('.00')) {
-        display = display.slice(0, -3);
-      } else {
-        display = parseFloat(display).toString(); // trim trailing zeros
+    {
+      field: 'vatRate', title: 'Nilai PPN', width: 120, align: 'right', sortable: true, formatter: (value) => {
+        if (value == null || value === '') return '';
+        const num = Number(value);
+        if (isNaN(num)) return value;
+        // Hilangkan .00; kalau punya desimal lain tampilkan tanpa trailing zero berlebihan
+        let display = num.toFixed(2); // two decimals
+        if (display.endsWith('.00')) {
+          display = display.slice(0, -3);
+        } else {
+          display = parseFloat(display).toString(); // trim trailing zeros
+        }
+        return display + '%';
       }
-      return display + '%';
-    }},
-    { field: 'totalVat', title: 'Jumlah PPN', width: 120, align: 'right', sortable: true, formatter: (value) => {
-      if (value == null || value === '') return '';
-      const num = Number(value);
-      if (isNaN(num)) return value;
-      return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }},
-    { field: 'totalAmountBeforeTax', title: 'Total Amount', width: 120, align: 'right', sortable: true, formatter: (value) => {
-      if (value == null || value === '') return '';
-      const num = Number(value);
-      if (isNaN(num)) return value;
-      return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }},
-    { 
-      field: 'actions', 
-      title: 'Aksi', 
-      width: 100, 
+    },
+    {
+      field: 'totalVat', title: 'Jumlah PPN', width: 120, align: 'right', sortable: true, formatter: (value) => {
+        if (value == null || value === '') return '';
+        const num = Number(value);
+        if (isNaN(num)) return value;
+        return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    },
+    {
+      field: 'totalAmountBeforeTax', title: 'Total Amount', width: 120, align: 'right', sortable: true, formatter: (value) => {
+        if (value == null || value === '') return '';
+        const num = Number(value);
+        if (isNaN(num)) return value;
+        return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    },
+    {
+      field: 'actions',
+      title: 'Aksi',
+      width: 100,
       align: 'center',
       sortable: false,
       formatter: (value, row, index) => {
@@ -183,7 +192,7 @@ export class List {
   // Function untuk format detail view (child table)
   detailFormatter(index, row) {
     var items = row.items || [];
-    
+
     if (items.length === 0) {
       return '<div class="alert alert-info">Tidak ada item</div>';
     }
