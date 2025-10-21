@@ -6,6 +6,7 @@ import { Config } from "aurelia-api";
 
 
 const serviceUri = 'master/garment-comodities';
+const serviceUriBO = 'sales/garment-booking-orders';
 
 export class Service extends RestService {
 
@@ -36,5 +37,16 @@ export class Service extends RestService {
     delete(data) {
         var endpoint = `${serviceUri}/${data.Id}`;
         return super.delete(endpoint, data);
+    }
+    
+}
+export class ServiceSales extends RestService {
+
+    constructor(http, aggregator, config, endpoint) {
+        super(http, aggregator, config, "sales");
+    }
+    searchComodityBookingOrder(info) {
+        var endpoint = `${serviceUriBO}`;
+        return super.list(endpoint, info);
     }
 }
