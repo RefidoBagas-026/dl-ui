@@ -62,6 +62,7 @@ export class Create {
                 }
             }
         }
+        this.data.FinishingOutDate = this.data.FinishingOutDate ? moment.utc(this.data.FinishingOutDate).local().format() : null;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
