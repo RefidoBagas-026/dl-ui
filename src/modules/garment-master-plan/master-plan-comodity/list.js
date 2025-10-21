@@ -16,7 +16,6 @@ export class List {
 
     loader = (info) => {
         var order = {};
-        console.log(info);
     if (info.sort)
       order[info.sort] = info.order;
 
