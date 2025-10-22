@@ -168,10 +168,18 @@ export class List {
             if (confirm(`Post ${unpostedDataToBePosted.length} data?`)) {
                 this.service.postRO(unpostedDataToBePosted.map(d => d.Id))
                     .then(result => {
+                        
+                        
                         this.table.refresh();
                         this.dataToBePosted = [];
+                        //console.log(result.message);
                     }).catch(e => {
                         this.error = e;
+                        if(e.message === "Validation Error"){
+
+                            alert("Gagal Posting, CC Belum di Approve Kadiv MD");
+                        }
+                        //console.log(e);
                     })
             }
         }
