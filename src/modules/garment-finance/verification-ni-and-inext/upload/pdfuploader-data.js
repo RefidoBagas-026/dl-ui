@@ -2,6 +2,31 @@ import { customElement, bindable } from 'aurelia-framework';
 
 @customElement('pdfuploader-data')
 export class PdfuploaderData {
+  // Helper: parse string angka dengan format Indonesia ("1.982.300,00") menjadi Number 1982300.00
+  // - Menghapus spasi, pemisah ribuan '.'
+  // - Mengganti koma desimal "," menjadi "."
+  // - Jika input sudah berformat internasional, tetap diparse normal
+  parseLocaleNumber(str) {
+    if (str == null) return null;
+    if (typeof str === 'number') return isNaN(str) ? null : str;
+    let s = String(str).trim();
+    if (!s) return null;
+    // Hilangkan semua spasi non-breaking dan biasa
+    s = s.replace(/\s+/g, '');
+    // Jika mengandung koma dan/atau titik, coba normalisasi gaya Indonesia
+    // Kasus umum: "1.982.300,00" → hapus '.' → "1982300,00" → ganti ',' → '.' → "1982300.00"
+    if (/,/.test(s)) {
+      s = s.replace(/\./g, '');
+      s = s.replace(/,/g, '.');
+    } else {
+      // Tidak ada koma, bisa jadi sudah format internasional dengan titik desimal
+      // Hapus pemisah ribuan jika ada (misal "1,982,300.00"): sudah ditangani oleh parseFloat di banyak kasus,
+      // namun untuk konsistensi remove comma grouping
+      s = s.replace(/,/g, '');
+    }
+    const n = parseFloat(s);
+    return isNaN(n) ? null : n;
+  }
   // Mendapatkan JSON hasil edit (deep clone agar aman untuk export)
   getEditedJson() {
     return JSON.parse(JSON.stringify(this.scannedData));
