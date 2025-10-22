@@ -8,7 +8,7 @@ const serviceUri = 'garment-invoice-external-revision';
 const serviceInternNotesUri = 'garment-intern-notes';
 const serviceInvoiceGarmentUri = 'garment-invoices';
 const scanInvoiceExternalUri = 'garment-invoice-external-revision/scan-invoice-external';
-const compareInternalNoteInvoiceExternalUri = 'garment-purchasing-expeditions/compare-internal-note-external-purchase-order';
+const compareInternalNoteInvoiceExternalUri = 'garment-purchasing-expeditions/compare-internal-note-external-invoice';
 
 export class Service extends RestService {
     constructor(http, aggregator, config) {
@@ -85,8 +85,8 @@ export class Service extends RestService {
      * @param {string} id - Nota Intern ID
      */
     getInternNoteById(id) {
-    // Menggunakan endpoint invoice garment sesuai permintaan
-    const endpoint = `${serviceInvoiceGarmentUri}/${id}`;
+        // Menggunakan endpoint invoice garment sesuai permintaan
+        const endpoint = `${serviceInvoiceGarmentUri}/${id}`;
         return this.purchasingService.get(endpoint);
     }
 
@@ -120,19 +120,22 @@ export class Service extends RestService {
      */
     postCompareInternalNoteInvoiceExternal(garmentInvoiceId, garmentInternNoteId, { scanResult = null, file = null } = {}) {
         const endpoint = `${compareInternalNoteInvoiceExternalUri}?garmentInvoiceId=${garmentInvoiceId}&garmentInternNoteId=${garmentInternNoteId}`;
-        
+
         const formData = new FormData();
-        
+
         if (scanResult) {
             formData.append('ScanResult', scanResult);
         }
-        
+
         if (file) {
             formData.append('File', file);
         }
 
         return this.endpoint.client.fetch(endpoint, {
             method: 'POST',
+            headers: new Headers({
+                "x-timezone-offset": this.endpoint.defaults.headers["x-timezone-offset"],
+            }),
             body: formData
         }).then(response => response.json());
     }

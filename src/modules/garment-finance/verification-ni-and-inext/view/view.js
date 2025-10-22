@@ -15,12 +15,12 @@ export class View {
     if (!value) return '';
     const date = new Date(value);
     if (isNaN(date)) return value;
-    
+
     const monthNames = [
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
-    
+
     const d = date.getDate().toString().padStart(2, '0');
     const m = monthNames[date.getMonth()];
     const y = date.getFullYear();
@@ -34,47 +34,57 @@ export class View {
 
   columns = [
     { field: 'inNo', title: 'No. Nota Intern' },
-    { field: 'inDate', title: 'Tgl. Nota Intern', formatter: (value) => {
-      return View.formatDateWithIndonesianMonth(value);
-    } },
+    {
+      field: 'inDate', title: 'Tgl. Nota Intern', formatter: (value) => {
+        return View.formatDateWithIndonesianMonth(value);
+      }
+    },
     { field: 'currencyCode', title: 'Mata Uang' },
     { field: 'supplierName', title: 'Supplier' },
     { field: 'invoiceNo', title: 'Nomor Invoice' },
-    { field: 'invoiceDate', title: 'Tanggal Invoice', formatter: (value) => {
-      return View.formatDateWithIndonesianMonth(value);
-    } },
-  { field: 'vatRate', title: 'Nilai PPN', formatter: (value) => {
-      if (value == null || value === '') return '';
-      const num = Number(value);
-      if (isNaN(num)) return value;
-      // Tampilkan sebagai persentase tanpa desimal jika bilangan bulat, else 2 desimal
-      return Number.isInteger(num) ? `${num}%` : `${num.toFixed(2)}%`;
-    } },
-    { field: 'vatAmount', title: 'Jumlah PPN', formatter: (value, row) => {
-      let val = value;
-      if ((val == null || val === '') && row && row.totalAmount && row.vatRate != null) {
-        const total = typeof row.totalAmount === 'string' ? Number(row.totalAmount.replace(/[,]/g,'')) : Number(row.totalAmount);
-        const rate = Number(row.vatRate);
-        if (!isNaN(total) && !isNaN(rate)) {
-          val = +(total * (rate/100)).toFixed(2);
-        }
+    {
+      field: 'invoiceDate', title: 'Tanggal Invoice', formatter: (value) => {
+        return View.formatDateWithIndonesianMonth(value);
       }
-      if (val == null || val === '') return '';
-      const num = Number(val);
-      if (isNaN(num)) return val;
-      return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    } },
-    { field: 'totalAmount', title: 'Total Amount', formatter: (value) => {
-      if (value == null || value === '') return '';
-      const num = Number(value);
-      if (isNaN(num)) return value;
-      return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    } },
+    },
+    {
+      field: 'vatRate', title: 'Nilai PPN', formatter: (value) => {
+        if (value == null || value === '') return '';
+        const num = Number(value);
+        if (isNaN(num)) return value;
+        // Tampilkan sebagai persentase tanpa desimal jika bilangan bulat, else 2 desimal
+        return Number.isInteger(num) ? `${num}%` : `${num.toFixed(2)}%`;
+      }
+    },
+    {
+      field: 'vatAmount', title: 'Jumlah PPN', formatter: (value, row) => {
+        // let val = value;
+        // if ((val == null || val === '') && row && row.totalAmount && row.vatRate != null) {
+        //   const total = typeof row.totalAmount === 'string' ? Number(row.totalAmount.replace(/[,]/g, '')) : Number(row.totalAmount);
+        //   const rate = Number(row.vatRate);
+        //   if (!isNaN(total) && !isNaN(rate)) {
+        //     val = +(total * (rate / 100)).toFixed(2);
+        //   }
+        // }
+        // if (val == null || val === '') return '';
+        // const num = Number(val);
+        // if (isNaN(num)) return val;
+        return value.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    },
+    {
+      field: 'totalAmount', title: 'Total Amount', formatter: (value) => {
+        if (value == null || value === '') return '';
+        const num = Number(value);
+        if (isNaN(num)) return value;
+        return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    },
     { field: 'remark', title: 'Keterangan' },
     { field: 'CreatedBy', title: 'Admin Pembelian' },
-    { 
-      field: 'info', 
-      title: '', 
+    {
+      field: 'info',
+      title: '',
       formatter: (value, row, index) => {
         return `<button class='btn btn-info btn-sm' style='color:white' data-toggle="detail" data-index="${index}"><i class='fa fa-info'></i></button>`;
       },
@@ -101,7 +111,7 @@ export class View {
       }
     });
   }
-  
+
   get rows() {
     return Array.isArray(this.data) ? this.data : [];
   }
@@ -147,7 +157,7 @@ export class View {
       { header: "Satuan", value: "uoms.Unit" },
       { header: "Harga Satuan", value: "pricePerDealUnit" },
       { header: "Harga Total", value: "priceTotal" },
-    // Kolom ini sekarang menampilkan status penerimaan (Sudah / Belum) berdasarkan receiptQuantity
+      // Kolom ini sekarang menampilkan status penerimaan (Sudah / Belum) berdasarkan receiptQuantity
       { header: "Diterima Unit", value: "__receiptStatus" }
     ];
 
@@ -185,12 +195,12 @@ export class View {
           val = View.formatDateWithIndonesianMonth(detail.deliveryOrder && detail.deliveryOrder.doDate);
         } else if (col.value === '__receiptStatus') {
           const receiptQty = detail.receiptQuantity != null ? Number(detail.receiptQuantity) : 0;
-            // Sudah jika receiptQuantity > 0 else Belum
+          // Sudah jika receiptQuantity > 0 else Belum
           val = receiptQty > 0 ? 'Sudah' : 'Belum';
         } else if (col.value === '__productCodeName') {
           const code = detail.product && detail.product.Code ? detail.product.Code : '';
-            const name = detail.product && detail.product.Name ? detail.product.Name : '';
-            val = code && name ? `${code} - ${name}` : (code || name || '');
+          const name = detail.product && detail.product.Name ? detail.product.Name : '';
+          val = code && name ? `${code} - ${name}` : (code || name || '');
         } else if (col.value === 'pricePerDealUnit') {
           const price = Number(detail.pricePerDealUnit);
           if (!isNaN(price)) {
