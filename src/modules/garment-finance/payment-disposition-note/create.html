@@ -1,4 +1,11 @@
 <template>
+    <style>
+        td {
+            max-width: 400px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+    </style>
     <require from="../../../lib/number-format-value-converter"></require>
     <au-input-form title="Buat Bukti Pembayaran Disposisi"
                    options.bind="formOptions">
@@ -90,6 +97,7 @@
         </au-textbox>
 
         <au-collection show.bind="selectedBank && selectedSupplier"
+                       responsive.bind = "true"
                        if.bind="!IDR"
                        items.bind="Items"
                        columns.bind="collection.columns"
@@ -99,6 +107,7 @@
         </au-collection>
 
         <au-collection show.bind="selectedBank && selectedSupplier && selectedCurrency && data.CurrencyRate"
+                       responsive.bind = "true"
                        if.bind="IDR"
                        items.bind="Items"
                        columns.bind="collection.columns"

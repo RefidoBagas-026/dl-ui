@@ -156,6 +156,7 @@ export class Create {
                     // ex.DiffTotalPaidPayment=parseFloat(0);
                     expeditionDatas.push(ex);
                 }
+                expeditionDatas.sort((a, b) => b.DispositionNoteNo.localeCompare(a.DispositionNoteNo));
                 console.log("expeditionDatas", expeditionDatas);
                 return expeditionDatas;
             });
