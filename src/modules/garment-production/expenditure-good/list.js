@@ -2,6 +2,7 @@ import { inject } from 'aurelia-framework';
 import { Service,PurchasingService } from "./service";
 import { Router } from 'aurelia-router';
 import { AuthService } from "aurelia-authentication";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 var moment = require("moment");
 
 @inject(Router, Service,AuthService,PurchasingService)
@@ -81,9 +82,10 @@ export class List {
         if(pr.data.length>0){
             buyer = pr.data[0].Buyer.Code;
         }
+        var idEncoded = Base64Helper.encode(data.Id);
         switch (arg.name) {
             case "Rincian":
-                this.router.navigateToRoute('view', { id: data.Id });
+                this.router.navigateToRoute('view', { id: idEncoded });
                 break;
             case "Cetak PDF": 
                 this.service.getPdfById(data.Id,buyer); 
