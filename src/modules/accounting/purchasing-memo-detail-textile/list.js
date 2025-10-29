@@ -2,7 +2,7 @@ import { inject } from "aurelia-framework";
 import { Service } from "./service";
 import { Router } from "aurelia-router";
 import moment from "moment";
-
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 @inject(Router, Service)
 export class List {
   dataToBePosted = [];
@@ -95,8 +95,10 @@ export class List {
       activeTab === "Rincian Memo Pembelian Textil Disposisi" ? "view" : "view-inklaring";
     switch (arg.name) {
       case "Detail":
+        const encoded = Base64Helper.encode(data.Id);
+        //this.router.navigateToRoute('view', { id: encoded });
         this.router.navigateToRoute(viewRoute, {
-          id: data.Id,
+          id: encoded,
           search: this.ressearch,
         });
         break;
