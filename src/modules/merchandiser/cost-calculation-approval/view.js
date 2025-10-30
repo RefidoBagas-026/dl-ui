@@ -8,6 +8,7 @@ const US = "US$. ";
 const RP = "Rp. ";
 import { AuthService } from "aurelia-authentication";
 import moment from 'moment';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, Dialog, AuthService)
 export class View {
@@ -123,7 +124,8 @@ export class View {
         }
 
         var id = params.id;
-
+        let decoded = Base64Helper.decode(id);
+        id = decoded;
         if (this.type !== "KadivMD") {
             this.data = await this.service.getById(id);
         } else {

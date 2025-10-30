@@ -8,6 +8,7 @@ import {
   Router
 } from 'aurelia-router';
 import moment from 'moment';
+import { Base64Helper } from '../../../../utils/base-64-coded-helper';
 const CategoryLoader = require('../../../../loader/machine-category-loader');
 const MachineLoader = require('../../../../loader/machine-custom-loader');
 const MachineTypeLoader = require('../../../../loader/machine-custom-type-loader');
@@ -140,8 +141,10 @@ export class List {
     var data = arg.data;
     switch (arg.name) {
       case "Ubah Data":
+        const encoded = Base64Helper.encode(data.MachineID);
+            //this.router.navigateToRoute('edit', { id: encoded });
         this.router.navigateToRoute('edit', {
-          id: data.MachineID
+          id: encoded
         });
         break;
     }

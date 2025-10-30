@@ -1,5 +1,6 @@
 import { inject, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router)
 export class View {
@@ -182,7 +183,9 @@ export class View {
 
   activate(params) {
     const idParam = params && params.id;
-    this.id = typeof idParam === 'string' ? Number(idParam) : idParam;
+    const decodedId = Base64Helper.decode(idParam);
+
+    this.id = typeof decodedId === 'string' ? Number(decodedId) : decodedId;
 
     const list = Array.isArray(window.listData) ? window.listData : [];
     this.data = list.find(d => String(d.Id) === String(this.id)) || null;

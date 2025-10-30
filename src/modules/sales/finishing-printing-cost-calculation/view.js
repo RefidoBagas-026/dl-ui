@@ -3,6 +3,8 @@ import { Router } from "aurelia-router";
 import { Service, ProductionService } from "./service";
 import { Dialog } from "../../../au-components/dialog/dialog";
 import numeral from "numeral";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
+
 numeral.defaultFormat("0,0.00");
 const US = "US$. ";
 const RP = "Rp. ";
@@ -59,6 +61,8 @@ export class View {
 
   async activate(params) {
     var id = params.id;
+    let decoded = Base64Helper.decode(id);
+    id = decoded;
     this.data = await this.service.getById(id);
     // this.data.OrderQuantity = this.formatNumber(this.data.PreSalesContract.OrderQuantity, 2);
     this.data.OrderQuantity = this.data.PreSalesContract.OrderQuantity;
@@ -119,7 +123,8 @@ export class View {
   }
 
   edit(data) {
-    this.router.navigateToRoute('edit', { id: this.data.Id });
+    const encoded = Base64Helper.encode(this.data.Id);
+    this.router.navigateToRoute('edit', { id: encoded });
   }
 
   delete() {

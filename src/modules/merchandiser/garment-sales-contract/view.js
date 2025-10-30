@@ -1,6 +1,7 @@
 import {inject, Lazy} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Service} from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 
 @inject(Router, Service)
@@ -19,6 +20,8 @@ export class View {
         const byUser = parentInstruction.config.settings.byUser;
 
         var id = params.id;
+        let decoded = Base64Helper.decode(id);
+        id = decoded;
         this.data = await this.service.getById(id);
         if (this.data && this.data.CostCalculationId) {
             let costCal = await this.service.getCostCalById(this.data.CostCalculationId);
@@ -40,7 +43,8 @@ export class View {
     }
 
     edit(data) {
-        this.router.navigateToRoute('edit', { id: this.data.Id });
+        let encoded = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute('edit', { id: encoded });
     }
 
     delete() {

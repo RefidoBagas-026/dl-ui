@@ -3,7 +3,7 @@ import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { ServiceCore } from './service-core';
 import { Dialog } from '../../../au-components/dialog/dialog';
-
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 @inject(Router, Service, ServiceCore, Dialog)
 export class View {
     constructor(router, service, serviceCore, dialog) {
@@ -14,7 +14,9 @@ export class View {
     }
 
     async activate(params) {
-        let id = params.id;
+        //let id = params.id;
+        const decoded = Base64Helper.decode(params.id);
+        let id = decoded;
         await this.service.getById(id)
             .then((result) => {
                 this.data = result;
@@ -57,7 +59,9 @@ export class View {
     }
 
     editCallback(event) {
-        this.router.navigateToRoute('edit', { id: this.data.Id });
+        //this.router.navigateToRoute('edit', { id: this.data.Id });
+        const encoded = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute('edit', { id: encoded });
     }
 
     deleteCallback(event) {

@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { Dialog } from '../../../components/dialog/dialog';
 import { AlertView } from './custom-dialog-view/alert-view';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, Dialog)
 export class View {
@@ -14,6 +15,8 @@ export class View {
 
     async activate(params) {
         let id = params.id;
+        let decoded = Base64Helper.decode(id);
+        id = decoded;
         this.data = await this.service.getById(id);
 
         this.sourceStorage = this.data.SourceStorage;
