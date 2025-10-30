@@ -3,6 +3,7 @@ import { Router } from "aurelia-router";
 import { Service } from "./service";
 import { activationStrategy } from "aurelia-router";
 import { Dialog } from "../../../components/dialog/dialog";
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
 // import { AlertView } from "./custom-dialog-view/alert-view";
 
 @inject(Router, Service, Dialog)
@@ -18,6 +19,8 @@ export class View {
 
   async activate(params) {
     var id = params.id;
+    let decoded = Base64Helper.decode(id);
+    id = decoded;
     var orderQty = 0;
     this.data = await this.service.getById(id);
     if (this.data.Items) {

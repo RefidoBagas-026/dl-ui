@@ -7,6 +7,7 @@ import UnitAutoSuggest from "../../../components/customs/auto-suggests/unit-auto
 
 import { Dialog } from "../../../au-components/dialog/dialog";
 import { CreateView } from "./custom-dialog-view/create-view";
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
 
 @inject(Router, Service, Dialog)
 export class List {
@@ -150,17 +151,18 @@ export class List {
   contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
+    const encodedId = Base64Helper.encode(data.VBRealizationDocumentId);
     if (data.name != "Total")
       switch (arg.name) {
         case "Detail":
           console.log(arg);
           if (data.VBCategory == 1) {
             window.open(
-              `${window.location.origin}/#/clearance-vb/view/${data.VBRealizationDocumentId}`
+              `${window.location.origin}/#/clearance-vb/view/${encodedId}`
             );
           } else {
             window.open(
-              `${window.location.origin}/#/clearance-vb/view/non-po/${data.VBRealizationDocumentId}`
+              `${window.location.origin}/#/clearance-vb/view/non-po/${encodedId}`
             );
           }
           break;
