@@ -4,6 +4,7 @@ import { Router } from "aurelia-router";
 import moment from "moment";
 import { SPINNING, WEAVING, DYEINGPRINTING } from '../sales-invoice-export/shared/permission-constant';
 import { PermissionHelper } from '../../../utils/permission-helper';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, PermissionHelper)
 export class List {
@@ -135,9 +136,10 @@ export class List {
   contextClickCallback(event) {
     var arg = event.detail;
     var data = arg.data;
+    const encoded = Base64Helper.encode(data.Id);
     switch (arg.name) {
       case "Detail":
-        this.router.navigateToRoute("view", { id: data.Id });
+        this.router.navigateToRoute("view", { id: encoded });
         break;
       case "Print PDF Valas":
         this.service.getSalesInvoiceExportValasPdfById(data.Id);
