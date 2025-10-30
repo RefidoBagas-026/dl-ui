@@ -1,6 +1,7 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service,PurchasingService } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service,PurchasingService)
 export class View {
@@ -13,7 +14,8 @@ export class View {
 
     async activate(params) {
         let id = params.id;
-        this.data = await this.service.read(id);
+        var idDecoded = Base64Helper.decode(id);
+        this.data = await this.service.read(idDecoded);
         this.selectedRO={
             RONo:this.data.RONo
         };
@@ -65,7 +67,8 @@ export class View {
     }
 
     editCallback(event) {
-        this.router.navigateToRoute('edit', { id: this.data.Id });
+        var idEncoded = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute('edit', { id: idEncoded });
     }
 
     deleteCallback(event) {

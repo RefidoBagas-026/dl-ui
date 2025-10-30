@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { RejectDialog } from "../../garment-shipping/packing-list-approval/template/dialog/reject";
 import { Dialog } from "../../../au-components/dialog/dialog";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service,Dialog)
 export class View {
@@ -15,7 +16,8 @@ export class View {
 
     async activate(params) {
         var id = params.id;
-        this.data = await this.service.getById(id);
+        var idDecode = Base64Helper.decode(id);
+        this.data = await this.service.getById(idDecode);
         this.selectedTransactionType = this.data.transactionType;
         
     }

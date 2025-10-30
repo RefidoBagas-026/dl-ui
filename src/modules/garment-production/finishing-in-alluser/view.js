@@ -1,6 +1,7 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class View {
@@ -11,8 +12,9 @@ export class View {
 
     async activate(params) {
         let id = params.id;
+        var idDecoded = Base64Helper.decode(id);
         this.editCallback = null;
-        this.data = await this.service.read(id);
+        this.data = await this.service.read(idDecoded);
         //this.selectedSewingDO=await this.service.getSewingDObyId(this.data.SewingDOId);
         for(var a of this.data.Items){
             if(a.RemainingQuantity != a.Quantity){

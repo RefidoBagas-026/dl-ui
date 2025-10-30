@@ -1,6 +1,7 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service, CoreService } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, CoreService)
 export class Edit {
@@ -14,6 +15,7 @@ export class Edit {
 
     async activate(params) {
         let id = params.id;
+        var idDecoded = Base64Helper.decode(id);
         this.data = await this.service.getById(id);
         this.error = {};
 
@@ -37,7 +39,8 @@ export class Edit {
     }
 
     cancelCallback(event) {
-        this.router.navigateToRoute('view', { id: this.data.id });
+      var idEncoded = Base64Helper.encode(this.data.id);
+        this.router.navigateToRoute('view', { id: idEncoded });
     }
 
     async saveCallback(event) {
@@ -47,8 +50,9 @@ export class Edit {
   
       // Lakukan update
       try {
-          await this.service.update(this.data);  // Pastikan update menggunakan await jika metode ini asinkron
-          this.router.navigateToRoute('view', { id: this.data.id });
+          await this.service.update(this.data);
+          var idEncoded = Base64Helper.encode(this.data.id);  // Pastikan update menggunakan await jika metode ini asinkron
+          this.router.navigateToRoute('view', { id: idEncoded });
       } catch (error) {
           this.error = error;
   

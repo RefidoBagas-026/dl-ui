@@ -36,12 +36,12 @@ export class Login {
         return this.authService.login({ authEncrypted })
             .then(response => {
                 console.log("success logged " + response);
-                location.reload();
+                // location.reload();
             })
             .catch(err => {
                 this.error = true;
                 this.disabledButton = false;
-                console.log(err);
+                // console.log(err);
                 console.log("login failure");
             });
     }
