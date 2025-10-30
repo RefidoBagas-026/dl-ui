@@ -12,6 +12,7 @@ import {
   ACCOUNTING,
   RETUR,
 } from "../shared/permission-constants";
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
 
 @inject(Router, Service, Dialog, PermissionHelper)
 export class List {
@@ -278,7 +279,8 @@ export class List {
       case "Rincian":
         switch (this.activeRole.key) {
           case "RETUR":
-            this.router.navigateToRoute("view", { id: data.Id });
+            var idEncode = Base64Helper.encode(data.Id);
+            this.router.navigateToRoute("view", { id: idEncode });
             break;
         }
     }

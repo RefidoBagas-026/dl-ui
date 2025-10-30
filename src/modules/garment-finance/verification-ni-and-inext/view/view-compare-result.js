@@ -1,5 +1,6 @@
 import { inject, bindable, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../../utils/base-64-coded-helper';
 
 @inject(Router)
 export class View {
@@ -10,7 +11,8 @@ export class View {
   @bindable data;
 
   activate(params) {
-    this.data = window.listData.find(item => item.Id === Number(params.id));
+    var idEncode = Base64Helper.encode(params.id);
+    this.data = window.listData.find(item => item.Id === Number(idEncode));
   }
 
   cancel() {

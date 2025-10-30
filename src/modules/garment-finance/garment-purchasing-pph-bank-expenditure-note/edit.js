@@ -1,6 +1,7 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 
 @inject(Router, Service)
@@ -26,7 +27,8 @@ export class Edit {
 
         // console.log(params);
         let id = params.id;
-        this.data = await this.service.getById(id);
+        var idDecode = Base64Helper.decode(id);
+        this.data = await this.service.getById(idDecode);
         this.data.UnitPaymentOrders = [];
         // this.data.UnitPaymentOrders = this.data.PPHBankExpenditureNoteItems;
         this.data.UnitPaymentOrders.push(...this.data.PPHBankExpenditureNoteItems);
@@ -45,7 +47,8 @@ export class Edit {
     }
 
     cancelCallback(event) {
-        this.router.navigateToRoute('view', { id: this.data.Id });
+        var idEncode = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute('view', { id: idEncode });
     }
 
     saveCallback(event) {
@@ -74,7 +77,8 @@ export class Edit {
         
         this.service.update(this.data)
             .then(result => {
-                this.router.navigateToRoute('view', { id: this.data.Id });
+                var idEncode = Base64Helper.encode(this.data.Id);
+                this.router.navigateToRoute('view', { id: idEncode });
             })
             .catch(e => {
                 this.error = e;

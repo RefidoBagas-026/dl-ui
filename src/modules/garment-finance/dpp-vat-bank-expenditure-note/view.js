@@ -2,6 +2,7 @@ import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { Dialog } from '../../../au-components/dialog/dialog';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, Dialog)
 export class View {
@@ -13,7 +14,8 @@ export class View {
 
     async activate(params) {
         let id = params.id;
-        this.data = await this.service.getById(id);
+        var idDecode = Base64Helper.decode(id);
+        this.data = await this.service.getById(idDecode);
         // this.data.IsPosted = true;
 
         if (this.data.IsPosted) {
@@ -31,7 +33,8 @@ export class View {
     }
 
     editCallback(event) {
-        this.router.navigateToRoute('edit', { id: this.data.Id });
+        var idEncode = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute('edit', { id: idEncode });
     }
 
     postingCallback(event) {
