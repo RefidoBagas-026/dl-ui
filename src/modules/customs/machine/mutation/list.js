@@ -12,7 +12,7 @@ const CategoryLoader = require('../../../../loader/machine-category-loader');
 const MachineLoader = require('../../../../loader/machine-custom-loader');
 const MachineTypeLoader = require('../../../../loader/machine-custom-type-loader');
 const BrandLoader = require('../../../../loader/machine-brand-loader');
-
+import { Base64Helper } from '../../../../utils/base-64-coded-helper';
 @inject(Router, Service)
 export class List {
   context = ["Ubah Data"];
@@ -132,7 +132,11 @@ export class List {
     var data = arg.data;
     switch (arg.name) {
       case "Ubah Data":
-        this.router.navigateToRoute('edit', { id: data.TransactionID });
+        const encoded = Base64Helper.encode(data.TransactionID);
+        this.router.navigateToRoute('edit', {
+          id: encoded
+        });
+        //this.router.navigateToRoute('edit', { id: data.TransactionID });
         break;
     }
   }
