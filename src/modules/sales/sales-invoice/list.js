@@ -5,6 +5,7 @@ import moment from "moment";
 import { SPINNING, WEAVING, DYEINGPRINTING } from '../sales-invoice/shared/permission-constant';
 import { PermissionHelper } from '../../../utils/permission-helper';
 import { Dialog } from '../../../au-components/dialog/dialog';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, PermissionHelper, Dialog)
 export class List {
@@ -139,9 +140,10 @@ export class List {
   contextClickCallback(event) {
     var arg = event.detail;
     var data = arg.data;
+    const encoded = Base64Helper.encode(data.Id);
     switch (arg.name) {
       case "Detail":
-        this.router.navigateToRoute("view", { id: data.Id });
+        this.router.navigateToRoute("view", { id: encoded});
         break;
       case "Cetak Surat Jalan":
         this.service.getDeliveryOrderPdfById(data.Id);

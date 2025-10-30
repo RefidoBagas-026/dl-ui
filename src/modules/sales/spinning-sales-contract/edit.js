@@ -2,6 +2,7 @@ import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import moment from 'moment';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 
 @inject(Router, Service)
@@ -25,6 +26,8 @@ export class Edit {
     var moment = require('moment');
     moment.locale(locale);
     var id = params.id;
+    let decoded = Base64Helper.decode(id);
+    id = decoded;
     this.data = await this.service.getById(id);
     console.log(this.data);
     if(this.data.VatTax){
@@ -38,7 +41,8 @@ export class Edit {
   }
 
   cancel(event) {
-    this.router.navigateToRoute('view', { id: this.data.Id });
+    const encoded = Base64Helper.encode(this.data.Id);
+    this.router.navigateToRoute('view', { id: encoded });
   }
 
   save(event) {

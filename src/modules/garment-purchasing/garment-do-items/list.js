@@ -2,6 +2,7 @@ import { inject, bindable } from "aurelia-framework";
 import { Service } from "./service";
 import { Router } from "aurelia-router";
 import moment from "moment";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 // import { any } from 'bluebird';
 // const CategoryLoader = require('../../../../loader/machine-category-loader');
 // const MachineLoader = require('../../../../loader/machine-custom-loader');
@@ -106,17 +107,17 @@ export class List {
   contextClickCallback(event) {
     var arg = event.detail;
     var data = arg.data;
-
+    const encoded = Base64Helper.encode(data.Id);
     switch (arg.name) {
       case "Update Racking":
         if (data.RemainingQuantity > 0) {
-          this.router.navigateToRoute("edit", { id: data.Id });
+          this.router.navigateToRoute("edit", { id: encoded });
         } else {
           alert("Maaf, Quantity 0 hanya bisa melihat Kartu Stelling");
         }
         break;
       case "Kartu Stelling":
-        this.router.navigateToRoute("stelling", { id: data.Id });
+        this.router.navigateToRoute("stelling", { id: encoded });
         break;
       case "Cetak Barcode":
         this.service

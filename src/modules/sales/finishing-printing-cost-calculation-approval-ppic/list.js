@@ -1,6 +1,7 @@
 import { inject } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
@@ -61,9 +62,10 @@ export class List {
     contextCallback(event) {
         var arg = event.detail;
         var data = arg.data;
+        const encoded = Base64Helper.encode(data.Id);
         switch (arg.name) {
             case "Detail":
-                this.router.navigateToRoute('view', { id: data.Id });
+                this.router.navigateToRoute('view', { id: encoded });
                 break;
             case "Cetak Cost Calculation":
                 this.service.getPdfById(data.Id)

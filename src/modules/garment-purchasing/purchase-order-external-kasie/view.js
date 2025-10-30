@@ -1,6 +1,7 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service, ServiceFinance } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, ServiceFinance)
 export class View {
@@ -20,7 +21,9 @@ export class View {
         var isVoid = false;
         var isArriving = false;
         var id = params.id;
-        this.poExId = id;
+        let decoded = Base64Helper.decode(id);
+        id = decoded;
+        this.poExId = decoded;
         this.data = await this.service.getById(id);
         this.isVBWithPO = await this.serviceFinance.getVbWithPO(id);
         var kurs = await this.service.getKurs(this.data.Currency.Code, new Date(this.data.OrderDate).toLocaleDateString());
@@ -94,9 +97,10 @@ export class View {
     }
 
     edit(event) {
+        const encoded = Base64Helper.encode(this.data.Id);
         var r = confirm("Apakah Anda yakin akan mengubah data ini?");
         if (r == true) {
-            this.router.navigateToRoute('edit', { id: this.data.Id });
+            this.router.navigateToRoute('edit', { id: encoded });
         }
         // this.router.navigateToRoute('edit', { id: this.data.Id });
     }

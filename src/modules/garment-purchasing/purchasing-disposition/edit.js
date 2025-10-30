@@ -2,7 +2,7 @@ import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import * as _ from 'underscore';
-
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class Edit {
@@ -39,6 +39,8 @@ export class Edit {
         //     this.selectedCategory=this.data.Category;
         // }
         var id = params.id;
+        let decoded = Base64Helper.decode(id);
+        id = decoded;
         this.data = await this.service.getById(id);
 
         var nullInvoiceCount = this.data.Items.filter(item => item.Invoice !== null).length;
@@ -179,7 +181,8 @@ export class Edit {
     }
 
     cancel(event) {
-        this.router.navigateToRoute('view', { id: this.data.Id });
+        const encoded = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute('view', { id: encoded });
     }
 
     save(event) {
@@ -384,9 +387,10 @@ export class Edit {
         if(!isOver){
             this.service.update(this.dataConv)
             .then(result => {
+                const encoded = Base64Helper.encode(this.data.Id);
                 alert("Data berhasil dibuat");
                 // this.router.navigateToRoute('create',{}, { replace: true, trigger: true });
-                this.router.navigateToRoute('view', { id: this.data.Id });
+                this.router.navigateToRoute('view', { id: encoded });
 
             })
             .catch(e => {
