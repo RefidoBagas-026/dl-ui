@@ -1,6 +1,7 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service, ServiceFinance } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, ServiceFinance)
 export class View {
@@ -16,7 +17,9 @@ export class View {
     async activate(params) {
 
       var id = params.id;
-      this.poExId = id;
+      let decoded = Base64Helper.decode(id);
+      id = decoded;
+      this.poExId = decoded;
       this.data = await this.service.getById(id);
       this.IsVBWithPO = await this.serviceFinance.getVbWithPO(id);
       if(this.data.Currency){
