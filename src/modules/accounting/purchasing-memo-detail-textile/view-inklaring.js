@@ -2,7 +2,7 @@ import { inject, Lazy } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { Service } from "./service";
 import { Dialog } from "../../../au-components/dialog/dialog";
-
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 @inject(Router, Service, Dialog)
 export class View {
   hasCancel = true;
@@ -32,7 +32,9 @@ export class View {
   }
 
   edit(event) {
-    this.router.navigateToRoute("edit-inklaring", { id: this.data.Id });
+    //this.router.navigateToRoute("edit-inklaring", { id: this.data.Id });
+    const encoded = Base64Helper.encode(this.data.Id);
+    this.router.navigateToRoute('edit-inklaring', { id: encoded });
   }
 
   delete(event) {
