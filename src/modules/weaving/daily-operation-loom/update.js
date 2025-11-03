@@ -14,6 +14,7 @@ import moment from 'moment';
 var LoomBeamsUsedLoader = require("../../../loader/weaving-loom-beams-used-loader");
 var LoomBeamsUsedProcessedLoader = require("../../../loader/weaving-loom-beams-used-processed-loader");
 var OperatorLoader = require("../../../loader/weaving-operator-loader");
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, BindingEngine)
 export class Update {
@@ -140,6 +141,8 @@ export class Update {
 
   async activate(params) {
     var Id = params.Id;
+    let decodedId = Base64Helper.decode(Id);
+    Id = decodedId;
     this.data = await this.service
       .getById(Id);
 

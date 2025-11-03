@@ -7,6 +7,7 @@ import {
 import {
   Service
 } from "./service";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class Edit {
@@ -19,6 +20,8 @@ export class Edit {
 
   async activate(params) {
     var Id = params.Id;
+    let decoded = Base64Helper.decode(Id);  
+    Id = decoded;
     var dataResult;
     this.data = await this.service
       .getById(Id)
@@ -37,8 +40,9 @@ export class Edit {
   }
 
   cancelCallback(event) {
+    const encoded = Base64Helper.encode(this.data.Id);
     this.router.navigateToRoute("view", {
-      Id: this.data.Id
+      Id: encoded
     });
   }
 
@@ -106,8 +110,9 @@ export class Edit {
     this.service
       .update(updateData)
       .then(result => {
+        const encoded = Base64Helper.encode(this.data.Id);
         this.router.navigateToRoute("view", {
-          Id: this.data.Id
+          Id: encoded
         });
       })
       .catch(e => {
