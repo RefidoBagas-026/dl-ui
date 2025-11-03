@@ -1,7 +1,7 @@
 import { inject, bindable, computedFrom } from 'aurelia-framework'
 import { Service } from "../service";
 
-var ReceiptWasteLoader = require('../../../../../loader/garment-receipt-waste-loader');
+var ReceiptWasteLoader = require('../../../../../loader/garment-receipt-waste-post-loader');
 
 @inject(Service)
 export class items {
