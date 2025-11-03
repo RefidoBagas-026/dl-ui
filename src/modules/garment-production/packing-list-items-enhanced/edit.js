@@ -2,6 +2,7 @@ import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { Dialog } from '../../../au-components/dialog/dialog';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, Dialog)
 export class Edit {
@@ -15,7 +16,8 @@ export class Edit {
 
 	async activate(params) {
 		var id = params.id;
-		this.data = await this.service.getById(id);
+		var idDecoded = Base64Helper.decode(id);
+		this.data = await this.service.getById(idDecoded);
 		this.error = {};
 		var idx = 0;
 		if (this.data.measurements) {
@@ -84,7 +86,8 @@ export class Edit {
 		this.dialog.prompt('Apakah anda yakin untuk keluar dari form ini ?', 'Edit Packing List Items')
 			.then(response => {
 				if (response.ok) {
-					this.router.navigateToRoute('view', { id: this.data.id });
+					var idEncoded = Base64Helper.encode(this.data.id);
+					this.router.navigateToRoute('view', { id: idEncoded });
 				}
 			});
 	}
@@ -92,7 +95,8 @@ export class Edit {
 	saveCallback(event) {
 		this.service.update(this.data)
 			.then(result => {
-				this.router.navigateToRoute('view', { id: this.data.id });
+				var idEncoded = Base64Helper.encode(this.data.id);
+				this.router.navigateToRoute('view', { id: idEncoded });
 			})
 			.catch(error => {
 				this.error = error;

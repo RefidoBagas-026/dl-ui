@@ -3,6 +3,7 @@ import { Service } from "./service";
 import { Router } from 'aurelia-router';
 import moment from 'moment';
 import numeral from 'numeral';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
@@ -121,9 +122,10 @@ export class List {
     contextClickCallback(event) {
         var arg = event.detail;
         var data = arg.data;
+        const encoded = Base64Helper.encode(data.Id);
         switch (arg.name) {
             case "Detail":
-                this.router.navigateToRoute('view', { id: data.Id, search: this.ressearch });
+                this.router.navigateToRoute('view', { id: encoded, search: this.ressearch });
                 break;
             case "Cetak Bukti Pembayaran":
                 this.service.getSalesReceiptPdfById(data.Id);

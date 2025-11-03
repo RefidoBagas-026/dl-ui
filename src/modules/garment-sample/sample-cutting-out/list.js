@@ -3,6 +3,7 @@ import { Service,PurchasingService } from "./service";
 import { Router } from 'aurelia-router';
 import { AuthService } from "aurelia-authentication";
 var moment = require("moment");
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service,AuthService,PurchasingService)
 export class List {
@@ -92,12 +93,13 @@ export class List {
         var data = arg.data;
         let sample = await this.service.getSampleRequest({ size: 1, filter: JSON.stringify({ RONoSample: data.RONo }) });
         var buyer="";
+        const encoded = Base64Helper.encode(data.Id);
         if(sample.data.length>0){
             buyer = sample.data[0].Buyer.Code;
         }
         switch (arg.name) {
             case "Rincian":
-                this.router.navigateToRoute('view', { id: data.Id });
+                this.router.navigateToRoute('view', { id: encoded });
                 break;
             case "Cetak PDF": 
                 this.service.getPdfById(data.Id,buyer); 

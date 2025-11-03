@@ -2,6 +2,7 @@ import {inject, Lazy} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Service} from './service';
 import { Dialog } from '../../../au-components/dialog/dialog';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, Dialog)
 export class View {
@@ -22,7 +23,9 @@ export class View {
         var isArriving = false;
         var canClose=false;
         var id = params.id;
-        this.poExId = id;
+        let decoded = Base64Helper.decode(id);
+        id = decoded;
+        this.poExId = decoded;
         this.data = await this.service.getById(id);
         for(var a of this.data.items){
             for(var b of a.details){
@@ -72,9 +75,10 @@ export class View {
     }
 
     edit(event) {
+        const encoded = Base64Helper.encode(this.data._id);
         if(confirm('Apakah anda ingin merubah data ini?') == true)
         {
-            this.router.navigateToRoute('edit', { id: this.data._id });
+            this.router.navigateToRoute('edit', { id: encoded });
         }
     }
 

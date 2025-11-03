@@ -2,6 +2,7 @@ import { inject, Lazy } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { Service } from "./service";
 import { activationStrategy } from "aurelia-router";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 var moment = require("moment");
 
@@ -20,7 +21,8 @@ export class Edit {
     this.item = "";
     moment.locale(locale);
     var id = params.id;
-
+    let decoded = Base64Helper.decode(id);
+    id = decoded;
     this.data = await this.service.getById(id);
     var supplierId = this.data.supplier._id
       ? this.data.supplier._id
@@ -164,7 +166,8 @@ export class Edit {
   }
 
   cancel(event) {
-    this.router.navigateToRoute("view", { id: this.data._id });
+    const encoded = Base64Helper.encode(this.data._id);
+    this.router.navigateToRoute("view", { id: encoded });
   }
 
   // determineActivationStrategy() {
@@ -249,7 +252,8 @@ export class Edit {
         .update(dataCustoms)
         .then((result) => {
           alert("Data berhasil diubah");
-          this.router.navigateToRoute("view", { id: this.data._id });
+          const encoded = Base64Helper.encode(this.data._id);
+          this.router.navigateToRoute("view", { id: encoded });
         })
         .catch((e) => {
           this.error = e;
