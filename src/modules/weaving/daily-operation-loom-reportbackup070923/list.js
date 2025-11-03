@@ -9,6 +9,7 @@ import {
   Router
 } from 'aurelia-router';
 import moment from 'moment';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 const OrderLoader = require("../../../loader/weaving-order-loader");
 const ConstructionLoader = require("../../../loader/weaving-constructions-loader");
@@ -210,10 +211,11 @@ export class List {
     var arg = event.detail;
     var data = arg.data;
     console.log(data.Id);
+    const encoded = Base64Helper.encode(data.Id);
     switch (arg.name) {
       case "detail":
         this.router.navigateToRoute("view", {
-          Id: data.Id
+          Id: encoded
         });
         break;
     }

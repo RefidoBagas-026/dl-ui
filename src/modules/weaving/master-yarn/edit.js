@@ -1,6 +1,7 @@
 import { inject, Lazy } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { Service } from "./service";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class Edit {
@@ -16,11 +17,14 @@ export class Edit {
 
   async activate(params) {
     var Id = params.Id;
+    let decoded = Base64Helper.decode(Id);  
+    Id = decoded;
     this.data = await this.service.getById(Id);
   }
 
   cancelCallback(event) {
-    this.router.navigateToRoute("view", { Id: this.data.Id });
+    const encoded = Base64Helper.encode(this.data.Id);
+    this.router.navigateToRoute("view", { Id: encoded });
   }
 
   saveCallback(event) {
@@ -66,7 +70,8 @@ export class Edit {
     this.service
       .update(this.data)
       .then(result => {
-        this.router.navigateToRoute("view", { Id: this.data.Id });
+        const encoded = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute("view", { Id: encoded });
       })
       .catch(e => {
         this.error = e;

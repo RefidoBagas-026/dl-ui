@@ -12,6 +12,7 @@ import {
 } from "./service";
 import moment from 'moment';
 var OperatorLoader = require("../../../loader/weaving-operator-loader");
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, BindingEngine)
 export class Update {
@@ -85,6 +86,8 @@ export class Update {
   async activate(params) {
     var Id = params.Id;
     // var dataResult;
+    let decoded = Base64Helper.decode(Id);  
+    Id = decoded;
     this.data = await this.service
       .getById(Id);
       // .then(result => {

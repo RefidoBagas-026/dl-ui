@@ -1,6 +1,7 @@
 import { inject, Lazy, bindable } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { Service } from "./service";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class Create {
@@ -13,6 +14,8 @@ export class Create {
 
   async activate(params) {
     var Id = params.Id;
+    let decoded = Base64Helper.decode(Id);  
+    Id = decoded;
     this.data = await this.service.getById(Id);
     this.MaterialType = this.data.MaterialType;
     this.ConstructionNumber = this.data.ConstructionNumber;
@@ -33,7 +36,8 @@ export class Create {
 
   //Tombol "Ubah", routing ke 'edit'
   editCallback(event) {
-    this.router.navigateToRoute("edit", { Id: this.data.Id });
+    const encoded = Base64Helper.encode(this.data.Id);
+    this.router.navigateToRoute("edit", { Id: encoded });
   }
 
   //Tombol "Hapus", hapus this.data, redirect ke list

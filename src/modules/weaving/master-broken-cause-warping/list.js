@@ -7,6 +7,7 @@ import {
 import {
   Router
 } from "aurelia-router";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 // import moment from "moment";
 
 @inject(Router, Service)
@@ -73,10 +74,11 @@ export class List {
   contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
+    const encoded = Base64Helper.encode(data.Id);
     switch (arg.name) {
       case "Update":
         this.router.navigateToRoute("view", {
-          Id: data.Id
+          Id: encoded
         });
         break;
     }

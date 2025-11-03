@@ -9,6 +9,7 @@ import {
   Service
 } from "./service";
 import moment from "moment";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class View {
@@ -21,6 +22,8 @@ export class View {
 
   async activate(params) {
     var Id = params.Id;
+    let decoded = Base64Helper.decode(Id);  
+    Id = decoded;
     var mappedResult = {};
     this.data = await this.service
       .getById(Id)
@@ -67,8 +70,9 @@ export class View {
 
   //Tombol "Ubah", routing ke 'edit'
   editCallback(event) {
+    const encoded = Base64Helper.encode(this.data.Id);
     this.router.navigateToRoute("edit", {
-      Id: this.data.Id
+      Id: encoded
     });
   }
 
