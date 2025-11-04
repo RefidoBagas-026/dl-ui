@@ -1,9 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
   {
     route: "/garment/master/garment-signature-masters",
     name: "garment-signature-masters",
-    moduleId:
-      "./modules/garment-purchasing/master/garment-signature-master/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/master/garment-signature-master/index', 'garment-purchasing'),
     nav: true,
     title: "Signature Master",
     auth: true,
@@ -17,8 +18,7 @@ module.exports = [
   {
     route: "/garment/etl/garment-purchase-requests",
     name: "etl-garment-purchase-requests",
-    moduleId:
-      "./modules/garment-purchasing/etl/garment-purchase-requests/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/etl/garment-purchase-requests/index', 'garment-purchasing'),
     nav: true,
     title: "ETL Purchase Request",
     auth: true,
@@ -31,7 +31,7 @@ module.exports = [
   {
     route: "garment-generating-data",
     name: "garment-generating-data",
-    moduleId: "./modules/garment-purchasing/garment-generate-data/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/garment-generate-data/index', 'garment-purchasing'),
     nav: true,
     title: "Garment Generating Data",
     auth: true,
@@ -46,7 +46,7 @@ module.exports = [
   {
     route: "/merchandiser/garment-purchase-request-master",
     name: "purchase-request-master",
-    moduleId: "./modules/merchandiser/garment-purchase-request-master/index",
+    moduleId: PLATFORM.moduleName('./modules/merchandiser/garment-purchase-request-master/index', 'garment-purchasing'),
     nav: true,
     title: "PR Master (Semua User)",
     auth: true,
@@ -62,7 +62,7 @@ module.exports = [
   {
     route: "/garment/pr",
     name: "purchase-request",
-    moduleId: "./modules/garment-purchasing/purchase-request/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchase-request/index', 'garment-purchasing'),
     nav: true,
     title: "Purchase Request",
     auth: true,
@@ -77,7 +77,7 @@ module.exports = [
   {
     route: "/garment/pr/monitoring",
     name: "purchase-request-monitoring",
-    moduleId: "./modules/garment-purchasing/monitoring-purchase-request/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-purchase-request/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Purchase Request",
     auth: true,
@@ -90,8 +90,7 @@ module.exports = [
   {
     route: "/garment/pr/monitoring-purchase-request/all-unit",
     name: "purchase-request-monitoring-all-unit",
-    moduleId:
-      "./modules/garment-purchasing/monitoring-purchase-request-all-unit/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-purchase-request-all-unit/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Purchase Request Semua Unit",
     auth: true,
@@ -104,7 +103,7 @@ module.exports = [
   {
     route: "/garment/po-internal",
     name: "purchase-order-internal",
-    moduleId: "./modules/garment-purchasing/purchase-order-internal/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchase-order-internal/index', 'garment-purchasing'),
     nav: true,
     title: "Purchase Order Internal",
     auth: true,
@@ -119,8 +118,7 @@ module.exports = [
   {
     route: "/garment/monitoring-purchase-order-internal",
     name: "monitoring-purchase-order-internal",
-    moduleId:
-      "./modules/garment-purchasing/monitoring-purchase-order-internal/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-purchase-order-internal/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Purchase Order Internal",
     auth: true,
@@ -133,7 +131,7 @@ module.exports = [
   {
     route: "/garment/po-external",
     name: "purchase-order-external",
-    moduleId: "./modules/garment-purchasing/purchase-order-external/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchase-order-external/index', 'garment-purchasing'),
     nav: true,
     title: "Purchase Order External",
     auth: true,
@@ -148,8 +146,7 @@ module.exports = [
   {
     route: "/garment/po-external/all",
     name: "purchase-order-external-kasie",
-    moduleId:
-      "./modules/garment-purchasing/purchase-order-external-kasie/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchase-order-external-kasie/index', 'garment-purchasing'),
     nav: true,
     title: "Purchase Order External All",
     auth: true,
@@ -164,8 +161,7 @@ module.exports = [
   {
     route: "/garment/po-external/over-budget",
     name: "purchase-order-external-over-budget",
-    moduleId:
-      "./modules/garment-purchasing/purchase-order-external-over-budget/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchase-order-external-over-budget/index', 'garment-purchasing'),
     nav: true,
     title: "Purchase Order External Over Budget",
     auth: true,
@@ -180,8 +176,7 @@ module.exports = [
   {
     route: "/garment/po-external/report/over-budget",
     name: "monitoring-purchase-order-external-over-budget",
-    moduleId:
-      "./modules/garment-purchasing/monitoring-purchase-order-external-over-budget/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-purchase-order-external-over-budget/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Purchase Order External Over Budget",
     auth: true,
@@ -196,7 +191,7 @@ module.exports = [
   {
     route: "/garment/monitoring-purchase",
     name: "monitoring-purchase",
-    moduleId: "./modules/garment-purchasing/monitoring-purchase-order/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-purchase-order/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Purchase",
     auth: true,
@@ -211,8 +206,7 @@ module.exports = [
   {
     route: "/garment/monitoring-purchase-all-user",
     name: "monitoring-purchase-all-user",
-    moduleId:
-      "./modules/garment-purchasing/monitoring-purchase-order-all-user/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-purchase-order-all-user/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Purchase All User",
     auth: true,
@@ -227,7 +221,7 @@ module.exports = [
   {
     route: "/garment/delivery-order",
     name: "delivery-order",
-    moduleId: "./modules/garment-purchasing/delivery-order/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/delivery-order/index', 'garment-purchasing'),
     nav: true,
     title: "Surat Jalan",
     auth: true,
@@ -242,7 +236,7 @@ module.exports = [
   {
     route: "/garment/delivery-order-non-po",
     name: "delivery-order-non-po",
-    moduleId: "./modules/garment-purchasing/delivery-order-non-po/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/delivery-order-non-po/index', 'garment-purchasing'),
     nav: true,
     title: "Surat Jalan Non PO",
     auth: true,
@@ -257,7 +251,7 @@ module.exports = [
   {
     route: "/garment/monitoring-delivery-order",
     name: "monitoring-delivery-order",
-    moduleId: "./modules/garment-purchasing/monitoring-delivery-order/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-delivery-order/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Surat Jalan",
     auth: true,
@@ -270,8 +264,7 @@ module.exports = [
   {
     route: "/garment/monitoring-delivery-order-all",
     name: "monitoring-delivery-order-all",
-    moduleId:
-      "./modules/garment-purchasing/monitoring-delivery-order-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-delivery-order-all/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Surat Jalan",
     auth: true,
@@ -286,7 +279,7 @@ module.exports = [
   {
     route: "/garment/customs",
     name: "customs",
-    moduleId: "./modules/garment-purchasing/customs/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/customs/index', 'garment-purchasing'),
     nav: true,
     title: "Bea Cukai",
     auth: true,
@@ -301,7 +294,7 @@ module.exports = [
   {
     route: "/garment/monitoring-customs",
     name: "monitoring-customs",
-    moduleId: "./modules/garment-purchasing/monitoring-customs/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-customs/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Bea Cukai",
     auth: true,
@@ -314,7 +307,7 @@ module.exports = [
   {
     route: "/garment/invoice-note",
     name: "invoice-note",
-    moduleId: "./modules/garment-purchasing/invoice-note/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/invoice-note/index', 'garment-purchasing'),
     nav: true,
     title: "Invoice",
     auth: true,
@@ -330,7 +323,7 @@ module.exports = [
   {
     route: "/garment/invoice-note-all",
     name: "invoice-note-all",
-    moduleId: "./modules/garment-purchasing/invoice-note-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/invoice-note-all/index', 'garment-purchasing'),
     nav: true,
     title: "Invoice All",
     auth: true,
@@ -345,7 +338,7 @@ module.exports = [
   {
     route: "/garment/monitoring-invoice-note",
     name: "monitoring-invoice-note",
-    moduleId: "./modules/garment-purchasing/monitoring-invoice-note/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-invoice-note/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Invoice",
     auth: true,
@@ -358,7 +351,7 @@ module.exports = [
   {
     route: "/garment/intern-note",
     name: "intern-note",
-    moduleId: "./modules/garment-purchasing/intern-note/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/intern-note/index', 'garment-purchasing'),
     nav: true,
     title: "Nota Intern",
     auth: true,
@@ -373,7 +366,7 @@ module.exports = [
   {
     route: "/garment/intern-note-all",
     name: "intern-note-all",
-    moduleId: "./modules/garment-purchasing/intern-note-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/intern-note-all/index', 'garment-purchasing'),
     nav: true,
     title: "Nota Intern All",
     auth: true,
@@ -388,7 +381,7 @@ module.exports = [
 {
     route: "/garment/monitoring-intern-note",
     name: "monitoring-intern-note",
-    moduleId: "./modules/garment-purchasing/monitoring-intern-note-new/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-intern-note-new/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Nota Intern",
     auth: true,
@@ -403,7 +396,7 @@ module.exports = [
   {
     route: "/garment/monitoring-intern-note-all",
     name: "monitoring-intern-note-all",
-    moduleId: "./modules/garment-purchasing/monitoring-intern-note-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-intern-note-all/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Nota Intern All",
     auth: true,
@@ -416,7 +409,7 @@ module.exports = [
   {
     route: "/garment/unit-receipt-note-by-user",
     name: "unit-receipt-note",
-    moduleId: "./modules/garment-purchasing/unit-receipt-note-by-user/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/unit-receipt-note-by-user/index', 'garment-purchasing'),
     nav: true,
     title: "Bon Terima Unit",
     auth: true,
@@ -431,7 +424,7 @@ module.exports = [
   {
     route: "/garment/unit-receipt-note-all",
     name: "unit-receipt-note",
-    moduleId: "./modules/garment-purchasing/unit-receipt-note-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/unit-receipt-note-all/index', 'garment-purchasing'),
     nav: true,
     title: "Bon Terima Unit (Semua User)",
     auth: true,
@@ -446,7 +439,7 @@ module.exports = [
   {
     route: "garment-receipt-correction-by-user",
     name: "garment-receipt-correction-by-user",
-    moduleId: "./modules/garment-purchasing/garment-receipt-correction/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/garment-receipt-correction/index', 'garment-purchasing'),
     nav: true,
     title: "Koreksi Bon Terima Unit",
     auth: true,
@@ -462,7 +455,7 @@ module.exports = [
   {
     route: "garment-receipt-correction-all",
     name: "garment-receipt-correction-all",
-    moduleId: "./modules/garment-purchasing/garment-receipt-correction/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/garment-receipt-correction/index', 'garment-purchasing'),
     nav: true,
     title: "Koreksi Bon Terima Unit (Semua User)",
     auth: true,
@@ -478,7 +471,7 @@ module.exports = [
   {
     route: "/garment/unit-delivery-order-by-user",
     name: "unit-receipt-note-by-user",
-    moduleId: "./modules/garment-purchasing/unit-delivery-order-by-user/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/unit-delivery-order-by-user/index', 'garment-purchasing'),
     nav: true,
     title: "Unit Delivery Order",
     auth: true,
@@ -493,7 +486,7 @@ module.exports = [
   {
     route: "/garment/unit-delivery-order-all",
     name: "unit-receipt-note-all",
-    moduleId: "./modules/garment-purchasing/unit-delivery-order-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/unit-delivery-order-all/index', 'garment-purchasing'),
     nav: true,
     title: "Unit Delivery Order (Semua User)",
     auth: true,
@@ -508,7 +501,7 @@ module.exports = [
   {
     route: "/garment/unit-delivery-order-retur",
     name: "unit-delivery-order-retur",
-    moduleId: "./modules/garment-purchasing/unit-delivery-order-retur/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/unit-delivery-order-retur/index', 'garment-purchasing'),
     nav: true,
     title: "DO Retur",
     auth: true,
@@ -523,8 +516,7 @@ module.exports = [
   {
     route: "/garment/unit-expenditure-note-by-user",
     name: "unit-expenditure-note-by-user",
-    moduleId:
-      "./modules/garment-purchasing/unit-expenditure-note-by-user/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/unit-expenditure-note-by-user/index', 'garment-purchasing'),
     nav: true,
     title: "Bon Pengeluaran Unit",
     auth: true,
@@ -539,7 +531,7 @@ module.exports = [
   {
     route: "/garment/unit-expenditure-note-all",
     name: "unit-expenditure-note-all",
-    moduleId: "./modules/garment-purchasing/unit-expenditure-note-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/unit-expenditure-note-all/index', 'garment-purchasing'),
     nav: true,
     title: "Bon Pengeluaran Unit (Semua User)",
     auth: true,
@@ -554,7 +546,7 @@ module.exports = [
   {
     route: "/garment/monitoring-unit-receipt-note",
     name: "unit-receipt-note",
-    moduleId: "./modules/garment-purchasing/monitoring-unit-receipt-note/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-unit-receipt-note/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Bon Terima Unit",
     auth: true,
@@ -567,8 +559,7 @@ module.exports = [
   {
     route: "/garment/monitoring-unit-receipt-note-all",
     name: "unit-receipt-note",
-    moduleId:
-      "./modules/garment-purchasing/monitoring-unit-receipt-note-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-unit-receipt-note-all/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Bon Terima Unit All",
     auth: true,
@@ -583,7 +574,7 @@ module.exports = [
   {
     route: "/garment/purchase-quantity-correction",
     name: "purchase-quantity-correction",
-    moduleId: "./modules/garment-purchasing/purchase-quantity-correction/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchase-quantity-correction/index', 'garment-purchasing'),
     nav: true,
     title: "Koreksi Jumlah Pembelian",
     auth: true,
@@ -598,8 +589,7 @@ module.exports = [
   {
     route: "/garment/monitoring-purchase-quantity-correction",
     name: "purchase-quantity-correction",
-    moduleId:
-      "./modules/garment-purchasing/monitoring-purchase-quantity-correction/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-purchase-quantity-correction/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Koreksi Jumlah Pembelian",
     auth: true,
@@ -612,7 +602,7 @@ module.exports = [
   {
     route: "/garment/purchase-price-correction",
     name: "purchase-price-correction",
-    moduleId: "./modules/garment-purchasing/purchase-price-correction/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchase-price-correction/index', 'garment-purchasing'),
     nav: true,
     title: "Koreksi Harga Pembelian",
     auth: true,
@@ -627,8 +617,7 @@ module.exports = [
   {
     route: "/garment/purchase-return-correction-note",
     name: "purchase-return-correction-note",
-    moduleId:
-      "./modules/garment-purchasing/purchase-return-correction-note/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchase-return-correction-note/index', 'garment-purchasing'),
     nav: true,
     title: "Nota Koreksi - Retur",
     auth: true,
@@ -643,8 +632,7 @@ module.exports = [
   {
     route: "/garment/monitoring-purchase-price-correction",
     name: "monitoring-purchase-price-correction",
-    moduleId:
-      "./modules/garment-purchasing/monitoring-purchase-price-correction/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-purchase-price-correction/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Koreksi Harga Pembelian",
     auth: true,
@@ -657,7 +645,7 @@ module.exports = [
   {
     route: "/garment/monitoring-kedatangan-barang",
     name: "monitoring-kedatangan-barang",
-    moduleId: "./modules/garment-purchasing/monitoring-kedatangan-barang/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-kedatangan-barang/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Ketepatan Kedatangan Barang",
     auth: true,
@@ -672,7 +660,7 @@ module.exports = [
   {
     route: "/garment/monitoring-pengiriman-barang",
     name: "monitoring-pengiriman-barang",
-    moduleId: "./modules/garment-purchasing/monitoring-pengiriman-barang/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-pengiriman-barang/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Ketepatan Pengiriman Barang",
     auth: true,
@@ -687,8 +675,7 @@ module.exports = [
   {
     route: "garment/purchase-order-purchase-order-external-duration-report",
     name: "garment/purchase-order-purchase-order-external-duration-report",
-    moduleId:
-      "./modules/garment-purchasing/reports/duration-reports/purchase-order-purchase-order-external-duration-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/reports/duration-reports/purchase-order-purchase-order-external-duration-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Durasi PO Internal - PO Eksternal",
     auth: true,
@@ -703,8 +690,7 @@ module.exports = [
   {
     route: "garment/purchase-order-external-delivery-order-duration-report",
     name: "garment/purchase-order-external-delivery-order-duration-report",
-    moduleId:
-      "./modules/garment-purchasing/reports/duration-reports/purchase-order-external-delivery-order-duration-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/reports/duration-reports/purchase-order-external-delivery-order-duration-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Durasi PO Eksternal - Surat Jalan ",
     auth: true,
@@ -719,7 +705,7 @@ module.exports = [
   {
     route: "garment-purchase-order/reports/supplier",
     name: "garment-purchase-order-reports-by-supplier",
-    moduleId: "./modules/garment-purchasing/reports/supplier-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/reports/supplier-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Total Pembelian per Supplier",
     auth: true,
@@ -734,7 +720,7 @@ module.exports = [
   {
     route: "garment/po-master-distribution",
     name: "garment-po-master-distribution",
-    moduleId: "./modules/garment-purchasing/po-master-distribution/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/po-master-distribution/index', 'garment-purchasing'),
     nav: true,
     title: "Pembagian PO Master",
     auth: true,
@@ -749,7 +735,7 @@ module.exports = [
   {
     route: "/garment-purchasing-disposition",
     name: "garment-purchasing-disposition",
-    moduleId: "./modules/garment-purchasing/purchasing-disposition/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchasing-disposition/index', 'garment-purchasing'),
     nav: true,
     title: "Disposisi Pembayaran",
     auth: true,
@@ -764,7 +750,7 @@ module.exports = [
   {
     route: "/garment-purchasing-disposition/all",
     name: "garment-purchasing-disposition-all",
-    moduleId: "./modules/garment-purchasing/purchasing-disposition-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchasing-disposition-all/index', 'garment-purchasing'),
     nav: true,
     title: "Disposisi Pembayaran (Semua User)",
     auth: true,
@@ -779,7 +765,7 @@ module.exports = [
   {
     route: "garment/monitoring-ro-job-order",
     name: "garment-monitoring-ro-job-order",
-    moduleId: "./modules/garment-purchasing/monitoring-ro-job-order/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-ro-job-order/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring RO Job Order",
     auth: true,
@@ -794,7 +780,7 @@ module.exports = [
   {
     route: "garment/monitoring-ro-master",
     name: "garment-monitoring-ro-master",
-    moduleId: "./modules/garment-purchasing/monitoring-ro-master/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-ro-master/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring RO Master",
     auth: true,
@@ -809,8 +795,7 @@ module.exports = [
   {
     route: "garment/reports/garment-disposition-purchase-report",
     name: "garment-disposition-purchase-report",
-    moduleId:
-      "./modules/garment-purchasing/reports/garment-disposition-purchase-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/reports/garment-disposition-purchase-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Disposisi Pembayaran",
     auth: true,
@@ -825,8 +810,7 @@ module.exports = [
   {
     route: "garment-purchase-order/reports/topten-supplier",
     name: "garment-purchase-order-reports-topten-supplier",
-    moduleId:
-      "./modules/garment-purchasing/reports/topten-supplier-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/reports/topten-supplier-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Top Ten Supplier",
     auth: true,
@@ -841,8 +825,7 @@ module.exports = [
   {
     route: "/pr-master-garment-validation-report",
     name: "pr-master-garment-validation-report",
-    moduleId:
-      "./modules/merchandiser/report/pr-master-garment-validation-report/index",
+    moduleId: PLATFORM.moduleName('./modules/merchandiser/report/pr-master-garment-validation-report/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Validasi PR Master",
     auth: true,
@@ -857,8 +840,7 @@ module.exports = [
   {
     route: "/cost-calculation-garment-approval-report",
     name: "cost-calculation-garment-approval-report",
-    moduleId:
-      "./modules/merchandiser/report/cost-calculation-garment-approval-report/index",
+    moduleId: PLATFORM.moduleName('./modules/merchandiser/report/cost-calculation-garment-approval-report/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Validasi Cost Calculation Garment",
     auth: true,
@@ -873,7 +855,7 @@ module.exports = [
   {
     route: "/accounting/reports/flow-penerimaan",
     name: "flow-penerimaan",
-    moduleId: "./modules/accounting/reports/flow-penerimaan/index",
+    moduleId: PLATFORM.moduleName('./modules/accounting/reports/flow-penerimaan/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Rekap Bon Terima Unit (BUM)",
     auth: true,
@@ -886,8 +868,7 @@ module.exports = [
   {
     route: "garment-central-bill-reception/reports",
     name: "garment-central-bill-reception-report",
-    moduleId:
-      "./modules/accounting/reports/central-bill-reception-report/index",
+    moduleId: PLATFORM.moduleName('./modules/accounting/reports/central-bill-reception-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Data Penerimaan Bon Pusat",
     auth: true,
@@ -902,8 +883,7 @@ module.exports = [
   {
     route: "garment-central-bill-expenditure/reports",
     name: "garment-central-bill-expenditure-report",
-    moduleId:
-      "./modules/accounting/reports/central-bill-expenditure-report/index",
+    moduleId: PLATFORM.moduleName('./modules/accounting/reports/central-bill-expenditure-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Data Pengeluaran Bon Pusat",
     auth: true,
@@ -918,8 +898,7 @@ module.exports = [
   {
     route: "garment-correction-note-reception/reports",
     name: "garment-correction-note-reception-report",
-    moduleId:
-      "./modules/accounting/reports/correction-note-reception-report/index",
+    moduleId: PLATFORM.moduleName('./modules/accounting/reports/correction-note-reception-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Data Penerimaan Nota Koreksi",
     auth: true,
@@ -934,8 +913,7 @@ module.exports = [
   {
     route: "garment-correction-note-expenditure/reports",
     name: "garment-correction-note-expenditure-report",
-    moduleId:
-      "./modules/accounting/reports/correction-note-expenditure-report/index",
+    moduleId: PLATFORM.moduleName('./modules/accounting/reports/correction-note-expenditure-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Data Pengeluaran Nota Koreksi",
     auth: true,
@@ -950,8 +928,7 @@ module.exports = [
   {
     route: "garment-daily-purchase-order/reports",
     name: "garment-daily-purchase-order-report",
-    moduleId:
-      "./modules/accounting/reports/garment-daily-purchase-report/index",
+    moduleId: PLATFORM.moduleName('./modules/accounting/reports/garment-daily-purchase-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Buku Harian Pembelian | Garment",
     auth: true,
@@ -966,7 +943,7 @@ module.exports = [
   {
     route: "garment-purchase-order/purchase-book-report",
     name: "garment-purchasing-book-report",
-    moduleId: "./modules/garment-purchasing/purchase-book-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchase-book-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Buku Pembelian Bahan Baku, Embalace, Umum",
     auth: true,
@@ -980,7 +957,7 @@ module.exports = [
   {
     route: "accounting/accounting-stock-report",
     name: "accounting-stock-report",
-    moduleId: "./modules/accounting/reports/accounting-stock-report/index",
+    moduleId: PLATFORM.moduleName('./modules/accounting/reports/accounting-stock-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Stok Pembukuan",
     auth: true,
@@ -993,7 +970,7 @@ module.exports = [
   // {
   //   route: 'garment-purchase-order/purchase-book-report',
   //   name: 'garment-purchasing-book-report',
-  //   moduleId: './modules/garment-purchasing/purchase-book-report/index',
+  //   moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchase-book-report/index', 'garment-purchasing'),
   //   nav: true,
   //   title: 'Laporan Buku Pembelian',
   //   auth: true,
@@ -1006,8 +983,7 @@ module.exports = [
   {
     route: "garment-purchase-order/garment-intern-note-payment-status-report",
     name: "garment-intern-note-payment-status-report",
-    moduleId:
-      "./modules/garment-purchasing/reports/garment-intern-note-payment-status-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/reports/garment-intern-note-payment-status-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Status Bayar Nota Intern",
     auth: true,
@@ -1022,8 +998,7 @@ module.exports = [
   {
     route: "garment-receipt-correction-report",
     name: "garment-receipt-correction-report",
-    moduleId:
-      "./modules/garment-purchasing/garment-receipt-correction-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/garment-receipt-correction-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Koreksi Penerimaan",
     auth: true,
@@ -1038,8 +1013,7 @@ module.exports = [
   {
     route: "garment-flow-detail-material/reports",
     name: "garment-flow-detail-material-report",
-    moduleId:
-      "./modules/accounting/reports/garment-flow-detail-material-report/index",
+    moduleId: PLATFORM.moduleName('./modules/accounting/reports/garment-flow-detail-material-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Rekap Bon Keluar Unit (BUK)",
     auth: true,
@@ -1052,7 +1026,7 @@ module.exports = [
   {
     route: "garment-purchase-book-report",
     name: "garment-purchase-book-report",
-    moduleId: "./modules/garment-purchasing/garment-purchase-book-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/garment-purchase-book-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Buku Harian Pembelian Term Of Payment",
     auth: true,
@@ -1067,7 +1041,7 @@ module.exports = [
   {
     route: "garment-stock-report",
     name: "garment-stock-report",
-    moduleId: "./modules/garment-purchasing/reports/garment-stock-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/reports/garment-stock-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Stock Gudang",
     auth: true,
@@ -1082,7 +1056,7 @@ module.exports = [
   {
     route: "debt-book-report",
     name: "debt-book-report",
-    moduleId: "./modules/accounting/reports/debt-book-report/index",
+    moduleId: PLATFORM.moduleName('./modules/accounting/reports/debt-book-report/index', 'garment-purchasing'),
     nav: true,
     title: "Detail Rekap Saldo Hutang",
     auth: true,
@@ -1095,8 +1069,7 @@ module.exports = [
   {
     route: "garment-cmt-report",
     name: "garment-cmt-report",
-    moduleId:
-      "./modules/garment-purchasing/reports/garment-realization-cmt-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/reports/garment-realization-cmt-report/index', 'garment-purchasing'),
 
     nav: true,
     title: "Laporan Realisasi CMT",
@@ -1112,7 +1085,7 @@ module.exports = [
   {
     route: "garment-debt-balance-report",
     name: "garment-debt-balance-report",
-    moduleId: "./modules/accounting/reports/debt-balance-report/index",
+    moduleId: PLATFORM.moduleName('./modules/accounting/reports/debt-balance-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Saldo Hutang",
     auth: true,
@@ -1125,7 +1098,7 @@ module.exports = [
   {
     route: "debt-card-report",
     name: "debt-card-report",
-    moduleId: "./modules/accounting/reports/debt-card-report/index",
+    moduleId: PLATFORM.moduleName('./modules/accounting/reports/debt-card-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Kartu Hutang",
     auth: true,
@@ -1138,7 +1111,7 @@ module.exports = [
   {
     route: "/ro-feature",
     name: "ro-feature",
-    moduleId: "./modules/garment-purchasing/ro-feature/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/ro-feature/index', 'garment-purchasing'),
     nav: true,
     title: "Fitur Pencarian RO",
     auth: true,
@@ -1153,8 +1126,7 @@ module.exports = [
   {
     route: "/laporan/laporan-flow-penerimaan",
     name: "laporan-flow-pengeluaran",
-    moduleId:
-      "./modules/garment-purchasing/reports/garment-unit-flow-penerimaan-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/reports/garment-unit-flow-penerimaan-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Flow Penerimaan",
     auth: true,
@@ -1169,8 +1141,7 @@ module.exports = [
   {
     route: "/laporan/laporan-flow-pengeluaran",
     name: "laporan-flow-pengeluaran",
-    moduleId:
-      "./modules/garment-purchasing/reports/garment-unit-flow-detail-material-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/reports/garment-unit-flow-detail-material-report/index', 'garment-purchasing'),
     nav: true,
     title: "Laporan Flow Pengeluaran",
     auth: true,
@@ -1185,7 +1156,7 @@ module.exports = [
   // {
   //     route: '/garment-purchasing-disposition',
   //     name: 'garment-purchasing-disposition',
-  //     moduleId: './modules/garment-purchasing/purchasing-disposition/index',
+  //     moduleId: PLATFORM.moduleName('./modules/garment-purchasing/purchasing-disposition/index', 'garment-purchasing'),
   //     nav: true,
   //     title: 'Disposisi Pembayaran',
   //     auth: true,
@@ -1198,7 +1169,7 @@ module.exports = [
   {
     route: "/garment-closing-date",
     name: "garment-closing-date",
-    moduleId: "./modules/garment-purchasing/garment-closing-date/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/garment-closing-date/index', 'garment-purchasing'),
     nav: true,
     title: "Closing Date",
     auth: true,
@@ -1212,8 +1183,7 @@ module.exports = [
   {
     route: "monitoring-flow-product",
     name: "monitoring-flow-product",
-    moduleId:
-      "./modules/garment-purchasing/reports/monitoring-flow-product/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/reports/monitoring-flow-product/index', 'garment-purchasing'),
     nav: true,
     title: "History Barang Masuk",
     auth: true,
@@ -1249,7 +1219,7 @@ module.exports = [
   {
     route: "/bcno-feature",
     name: "bcno-feature",
-    moduleId: "./modules/garment-purchasing/bcno-feature/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/bcno-feature/index', 'garment-purchasing'),
     nav: true,
     title: "Fitur Cek No BC",
     auth: true,
@@ -1264,7 +1234,7 @@ module.exports = [
   {
     route: "/garment-do-items",
     name: "garment-do-items",
-    moduleId: "./modules/garment-purchasing/garment-do-items/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/garment-do-items/index', 'garment-purchasing'),
     nav: true,
     title: "Inventory Racking",
     auth: true,
@@ -1278,8 +1248,7 @@ module.exports = [
     {
     route: "monitoring-over-budget-quantity",
     name: "monitoring-over-budget-quantity",
-    moduleId:
-      "./modules/garment-purchasing/monitoring-over-budget-quantity/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-over-budget-quantity/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Over Budget Quantity",
     auth: true,
@@ -1295,7 +1264,7 @@ module.exports = [
   {
     route: "/ledger/garment-general-ledger",
     name: "ledger/garment-general-ledger",
-    moduleId: "./modules/garment-purchasing/ledger/upload-garment-general-ledger/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/ledger/upload-garment-general-ledger/index', 'garment-purchasing'),
     nav: true,
     title: "Jurnal Umum Garment",
     auth: true,
@@ -1309,7 +1278,7 @@ module.exports = [
   {
     route: "/ledger/begining-ledger",
     name: "ledger/begining-ledger",
-    moduleId: "./modules/garment-purchasing/ledger/upload-begining-general-ledger/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/ledger/upload-begining-general-ledger/index', 'garment-purchasing'),
     nav: true,
     title: "Jurnal Saldo Awal",
     auth: true,
@@ -1323,7 +1292,7 @@ module.exports = [
   {
     route: "monitoring-price-garment-product",
     name: "monitoring-price-garment-product",
-    moduleId: "./modules/garment-purchasing/monitoring-price-garment-product/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-price-garment-product/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Price Barang Garment",
     auth: true,
@@ -1338,7 +1307,7 @@ module.exports = [
   {
     route: "monitoring-delivery-pengiriman",
     name: "monitoring-delivery-pengiriman",
-    moduleId: "./modules/garment-purchasing/monitoring-delivery-pengiriman/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-delivery-pengiriman/index', 'garment-purchasing'),
     nav: true,
     title: "Monitoring Delivery Pengiriman",
     auth: true,

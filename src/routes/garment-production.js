@@ -1,8 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
     {
         route: '/garment-production/comodity-price',
         name: 'comodity-price',
-        moduleId: './modules/garment-production/comodity-price/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/comodity-price/index', 'garment-production'),
         nav: true,
         title: 'Master Tarif',
         auth: true,
@@ -17,7 +19,7 @@ module.exports = [
     {
         route: '/garment-production/comodity-price-approve',
         name: 'comodity-price',
-        moduleId: './modules/garment-production/comodity-price-approve/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/comodity-price-approve/index', 'garment-production'),
         nav: true,
         title: 'Approve Master Tarif',
         auth: true,
@@ -36,7 +38,7 @@ module.exports = [
     {
         route: '/garment-production/scrap-source',
         name: 'garment-production-scrap-source',
-        moduleId: './modules/garment-production/scrap-source/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/scrap-source/index', 'garment-production'),
         nav: true,
         title: 'Master Asal Barang Aval',
         auth: true,
@@ -51,7 +53,7 @@ module.exports = [
     {
         route: '/garment-production/scrap-classifications',
         name: 'garment-production-scrap-classifications',
-        moduleId: './modules/garment-production/scrap-classification/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/scrap-classification/index', 'garment-production'),
         nav: true,
         title: 'Master Jenis Barang Aval',
         auth: true,
@@ -66,7 +68,7 @@ module.exports = [
     {
         route: '/garment-production/scrap-destinations',
         name: 'garment-production-scrap-destinations',
-        moduleId: './modules/garment-production/scrap-destination/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/scrap-destination/index', 'garment-production'),
         nav: true,
         title: 'Master Tujuan Barang Aval',
         auth: true,
@@ -81,7 +83,7 @@ module.exports = [
     {
         route: '/garment-production/preparing',
         name: 'preparing',
-        moduleId: './modules/garment-production/preparing/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/preparing/index', 'garment-production'),
         nav: true,
         title: 'Preparing',
         auth: true,
@@ -96,7 +98,7 @@ module.exports = [
     {
         route: '/garment-production/preparing-alluser',
         name: 'preparing',
-        moduleId: './modules/garment-production/preparing_alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/preparing_alluser/index', 'garment-production'),
         nav: true,
         title: 'Preparing (Semua User)',
         auth: true,
@@ -111,7 +113,7 @@ module.exports = [
     {
         route: '/garment-production/delivery-return',
         name: 'garment-production-delivery-return',
-        moduleId: './modules/garment-production/delivery-return/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/delivery-return/index', 'garment-production'),
         nav: true,
         title: 'Retur Proses',
         auth: true,
@@ -126,7 +128,7 @@ module.exports = [
     {
         route: '/garment-production/delivery-return-alluser',
         name: 'garment-production-delivery-return-alluser',
-        moduleId: './modules/garment-production/delivery-return-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/delivery-return-alluser/index', 'garment-production'),
         nav: true,
         title: 'Retur Proses (Semua User)',
         auth: true,
@@ -141,7 +143,7 @@ module.exports = [
     {
         route: '/garment-production/aval-product',
         name: 'aval-product',
-        moduleId: './modules/garment-production/aval-product/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/aval-product/index', 'garment-production'),
         nav: true,
         title: 'Aval Kain Besar',
         auth: true,
@@ -156,7 +158,7 @@ module.exports = [
     {
         route: '/garment-production/aval-product-alluser',
         name: 'aval-product-alluser',
-        moduleId: './modules/garment-production/aval-product-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/aval-product-alluser/index', 'garment-production'),
         nav: true,
         title: 'Barang Aval (Semua User)',
         auth: true,
@@ -171,7 +173,7 @@ module.exports = [
     {
         route: '/garment-production/cutting-in',
         name: 'garment-production-cutting-in',
-        moduleId: './modules/garment-production/cutting-in/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/cutting-in/index', 'garment-production'),
         nav: true,
         title: 'Cutting-In',
         auth: true,
@@ -186,7 +188,7 @@ module.exports = [
     {
         route: '/garment-production/cutting-in-alluser',
         name: 'garment-production-cutting-in-alluser',
-        moduleId: './modules/garment-production/cutting-in-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/cutting-in-alluser/index', 'garment-production'),
         nav: true,
         title: 'Cutting-In (Semua User)',
         auth: true,
@@ -201,7 +203,7 @@ module.exports = [
     {
         route: '/garment-production/cutting-out',
         name: 'garment-production-cutting-out',
-        moduleId: './modules/garment-production/cutting-out/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/cutting-out/index', 'garment-production'),
         nav: true,
         title: 'Cutting-Out',
         auth: true,
@@ -216,7 +218,7 @@ module.exports = [
     {
         route: '/garment-production/cutting-out-alluser',
         name: 'garment-production-cutting-out-alluser',
-        moduleId: './modules/garment-production/cutting-out-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/cutting-out-alluser/index', 'garment-production'),
         nav: true,
         title: 'Cutting-Out (Semua User)',
         auth: true,
@@ -231,7 +233,7 @@ module.exports = [
     {
         route: '/garment-production/subcon-cutting-out',
         name: 'garment-production-subcon-cutting-out',
-        moduleId: './modules/garment-production/subcon-cutting-out/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/subcon-cutting-out/index', 'garment-production'),
         nav: true,
         title: 'Cutting-Out Subkon',
         auth: true,
@@ -246,7 +248,7 @@ module.exports = [
     {
         route: '/garment-production/sewing-do',
         name: 'garment-production-sewing-do',
-        moduleId: './modules/garment-production/sewing-do/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/sewing-do/index', 'garment-production'),
         nav: true,
         title: 'Sewing DO',
         auth: true,
@@ -261,7 +263,7 @@ module.exports = [
     {
         route: '/garment-production/sewing-do-alluser',
         name: 'garment-production-sewing-do-alluser',
-        moduleId: './modules/garment-production/sewing-do-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/sewing-do-alluser/index', 'garment-production'),
         nav: true,
         title: 'Sewing DO (Semua User)',
         auth: true,
@@ -276,7 +278,7 @@ module.exports = [
     {
         route: '/garment-production/loading',
         name: 'garment-production-loading',
-        moduleId: './modules/garment-production/loading/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/loading/index', 'garment-production'),
         nav: true,
         title: 'Loading',
         auth: true,
@@ -291,7 +293,7 @@ module.exports = [
     {
         route: '/garment-production/loading-alluser',
         name: 'garment-production-loading-alluser',
-        moduleId: './modules/garment-production/loading-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/loading-alluser/index', 'garment-production'),
         nav: true,
         title: 'Loading (Semua User)',
         auth: true,
@@ -306,7 +308,7 @@ module.exports = [
     {
         route: '/garment-production/sewing-in',
         name: 'garment-production-sewing-in',
-        moduleId: './modules/garment-production/sewing-in/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/sewing-in/index', 'garment-production'),
         nav: true,
         title: 'Sewing In',
         auth: true,
@@ -321,7 +323,7 @@ module.exports = [
     {
         route: '/garment-production/sewing-in-alluser',
         name: 'garment-production-sewing-in-alluse',
-        moduleId: './modules/garment-production/sewing-in-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/sewing-in-alluser/index', 'garment-production'),
         nav: true,
         title: 'Sewing In (Semua User)',
         auth: true,
@@ -336,7 +338,7 @@ module.exports = [
     {
         route: '/garment-production/sewing-out',
         name: 'garment-production-sewing-out',
-        moduleId: './modules/garment-production/sewing-out/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/sewing-out/index', 'garment-production'),
         nav: true,
         title: 'Sewing Out',
         auth: true,
@@ -351,7 +353,7 @@ module.exports = [
     {
         route: '/garment-production/sewing-out-alluser',
         name: 'garment-production-sewing-out-alluser',
-        moduleId: './modules/garment-production/sewing-out-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/sewing-out-alluser/index', 'garment-production'),
         nav: true,
         title: 'Sewing Out (Semua User)',
         auth: true,
@@ -366,7 +368,7 @@ module.exports = [
     {
         route: '/garment-production/finishing-in',
         name: 'garment-production-finishing-in',
-        moduleId: './modules/garment-production/finishing-in/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/finishing-in/index', 'garment-production'),
         nav: true,
         title: 'Finishing In',
         auth: true,
@@ -382,7 +384,7 @@ module.exports = [
     {
         route: '/garment-production/finishing-in-alluser',
         name: 'garment-production-finishing-in-alluser',
-        moduleId: './modules/garment-production/finishing-in-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/finishing-in-alluser/index', 'garment-production'),
         nav: true,
         title: 'Finishing In (Semua User)',
         auth: true,
@@ -397,7 +399,7 @@ module.exports = [
     {
         route: '/garment-production/subcon-finishing-in',
         name: 'garment-production-subcon-finishing-in',
-        moduleId: './modules/garment-production/subcon-finishing-in/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/subcon-finishing-in/index', 'garment-production'),
         nav: true,
         title: 'Finishing In Subkon',
         auth: true,
@@ -412,7 +414,7 @@ module.exports = [
     {
         route: '/garment-production/subcon-finishing-in-alluser',
         name: 'garment-production-subcon-finishing-in-alluser',
-        moduleId: './modules/garment-production/subcon-finishing-in-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/subcon-finishing-in-alluser/index', 'garment-production'),
         nav: true,
         title: 'Finishing In Subkon (Semua User)',
         auth: true,
@@ -427,7 +429,7 @@ module.exports = [
     {
         route: '/garment-production/finishing-out',
         name: 'garment-production-finishing-out',
-        moduleId: './modules/garment-production/finishing-out/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/finishing-out/index', 'garment-production'),
         nav: true,
         title: 'Finishing Out',
         auth: true,
@@ -443,7 +445,7 @@ module.exports = [
     {
         route: '/garment-production/finishing-out-alluser',
         name: 'garment-production-finishing-out-alluser',
-        moduleId: './modules/garment-production/finishing-out-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/finishing-out-alluser/index', 'garment-production'),
         nav: true,
         title: 'Finishing Out (Semua User)',
         auth: true,
@@ -458,7 +460,7 @@ module.exports = [
     {
         route: '/garment-production/expenditure-good',
         name: 'garment-production-expenditure-good',
-        moduleId: './modules/garment-production/expenditure-good/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/expenditure-good/index', 'garment-production'),
         nav: true,
         title: 'Pengeluaran Barang Jadi',
         auth: true,
@@ -474,7 +476,7 @@ module.exports = [
     {
         route: '/garment-production/expenditure-good-alluser',
         name: 'garment-production-expenditure-good-alluser',
-        moduleId: './modules/garment-production/expenditure-good-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/expenditure-good-alluser/index', 'garment-production'),
         nav: true,
         title: 'Pengeluaran Barang Jadi (Semua User)',
         auth: true,
@@ -489,7 +491,7 @@ module.exports = [
     {
         route: '/garment-production/expenditure-good-return',
         name: 'garment-production-expenditure-good-return',
-        moduleId: './modules/garment-production/expenditure-good-return/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/expenditure-good-return/index', 'garment-production'),
         nav: true,
         title: 'Retur Barang Jadi',
         auth: true,
@@ -504,7 +506,7 @@ module.exports = [
     {
         route: '/garment-production/expenditure-good-return-alluser',
         name: 'garment-production-expenditure-good-return-alluser',
-        moduleId: './modules/garment-production/expenditure-good-return-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/expenditure-good-return-alluser/index', 'garment-production'),
         nav: true,
         title: 'Retur Barang Jadi (Semua User)',
         auth: true,
@@ -519,7 +521,7 @@ module.exports = [
     {
         route: '/garment-production/aval-component',
         name: 'garment-production-aval-component',
-        moduleId: './modules/garment-production/aval-component/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/aval-component/index', 'garment-production'),
         nav: true,
         title: 'Aval Komponen',
         auth: true,
@@ -535,7 +537,7 @@ module.exports = [
     {
         route: '/garment-production/aval-component-alluser',
         name: 'garment-production-aval-component-alluser',
-        moduleId: './modules/garment-production/aval-component-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/aval-component-alluser/index', 'garment-production'),
         nav: true,
         title: 'Aval Komponen (Semua User)',
         auth: true,
@@ -582,7 +584,7 @@ module.exports = [
     {
         route: '/garment-production/scrap-transaction-in',
         name: 'garment-production-scrap-transaction-in',
-        moduleId: './modules/garment-production/scrap-transaction-in/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/scrap-transaction-in/index', 'garment-production'),
         nav: true,
         title: 'Penerimaan Barang Aval',
         auth: true,
@@ -597,7 +599,7 @@ module.exports = [
     {
         route: '/garment-production/scrap-transaction-in-alluser',
         name: 'garment-production-scrap-transaction-in-alluser',
-        moduleId: './modules/garment-production/scrap-transaction-in-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/scrap-transaction-in-alluser/index', 'garment-production'),
         nav: true,
         title: 'Penerimaan Barang Aval (Semua User)',
         auth: true,
@@ -612,7 +614,7 @@ module.exports = [
     {
         route: '/garment-production/scrap-transaction-out',
         name: 'garment-production-scrap-transaction-out',
-        moduleId: './modules/garment-production/scrap-transaction-out/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/scrap-transaction-out/index', 'garment-production'),
         nav: true,
         title: 'Pengeluaran Barang Aval',
         auth: true,
@@ -627,7 +629,7 @@ module.exports = [
     {
         route: '/garment-production/scrap-transaction-out-alluser',
         name: 'garment-production-scrap-transaction-out-alluser',
-        moduleId: './modules/garment-production/scrap-transaction-out-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/scrap-transaction-out-alluser/index', 'garment-production'),
         nav: true,
         title: 'Pengeluaran Barang Aval (Semua User)',
         auth: true,
@@ -642,7 +644,7 @@ module.exports = [
     {
         route: '/customs/pemasukan-tc-kecil',
         name: 'monitoring-pemasukan-tc-kecil',
-        moduleId: './modules/customs/tc-kecil-in/index',
+        moduleId: PLATFORM.moduleName('./modules/customs/tc-kecil-in/index', 'garment-production'),
         nav: true,
         title: 'Laporan Monitoring Pemasukan Aval TC Kecil',
         auth: true,
@@ -658,7 +660,7 @@ module.exports = [
     {
         route: '/customs/pengeluaran-tc-kecil',
         name: 'monitoring-pengeluaran-tc-kecil',
-        moduleId: './modules/customs/tc-kecil-out/index',
+        moduleId: PLATFORM.moduleName('./modules/customs/tc-kecil-out/index', 'garment-production'),
         nav: true,
         title: 'Laporan Monitoring Pengeluaran Aval TC Kecil',
         auth: true,
@@ -675,7 +677,7 @@ module.exports = [
     {
         route: '/customs/pemasukan-sampah-sapuan',
         name: 'monitoring-pemasukan-sampah-sapuan',
-        moduleId: './modules/customs/sapuan-in/index',
+        moduleId: PLATFORM.moduleName('./modules/customs/sapuan-in/index', 'garment-production'),
         nav: true,
         title: 'Laporan Monitoring Pemasukan Aval Sampah Sapuan',
         auth: true,
@@ -691,7 +693,7 @@ module.exports = [
     {
         route: '/customs/pengeluaran-sampah-sapuan',
         name: 'monitoring-pengeluaran-sampah-sapuan',
-        moduleId: './modules/customs/sapuan-out/index',
+        moduleId: PLATFORM.moduleName('./modules/customs/sapuan-out/index', 'garment-production'),
         nav: true,
         title: 'Laporan Monitoring Pengeluaran Aval Sampah Sapuan',
         auth: true,
@@ -707,7 +709,7 @@ module.exports = [
     {
         route: '/garment-production/adjustment-loading',
         name: 'garment-production-adjustment-loading',
-        moduleId: './modules/garment-production/adjustment-loading/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/adjustment-loading/index', 'garment-production'),
         nav: true,
         title: 'Adjustment Loading',
         auth: true,
@@ -722,7 +724,7 @@ module.exports = [
     {
         route: '/garment-production/adjustment-loading-alluser',
         name: 'garment-production-adjustment-loading-alluser',
-        moduleId: './modules/garment-production/adjustment-loading-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/adjustment-loading-alluser/index', 'garment-production'),
         nav: true,
         title: 'Adjustment Loading (Semua User)',
         auth: true,
@@ -737,7 +739,7 @@ module.exports = [
     {
         route: '/garment-production/adjustment-sewing',
         name: 'garment-production-adjustment-sewing',
-        moduleId: './modules/garment-production/adjustment-sewing/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/adjustment-sewing/index', 'garment-production'),
         nav: true,
         title: 'Adjustment Sewing',
         auth: true,
@@ -752,7 +754,7 @@ module.exports = [
     {
         route: '/garment-production/adjustment-sewing-alluser',
         name: 'garment-production-adjustment-sewing-alluser',
-        moduleId: './modules/garment-production/adjustment-sewing-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/adjustment-sewing-alluser/index', 'garment-production'),
         nav: true,
         title: 'Adjustment Sewing (Semua User)',
         auth: true,
@@ -767,7 +769,7 @@ module.exports = [
     {
         route: '/garment-production/adjustment-finishing',
         name: 'garment-production-adjustment-finishing',
-        moduleId: './modules/garment-production/adjustment-finishing/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/adjustment-finishing/index', 'garment-production'),
         nav: true,
         title: 'Adjustment Finishing',
         auth: true,
@@ -783,7 +785,7 @@ module.exports = [
     {
         route: '/garment-production/adjustment-finishing-alluser',
         name: 'garment-production-adjustment-finishing-alluser',
-        moduleId: './modules/garment-production/adjustment-finishing-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/adjustment-finishing-alluser/index', 'garment-production'),
         nav: true,
         title: 'Adjustment Finishing (Semua User)',
         auth: true,
@@ -798,7 +800,7 @@ module.exports = [
     {
         route: '/garment-production/adjustment-expenditure-good',
         name: 'garment-production-adjustment-expenditure-good',
-        moduleId: './modules/garment-production/adjustment-expenditure-good/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/adjustment-expenditure-good/index', 'garment-production'),
         nav: true,
         title: 'Adjustment Barang Jadi',
         auth: true,
@@ -814,7 +816,7 @@ module.exports = [
     {
         route: '/garment-production/adjustment-expenditure-good-alluser',
         name: 'garment-production-adjustment-expenditure-good-alluser',
-        moduleId: './modules/garment-production/adjustment-expenditure-good-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/adjustment-expenditure-good-alluser/index', 'garment-production'),
         nav: true,
         title: 'Adjustment Barang Jadi (Semua User)',
         auth: true,
@@ -829,7 +831,7 @@ module.exports = [
     {
         route: '/garment-production/adjustment-cutting',
         name: 'garment-production-adjustment-cutting',
-        moduleId: './modules/garment-production/adjustment-cutting/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/adjustment-cutting/index', 'garment-production'),
         nav: true,
         title: 'Adjustment Cutting',
         auth: true,
@@ -844,7 +846,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-prepare',
         name: 'garment-production-monitoring-prepare',
-        moduleId: './modules/garment-production/monitoring-prepare/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-prepare/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Prepare',
         auth: true,
@@ -859,7 +861,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-prepare-bookkeeping',
         name: 'garment-production-monitoring-prepare-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-prepare-bookkeeping/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-prepare-bookkeeping/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Prepare Pembukuan',
         auth: true,
@@ -873,7 +875,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-cutting',
         name: 'garment-production-monitoring-cutting',
-        moduleId: './modules/garment-production/monitoring-cutting/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-cutting/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Cutting',
         auth: true,
@@ -888,7 +890,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-cutting-bookkeeping',
         name: 'garment-production-monitoring-cutting-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-cutting-bookkeeping/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-cutting-bookkeeping/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Cutting Pembukuan',
         auth: true,
@@ -902,7 +904,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-loading',
         name: 'garment-production-monitoring-loading',
-        moduleId: './modules/garment-production/monitoring-loading/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-loading/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Loading',
         auth: true,
@@ -917,7 +919,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-loading-bookkeeping',
         name: 'garment-production-monitoring-loading-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-loading-bookkeeping/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-loading-bookkeeping/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Loading Pembukuan',
         auth: true,
@@ -931,7 +933,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-sewing',
         name: 'garment-production-monitoring-sewing',
-        moduleId: './modules/garment-production/monitoring-sewing/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-sewing/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Sewing',
         auth: true,
@@ -945,7 +947,7 @@ module.exports = [
     }, {
         route: '/garment-production/monitoring-sewing-bookkeeping',
         name: 'garment-production-monitoring-sewing-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-sewing-bookkeeping/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-sewing-bookkeeping/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Sewing Pembukuan',
         auth: true,
@@ -959,7 +961,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-finishing',
         name: 'garment-production-monitoring-finishing',
-        moduleId: './modules/garment-production/monitoring-finishing/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-finishing/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Finishing',
         auth: true,
@@ -975,7 +977,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-finishing-bookkeeping',
         name: 'garment-production-monitoring-finishing-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-finishing-bookkeeping/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-finishing-bookkeeping/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Finishing Pembukuan',
         auth: true,
@@ -989,7 +991,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-expenditure-good-delivery',
         name: 'garment-production-monitoring-expenditure-good-delivery',
-        moduleId: './modules/garment-production/monitoring-expenditure-good-delivery/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-expenditure-good-delivery/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Pengiriman Barang Jadi',
         auth: true,
@@ -1005,7 +1007,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-expenditure-good-delivery-bookkeeping',
         name: 'garment-production-monitoring-expenditure-good-delivery-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-expenditure-good-delivery-bookkeeping/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-expenditure-good-delivery-bookkeeping/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Pengiriman Barang Jadi Pembukuan',
         auth: true,
@@ -1019,7 +1021,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-production-flow-by-size',
         name: 'garment-production-monitoring-production-flow-by-size',
-        moduleId: './modules/garment-production/monitoring-production-flow-by-size/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-production-flow-by-size/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Flow Produksi per Size',
         auth: true,
@@ -1034,7 +1036,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-production-flow-by-size-bookkeeping',
         name: 'garment-production-monitoring-production-flow-by-size-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-production-flow-by-size-bookkeeping/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-production-flow-by-size-bookkeeping/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Flow Produksi per Size Pembukuan',
         auth: true,
@@ -1048,7 +1050,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-production-stock-flow',
         name: 'garment-production-monitoring-production-stock-flow',
-        moduleId: './modules/garment-production/monitoring-production-stock-flow/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-production-stock-flow/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Flow Persediaan',
         auth: true,
@@ -1063,7 +1065,7 @@ module.exports = [
     {
         route: '/garment-production/monitoring-production-stock-flow-bookkeeping',
         name: 'garment-production-monitoring-production-stock-flow-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-production-stock-flow-bookkeeping/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-production-stock-flow-bookkeeping/index', 'garment-production'),
         nav: true,
         title: 'Monitoring Flow Persediaan Pembukuan',
         auth: true,
@@ -1078,7 +1080,7 @@ module.exports = [
     {
         route: '/garment-production/production-flow-feature',
         name: 'garment-production-production-flow-feature',
-        moduleId: './modules/garment-production/production-flow-feature/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/production-flow-feature/index', 'garment-production'),
         nav: true,
         title: 'Fitur Flow Barang Produksi',
         auth: true,
@@ -1093,7 +1095,7 @@ module.exports = [
     {
         route: '/garment-production/change-date-feature',
         name: 'garment-production-change-date-feature',
-        moduleId: './modules/garment-production/change-date-feature/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/change-date-feature/index', 'garment-production'),
         nav: true,
         title: 'Fitur Ubah Tanggal',
         auth: true,
@@ -1168,7 +1170,7 @@ module.exports = [
     {
         route: 'garment-production/packing-list-draft-copy',
         name: 'packing-list-draft-copy',
-        moduleId: './modules/garment-production/packing-list-draft/copy/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/packing-list-draft/copy/index', 'garment-production'),
         nav: true,
         title: 'Copy Draft Packing List',
         auth: true,
@@ -1212,7 +1214,7 @@ module.exports = [
     {
         route: 'garment-production/packing-list-items-draft-enhanced',
         name: 'packing-list-draft-items-enhanced',
-        moduleId: './modules/garment-production/packing-list-items-draft-enhanced/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/packing-list-items-draft-enhanced/index', 'garment-production'),
         nav: true,
         title: 'Item Draft Packing List Enhanced 2',
         auth: true,
@@ -1227,7 +1229,7 @@ module.exports = [
     {
         route: '/customs/machine/brand',
         name: 'machine-brand',
-        moduleId: './modules/customs/machine/master-brand/index',
+        moduleId: PLATFORM.moduleName('./modules/customs/machine/master-brand/index', 'garment-production'),
         nav: true,
         title: 'Master Brand',
         auth: true,
@@ -1242,7 +1244,7 @@ module.exports = [
     {
         route: '/customs/machine/category',
         name: 'machine-category',
-        moduleId: './modules/customs/machine/master-category/index',
+        moduleId: PLATFORM.moduleName('./modules/customs/machine/master-category/index', 'garment-production'),
         nav: true,
         title: 'Master Kategori',
         auth: true,
@@ -1257,7 +1259,7 @@ module.exports = [
     // {
     //     route: '/customs/machine/in',
     //     name: 'machine-in',
-    //     moduleId: './modules/customs/machine/in/index',
+    //     moduleId: PLATFORM.moduleName('./modules/customs/machine/in/index', 'garment-production'),
     //     nav: true,
     //     title: 'Transaksi Masuk (Mesin Baru)',
     //     auth: true,
@@ -1271,7 +1273,7 @@ module.exports = [
     // {
     //     route: '/customs/machine/out',
     //     name: 'machine-out',
-    //     moduleId: './modules/customs/machine/out/index',
+    //     moduleId: PLATFORM.moduleName('./modules/customs/machine/out/index', 'garment-production'),
     //     nav: true,
     //     title: 'Transaksi Keluar',
     //     auth: true,
@@ -1285,7 +1287,7 @@ module.exports = [
     {
         route: '/customs/machine/machines',
         name: 'machines',
-        moduleId: './modules/customs/machine/machines/index',
+        moduleId: PLATFORM.moduleName('./modules/customs/machine/machines/index', 'garment-production'),
         nav: true,
         title: 'Mesin',
         auth: true,
@@ -1300,7 +1302,7 @@ module.exports = [
     {
         route: '/customs/machine/mutation',
         name: 'mutation',
-        moduleId: './modules/customs/machine/mutation/index',
+        moduleId: PLATFORM.moduleName('./modules/customs/machine/mutation/index', 'garment-production'),
         nav: true,
         title: 'Mutasi',
         auth: true,
@@ -1315,7 +1317,7 @@ module.exports = [
     {
         route: '/customs/report-aval',
         name: 'report-aval',
-        moduleId: './modules/garment-production/scrap-report/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/scrap-report/index', 'garment-production'),
         nav: true,
         title: 'Laporan Stock Aval',
         auth: true,
@@ -1332,7 +1334,7 @@ module.exports = [
 
         route: '/garment-production/subcon-cutting-out-alluser',
         name: 'garment-production-subcon-cutting-out-alluser',
-        moduleId: './modules/garment-production/subcon-cutting-out-alluser/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/subcon-cutting-out-alluser/index', 'garment-production'),
         nav: true,
         title: 'Cutting-Out Subkon (Semua User)',
         auth: true,
@@ -1347,7 +1349,7 @@ module.exports = [
     {
         route: '/customs/report-aval-garment',
         name: 'report-aval-garment',
-        moduleId: './modules/garment-production/scrap-report-new/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/scrap-report-new/index', 'garment-production'),
         nav: true,
         title: 'Laporan Stock Aval Garment',
         auth: true,
@@ -1363,7 +1365,7 @@ module.exports = [
     {
         route: '/customs/report-aval-flow',
         name: 'report-aval-flow',
-        moduleId: './modules/garment-production/scrap-report-in-and-out/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-production/scrap-report-in-and-out/index', 'garment-production'),
         nav: true,
         title: 'Laporan Flow Aval',
         auth: true,

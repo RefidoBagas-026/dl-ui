@@ -1,9 +1,11 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
   //Transaksi
   {
     route: "/garment-receipt-subcon/delivery-order-subcon",
     name: "delivery-order-subcon",
-    moduleId: "./modules/garment-receipt-subcon/delivery-order-subcon/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/delivery-order-subcon/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Surat Jalan Subcon",
     auth: true,
@@ -17,8 +19,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/unit-receipt-note-by-user",
     name: "unit-receipt-note",
-    moduleId:
-      "./modules/garment-receipt-subcon/unit-receipt-note-by-user/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/unit-receipt-note-by-user/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Bon Terima Unit",
     auth: true,
@@ -32,7 +33,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/unit-receipt-note-all",
     name: "unit-receipt-note",
-    moduleId: "./modules/garment-receipt-subcon/unit-receipt-note-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/unit-receipt-note-all/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Bon Terima Unit (Semua User)",
     auth: true,
@@ -46,8 +47,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/unit-delivery-order-by-user",
     name: "unit-receipt-note-by-user",
-    moduleId:
-      "./modules/garment-receipt-subcon/unit-delivery-order-by-user/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/unit-delivery-order-by-user/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Unit Delivery Order",
     auth: true,
@@ -61,7 +61,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/unit-delivery-order-all",
     name: "unit-receipt-note-all",
-    moduleId: "./modules/garment-receipt-subcon/unit-delivery-order-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/unit-delivery-order-all/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Unit Delivery Order (Semua User)",
     auth: true,
@@ -75,8 +75,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/unit-expenditure-note-by-user",
     name: "unit-expenditure-note-by-user",
-    moduleId:
-      "./modules/garment-receipt-subcon/unit-expenditure-note-by-user/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/unit-expenditure-note-by-user/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Bon Pengeluaran Unit",
     auth: true,
@@ -90,8 +89,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/unit-expenditure-note-all-user",
     name: "unit-expenditure-note-all-user",
-    moduleId:
-      "./modules/garment-receipt-subcon/unit-expenditure-note-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/unit-expenditure-note-all/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Bon Pengeluaran Unit (Semua User)",
     auth: true,
@@ -106,8 +104,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/preparing",
     name: "garment-receipt-subcon-preparing",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/preparing/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/preparing/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Preparing",
     auth: true,
@@ -121,8 +118,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/preparing-alluser",
     name: "garment-receipt-subcon-preparing-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/preparing_alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/preparing_alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Preparing - Semua User",
     auth: true,
@@ -136,8 +132,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/cutting-in",
     name: "garment-receipt-subcon-cutting-in",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/cutting-in/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/cutting-in/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Cutting-In",
     auth: true,
@@ -151,8 +146,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/cutting-in-alluser",
     name: "garment-receipt-subcon-cutting-in-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/cutting-in-alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/cutting-in-alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Cutting-In (Semua User)",
     auth: true,
@@ -166,8 +160,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/cutting-out",
     name: "garment-receipt-subcon-cutting-out",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/cutting-out/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/cutting-out/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Cutting-Out",
     auth: true,
@@ -181,8 +174,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/cutting-out-alluser",
     name: "garment-receipt-subcon-cutting-out-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/cutting-out-alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/cutting-out-alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Cutting-Out (Semua User)",
     auth: true,
@@ -196,8 +188,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/loading-in",
     name: "garment-receipt-subcon-loading-in",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/loading-in/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/loading-in/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Loading In",
     auth: true,
@@ -211,8 +202,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/loading-in-alluser",
     name: "garment-receipt-subcon-loading-in-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/loading-in-alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/loading-in-alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Loading In (Semua User)",
     auth: true,
@@ -226,8 +216,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/loading-out",
     name: "garment-receipt-subcon-loading-out",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/loading-out/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/loading-out/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Loading Out",
     auth: true,
@@ -241,8 +230,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/loading-out-alluser",
     name: "garment-receipt-subcon-loading-out-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/loading-out-alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/loading-out-alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Loading Out (Semua User)",
     auth: true,
@@ -256,8 +244,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/sewing-in",
     name: "garment-receipt-subcon-sewing-in",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/sewing-in/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/sewing-in/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Sewing In",
     auth: true,
@@ -271,8 +258,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/sewing-in-alluser",
     name: "garment-receipt-subcon-sewing-in-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/sewing-in-alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/sewing-in-alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Sewing In (Semua User)",
     auth: true,
@@ -286,8 +272,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/sewing-out",
     name: "garment-receipt-subcon-sewing-out",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/sewing-out/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/sewing-out/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Sewing Out",
     auth: true,
@@ -301,8 +286,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/sewing-out-alluser",
     name: "garment-receipt-subcon-sewing-out-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/sewing-out-alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/sewing-out-alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Sewing Out (Semua User)",
     auth: true,
@@ -316,8 +300,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/finishing-in",
     name: "garment-receipt-subcon-finishing-in",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/finishing-in/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/finishing-in/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Finishing In",
     auth: true,
@@ -331,8 +314,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/finishing-in-alluser",
     name: "garment-receipt-subcon-finishing-in-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/finishing-in-alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/finishing-in-alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Finishing In (Semua User)",
     auth: true,
@@ -346,8 +328,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/finishing-out",
     name: "garment-receipt-subcon-finishing-out",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/finishing-out/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/finishing-out/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Finishing Out",
     auth: true,
@@ -361,8 +342,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/finishing-out-alluser",
     name: "garment-receipt-subcon-finishing-out-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/finishing-out-alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/finishing-out-alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Finishing Out (Semua User)",
     auth: true,
@@ -376,8 +356,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/packing-in",
     name: "garment-receipt-subcon-packing-in",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/packing-in/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/packing-in/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Packing In",
     auth: true,
@@ -391,8 +370,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/packing-in-alluser",
     name: "garment-receipt-subcon-packing-in-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/packing-in-alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/packing-in-alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Packing In (Semua User)",
     auth: true,
@@ -406,8 +384,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/packing-out",
     name: "garment-receipt-subcon-packing-out",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/packing-out/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/packing-out/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Packing Out",
     auth: true,
@@ -421,8 +398,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/packing-out-alluser",
     name: "garment-receipt-subcon-packing-out-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/packing-out-alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/packing-out-alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Packing Out (Semua User)",
     auth: true,
@@ -436,8 +412,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/packing-list",
     name: "garment-receipt-subcon-packing-list",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-shipping/packing-list-items/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-shipping/packing-list-items/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Packing List",
     auth: true,
@@ -451,8 +426,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/packing-list-alluser",
     name: "garment-receipt-subcon-packing-list-alluser",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-shipping/packing-list-items-alluser/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-shipping/packing-list-items-alluser/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Packing List (Semua User)",
     auth: true,
@@ -481,8 +455,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/local-sales-note",
     name: "garment-receipt-subcon-local-sales-note",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-shipping/local-sales-note/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-shipping/local-sales-note/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Nota Jual Lokal - Terima Subcon",
     auth: true,
@@ -496,7 +469,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/customs-user",
     name: "receipt-subcon-customs-user",
-    moduleId: "./modules/garment-receipt-subcon/customs/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/customs/index', 'garment-receipt-subcon'),
     nav: true,
     title: "BC Keluar - Terima Subkon",
     auth: true,
@@ -510,8 +483,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/local-cover-letter",
     name: "receipt-subcon-local-cover-letter",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-shipping/local-cover-letter/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-shipping/local-cover-letter/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Surat Pengantar (Lokal) - Terima Subkon",
     auth: true,
@@ -525,8 +497,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/local-sales-do",
     name: "receipt-subcon-local-sales-do",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-shipping/local-sales-do/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-shipping/local-sales-do/index', 'garment-receipt-subcon'),
     nav: true,
     title: "DO Penjualan (Lokal) - Terima Subkon",
     auth: true,
@@ -540,8 +511,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/finished-goods-minutes",
     name: "receipt-subcon-finished-goods-minutes",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-shipping/finished-goods-minutes/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-shipping/finished-goods-minutes/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Laporan Risalah Barang Jadi",
     auth: true,
@@ -555,8 +525,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/garment-stock-report",
     name: "receipt-subcon-garment-stock-report",
-    moduleId:
-      "./modules/garment-receipt-subcon/report/garment-stock-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/report/garment-stock-report/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Laporan Stok Barang Terima Subcon",
     auth: true,
@@ -570,8 +539,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/monitoring-delivery-order",
     name: "receipt-subcon-monitoring-delivery-order",
-    moduleId:
-      "./modules/garment-receipt-subcon/report/monitoring-delivery-order-all/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/report/monitoring-delivery-order-all/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Monitoring Surat Jalan",
     auth: true,
@@ -585,8 +553,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/production-flow-feature",
     name: "receipt-subcon-production-flow-feature",
-    moduleId:
-      "./modules/garment-receipt-subcon/report/production-flow-feature/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/report/production-flow-feature/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Fitur Flow Barang Produksi",
     auth: true,
@@ -600,8 +567,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/monitoring-production-stock-flow",
     name: "receipt-subcon-monitoring-production-stock-flow",
-    moduleId:
-      "./modules/garment-receipt-subcon/report/monitoring-production-stock-flow/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/report/monitoring-production-stock-flow/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Monitoring Flow Stock Persediaan",
     auth: true,
@@ -645,8 +611,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/shipment-local-sales-note",
     name: "receipt-subcon-shipment-local-sales-note",
-    moduleId:
-      "./modules/garment-receipt-subcon/report/shipment-local-sales-note/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/report/shipment-local-sales-note/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Laporan Shipment per Nota Jual Lokal - Terima Subcon",
     auth: true,
@@ -660,8 +625,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/approval-packing-list-byMD",
     name: "receipt-subcon-approval-packing-list-byMD",
-    moduleId:
-      "./modules/garment-receipt-subcon/approval/approval-packing-list/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/approval/approval-packing-list/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Approval Packing List By MD",
     auth: true,
@@ -676,8 +640,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/approval-packing-list-by-shipping",
     name: "receipt-subcon-approval-packing-list-by-shipping",
-    moduleId:
-      "./modules/garment-receipt-subcon/approval/approval-packing-list/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/approval/approval-packing-list/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Approval Packing List By Shipping",
     auth: true,
@@ -692,8 +655,7 @@ module.exports = [
   {
     route: "/garment-receipt-subcon/packing-out-return",
     name: "garment-receipt-subcon-packing-out-return",
-    moduleId:
-      "./modules/garment-receipt-subcon/garment-production/expenditure-good-return/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-receipt-subcon/garment-production/expenditure-good-return/index', 'garment-receipt-subcon'),
     nav: true,
     title: "Return Barang Jadi",
     auth: true,
