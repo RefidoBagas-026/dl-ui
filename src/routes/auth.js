@@ -1,8 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
     {
         route: 'auth/accounts',
         name: 'accounts',
-        moduleId: './modules/auth/account/index',
+        moduleId: PLATFORM.moduleName('./modules/auth/account/index', 'auth'),
         nav: true,
         title: 'Account',
         auth: true,
@@ -17,7 +19,7 @@ module.exports = [
     // {
     //     route: 'auth/roles',
     //     name: 'roles',
-    //     moduleId: './modules/auth/role/index',
+    //     moduleId: PLATFORM.moduleName('./modules/auth/role/index', 'auth'),
     //     nav: true,
     //     title: 'Role',
     //     auth: true,
@@ -32,7 +34,7 @@ module.exports = [
     {
         route: 'auth/roles2',
         name: 'roles2',
-        moduleId: './modules/auth/role2/index',
+        moduleId: PLATFORM.moduleName('./modules/auth/role2/index', 'auth'),
         nav: true,
         title: 'Role',
         auth: true,
@@ -46,7 +48,7 @@ module.exports = [
     {
         route: 'auth/menu',
         name: 'menu',
-        moduleId: './modules/auth/menu/index',
+        moduleId: PLATFORM.moduleName('./modules/auth/menu/index', 'auth'),
         nav: true,
         title: 'Menu',
         auth: true,
@@ -60,7 +62,7 @@ module.exports = [
     {
         route: 'auth/monitoring-account',
         name: 'monitoring-account',
-        moduleId: './modules/auth/monitoring-account/index',
+        moduleId: PLATFORM.moduleName('./modules/auth/monitoring-account/index', 'auth'),
         nav: true,
         title: 'Monitoring Account',
         auth: true,

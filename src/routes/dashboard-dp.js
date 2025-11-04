@@ -1,8 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
     {
         route: "/dashboard-dp/main",
         name: "Daily Operation Mesin - Unggah File",
-        moduleId: "./modules/dashboard-dp/main/index",
+        moduleId: PLATFORM.moduleName('./modules/dashboard-dp/main/index', 'dashboard-dp'),
         nav: true,
         title: "Unggah File",
         auth: true,

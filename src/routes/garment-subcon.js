@@ -1,8 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
   {
     route: '/garment-subcon/subcon-contract',
     name: 'subcon-contract',
-    moduleId: './modules/garment-subcon/garment-subcon-contract/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/garment-subcon-contract/index', 'garment-subcon'),
     nav: true,
     title: 'Subcon Contract',
     auth: true,
@@ -17,7 +19,7 @@ module.exports = [
   {
     route: '/garment-subcon/subcon-contract/all',
     name: 'subcon-contract-all',
-    moduleId: './modules/garment-subcon/garment-subcon-contract-all/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/garment-subcon-contract-all/index', 'garment-subcon'),
     nav: true,
     title: 'Subcon Contract All',
     auth: true,
@@ -32,7 +34,7 @@ module.exports = [
   {
     route: '/garment-subcon/service-subcon-cutting',
     name: 'service-subcon-cutting',
-    moduleId: './modules/garment-subcon/garment-service-subcon-cutting/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/garment-service-subcon-cutting/index', 'garment-subcon'),
     nav: true,
     title: 'Subcon Jasa - Komponen',
     auth: true,
@@ -47,7 +49,7 @@ module.exports = [
   {
     route: '/garment-subcon/service-subcon-sewing',
     name: 'subcon-sewing',
-    moduleId: './modules/garment-subcon/garment-service-subcon-sewing/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/garment-service-subcon-sewing/index', 'garment-subcon'),
     nav: true,
     title: 'Subcon Jasa - Garment Wash',
     auth: true,
@@ -62,7 +64,7 @@ module.exports = [
   {
     route: '/garment-subcon/service-subcon-expenditure-good',
     name: 'subcon-expenditure-good',
-    moduleId: './modules/garment-subcon/garment-service-subcon-expenditure-good/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/garment-service-subcon-expenditure-good/index', 'garment-subcon'),
     nav: true,
     title: 'Subcon Jasa - Barang Jadi',
     auth: true,
@@ -77,7 +79,7 @@ module.exports = [
   {
     route: '/garment-subcon/service-subcon-shrinkage-panel',
     name: 'service-subcon-shrinkage-panel',
-    moduleId: './modules/garment-subcon/garment-service-subcon-shrinkage-panel/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/garment-service-subcon-shrinkage-panel/index', 'garment-subcon'),
     nav: true,
     title: 'Subcon BB - Shrinkage / Panel',
     auth: true,
@@ -92,7 +94,7 @@ module.exports = [
   {
     route: '/garment-subcon/fabric-wash',
     name: 'subcon-fabric-wash',
-    moduleId: './modules/garment-subcon/garment-service-fabric-wash/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/garment-service-fabric-wash/index', 'garment-subcon'),
     nav: true,
     title: 'Subcon BB - Fabric Wash/Print',
     auth: true,
@@ -107,7 +109,7 @@ module.exports = [
   {
     route: '/garment-subcon/subcon-delivery-letter-out',
     name: 'subcon-sewing',
-    moduleId: './modules/garment-subcon/garment-subcon-delivery-letter-out/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/garment-subcon-delivery-letter-out/index', 'garment-subcon'),
     nav: true,
     title: 'Surat Jalan Subcon - Keluar',
     auth: true,
@@ -122,7 +124,7 @@ module.exports = [
   {
     route: '/garment-subcon/subcon-customs-in',
     name: 'subcon-customs-in',
-    moduleId: './modules/garment-subcon/garment-subcon-customs-in/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/garment-subcon-customs-in/index', 'garment-subcon'),
     nav: true,
     title: 'BC Masuk',
     auth: true,
@@ -137,7 +139,7 @@ module.exports = [
   {
     route: '/garment-subcon/subcon-customs-out',
     name: 'subcon-sewing',
-    moduleId: './modules/garment-subcon/customs-out/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/customs-out/index', 'garment-subcon'),
     nav: true,
     title: 'BC Keluar',
     auth: true,
@@ -153,7 +155,7 @@ module.exports = [
   {
     route: '/garment-subcon/garment-realization-subcon',
     name: 'garment-realization-subcon',
-    moduleId: './modules/garment-subcon/report/garment-realization-subcon/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/report/garment-realization-subcon/index', 'garment-subcon'),
     nav: true,
     title: 'Realisasi Pengeluaran Subcon',
     auth: true,
@@ -169,7 +171,7 @@ module.exports = [
   {
     route: '/garment-subcon/report/garment-subcon-contract-report',
     name: 'garment-subcon-contract-report',
-    moduleId: './modules/garment-subcon/report/garment-subcon-contract-report/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/report/garment-subcon-contract-report/index', 'garment-subcon'),
     nav: true,
     title: 'Laporan Rekap Subkon Kontrak',
     auth: true,
@@ -185,7 +187,7 @@ module.exports = [
   {
     route: '/garment-subcon/garment-subcon-monitoring-out',
     name: 'garment-subcon-monitoring-out',
-    moduleId: './modules/garment-subcon/report/garment-subcon-monitoring-out/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/report/garment-subcon-monitoring-out/index', 'garment-subcon'),
     nav: true,
     title: 'Monitoring Subcon Keluar',
     auth: true,
@@ -201,7 +203,7 @@ module.exports = [
   {
     route: '/garment-subcon/subcon-invoice-packing-list',
     name: 'subcon-invoice-packing-list',
-    moduleId: './modules/garment-subcon/garment-subcon-invoice-packing-list/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-subcon/garment-subcon-invoice-packing-list/index', 'garment-subcon'),
     nav: true,
     title: 'Invoice Packing List',
     auth: true,

@@ -1,8 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
   {
     route: "/customs/monitoring-in",
     name: "customs-report-in",
-    moduleId: "./modules/customs/monitoring-in/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/monitoring-in/index', 'customs'),
     nav: true,
     title: "Laporan Pemasukan",
     auth: true,
@@ -16,7 +18,7 @@ module.exports = [
   {
     route: "/customs/monitoring-expenditure-good",
     name: "customs-report-expenditure-good",
-    moduleId: "./modules/customs/monitoring-barang-jadi/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/monitoring-barang-jadi/index', 'customs'),
     nav: true,
     title: "Laporan Pengeluaran Barang Jadi",
     auth: true,
@@ -30,7 +32,7 @@ module.exports = [
   {
     route: "/customs/monitoring-out",
     name: "customs-report-out",
-    moduleId: "./modules/customs/monitoring-out/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/monitoring-out/index', 'customs'),
     nav: true,
     title: "Laporan Pengeluaran",
     auth: true,
@@ -44,7 +46,7 @@ module.exports = [
   {
     route: "/customs/traceable-in",
     name: "customs-report-in",
-    moduleId: "./modules/customs/traceable-in/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/traceable-in/index', 'customs'),
     nav: true,
     title: "Laporan Traceable Masuk",
     auth: true,
@@ -59,7 +61,7 @@ module.exports = [
   {
     route: "/customs/traceable-out",
     name: "customs-report-out",
-    moduleId: "./modules/customs/traceable-out/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/traceable-out/index', 'customs'),
     nav: true,
     title: "Laporan Traceable Keluar",
     auth: true,
@@ -73,7 +75,7 @@ module.exports = [
   {
     route: "/customs/wip",
     name: "customs-report-in",
-    moduleId: "./modules/customs/laporan-wip-position/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/laporan-wip-position/index', 'customs'),
     nav: true,
     title: "Laporan Posisi WIP",
     auth: true,
@@ -87,7 +89,7 @@ module.exports = [
   {
     route: "/customs/bc-23",
     name: "bc-23",
-    moduleId: "./modules/customs/laporan-bc-23/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/laporan-bc-23/index', 'customs'),
     nav: true,
     title: "Laporan BC 23",
     auth: true,
@@ -102,7 +104,7 @@ module.exports = [
   {
     route: "/customs/beacukai_temp",
     name: "customs-beacukaitemp",
-    moduleId: "./modules/customs-report/beacukai_temp/index",
+    moduleId: PLATFORM.moduleName('./modules/customs-report/beacukai_temp/index', 'customs'),
     nav: true,
     title: "Posting BC-23 dan BC-27",
     auth: true,
@@ -117,7 +119,7 @@ module.exports = [
   {
     route: "/customs/posting-BC-ceisa",
     name: "customs-posting-BC-Ceisa",
-    moduleId: "./modules/customs-report/posting-BC-ceisa/index",
+    moduleId: PLATFORM.moduleName('./modules/customs-report/posting-BC-ceisa/index', 'customs'),
     nav: true,
     title: "Posting BC dari Ceisa",
     auth: true,
@@ -132,7 +134,7 @@ module.exports = [
   {
     route: "/customs/realization-bom",
     name: "monitoring-realization-bom",
-    moduleId: "./modules/customs/realization_bom/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/realization_bom/index', 'customs'),
     nav: true,
     title: "Laporan Monitoring BOM (Bill of Material)",
     auth: true,
@@ -146,7 +148,7 @@ module.exports = [
   {
     route: "/customs/pemasukan-tc-kecil",
     name: "monitoring-pemasukan-tc-kecil",
-    moduleId: "./modules/customs/tc-kecil-in/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/tc-kecil-in/index', 'customs'),
     nav: true,
     title: "Laporan Monitoring Pemasukan Aval TC Kecil",
     auth: true,
@@ -161,7 +163,7 @@ module.exports = [
   {
     route: "/customs/pengeluaran-tc-kecil",
     name: "monitoring-pengeluaran-tc-kecil",
-    moduleId: "./modules/customs/tc-kecil-out/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/tc-kecil-out/index', 'customs'),
     nav: true,
     title: "Laporan Monitoring Pengeluaran Aval TC Kecil",
     auth: true,
@@ -177,7 +179,7 @@ module.exports = [
   {
     route: "/customs/pemasukan-sampah-sapuan",
     name: "monitoring-pemasukan-sampah-sapuan",
-    moduleId: "./modules/customs/sapuan-in/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/sapuan-in/index', 'customs'),
     nav: true,
     title: "Laporan Monitoring Pemasukan Aval Sampah Sapuan",
     auth: true,
@@ -192,7 +194,7 @@ module.exports = [
   {
     route: "/customs/pengeluaran-sampah-sapuan",
     name: "monitoring-pengeluaran-sampah-sapuan",
-    moduleId: "./modules/customs/sapuan-out/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/sapuan-out/index', 'customs'),
     nav: true,
     title: "Laporan Monitoring Pengeluaran Aval Sampah Sapuan",
     auth: true,
@@ -207,7 +209,7 @@ module.exports = [
   {
     route: "/customs/pemasukan-aval-besar",
     name: "monitoring-pemasukan-aval-besar",
-    moduleId: "./modules/customs/aval-besar-in/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/aval-besar-in/index', 'customs'),
     nav: true,
     title: "Laporan Monitoring Pemasukan Aval Besar",
     auth: true,
@@ -221,7 +223,7 @@ module.exports = [
   {
     route: "/customs/pengeluaran-aval-besar",
     name: "monitoring-pengeluaran-aval-besar",
-    moduleId: "./modules/customs/aval-besar-out/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/aval-besar-out/index', 'customs'),
     nav: true,
     title: "Laporan Monitoring Pengeluaran Aval Besar",
     auth: true,
@@ -235,7 +237,7 @@ module.exports = [
   {
     route: "/customs/pemasukan-aval-komponen",
     name: "monitoring-pemasukan-aval-komponen",
-    moduleId: "./modules/customs/aval-komponen-in/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/aval-komponen-in/index', 'customs'),
     nav: true,
     title: "Laporan Monitoring Pemasukan Aval Komponen",
     auth: true,
@@ -249,7 +251,7 @@ module.exports = [
   {
     route: "/customs/pengeluaran-aval-komponen",
     name: "monitoring-pengeluaran-aval-komponen",
-    moduleId: "./modules/customs/aval-komponen-out/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/aval-komponen-out/index', 'customs'),
     nav: true,
     title: "Laporan Monitoring Pengeluaran Aval Komponen",
     auth: true,
@@ -263,7 +265,7 @@ module.exports = [
   {
     route: "/customs/motitoring_tracebleIn-BUM",
     name: "motitoring_tracebleIn-BUM",
-    moduleId: "./modules/customs/motitoring_tracebleIn-BUM/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/motitoring_tracebleIn-BUM/index', 'customs'),
     nav: true,
     title: "Monitoring Penggunaan BUM",
     auth: true,
@@ -277,8 +279,7 @@ module.exports = [
   {
     route: "/customs/monitoring-production/monitoring-cutting",
     name: "monitoring-production/monitoring-cutting",
-    moduleId:
-      "./modules/customs/monitoring-production/monitoring-cutting/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/monitoring-production/monitoring-cutting/index', 'customs'),
     nav: true,
     title: "Monitoring Cutting Out",
     auth: true,
@@ -293,8 +294,7 @@ module.exports = [
   {
     route: "/customs/monitoring-production/monitoring-loading",
     name: "monitoring-production/monitoring-loading",
-    moduleId:
-      "./modules/customs/monitoring-production/monitoring-loading/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/monitoring-production/monitoring-loading/index', 'customs'),
     nav: true,
     title: "Monitoring Loading",
     auth: true,
@@ -309,7 +309,7 @@ module.exports = [
   {
     route: "/customs/monitoring-production/monitoring-sewing",
     name: "monitoring-production/monitoring-sewing",
-    moduleId: "./modules/customs/monitoring-production/monitoring-sewing/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/monitoring-production/monitoring-sewing/index', 'customs'),
     nav: true,
     title: "Monitoring Sewing Out",
     auth: true,
@@ -324,8 +324,7 @@ module.exports = [
   {
     route: "/customs/monitoring-production/monitoring-finishing",
     name: "monitoring-production/monitoring-finishing",
-    moduleId:
-      "./modules/customs/monitoring-production/monitoring-finishing/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/monitoring-production/monitoring-finishing/index', 'customs'),
     nav: true,
     title: "Monitoring Finishing Out",
     auth: true,
@@ -340,8 +339,7 @@ module.exports = [
   {
     route: "/customs/monitoring-production/monitoring-expenditure-good",
     name: "monitoring-production/monitoring-expenditure-good",
-    moduleId:
-      "./modules/customs/monitoring-production/monitoring-expenditure-good/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/monitoring-production/monitoring-expenditure-good/index', 'customs'),
     nav: true,
     title: "Monitoring Barang Jadi",
     auth: true,
@@ -356,7 +354,7 @@ module.exports = [
   {
     route: "/customs/log-histories",
     name: "log-histories",
-    moduleId: "./modules/customs/log-histories/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/log-histories/index', 'customs'),
     nav: true,
     title: "Log History",
     auth: true,
@@ -370,7 +368,7 @@ module.exports = [
   {
     route: "/customs/log-histories-dms",
     name: "log-histories-dms",
-    moduleId: "./modules/customs/log-histories-dms/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/log-histories-dms/index', 'customs'),
     nav: true,
     title: "Log History DMS",
     auth: true,
@@ -384,7 +382,7 @@ module.exports = [
   {
     route: "/customs/unpost-bc",
     name: "unpost-bc",
-    moduleId: "./modules/customs/unpost-bc/index",
+    moduleId: PLATFORM.moduleName('./modules/customs/unpost-bc/index', 'customs'),
     nav: true,
     title: "Unpost Data TPB/PEB",
     auth: true,

@@ -1,7 +1,9 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [{
   route: "weaving/master-yarn-number",
   name: "master-ring",
-  moduleId: "./modules/weaving/master-yarn-number/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-yarn-number/index', 'weaving'),
   nav: true,
   title: "Master Nomor Benang",
   auth: true,
@@ -19,7 +21,7 @@ module.exports = [{
 {
   route: "weaving/master-material-type",
   name: "master-material-type",
-  moduleId: "./modules/weaving/master-material-type/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-material-type/index', 'weaving'),
   nav: true,
   title: "Master Material",
   auth: true,
@@ -37,7 +39,7 @@ module.exports = [{
 {
   route: "weaving/master-yarn-origin",
   name: "master-yarn-origin",
-  moduleId: "./modules/weaving/master-yarn-origin/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-yarn-origin/index', 'weaving'),
   nav: true,
   title: "Master Asal Benang",
   auth: true,
@@ -55,7 +57,7 @@ module.exports = [{
 {
   route: "weaving/master-yarn",
   name: "master-yarn",
-  moduleId: "./modules/weaving/master-yarn/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-yarn/index', 'weaving'),
   nav: true,
   title: "Master Benang",
   auth: true,
@@ -73,7 +75,7 @@ module.exports = [{
 {
   route: "weaving/master-machine-type",
   name: "master-machine-type",
-  moduleId: "./modules/weaving/master-machine-type/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-machine-type/index', 'weaving'),
   nav: true,
   title: "Master Tipe Mesin",
   auth: true,
@@ -91,7 +93,7 @@ module.exports = [{
 {
   route: "weaving/master-machine",
   name: "master-machine",
-  moduleId: "./modules/weaving/master-machine/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-machine/index', 'weaving'),
   nav: true,
   title: "Master Mesin",
   auth: true,
@@ -109,7 +111,7 @@ module.exports = [{
 {
   route: "weaving/shift",
   name: "weaving-shift",
-  moduleId: "./modules/weaving/master-shift/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-shift/index', 'weaving'),
   nav: true,
   title: "Master Shift",
   auth: true,
@@ -127,7 +129,7 @@ module.exports = [{
 {
   route: "weaving/master-beam",
   name: "weaving-master-beam",
-  moduleId: "./modules/weaving/master-beam/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-beam/index', 'weaving'),
   nav: true,
   title: "Master Beam",
   auth: true,
@@ -145,7 +147,7 @@ module.exports = [{
 {
   route: "weaving/master-defect",
   name: "master-defect",
-  moduleId: "./modules/weaving/master-defect/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-defect/index', 'weaving'),
   nav: true,
   title: "Master Cacat Kain",
   auth: true,
@@ -163,7 +165,7 @@ module.exports = [{
 {
   route: "weaving/master-operator",
   name: "master-operator",
-  moduleId: "./modules/weaving/master-operator/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-operator/index', 'weaving'),
   nav: true,
   title: "Master Operator",
   auth: true,
@@ -181,7 +183,7 @@ module.exports = [{
 {
   route: "weaving/master-fabric-construction",
   name: "master-fabric-construction",
-  moduleId: "./modules/weaving/master-fabric-construction/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-fabric-construction/index', 'weaving'),
   nav: true,
   title: "Master Kebutuhan Benang",
   auth: true,
@@ -199,7 +201,7 @@ module.exports = [{
 {
   route: "weaving/master-broken-cause-warping",
   name: "master-broken-cause-warping",
-  moduleId: "./modules/weaving/master-broken-cause-warping/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/master-broken-cause-warping/index', 'weaving'),
   nav: true,
   title: "Master Penyebab Putus Warping",
   auth: true,
@@ -217,7 +219,7 @@ module.exports = [{
 {
   route: "weaving/order-production",
   name: "order-production",
-  moduleId: "./modules/weaving/order-production/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/order-production/index', 'weaving'),
   nav: true,
   title: "Surat Perintah Produksi",
   auth: true,
@@ -235,7 +237,7 @@ module.exports = [{
 // {
 //   route: "weaving/estimated-production",
 //   name: "estimated-production",
-//   moduleId: "./modules/weaving/estimated-production/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/estimated-production/index', 'weaving'),
 //   nav: true,
 //   title: "Estimasi Produksi",
 //   auth: true,
@@ -253,7 +255,7 @@ module.exports = [{
 {
   route: "weaving/order-production-report",
   name: "order-production-report",
-  moduleId: "./modules/weaving/order-production-report/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/order-production-report/index', 'weaving'),
   nav: true,
   title: "Laporan Surat Perintah Produksi",
   auth: true,
@@ -271,7 +273,7 @@ module.exports = [{
 {
   route: "weaving/machine-planning",
   name: "machine-planning",
-  moduleId: "./modules/weaving/machine-planning/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/machine-planning/index', 'weaving'),
   nav: true,
   title: "Perencanaan Mesin",
   auth: true,
@@ -289,7 +291,7 @@ module.exports = [{
 {
   route: "weaving/machine-planning-report",
   name: "machine-planning-report",
-  moduleId: "./modules/weaving/machine-planning-report/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/machine-planning-report/index', 'weaving'),
   nav: true,
   title: "Laporan Perencanaan Mesin",
   auth: true,
@@ -307,7 +309,7 @@ module.exports = [{
 // {
 //   route: "weaving/stock-beam",
 //   name: "stock-beam",
-//   moduleId: "./modules/weaving/stock-beam-upload/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/stock-beam-upload/index', 'weaving'),
 //   nav: true,
 //   title: "Laporan Visualisasi Stock Beam",
 //   auth: true,
@@ -325,7 +327,7 @@ module.exports = [{
 // {
 //   route: "weaving/monitoring-trouble-machine",
 //   name: "monitoring-trouble-machine",
-//   moduleId: "./modules/weaving/monitoring-trouble-machine/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/monitoring-trouble-machine/index', 'weaving'),
 //   nav: true,
 //   title: "Monitoring Trouble Mesin",
 //   auth: true,
@@ -343,7 +345,7 @@ module.exports = [{
 // {
 //   route: "weaving/daily-operation-warping",
 //   name: "daily-operation-warping",
-//   moduleId: "./modules/weaving/daily-operation-warping/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-warping/index', 'weaving'),
 //   nav: true,
 //   title: "Daily Operation Mesin Warping",
 //   auth: true,
@@ -363,7 +365,7 @@ module.exports = [{
 {
   route: "weaving/daily-operation-warping",
   name: "daily-operation-warping",
-  moduleId: "./modules/weaving/daily-operation-warping/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-warping/index', 'weaving'),
   nav: true,
   title: "Daily Operation Mesin Warping",
   auth: true,
@@ -378,7 +380,7 @@ module.exports = [{
 {
   route: "weaving/warping-productions-report",
   name: "warping-productions-report",
-  moduleId: "./modules/weaving/warping-productions-report/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/warping-productions-report/index', 'weaving'),
   nav: true,
   title: "Laporan Produksi Warping Per Operator",
   auth: true,
@@ -393,7 +395,7 @@ module.exports = [{
 {
   route: "weaving/warping-broken-report",
   name: "warping-broken-report",
-  moduleId: "./modules/weaving/warping-broken-report/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/warping-broken-report/index', 'weaving'),
   nav: true,
   title: "Laporan Putus Benang Warping",
   auth: true,
@@ -408,7 +410,7 @@ module.exports = [{
 {
   route: "weaving/warping-daily-operation-report",
   name: "warping-daily-operation-report",
-  moduleId: "./modules/weaving/warping-daily-operation-report/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/warping-daily-operation-report/index', 'weaving'),
   nav: true,
   title: "Laporan Operasional Harian Warping",
   auth: true,
@@ -423,7 +425,7 @@ module.exports = [{
 {
   route: "weaving/monitoring-trouble-machine",
   name: "monitoring-trouble-machine",
-  moduleId: "./modules/weaving/monitoring-trouble-machine/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/monitoring-trouble-machine/index', 'weaving'),
   nav: true,
   title: "Monitoring Trouble Mesin",
   auth: true,
@@ -438,7 +440,7 @@ module.exports = [{
 {
   route: "weaving/daily-operation-sizing",
   name: "daily-operation-sizing",
-  moduleId: "./modules/weaving/daily-operation-sizing-new/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-sizing-new/index', 'weaving'),
   nav: true,
   title: "Operasional Mesin Harian Sizing",
   auth: true,
@@ -453,7 +455,7 @@ module.exports = [{
 {
   route: "weaving/warping-SPU-report",
   name: "warping-SPU-report",
-  moduleId: "./modules/weaving/warping-SPU-report/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/warping-SPU-report/index', 'weaving'),
   nav: true,
   title: "Laporan SPU",
   auth: true,
@@ -468,7 +470,7 @@ module.exports = [{
 {
   route: "weaving/daily-operation-sizing-report",
   name: "daily-operation-sizing",
-  moduleId: "./modules/weaving/daily-operation-sizing-report-new/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-sizing-report-new/index', 'weaving'),
   nav: true,
   title: "Laporan Operasional Mesin Harian Sizing",
   auth: true,
@@ -483,7 +485,7 @@ module.exports = [{
 {
   route: "weaving/daily-operation-reaching",
   name: "weaving-daily-operation-reaching",
-  moduleId: "./modules/weaving/daily-operation-reaching-upload/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-reaching-upload/index', 'weaving'),
   nav: true,
   title: "Operasional Mesin Harian Reaching",
   auth: true,
@@ -498,7 +500,7 @@ module.exports = [{
 {
   route: "weaving/daily-operation-reaching-report",
   name: "weaving-daily-operation-reaching-report",
-  moduleId: "./modules/weaving/reaching-daily-operation-report/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/reaching-daily-operation-report/index', 'weaving'),
   nav: true,
   title: "Laporan Operational Harian Reaching",
   auth: true,
@@ -515,7 +517,7 @@ module.exports = [{
 {
   route: "weaving/stock-beam",
   name: "stock-beam",
-  moduleId: "./modules/weaving/stock-beam-upload/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/stock-beam-upload/index', 'weaving'),
   nav: true,
   title: "Laporan Visualisasi Stock Beam",
   auth: true,
@@ -540,7 +542,7 @@ module.exports = [{
 // {
 //   route: "weaving/daily-operation-warping",
 //   name: "daily-operation-warping",
-//   moduleId: "./modules/weaving/daily-operation-warping/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-warping/index', 'weaving'),
 //   nav: true,
 //   title: "Laporan Visualisasi Stock Beam",
 //   auth: true,
@@ -556,7 +558,7 @@ module.exports = [{
 {
   route: "weaving/daily-operation-loom",
   name: "weaving-daily-operation-loom",
-  moduleId: "./modules/weaving/daily-operation-loom-upload/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-loom-upload/index', 'weaving'),
   nav: true,
   title: "Daily Operation Mesin Loom",
   auth: true,
@@ -571,7 +573,7 @@ module.exports = [{
 {
   route: "weaving/daily-operation-loom-report",
   name: "weaving-daily-operation-loom-report",
-  moduleId: "./modules/weaving/daily-operation-loom-report/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-loom-report/index', 'weaving'),
   nav: true,
   title: "Laporan Operasional Mesin Harian Loom",
   auth: true,
@@ -586,7 +588,7 @@ module.exports = [{
 {
   route: "weaving/estimated-production",
   name: "estimated-production",
-  moduleId: "./modules/weaving/estimated-production/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/estimated-production/index', 'weaving'),
   nav: true,
   title: "Estimasi Produksi",
   auth: true,
@@ -605,7 +607,7 @@ module.exports = [{
 // {
 //   route: "weaving/warping-productions-report",
 //   name: "warping-productions-report",
-//   moduleId: "./modules/weaving/warping-productions-report/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/warping-productions-report/index', 'weaving'),
 //   nav: true,
 //   title: "Laporan Produksi Warping Per Operator",
 //   auth: true,
@@ -623,7 +625,7 @@ module.exports = [{
 // {
 //   route: "weaving/warping-daily-operation-report",
 //   name: "warping-daily-operation-report",
-//   moduleId: "./modules/weaving/warping-daily-operation-report/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/warping-daily-operation-report/index', 'weaving'),
 //   nav: true,
 //   title: "Laporan Operasional Harian Warping",
 //   auth: true,
@@ -641,7 +643,7 @@ module.exports = [{
 // {
 //   route: "weaving/daily-operation-warping-report",
 //   name: "daily-operation-warping",
-//   moduleId: "./modules/weaving/daily-operation-warping-report/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-warping-report/index', 'weaving'),
 //   nav: true,
 //   title: "Laporan Operasional Mesin Harian Warping",
 //   auth: true,
@@ -659,7 +661,7 @@ module.exports = [{
 // {
 //   route: "weaving/warping-productions-report",
 //   name: "warping-productions-report",
-//   moduleId: "./modules/weaving/warping-productions-report/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/warping-productions-report/index', 'weaving'),
 //   nav: true,
 //   title: "Laporan Produksi Warping Per Operator",
 //   auth: true,
@@ -677,7 +679,7 @@ module.exports = [{
 // {
 //   route: "weaving/warping-broken-report",
 //   name: "warping-broken-report",
-//   moduleId: "./modules/weaving/warping-broken-report/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/warping-broken-report/index', 'weaving'),
 //   nav: true,
 //   title: "Laporan Putus Benang Warping",
 //   auth: true,
@@ -695,7 +697,7 @@ module.exports = [{
 // {
 //   route: "weaving/daily-operation-sizing",
 //   name: "daily-operation-sizing",
-//   moduleId: "./modules/weaving/daily-operation-sizing-new/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-sizing-new/index', 'weaving'),
 //   nav: true,
 //   title: "Operasional Mesin Harian Sizing",
 //   auth: true,
@@ -713,7 +715,7 @@ module.exports = [{
 // {
 //   route: "weaving/daily-operation-sizing-report",
 //   name: "daily-operation-sizing",
-//   moduleId: "./modules/weaving/daily-operation-sizing-report-new/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-sizing-report-new/index', 'weaving'),
 //   nav: true,
 //   title: "Laporan Operasional Mesin Harian Sizing",
 //   auth: true,
@@ -731,7 +733,7 @@ module.exports = [{
 // {
 //   route: "weaving/warping-SPU-report",
 //   name: "warping-SPU-report",
-//   moduleId: "./modules/weaving/warping-SPU-report/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/warping-SPU-report/index', 'weaving'),
 //   nav: true,
 //   title: "Laporan SPU",
 //   auth: true,
@@ -749,7 +751,7 @@ module.exports = [{
 // {
 //   route: "weaving/daily-operation-reaching",
 //   name: "weaving-daily-operation-reaching",
-//   moduleId: "./modules/weaving/daily-operation-reaching-upload/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-reaching-upload/index', 'weaving'),
 //   nav: true,
 //   title: "Operasional Mesin Harian Reaching",
 //   auth: true,
@@ -767,7 +769,7 @@ module.exports = [{
 // {
 //   route: "weaving/daily-operation-reaching-report",
 //   name: "weaving-daily-operation-reaching-report",
-//   moduleId: "./modules/weaving/reaching-daily-operation-report/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/reaching-daily-operation-report/index', 'weaving'),
 //   nav: true,
 //   title: "Laporan Operasional Mesin Harian Reaching",
 //   auth: true,
@@ -785,7 +787,7 @@ module.exports = [{
 // {
 //   route: "weaving/daily-operation-loom",
 //   name: "weaving-daily-operation-loom",
-//   moduleId: "./modules/weaving/daily-operation-loom-upload/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-loom-upload/index', 'weaving'),
 //   nav: true,
 //   title: "Operasional Mesin Harian Loom",
 //   auth: true,
@@ -803,7 +805,7 @@ module.exports = [{
 // {
 //   route: "weaving/daily-operation-loom-report",
 //   name: "weaving-daily-operation-loom-report",
-//   moduleId: "./modules/weaving/daily-operation-loom-report/index",
+//   moduleId: PLATFORM.moduleName('./modules/weaving/daily-operation-loom-report/index', 'weaving'),
 //   nav: true,
 //   title: "Laporan Operasional Mesin Harian Loom",
 //   auth: true,
@@ -821,7 +823,7 @@ module.exports = [{
 {
   route: "weaving/production-results",
   name: "production-results",
-  moduleId: "./modules/weaving/production-results/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/production-results/index', 'weaving'),
   nav: true,
   title: "Hasil Produksi",
   auth: true,
@@ -839,7 +841,7 @@ module.exports = [{
 {
   route: "weaving/production-results-report",
   name: "production-results-report",
-  moduleId: "./modules/weaving/production-results-report/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/production-results-report/index', 'weaving'),
   nav: true,
   title: "Laporan Hasil Produksi",
   auth: true,
@@ -857,7 +859,7 @@ module.exports = [{
 {
   route: "weaving/weaving-efficiency-report",
   name: "weaving-efficiency-report",
-  moduleId: "./modules/weaving/weaving-efficiency-report/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/weaving-efficiency-report/index', 'weaving'),
   nav: true,
   title: "Laporan Efisiensi Weaving",
   auth: true,
@@ -875,7 +877,7 @@ module.exports = [{
 {
   route: "weaving/fabric-defect-report",
   name: "fabric-defect-report",
-  moduleId: "./modules/weaving/fabric-defect-report/index",
+  moduleId: PLATFORM.moduleName('./modules/weaving/fabric-defect-report/index', 'weaving'),
   nav: true,
   title: "Laporan Cacat Kain",
   auth: true,

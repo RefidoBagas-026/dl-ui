@@ -1,8 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
   {
     route: 'packing-sku-inventory/master-width-type',
     name: 'master-width-type',
-    moduleId: './modules/packing-sku-inventory/master-width-type/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master-width-type/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Master Jenis Lebar',
     auth: true,
@@ -17,7 +19,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/weft-type',
     name: 'weft-type',
-    moduleId: './modules/packing-sku-inventory/weft-type/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/weft-type/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Master Jenis Pakan',
     auth: true,
@@ -32,7 +34,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master-yarn-type',
     name: 'master-yarn-type',
-    moduleId: './modules/packing-sku-inventory/master-yarn-type/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master-yarn-type/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Master Jenis Benang',
     auth: true,
@@ -47,7 +49,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/warp-type',
     name: 'warp-type',
-    moduleId: './modules/packing-sku-inventory/warp-type/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/warp-type/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Master Jenis Lusi',
     auth: true,
@@ -62,7 +64,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master-process-type',
     name: 'master-process-type',
-    moduleId: './modules/packing-sku-inventory/master-process-type/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master-process-type/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Master Jenis Proses',
     auth: true,
@@ -77,7 +79,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/material-construction',
     name: 'material-construction',
-    moduleId: './modules/packing-sku-inventory/material-construction/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/material-construction/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Master Lusi Pakan',
     auth: true,
@@ -93,7 +95,7 @@ module.exports = [
 
     route: 'packing-sku-inventory/master-woven-type',
     name: 'master-woven-type',
-    moduleId: './modules/packing-sku-inventory/master-woven-type/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master-woven-type/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Master Jenis Anyaman',
     auth: true,
@@ -108,7 +110,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/grade',
     name: 'grade',
-    moduleId: './modules/packing-sku-inventory/grade/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/grade/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Master Grade',
     auth: true,
@@ -123,7 +125,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/product-sku',
     name: 'product-sku',
-    moduleId: './modules/packing-sku-inventory/product-sku/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/product-sku/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Barang SKU',
     auth: true,
@@ -138,7 +140,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/product-packing',
     name: 'product-packing',
-    moduleId: './modules/packing-sku-inventory/product-packing/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/product-packing/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Barang Packing',
     auth: true,
@@ -153,7 +155,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/inventory-document-sku',
     name: 'product-packing',
-    moduleId: './modules/packing-sku-inventory/inventory-document-sku/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/inventory-document-sku/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Dokument Inventori SKU',
     auth: true,
@@ -168,7 +170,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/inventory-document-packing',
     name: 'product-packing',
-    moduleId: './modules/packing-sku-inventory/inventory-document-packing/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/inventory-document-packing/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Dokumen Inventori Packing',
     auth: true,
@@ -183,7 +185,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/im-area-input',
     name: 'im-area-input',
-    moduleId: './modules/packing-sku-inventory/im-area-input/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/im-area-input/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Penerimaan IM Dyeing/Printing',
     auth: true,
@@ -198,7 +200,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/quality-control/defect',
     name: 'fabric-quality-control',
-    moduleId: './modules/packing-sku-inventory/fabric-quality-control/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/fabric-quality-control/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Pencatatan Pemeriksaan Kain',
 
@@ -212,7 +214,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/im-area-output',
     name: 'product-packing',
-    moduleId: './modules/packing-sku-inventory/im-area-output/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/im-area-output/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Pencatatan Keluar IM Dyeing/Printing',
     auth: true,
@@ -227,7 +229,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/transit-area-input',
     name: 'transit-area-input',
-    moduleId: './modules/packing-sku-inventory/transit-area-input/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/transit-area-input/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Penerimaan Transit Dyeing/Printing',
     auth: true,
@@ -242,7 +244,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/transit-area-output',
     name: 'transit-area-output',
-    moduleId: './modules/packing-sku-inventory/transit-area-output/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/transit-area-output/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Pencatatan Keluar Transit Dyeing/Printing',
     auth: true,
@@ -257,7 +259,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/transit-balance-summary',
     name: 'transit-balance-summary',
-    moduleId: './modules/packing-sku-inventory/transit-balance-summary/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/transit-balance-summary/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Saldo Transit',
     auth: true,
@@ -271,7 +273,7 @@ module.exports = [
   // {
   //     route: 'packing-sku-inventory/dyeing-printing-in-packaging',
   //     name: 'dyeing-printing-in-packaging',
-  //     moduleId: './modules/packing-sku-inventory/dyeing-printing-in-packaging/index',
+  //     moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/dyeing-printing-in-packaging/index', 'packing-sku-inventory'),
   //     nav: true,
   //     title: 'Penerimaan Packing Area Dyeing/Printing V1',
   //     auth: true,
@@ -285,7 +287,7 @@ module.exports = [
 
   //     route: 'packing-sku-inventory/dyeing-printing-goods-warehouse',
   //     name: 'dyeing-printing-goods-warehouse',
-  //     moduleId: './modules/packing-sku-inventory/dyeing-printing-goods-warehouse/index',
+  //     moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/dyeing-printing-goods-warehouse/index', 'packing-sku-inventory'),
   //     nav: true,
   //     title: 'Bon Gudang Barang Jadi Dyeing/Printing',
   //     auth: true,
@@ -299,7 +301,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/dyeing-printing-in-packaging-v2',
     name: 'dyeing-printing-in-packaging-v2',
-    moduleId: './modules/packing-sku-inventory/dyeing-printing-in-packaging-v2/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/dyeing-printing-in-packaging-v2/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Penerimaan Packing Dyeing/Printing',
     auth: true,
@@ -314,7 +316,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/dyeing-printing-out-packaging',
     name: 'dyeing-printing-out-packaging',
-    moduleId: './modules/packing-sku-inventory/dyeing-printing-out-packaging/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/dyeing-printing-out-packaging/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Pencatatan Keluar Packing Dyeing/Printing',
     auth: true,
@@ -329,7 +331,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/dyeing-printing-in-warehouses',
     name: 'dyeing-printing-in-warehouses',
-    moduleId: './modules/packing-sku-inventory/dyeing-printing-in-warehouses/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/dyeing-printing-in-warehouses/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Penerimaan Gudang Barang Jadi Dyeing/Printing',
     auth: true,
@@ -344,7 +346,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/dyeing-printing-out-warehouses-v2',
     name: 'dyeing-printing-out-warehouses-v2',
-    moduleId: './modules/packing-sku-inventory/dyeing-printing-out-warehouses-v2/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/dyeing-printing-out-warehouses-v2/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Pencatatan Keluar Gudang Barang Jadi Dyeing/Printing',
     auth: true,
@@ -359,7 +361,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/aval-area-input',
     name: 'aval-area-input',
-    moduleId: './modules/packing-sku-inventory/aval-area-input/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/aval-area-input/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Penerimaan Aval Dyeing/Printing',
     auth: true,
@@ -374,7 +376,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/aval-area-transformation-input',
     name: 'aval-area-transformation-input',
-    moduleId: './modules/packing-sku-inventory/aval-area-transformation-input/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/aval-area-transformation-input/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Perubahan Masukan Aval Dyeing/Printing',
     auth: true,
@@ -389,7 +391,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/aval-area-output',
     name: 'aval-area-output',
-    moduleId: './modules/packing-sku-inventory/aval-area-output/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/aval-area-output/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Pencatatan Keluar Aval Dyeing/Printing',
     auth: true,
@@ -404,7 +406,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/inspection-im-balance',
     name: 'product-packing',
-    moduleId: './modules/packing-sku-inventory/inspection-im-balance/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/inspection-im-balance/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Saldo IM',
     auth: true,
@@ -417,7 +419,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/shipping-area-input',
     name: 'shipping-area-input',
-    moduleId: './modules/packing-sku-inventory/shipping-area-input/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/shipping-area-input/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Penerimaan Shipping Dyeing/Printing',
     auth: true,
@@ -432,7 +434,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/shipping-area-output',
     name: 'shipping-area-output',
-    moduleId: './modules/packing-sku-inventory/shipping-area-output/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/shipping-area-output/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Pencatatan Keluar Shipping Dyeing/Printing',
     auth: true,
@@ -447,7 +449,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/report-dyeing-printing-stock',
     name: 'report-dyeing-printing-stock',
-    moduleId: './modules/packing-sku-inventory/report-dyeing-printing-stock/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/report-dyeing-printing-stock/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Laporan Stock Dyeing Printing',
     auth: true,
@@ -462,7 +464,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/report-dyeing-printing-stock-so',
     name: 'report-dyeing-printing-stock-so',
-    moduleId: './modules/packing-sku-inventory/report-dyeing-printing-stock-SO/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/report-dyeing-printing-stock-SO/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Laporan Stock Dyeing Printing (SO)',
     auth: true,
@@ -477,7 +479,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/dyeing-printing-stock-opname-document',
     name: 'dyeing-printing-stock-opname-document',
-    moduleId: './modules/packing-sku-inventory/dyeing-printing-stock-opname-document/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/dyeing-printing-stock-opname-document/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Stock Opname Sudah Di Scan (Barcode)',
     auth: true,
@@ -492,7 +494,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/dyeing-printing-stock-opname',
     name: 'dyeing-printing-stock-opname',
-    moduleId: './modules/packing-sku-inventory/dyeing-printing-stock-opname/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/dyeing-printing-stock-opname/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Stock Opname Dyeing/Printing',
     auth: true,
@@ -507,7 +509,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/dyeing-printing-stock-opname-mutation',
     name: 'dyeing-printing-stock-opname-mutation',
-    moduleId: './modules/packing-sku-inventory/dyeing-printing-stock-opname-mutation/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/dyeing-printing-stock-opname-mutation/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Stock Opname Mutasi',
     auth: true,
@@ -523,7 +525,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/dyeing-printing-stock-opname-track',
     name: 'dyeing-printing-stock-opname-mutation',
-    moduleId: './modules/packing-sku-inventory/dyeing-printing-stock-opname-track/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/dyeing-printing-stock-opname-track/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Update Jalur & Rak',
     auth: true,
@@ -539,7 +541,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/aval-stock-report',
     name: 'aval-stock-report',
-    moduleId: './modules/packing-sku-inventory/aval-stock-report/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/aval-stock-report/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Laporan Stock Gudang Aval',
     auth: true,
@@ -552,7 +554,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/category',
     name: 'packing-sku-category',
-    moduleId: './modules/packing-sku-inventory/master/category/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master/category/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Kategori Barang',
     auth: true,
@@ -567,7 +569,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/product-packing',
     name: 'packing-sku-product-packing',
-    moduleId: './modules/packing-sku-inventory/master/product-packing/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master/product-packing/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Barang Packing',
     auth: true,
@@ -582,7 +584,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/product-sku',
     name: 'product-sku',
-    moduleId: './modules/packing-sku-inventory/master/product-sku/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master/product-sku/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Barang SKU',
     auth: true,
@@ -597,7 +599,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/unit-of-measurement',
     name: 'unit-of-measurement',
-    moduleId: './modules/packing-sku-inventory/master/unit-of-measurement/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master/unit-of-measurement/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Satuan',
     auth: true,
@@ -612,7 +614,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/fabric-packing',
     name: 'fabric-packing',
-    moduleId: './modules/packing-sku-inventory/master/fabric-packing/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master/fabric-packing/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Barang Packing Fabric',
     auth: true,
@@ -627,7 +629,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/fabric-sku',
     name: 'fabric-sku',
-    moduleId: './modules/packing-sku-inventory/master/fabric-sku/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master/fabric-sku/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Barang SKU Fabric',
     auth: true,
@@ -642,7 +644,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/greige-packing',
     name: 'greige-packing',
-    moduleId: './modules/packing-sku-inventory/master/greige-packing/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master/greige-packing/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Barang Packing Greige',
     auth: true,
@@ -657,7 +659,7 @@ module.exports = [
   {
     route: 'packing-sku-inventory/master/greige-sku',
     name: 'greige-sku',
-    moduleId: './modules/packing-sku-inventory/master/greige-sku/index',
+    moduleId: PLATFORM.moduleName('./modules/packing-sku-inventory/master/greige-sku/index', 'packing-sku-inventory'),
     nav: true,
     title: 'Barang SKU Greige',
     auth: true,
@@ -672,7 +674,7 @@ module.exports = [
   {
     route: "track",
     name: "track",
-    moduleId: "./modules/master/track/index",
+    moduleId: PLATFORM.moduleName('./modules/master/track/index', 'packing-sku-inventory'),
     nav: true,
     title: "Jalur / Rak",
     auth: true,

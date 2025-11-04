@@ -1,8 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
     {
         route: 'inventory/packing-receipt',
         name: 'packing-receipt',
-        moduleId: './modules/inventory/packing-receipt/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/packing-receipt/index', 'inventory'),
         nav: true,
         title: 'Penerimaan Packing Gudang Jadi',
         auth: true,
@@ -18,7 +20,7 @@ module.exports = [
     // {
     //     route: 'inventory/inventory-weaving-documents',
     //     name: 'inventory/inventory-weaving-documents',
-    //     moduleId: './modules/inventory/inventory-weaving-document/index',
+    //     moduleId: PLATFORM.moduleName('./modules/inventory/inventory-weaving-document/index', 'inventory'),
     //     nav: true,
     //     title: 'Penerimaan Gudang Weaving',
     //     auth: true,
@@ -94,7 +96,7 @@ module.exports = [
     {
         route: 'inventory/reports/report-recap-stock-type',
         name: 'inventory/reports/report-recap-stock-type',
-        moduleId: './modules/inventory/reports/report-recap-stock-type/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/report-recap-stock-type/index', 'inventory'),
         nav: true,
         title: 'Laporan Rekapitulasi Stock Grey - Jenis',
         auth: true,
@@ -109,7 +111,7 @@ module.exports = [
     {
         route: 'inventory/reports/stock-greige-recap-report',
         name: 'inventory/reports/stock-greige-recap-report',
-        moduleId: './modules/inventory/reports/stock-greige-recap-report/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/stock-greige-recap-report/index', 'inventory'),
         nav: true,
         title: 'Laporan Rekapitulasi Stock Grey - Grade',
         auth: true,
@@ -125,7 +127,7 @@ module.exports = [
     {
         route: 'inventory/reports/inventory-weaving-detail-recap',
         name: 'inventory/reports/inventory-weaving-detail-recap',
-        moduleId: './modules/inventory/reports/inventory-weaving-detail-recap/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/inventory-weaving-detail-recap/index', 'inventory'),
         nav: true,
         title: 'Laporan Rekapan Pemasukan',
         auth: true,
@@ -143,7 +145,7 @@ module.exports = [
 
         route: 'inventory/reports/report-last-stock-greige-weaving-type',
         name: 'inventory/reports/report-last-stock-greige-weaving-type',
-        moduleId: './modules/inventory/reports/report-last-stock-greige-weaving-type/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/report-last-stock-greige-weaving-type/index', 'inventory'),
         nav: true,
         title: 'Laporan Saldo Akhir Gudang Greige - Jenis',
         auth: true,
@@ -161,7 +163,7 @@ module.exports = [
 
     //     route: 'inventory/reports/balance-report-piece-weaving',
     //     name: 'inventory/reports/balance-report-piece-weaving',
-    //     moduleId: './modules/inventory/reports/balance-report-piece-weaving/index',
+    //     moduleId: PLATFORM.moduleName('./modules/inventory/reports/balance-report-piece-weaving/index', 'inventory'),
     //     nav: true,
     //     title: 'Laporan Saldo Akhir Gudang Greige - Piece',
     //     auth: true,
@@ -176,7 +178,7 @@ module.exports = [
 
         route: 'inventory/reports/report-last-stock-greige-weaving-grade',
         name: 'inventory/reports/report-last-stock-greige-weaving-grade',
-        moduleId: './modules/inventory/reports/report-last-stock-greige-weaving-grade/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/report-last-stock-greige-weaving-grade/index', 'inventory'),
         nav: true,
         title: 'Laporan Saldo Akhir Gudang Greige - Grade',
         auth: true,
@@ -191,7 +193,7 @@ module.exports = [
     {
         route: 'inventory/reports/report-stock-greige-weaving',
         name: 'inventory/reports/report-stock-greige-weaving',
-        moduleId: './modules/inventory/reports/report-stock-greige-weaving/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/report-stock-greige-weaving/index', 'inventory'),
         nav: true,
         title: 'Laporan Kain Grey Weaving',
         auth: true,
@@ -207,7 +209,7 @@ module.exports = [
     {
         route: 'inventory/reports/report-expense-greige-weaving',
         name: 'inventory/reports/report-expense-greige-weaving',
-        moduleId: './modules/inventory/reports/report-expense-greige-weaving/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/report-expense-greige-weaving/index', 'inventory'),
         nav: true,
         title: 'Laporan Rincian Pengeluaran',
         auth: true,
@@ -223,7 +225,7 @@ module.exports = [
     {
         route: 'inventory/reports/report-expense-recap-greige-weaving',
         name: 'inventory/reports/report-expense-recap-greige-weaving',
-        moduleId: './modules/inventory/reports/report-expense-recap-greige-weaving/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/report-expense-recap-greige-weaving/index', 'inventory'),
         nav: true,
         title: 'Laporan Rekapitulasi Pengeluaran',
         auth: true,
@@ -239,7 +241,7 @@ module.exports = [
     {
         route: 'inventory/inventory-documents',
         name: 'inventory/inventory-documents',
-        moduleId: './modules/inventory/inventory-document/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/inventory-document/index', 'inventory'),
         nav: true,
         title: 'Dokumen Inventory',
         auth: true,
@@ -253,7 +255,7 @@ module.exports = [
     {
         route: 'inventory/reports/inventory-movement-report',
         name: 'inventory/reports/inventory-movement-report',
-        moduleId: './modules/inventory/reports/inventory-movement-report/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/inventory-movement-report/index', 'inventory'),
         nav: true,
         title: 'Laporan Stock In/Out',
         auth: true,
@@ -267,7 +269,7 @@ module.exports = [
     {
         route: 'inventory/reports/inventory-summary-report',
         name: 'inventory/reports/inventory-summary-report',
-        moduleId: './modules/inventory/reports/inventory-summary-report/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/inventory-summary-report/index', 'inventory'),
         nav: true,
         title: 'Kartu Stok',
         auth: true,
@@ -281,7 +283,7 @@ module.exports = [
     {
         route: 'inventory/reports/fp-packing-receipt-report',
         name: 'inventory/reports/fp-packing-receipt-report',
-        moduleId: './modules/inventory/reports/fp-packing-receipt-report/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/fp-packing-receipt-report/index', 'inventory'),
         nav: true,
         title: 'Laporan Penerimaan Packing',
         auth: true,
@@ -294,7 +296,7 @@ module.exports = [
     {
         route: 'inventory/finishing-printing/fp-retur-to-qc-doc',
         name: 'inventory/finishing-printing/fp-retur-to-qc-doc',
-        moduleId: './modules/inventory/finishing-printing/fp-retur-to-qc-doc/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/finishing-printing/fp-retur-to-qc-doc/index', 'inventory'),
         nav: true,
         title: 'Retur Barang ke QC',
         auth: true,
@@ -562,7 +564,7 @@ module.exports = [
     {
         route: 'inventory/reports/inventory-dystuff-report',
         name: 'inventory/reports/inventory-dystuff-report',
-        moduleId: './modules/inventory/reports/inventory-dystuff-report/index',
+        moduleId: PLATFORM.moduleName('./modules/inventory/reports/inventory-dystuff-report/index', 'inventory'),
         nav: true,
         title: 'Laporan Stock Gudang Dyeing Printing',
         auth: true,

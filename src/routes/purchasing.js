@@ -1,8 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
     {
         route: 'pr',
         name: 'purchase-request',
-        moduleId: './modules/purchasing/purchase-request/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/purchase-request/index', 'purchasing'),
         nav: true,
         title: 'Purchase Request',
         auth: true,
@@ -17,7 +19,7 @@ module.exports = [
     {
         route: 'pr/monitoring',
         name: 'purchase-request-monitoring',
-        moduleId: './modules/purchasing/monitoring-purchase-request/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/monitoring-purchase-request/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Purchase Request',
         auth: true,
@@ -32,7 +34,7 @@ module.exports = [
     {
         route: 'monitoring-purchase-request-all-unit',
         name: 'monitoring-purchase-request-all-unit',
-        moduleId: './modules/purchasing/monitoring-purchase-request-all-unit/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/monitoring-purchase-request-all-unit/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Purchase Request Semua Unit',
         auth: true,
@@ -47,7 +49,7 @@ module.exports = [
     {
         route: 'po',
         name: 'purchase-order',
-        moduleId: './modules/purchasing/purchase-order/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/purchase-order/index', 'purchasing'),
         nav: true,
         title: 'Purchase Order',
         auth: true,
@@ -62,7 +64,7 @@ module.exports = [
     {
         route: 'purchase-order-internal/monitoring',
         name: 'po-internal-belum-unit-payment-order-monitoring',
-        moduleId: './modules/purchasing/monitoring-po-internal-belum-po-external/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/monitoring-po-internal-belum-po-external/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Purchase Order Internal Belum Diproses Pembelian',
         auth: true,
@@ -77,7 +79,7 @@ module.exports = [
     {
         route: 'po-internal/monitoring',
         name: 'purchase-order-internal-monitoring',
-        moduleId: './modules/purchasing/monitoring-purchase-order-internal/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/monitoring-purchase-order-internal/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Purchase Order Internal',
         auth: true,
@@ -93,7 +95,7 @@ module.exports = [
     {
         route: 'receipt-spb-monitoring',
         name: 'receipt-spb-monitoring',
-        moduleId: './modules/purchasing/unit-before-spb-monitoring/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/unit-before-spb-monitoring/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Bon Belum Buat SPB',
         auth: true,
@@ -108,7 +110,7 @@ module.exports = [
     {
         route: 'po-external',
         name: 'purchase-order-external',
-        moduleId: './modules/purchasing/purchase-order-external/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/purchase-order-external/index', 'purchasing'),
         nav: true,
         title: 'Purchase Order External',
         auth: true,
@@ -123,7 +125,7 @@ module.exports = [
     // {
     //     route: 'vb-expedition-realitation-report',
     //     name: 'vb-expedition-realitation-report',
-    //     moduleId: './modules/purchasing/reports/vb-expedition-realitation-report/index',
+    //     moduleId: PLATFORM.moduleName('./modules/purchasing/reports/vb-expedition-realitation-report/index', 'purchasing'),
     //     nav: true,
     //     title: 'Laporan Ekspedisi Realisasi VB',
     //     auth: true,
@@ -136,7 +138,7 @@ module.exports = [
     {
         route: 'po-external/all',
         name: 'purchase-order-external-kasei',
-        moduleId: './modules/purchasing/purchase-order-external-kasei/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/purchase-order-external-kasei/index', 'purchasing'),
         nav: true,
         title: 'Purchase Order External All',
         auth: true,
@@ -151,7 +153,7 @@ module.exports = [
     {
         route: 'po/monitoring/all',
         name: 'purchase-order-monitoring',
-        moduleId: './modules/purchasing/monitoring-purchase-order-all-user/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/monitoring-purchase-order-all-user/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Purchase All',
         auth: true,
@@ -166,7 +168,7 @@ module.exports = [
     {
         route: 'po/monitoring',
         name: 'purchase-order-monitoring',
-        moduleId: './modules/purchasing/monitoring-purchase-order/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/monitoring-purchase-order/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Purchase',
         auth: true,
@@ -181,7 +183,7 @@ module.exports = [
     {
         route: 'po/reports/periode/unit',
         name: 'purchase-order-reports-periode-unit',
-        moduleId: './modules/purchasing/reports/purchase-order-report/unit-report/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/purchase-order-report/unit-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan Total Pembelian per Unit',
         auth: true,
@@ -196,7 +198,7 @@ module.exports = [
     {
         route: 'po/reports/periode/category',
         name: 'purchase-order-reports-periode-category',
-        moduleId: './modules/purchasing/reports/purchase-order-report/category-report/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/purchase-order-report/category-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan Total Pembelian per Kategori',
         auth: true,
@@ -211,7 +213,7 @@ module.exports = [
     {
         route: 'po/reports/periode/unit-category',
         name: 'purchase-order-reports-periode-unit-category',
-        moduleId: './modules/purchasing/reports/purchase-order-report/unit-category-report/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/purchase-order-report/unit-category-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan Total Pembelian per Unit per Kategori',
         auth: true,
@@ -226,7 +228,7 @@ module.exports = [
     {
         route: 'po/reports/periode/supplier',
         name: 'purchase-order-reports-periode-supplier',
-        moduleId: './modules/purchasing/reports/purchase-order-report/supplier-report/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/purchase-order-report/supplier-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan Total Pembelian per Supplier',
         auth: true,
@@ -241,7 +243,7 @@ module.exports = [
     {
         route: 'delivery-order',
         name: 'delivery-order',
-        moduleId: './modules/purchasing/delivery-order/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/delivery-order/index', 'purchasing'),
         nav: true,
         title: 'Surat Jalan',
         auth: true,
@@ -256,7 +258,7 @@ module.exports = [
     {
         route: 'do/monitoring',
         name: 'delivery-order-monitoring',
-        moduleId: './modules/purchasing/monitoring-delivery-order/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/monitoring-delivery-order/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Surat Jalan',
         auth: true,
@@ -271,7 +273,7 @@ module.exports = [
     {
         route: 'receipt-note/unit',
         name: 'receipt-note-unit',
-        moduleId: './modules/purchasing/unit-receipt-note/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/unit-receipt-note/index', 'purchasing'),
         nav: true,
         title: 'Bon Terima Unit',
         auth: true,
@@ -286,7 +288,7 @@ module.exports = [
     {
         route: 'receipt-note/unit/monitoring',
         name: 'receipt-note-unit-monitoring',
-        moduleId: './modules/purchasing/unit-receipt-note-monitoring/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/unit-receipt-note-monitoring/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Bon Terima Unit',
         auth: true,
@@ -301,7 +303,7 @@ module.exports = [
     {
         route: 'report/bon-unit-blm-spb',
         name: 'bon-unit-blm-spb',
-        moduleId: './modules/purchasing/reports/bon-unit-blm-spb/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/bon-unit-blm-spb/index', 'purchasing'),
         nav: true,
         title: 'Laporan Bon Terima Unit Belum Dibuat SPB',
         auth: true,
@@ -314,7 +316,7 @@ module.exports = [
     {
         route: 'unit-payment-order',
         name: 'unit-payment-order',
-        moduleId: './modules/purchasing/unit-payment-order/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/unit-payment-order/index', 'purchasing'),
         nav: true,
         title: 'Surat Perintah Bayar',
         auth: true,
@@ -329,7 +331,7 @@ module.exports = [
     {
         route: 'unit-payment-order/all',
         name: 'unit-payment-order-all',
-        moduleId: './modules/purchasing/unit-payment-order-all/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/unit-payment-order-all/index', 'purchasing'),
         nav: true,
         title: 'Surat Perintah Bayar All',
         auth: true,
@@ -344,7 +346,7 @@ module.exports = [
     {
         route: 'po/monitoring/spb',
         name: 'surat-perintah-bayar-monitoring',
-        moduleId: './modules/purchasing/monitoring-surat-perintah-bayar-new/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/monitoring-surat-perintah-bayar-new/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Surat Perintah Bayar',
         auth: true,
@@ -359,7 +361,7 @@ module.exports = [
     {
         route: 'po/monitoring/tax',
         name: 'incometax-vat-monitoring',
-        moduleId: './modules/purchasing/monitoring-ppn-pph/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/monitoring-ppn-pph/index', 'purchasing'),
         nav: true,
         title: 'Monitoring PPN & PPH',
         auth: true,
@@ -374,7 +376,7 @@ module.exports = [
     {
         route: 'unit-payment-note/price-correction',
         name: 'unit-payment-price-correction-note',
-        moduleId: './modules/purchasing/unit-payment-price-correction-note/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/unit-payment-price-correction-note/index', 'purchasing'),
         nav: true,
         title: 'Koreksi Harga Pembelian',
         auth: true,
@@ -389,7 +391,7 @@ module.exports = [
     {
         route: 'unit-payment-note/price-correction/monitoring',
         name: 'unit-payment-price-correction-note-monitoring',
-        moduleId: './modules/purchasing/koreksi-harga/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/koreksi-harga/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Koreksi Harga',
         auth: true,
@@ -404,7 +406,7 @@ module.exports = [
     {
         route: 'unit-payment-note/quantity-correction',
         name: 'unit-payment-quantity-correction-note',
-        moduleId: './modules/purchasing/unit-payment-quantity-correction-note/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/unit-payment-quantity-correction-note/index', 'purchasing'),
         nav: true,
         title: 'Koreksi Jumlah Pembelian',
         auth: true,
@@ -419,7 +421,7 @@ module.exports = [
     {
         route: 'correction-quantity',
         name: 'unit-payment-quantity-koreksi',
-        moduleId: './modules/purchasing/koreksi-jumlah/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/koreksi-jumlah/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Koreksi Jumlah',
         auth: true,
@@ -434,7 +436,7 @@ module.exports = [
     {
         route: 'generating-data',
         name: 'generating-data',
-        moduleId: './modules/purchasing/generating-data/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/generating-data/index', 'purchasing'),
         nav: true,
         title: 'Generating Data',
         auth: true,
@@ -448,7 +450,7 @@ module.exports = [
     {
         route: 'purchase-request-purchase-order-duration-report',
         name: 'purchase-request-purchase-order-duration-report',
-        moduleId: './modules/purchasing/reports/duration-reports/purchase-request-purchase-order-duration-report/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/duration-reports/purchase-request-purchase-order-duration-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan Durasi PR - PO Internal',
         auth: true,
@@ -463,7 +465,7 @@ module.exports = [
     {
         route: 'purchase-request-purchase-order-external-duration-report',
         name: 'purchase-request-purchase-order-external-duration-report',
-        moduleId: './modules/purchasing/reports/duration-reports/purchase-request-purchase-order-external-duration-report/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/duration-reports/purchase-request-purchase-order-external-duration-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan Durasi PR - PO Eksternal',
         auth: true,
@@ -478,7 +480,7 @@ module.exports = [
     {
         route: 'purchase-order-purchase-order-external-duration-report',
         name: 'purchase-order-purchase-order-external-duration-report',
-        moduleId: './modules/purchasing/reports/duration-reports/purchase-order-purchase-order-external-duration-report/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/duration-reports/purchase-order-purchase-order-external-duration-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan Durasi PO Internal - PO Eksternal',
         auth: true,
@@ -493,7 +495,7 @@ module.exports = [
     {
         route: 'purchase-order-external-delivery-order-duration-report',
         name: 'purchase-order-external-delivery-order-duration-report',
-        moduleId: './modules/purchasing/reports/duration-reports/purchase-order-external-delivery-order-duration-report/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/duration-reports/purchase-order-external-delivery-order-duration-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan Durasi PO Eksternal - Surat Jalan',
         auth: true,
@@ -508,7 +510,7 @@ module.exports = [
     {
         route: 'purchase-order/monitoring-price',
         name: 'purchase-order-monitoring-price',
-        moduleId: './modules/purchasing/monitoring-price/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/monitoring-price/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Price',
         auth: true,
@@ -523,7 +525,7 @@ module.exports = [
     {
         route: 'purchase-order/monitoring-product-price',
         name: 'purchase-order-monitoring-product-price',
-        moduleId: './modules/purchasing/monitoring-product-price/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/monitoring-product-price/index', 'purchasing'),
         nav: true,
         title: 'Monitoring Perubahan Harga Barang',
         auth: true,
@@ -538,7 +540,7 @@ module.exports = [
      {
         route: 'purchase-order/verification-md365invoice-externalinvoice',
         name: 'verification-md365invoice-externalinvoice',
-        moduleId: './modules/purchasing/verification-md365invoice-externalinvoice/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/verification-md365invoice-externalinvoice/index', 'purchasing'),
         nav: true,
         title: 'Verifikasi MD365 Invoice - External Invoice',
         auth: true,
@@ -553,7 +555,7 @@ module.exports = [
     {
         route: 'po/reports/ketepatan/staff',
         name: 'purchase-order-reports-ketepatan-staff',
-        moduleId: './modules/purchasing/reports/purchase-order-report/staff-report-new/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/purchase-order-report/staff-report-new/index', 'purchasing'),
         nav: true,
         title: 'Laporan Ketepatan kedatangan Barang per Staff',
         auth: true,
@@ -568,7 +570,7 @@ module.exports = [
     {
         route: 'report/local-purchasing-book-report',
         name: 'local-purchasing-book-report',
-        moduleId: './modules/purchasing/reports/local-purchasing-book-report/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/local-purchasing-book-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan Buku Pembelian Lokal',
         auth: true,
@@ -583,7 +585,7 @@ module.exports = [
     {
         route: 'report/local-valas-purchasing-book-report',
         name: 'local-valas-purchasing-book-report',
-        moduleId: './modules/purchasing/reports/local-valas-purchasing-book-report/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/local-valas-purchasing-book-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan Buku Pembelian Lokal Valas',
         auth: true,
@@ -598,7 +600,7 @@ module.exports = [
     {
         route: 'report/import-purchasing-book',
         name: 'import-purchasing-book-report',
-        moduleId: './modules/purchasing/reports/import-purchasing-book/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/import-purchasing-book/index', 'purchasing'),
         nav: true,
         title: 'Laporan Buku Pembelian Import',
         auth: true,
@@ -613,7 +615,7 @@ module.exports = [
     {
         route: 'unit-payment-order-not-verified-report',
         name: 'unit-payment-order-not-verified-report',
-        moduleId: './modules/purchasing/reports/unit-payment-order-not-verified-report/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/reports/unit-payment-order-not-verified-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan SPB Not Verified',
         auth: true,
@@ -626,7 +628,7 @@ module.exports = [
     {
         route: 'purchasing-disposition',
         name: 'purchasing-disposition',
-        moduleId: './modules/purchasing/purchasing-disposition/index',
+        moduleId: PLATFORM.moduleName('./modules/purchasing/purchasing-disposition/index', 'purchasing'),
         nav: true,
         title: 'Disposisi Pembayaran',
         auth: true,
@@ -641,7 +643,7 @@ module.exports = [
     {
         route: '/expedition/reports/unit-payment-order-paid-status-report',
         name: 'unit-payment-order-paid-status',
-        moduleId: './modules/expedition/reports/unit-payment-order-paid-status-report/index',
+        moduleId: PLATFORM.moduleName('./modules/expedition/reports/unit-payment-order-paid-status-report/index', 'purchasing'),
         nav: true,
         title: 'Laporan Status Bayar SPB',
         auth: true,

@@ -1,8 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
     {
         route: "/garment-dashboard/log-etl",
         name: "G-Dashboard Log ETL",
-        moduleId: "./modules/garment-dashboard/log-etl/index",
+        moduleId: PLATFORM.moduleName('./modules/garment-dashboard/log-etl/index', 'garment-dashboard'),
         nav: true,
         title: "Log ETL Garment",
         auth: true,

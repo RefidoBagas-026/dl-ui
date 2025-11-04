@@ -1,8 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
     {
         route: '/garment-master-plan/max-wh-confirm',
         name: 'max-wh-confirm,',
-        moduleId: './modules/garment-master-plan/max-wh-confirm/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/max-wh-confirm/index', 'garment-master-plan'),
         nav: true,
         title: 'Maksimal WH Confirm',
         auth: true,
@@ -16,7 +18,7 @@ module.exports = [
     {
         route: '/garment-master-plan/standard-minute-value',
         name: 'standard-hour',
-        moduleId: './modules/garment-master-plan/standard-hour/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/standard-hour/index', 'garment-master-plan'),
         nav: true,
         title: 'Standard Minute Value',
         auth: true,
@@ -30,7 +32,7 @@ module.exports = [
     {
         route: '/garment-master-plan/standard-minute-value-list',
         name: 'standard-hour',
-        moduleId: './modules/garment-master-plan/standard-hour-list/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/standard-hour-list/index', 'garment-master-plan'),
         nav: true,
         title: 'Standard Minute Value All User',
         auth: true,
@@ -44,7 +46,7 @@ module.exports = [
     {
         route: '/garment-master-plan/garment-section',
         name: 'garment-section',
-        moduleId: './modules/garment-master-plan/garment-section/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/garment-section/index', 'garment-master-plan'),
         nav: true,
         title: 'Master Seksi',
         auth: true,
@@ -58,7 +60,7 @@ module.exports = [
     {
         route: '/garment-master-plan/master-plan-comodity',
         name: 'master-plan-comodity',
-        moduleId: './modules/garment-master-plan/master-plan-comodity/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/master-plan-comodity/index', 'garment-master-plan'),
         nav: true,
         title: 'Komoditi',
         auth: true,
@@ -72,7 +74,7 @@ module.exports = [
     {
         route: '/garment-master-plan/master-plan-comodity-list',
         name: 'master-plan-comodity',
-        moduleId: './modules/garment-master-plan/master-plan-comodity-list/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/master-plan-comodity-list/index', 'garment-master-plan'),
         nav: true,
         title: 'Komoditi All User',
         auth: true,
@@ -88,7 +90,7 @@ module.exports = [
     // {
     //     route: '/garment-master-plan/working-hours-standard',
     //     name: 'working-hours-standard',
-    //     moduleId: './modules/garment-master-plan/working-hours-standard/index',
+    //     moduleId: PLATFORM.moduleName('./modules/garment-master-plan/working-hours-standard/index', 'garment-master-plan'),
     //     nav: true,
     //     title: 'Standar Jam Kerja',
     //     auth: true,
@@ -101,7 +103,7 @@ module.exports = [
     // {
     //     route: '/garment-master-plan/style',
     //     name: 'style',
-    //     moduleId: './modules/garment-master-plan/style/index',
+    //     moduleId: PLATFORM.moduleName('./modules/garment-master-plan/style/index', 'garment-master-plan'),
     //     nav: true,
     //     title: 'Master Style',
     //     auth: true,
@@ -114,7 +116,7 @@ module.exports = [
     {
         route: '/garment-master-plan/booking-order',
         name: 'booking-order',
-        moduleId: './modules/garment-master-plan/booking-order/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/booking-order/index', 'garment-master-plan'),
         nav: true,
         title: 'Booking Order',
         auth: true,
@@ -128,7 +130,7 @@ module.exports = [
     {
         route: '/garment-master-plan/booking-order-expired',
         name: 'booking-order-expired',
-        moduleId: './modules/garment-master-plan/booking-order-expired/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/booking-order-expired/index', 'garment-master-plan'),
         nav: true,
         title: 'Booking Order Expired',
         auth: true,
@@ -142,7 +144,7 @@ module.exports = [
     {
         route: '/garment-master-plan/monitoring-booking-order',
         name: 'monitoring-booking-order',
-        moduleId: './modules/garment-master-plan/monitoring-booking-order/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/monitoring-booking-order/index', 'garment-master-plan'),
         nav: true,
         title: 'Monitoring Booking Order',
         auth: true,
@@ -156,7 +158,7 @@ module.exports = [
     {
         route: '/garment-master-plan/weekly-plan',
         name: 'weekly-plan',
-        moduleId: './modules/garment-master-plan/weekly-plan/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/weekly-plan/index', 'garment-master-plan'),
         nav: true,
         title: 'Master Minggu',
         auth: true,
@@ -170,7 +172,7 @@ module.exports = [
     {
         route: '/garment-master-plan/sewing-blocking-plan',
         name: 'sewing-blocking-plan',
-        moduleId: './modules/garment-master-plan/sewing-blocking-plan/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/sewing-blocking-plan/index', 'garment-master-plan'),
         nav: true,
         title: 'Blocking Plan Sewing',
         auth: true,
@@ -184,7 +186,7 @@ module.exports = [
     {
         route: '/garment-master-plan/monitoring-remaining-eh',
         name: 'monitoring-remaining-eh',
-        moduleId: './modules/garment-master-plan/monitoring-remaining-eh/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/monitoring-remaining-eh/index', 'garment-master-plan'),
         nav: true,
         title: 'Monitoring Remaining EH',
         auth: true,
@@ -198,7 +200,7 @@ module.exports = [
     {
         route: '/garment-master-plan/monitoring-master-plan',
         name: 'monitoring-master-plan',
-        moduleId: './modules/garment-master-plan/monitoring-master-plan/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/monitoring-master-plan/index', 'garment-master-plan'),
         nav: true,
         title: 'Report Master Plan',
         auth: true,
@@ -213,7 +215,7 @@ module.exports = [
     {
         route: '/garment-master-plan/accepted-order-monitoring',
         name: 'accepted-order-monitoring',
-        moduleId: './modules/garment-master-plan/accepted-order-monitoring/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/accepted-order-monitoring/index', 'garment-master-plan'),
         nav: true,
         title: 'Monitoring Order Diterima dan Booking',
         auth: true,
@@ -228,7 +230,7 @@ module.exports = [
     {
         route: '/garment-master-plan/booking-orders-canceled-monitoring',
         name: 'booking-orders-canceled-monitoring',
-        moduleId: './modules/garment-master-plan/monitoring-canceled-booking-order/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/monitoring-canceled-booking-order/index', 'garment-master-plan'),
         nav: true,
         title: 'Monitoring Canceled Booking Order',
         auth: true,
@@ -243,7 +245,7 @@ module.exports = [
     {
         route: '/garment-master-plan/over-schedule-monitoring',
         name: 'over-schedule-monitoring',
-        moduleId: './modules/garment-master-plan/over-schedule-monitoring/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/over-schedule-monitoring/index', 'garment-master-plan'),
         nav: true,
         title: 'Monitoring Keterlambatan Jadwal Pengerjaan',
         auth: true,
@@ -258,7 +260,7 @@ module.exports = [
     {
         route: '/garment-master-plan/weekly-working-schedule-monitoring',
         name: 'weekly-working-schedule-monitoring',
-        moduleId: './modules/garment-master-plan/weekly-working-schedule-monitoring/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/weekly-working-schedule-monitoring/index', 'garment-master-plan'),
         nav: true,
         title: 'Monitoring Jadwal Pengerjaan Per Week',
         auth: true,
@@ -272,7 +274,7 @@ module.exports = [
     {
         route: '/smv-garment-by-unit',
         name: 'smv-garment-by-unit-report',
-        moduleId: './modules/merchandiser/report/smv-garment-by-unit-report/index',
+        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/smv-garment-by-unit-report/index', 'garment-master-plan'),
         nav: true,
         title: 'Display SMV Garment Per Unit',
         auth: true,
@@ -286,7 +288,7 @@ module.exports = [
     {
         route: '/detail-cm-garment-by-unit',
         name: 'detail-cm-garment-by-unit-report',
-        moduleId: './modules/merchandiser/report/detail-cm-garment-by-unit-report/index',
+        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/detail-cm-garment-by-unit-report/index', 'garment-master-plan'),
         nav: true,
         title: 'Display Detail CM Garment Per Unit',
         auth: true,
@@ -300,7 +302,7 @@ module.exports = [
     {
         route: '/pr-master-garment-validation-report',
         name: 'pr-master-garment-validation-report',
-        moduleId: './modules/merchandiser/report/pr-master-garment-validation-report/index',
+        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/pr-master-garment-validation-report/index', 'garment-master-plan'),
         nav: true,
         title: 'Display Approval PR Master Per Unit',
         auth: true,
@@ -313,7 +315,7 @@ module.exports = [
     {
         route: '/cost-calculation-garment-validation-report',
         name: 'cost-calculation-garment-validation-report',
-        moduleId: './modules/merchandiser/report/cost-calculation-garment-validation-report/index',
+        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/cost-calculation-garment-validation-report/index', 'garment-master-plan'),
         nav: true,
         title: 'Display Approval Cost Calculation Garment Per Unit',
         auth: true,
@@ -327,7 +329,7 @@ module.exports = [
     {
         route: '/cc-garment-embroidery-validation-report',
         name: 'cc-garment-embroidery-validation-report',
-        moduleId: './modules/merchandiser/report/ccg-embroidery-approval-report/index',
+        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/ccg-embroidery-approval-report/index', 'garment-master-plan'),
         nav: true,
         title: 'Display Approval Cost Calculation Garment Embroidery Per Unit',
         auth: true,
@@ -341,7 +343,7 @@ module.exports = [
     {
         route: '/merchandiser/profit-garment-by-section-report',
         name: 'profit-garment-by-section-report',
-        moduleId: './modules/merchandiser/report/profit-garment-by-section-report/index',
+        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/profit-garment-by-section-report/index', 'garment-master-plan'),
         nav: true,
         title: 'Laporan Profit Garment Per Seksi',
         auth: true,
@@ -356,7 +358,7 @@ module.exports = [
     {
         route: '/garment-master-plan/master-lock-booking-order',
         name: 'master-lock-booking-order',
-        moduleId: './modules/garment-master-plan/master-lock-booking-order/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/master-lock-booking-order/index', 'garment-master-plan'),
         nav: true,
         title: 'Master Lock Booking Order',
         auth: true,
@@ -370,7 +372,7 @@ module.exports = [
     {
         route: '/garment-master-plan/master-plan-category-comodity',
         name: 'master-plan-category-comodity',
-        moduleId: './modules/garment-master-plan/master-plan-category-comodity/index',
+        moduleId: PLATFORM.moduleName('./modules/garment-master-plan/master-plan-category-comodity/index', 'garment-master-plan'),
         nav: true,
         title: 'Kategori Komoditi',
         auth: true,
