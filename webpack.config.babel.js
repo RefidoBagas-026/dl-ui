@@ -78,7 +78,6 @@ let config = generateConfig(
     {
         entry: {
             'app': ['./src/main' /* this is filled by the aurelia-webpack-plugin */],
-            'login': ['./src/login-entry' /* this is filled by the aurelia-webpack-plugin */],
             'aurelia-bootstrap': coreBundles.bootstrap,
             'aurelia': coreBundles.aurelia.filter(pkg => coreBundles.bootstrap.indexOf(pkg) === -1),
             'underscore':coreBundles.underscore
@@ -109,18 +108,7 @@ let config = generateConfig(
     globalBluebird(),
     globalJquery(),
     globalRegenerator(),
-    generateIndexHtml({
-        minify: ENV === 'production',
-        template: './index.html',
-        filename: 'index.html',
-        chunks: ['app', 'aurelia', 'aurelia-bootstrap', 'underscore']
-    }),
-    generateIndexHtml({
-        minify: ENV === 'production',
-        template: './login.html',
-        filename: 'login.html',
-        chunks: ['login', 'aurelia', 'aurelia-bootstrap', 'underscore']
-    }),
+    generateIndexHtml({ minify: ENV === 'production' }),
 
     ...(ENV === 'production' || ENV === 'development' ? [
         commonChunksOptimize({ appChunkName: 'app', firstChunk: 'aurelia-bootstrap' }),
