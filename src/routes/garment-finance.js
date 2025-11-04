@@ -1,8 +1,10 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
   {
     route: '/garment-finance/garment-purchasing-to-verification',
     name: 'garment-purchasing-to-verification',
-    moduleId: './modules/garment-finance/garment-purchasing-to-verification/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-purchasing-to-verification/index', 'garment-finance'),
     nav: true,
     title: 'Ekspedisi Penyerahan ke Verifikasi',
     auth: true,
@@ -17,7 +19,7 @@ module.exports = [
   {
     route: '/garment-finance/garment-purchasing-document-expedition-acceptance',
     name: 'garment-purchasing-document-expedition-acceptance',
-    moduleId: './modules/garment-finance/garment-purchasing-document-expedition-acceptance/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-purchasing-document-expedition-acceptance/index', 'garment-finance'),
     nav: true,
     title: 'Penerimaan Dokumen Pembelian Garment',
     auth: true,
@@ -32,7 +34,7 @@ module.exports = [
   {
     route: '/garment-finance/garment-purchasing-verification',
     name: 'garment-purchasing-verification',
-    moduleId: './modules/garment-finance/garment-purchasing-verification/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-purchasing-verification/index', 'garment-finance'),
     nav: true,
     title: 'Verifikasi Nota Intern',
     auth: true,
@@ -48,7 +50,7 @@ module.exports = [
 {
     route: "/garment-finance/verification-ni-and-po",
     name: "verification-ni-and-po",
-    moduleId: "./modules/garment-finance/verification-ni-and-po/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/verification-ni-and-po/index', 'garment-finance'),
     nav: true,
     title: "Verifikasi NI dan PO",
     auth: true,
@@ -63,7 +65,7 @@ module.exports = [
 {
     route: "/garment-finance/verification-ni-and-sj",
     name: "verification-ni-and-sj",
-    moduleId: "./modules/garment-finance/verification-ni-and-sj/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/verification-ni-and-sj/index', 'garment-finance'),
     nav: true,
     title: "Verifikasi NI dan SJ",
     auth: true,
@@ -77,7 +79,7 @@ module.exports = [
   {
     route: "/garment-finance/verification-ni-and-inext",
     name: "verification-ni-and-inext",
-    moduleId: "./modules/garment-finance/verification-ni-and-inext/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/verification-ni-and-inext/index', 'garment-finance'),
     nav: true,
     title: "Verifikasi NI dan Invoice External Garment",
     auth: true,
@@ -91,7 +93,7 @@ module.exports = [
 {
     route: '/garment-finance/garment-purchasing-expedition-report',
     name: 'garment-purchasing-expedition-report',
-    moduleId: './modules/garment-finance/garment-purchasing-expedition-report/index',
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-purchasing-expedition-report/index', 'garment-finance'),
     nav: true,
     title: 'Laporan Ekspedisi Pembelian Garment',
     auth: true,
@@ -106,7 +108,7 @@ module.exports = [
   {
     route: "/garment-finance/dpp-vat-bank-expenditure-note",
     name: "garment-finance-dpp-vat-bank-expenditure-note",
-    moduleId: "./modules/garment-finance/dpp-vat-bank-expenditure-note/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/dpp-vat-bank-expenditure-note/index', 'garment-finance'),
     nav: true,
     title: "Bukti Pengeluaran Bank DPP + PPN",
     auth: true,
@@ -121,8 +123,7 @@ module.exports = [
   {
     route: "/garment-finance/garment-bank-expenditure-note-dpp-ppn-report",
     name: "garment-bank-expenditure-note-dpp-ppn-report",
-    moduleId:
-      "./modules/garment-finance/garment-bank-expenditure-note-dpp-ppn-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-bank-expenditure-note-dpp-ppn-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Bukti Pengeluaran Bank DPP + PPN",
     auth: true,
@@ -137,7 +138,7 @@ module.exports = [
   {
     route: "/garment-finance/garment-purchasing-pph-bank-expenditure-note",
     name: "garment-purchasing-pph-bank-expenditure-note",
-    moduleId: "./modules/garment-finance/garment-purchasing-pph-bank-expenditure-note/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-purchasing-pph-bank-expenditure-note/index', 'garment-finance'),
     nav: true,
     title: "Pengajuan Pembayaran PPH",
     auth: true,
@@ -152,7 +153,7 @@ module.exports = [
   {
     route: "/garment-finance/garment-pph-bank-expenditure-note-report",
     name: "garment-pph-bank-expenditure-note-report",
-    moduleId: "./modules/garment-finance/garment-pph-bank-expenditure-note-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-pph-bank-expenditure-note-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Pengajuan Pembayaran PPH",
     auth: true,
@@ -167,7 +168,7 @@ module.exports = [
   {
     route: "/garment-finance/garment-disposition-to-verification",
     name: "garment-disposition-to-verification",
-    moduleId: "./modules/garment-finance/garment-disposition-to-verification/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-disposition-to-verification/index', 'garment-finance'),
     nav: true,
     title: "Ekspedisi Penyerahan Disposisi ke Verifikasi",
     auth: true,
@@ -186,7 +187,7 @@ module.exports = [
   {
     route: "/garment-finance/garment-disposition-verification",
     name: "garment-disposition-verification",
-    moduleId: "./modules/garment-finance/garment-disposition-verification/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-disposition-verification/index', 'garment-finance'),
     nav: true,
     title: "Verifikasi Disposisi Garment",
     auth: true,
@@ -207,7 +208,7 @@ module.exports = [
   {
     route: "garment-finance/garment-disposition-document-expedition-acceptance",
     name: "garment-disposition-document-expedition-acceptance",
-    moduleId: "./modules/garment-finance/garment-disposition-document-expedition-acceptance/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-disposition-document-expedition-acceptance/index', 'garment-finance'),
     nav: true,
     title: "Penerimaan Dokumen Disposisi Pembayaran",
     auth: true,
@@ -222,7 +223,7 @@ module.exports = [
   // {
   //   route: "/garment-finance/reports/garment-down-payment",
   //   name: "garment-down-payment",
-  //   moduleId: "./modules/garment-finance/reports/garment-down-payment/index",
+  //   moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/garment-down-payment/index', 'garment-finance'),
   //   nav: true,
   //   title: "Laporan Uang Muka",
   //   auth: true,
@@ -248,7 +249,7 @@ module.exports = [
   {
     route: "/garment-finance/payment-disposition-note",
     name: "payment-disposition-note",
-    moduleId: "./modules/garment-finance/payment-disposition-note/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/payment-disposition-note/index', 'garment-finance'),
     nav: true,
     title: "Bukti Pembayaran Disposisi",
     auth: true,
@@ -263,7 +264,7 @@ module.exports = [
   {
     route: "garment-finance/reports/garment-disposition-payment-expedition",
     name: "garment-disposition-payment-expedition-report",
-    moduleId: "./modules/garment-finance/reports/garment-disposition-payment-expedition/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/garment-disposition-payment-expedition/index', 'garment-finance'),
     nav: true,
     title: "Laporan Ekspedisi Disposisi Pembayaran",
     auth: true,
@@ -278,7 +279,7 @@ module.exports = [
   {
     route: "garment-finance/reports/down-payment-report",
     name: "down-paymant-report",
-    moduleId: "./modules/garment-finance/reports/down-payment-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/down-payment-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Uang Muka",
     auth: true,
@@ -293,7 +294,7 @@ module.exports = [
   {
     route: "/garment-finance/garment-purchasing-debt-balance",
     name: "garment-purchasing-debt-balance",
-    moduleId: "./modules/garment-finance/garment-purchasing-debt-balance/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-purchasing-debt-balance/index', 'garment-finance'),
     nav: true,
     title: "Kartu Hutang",
     auth: true,
@@ -308,7 +309,7 @@ module.exports = [
   {
     route: "/garment-finance/reports/garment-debt-balance-local",
     name: "garment-debt-balance-local",
-    moduleId: "./modules/garment-finance/reports/garment-debt-balance-local/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/garment-debt-balance-local/index', 'garment-finance'),
     nav: true,
     title: "Saldo Hutang Lokal",
     auth: true,
@@ -323,7 +324,7 @@ module.exports = [
   {
     route: "/garment-finance/reports/garment-purchasing-debt-balance-local-foreign",
     name: "garment-purchasing-debt-balance-local-foreign",
-    moduleId: "./modules/garment-finance/reports/garment-purchasing-debt-balance-local-foreign/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/garment-purchasing-debt-balance-local-foreign/index', 'garment-finance'),
     nav: true,
     title: "Saldo Hutang Lokal Valas",
     auth: true,
@@ -338,7 +339,7 @@ module.exports = [
   {
     route: "/garment-finance/reports/garment-debt-balance-import",
     name: "garment-debt-balance-import",
-    moduleId: "./modules/garment-finance/reports/garment-debt-balance-import/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/garment-debt-balance-import/index', 'garment-finance'),
     nav: true,
     title: "Saldo Hutang Impor",
     auth: true,
@@ -353,7 +354,7 @@ module.exports = [
   {
     route: "/garment-finance/reports/garment-debt-detail-report",
     name: "garment-debt-detail-report",
-    moduleId: "./modules/garment-finance/reports/garment-debt-detail-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/garment-debt-detail-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Rincian Hutang",
     auth: true,
@@ -368,7 +369,7 @@ module.exports = [
   // {
   //     route: '/garment-finance/garment-purchasing-expedition-report',
   //     name: 'garment-purchasing-expedition-report',
-  //     moduleId: './modules/garment-finance/garment-purchasing-expedition-report/index',
+  //     moduleId: PLATFORM.moduleName('./modules/garment-finance/garment-purchasing-expedition-report/index', 'garment-finance'),
   //     nav: true,
   //     title: 'Laporan Ekspedisi Pembelian Garment',
   //     auth: true,
@@ -381,7 +382,7 @@ module.exports = [
   {
     route: "garment-finance/bank-cash/bank-cash-receipts",
     name: "bank-cash-receipts",
-    moduleId: "./modules/garment-finance/bank-cash/bank-cash-receipts/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/bank-cash-receipts/index', 'garment-finance'),
     nav: true,
     title: "Penerimaan Kas Bank",
     auth: true,
@@ -396,7 +397,7 @@ module.exports = [
   {
     route: "garment-finance/bank-cash/bank-cash-receipt-details-memo",
     name: "bank-cash-receipt-details",
-    moduleId: "./modules/garment-finance/bank-cash/bank-cash-receipt-details-memo/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/bank-cash-receipt-details-memo/index', 'garment-finance'),
     nav: true,
     title: "Rincian Penerimaan Kas Bank - Export",
     auth: true,
@@ -411,7 +412,7 @@ module.exports = [
   {
     route: "garment-finance/bank-cash/report/debtor-card-report",
     name: "debtor-card-report",
-    moduleId: "./modules/garment-finance/bank-cash/report/debtor-card-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/debtor-card-report/index', 'garment-finance'),
     nav: true,
     title: "Report Kartu Debitur Export",
     auth: true,
@@ -426,7 +427,7 @@ module.exports = [
   {
     route: "garment-finance/reports/export-sales-debtor-report",
     name: "export-sales-debtor-report",
-    moduleId: "./modules/garment-finance/reports/export-sales-debtor-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/export-sales-debtor-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Debitur Penjualan Export",
     auth: true,
@@ -441,7 +442,7 @@ module.exports = [
   {
     route: "garment-finance/reports/export-sales-debtor-IDR-report",
     name: "export-sales-debtor-report",
-    moduleId: "./modules/garment-finance/reports/export-sales-debtor-IDR-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/export-sales-debtor-IDR-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Debitur Penjualan Export (IDR)",
     auth: true,
@@ -456,7 +457,7 @@ module.exports = [
   {
     route: "garment-finance/reports/export-sales-debtor-summary-report",
     name: "export-sales-debtor-report",
-    moduleId: "./modules/garment-finance/reports/export-sales-debtor-summary-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/export-sales-debtor-summary-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Saldo Akhir Debitur Penjualan Export ",
     auth: true,
@@ -471,7 +472,7 @@ module.exports = [
   {
     route: "garment-finance/adjustments",
     name: "memorials",
-    moduleId: "./modules/garment-finance/bank-cash/adjustment/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/adjustment/index', 'garment-finance'),
     nav: true,
     title: "Jurnal Penyesuaian",
     auth: true,
@@ -486,7 +487,7 @@ module.exports = [
   {
     route: "garment-finance/memorials",
     name: "memorials",
-    moduleId: "./modules/garment-finance/bank-cash/memorial/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/memorial/index', 'garment-finance'),
     nav: true,
     title: "Memorial",
     auth: true,
@@ -501,7 +502,7 @@ module.exports = [
   {
     route: "garment-finance/bank-cash/memorial-detail",
     name: "memorial-details",
-    moduleId: "./modules/garment-finance/bank-cash/memorial-detail/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/memorial-detail/index', 'garment-finance'),
     nav: true,
     title: "Rincian Memorial - Export",
     auth: true,
@@ -516,7 +517,7 @@ module.exports = [
   {
     route: "garment-finance/report/export-sales-journal",
     name: "export-sales-journal",
-    moduleId: "./modules/garment-finance/bank-cash/report/export-sales-journal/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/export-sales-journal/index', 'garment-finance'),
     nav: true,
     title: "Jurnal Penjualan Export",
     auth: true,
@@ -546,7 +547,7 @@ module.exports = [
   {
     route: "garment-finance/bank-cash/bank-cash-receipt-detail-locals",
     name: "bank-cash-receipt-detail-locals",
-    moduleId: "./modules/garment-finance/bank-cash/bank-cash-receipt-detail-locals/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/bank-cash-receipt-detail-locals/index', 'garment-finance'),
     nav: true,
     title: "Rincian Penerimaan Kas Bank - Lokal",
     auth: true,
@@ -561,7 +562,7 @@ module.exports = [
   {
     route: "garment-finance/memorial-detail-local",
     name: "memorial-details-local",
-    moduleId: "./modules/garment-finance/bank-cash/memorial-detail-local/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/memorial-detail-local/index', 'garment-finance'),
     nav: true,
     title: "Rincian Memorial - Lokal",
     auth: true,
@@ -576,7 +577,7 @@ module.exports = [
   {
     route: "garment-finance/reports/export-sales-outstanding-report",
     name: "export-sales-outstanding",
-    moduleId: "./modules/garment-finance/reports/export-sales-outstanding-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/export-sales-outstanding-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Outstanding Penjualan Export ",
     auth: true,
@@ -591,7 +592,7 @@ module.exports = [
   {
     route: "garment-finance/report/bank-cash-receipt-monthly-recap",
     name: "bank-cash-receipt-monthly-recap",
-    moduleId: "./modules/garment-finance/bank-cash/report/bank-cash-receipt-monthly-recap/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/bank-cash-receipt-monthly-recap/index', 'garment-finance'),
     nav: true,
     title: "Rekap Memo per Bulan - Export",
     auth: true,
@@ -606,7 +607,7 @@ module.exports = [
   {
     route: "garment-finance/bank-cash/report/local-debtor-card-report",
     name: "local-debtor-card-report",
-    moduleId: "./modules/garment-finance/bank-cash/report/local-debtor-card-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/local-debtor-card-report/index', 'garment-finance'),
     nav: true,
     title: "Report Kartu Debitur Lokal",
     auth: true,
@@ -621,7 +622,7 @@ module.exports = [
   {
     route: "garment-finance/report/local-bank-cash-receipt-monthly-recap",
     name: "local-bank-cash-receipt-monthly-recap",
-    moduleId: "./modules/garment-finance/bank-cash/report/local-bank-cash-receipt-monthly-recap/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/local-bank-cash-receipt-monthly-recap/index', 'garment-finance'),
     nav: true,
     title: "Rekap Memo per Bulan - Lokal",
     auth: true,
@@ -636,7 +637,7 @@ module.exports = [
   {
     route: "garment-finance/report/local-sales-journal",
     name: "local-sales-journal",
-    moduleId: "./modules/garment-finance/bank-cash/report/local-sales-journal/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/local-sales-journal/index', 'garment-finance'),
     nav: true,
     title: "Jurnal Penjualan Lokal",
     auth: true,
@@ -651,7 +652,7 @@ module.exports = [
   {
     route: "garment-finance/report/local-sales-debtor-report",
     name: "local-sales-debtor-report",
-    moduleId: "./modules/garment-finance/reports/local-sales-debtor-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/local-sales-debtor-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Debitur Penjualan Lokal",
     auth: true,
@@ -666,7 +667,7 @@ module.exports = [
   {
     route: "garment-finance/report/local-sales-debtor-summary-report",
     name: "local-sales-debtor-summary-report",
-    moduleId: "./modules/garment-finance/bank-cash/report/local-sales-debtor-summary-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/local-sales-debtor-summary-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Saldo Akhir Debitur Penjualan Lokal",
     auth: true,
@@ -681,7 +682,7 @@ module.exports = [
   {
     route: "garment-finance/reports/local-sales-outstanding-report",
     name: "local-sales-outstanding",
-    moduleId: "./modules/garment-finance/bank-cash/report/local-outstanding-sales-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/local-outstanding-sales-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Outstanding Penjualan Lokal ",
     auth: true,
@@ -696,7 +697,7 @@ module.exports = [
   {
     route: "garment-finance/reports/garment-monitoring-disposition-payment",
     name: "down-paymant-report",
-    moduleId: "./modules/garment-finance/reports/garment-monitoring-disposition-payment/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/garment-monitoring-disposition-payment/index', 'garment-finance'),
     nav: true,
     title: "Laporan Bukti Pembayaran Disposisi",
     auth: true,
@@ -711,7 +712,7 @@ module.exports = [
   {
     route: "/garment-finance/reports/garment-disposition-by-invoice-report",
     name: "garment-disposition-by-invoice-report",
-    moduleId: "./modules/garment-finance/reports/garment-disposition-by-invoice-report/index",
+    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/garment-disposition-by-invoice-report/index', 'garment-finance'),
     nav: true,
     title: "Laporan Disposisi Pembayaran per Invoice",
     auth: true,

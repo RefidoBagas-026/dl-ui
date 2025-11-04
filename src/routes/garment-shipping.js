@@ -1,3 +1,5 @@
+const { PLATFORM } = require('aurelia-pal');
+
 module.exports = [
   {
     route: "master/garment-shipping-staff",
@@ -168,7 +170,7 @@ module.exports = [
   {
     route: "garment-detail-currencies",
     name: "garment-detail-currencies",
-    moduleId: "./modules/master/garment-detail-currency/index",
+    moduleId: PLATFORM.moduleName('./modules/master/garment-detail-currency/index', 'garment-shipping'),
     nav: true,
     title: "Rate Mingguan - USD",
     auth: true,
@@ -183,7 +185,7 @@ module.exports = [
   {
     route: "garment-debit-credit-note",
     name: "garment-debit-credit-note",
-    moduleId: "./modules/master/garment-item-dncn/index",
+    moduleId: PLATFORM.moduleName('./modules/master/garment-item-dncn/index', 'garment-shipping'),
     nav: true,
     title: "Debit Credit Note",
     auth: true,
@@ -198,7 +200,7 @@ module.exports = [
   {
     route: "/merchandiser/garment-sales-contract",
     name: "garment-sales-contract",
-    moduleId: "./modules/merchandiser/garment-sales-contract/index",
+    moduleId: PLATFORM.moduleName('./modules/merchandiser/garment-sales-contract/index', 'garment-shipping'),
     nav: true,
     title: "Sales Contract Per RO (Semua User)",
     auth: true,
