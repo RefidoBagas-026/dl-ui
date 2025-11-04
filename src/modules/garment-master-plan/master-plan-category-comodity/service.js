@@ -5,8 +5,7 @@ import { Container } from 'aurelia-dependency-injection';
 import { Config } from "aurelia-api";
 
 
-const serviceUri = 'master/garment-comodities';
-const serviceUriBO = 'sales/garment-booking-orders';
+const serviceUri = 'master/garment-category-comodities';
 
 export class Service extends RestService {
 
@@ -19,11 +18,20 @@ export class Service extends RestService {
         return super.list(endpoint, info);
     }
 
+    getIdCategoryIsUse(id){
+        var endpoint = `${serviceUri}/CategoryIsUse/${id}`;
+        return super.get(endpoint);
+    }
+
     getById(id) {
         var endpoint = `${serviceUri}/${id}`;
         return super.get(endpoint);
     }
 
+    createCategory(data){
+        var endpoint = `${serviceUri}/CreateCategory`;
+        return super.post(endpoint, data);
+    }
     create(data) {
         var endpoint = `${serviceUri}`;
         return super.post(endpoint, data);
@@ -37,16 +45,5 @@ export class Service extends RestService {
     delete(data) {
         var endpoint = `${serviceUri}/${data.Id}`;
         return super.delete(endpoint, data);
-    }
-    
-}
-export class ServiceSales extends RestService {
-
-    constructor(http, aggregator, config, endpoint) {
-        super(http, aggregator, config, "sales");
-    }
-    searchComodityBookingOrder(info) {
-        var endpoint = `${serviceUriBO}`;
-        return super.list(endpoint, info);
     }
 }
