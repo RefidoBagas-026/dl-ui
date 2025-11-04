@@ -1,10 +1,8 @@
-const { PLATFORM } = require('aurelia-pal');
-
 module.exports = [
     {
         route: '/int-purchasing/transfer-request',
         name: 'transfer-request',
-        moduleId: PLATFORM.moduleName('./modules/int-purchasing/transfer-request/index', 'int-purchasing'),
+        moduleId: './modules/int-purchasing/transfer-request/index',
         nav: true,
         title: 'Transfer Request',
         auth: true,
@@ -17,7 +15,7 @@ module.exports = [
     {
         route: '/int-purchasing/transfer-request-report',
         name: 'transfer-request-report',
-        moduleId: PLATFORM.moduleName('./modules/int-purchasing/transfer-request-report/index', 'int-purchasing'),
+        moduleId: './modules/int-purchasing/transfer-request-report/index',
         nav: true,
         title: 'Laporan Transfer Request',
         auth: true,
@@ -30,7 +28,7 @@ module.exports = [
     {
         route: ['int-purchasing/internal-transfer-order'],
         name: 'internal-transfer-order',
-        moduleId: PLATFORM.moduleName('./modules/int-purchasing/internal-transfer-order/index', 'int-purchasing'),
+        moduleId: './modules/int-purchasing/internal-transfer-order/index',
         nav: true,
         title: 'Transfer Order Internal',
         auth: true,
@@ -43,7 +41,7 @@ module.exports = [
     {
         route: ['int-purchasing/internal-transfer-order-report'],
         name: 'internal-transfer-order',
-        moduleId: PLATFORM.moduleName('./modules/int-purchasing/internal-transfer-order-report/index', 'int-purchasing'),
+        moduleId: './modules/int-purchasing/internal-transfer-order-report/index',
         nav: true,
         title: 'Laporan Transfer Order Internal',
         auth: true,
@@ -56,7 +54,7 @@ module.exports = [
     {
         route: '/int-purchasing/external-transfer-order',
         name: 'external-transfer-order',
-        moduleId: PLATFORM.moduleName('./modules/int-purchasing/external-transfer-order/index', 'int-purchasing'),
+        moduleId: './modules/int-purchasing/external-transfer-order/index',
         nav: true,
         title: 'Transfer Order Eksternal',
         auth: true,
@@ -70,7 +68,7 @@ module.exports = [
 
         route: ['int-purchasing/transfer-delivery-order'],
         name: 'transfer-delivery-order',
-        moduleId: PLATFORM.moduleName('./modules/int-purchasing/transfer-delivery-order/index', 'int-purchasing'),
+        moduleId: './modules/int-purchasing/transfer-delivery-order/index',
         nav: true,
         title: 'DO',
         auth: true,
@@ -83,7 +81,7 @@ module.exports = [
     {
         route: ['int-purchasing/transfer-shipping-order'],
         name: 'transfer-shipping-order',
-        moduleId: PLATFORM.moduleName('./modules/int-purchasing/transfer-shipping-order/index', 'int-purchasing'),
+        moduleId: './modules/int-purchasing/transfer-shipping-order/index',
         nav: true,
         title: 'Surat Jalan',
         auth: true,
