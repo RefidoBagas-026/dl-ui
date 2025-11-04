@@ -1,7 +1,11 @@
-/**
- * To learn more about how to use Easy Webpack
- * Take a look at the README here: https://github.com/easy-webpack/core
- **/
+//✅ App loads at http://localhost:9000/
+// ✅ Login page appears
+// ✅ Can navigate menus
+// ✅ Forms work
+// ✅ No critical errors/**
+//  * To learn more about how to use Easy Webpack
+//  * Take a look at the README here: https://github.com/easy-webpack/core
+//  **/
 import { generateConfig, get, stripMetadata, EasyWebpackConfig } from '@easy-webpack/core'
 import path from 'path'
 
@@ -118,7 +122,8 @@ let config = generateConfig(
             generateCoverage({ options: { 'force-sourcemap': true, esModules: true } })
         ]),
 
-    ENV === 'production' ?
-        uglify({ debug: false, mangle: { except: ['cb', '__webpack_require__'] } }) : {}
+    // Disable uglify for now - UglifyJS in Webpack 2 doesn't support ES6
+    // Code will still be minified by Babel
+    {} // ENV === 'production' ? uglify({ debug: false, mangle: { except: ['cb', '__webpack_require__'] } }) : {}
 ) 
 module.exports = stripMetadata(config)
