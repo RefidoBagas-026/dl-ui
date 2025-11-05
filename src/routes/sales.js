@@ -1,10 +1,8 @@
-const { PLATFORM } = require('aurelia-pal');
-
 module.exports = [
     {
         route: 'sales/finishing-printing-pre-sales-contract',
         name: 'finishing-printing-sales-pre-contract',
-        moduleId: PLATFORM.moduleName('./modules/sales/finishing-printing-pre-sales-contract/index', 'sales'),
+        moduleId: './modules/sales/finishing-printing-pre-sales-contract/index',
         nav: true,
         title: 'Pre Sales Contract - Dyeing & Printing',
         auth: true,
@@ -18,7 +16,7 @@ module.exports = [
     {
         route: 'sales/finishing-printing-cost-calculation',
         name: 'finishing-printing-cost-calculation',
-        moduleId: PLATFORM.moduleName('./modules/sales/finishing-printing-cost-calculation/index', 'sales'),
+        moduleId: './modules/sales/finishing-printing-cost-calculation/index',
         nav: true,
         title: 'Cost Calculation - Dyeing & Printing',
         auth: true,
@@ -32,7 +30,7 @@ module.exports = [
     {
         route: 'sales/finishing-printing-cost-calculation-approval-ppic',
         name: 'finishing-printing-cost-calculation-approval-ppic',
-        moduleId: PLATFORM.moduleName('./modules/sales/finishing-printing-cost-calculation-approval-ppic/index', 'sales'),
+        moduleId: './modules/sales/finishing-printing-cost-calculation-approval-ppic/index',
         nav: true,
         title: 'Cost Calculation - Dyeing & Printing - Approval PPIC',
         auth: true,
@@ -46,7 +44,7 @@ module.exports = [
     {
         route: 'sales/finishing-printing-cost-calculation-approval-md',
         name: 'finishing-printing-cost-calculation-approval-md',
-        moduleId: PLATFORM.moduleName('./modules/sales/finishing-printing-cost-calculation-approval-md/index', 'sales'),
+        moduleId: './modules/sales/finishing-printing-cost-calculation-approval-md/index',
         nav: true,
         title: 'Cost Calculation - Dyeing & Printing - Approval Md',
         auth: true,
@@ -60,7 +58,7 @@ module.exports = [
     {
         route: '/sales/finishing-printing-cost-calculation-copy',
         name: 'finishing-printing-cost-calculation-copy',
-        moduleId: PLATFORM.moduleName('./modules/sales/finishing-printing-cost-calculation/copy/index', 'sales'),
+        moduleId: './modules/sales/finishing-printing-cost-calculation/copy/index',
         nav: true,
         title: 'Copy Cost Calculation - Dyeing & Printing',
         auth: true,
@@ -74,7 +72,7 @@ module.exports = [
     {
         route: '/sales/shin-finishing-printing-sales-contract-copy',
         name: 'shin-finishing-printing-sales-contract-copy',
-        moduleId: PLATFORM.moduleName('./modules/sales/shin-finishing-printing-sales-contract/copy/index', 'sales'),
+        moduleId: './modules/sales/shin-finishing-printing-sales-contract/copy/index',
         nav: true,
         title: 'Copy Sales Contract - Dyeing & Printing',
         auth: true,
@@ -88,7 +86,7 @@ module.exports = [
     {
         route: 'sales/shin-finishing-printing-sales-contract',
         name: 'shin-finishing-printing-sales-contract',
-        moduleId: PLATFORM.moduleName('./modules/sales/shin-finishing-printing-sales-contract/index', 'sales'),
+        moduleId: './modules/sales/shin-finishing-printing-sales-contract/index',
         nav: true,
         title: 'Sales Contract - Dyeing & Printing (New)',
         auth: true,
@@ -102,7 +100,7 @@ module.exports = [
     // {
     //     route: 'sales/reports/shin-finishing-printing-sales-contract-reports',
     //     name: 'shin-finishing-printing-sales-contract-report',
-    //     moduleId: PLATFORM.moduleName('./modules/sales/reports/shin-finishing-printing-sales-contract-report/index', 'sales'),
+    //     moduleId: './modules/sales/reports/shin-finishing-printing-sales-contract-report/index',
     //     nav: true,
     //     title: 'Laporan Sales Contract - Dyeing & Printing (New)',
     //     auth: true,
@@ -115,7 +113,7 @@ module.exports = [
     {
         route: 'sales/finishing-printing-sales-contract',
         name: 'finishing-printing-sales-contract',
-        moduleId: PLATFORM.moduleName('./modules/sales/finishing-printing-sales-contract/index', 'sales'),
+        moduleId: './modules/sales/finishing-printing-sales-contract/index',
         nav: true,
         title: 'Sales Contract - Dyeing & Printing',
         auth: true,
@@ -129,7 +127,7 @@ module.exports = [
     {
         route: 'sales/reports/finishing-printing-sales-contract-reports',
         name: 'finishing-printing-sales-contract-report',
-        moduleId: PLATFORM.moduleName('./modules/sales/reports/finishing-printing-sales-contract-report/index', 'sales'),
+        moduleId: './modules/sales/reports/finishing-printing-sales-contract-report/index',
         nav: true,
         title: 'Laporan Sales Contract - Dyeing & Printing',
         auth: true,
@@ -143,7 +141,7 @@ module.exports = [
     {
         route: 'sales/weaving-sales-contract',
         name: 'weaving-sales-contract',
-        moduleId: PLATFORM.moduleName('./modules/sales/weaving-sales-contract/index', 'sales'),
+        moduleId: './modules/sales/weaving-sales-contract/index',
         nav: true,
         title: 'Sales Contract - Weaving',
         auth: true,
@@ -157,7 +155,7 @@ module.exports = [
     {
         route: 'sales/spinning-sales-contract',
         name: 'spinning-sales-contract',
-        moduleId: PLATFORM.moduleName('./modules/sales/spinning-sales-contract/index', 'sales'),
+        moduleId: './modules/sales/spinning-sales-contract/index',
         nav: true,
         title: 'Sales Contract - Spinning',
         auth: true,
@@ -171,7 +169,7 @@ module.exports = [
     {
         route: 'sales/delivery-note-production',
         name: 'delivery-note-production',
-        moduleId: PLATFORM.moduleName('./modules/sales/delivery-note-production/index', 'sales'),
+        moduleId: './modules/sales/delivery-note-production/index',
         nav: true,
         title: 'Surat Order Produksi - Spinning',
         auth: true,
@@ -185,7 +183,7 @@ module.exports = [
     {
         route: 'sales/reports/weaving-sales-contract-reports',
         name: 'weaving-sales-contract-report',
-        moduleId: PLATFORM.moduleName('./modules/sales/reports/weaving-sales-contract-report/index', 'sales'),
+        moduleId: './modules/sales/reports/weaving-sales-contract-report/index',
         nav: true,
         title: 'Laporan Sales Contract - Weaving',
         auth: true,
@@ -199,7 +197,7 @@ module.exports = [
     {
         route: 'sales/reports/spinning-sales-contract-reports',
         name: 'spinning-sales-contract-report',
-        moduleId: PLATFORM.moduleName('./modules/sales/reports/spinning-sales-contract-report/index', 'sales'),
+        moduleId: './modules/sales/reports/spinning-sales-contract-report/index',
         nav: true,
         title: 'Laporan Sales Contract - Spinning',
         auth: true,
@@ -213,7 +211,7 @@ module.exports = [
     {
         route: 'sales/shin-production-order',
         name: 'shin-production-order',
-        moduleId: PLATFORM.moduleName('./modules/sales/shin-production-order/index', 'sales'),
+        moduleId: './modules/sales/shin-production-order/index',
         nav: true,
         title: 'Surat Perintah Produksi (New)',
         auth: true,
@@ -227,7 +225,7 @@ module.exports = [
     {
         route: 'sales/shin-production-order-list-view',
         name: 'shin-production-order-list-view',
-        moduleId: PLATFORM.moduleName('./modules/sales/shin-production-order-list-view/index', 'sales'),
+        moduleId: './modules/sales/shin-production-order-list-view/index',
         nav: true,
         title: 'Surat Perintah Produksi (New) All User',
         auth: true,
@@ -241,7 +239,7 @@ module.exports = [
     {
         route: 'sales/shin-production-order-approval-md',
         name: 'shin-production-order-approval-md',
-        moduleId: PLATFORM.moduleName('./modules/sales/shin-production-order-approval-md/index', 'sales'),
+        moduleId: './modules/sales/shin-production-order-approval-md/index',
         nav: true,
         title: 'Validasi Surat Perintah Produksi (New) - Kabag Md',
         auth: true,
@@ -255,7 +253,7 @@ module.exports = [
     {
         route: 'sales/shin-production-order-approval-sample',
         name: 'shin-production-order-approval-sample',
-        moduleId: PLATFORM.moduleName('./modules/sales/shin-production-order-approval-sample/index', 'sales'),
+        moduleId: './modules/sales/shin-production-order-approval-sample/index',
         nav: true,
         title: 'Validasi Surat Perintah Produksi (New) - Sample',
         auth: true,
@@ -269,7 +267,7 @@ module.exports = [
     {
         route: 'sales/production-order',
         name: 'production-order',
-        moduleId: PLATFORM.moduleName('./modules/sales/production-order/index', 'sales'),
+        moduleId: './modules/sales/production-order/index',
         nav: true,
         title: 'Surat Perintah Produksi',
         auth: true,
@@ -283,7 +281,7 @@ module.exports = [
     {
         route: 'sales/production-order-list-view',
         name: 'production-order-list-view',
-        moduleId: PLATFORM.moduleName('./modules/sales/production-order-list-view/index', 'sales'),
+        moduleId: './modules/sales/production-order-list-view/index',
         nav: true,
         title: 'Surat Perintah Produksi All User',
         auth: true,
@@ -297,7 +295,7 @@ module.exports = [
     {
         route: 'sales/reports/production-order-reports',
         name: 'production-order-report',
-        moduleId: PLATFORM.moduleName('./modules/sales/reports/production-order-report/index', 'sales'),
+        moduleId: './modules/sales/reports/production-order-report/index',
         nav: true,
         title: 'Monitoring Surat Perintah Produksi',
         auth: true,
@@ -311,7 +309,7 @@ module.exports = [
     {
         route: 'sales/do-sales',
         name: 'do-sales',
-        moduleId: PLATFORM.moduleName('./modules/sales/do-sales/index', 'sales'),
+        moduleId: './modules/sales/do-sales/index',
         nav: true,
         title: 'DO Penjualan',
         auth: true,
@@ -325,7 +323,7 @@ module.exports = [
     {
         route: 'sales/do-stock',
         name: 'do-stock',
-        moduleId: PLATFORM.moduleName('./modules/sales/do-stock/index', 'sales'),
+        moduleId: './modules/sales/do-stock/index',
         nav: true,
         title: 'DO Stock',
         auth: true,
@@ -339,7 +337,7 @@ module.exports = [
     {
         route: 'sales/do-aval',
         name: 'do-aval',
-        moduleId: PLATFORM.moduleName('./modules/sales/do-aval/index', 'sales'),
+        moduleId: './modules/sales/do-aval/index',
         nav: true,
         title: 'DO Aval',
         auth: true,
@@ -353,7 +351,7 @@ module.exports = [
     {
         route: 'sales/sales-invoice',
         name: 'sales-invoice',
-        moduleId: PLATFORM.moduleName('./modules/sales/sales-invoice/index', 'sales'),
+        moduleId: './modules/sales/sales-invoice/index',
         nav: true,
         title: 'Faktur Penjualan Lokal',
         auth: true,
@@ -367,7 +365,7 @@ module.exports = [
     {
         route: 'sales/sales-invoice-export',
         name: 'sales-invoice-export',
-        moduleId: PLATFORM.moduleName('./modules/sales/sales-invoice-export/index', 'sales'),
+        moduleId: './modules/sales/sales-invoice-export/index',
         nav: true,
         title: 'Faktur Penjualan Ekspor',
         auth: true,
@@ -381,7 +379,7 @@ module.exports = [
     {
         route: 'sales/do-return',
         name: 'do-return',
-        moduleId: PLATFORM.moduleName('./modules/sales/do-return/index', 'sales'),
+        moduleId: './modules/sales/do-return/index',
         nav: true,
         title: 'DO Retur',
         auth: true,
@@ -395,7 +393,7 @@ module.exports = [
     {
         route: 'sales/reports/sales-monthly-reports',
         name: 'sales-monthly-report',
-        moduleId: PLATFORM.moduleName('./modules/sales/reports/sales-monthly-report/index', 'sales'),
+        moduleId: './modules/sales/reports/sales-monthly-report/index',
         nav: true,
         title: 'Sales Monthly Report / Laporan Sales Per Bulan',
         auth: true,
@@ -409,7 +407,7 @@ module.exports = [
     {
         route: 'sales/deal-tracking',
         name: 'deal-tracking',
-        moduleId: PLATFORM.moduleName('./modules/sales/deal-tracking/index', 'sales'),
+        moduleId: './modules/sales/deal-tracking/index',
         nav: true,
         title: 'Deal Tracking',
         auth: true,
@@ -423,7 +421,7 @@ module.exports = [
     {
         route: 'sales/order-status-report',
         name: 'order-status-report',
-        moduleId: PLATFORM.moduleName('./modules/sales/reports/order-status-report/index', 'sales'),
+        moduleId: './modules/sales/reports/order-status-report/index',
         nav: true,
         title: 'Laporan Status Order',
         auth: true,
@@ -437,7 +435,7 @@ module.exports = [
     {
         route: 'sales/reports/do-sales-dp-monitoring',
         name: 'do-sales-dp-monitoring',
-        moduleId: PLATFORM.moduleName('./modules/sales/reports/do-sales-dp-monitoring/index', 'sales'),
+        moduleId: './modules/sales/reports/do-sales-dp-monitoring/index',
         nav: true,
         title: 'Monitoring DO Penjualan Dyeing Printing',
         auth: true,

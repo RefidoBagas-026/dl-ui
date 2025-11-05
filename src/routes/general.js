@@ -1,10 +1,8 @@
-const { PLATFORM } = require('aurelia-pal');
-
 module.exports = [
     {
         route: ['', 'Welcome'],
         name: 'welcome',
-        moduleId: PLATFORM.moduleName('./welcome', 'general'),
+        moduleId: './welcome',
         nav: false,
         title: 'Home',
         auth: true,

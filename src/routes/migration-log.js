@@ -1,10 +1,8 @@
-const { PLATFORM } = require('aurelia-pal');
-
 module.exports = [
     {
         route: 'Migration',
         name: 'Migration Log',
-        moduleId: PLATFORM.moduleName('./modules/migration-log/monitoring-migration-log/index', 'migration-log'),
+        moduleId: './modules/migration-log/monitoring-migration-log/index',
         nav: true,
         title: 'Migration-Log',
         auth: true,

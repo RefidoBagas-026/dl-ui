@@ -1,10 +1,8 @@
-const { PLATFORM } = require('aurelia-pal');
-
 module.exports = [
   {
     route: "account-bank",
     name: "account-bank",
-    moduleId: PLATFORM.moduleName('./modules/master/account-bank/index', 'master'),
+    moduleId: "./modules/master/account-bank/index",
     nav: true,
     title: "Akun Bank",
     auth: true,
@@ -18,7 +16,7 @@ module.exports = [
   {
     route: "bi-currency",
     name: "bi-currency",
-    moduleId: PLATFORM.moduleName('./modules/master/bi-currency/index', 'master'),
+    moduleId: "./modules/master/bi-currency/index",
     nav: true,
     title: "Kurs BI",
     auth: true,
@@ -32,7 +30,7 @@ module.exports = [
   {
     route: "buyers",
     name: "buyers",
-    moduleId: PLATFORM.moduleName('./modules/master/buyer/index', 'master'),
+    moduleId: "./modules/master/buyer/index",
     nav: true,
     title: "Buyer",
     auth: true,
@@ -46,7 +44,7 @@ module.exports = [
   {
     route: "suppliers/budgeting",
     name: "suppliers/budgeting",
-    moduleId: PLATFORM.moduleName('./modules/master/supplier-budgeting/index', 'master'),
+    moduleId: "./modules/master/supplier-budgeting/index",
     nav: true,
     title: "Supplier",
     auth: true,
@@ -60,7 +58,7 @@ module.exports = [
   {
     route: "suppliers",
     name: "suppliers",
-    moduleId: PLATFORM.moduleName('./modules/master/supplier/index', 'master'),
+    moduleId: "./modules/master/supplier/index",
     nav: true,
     title: "Supplier (All User)",
     auth: true,
@@ -74,7 +72,7 @@ module.exports = [
   {
     route: "uoms",
     name: "uoms",
-    moduleId: PLATFORM.moduleName('./modules/master/uom/index', 'master'),
+    moduleId: "./modules/master/uom/index",
     nav: true,
     title: "Satuan",
     auth: true,
@@ -88,7 +86,7 @@ module.exports = [
   {
     route: "garment-categories",
     name: "garment-categories",
-    moduleId: PLATFORM.moduleName('./modules/master/garment-category-budgeting/index', 'master'),
+    moduleId: "./modules/master/garment-category-budgeting/index",
     nav: true,
     title: "Kategori Garment",
     auth: true,
@@ -103,7 +101,7 @@ module.exports = [
   {
     route: "garment-products/budgeting",
     name: "garment-products/budgeting",
-    moduleId: PLATFORM.moduleName('./modules/master/garment-product-budgeting/index', 'master'),
+    moduleId: "./modules/master/garment-product-budgeting/index",
     nav: true,
     title: "Barang Garment",
     auth: true,
@@ -117,7 +115,7 @@ module.exports = [
   {
     route: "garment-products",
     name: "garment-products",
-    moduleId: PLATFORM.moduleName('./modules/master/garment-product/index', 'master'),
+    moduleId: "./modules/master/garment-product/index",
     nav: true,
     title: "Barang Garment (All User)",
     auth: true,
@@ -178,7 +176,7 @@ module.exports = [
   {
     route: 'garment-section',
     name: 'garment-section',
-    moduleId: PLATFORM.moduleName('./modules/master/garment-section/index', 'master'),
+    moduleId: './modules/master/garment-section/index',
     nav: true,
     title: 'Master Seksi',
     auth: true,
@@ -206,7 +204,7 @@ module.exports = [
   {
     route: "garment-buyers",
     name: "garment-buyers",
-    moduleId: PLATFORM.moduleName('./modules/master/garment-buyer/index', 'master'),
+    moduleId: "./modules/master/garment-buyer/index",
     nav: true,
     title: "Buyer Garment",
     auth: true,
@@ -220,7 +218,7 @@ module.exports = [
   {
     route: "garment-buyers-list",
     name: "garment-buyers-list",
-    moduleId: PLATFORM.moduleName('./modules/master/garment-buyer-list/index', 'master'),
+    moduleId: "./modules/master/garment-buyer-list/index",
     nav: true,
     title: "List Buyer Garment",
     auth: true,
@@ -234,7 +232,7 @@ module.exports = [
   {
     route: "garment-buyer-brands",
     name: "garment-buyer-brands",
-    moduleId: PLATFORM.moduleName('./modules/master/garment-buyer-brand/index', 'master'),
+    moduleId: "./modules/master/garment-buyer-brand/index",
     nav: true,
     title: "Brand Buyer Garment",
     auth: true,
@@ -248,7 +246,7 @@ module.exports = [
   {
     route: "garment-buyer-brands-list",
     name: "garment-buyer-brands-list",
-    moduleId: PLATFORM.moduleName('./modules/master/garment-buyer-brand-list/index', 'master'),
+    moduleId: "./modules/master/garment-buyer-brand-list/index",
     nav: true,
     title: "List Brand Buyer Garment",
     auth: true,
@@ -262,7 +260,7 @@ module.exports = [
   {
     route: "garment-omzet-target",
     name: "garment-omzet-target",
-    moduleId: PLATFORM.moduleName('./modules/merchandiser/garment-omzet-target/index', 'master'),
+    moduleId: "./modules/merchandiser/garment-omzet-target/index",
     nav: true,
     title: "Target Omzet Divisi Garment",
     auth: true,
@@ -276,7 +274,7 @@ module.exports = [
   // {
   //   route: "garment-categories",
   //   name: "garment-categories",
-  //   moduleId: PLATFORM.moduleName('./modules/master/garment-category/index', 'master'),
+  //   moduleId: "./modules/master/garment-category/index",
   //   nav: true,
   //   title: "Kategori Garment",
   //   auth: true,
@@ -289,7 +287,7 @@ module.exports = [
   {
     route: "garment-suppliers/budgeting",
     name: "garment-suppliers/budgeting",
-    moduleId: PLATFORM.moduleName('./modules/master/garment-supplier-budgeting/index', 'master'),
+    moduleId: "./modules/master/garment-supplier-budgeting/index",
     nav: true,
     title: "Supplier Garment",
     auth: true,
@@ -303,7 +301,7 @@ module.exports = [
   {
     route: "garment-suppliers",
     name: "garment-suppliers",
-    moduleId: PLATFORM.moduleName('./modules/master/garment-supplier/index', 'master'),
+    moduleId: "./modules/master/garment-supplier/index",
     nav: true,
     title: "Supplier Garment (All User)",
     auth: true,
@@ -363,7 +361,7 @@ module.exports = [
   {
     route: "products/budgeting",
     name: "products/budgeting",
-    moduleId: PLATFORM.moduleName('./modules/master/product-budgeting/index', 'master'),
+    moduleId: "./modules/master/product-budgeting/index",
     nav: true,
     title: "Barang",
     auth: true,
@@ -377,7 +375,7 @@ module.exports = [
   {
     route: "products",
     name: "products",
-    moduleId: PLATFORM.moduleName('./modules/master/product/index', 'master'),
+    moduleId: "./modules/master/product/index",
     nav: true,
     title: "Barang (All User)",
     auth: true,
@@ -440,7 +438,7 @@ module.exports = [
   {
     route: "products-textile",
     name: "products-textile",
-    moduleId: PLATFORM.moduleName('./modules/master/product-textile/index', 'master'),
+    moduleId: "./modules/master/product-textile/index",
     nav: true,
     title: "Barang Jadi Dyeing Printing",
     auth: true,
@@ -454,7 +452,7 @@ module.exports = [
   {
     route: "product-textiles/all",
     name: "product-textiles/all",
-    moduleId: PLATFORM.moduleName('./modules/master/product-textile-all/index', 'master'),
+    moduleId: "./modules/master/product-textile-all/index",
     nav: true,
     title: "Barang Jadi Dyeing Printing (All User)",
     auth: true,
@@ -468,7 +466,7 @@ module.exports = [
   {
     route: "products/non-purchasing",
     name: "products/non-purchasing",
-    moduleId: PLATFORM.moduleName('./modules/master/product-non-purchasing/index', 'master'),
+    moduleId: "./modules/master/product-non-purchasing/index",
     nav: true,
     title: "Barang Non Pembelian",
     auth: true,
@@ -494,7 +492,7 @@ module.exports = [
   {
     route: "income-taxes",
     name: "income-taxes",
-    moduleId: PLATFORM.moduleName('./modules/master/income-tax/index', 'master'),
+    moduleId: "./modules/master/income-tax/index",
     nav: true,
     title: "Pajak PPH",
     auth: true,
@@ -508,7 +506,7 @@ module.exports = [
   {
     route: "budgets",
     name: "budgets",
-    moduleId: PLATFORM.moduleName('./modules/master/budget/index', 'master'),
+    moduleId: "./modules/master/budget/index",
     nav: true,
     title: "Budget",
     auth: true,
@@ -522,7 +520,7 @@ module.exports = [
   {
     route: "currencies",
     name: "currencies",
-    moduleId: PLATFORM.moduleName('./modules/master/currency/index', 'master'),
+    moduleId: "./modules/master/currency/index",
     nav: true,
     title: "Mata Uang Tekstil",
     auth: true,
@@ -536,7 +534,7 @@ module.exports = [
   {
     route: "divisions",
     name: "divisions",
-    moduleId: PLATFORM.moduleName('./modules/master/division/index', 'master'),
+    moduleId: "./modules/master/division/index",
     nav: true,
     title: "Divisi",
     auth: true,
@@ -550,7 +548,7 @@ module.exports = [
   {
     route: "categories",
     name: "categories",
-    moduleId: PLATFORM.moduleName('./modules/master/category/index', 'master'),
+    moduleId: "./modules/master/category/index",
     nav: true,
     title: "Kategori",
     auth: true,
@@ -564,7 +562,7 @@ module.exports = [
   {
     route: "accounting-categories",
     name: "accounting-categories",
-    moduleId: PLATFORM.moduleName('./modules/master/accounting-category/index', 'master'),
+    moduleId: "./modules/master/accounting-category/index",
     nav: true,
     title: "Kategori Pembukuan",
     auth: true,
@@ -578,7 +576,7 @@ module.exports = [
   {
     route: "budget-categories",
     name: "budget-categories",
-    moduleId: PLATFORM.moduleName('./modules/master/budget-category/index', 'master'),
+    moduleId: "./modules/master/budget-category/index",
     nav: true,
     title: "Kategori Anggaran",
     auth: true,
@@ -592,7 +590,7 @@ module.exports = [
   {
     route: "units",
     name: "units",
-    moduleId: PLATFORM.moduleName('./modules/master/unit/index', 'master'),
+    moduleId: "./modules/master/unit/index",
     nav: true,
     title: "Unit",
     auth: true,
@@ -606,7 +604,7 @@ module.exports = [
   {
     route: "accounting-units",
     name: "accounting-units",
-    moduleId: PLATFORM.moduleName('./modules/master/accounting-unit/index', 'master'),
+    moduleId: "./modules/master/accounting-unit/index",
     nav: true,
     title: "Unit Pembukuan",
     auth: true,
@@ -620,7 +618,7 @@ module.exports = [
   {
     route: "machine-types",
     name: "machine-types",
-    moduleId: PLATFORM.moduleName('./modules/master/machine-type/index', 'master'),
+    moduleId: "./modules/master/machine-type/index",
     nav: true,
     title: "Jenis Mesin",
     auth: true,
@@ -634,7 +632,7 @@ module.exports = [
   {
     route: "machines",
     name: "machines",
-    moduleId: PLATFORM.moduleName('./modules/master/machine/index', 'master'),
+    moduleId: "./modules/master/machine/index",
     nav: true,
     title: "Mesin",
     auth: true,
@@ -648,7 +646,7 @@ module.exports = [
   {
     route: "instruksi",
     name: "instruksi",
-    moduleId: PLATFORM.moduleName('./modules/master/instruksi/index', 'master'),
+    moduleId: "./modules/master/instruksi/index",
     nav: true,
     title: "Instruksi",
     auth: true,
@@ -662,7 +660,7 @@ module.exports = [
   {
     route: "step",
     name: "step",
-    moduleId: PLATFORM.moduleName('./modules/master/step/index', 'master'),
+    moduleId: "./modules/master/step/index",
     nav: true,
     title: "Step",
     auth: true,
@@ -676,7 +674,7 @@ module.exports = [
   {
     route: "companies",
     name: "companies",
-    moduleId: PLATFORM.moduleName('./modules/master/company/index', 'master'),
+    moduleId: "./modules/master/company/index",
     nav: true,
     title: "Perusahaan",
     auth: true,
@@ -690,7 +688,7 @@ module.exports = [
   {
     route: "contacts",
     name: "contacts",
-    moduleId: PLATFORM.moduleName('./modules/master/contact/index', 'master'),
+    moduleId: "./modules/master/contact/index",
     nav: true,
     title: "Kontak",
     auth: true,
@@ -704,7 +702,7 @@ module.exports = [
   {
     route: "duration-estimations",
     name: "duration-estimations",
-    moduleId: PLATFORM.moduleName('./modules/master/fp-duration-estimation/index', 'master'),
+    moduleId: "./modules/master/fp-duration-estimation/index",
     nav: true,
     title: "Estimasi Durasi Produksi",
     auth: true,
@@ -718,7 +716,7 @@ module.exports = [
   {
     route: "bad-output-reasons",
     name: "bad-output-reasons",
-    moduleId: PLATFORM.moduleName('./modules/master/bad-output-reason/index', 'master'),
+    moduleId: "./modules/master/bad-output-reason/index",
     nav: true,
     title: "Keterangan Bad Output",
     auth: true,
@@ -732,7 +730,7 @@ module.exports = [
   {
     route: "deal-tracking-reasons",
     name: "deal-tracking-reasons",
-    moduleId: PLATFORM.moduleName('./modules/master/deal-tracking-reason/index', 'master'),
+    moduleId: "./modules/master/deal-tracking-reason/index",
     nav: true,
     title: "Alasan Deal Tracking",
     auth: true,
@@ -746,7 +744,7 @@ module.exports = [
   {
     route: "/garment/garment-currency",
     name: "kurs-currency",
-    moduleId: PLATFORM.moduleName('./modules/garment-purchasing/garment-currency/index', 'master'),
+    moduleId: "./modules/garment-purchasing/garment-currency/index",
     nav: true,
     title: "Mata Uang Garment",
     auth: true,
@@ -760,7 +758,7 @@ module.exports = [
   {
     route: "budget-currency",
     name: "budget-currency",
-    moduleId: PLATFORM.moduleName('./modules/master/budget-currency/index', 'master'),
+    moduleId: "./modules/master/budget-currency/index",
     nav: true,
     title: "Kurs Budget",
     auth: true,
@@ -774,7 +772,7 @@ module.exports = [
   {
     route: "storage",
     name: "storage",
-    moduleId: PLATFORM.moduleName('./modules/master/storage/index', 'master'),
+    moduleId: "./modules/master/storage/index",
     nav: true,
     title: "Storage",
     auth: true,
@@ -788,7 +786,7 @@ module.exports = [
   {
     route: "holiday",
     name: "holiday",
-    moduleId: PLATFORM.moduleName('./modules/master/holiday-budgeting/index', 'master'),
+    moduleId: "./modules/master/holiday-budgeting/index",
     nav: true,
     title: "Hari Libur",
     auth: true,
@@ -801,7 +799,7 @@ module.exports = [
   {
     route: "spinning-production-lot",
     name: "spinning-production-lot",
-    moduleId: PLATFORM.moduleName('./modules/master/spinning-production-lot/index', 'master'),
+    moduleId: "./modules/master/spinning-production-lot/index",
     nav: true,
     title: "Nomor Lot Produksi",
     auth: true,
@@ -814,7 +812,7 @@ module.exports = [
   {
     route: "spinning-yarn",
     name: "spinning-yarn",
-    moduleId: PLATFORM.moduleName('./modules/master/spinning-yarn/index', 'master'),
+    moduleId: "./modules/master/spinning-yarn/index",
     nav: true,
     title: "Benang Spinning",
     auth: true,
@@ -827,7 +825,7 @@ module.exports = [
   {
     route: "yarn-material",
     name: "yarn-material",
-    moduleId: PLATFORM.moduleName('./modules/master/yarn-material/index', 'master'),
+    moduleId: "./modules/master/yarn-material/index",
     nav: true,
     title: "Nomor Benang Material",
     auth: true,
@@ -842,7 +840,7 @@ module.exports = [
   {
     route: "material-construction",
     name: "material-construction",
-    moduleId: PLATFORM.moduleName('./modules/master/material-construction/index', 'master'),
+    moduleId: "./modules/master/material-construction/index",
     nav: true,
     title: "Konstruksi Material",
     auth: true,
@@ -857,7 +855,7 @@ module.exports = [
   {
     route: "term-of-payment",
     name: "term-of-payment",
-    moduleId: PLATFORM.moduleName('./modules/master/term-of-payment/index', 'master'),
+    moduleId: "./modules/master/term-of-payment/index",
     nav: true,
     title: "Term of Payment",
     auth: true,
@@ -872,7 +870,7 @@ module.exports = [
   {
     route: "comodity",
     name: "comodity",
-    moduleId: PLATFORM.moduleName('./modules/master/comodity/index', 'master'),
+    moduleId: "./modules/master/comodity/index",
     nav: true,
     title: "Komoditas",
     auth: true,
@@ -886,7 +884,7 @@ module.exports = [
   {
     route: "design-motives",
     name: "design-motives",
-    moduleId: PLATFORM.moduleName('./modules/master/design-motives/index', 'master'),
+    moduleId: "./modules/master/design-motives/index",
     nav: true,
     title: "Desain Motif",
     auth: true,
@@ -900,7 +898,7 @@ module.exports = [
   {
     route: "order-type",
     name: "order-type",
-    moduleId: PLATFORM.moduleName('./modules/master/order-type/index', 'master'),
+    moduleId: "./modules/master/order-type/index",
     nav: true,
     title: "Jenis Order",
     auth: true,
@@ -915,7 +913,7 @@ module.exports = [
   {
     route: "process-type",
     name: "process-type",
-    moduleId: PLATFORM.moduleName('./modules/master/process-type/index', 'master'),
+    moduleId: "./modules/master/process-type/index",
     nav: true,
     title: "Jenis Proses",
     auth: true,
@@ -929,7 +927,7 @@ module.exports = [
   {
     route: "product-type",
     name: "product-type",
-    moduleId: PLATFORM.moduleName('./modules/master/product-type/index', 'master'),
+    moduleId: "./modules/master/product-type/index",
     nav: true,
     title: "Jenis Produk",
     auth: true,
@@ -943,7 +941,7 @@ module.exports = [
   {
     route: "line",
     name: "line",
-    moduleId: PLATFORM.moduleName('./modules/master/line/index', 'master'),
+    moduleId: "./modules/master/line/index",
     nav: true,
     title: "Line",
     auth: true,
@@ -956,7 +954,7 @@ module.exports = [
   {
     route: "rate",
     name: "rate",
-    moduleId: PLATFORM.moduleName('./modules/master/rate/index', 'master'),
+    moduleId: "./modules/master/rate/index",
     nav: true,
     title: "Rate",
     auth: true,
@@ -970,7 +968,7 @@ module.exports = [
   {
     route: "size",
     name: "size",
-    moduleId: PLATFORM.moduleName('./modules/master/size/index', 'master'),
+    moduleId: "./modules/master/size/index",
     nav: true,
     title: "Size",
     auth: true,
@@ -984,7 +982,7 @@ module.exports = [
   {
     route: "size-range",
     name: "size-range",
-    moduleId: PLATFORM.moduleName('./modules/master/size-range/index', 'master'),
+    moduleId: "./modules/master/size-range/index",
     nav: true,
     title: "Size Range",
     auth: true,
@@ -997,7 +995,7 @@ module.exports = [
   {
     route: "efficiency",
     name: "efficiency",
-    moduleId: PLATFORM.moduleName('./modules/master/efficiency/index', 'master'),
+    moduleId: "./modules/master/efficiency/index",
     nav: true,
     title: "Efficiency",
     auth: true,
@@ -1011,7 +1009,7 @@ module.exports = [
   {
     route: "machine-spinning",
     name: "machine-spinning",
-    moduleId: PLATFORM.moduleName('./modules/master/machine-spinning/index', 'master'),
+    moduleId: "./modules/master/machine-spinning/index",
     nav: true,
     title: "Mesin Spinning",
     auth: true,
@@ -1025,7 +1023,7 @@ module.exports = [
   {
     route: "bank-cash-receipt-type",
     name: "bank-cash-receipt-type",
-    moduleId: PLATFORM.moduleName('./modules/master/bank-cash-receipt-type/index', 'master'),
+    moduleId: "./modules/master/bank-cash-receipt-type/index",
     nav: true,
     title: "Jenis Penerimaan Kas Bank",
     auth: true,
@@ -1039,7 +1037,7 @@ module.exports = [
   {
     route: "vat",
     name: "vat",
-    moduleId: PLATFORM.moduleName('./modules/master/vat/index', 'master'),
+    moduleId: "./modules/master/vat/index",
     nav: true,
     title: "Pajak PPN",
     auth: true,

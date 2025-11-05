@@ -1,10 +1,8 @@
-const { PLATFORM } = require('aurelia-pal');
-
 module.exports = [
   {
     route: "/expedition/purchasing-to-verification",
     name: "purchasing-to-verification",
-    moduleId: PLATFORM.moduleName('./modules/expedition/purchasing-to-verification/index', 'expedition'),
+    moduleId: "./modules/expedition/purchasing-to-verification/index",
     nav: true,
     title: "Ekspedisi Penyerahan ke Verifikasi",
     auth: true,
@@ -31,7 +29,7 @@ module.exports = [
   {
     route: "/expedition/purchasing-document-acceptance",
     name: "purchasing-document-acceptance",
-    moduleId: PLATFORM.moduleName('./modules/expedition/purchasing-document-acceptance/index', 'expedition'),
+    moduleId: "./modules/expedition/purchasing-document-acceptance/index",
     nav: true,
     title: "Penerimaan Dokumen Pembelian",
     auth: true,
@@ -46,7 +44,8 @@ module.exports = [
   {
     route: "/expedition/reports/unit-payment-order-expedition",
     name: "unit-payment-order-expedition",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/unit-payment-order-expedition/index', 'expedition'),
+    moduleId:
+      "./modules/expedition/reports/unit-payment-order-expedition/index",
     nav: true,
     title: "Laporan Ekspedisi Surat Perintah Bayar",
     auth: true,
@@ -76,7 +75,7 @@ module.exports = [
   {
     route: "/verification/unit-payment-order-verification",
     name: "purchasing-document-expedition",
-    moduleId: PLATFORM.moduleName('./modules/verification/unit-payment-order-verification/index', 'expedition'),
+    moduleId: "./modules/verification/unit-payment-order-verification/index",
     nav: true,
     title: "Verifikasi Surat Perintah Bayar",
     auth: true,
@@ -91,7 +90,8 @@ module.exports = [
   {
     route: "unit-payment-order-not-verified-report",
     name: "unit-payment-order-not-verified-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/unit-payment-order-not-verified-report/index', 'expedition'),
+    moduleId:
+      "./modules/expedition/reports/unit-payment-order-not-verified-report/index",
     nav: true,
     title: "Laporan SPB Not Verified",
     auth: true,
@@ -117,7 +117,8 @@ module.exports = [
   {
     route: "unit-payment-order-not-verified-history-report",
     name: "unit-payment-order-not-verified-history-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/unit-payment-order-not-verified-history-report/index', 'expedition'),
+    moduleId:
+      "./modules/expedition/reports/unit-payment-order-not-verified-history-report/index",
     nav: true,
     title: "Histori SPB Not Verified",
     auth: true,
@@ -143,7 +144,7 @@ module.exports = [
   {
     route: "/expedition/purchasing-disposition-expedition",
     name: "purchasing-disposition-expedition",
-    moduleId: PLATFORM.moduleName('./modules/expedition/purchasing-disposition-expedition/index', 'expedition'),
+    moduleId: "./modules/expedition/purchasing-disposition-expedition/index",
     nav: true,
     title: "Penyerahan Dokumen Disposisi Pembayaran ke Verifikasi",
     auth: true,
@@ -169,7 +170,7 @@ module.exports = [
   {
     route: "/expedition/purchasing-disposition-acceptance",
     name: "purchasing-disposition-acceptance",
-    moduleId: PLATFORM.moduleName('./modules/expedition/purchasing-disposition-acceptance/index', 'expedition'),
+    moduleId: "./modules/expedition/purchasing-disposition-acceptance/index",
     nav: true,
     title: "Penerimaan Dokumen Disposisi Pembayaran",
     auth: true,
@@ -184,7 +185,7 @@ module.exports = [
   {
     route: "/verification/disposition-verification",
     name: "disposition-verification",
-    moduleId: PLATFORM.moduleName('./modules/verification/disposition-verification/index', 'expedition'),
+    moduleId: "./modules/verification/disposition-verification/index",
     nav: true,
     title: "Verifikasi Disposisi",
     auth: true,
@@ -199,7 +200,8 @@ module.exports = [
   {
     route: "/expedition/reports/purchasing-disposition-expedition",
     name: "purchasing-disposition-expedition",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/purchasing-disposition-expedition/index', 'expedition'),
+    moduleId:
+      "./modules/expedition/reports/purchasing-disposition-expedition/index",
     nav: true,
     title: "Laporan Ekspedisi Disposisi Pembayaran",
     auth: true,
@@ -228,7 +230,7 @@ module.exports = [
   {
     route: "/expedition/payment-disposition-note",
     name: "payment-disposition-note",
-    moduleId: PLATFORM.moduleName('./modules/expedition/payment-disposition-note/index', 'expedition'),
+    moduleId: "./modules/expedition/payment-disposition-note/index",
     nav: true,
     title: "Bukti Pembayaran Disposisi",
     auth: true,
@@ -243,7 +245,8 @@ module.exports = [
   {
     route: "payment-disposition-not-verified-report",
     name: "payment-disposition-not-verified-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/payment-disposition-not-verified-report/index', 'expedition'),
+    moduleId:
+      "./modules/expedition/reports/payment-disposition-not-verified-report/index",
     nav: true,
     title: "Laporan Disposisi Not Verified",
     auth: true,
@@ -271,7 +274,8 @@ module.exports = [
   {
     route: "payment-disposition-not-verified-history-report",
     name: "payment-disposition-not-verified-history-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/payment-disposition-not-verified-history-report/index', 'expedition'),
+    moduleId:
+      "./modules/expedition/reports/payment-disposition-not-verified-history-report/index",
     nav: true,
     title: "Histori Disposisi Not Verified",
     auth: true,
@@ -299,7 +303,7 @@ module.exports = [
   {
     route: "/expedition/bank-expenditure-note",
     name: "purchasing-document-expedition",
-    moduleId: PLATFORM.moduleName('./modules/expedition/bank-expenditure-note/index', 'expedition'),
+    moduleId: "./modules/expedition/bank-expenditure-note/index",
     nav: true,
     title: "Bukti Pengeluaran Bank DPP + PPN",
     auth: true,
@@ -314,7 +318,8 @@ module.exports = [
   {
     route: "/expedition/reports/bank-expenditure-note-dpp-ppn",
     name: "bank-expenditure-note",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/bank-expenditure-note-dpp-ppn/index', 'expedition'),
+    moduleId:
+      "./modules/expedition/reports/bank-expenditure-note-dpp-ppn/index",
     nav: true,
     title: "Laporan Bukti Pengeluaran Bank DPP + PPN",
     auth: true,
@@ -329,7 +334,7 @@ module.exports = [
   {
     route: "/expedition/daily-bank-transaction-document-in",
     name: "daily-bank-transaction-document-in",
-    moduleId: PLATFORM.moduleName('./modules/expedition/daily-bank-transaction-document-in/index', 'expedition'),
+    moduleId: "./modules/expedition/daily-bank-transaction-document-in/index",
     nav: true,
     title: "Transaksi Harian Bank Masuk",
     auth: true,
@@ -343,7 +348,7 @@ module.exports = [
   {
     route: "/expedition/reports/daily-bank-transaction-in",
     name: "reports/daily-bank-transaction-in",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/daily-bank-transaction-in/index', 'expedition'),
+    moduleId: "./modules/expedition/reports/daily-bank-transaction-in/index",
     nav: true,
     title: "Laporan Transaksi Harian Bank Masuk",
     auth: true,
@@ -357,7 +362,7 @@ module.exports = [
   {
     route: "/expedition/daily-bank-transaction-document-out",
     name: "daily-bank-transaction-document-out",
-    moduleId: PLATFORM.moduleName('./modules/expedition/daily-bank-transaction-document-out/index', 'expedition'),
+    moduleId: "./modules/expedition/daily-bank-transaction-document-out/index",
     nav: true,
     title: "Transaksi Harian Bank Keluar",
     auth: true,
@@ -371,7 +376,7 @@ module.exports = [
   {
     route: "/expedition/reports/daily-bank-transaction-out",
     name: "reports/daily-bank-transaction-out",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/daily-bank-transaction-out/index', 'expedition'),
+    moduleId: "./modules/expedition/reports/daily-bank-transaction-out/index",
     nav: true,
     title: "Laporan Transaksi Harian Bank Keluar",
     auth: true,
@@ -385,7 +390,7 @@ module.exports = [
   {
     route: "/expedition/reports/daily-bank-mutation-document",
     name: "daily-bank-mutation-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/daily-bank-mutation-report/index', 'expedition'),
+    moduleId: "./modules/expedition/reports/daily-bank-mutation-report/index",
     nav: true,
     title: "Laporan Mutasi Bank",
     auth: true,
@@ -399,7 +404,7 @@ module.exports = [
   {
     route: "/expedition/reports/daily-account-balance",
     name: "daily-account-balance",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/daily-account-balance/index', 'expedition'),
+    moduleId: "./modules/expedition/reports/daily-account-balance/index",
     nav: true,
     title: "Laporan Saldo Bank Harian",
     auth: true,
@@ -413,7 +418,7 @@ module.exports = [
   {
     route: "/expedition/sales-receipt",
     name: "sales-receipt",
-    moduleId: PLATFORM.moduleName('./modules/expedition/sales-receipt/index', 'expedition'),
+    moduleId: "./modules/expedition/sales-receipt/index",
     nav: true,
     title: "Kuitansi Penjualan",
     auth: true,
@@ -427,7 +432,7 @@ module.exports = [
   {
     route: "/expedition/pph-bank-expenditure-note",
     name: "pph-bank-expenditure-note",
-    moduleId: PLATFORM.moduleName('./modules/expedition/pph-bank-expenditure-note/index', 'expedition'),
+    moduleId: "./modules/expedition/pph-bank-expenditure-note/index",
     nav: true,
     title: "Pengajuan Pembayaran PPH",
     auth: true,
@@ -442,7 +447,7 @@ module.exports = [
   {
     route: "/expedition/reports/pph-bank-expenditure-note",
     name: "pph-bank-expenditure-note",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/pph-bank-expenditure-note/index', 'expedition'),
+    moduleId: "./modules/expedition/reports/pph-bank-expenditure-note/index",
     nav: true,
     title: "Laporan Bukti Pengeluaran Bank PPH",
     auth: true,
@@ -457,7 +462,7 @@ module.exports = [
   {
     route: "/expedition/reports/local-credit-balance",
     name: "local-credit-balance-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/local-credit-balance-report/index', 'expedition'),
+    moduleId: "./modules/expedition/reports/local-credit-balance-report/index",
     nav: true,
     title: "Saldo Hutang Lokal",
     auth: true,
@@ -485,7 +490,8 @@ module.exports = [
   {
     route: "/expedition/reports/local-foreign-currency-credit-balance",
     name: "local-foreign-currency-credit-balance-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/local-foreign-currency-credit-balance-report/index', 'expedition'),
+    moduleId:
+      "./modules/expedition/reports/local-foreign-currency-credit-balance-report/index",
     nav: true,
     title: "Saldo Hutang Lokal Valas",
     auth: true,
@@ -513,7 +519,7 @@ module.exports = [
   {
     route: "/expedition/reports/import-credit-balance",
     name: "import-credit-balance-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/import-credit-balance-report/index', 'expedition'),
+    moduleId: "./modules/expedition/reports/import-credit-balance-report/index",
     nav: true,
     title: "Saldo Hutang Import",
     auth: true,
@@ -541,7 +547,7 @@ module.exports = [
   {
     route: "/expedition/reports/creditor-account",
     name: "creditor-account-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/creditor-account-report/index', 'expedition'),
+    moduleId: "./modules/expedition/reports/creditor-account-report/index",
     nav: true,
     title: "Kartu Hutang",
     auth: true,
@@ -569,7 +575,7 @@ module.exports = [
   {
     route: "reports/debt-and-disposition-summary",
     name: "debt-and-disposition-summary",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/debt-and-disposition-summary/index', 'expedition'),
+    moduleId: "./modules/purchasing/debt-and-disposition-summary/index",
     nav: true,
     title: "Laporan Rekap Data Hutang & Disposisi",
     auth: true,
@@ -634,7 +640,7 @@ module.exports = [
   {
     route: "/reports/detail-credit-balance",
     name: "detail-credit-balance-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/detail-credit-balance-report/index', 'expedition'),
+    moduleId: "./modules/expedition/reports/detail-credit-balance-report/index",
     nav: true,
     title: "Laporan Saldo Hutang Usaha (Detail)",
     auth: true,
@@ -662,7 +668,7 @@ module.exports = [
   {
     route: "/reports/unpaid-disposition-report-detail",
     name: "unpaid-disposition-report-detail",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/unpaid-disposition-report-detail/index', 'expedition'),
+    moduleId: "./modules/purchasing/unpaid-disposition-report-detail/index",
     nav: true,
     title: "Laporan Disposisi Belum Dibayar (Detail)",
     auth: true,
@@ -690,7 +696,7 @@ module.exports = [
   {
     route: "reports/debt-summary",
     name: "debt-summary",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/debt-summary/index', 'expedition'),
+    moduleId: "./modules/purchasing/debt-summary/index",
     nav: true,
     title: "Laporan Saldo Hutang Usaha (Rekap)",
     auth: true,
@@ -755,7 +761,7 @@ module.exports = [
   {
     route: "reports/disposition-summary",
     name: "disposition-summary",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/disposition-summary/index', 'expedition'),
+    moduleId: "./modules/purchasing/disposition-summary/index",
     nav: true,
     title: "Laporan Disposisi Belum Dibayar (Rekap)",
     auth: true,
@@ -820,7 +826,8 @@ module.exports = [
   {
     route: "/reports/budget-cashflow-type",
     name: "budget-cashflow-type",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/budget-cashflow/master/budget-cashflow-type/index', 'expedition'),
+    moduleId:
+      "./modules/purchasing/budget-cashflow/master/budget-cashflow-type/index",
     nav: true,
     title: "Jenis Budget Cashflow",
     auth: true,
@@ -837,7 +844,8 @@ module.exports = [
   {
     route: "/reports/budget-cashflow-category",
     name: "budget-cashflow-category",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/budget-cashflow/master/budget-cashflow-category/index', 'expedition'),
+    moduleId:
+      "./modules/purchasing/budget-cashflow/master/budget-cashflow-category/index",
     nav: true,
     title: "Kategori Budget Cashflow",
     auth: true,
@@ -854,7 +862,8 @@ module.exports = [
   {
     route: "/reports/budget-cashflow-sub-category",
     name: "budget-cashflow-sub-category",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/budget-cashflow/master/budget-cashflow-sub-category/index', 'expedition'),
+    moduleId:
+      "./modules/purchasing/budget-cashflow/master/budget-cashflow-sub-category/index",
     nav: true,
     title: "Sub-Kategori Budget Cashflow",
     auth: true,
@@ -871,7 +880,7 @@ module.exports = [
   {
     route: "/reports/budget-cashflow-master",
     name: "budget-cashflow-master",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/reports/budget-cashflow-master/index', 'expedition'),
+    moduleId: "./modules/purchasing/reports/budget-cashflow-master/index",
     nav: true,
     title: "Konfigurasi Layout Laporan Budget Cashflow",
     auth: true,
@@ -888,7 +897,7 @@ module.exports = [
   {
     route: "/reports/unit-budget-cashflow",
     name: "unit-budget-cashflow",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/reports/unit-budget-cashflow/index', 'expedition'),
+    moduleId: "./modules/purchasing/reports/unit-budget-cashflow/index",
     nav: true,
     title: "Budget Cashflow Unit",
     auth: true,
@@ -916,7 +925,7 @@ module.exports = [
   {
     route: "/reports/division-budget-cashflow",
     name: "division-budget-cashflow",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/reports/division-budget-cashflow/index', 'expedition'),
+    moduleId: "./modules/purchasing/reports/division-budget-cashflow/index",
     nav: true,
     title: "Budget Cashflow Divisi",
     auth: true,
@@ -944,7 +953,7 @@ module.exports = [
   {
     route: "/reports/division-all-budget-cashflow",
     name: "division-all-budget-cashflow",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/reports/division-all-budget-cashflow/index', 'expedition'),
+    moduleId: "./modules/purchasing/reports/division-all-budget-cashflow/index",
     nav: true,
     title: "Budget Cashflow Semua Divisi",
     auth: true,
@@ -972,7 +981,7 @@ module.exports = [
   {
     route: "/expedition/down-payment",
     name: "down-payment",
-    moduleId: PLATFORM.moduleName('./modules/expedition/down-payment/index', 'expedition'),
+    moduleId: "./modules/expedition/down-payment/index",
     nav: true,
     title: "Bukti Pemasukan Bank",
     auth: true,
@@ -999,7 +1008,7 @@ module.exports = [
   {
     route: "finance/memo",
     name: "memo",
-    moduleId: PLATFORM.moduleName('./modules/sales/memo/index', 'expedition'),
+    moduleId: "./modules/sales/memo/index",
     nav: true,
     title: "Memo",
     auth: true,
@@ -1026,7 +1035,7 @@ module.exports = [
   {
     route: "/expedition/reports/sales-invoices-report",
     name: "sales-invoices-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/sales-invoices-report/index', 'expedition'),
+    moduleId: "./modules/expedition/reports/sales-invoices-report/index",
     nav: true,
     title: "Laporan Pembayaran Faktur",
     auth: true,
@@ -1053,7 +1062,7 @@ module.exports = [
   {
     route: "/expedition/reports/sales-receipt-report",
     name: "sales-receipt-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/reports/sales-receipt-report/index', 'expedition'),
+    moduleId: "./modules/expedition/reports/sales-receipt-report/index",
     nav: true,
     title: "Laporan Kwitansi",
     auth: true,
@@ -1080,7 +1089,7 @@ module.exports = [
   {
     route: "garment-invoice-payment",
     name: "garment-invoice-payment",
-    moduleId: PLATFORM.moduleName('./modules/expedition/garment-invoice-payment/index', 'expedition'),
+    moduleId: "./modules/expedition/garment-invoice-payment/index",
     nav: true,
     title: "Pembayaran Invoice Export Garment",
     auth: true,
@@ -1094,7 +1103,7 @@ module.exports = [
   {
     route: "vb-request-document-non-po",
     name: "vb-request-document-non-po",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/vb-request-document-non-po/index', 'expedition'),
+    moduleId: "./modules/purchasing/vb-request-document-non-po/index",
     nav: true,
     title: "Permohonan VB Non PO",
     auth: true,
@@ -1122,7 +1131,7 @@ module.exports = [
   {
     route: "vb-with-po-request",
     name: "vb-with-po-request",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/vb-with-po-request/index', 'expedition'),
+    moduleId: "./modules/purchasing/vb-with-po-request/index",
     nav: true,
     title: "Permohonan VB Dengan PO",
     //title:"Uang Muka Pembelian",
@@ -1151,7 +1160,7 @@ module.exports = [
   {
     route: "cashier-approval",
     name: "cashier-approval",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/cashier-approval/index', 'expedition'),
+    moduleId: "./modules/purchasing/cashier-approval/index",
     nav: true,
     title: "Approval Kasir",
     auth: true,
@@ -1177,7 +1186,7 @@ module.exports = [
   {
     route: "vb-status-report",
     name: "vb-status-report",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/reports/vb-status-report/index', 'expedition'),
+    moduleId: "./modules/purchasing/reports/vb-status-report/index",
     nav: true,
     title: "Laporan Status VB",
     auth: true,
@@ -1206,7 +1215,7 @@ module.exports = [
   {
     route: "realization-vb-non-po",
     name: "realization-vb-non-po",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/realization-vb-non-po/index', 'expedition'),
+    moduleId: "./modules/purchasing/realization-vb-non-po/index",
     nav: true,
     title: "Realisasi VB non PO",
     auth: true,
@@ -1232,7 +1241,7 @@ module.exports = [
   {
     route: "vb-realization-with-po-document",
     name: "vb-realization-with-po-document",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/vb-realization-with-po-document/index', 'expedition'),
+    moduleId: "./modules/purchasing/vb-realization-with-po-document/index",
     nav: true,
     title: "Realisasi VB dengan PO",
     auth: true,
@@ -1258,7 +1267,7 @@ module.exports = [
   {
     route: "vb-realization-to-verification",
     name: "vb-realization-to-verification",
-    moduleId: PLATFORM.moduleName('./modules/expedition/vb-realization-to-verification/index', 'expedition'),
+    moduleId: "./modules/expedition/vb-realization-to-verification/index",
     nav: true,
     title: "Penyerahan VB Realisasi Ke Verifikasi",
     auth: true,
@@ -1286,7 +1295,7 @@ module.exports = [
   {
     route: "vb-realization-acceptance",
     name: "vb-realization-acceptance",
-    moduleId: PLATFORM.moduleName('./modules/expedition/vb-realization-acceptance/index', 'expedition'),
+    moduleId: "./modules/expedition/vb-realization-acceptance/index",
     nav: true,
     title: "Penerimaan VB Realisasi",
     auth: true,
@@ -1315,7 +1324,7 @@ module.exports = [
   {
     route: "vb-realization-verification",
     name: "vb-realization-verification",
-    moduleId: PLATFORM.moduleName('./modules/expedition/vb-realization-verification/index', 'expedition'),
+    moduleId: "./modules/expedition/vb-realization-verification/index",
     nav: true,
     title: "Verifikasi Realisasi VB",
     auth: true,
@@ -1341,7 +1350,7 @@ module.exports = [
   {
     route: "clearance-vb",
     name: "clearance-vb",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/clearance-vb/index', 'expedition'),
+    moduleId: "./modules/purchasing/clearance-vb/index",
     nav: true,
     title: "Clearance VB",
     auth: true,
@@ -1370,7 +1379,7 @@ module.exports = [
   {
     route: "vb-realization-expedition-report",
     name: "vb-realization-expedition-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/vb-realization-expedition-report/index', 'expedition'),
+    moduleId: "./modules/expedition/vb-realization-expedition-report/index",
     nav: true,
     title: "Laporan Ekspedisi Realisasi VB",
     auth: true,
@@ -1398,7 +1407,7 @@ module.exports = [
   {
     route: 'disposition-payment-report',
     name: 'disposition-payment-report',
-    moduleId: PLATFORM.moduleName('./modules/expedition/disposition-payment-report/index', 'expedition'),
+    moduleId: './modules/expedition/disposition-payment-report/index',
     nav: true,
     title: 'Laporan Bukti Pembayaran Disposisi',
     auth: true,
@@ -1413,7 +1422,7 @@ module.exports = [
   {
     route: "cashier-report",
     name: "cashier-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/cashier-report/index', 'expedition'),
+    moduleId: "./modules/expedition/cashier-report/index",
     nav: true,
     title: "Laporan Kasir VB",
     auth: true,
@@ -1442,7 +1451,7 @@ module.exports = [
   {
     route: "cashier-vb-realization-report",
     name: "cashier-vb-realization-report",
-    moduleId: PLATFORM.moduleName('./modules/expedition/cashier-vb-realization-report/index', 'expedition'),
+    moduleId: "./modules/expedition/cashier-vb-realization-report/index",
     nav: true,
     title: "Laporan Kasir Realisasi VB",
     auth: true,
@@ -1472,7 +1481,7 @@ module.exports = [
   {
     route: "realization-non-vb",
     name: "realization-non-vb",
-    moduleId: PLATFORM.moduleName('./modules/purchasing/realization-non-vb/index', 'expedition'),
+    moduleId: "./modules/purchasing/realization-non-vb/index",
     nav: true,
     //title: "Realisasi VB non PO",
     title: "Realisasi Pembayaran Tanpa VB",

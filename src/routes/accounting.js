@@ -1,10 +1,8 @@
-const { PLATFORM } = require('aurelia-pal');
-
 module.exports = [
   {
     route: "/accounting/journal-transaction",
     name: "journal-transaction",
-    moduleId: PLATFORM.moduleName('./modules/accounting/journal-transaction/index', 'accounting'),
+    moduleId: "./modules/accounting/journal-transaction/index",
     nav: true,
     title: "Jurnal Transaksi",
     auth: true,
@@ -18,7 +16,7 @@ module.exports = [
   {
     route: "/accounting/post-transaction",
     name: "journal-transaction",
-    moduleId: PLATFORM.moduleName('./modules/accounting/posting-transactions/index', 'accounting'),
+    moduleId: "./modules/accounting/posting-transactions/index",
     nav: true,
     title: "Posting Jurnal Transaksi",
     auth: true,
@@ -32,7 +30,8 @@ module.exports = [
   {
     route: "garment-finance/report/local-purchasing-journal",
     name: "local-purchasing-journal",
-    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/local-purchasing-journal/index', 'accounting'),
+    moduleId:
+      "./modules/garment-finance/bank-cash/report/local-purchasing-journal/index",
     nav: true,
     title: "Jurnal Pembelian Lokal",
     auth: true,
@@ -47,7 +46,8 @@ module.exports = [
   {
     route: "garment-finance/report/import-purchasing-journal",
     name: "import-purchasing-journal",
-    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/import-purchasing-journal/index', 'accounting'),
+    moduleId:
+      "./modules/garment-finance/bank-cash/report/import-purchasing-journal/index",
     nav: true,
     title: "Jurnal Pembelian Import",
     auth: true,
@@ -62,7 +62,8 @@ module.exports = [
   {
     route: "garment-finance/report/export-sales-journal",
     name: "export-sales-journal",
-    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/export-sales-journal/index', 'accounting'),
+    moduleId:
+      "./modules/garment-finance/bank-cash/report/export-sales-journal/index",
     nav: true,
     title: "Jurnal Penjualan Export",
     auth: true,
@@ -77,7 +78,8 @@ module.exports = [
   {
     route: "garment-finance/report/local-sales-journal",
     name: "local-sales-journal",
-    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/local-sales-journal/index', 'accounting'),
+    moduleId:
+      "./modules/garment-finance/bank-cash/report/local-sales-journal/index",
     nav: true,
     title: "Jurnal Penjualan Lokal",
     auth: true,
@@ -93,7 +95,8 @@ module.exports = [
   {
     route: "garment-finance/report/local-dpp-vat-expenditure-note-journal",
     name: "local-sales-journal",
-    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/local-dpp-vat-expenditure-note-montly-recap-report/index', 'accounting'),
+    moduleId:
+      "./modules/garment-finance/bank-cash/report/local-dpp-vat-expenditure-note-montly-recap-report/index",
     nav: true,
     title: "Jurnal Pengeluaran Kas - IDR",
     auth: true,
@@ -108,7 +111,8 @@ module.exports = [
   {
     route: "garment-finance/report/valas-dpp-vat-expenditure-note-journal",
     name: "local-sales-journal",
-    moduleId: PLATFORM.moduleName('./modules/garment-finance/bank-cash/report/valas-dpp-vat-expenditure-note-montly-recap-report/index', 'accounting'),
+    moduleId:
+      "./modules/garment-finance/bank-cash/report/valas-dpp-vat-expenditure-note-montly-recap-report/index",
     nav: true,
     title: "Jurnal Pengeluaran Kas - Valas",
     auth: true,
@@ -124,7 +128,7 @@ module.exports = [
   {
     route: "/accounting/post-vb-transaction",
     name: "journal-transaction-vb",
-    moduleId: PLATFORM.moduleName('./modules/accounting/posting-vb-transactions/index', 'accounting'),
+    moduleId: "./modules/accounting/posting-vb-transactions/index",
     nav: true,
     title: "Pengisian Debit Jurnal VB",
     auth: true,
@@ -138,7 +142,7 @@ module.exports = [
   {
     route: "/accounting/reports/journal-transaction-report",
     name: "journal-transaction-report",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/journal-transaction-report/index', 'accounting'),
+    moduleId: "./modules/accounting/reports/journal-transaction-report/index",
     nav: true,
     title: "Laporan Jurnal Transaksi",
     auth: true,
@@ -152,7 +156,7 @@ module.exports = [
   {
     route: "/accounting/chart-of-accounts-view",
     name: "chart-of-accounts",
-    moduleId: PLATFORM.moduleName('./modules/accounting/chart-of-accounts-view/index', 'accounting'),
+    moduleId: "./modules/accounting/chart-of-accounts-view/index",
     nav: true,
     title: "Chart of Account All User",
     auth: true,
@@ -166,7 +170,7 @@ module.exports = [
   {
     route: "/accounting/chart-of-accounts",
     name: "chart-of-accounts",
-    moduleId: PLATFORM.moduleName('./modules/accounting/chart-of-accounts/index', 'accounting'),
+    moduleId: "./modules/accounting/chart-of-accounts/index",
     nav: true,
     title: "Chart of Account",
     auth: true,
@@ -180,7 +184,7 @@ module.exports = [
   {
     route: "/accounting/revise-empty-chart-of-accounts",
     name: "revise-empty-chart-of-accounts",
-    moduleId: PLATFORM.moduleName('./modules/accounting/revise-empty-chart-of-accounts/index', 'accounting'),
+    moduleId: "./modules/accounting/revise-empty-chart-of-accounts/index",
     nav: true,
     title: "Pengisian Nama Chart of Account",
     auth: true,
@@ -194,7 +198,7 @@ module.exports = [
   {
     route: "/accounting/locking-transactions",
     name: "locking-transactions",
-    moduleId: PLATFORM.moduleName('./modules/accounting/locking-transactions/index', 'accounting'),
+    moduleId: "./modules/accounting/locking-transactions/index",
     nav: true,
     title: "Penguncian Transaksi",
     auth: true,
@@ -208,7 +212,7 @@ module.exports = [
   {
     route: "/accounting/reports/sub-ledgers-report",
     name: "sub-ledgers",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/sub-ledgers-report/index', 'accounting'),
+    moduleId: "./modules/accounting/reports/sub-ledgers-report/index",
     nav: true,
     title: "Laporan Sub Ledger",
     auth: true,
@@ -222,7 +226,7 @@ module.exports = [
   {
     route: "/accounting/reports/general-ledgers-report",
     name: "general-ledgers",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/general-ledgers-report/index', 'accounting'),
+    moduleId: "./modules/accounting/reports/general-ledgers-report/index",
     nav: true,
     title: "Laporan General Ledger",
     auth: true,
@@ -236,7 +240,7 @@ module.exports = [
   {
     route: "accounting/others-expenditure-proof-document",
     name: "others-expenditure-proof-document",
-    moduleId: PLATFORM.moduleName('./modules/accounting/others-expenditure-proof-document/index', 'accounting'),
+    moduleId: "./modules/accounting/others-expenditure-proof-document/index",
     nav: true,
     title: "Bukti Pengeluaran Bank Lain - Lain",
     auth: true,
@@ -250,7 +254,8 @@ module.exports = [
   {
     route: "accounting/reports/other-expenditure-proof-report",
     name: "other-expenditure-proof-report",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/other-expenditure-proof-report/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/reports/other-expenditure-proof-report/index",
     nav: true,
     title: "Laporan Bukti Pengeluaran Bank Lain - Lain",
     auth: true,
@@ -264,7 +269,7 @@ module.exports = [
   {
     route: "balance-debt",
     name: "balance-debt",
-    moduleId: PLATFORM.moduleName('./modules/accounting/balance-debt/index', 'accounting'),
+    moduleId: "./modules/accounting/balance-debt/index",
     nav: true,
     title: "Saldo Hutang Garment",
     auth: true,
@@ -278,7 +283,8 @@ module.exports = [
   {
     route: "garment-flow-detail-material/reports",
     name: "garment-flow-detail-material-report",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/garment-flow-detail-material-report/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/reports/garment-flow-detail-material-report/index",
     nav: true,
     title: "Laporan Rekap Bon Keluar Unit (BUK)",
     auth: true,
@@ -293,7 +299,7 @@ module.exports = [
   {
     route: "/accounting/reports/flow-penerimaan",
     name: "flow-penerimaan",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/flow-penerimaan/index', 'accounting'),
+    moduleId: "./modules/accounting/reports/flow-penerimaan/index",
     nav: true,
     title: "Laporan Rekap Bon Terima Unit (BUM)",
     auth: true,
@@ -308,7 +314,7 @@ module.exports = [
   {
     route: "accounting/accounting-stock-report",
     name: "accounting-stock-report",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/accounting-stock-report/index', 'accounting'),
+    moduleId: "./modules/accounting/reports/accounting-stock-report/index",
     nav: true,
     title: "Laporan Stok Pembukuan",
     auth: true,
@@ -324,7 +330,8 @@ module.exports = [
   {
     route: "/garment-production/monitoring-prepare-bookkeeping",
     name: "garment-production-monitoring-prepare-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-prepare-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/garment-production/monitoring-prepare-bookkeeping/index",
     nav: true,
     title: "Monitoring Prepare Pembukuan",
     auth: true,
@@ -339,7 +346,8 @@ module.exports = [
   {
     route: "/garment-production/monitoring-cutting-bookkeeping",
     name: "garment-production-monitoring-cutting-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-cutting-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/garment-production/monitoring-cutting-bookkeeping/index",
     nav: true,
     title: "Monitoring Cutting Pembukuan",
     auth: true,
@@ -354,7 +362,8 @@ module.exports = [
   {
     route: "/garment-production/monitoring-loading-bookkeeping",
     name: "garment-production-monitoring-loading-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-loading-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/garment-production/monitoring-loading-bookkeeping/index",
     nav: true,
     title: "Monitoring Loading Pembukuan",
     auth: true,
@@ -369,7 +378,8 @@ module.exports = [
   {
     route: "/garment-production/monitoring-sewing-bookkeeping",
     name: "garment-production-monitoring-sewing-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-sewing-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/garment-production/monitoring-sewing-bookkeeping/index",
     nav: true,
     title: "Monitoring Sewing Pembukuan",
     auth: true,
@@ -384,7 +394,8 @@ module.exports = [
   {
     route: "/garment-production/monitoring-finishing-bookkeeping",
     name: "garment-production-monitoring-finishing-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-finishing-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/garment-production/monitoring-finishing-bookkeeping/index",
     nav: true,
     title: "Monitoring Finishing Pembukuan",
     auth: true,
@@ -400,7 +411,8 @@ module.exports = [
     route:
       "/garment-production/monitoring-expenditure-good-delivery-bookkeeping",
     name: "garment-production-monitoring-expenditure-good-delivery-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-expenditure-good-delivery-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/garment-production/monitoring-expenditure-good-delivery-bookkeeping/index",
     nav: true,
     title: "Monitoring Pengiriman Barang Jadi Pembukuan",
     auth: true,
@@ -415,7 +427,8 @@ module.exports = [
   {
     route: "/garment-production/monitoring-production-flow-by-size-bookkeeping",
     name: "garment-production-monitoring-production-flow-by-size-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-production-flow-by-size-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/garment-production/monitoring-production-flow-by-size-bookkeeping/index",
     nav: true,
     title: "Monitoring Flow Produksi per Size Pembukuan",
     auth: true,
@@ -431,7 +444,8 @@ module.exports = [
   {
     route: "/garment-production/monitoring-production-stock-flow-bookkeeping",
     name: "garment-production-monitoring-production-stock-flow-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/garment-production/monitoring-production-stock-flow-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/garment-production/monitoring-production-stock-flow-bookkeeping/index",
     nav: true,
     title: "Monitoring Flow Persediaan Pembukuan",
     auth: true,
@@ -447,7 +461,8 @@ module.exports = [
   {
     route: "garment-purchasing-book-report-local",
     name: "garment-purchasing-book-report-local",
-    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/garment-purchasing-book-report-local/index', 'accounting'),
+    moduleId:
+      "./modules/garment-finance/reports/garment-purchasing-book-report-local/index",
     nav: true,
     title: "Laporan Buku Pembelian Lokal",
     auth: true,
@@ -462,7 +477,8 @@ module.exports = [
   {
     route: "garment-purchasing-book-report-local-foreign-currency",
     name: "garment-purchasing-book-report-local-foreign-currency",
-    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/garment-purchasing-book-report-local-foreign-currency/index', 'accounting'),
+    moduleId:
+      "./modules/garment-finance/reports/garment-purchasing-book-report-local-foreign-currency/index",
     nav: true,
     title: "Laporan Buku Pembelian Lokal Valas",
     auth: true,
@@ -477,7 +493,8 @@ module.exports = [
   {
     route: "garment-purchasing-book-report-import",
     name: "garment-purchasing-book-report-import",
-    moduleId: PLATFORM.moduleName('./modules/garment-finance/reports/garment-purchasing-book-report-import/index', 'accounting'),
+    moduleId:
+      "./modules/garment-finance/reports/garment-purchasing-book-report-import/index",
     nav: true,
     title: "Laporan Buku Pembelian Import",
     auth: true,
@@ -492,7 +509,7 @@ module.exports = [
   {
     route: "master-pembukuan",
     name: "master-pembukuan",
-    moduleId: PLATFORM.moduleName('./modules/garment-finance/master-pembukuan/index', 'accounting'),
+    moduleId: "./modules/garment-finance/master-pembukuan/index",
     nav: true,
     title: "Master Pembukuan",
     auth: true,
@@ -507,7 +524,7 @@ module.exports = [
   {
     route: "accounting/memo-garment-puchasing",
     name: "memo-garment-puchasing",
-    moduleId: PLATFORM.moduleName('./modules/accounting/memo-garment-purchasing/index', 'accounting'),
+    moduleId: "./modules/accounting/memo-garment-purchasing/index",
     nav: true,
     title: "Memorial Pembelian Job Garment",
     auth: true,
@@ -522,7 +539,8 @@ module.exports = [
   {
     route: "accounting/reports/memo-garment-purchasing-report",
     name: "memo-garment-puchasing-report",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/memo-garment-purchasing-report/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/reports/memo-garment-purchasing-report/index",
     nav: true,
     title: "Laporan Memo Pembelian Job Garment",
     auth: true,
@@ -537,7 +555,7 @@ module.exports = [
   {
     route: "accounting/garment-purchasing-job-memo-details",
     name: "garment-purchasing-job-memo-details",
-    moduleId: PLATFORM.moduleName('./modules/accounting/garment-purchasing-job-memo-details/index', 'accounting'),
+    moduleId: "./modules/accounting/garment-purchasing-job-memo-details/index",
     nav: true,
     title: "Rincian Memorial Pembelian Job Garment",
     auth: true,
@@ -552,7 +570,8 @@ module.exports = [
   {
     route: "accounting/reports-garment-purchasing-job-memo-details",
     name: "reports-garment-purchasing-job-memo-details",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/report-garment-purchasing-job-memo-details/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/reports/report-garment-purchasing-job-memo-details/index",
     nav: true,
     title: "Laporan Rincian Memorial Pembelian Job Garment",
     auth: true,
@@ -567,7 +586,7 @@ module.exports = [
   {
     route: "accounting/purchasing-memo-detail-textile",
     name: "purchasing-memo-detail-textile",
-    moduleId: PLATFORM.moduleName('./modules/accounting/purchasing-memo-detail-textile/index', 'accounting'),
+    moduleId: "./modules/accounting/purchasing-memo-detail-textile/index",
     nav: true,
     title: "Rincian Memo Pembelian Textile",
     auth: true,
@@ -581,7 +600,7 @@ module.exports = [
   {
     route: "accounting/purchasing-memo-textile",
     name: "purchasing-memo-textile",
-    moduleId: PLATFORM.moduleName('./modules/accounting/purchasing-memo-textile/index', 'accounting'),
+    moduleId: "./modules/accounting/purchasing-memo-textile/index",
     nav: true,
     title: "Memo Pembelian Textile",
     auth: true,
@@ -596,7 +615,7 @@ module.exports = [
   {
     route: "accounting/revise-create-date-unit-receipt-note",
     name: "revise-create-date-unit-receipt-note",
-    moduleId: PLATFORM.moduleName('./modules/accounting/revise-create-date-unit-receipt-note/index', 'accounting'),
+    moduleId: "./modules/accounting/revise-create-date-unit-receipt-note/index",
     nav: true,
     title: "Fitur Ubah Tanggal BUM",
     auth: true,
@@ -610,7 +629,7 @@ module.exports = [
   {
     route: "accounting/revise-date-urn-uen",
     name: "revise-date-urn-uen",
-    moduleId: PLATFORM.moduleName('./modules/accounting/revise-date-urn-uen/index', 'accounting'),
+    moduleId: "./modules/accounting/revise-date-urn-uen/index",
     nav: true,
     title: "Fitur Ubah Tanggal BUK/BUM",
     auth: true,
@@ -625,7 +644,8 @@ module.exports = [
   {
     route: "/garment-production/monitoring-sample-prepare-bookkeeping",
     name: "garment-sample-monitoring-sample-prepare-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/garment-sample/report/monitoring-sample-prepare-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/garment-sample/report/monitoring-sample-prepare-bookkeeping/index",
     nav: true,
     title: "Monitoring Sample Prepare Pembukuan",
     auth: true,
@@ -640,7 +660,8 @@ module.exports = [
   {
     route: "/accounting/sample-reports/monitoring-sample-cutting-bookkeeping",
     name: "garment-sample-monitoring-sample-cutting-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/accounting/sample-reports/monitoring-sample-cutting-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/sample-reports/monitoring-sample-cutting-bookkeeping/index",
     nav: true,
     title: "Monitoring Sample Cutting Pembukuan",
     auth: true,
@@ -655,7 +676,8 @@ module.exports = [
   {
     route: "/accounting/sample-reports/monitoring-sample-sewing-bookkeeping",
     name: "garment-sample-monitoring-sample-sewing-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/accounting/sample-reports/monitoring-sample-sewing-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/sample-reports/monitoring-sample-sewing-bookkeeping/index",
     nav: true,
     title: "Monitoring Sample Sewing Pembukuan",
     auth: true,
@@ -670,7 +692,8 @@ module.exports = [
   {
     route: "/accounting/sample-reports/monitoring-sample-finishing-bookkeeping",
     name: "garment-sample-monitoring-sample-finishing-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/accounting/sample-reports/monitoring-sample-finishing-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/sample-reports/monitoring-sample-finishing-bookkeeping/index",
     nav: true,
     title: "Monitoring Sample Finishing Pembukuan",
     auth: true,
@@ -686,7 +709,8 @@ module.exports = [
     route:
       "/accounting/sample-reports/monitoring-sample-expenditure-good-bookkeeping",
     name: "garment-sample-monitoring-sample-expenditure-good-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/accounting/sample-reports/monitoring-sample-expenditure-good-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/sample-reports/monitoring-sample-expenditure-good-bookkeeping/index",
     nav: true,
     title: "Monitoring Sample Pengiriman Barang Jadi Pembukuan",
     auth: true,
@@ -702,7 +726,8 @@ module.exports = [
     route:
       "/accounting/sample-reports/monitoring-sample-flow-by-size-bookkeeping",
     name: "garment-sample-monitoring-sample-flow-by-size-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/accounting/sample-reports/monitoring-sample-flow-by-size-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/sample-reports/monitoring-sample-flow-by-size-bookkeeping/index",
     nav: true,
     title: "Monitoring Sample Flow Per Size Pembukuan",
     auth: true,
@@ -718,7 +743,8 @@ module.exports = [
     route:
       "/accounting/sample-reports/monitoring-sample-stock-flow-bookkeeping",
     name: "garment-sample-monitoring-sample-stock-flow-bookkeeping",
-    moduleId: PLATFORM.moduleName('./modules/accounting/sample-reports/monitoring-sample-stock-flow-bookkeeping/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/sample-reports/monitoring-sample-stock-flow-bookkeeping/index",
     nav: true,
     title: "Monitoring Sample Persediaan Pembukuan",
     auth: true,
@@ -733,7 +759,8 @@ module.exports = [
   {
     route: "/accounting/sample-reports/unit-receipt-note-recap",
     name: "unit-receipt-note-recap",
-    moduleId: PLATFORM.moduleName('./modules/accounting/sample-reports/unit-receipt-note-recap/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/sample-reports/unit-receipt-note-recap/index",
     nav: true,
     title: "Laporan Rekap BUM Sample",
     auth: true,
@@ -748,7 +775,8 @@ module.exports = [
   {
     route: "/accounting/sample-reports/unit-expenditure-note-recap",
     name: "unit-receipt-note-recap",
-    moduleId: PLATFORM.moduleName('./modules/accounting/sample-reports/unit-expenditure-note-recap/index', 'accounting'),
+    moduleId:
+      "./modules/accounting/sample-reports/unit-expenditure-note-recap/index",
     nav: true,
     title: "Laporan Rekap BUK Sample",
     auth: true,
@@ -763,7 +791,7 @@ module.exports = [
   {
     route: "/accounting/sample-reports/stock-report",
     name: "sample-stock-report",
-    moduleId: PLATFORM.moduleName('./modules/accounting/sample-reports/stock-report/index', 'accounting'),
+    moduleId: "./modules/accounting/sample-reports/stock-report/index",
     nav: true,
     title: "Laporan Stok Sample Pembukuan",
     auth: true,
@@ -778,7 +806,7 @@ module.exports = [
   {
     route: "accounting/upload-down-payment",
     name: "upload-down-payment",
-    moduleId: PLATFORM.moduleName('./modules/accounting/feature/upload-down-payment/index', 'accounting'),
+    moduleId: "./modules/accounting/feature/upload-down-payment/index",
     nav: true,
     title: "Fitur Upload Uang Muka",
     auth: true,
@@ -793,7 +821,7 @@ module.exports = [
   {
     route: "accounting/upload-omzet-correction",
     name: "upload-omzet-correction",
-    moduleId: PLATFORM.moduleName('./modules/accounting/feature/upload-omzet-correction/index', 'accounting'),
+    moduleId: "./modules/accounting/feature/upload-omzet-correction/index",
     nav: true,
     title: "Fitur Upload Omset Koreksi",
     auth: true,
@@ -808,7 +836,7 @@ module.exports = [
   {
     route: "accounting/upload-cmt",
     name: "upload-cmt",
-    moduleId: PLATFORM.moduleName('./modules/accounting/feature/upload-cmt/index', 'accounting'),
+    moduleId: "./modules/accounting/feature/upload-cmt/index",
     nav: true,
     title: "Fitur Upload CMT",
     auth: true,
@@ -823,7 +851,7 @@ module.exports = [
   {
     route: "accounting/upload-cash-in-bank",
     name: "upload-cash-in-bank",
-    moduleId: PLATFORM.moduleName('./modules/accounting/feature/upload-cash-in-bank/index', 'accounting'),
+    moduleId: "./modules/accounting/feature/upload-cash-in-bank/index",
     nav: true,
     title: "Fitur Upload Cash In Bank",
     auth: true,
@@ -838,7 +866,7 @@ module.exports = [
   {
     route: "accounting/reports/ar-report",
     name: "ar-report",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/ar-report/index', 'accounting'),
+    moduleId: "./modules/accounting/reports/ar-report/index",
     nav: true,
     title: "Laporan AR",
     auth: true,
@@ -853,7 +881,7 @@ module.exports = [
   {
     route: "accounting/monitoring-cost-of-good-sold",
     name: "monitoring-cost-of-good-sold",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/monitoring-cost-of-good-sold/index', 'accounting'),
+    moduleId: "./modules/accounting/reports/monitoring-cost-of-good-sold/index",
     nav: true,
     title: "Laporan Harga Pokok Penjualan",
     auth: true,
@@ -868,7 +896,7 @@ module.exports = [
   {
     route: "accounting/monitoring-gross-profit",
     name: "monitoring-gross-profit",
-    moduleId: PLATFORM.moduleName('./modules/accounting/reports/monitoring-gross-profit/index', 'accounting'),
+    moduleId: "./modules/accounting/reports/monitoring-gross-profit/index",
     nav: true,
     title: "Laporan Gross Profit",
     auth: true,

@@ -1,10 +1,8 @@
-const { PLATFORM } = require('aurelia-pal');
-
 module.exports = [
     {
         route: '/merchandiser/garment-pre-sales-contract-by-user',
         name: 'garment-pre-sales-contract-by-user',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/garment-pre-sales-contract/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/garment-pre-sales-contract/index',
         nav: true,
         title: 'Pre Sales Contract - Garment',
         auth: true,
@@ -20,7 +18,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-pre-sales-contract',
         name: 'garment-pre-sales-contract',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/garment-pre-sales-contract/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/garment-pre-sales-contract/index',
         nav: true,
         title: 'Pre Sales Contract - Garment (Semua User)',
         auth: true,
@@ -36,7 +34,7 @@ module.exports = [
     {
         route: '/merchandiser/monitoring-pre-sales-contract',
         name: 'monitoring-pre-sales-contract',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/monitoring-pre-sales-contract/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/monitoring-pre-sales-contract/index',
         nav: true,
         title: 'Monitoring Pre Sales Contract',
         auth: true,
@@ -51,7 +49,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-purchase-request-master-by-user',
         name: 'purchase-request-master-by-user',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/garment-purchase-request-master/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/garment-purchase-request-master/index',
         nav: true,
         title: 'PR Master',
         auth: true,
@@ -67,7 +65,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-purchase-request-master',
         name: 'purchase-request-master',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/garment-purchase-request-master/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/garment-purchase-request-master/index',
         nav: true,
         title: 'PR Master (Semua User)',
         auth: true,
@@ -83,7 +81,7 @@ module.exports = [
     {
         route: '/merchandiser/approve-pr-master/kasie-md',
         name: 'approve-purchase-request-master',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/approve-pr-master/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
         title: 'Approval PR Master - Kasie Md',
         auth: true,
@@ -99,7 +97,7 @@ module.exports = [
     {
         route: '/merchandiser/approve-pr-master/purchasing',
         name: 'approve-purchase-request-master',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/approve-pr-master/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
         title: 'Approval PR Master - Purchasing',
         auth: true,
@@ -115,7 +113,7 @@ module.exports = [
     {
         route: '/merchandiser/approve-pr-master/kabag-md',
         name: 'approve-purchase-request-master',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/approve-pr-master/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
         title: 'Approval PR Master - Kabag Md',
         auth: true,
@@ -131,7 +129,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-by-user',
         name: 'cost-calculation-by-user',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/cost-calculation/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/cost-calculation/index',
         nav: true,
         title: 'Cost Calculation Export Garment',
         auth: true,
@@ -147,7 +145,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation',
         name: 'cost-calculation',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/cost-calculation/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/cost-calculation/index',
         nav: true,
         title: 'Cost Calculation Export Garment (Semua User)',
         auth: true,
@@ -163,7 +161,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-approval/mkt',
         name: 'cost-calculation-approval-mkt',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/cost-calculation-approval/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
         title: 'Cost Calculation Approval - Marketing',
         auth: true,
@@ -179,7 +177,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-approval/md',
         name: 'cost-calculation-approval-md',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/cost-calculation-approval/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
         title: 'Cost Calculation Approval - Kabag Sales',
         auth: true,
@@ -195,7 +193,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-approval/ie',
         name: 'cost-calculation-approval-ie',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/cost-calculation-approval/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
         title: 'Cost Calculation Approval - IE',
         auth: true,
@@ -211,7 +209,7 @@ module.exports = [
     {
         route: '/merchandiser/budget-validation-purchasing',
         name: 'budget-validation-purchasing',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/budget-validation-purchasing/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/budget-validation-purchasing/index',
         nav: true,
         title: 'Validasi Budget - Purchasing',
         auth: true,
@@ -226,7 +224,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-approval/kadivmd',
         name: 'cost-calculation-approval-kadivmd',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/cost-calculation-approval/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
         title: 'Cost Calculation Approval - Kadiv Md',
         auth: true,
@@ -242,7 +240,7 @@ module.exports = [
     {
         route: '/merchandiser/budget-validation-process',
         name: 'budget-validation-process',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/budget-validation-process/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/budget-validation-process/index',
         nav: true,
         title: 'Validasi Budget - PROSES',
         auth: true,
@@ -257,7 +255,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-sales-contract-by-user',
         name: 'garment-sales-contract-by-user',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/garment-sales-contract/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/garment-sales-contract/index',
         nav: true,
         title: 'Sales Contract Per RO',
         auth: true,
@@ -273,7 +271,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-sales-contract',
         name: 'garment-sales-contract',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/garment-sales-contract/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/garment-sales-contract/index',
         nav: true,
         title: 'Sales Contract Per RO (Semua User)',
         auth: true,
@@ -289,7 +287,7 @@ module.exports = [
     {
         route: '/merchandiser/ro-garment-by-user',
         name: 'ro-garment-by-user',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/ro-garment/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/ro-garment/index',
         nav: true,
         title: 'RO Export Garment',
         auth: true,
@@ -305,7 +303,7 @@ module.exports = [
     {
         route: '/merchandiser/ro-garment',
         name: 'ro-garment',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/ro-garment/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/ro-garment/index',
         nav: true,
         title: 'RO Export Garment (Semua User)',
         auth: true,
@@ -321,7 +319,7 @@ module.exports = [
     {
         route: '/merchandiser/ro-validation-kasiemd',
         name: 'ro-validation-kasiemd',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/ro-validation/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/ro-validation/index',
         nav: true,
         title: 'Validasi RO - Kasie Md',
         auth: true,
@@ -337,7 +335,7 @@ module.exports = [
     {
         route: '/merchandiser/ro-sample-validation',
         name: 'ro-sample-validation',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/ro-validation/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/ro-validation/index',
         nav: true,
         title: 'Validasi RO QC',
         auth: true,
@@ -353,7 +351,7 @@ module.exports = [
     // {
     //     route: '/merchandiser/ro-validation-ppic',
     //     name: 'ro-validation-ppic',
-    //     moduleId: PLATFORM.moduleName('./modules/merchandiser/ro-validation-ppic/index', 'merchandiser'),
+    //     moduleId: './modules/merchandiser/ro-validation-ppic/index',
     //     nav: true,
     //     title: 'Validasi RO - PPIC',
     //     auth: true,
@@ -366,7 +364,7 @@ module.exports = [
     {
         route: '/merchandiser/ro-acceptance',
         name: 'ro-acceptance',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/ro-acceptance/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/ro-acceptance/index',
         nav: true,
         title: 'Penerimaan RO',
         auth: true,
@@ -379,7 +377,7 @@ module.exports = [
     {
         route: '/merchandiser/ro-available',
         name: 'ro-available',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/ro-available/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/ro-available/index',
         nav: true,
         title: 'Kesiapan RO',
         auth: true,
@@ -394,7 +392,7 @@ module.exports = [
     {
         route: '/merchandiser/ro-distribute',
         name: 'ro-distribute',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/ro-distribute/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/ro-distribute/index',
         nav: true,
         title: 'Distribusi RO',
         auth: true,
@@ -409,7 +407,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-copy',
         name: 'cost-calculation-copy',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/cost-calculation/copy/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/cost-calculation/copy/index',
         nav: true,
         title: 'Copy Cost Calculation',
         auth: true,
@@ -424,7 +422,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-sales-contract-copy',
         name: 'garment-sales-contract-copy',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/garment-sales-contract/copy/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/garment-sales-contract/copy/index',
         nav: true,
         title: 'Copy Sales Contract Per RO',
         auth: true,
@@ -439,7 +437,7 @@ module.exports = [
     {
         route: '/merchandiser/ro-garment-copy',
         name: 'ro-garment-copy',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/ro-garment/copy/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/ro-garment/copy/index',
         nav: true,
         title: 'Copy RO Garment',
         auth: true,
@@ -454,7 +452,7 @@ module.exports = [
     {
         route: 'merchandiser/monitoring-ro-job-order',
         name: 'merchandiser-monitoring-ro-job-order',
-        moduleId: PLATFORM.moduleName('./modules/garment-purchasing/monitoring-ro-job-order/index', 'merchandiser'),
+        moduleId: './modules/garment-purchasing/monitoring-ro-job-order/index',
         nav: true,
         title: 'Monitoring RO Job Order',
         auth: true,
@@ -469,7 +467,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-cost-calculation-by-unit-report',
         name: 'garment-cost-calculation-by-unit-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/cost-calculation-garment-by-unit-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/cost-calculation-garment-by-unit-report/index',
         nav: true,
         title: 'Display Cost Calculation Garment Per Unit',
         auth: true,
@@ -484,7 +482,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-cost-calculation-by-section-report',
         name: 'garment-cost-calculation-by-section-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/cost-calculation-garment-by-section-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/cost-calculation-garment-by-section-report/index',
         nav: true,
         title: 'Display Cost Calculation Garment Per Seksi',
         auth: true,
@@ -499,7 +497,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-cost-calculation-by-marketing-report',
         name: 'garment-cost-calculation-by-marketing-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/cost-calculation-garment-by-marketing-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/cost-calculation-garment-by-marketing-report/index',
         nav: true,
         title: 'Display Cost Calculation Garment Per Sales',
         auth: true,
@@ -514,7 +512,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-cost-calculation-by-buyer-report',
         name: 'garment-cost-calculation-by-buyer-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/cost-calculation-garment-by-buyer-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/cost-calculation-garment-by-buyer-report/index',
         nav: true,
         title: 'Display Cost Calculation Garment Per Buyer - Deskripsi',
         auth: true,
@@ -529,7 +527,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-cost-calculation-by-sc-report',
         name: 'garment-cost-calculation-by-sc-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/cost-calculation-garment-by-sc-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/cost-calculation-garment-by-sc-report/index',
         nav: true,
         title: 'Display Cost Calculation Garment Per Buyer - Sales Contract',
         auth: true,
@@ -544,7 +542,7 @@ module.exports = [
     {
         route: '/merchandiser/budget-job-order-report',
         name: 'budget-job-order-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/budget-job-order-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/budget-job-order-report/index',
         nav: true,
         title: 'Display Budget Job Order',
         auth: true,
@@ -559,7 +557,7 @@ module.exports = [
     {
         route: '/merchandiser/budget-master-sample-report',
         name: 'budget-master-sample-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/budget-master-sample-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/budget-master-sample-report/index',
         nav: true,
         title: 'Display Budget Master / Sample',
         auth: true,
@@ -574,7 +572,7 @@ module.exports = [
     {
         route: '/merchandiser/monitoring-unpost-cost-calculation',
         name: 'monitoring-unpost-cost-calculation',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/monitoring-unpost-cost-calculation/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/monitoring-unpost-cost-calculation/index',
         nav: true,
         title: 'Monitoring Unpost Cost Calculation',
         auth: true,
@@ -589,7 +587,7 @@ module.exports = [
     {
         route: '/merchandiser/production-order-report',
         name: 'production-order-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/production-order-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/production-order-report/index',
         nav: true,
         title: 'Laporan Order Produksi',
         auth: true,
@@ -604,7 +602,7 @@ module.exports = [
     {
         route: '/merchandiser/accepted-ro-report',
         name: 'accepted-ro-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/accepted-ro-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/accepted-ro-report/index',
         nav: true,
         title: 'Laporan Penerimaan RO',
         auth: true,
@@ -619,7 +617,7 @@ module.exports = [
     {
         route: '/merchandiser/available-ro-report',
         name: 'available-ro-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/available-ro-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/available-ro-report/index',
         nav: true,
         title: 'Laporan Kecepatan Cek RO',
         auth: true,
@@ -634,7 +632,7 @@ module.exports = [
     {
         route: '/merchandiser/distribution-ro-garment-report',
         name: 'distribution-ro-garment-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/distribution-ro-garment-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/distribution-ro-garment-report/index',
         nav: true,
         title: 'Laporan Distribusi RO Garment',
         auth: true,
@@ -649,7 +647,7 @@ module.exports = [
     {
         route: '/merchandiser/available-budget-report',
         name: 'available-budget-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/available-budget-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/available-budget-report/index',
         nav: true,
         title: 'Laporan Kesiapan Budget',
         auth: true,
@@ -664,7 +662,7 @@ module.exports = [
     {
         route: '/merchandiser/latest-available-budget-report',
         name: 'latest-available-budget-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/latest-available-budget-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/latest-available-budget-report/index',
         nav: true,
         title: 'Laporan Kesiapan Budget',
         auth: true,
@@ -679,7 +677,7 @@ module.exports = [
     {
         route: '/merchandiser/available-ro-garment-report',
         name: 'available-ro-garment-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/available-ro-garment-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/available-ro-garment-report/index',
         nav: true,
         title: 'Laporan Kesiapan RO',
         auth: true,
@@ -694,7 +692,7 @@ module.exports = [
     {
         route: '/merchandiser/latest-available-ro-garment-report',
         name: 'latest-available-ro-garment-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/latest-available-ro-garment-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/latest-available-ro-garment-report/index',
         nav: true,
         title: 'Laporan Kesiapan RO',
         auth: true,
@@ -709,7 +707,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-purchasing-quality-objective-report',
         name: 'garment-purchasing-quality-objective-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/garment-purchasing-quality-objective-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/garment-purchasing-quality-objective-report/index',
         nav: true,
         title: 'Laporan Sasaran Mutu Penjualan Garment',
         auth: true,
@@ -724,7 +722,7 @@ module.exports = [
     {
         route: '/merchandiser/profit-garment-by-section-report',
         name: 'profit-garment-by-section-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/profit-garment-by-section-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/profit-garment-by-section-report/index',
         nav: true,
         title: 'Laporan Profit Garment Per Seksi',
         auth: true,
@@ -739,7 +737,7 @@ module.exports = [
     {
         route: '/merchandiser/profit-garment-by-marketing-report',
         name: 'profit-garment-by-marketing-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/profit-garment-by-marketing-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/profit-garment-by-marketing-report/index',
         nav: true,
         title: 'Laporan Profit Garment Per Sales',
         auth: true,
@@ -754,7 +752,7 @@ module.exports = [
     {
         route: '/merchandiser/profit-garment-by-comodity-report',
         name: 'profit-garment-by-comodity-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/profit-garment-by-comodity-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/profit-garment-by-comodity-report/index',
         nav: true,
         title: 'Laporan Profit Garment Per Komoditi',
         auth: true,
@@ -769,7 +767,7 @@ module.exports = [
     {
         route: '/merchandiser/budget-export-garment-report',
         name: 'budget-export-garment-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/budget-export-garment-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/budget-export-garment-report/index',
         nav: true,
         title: 'Monitoring Budget Export Garment',
         auth: true,
@@ -784,7 +782,7 @@ module.exports = [
     {
         route: '/merchandiser/cc-ro-garment-history-report',
         name: 'cc-ro-garment-history-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/cc-ro-garment-history-by-section-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/cc-ro-garment-history-by-section-report/index',
         nav: true,
         title: 'Monitoring History Cost Calculatin & Budget Garment',
         auth: true,
@@ -799,7 +797,7 @@ module.exports = [
     {
         route: '/merchandiser/open-po-master',
         name: 'open-po-master',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/open-po-master/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/open-po-master/index',
         nav: true,
         title: 'Open PO Master',
         auth: true,
@@ -814,7 +812,7 @@ module.exports = [
     {
         route: '/merchandiser/open-po-master-approval/kabag-md',
         name: 'open-po-master-approval-kabag-md',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/open-po-master-approval/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/open-po-master-approval/index',
         nav: true,
         title: 'Approval Open PO Master - Kabag Md',
         auth: true,
@@ -830,7 +828,7 @@ module.exports = [
     {
         route: '/merchandiser/open-po-master-approval/purchasing',
         name: 'open-po-master-approval-purchasing',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/open-po-master-approval/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/open-po-master-approval/index',
         nav: true,
         title: 'Approval Open PO Master - Purchasing',
         auth: true,
@@ -846,7 +844,7 @@ module.exports = [
     {
         route: '/merchandiser/open-po-master-approval/kadiv-md',
         name: 'open-po-master-approval-kadiv-md',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/open-po-master-approval/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/open-po-master-approval/index',
         nav: true,
         title: 'Approval Open PO Master - Kadiv Md',
         auth: true,
@@ -862,7 +860,7 @@ module.exports = [
     {
         route: '/merchandiser/unit-delivery-order-marketing',
         name: 'unit-delivery-order-marketing',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/unit-delivery-order-marketing/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/unit-delivery-order-marketing/index',
         nav: true,
         title: 'DO Marketing',
         auth: true,
@@ -892,7 +890,7 @@ module.exports = [
     {
         route: '/merchandiser/packing-list-draft-approval',
         name: 'packing-list-draft-approval',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/packing-list-draft-approval/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/packing-list-draft-approval/index',
         nav: true,
         title: 'Approval Draft Packing List - Marketing',
         auth: true,
@@ -907,7 +905,7 @@ module.exports = [
     {
         route: '/merchandiser/packing-list-approval',
         name: 'packing-list-approval',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/packing-list-approval/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/packing-list-approval/index',
         nav: true,
         title: 'Approval Packing List - Marketing',
         auth: true,
@@ -922,7 +920,7 @@ module.exports = [
     {
         route: '/merchandiser/packing-list',
         name: 'packing-list',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/packing-list/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/packing-list/index',
         nav: true,
         title: 'Approved Packing List - Marketing',
         auth: true,
@@ -937,7 +935,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-cancel-approval',
         name: 'cost-calculation-cancel-approval',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/cost-calculation-cancel-approval/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/cost-calculation-cancel-approval/index',
         nav: true,
         title: 'Cancel Approval Cost Calculation',
         auth: true,
@@ -952,7 +950,7 @@ module.exports = [
     {
         route: '/merchandiser/report-cost-calculation-cancel-approval',
         name: 'report-cost-calculation-cancel-approval',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/cancel-approval-ccg-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/cancel-approval-ccg-report/index',
         nav: true,
         title: 'Report Cancel Approval Cost Calculation',
         auth: true,
@@ -966,7 +964,7 @@ module.exports = [
     {
         route: '/merchandiser/reject-ro-garment-report',
         name: 'reject-ro-garment-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/reject-ro-garment-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/reject-ro-garment-report/index',
         nav: true,
         title: 'Report Reject RO Garment',
         auth: true,
@@ -980,7 +978,7 @@ module.exports = [
     {
         route: '/merchandiser/wip-production-status-report',
         name: 'wip-production-status-report',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/wip-production-status-report/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/wip-production-status-report/index',
         nav: true,
         title: 'Laporan Status Produksi WIP',
         auth: true,
@@ -996,7 +994,7 @@ module.exports = [
     {
         route: '/merchandiser/packing-list-draft-approval-demo',
         name: 'packing-list-draft-approval-demo',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/packing-list-draft-approval-demo/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/packing-list-draft-approval-demo/index',
         nav: true,
         title: 'Approval Draft Packing List - Marketing Demo',
         auth: true,
@@ -1011,7 +1009,7 @@ module.exports = [
     {
         route: '/merchandiser/packing-list-approval-demo',
         name: 'packing-list-approval-demo',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/packing-list-approval-demo/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/packing-list-approval-demo/index',
         nav: true,
         title: 'Approval Packing List - Marketing Demo',
         auth: true,
@@ -1026,7 +1024,7 @@ module.exports = [
     {
         route: '/merchandiser/packing-list-demo',
         name: 'packing-list-demo',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/packing-list-demo/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/packing-list-demo/index',
         nav: true,
         title: 'Approved Packing List - Marketing Demo',
         auth: true,
@@ -1041,7 +1039,7 @@ module.exports = [
      {
         route: '/merchandiser/pr-master-usage-monitoring',
         name: 'pr-master-usage-monitoring',
-        moduleId: PLATFORM.moduleName('./modules/merchandiser/report/pr-master-usage-monitoring/index', 'merchandiser'),
+        moduleId: './modules/merchandiser/report/pr-master-usage-monitoring/index',
         nav: true,
         title: 'Monitoring Penggunaan PR Master',
         auth: true,

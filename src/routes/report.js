@@ -1,10 +1,8 @@
-const { PLATFORM } = require('aurelia-pal');
-
 module.exports = [
     {
         route: 'power-bi/purchasing/textile',
         name: 'power-bi-purchasing-textile',
-        moduleId: PLATFORM.moduleName('./modules/power-bi/purchasing-textile/index', 'report'),
+        moduleId: './modules/power-bi/purchasing-textile/index',
         nav: true,
         title: 'Power BI: Textile Purchasing Reports',
         auth: true,
@@ -17,7 +15,7 @@ module.exports = [
     {
         route: 'power-bi/purchasing/garment',
         name: 'power-bi-purchasing-garment',
-        moduleId: PLATFORM.moduleName('./modules/power-bi/purchasing-garment/index', 'report'),
+        moduleId: './modules/power-bi/purchasing-garment/index',
         nav: true,
         title: 'Power BI: Garment Purchasing Reports',
         auth: true,
@@ -30,7 +28,7 @@ module.exports = [
     {
         route: 'power-bi/finishing-printing',
         name: 'power-bi-finishing-printing',
-        moduleId: PLATFORM.moduleName('./modules/power-bi/finishing-printing/index', 'report'),
+        moduleId: './modules/power-bi/finishing-printing/index',
         nav: true,
         title: 'Power BI: Finishing Printing Reports',
         auth: true,
@@ -42,7 +40,7 @@ module.exports = [
     }, {
         route: 'power-bi/sales',
         name: 'power-bi-sales',
-        moduleId: PLATFORM.moduleName('./modules/power-bi/sales/index', 'report'),
+        moduleId: './modules/power-bi/sales/index',
         nav: true,
         title: 'Power BI: Sales Reports',
         auth: true,
@@ -54,7 +52,7 @@ module.exports = [
     }, {
         route: 'power-bi/inventory',
         name: 'power-bi-inventory',
-        moduleId: PLATFORM.moduleName('./modules/power-bi/inventory/index', 'report'),
+        moduleId: './modules/power-bi/inventory/index',
         nav: true,
         title: 'Power BI: Inventory Reports',
         auth: true,
@@ -67,7 +65,7 @@ module.exports = [
     {
         route: 'power-bi/dealtracking',
         name: 'power-bi-dealtracking',
-        moduleId: PLATFORM.moduleName('./modules/power-bi/dealtracking/index', 'report'),
+        moduleId: './modules/power-bi/dealtracking/index',
         nav: true,
         title: 'Power BI: Deal Tracking',
         auth: true,
