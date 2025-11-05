@@ -46,7 +46,7 @@ export class ServiceSales extends RestService {
         super(http, aggregator, config, "sales");
     }
     searchComodityBookingOrder(info) {
-        var endpoint = `${serviceUriBO}`;
+        var endpoint = `${serviceUriBO}/BOCategoryComodity`;
         return super.list(endpoint, info);
     }
 }
