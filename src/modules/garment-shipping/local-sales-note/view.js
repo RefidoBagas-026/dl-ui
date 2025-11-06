@@ -31,6 +31,14 @@ export class View {
         else{
             this.alertInfo ="";
         }
+
+        // this.bonColumns = [];
+        // const chunkSize = 5;
+        // let expenditureNoChunks = this.data.expenditureNo ? this.data.expenditureNo.split(',') : [];
+        
+        // for (let i = 0; i < expenditureNoChunks.length; i += chunkSize) {
+        //     this.bonColumns.push(expenditureNoChunks.slice(i, i + chunkSize));
+        // }
     }
 
     cancelCallback(event) {
