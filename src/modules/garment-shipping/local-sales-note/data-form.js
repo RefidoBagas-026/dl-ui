@@ -1,13 +1,14 @@
-import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
+import { inject, bindable, containerless, computedFrom, BindingEngine,TaskQueue } from 'aurelia-framework'
 import { Service, CoreService } from "./service";
 
 const TransactionTypeLoader = require('../../../loader/garment-transaction-type-loader');
 const BuyerLoader = require('../../../loader/garment-leftover-warehouse-buyer-loader');
 const SalesContractLoader=require('../../../loader/garment-shipping-local-sales-contract-loader');
+const BonLoader = require('../../../loader/garment-shipping-bon-loader');
 var VatTaxLoader = require('../../../loader/vat-tax-loader');
 import AccountBankLoader from "../../../loader/account-banks-loader";
 
-@inject(Service, CoreService)
+@inject(Service, CoreService, TaskQueue)
 export class DataForm {
 
     @bindable readOnly = false;
@@ -19,8 +20,16 @@ export class DataForm {
     @bindable selectedPaymentType;
     @bindable selectedVatTax;
     @bindable options = { useVat: false };
+    @bindable selectedBon;
+    @bindable useBonLoader = false;
+    @bindable bonColumns=[];
+    selectedBon = null;        
+    selectedBons = [];         
+    showBonPopup = false;
 
-    constructor(service, coreService) {
+
+    constructor(service, coreService,taskQueue) {
+        this.taskQueue = taskQueue;
         this.service = service;
         this.coreService = coreService;
     }
@@ -75,6 +84,18 @@ export class DataForm {
         return BuyerLoader;
     }
 
+    get bonLoader() {
+    return (keyword, filter) => {
+        return BonLoader(keyword, filter).then(result => {
+            const used = (this.selectedBons || []).map(x => x.GarmentExpenditureWasteNo);
+
+            return result.filter(item => 
+                !used.includes(item.GarmentExpenditureWasteNo)
+            );
+        });
+    };
+}
+
     transactionTypeView = (data) => {
         return `${data.Code || data.code} - ${data.Name || data.name}`;
     }
@@ -104,17 +125,34 @@ export class DataForm {
        return vatTax.rate ? `${vatTax.rate}` : `${vatTax.Rate}`;
     }
 
-
     async bind(context) {
         this.context = context;
         this.data = context.data;
         this.error = context.error;
-
+       
         if (this.data && this.data.transactionType) {
             this.items.options.transactionTypeId = this.data.transactionType.id;
         }
-        
-        if(this.data.id){       
+
+        const scType = (
+                this.data &&
+                this.data.transactionType &&
+                this.data.transactionType.code
+                    ? this.data.transactionType.code
+                    : ""
+            ).toUpperCase();
+        this.taskQueue.queueTask(() => {    
+        this.useBonLoader = ["LBL","LBM","SMR"].includes(scType);
+
+            if (!this.useBonLoader && !this.data.id) {
+                this.selectedBon = null;
+                this.selectedBons = [];
+                this.data.expenditureNo = "";
+                this.noBon();
+            }
+        });
+            
+        if(this.data.id){                   
            if(this.data.bank.id){
                 this.coreService.getBankAccountById(this.data.bank.id)
                 .then(result => {                    
@@ -156,6 +194,16 @@ export class DataForm {
         if (this.data.useVat) {
             this.options.useVat = true;            
         }
+
+         console.log("DATA:",this.data);
+
+        
+        if (this.data.id && this.data.expenditureNo) {
+            let split = this.data.expenditureNo.split(",");
+            this.selectedBons = split.map(code => ({ GarmentExpenditureWasteNo: code }));
+            this.noBon();
+        }
+
     }
 
     get dueDate() {
@@ -227,6 +275,43 @@ export class DataForm {
             this.data.salesContractNo="";
             this.data.localSalesContractId=0;
         }
+        if (newValue) {
+        // const scType = (
+        // newValue &&
+        // newValue.transactionType &&
+        // newValue.transactionType.code
+        //     ? newValue.transactionType.code
+        //     : ""
+        // ).toUpperCase();
+
+        
+        // if (scType === "LBL" || scType === "LBM" || scType === "SMR") {
+        //     this.useBonLoader = true;
+        // } else {
+        //     // this.useBonLoader = false;
+        //     // this.selectedBon = null;
+        //     // this.data.expenditureNo = "";
+        //     this.useBonLoader = false;
+        //     this.selectedBon = null;
+        //     if (!this.data.id) {
+        //         this.data.expenditureNo = "";
+        //     }
+        // }
+
+        const scType = 
+         ((newValue && newValue.transactionType && newValue.transactionType.code) 
+        ? newValue.transactionType.code.toUpperCase() 
+        : "");
+        
+        this.useBonLoader = ["LBL","LBM","SMR"].includes(scType);
+
+            if (!this.useBonLoader && !this.data.id) {
+                this.selectedBon = null;
+                this.selectedBons = [];
+                this.data.expenditureNo = "";
+                this.noBon();
+            }
+     }
     }
 
     selectedPaymentTypeChanged(newValue){
@@ -238,7 +323,6 @@ export class DataForm {
     
     selectedVatTaxChanged(newValue) {
         //console.log(newValue);
-    
         var _selectedVatTax = newValue;
         if (_selectedVatTax) {
             this.data.vat= {
@@ -257,6 +341,69 @@ export class DataForm {
         
              console.log(newValue);       
         }        
+    }
+
+    selectedBonChanged(newValue) {
+    if (newValue) {
+        this.data.expenditureNo = newValue.GarmentExpenditureWasteNo;
+        this.addBon();
+    } else {
+        this.data.expenditureNo = null;
+    }
+}
+
+    bonView = (data) => {
+        return data.GarmentExpenditureWasteNo 
+            ? `${data.GarmentExpenditureWasteNo}`
+            : "";
+        };
+
+    
+    openBonPopup() {
+        this.showBonPopup = true;
+    }
+
+
+    closeBonPopup(event) {
+        
+        if (!event || event.target.classList.contains('bon-popup-overlay')) {
+            this.showBonPopup = false;
+            this.selectedBon = null; 
+        }
+    }
+
+    addBon() {
+        if (this.selectedBon && !this.selectedBons.find(x => x.GarmentExpenditureWasteNo === this.selectedBon.GarmentExpenditureWasteNo)) {
+            this.selectedBons.push(this.selectedBon);
+            this.selectedBon = null; // reset input
+        }
+    }
+
+    removeBon(bon) {
+        this.selectedBons = this.selectedBons.filter(x => x.GarmentExpenditureWasteNo !== bon.GarmentExpenditureWasteNo);
+    }
+
+    saveSelectedBons() {
+        if (this.selectedBons.length > 0) {
+            this.data.expenditureNo = this.selectedBons.map(b => b.GarmentExpenditureWasteNo).join(',');
+        } else {
+            this.data.expenditureNo = null;
+        }
+        this.noBon();
+        this.showBonPopup = false;
+    }
+
+    noBon(){
+            this.bonColumns = [];
+            const chunkSize = 5;
+            let expenditureNoChunks = this.data.expenditureNo ? this.data.expenditureNo.split(',') : [];
+            
+            for (let i = 0; i < expenditureNoChunks.length; i += chunkSize) {
+                this.bonColumns.push(expenditureNoChunks.slice(i, i + chunkSize));
+            }
+            console.log(this.bonColumns);
+            console.log(this.useBonLoader);
+            return this.bonColumns;
     }
 
     get subtotal() {
@@ -297,4 +444,16 @@ export class DataForm {
         return `${acc.BankName} - ${acc.Currency.Code}`;
     }
 
+    // bonColumns() {
+    // const chunkSize = 5;
+    // //split by coma this.data.expenditureNo
+    // let expenditureNoChunks = this.data.expenditureNo ? this.data.expenditureNo.split(',') : [];
+    // let chunks = [];
+    // for (let i = 0; i < expenditureNoChunks.length; i += chunkSize) {
+    //     chunks.push(expenditureNoChunks.slice(i, i + chunkSize));
+    // }
+    // console.log(chunks);
+    // console.log(this.useBonLoader);
+    // return chunks;
+    // }
 }
