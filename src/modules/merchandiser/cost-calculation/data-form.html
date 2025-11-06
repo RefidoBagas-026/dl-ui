@@ -25,7 +25,7 @@
                     keypress.delegate="enterDelegate($event)">
                 </au-autocomplete>
                 <au-autocomplete label="Komoditi" placeholder="Cari Komoditi" value.bind="selectedComodity"
-                    text.bind="comodityView" error.bind="error.Comodity" query.bind="comodityQuery"
+                    text.bind="comodityView" error.bind="error.Comodity" query.bind="comodityQuery" read-only.bind="readOnly || isEdit"
                     loader.one-time="comodityLoader" options.bind="length4">
                 </au-autocomplete>
                 <!--keypress.delegate="enterDelegate($event)"-->
