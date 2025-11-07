@@ -185,7 +185,12 @@ export class Copy {
                 this.list();
             })
             .catch(e => {
-                if (e.statusCode === 500) {
+
+                if (e && e.message && e.message.includes("CategoryComodity")) {
+                    const parts = e.message.split(":");
+                    alert((parts[1] || e.message).trim());
+                }
+                else if (e.statusCode === 500) {
                     alert("Gagal menyimpan, silakan coba lagi!");
                 } else {
                     this.error = e;
