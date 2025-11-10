@@ -89,7 +89,14 @@
           <au-textbox label="Lead Time" options.bind="length4" value.bind="data.LeadTime" read-only.bind="readOnly"></au-textbox>
           <au-textbox label="Fabric (%)" options.bind="length4" value.bind="data.FabricAllowance" read-only.bind="readOnly"></au-textbox>
           <au-textbox label="Accessories (%)" options.bind="length4" value.bind="data.AccessoriesAllowance" read-only.bind="readOnly"></au-textbox>
-          <au-textbox label="FOB Price" options.bind="length4" value.bind="CM_Price" read-only.bind="readOnly"></au-textbox>                   
+          <au-textbox label="FOB Price" options.bind="length4" value.bind="CM_Price" read-only.bind="readOnly"></au-textbox>  
+          <au-checkbox label="Sample" value.bind="data.IsSample" error.bind="error.IsSample"
+            read-only.bind="true" options.bind="length4" change.delegate="selectedSampleChanged($event)" >
+          </au-checkbox>
+
+          <au-multiline if.bind="data.IsSample" label="Sample Description" placeholder="Keterangan" value.bind="data.SampleDescription"
+              error.bind="error.SampleDescription" options.bind="length4" read-only.bind="true">
+          </au-multiline>
         </div>
       </div>
       <div class="col-md-2">
