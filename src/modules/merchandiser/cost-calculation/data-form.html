@@ -109,6 +109,14 @@
                 </au-numeric>
                 <au-numeric label="SMV Total" value.bind="SMV_Total" options.bind="length4" read-only="disabled">
                 </au-numeric>
+
+                <au-checkbox label="Sample" value.bind="data.IsSample" error.bind="error.IsSample"
+                    read-only.bind="readOnly" options.bind="length4" change.delegate="selectedSampleChanged($event)" >
+                </au-checkbox>
+
+                <au-multiline if.bind="isSample" label="Keterangan Jenis Sample" placeholder="Keterangan" value.bind="data.SampleDescription"
+                    error.bind="error.SampleDescription" options.bind="length4">
+                </au-multiline>
             </div>
             <div class="col-md-3">
                 <au-textbox label="Buyer Agent" value.bind="dataBuyer" read-only="true" options.bind="length4">
