@@ -1,4 +1,38 @@
 <template>
+    <style>
+        .bon-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            
+            background-color: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bon-popup-content {
+            position: relative;
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 10px;
+            width: 36%;
+            max-height: 80vh;
+            overflow-y: auto;
+            min-height: 500px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+            animation: popupFadeIn 0.25s ease-in-out;
+        }
+
+        @keyframes popupFadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
     <div class="row">
         <div class="col-sm-12">
 
@@ -61,11 +95,82 @@
 
                 <au-datepicker label="Tgl Jatuh Tempo" value.to-view="dueDate" error.bind="error.dueDate"
                     read-only="true" options.bind="controlOptions" show.bind="data.paymentType=='TEMPO'">
-                </au-datepicker>
+                </au-datepicker> 
+                
+                <div class="row" if.bind="useBonLoader">
+                    <div class="col-sm-3">
+                        <p class="form-control-static text-right">No Bon Keluar</p>
+                    </div>
+                        <div class="col-sm-2 mb-2" repeat.for="col of bonColumns">
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <tr repeat.for="bon of col">
+                                        <td>${bon}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                   
 
-                <au-textbox label="No Bon Keluar" placeholder="No Bon Keluarr" value.bind="data.expenditureNo"
-                    error.bind="error.expenditureNo" read-only.bind="readOnly" options.bind="controlOptions">
-                </au-textbox>
+                    <div class="col-sm-2" if.bind="!readOnly">
+                        <button class="btn btn-primary w-100" click.delegate="openBonPopup()">+</button>
+                    </div>
+                     <div class="col-sm-4">
+                        <p if.bind="error.expenditureNo" style="color:red; font-size: 0.85em; margin-top: 4px;">
+                            ${error.expenditureNo}
+                        </p>
+                    </div>
+                </div>
+
+                <au-textbox 
+                   if.bind="!useBonLoader" label="No Bon Keluar" placeholder="No Bon Keluar" value.bind="data.expenditureNo"
+                   error.bind="error.expenditureNo" read-only.bind="readOnly" options.bind="controlOptions">
+               </au-textbox>
+
+
+                <!-- Popup Overlay untuk Pilih Bon LBL / LBM -->
+                <div if.bind="showBonPopup" class="bon-popup-overlay" click.delegate="closeBonPopup($event)">
+                    <div class="bon-popup-content" click.trigger.stop>
+                        <h4 class="mb-3">Pilih Bon Keluar</h4>
+
+                        <div class="row mb-2">
+                            <div class="col-sm-10">
+                                <au-autocomplete
+                                    label="Cari Bon Keluar"
+                                    placeholder="Cari Bon"
+                                    value.bind="selectedBon"
+                                    loader.bind="bonLoader"
+                                    text.bind="bonView"
+                                    options.bind="controlOptions">
+                                </au-autocomplete>
+                            </div>
+                        </div>
+                     
+                        <table class="table table-bordered table-striped" if.bind="selectedBons.length > 0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">No</th>
+                                    <th style="width: 70%;">No Bon Keluar</th>
+                                    <th style="width: 20%;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr repeat.for="bon of selectedBons">
+                                    <td>${$index + 1}</td>
+                                    <td>${bon.GarmentExpenditureWasteNo}</td>
+                                    <td class="text-center">
+                                        <button  class="btn btn-danger btn-sm" click.delegate="removeBon(bon)">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="text-end mt-3">
+                            <button class="btn btn-success me-2" click.delegate="saveSelectedBons()">Simpan</button>
+                            <button class="btn btn-secondary" click.delegate="closeBonPopup()">Tutup</button>
+                        </div>
+                    </div>
+                </div>
 
                 <au-textbox label="No Disposisi" placeholder="No Disposisi" value.bind="data.dispositionNo"
                     error.bind="error.dispositionNo" read-only.bind="readOnly" options.bind="controlOptions">

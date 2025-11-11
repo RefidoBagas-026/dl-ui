@@ -2,6 +2,7 @@ import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { AuthService } from "aurelia-authentication";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, AuthService)
 export class View {
@@ -26,6 +27,8 @@ export class View {
         }
 
         let id = params.id;
+        let decoded = Base64Helper.decode(id);
+        id = decoded;
         this.data = await this.service.read(id);
 
         if (this.data) {
