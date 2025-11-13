@@ -320,7 +320,6 @@ export class DataForm {
       this.isSample = true;
     }else{
       this.isSample = false;
-      this.data.SampleDescription = null;
     }
   }
   get preSalesContractLoader() {
