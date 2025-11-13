@@ -8,7 +8,7 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 @inject(Router, Service, AuthService)
 export class List {
 
-    context = ["detail","Cetak PDF Invoice", "Cetak PDF Invoice CMT", "Cetak PDF Invoice W/ Kop", "Cetak PDF DN W/Kop", "Cetak PDF Invoice CMT W/ Kop", "Cetak Excel Invoice", "Cetak Excel Invoice CMT","Cetak Excel Invoice W/ Kop", "Cetak Excel Invoice CMT W/ Kop"]
+    context = ["detail","Cetak PDF Invoice", "Cetak PDF Invoice CMT", "Cetak PDF Invoice W/ Kop", "Cetak PDF DN W/Kop", "Cetak PDF Invoice CMT W/ Kop", "Cetak Excel Invoice", "Cetak Excel Invoice CMT","Cetak Excel Invoice W/ Kop", "Cetak Excel Invoice CMT W/ Kop", "Cetak PDF Invoice W/ Comm", "Cetak Excel Invoice W/ Comm"]
 
     columns = [
         { field: "invoiceNo", title: "No Invoice" },
@@ -101,7 +101,14 @@ export class List {
                 break;
             case "Cetak Excel Invoice CMT W/ Kop": 
                 this.service.getWHXlsById(data.id, "cmt"); 
-                break;                                              
+                break;   
+            case "Cetak PDF Invoice W/ Comm": 
+                this.service.getPdfById(data.id, "fobCom"); 
+                break;
+            case "Cetak Excel Invoice W/ Comm": 
+                this.service.getXlsById(data.id, "fobCom"); 
+                break;
+                                                       
         }
     }
 
