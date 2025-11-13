@@ -2,7 +2,7 @@
 import { inject, bindable, computedFrom, BindingEngine } from 'aurelia-framework'
 import { Service ,CoreService} from './service';
 
-const DestinationLoader = require('../../../loader/garment-scrap-destination-loader');
+const DestinationLoader = require('../../../loader/garment-scrap-destination-loader-transaction');
 
 @inject(Service,CoreService, BindingEngine)
 export class DataForm {
@@ -85,7 +85,7 @@ export class DataForm {
 
             this.data.ScrapDestinationId = newValue.Id;
             this.data.ScrapDestinationName = newValue.Name;
-            this.service.searchStock({order: {"ScrapClassificationName" : "asc"}, filter: JSON.stringify({ ScrapDestinationName:  this.data.ScrapDestinationName }) }).then((results) => {
+            this.service.searchStock({order: {"ScrapClassificationName" : "asc"}, filter: JSON.stringify({ ScrapDestinationName:  this.data.ScrapDestinationName}) }).then((results) => {
            
                 for(var items of results.data)
                 {
