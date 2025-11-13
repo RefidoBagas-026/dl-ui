@@ -11,15 +11,14 @@ class Service extends RestService {
     }
 
     search(info) {
-        var endpoint = `${getServiceUri}`;
-        console.log(endpoint);
+        var endpoint = `${serviceUri}`;
         return super.list(endpoint, info);
         
     }
     
 
     searchStock(info) {
-        var endpoint = `${serviceStockUri}`;
+        var endpoint = `${serviceUri}/${serviceStockUri}`;
         return super.list(endpoint, info);
     }
     
@@ -42,8 +41,13 @@ class Service extends RestService {
         var endpoint = `${serviceUri}/${data.Id}`;
         return super.delete(endpoint, data);
     }
+    // searchRemaining(info) {
+    //     var endpoint = `${remainingQtyUri}`;
+    //     return super.list(endpoint, info);
+    // }
+
     searchRemaining(info) {
-        var endpoint = `${remainingQtyUri}`;
+        var endpoint = `${serviceUri}/${serviceStockUri}`;
         return super.list(endpoint, info);
     }
     

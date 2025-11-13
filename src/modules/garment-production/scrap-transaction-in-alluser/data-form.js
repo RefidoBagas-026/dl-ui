@@ -2,8 +2,8 @@
 import { inject, bindable, computedFrom, BindingEngine } from 'aurelia-framework'
 import { Service ,CoreService} from './service';
 
-const DestinationLoader = require('../../../loader/garment-scrap-destination-loader');
-const SourceLoader = require('../../../loader/garment-scrap-source-loader');
+const DestinationLoader = require('../../../loader/garment-scrap-destination-loader-transaction');
+const SourceLoader = require('../../../loader/garment-scrap-source-loader-transaction');
 @inject(Service,CoreService, BindingEngine)
 export class DataForm {
     @bindable title;
