@@ -15,7 +15,8 @@
             <button class='btn btn-primary' click.delegate="ExportToExcel()">Export To Excel</button>
           </div>
         <br>
-        <table class="table table-bordered table-hover" id="myTable">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="myTable">
             <thead>
                 <tr>
                     <th class="text-center">Nomor</th>
@@ -67,12 +68,14 @@
                         <td>${item.ValidatedPurch}</td>
                         <td>${item.ValidatedKadiv}</td> 
                         <td>${item.ValidatedDate}</td>        
-                        <td>${item.IsSample}</td>
-                        <td>${item.SampleDescription}</td>                 
+                        <td>${item.IsSample ? "Ya" : "Tidak"}</td>
+                        <td style="white-space: pre-line; min-width: 400px;">${item.SampleDescription}</td>               
                     </tr>
             </tbody>
 
         </table>
+        </div>
+        
         <div class="alert alert-info text-center" role="alert" if.bind="data.length == 0">
             Tidak Ada Data Yang Ditemukan.
         </div>

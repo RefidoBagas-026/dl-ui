@@ -26,10 +26,15 @@ export class List {
     }
 
     searching() {
+        var defaultFrom = new Date(1970, 0, 1); // 1 Jan 1970
+        var defaultTo = new Date(); // tanggal & waktu sekarang
+
         var info = {
-            dateFrom : this.dateFrom,
-            dateTo : this.dateTo,
-        }
+            dateFrom: this.dateFrom ? new Date(this.dateFrom) : defaultFrom,
+            dateTo: this.dateTo ? new Date(this.dateTo) : defaultTo
+        };
+
+
         if (this.unitName) {
            info.unitName = this.unitName.Name
         }
@@ -54,10 +59,13 @@ export class List {
     }
           
     ExportToExcel() {
+        var defaultFrom = new Date(1970, 0, 1); // 1 Jan 1970
+        var defaultTo = new Date(); // tanggal & waktu sekarang
+
         var info = {
-            dateFrom : this.dateFrom,
-            dateTo : this.dateTo,
-        }
+            dateFrom: this.dateFrom ? new Date(this.dateFrom) : defaultFrom,
+            dateTo: this.dateTo ? new Date(this.dateTo) : defaultTo
+        };
         if (this.unitName) {
            info.unitName = this.unitName.Name
         }
