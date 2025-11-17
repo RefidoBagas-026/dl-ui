@@ -47,11 +47,27 @@ export class DataForm {
         this.error = this.context.error;
         this.options.isCreate = this.context.isCreate;
         this.options.isView = this.context.isView;
+          console.log(this.data);
         if(this.data)
         {
-            this.selectedSource= this.data.ScrapSourceName;
-            this.selectedDestination= this.data.ScrapDestinationName;
+            // Buat objek lengkap untuk autocomplete, bukan hanya string
+            if (this.data.ScrapSourceId && this.data.ScrapSourceName) {
+                this.selectedSource = {
+                    Id: this.data.ScrapSourceId,
+                    Name: this.data.ScrapSourceName,
+                    Code: this.data.ScrapSourceCode || '' // tambahkan Code jika ada
+                };
+            }
+            
+            if (this.data.ScrapDestinationId && this.data.ScrapDestinationName) {
+                this.selectedDestination = {
+                    Id: this.data.ScrapDestinationId,
+                    Name: this.data.ScrapDestinationName,
+                    Code: this.data.ScrapDestinationCode || '' // tambahkan Code jika ada
+                };
+            }
         }
+      
     }
     itemsInfo = {
         columns: [
