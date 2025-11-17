@@ -15,7 +15,7 @@ class Service extends RestService {
     
 
     searchClassification(info) {
-        var endpoint = `${serviceClassUri}`;
+        var endpoint = `${serviceUri}/${serviceClassUri}`;
         return super.list(endpoint, info);
     }
     
