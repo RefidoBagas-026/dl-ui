@@ -16,11 +16,13 @@ export class Edit {
         var id = params.id;
         var idDecoded = Base64Helper.decode(id);
         this.data = await this.service.read(idDecoded);
+
+        console.log(this.data);
     }
 
     bind(context) {
         this.context = context;
-        this.data = this.context.data;
+        // this.data = this.context.data; // Jangan timpa data yang sudah di-load dari activate()
         this.error = this.context.error;
         this.hasCancel=true;
         this.hasSave=true;
