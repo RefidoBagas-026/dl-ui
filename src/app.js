@@ -16,6 +16,20 @@ export class App {
     this.router = router;
   }
 
+   attached() {
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "F12") e.preventDefault();
+
+      if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase())) {
+        e.preventDefault();
+      }
+
+      if (e.ctrlKey && e.key.toUpperCase() === "U") {
+        e.preventDefault();
+      }
+    });
+  }
   @computedFrom('authService.authenticated')
   get isAuthenticated() {
     return this.authService.authenticated;
