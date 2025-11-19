@@ -55,65 +55,130 @@ export class ItemManual {
     return `${ni.INNo}`;
   };
 
-  get NILoader() {
-    return (keyword) => {
-      var info = {
-        keyword: keyword,
-        filter: JSON.stringify({
-          SupplierId: this.data.supplierId,
-          CurrencyCode: this.data.currencyCode,
-        }),
-      };
-      return this.purchasingService.GetNi(info).then((result) => {
-        var NIList = [];
-        for (var a of result.data) {
-          if (NIList.length == 0) {
+//   get NILoader() {
+//     return (keyword) => {
+//       var info = {
+//         keyword: keyword,
+//         filter: JSON.stringify({
+//           SupplierId: this.data.supplierId,
+//           CurrencyCode: this.data.currencyCode,
+//         }),
+//       };
+//       return this.purchasingService.GetNi(info).then((result) => {
+//         var NIList = [];
+//         for (var a of result.data) {
+//           if (NIList.length == 0) {
+//             var selectedNI = this.items.find(
+//               (x) => x.data.InternalNote.DocumentNo == a.INNo
+//             );
+//             if (!selectedNI) {
+//               NIList.push(a);
+//             }
+//           } else {
+//             var dup = NIList.find((d) => d.INNo == a.INNo);
+//             if (!dup) {
+//               var selectedNI = this.items.find(
+//                 (x) => x.data.InternalNote.DocumentNo == a.INNo
+//               );
+//               if (!selectedNI) {
+//                 NIList.push(a);
+//               }
+//             }
+//           }
+//         }
+//         return NIList;
+//       });
+//     };
+//   }
+
+
+get NILoader() {
+  return (keyword) => {
+    var info = {
+      keyword: keyword,
+      filter: JSON.stringify({
+        SupplierId: this.data.supplierId,
+        CurrencyCode: this.data.currencyCode,
+      }),
+    };
+
+    return this.purchasingService.GetNi(info).then((result) => {
+      var NIList = [];
+
+      for (var a of result.data) {
+
+        if (a.DPPVATIsPaid === true) continue;
+
+        if (NIList.length == 0) {
+          var selectedNI = this.items.find(
+            (x) => x.data.InternalNote.DocumentNo == a.INNo
+          );
+          if (!selectedNI) {
+            NIList.push(a);
+          }
+        } else {
+          var dup = NIList.find((d) => d.INNo == a.INNo);
+          if (!dup) {
             var selectedNI = this.items.find(
               (x) => x.data.InternalNote.DocumentNo == a.INNo
             );
             if (!selectedNI) {
               NIList.push(a);
             }
-          } else {
-            var dup = NIList.find((d) => d.INNo == a.INNo);
-            if (!dup) {
-              var selectedNI = this.items.find(
-                (x) => x.data.InternalNote.DocumentNo == a.INNo
-              );
-              if (!selectedNI) {
-                NIList.push(a);
-              }
-            }
           }
         }
-        return NIList;
-      });
-    };
-  }
+      }
+
+      return NIList;
+    });
+  };
+}
+
+
 
   toggle() {
     this.isShowing = !this.isShowing;
   }
 
-  async selectedNIChanged(newValue) {
-    if (newValue) {
-      this.data.InternalNote.DocumentNo = newValue.INNo;
+  // async selectedNIChanged(newValue) {
+  //   if (newValue) {
+  //     this.data.InternalNote.DocumentNo = newValue.INNo;
 
-      Promise.resolve(
-        this.purchasingService.dppVATBankExpenditureNotes({
-          niId: newValue.Id,
-        })
-      ).then((result) => {
-        if (result.length > 0) {
-          this.data.InternalNote = result[0].InternalNote;
-          this.data.Select = true;
-        }
-      });
-    } else {
-      this.context.selectedNIViewModel.editorValue = "";
+  //     Promise.resolve(
+  //       this.purchasingService.dppVATBankExpenditureNotes({
+  //         niId: newValue.Id,
+  //       })
+  //     ).then((result) => {
+  //       if (result.length > 0) {
+  //         this.data.InternalNote = result[0].InternalNote;
+  //         this.data.Select = true;
+  //       }
+  //     });
+  //   } else {
+  //     this.context.selectedNIViewModel.editorValue = "";
+  //     this.data.InternalNote.DocumentNo = "";
+  //   }
+  // }
+
+  async selectedNIChanged(newValue) {
+  if (newValue) {
+    this.data.InternalNote.DocumentNo = newValue.INNo;
+
+    const result = await this.purchasingService.dppVATBankExpenditureNotes({
+      niId: newValue.Id,
+    });
+
+    if (result.length > 0) {
+      this.data.InternalNote = result[0].InternalNote;
+      this.data.Select = true;
+    }
+  } else {
+    if (this.data && this.data.InternalNote) {
       this.data.InternalNote.DocumentNo = "";
     }
+
   }
+}
 
   get outstanding() {
     var result = 0;
