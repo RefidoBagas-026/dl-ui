@@ -1051,4 +1051,21 @@ module.exports = [
         }
     },
     //END
+
+    {
+        route: '/merchandiser/cost-calculation-model-upload-by-user',
+        name: 'cost-calculation-model-upload-by-user',
+        moduleId: './modules/merchandiser/cost-calculation-model-upload/index',
+        nav: true,
+        title: 'Cost Calculation Export Garment ( Model Upload )',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "transaksi",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "L68": 1 },
+            iconClass: 'fa fa-calculator',
+            byUser: true
+        }
+    },
 ];
