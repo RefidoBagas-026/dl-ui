@@ -1,5 +1,6 @@
 <template>
     <tr>
+        
         <td>
             <au-textbox value.bind="prNo" read-only.bind="true" error.bind="error.PRNo">
             </au-textbox>
@@ -104,23 +105,23 @@
         </td>
         <td if.bind="!options.readOnly"><button class="btn btn-danger pull-right"
                 click.delegate="onremove(data, $event)">-</button></td>
-        <td>
-            <au-textbox value.bind="data.PI" error.bind="error.PI" read-only.bind="options.readOnly && !isEdit"
+        <td data-column="PI">
+            <au-textbox value.bind="data.PI"  error.bind="error.PI" read-only.bind="options.readOnly && !isEdit"
                 options.bind="controlOptions">
             </au-textbox>
         </td>
-        <td>
-            <au-datepicker value.bind="data.ETD" error.bind="error.ETD" read-only.bind="options.readOnly && !isEdit"
+        <td data-column="ETD">
+            <au-datepicker value.bind="data.ETD"  error.bind="error.ETD" read-only.bind="options.readOnly && !isEdit"
                 options.bind="controlOptions">
             </au-datepicker>
         </td>
-        <td>
+        <td data-column="ETA">
             <au-datepicker value.bind="data.ETA" error.bind="error.ETA" read-only.bind="options.readOnly && !isEdit"
                 options.bind="controlOptions">
             </au-datepicker>
         </td>
-        <td>
-            <au-checkbox value.bind="data.IsArrived" error.bind="error.IsArrived"
+        <td data-column="IsArrived">
+            <au-checkbox value.bind="data.IsArrived"  error.bind="error.IsArrived"
                 read-only.bind="options.readOnly && !isEdit" options.bind="controlOptions">
             </au-checkbox>
         </td>
