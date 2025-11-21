@@ -95,7 +95,8 @@ export class DataForm {
 
   get filterCostCalculationGarment() {
     //return { "RO_GarmentId": null, "SCGarmentId":null }
-    return { "RO_GarmentId== null && SCGarmentId > 0": true };
+    //return { "RO_GarmentId== null && SCGarmentId > 0": true };
+    return { "RO_GarmentId== null":true};
   }
 
   constructor(router, service, bindingEngine) {

@@ -8,8 +8,7 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 @inject(Router, Service, AuthService)
 export class List {
     dataToBePosted = [];
-    context = ["Rincian", "Cetak PDF by Style", "Cetak PDF by SKU", 
-        "Cetak PDF by Size", "Cetak PDF by Color", "Cetak PDF by Destination", "Cetak PDF by Nomor PO"];
+    context = ["Detail", "Cetak Cost Calculation", "Cetak Budget", "Cetak Cost Calculation (DRAFT)", "Cetak Budget (DRAFT)"];
     options = {};
     columns = [
         {
@@ -19,33 +18,23 @@ export class List {
                 return "";
             }
         },
-        { field: "CostCalculationGarment.RO_Number", title: "No RO" },
-        { field: "BrandCode", title: "Kode Buyer" },
-        { field: "BrandName", title: "Nama Buyer" },
-        { field: "CostCalculationGarment.Article", title: "Artikel" },
-        { field: "CostCalculationGarment.UnitName", title: "Unit" },
-        { field: "Total", title: "Kuantitas Order" },
-        { field: "UOMUnit", title: "Satuan" },
-        { field: "CostCalculationGarment.IsValidatedROSample", title: "Approval Sample"
-            , formatter: (value) => value === true ? "SUDAH" : "BELUM"},
-        { field: "CostCalculationGarment.IsValidatedROMD", title: "Approval Kabag Md"
-            , formatter: (value) => value === true ? "SUDAH" : "BELUM"},
+        { field: "PreSCNo", title: "No Sales Contract" },
+        { field: "RO_Number", title: "No RO" },
+        { field: "Article", title: "Artikel" },
+        { field: "UnitName", title: "Unit" },
+        { field: "Quantity", title: "Kuantitas" },
+        { field: "ConfirmPrice", title: "Harga Konfirmasi" },
+        { field: "IsApprovedMD", title: "Approval Kabag Md" },
+        { field: "IsApprovedIE", title: "Approval IE" },
+        { field: "IsApprovedPurchasing", title: "Approval Purchasing" },
+        { field: "IsApprovedKadivMD", title: "Approval Kadiv Md" },
     ];
 
     rowFormatter(data, index) {
-        if (data.CostCalculationGarment.IsValidatedROSample && data.CostCalculationGarment.IsValidatedROMD) {
-            if (data.IsRejected) {
-                return { classes: "" }
-            } else {
-                return { classes: "success" }
-            }
-        }
+        if (data.ApprovalMD.IsApproved && data.ApprovalPurchasing.IsApproved && data.ApprovalIE.IsApproved && data.ApprovalKadivMD.IsApproved)
+            return { classes: "success" }
         else
-            if (data.IsRejected) {
-                return { classes: "" }
-            } else {
-                return { classes: "danger" }
-            }
+            return { classes: "danger" }
     }
 
     loader = (info) => {
@@ -64,13 +53,14 @@ export class List {
 
         return this.service.search(arg)
             .then(result => {
-                result.data.forEach(data => {
+                result.data.map(data => {
                     data.byUser = this.byUser;
                     data.isPosting = data.IsPosted;
-                    data.CostCalculationGarment.UnitName = data.CostCalculationGarment.Unit.Name;
-                    data.BrandCode = data.CostCalculationGarment.BuyerBrand.Code;
-                    data.BrandName = data.CostCalculationGarment.BuyerBrand.Name;   
-                    data.UOMUnit = data.CostCalculationGarment.UOM.Unit; 
+                    data.IsApprovedMD = data.ApprovalMD.IsApproved ? "SUDAH" : "BELUM";
+                    data.IsApprovedIE = data.ApprovalIE.IsApproved ? "SUDAH" : "BELUM";
+                    data.IsApprovedPurchasing = data.ApprovalPurchasing.IsApproved ? "SUDAH" : "BELUM";
+                    data.IsApprovedKadivMD = data.ApprovalKadivMD.IsApproved ? "SUDAH" : "BELUM";
+                    return data;
                 });
                 return {
                     total: result.info.total,
@@ -120,34 +110,28 @@ export class List {
         var data = arg.data;
         const encoded = Base64Helper.encode(data.Id);
         switch (arg.name) {
-            case "Rincian":
+            case "Detail":
                 this.router.navigateToRoute('view', { id: encoded });
                 break;
-            case "Cetak PDF by Style":
-                this.service.getPdfById(data.Id, "style");
+            case "Cetak Cost Calculation":
+            case "Cetak Cost Calculation (DRAFT)":
+                this.service.getPdfById(data.Id)
                 break;
-            case "Cetak PDF by SKU":
-                this.service.getPdfById(data.Id, "sku");
-                break;
-            case "Cetak PDF by Color":
-                this.service.getPdfById(data.Id, "color");
-                break;
-            case "Cetak PDF by Size":
-                this.service.getPdfById(data.Id, "size");
-                break;
-            case "Cetak PDF by Destination":
-                this.service.getPdfById(data.Id, "destination");
-                break;
-            case "Cetak PDF by Nomor PO":
-                this.service.getPdfById(data.Id, "po");
+            case "Cetak Budget":
+            case "Cetak Budget (DRAFT)":
+                this.service.getBudgetById(data.Id)
                 break;
         }
     }
 
     contextShowCallback(index, name, data) {
         switch (name) {
-            case "Cetak PDF":
+            case "Cetak Cost Calculation":
+            case "Cetak Budget":
                 return data.IsPosted;
+            case "Cetak Cost Calculation (DRAFT)":
+            case "Cetak Budget (DRAFT)":
+                return !data.IsPosted;
             default:
                 return true;
         }
@@ -156,7 +140,7 @@ export class List {
     attached() {
         this.options.height = $(window).height() - $('nav.navbar').height() - $('h1.page-header').height();
     }
-
+    
     create() {
         this.router.navigateToRoute('create');
     }
@@ -165,23 +149,12 @@ export class List {
         const unpostedDataToBePosted = this.dataToBePosted.filter(d => d.IsPosted === false);
         if (unpostedDataToBePosted.length > 0) {
             if (confirm(`Post ${unpostedDataToBePosted.length} data?`)) {
-                this.service.postRO(unpostedDataToBePosted.map(d => d.Id))
+                this.service.postCC(unpostedDataToBePosted.map(d => d.Id))
                     .then(result => {
-                        
-                        
                         this.table.refresh();
                         this.dataToBePosted = [];
-                        //console.log(result.message);
                     }).catch(e => {
-                        const errorMessage = e.ErrorPost || Object.values(e)[0];
-                        
-
-                        if (errorMessage == null || errorMessage === "")
-                        {
-                            alert("Terjadi kesalahan pada server.")
-                        }else{
-                            alert(errorMessage);
-                        }
+                        this.error = e;
                     })
             }
         }
