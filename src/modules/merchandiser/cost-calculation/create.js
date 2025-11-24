@@ -21,6 +21,9 @@ export class Create {
     }
 
     saveCallback() {
+        if(!this.data.IsSample){
+            this.data.SampleDescription = null;
+         }
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");

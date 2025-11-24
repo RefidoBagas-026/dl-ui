@@ -90,6 +90,9 @@ export class Edit {
     }
 
     saveCallback(event) {
+        if(!this.data.IsSample){
+            this.data.SampleDescription = null;
+         }
         this.service.update(this.data)
             .then(result => {
                 const encoded = Base64Helper.encode(this.data.Id);

@@ -43,6 +43,7 @@ export class DataForm {
   @bindable error = {};
   @bindable SelectedRounding;
   @bindable isCopy = false;
+  @bindable isSample = false;
 
   leadTimeList = ["", "25 hari", "40 hari"];
   subconTypes = [
@@ -309,9 +310,17 @@ export class DataForm {
         item.SubconType = this.data.SubconType;
       });
     }
-
+    this.isSample = this.data.IsSample;
     this.costCalculationGarment_MaterialsInfo.options.CCId = this.data.Id;
     this.costCalculationGarment_MaterialsInfo.options.SCId = this.data.PreSCId;
+  }
+
+   selectedSampleChanged(value){
+    if(this.data.IsSample){
+      this.isSample = true;
+    }else{
+      this.isSample = false;
+    }
   }
 
   get preSalesContractLoader() {
