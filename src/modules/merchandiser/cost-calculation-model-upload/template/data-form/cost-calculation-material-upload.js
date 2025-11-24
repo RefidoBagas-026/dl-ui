@@ -41,7 +41,6 @@ export class CostCalculationMaterial {
         this.readOnly = this.options.readOnly || false;
         this.isEdit = this.context.context.options.IsEditMaterial  || false;
         this.isCopy = this.context.context.options.IsCopyCC || false;
-        console.log(this.isCopy);
         this.disabled = true;
         this.data.showDialog = this.data.showDialog === undefined ? (this.data.Category === undefined ? true : false) : (this.data.showDialog === true ? true : false);
         this.data.isFabricCM = this.data.isFabricCM ? this.data.isFabricCM : false;
@@ -122,7 +121,6 @@ export class CostCalculationMaterial {
     @bindable categoryIsExist = false;
     async selectedCategoryChanged(newVal, oldVal) {
         this.data.Category = newVal;
-        console.log(newVal);
         if (newVal) {
             this.selectedComposition = null;
             this.data.Description = "";
@@ -571,10 +569,8 @@ uomView =(uom)=>{
 
     clickPRMaster() {
         var productCategory = null;
-        console.log(this.data);
         if(this.data.Category){
             productCategory = this.data.Category.Name;
-            console.log(productCategory);
         }
         this.dialog.show(PRMasterDialog, { CCId: this.context.context.options.CCId || 0, SCId: this.context.context.options.SCId || 0, CategoryName: productCategory })
             .then(response => {
