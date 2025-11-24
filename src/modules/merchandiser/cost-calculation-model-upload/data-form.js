@@ -214,7 +214,6 @@ export class DataForm {
     this.context = context;
     this.data = this.context.data;
     this.error = this.context.error;
-    console.log("HHH");
     if (this.data.CostCalculationGarment_Materials && this.data.CostCalculationGarment_Materials.length > 0) {
         this.dataMaterialUpload = this.data.CostCalculationGarment_Materials.filter(m => m.IsFromUpload);
         this.dataMaterial = this.data.CostCalculationGarment_Materials.filter(m => !m.IsFromUpload);
@@ -660,7 +659,6 @@ export class DataForm {
         this.context.itemsCollection.bind();
       }
     });
-    console.log(this.dataMaterial);
   }
  
   @bindable fabricAllowance;
@@ -1008,7 +1006,6 @@ export class DataForm {
 
   get NETFOBP() {
     let allMaterialCost = 0;
-    console.log("EDIT:",this.isEdit,"COPY:",this.isCopy);
       const targets = [
         this.dataMaterialUpload,
         this.dataMaterial
@@ -1068,9 +1065,40 @@ export class DataForm {
       const firstSheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[firstSheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+      
+      if (jsonData.length === 0) {
+            alert("File kosong atau tidak memiliki data.");
+            return;
+        }
 
+        // Ambil header dari row pertama
+        const actualHeaders = Object.keys(jsonData[0]);
+
+        // Expected header
+        const expectedHeaders = [
+            "PR MASTER",
+            "CMT",
+            "Kode Barang",
+            "Keterangan",
+            "Detil Barang",
+            "Usage per pcs",
+            "Satuan Barang",
+            "Rincian qty",
+            "Harga",
+            "Satuan beli",
+            "Konversi",
+            "Ongkir %",
+            "Remark RO"
+        ];
+        // Loop semua expected header
+        for (let header of expectedHeaders) {
+            if (!actualHeaders.includes(header)) {
+                alert(`Template tidak sesuai.`);
+                return;
+            }
+        }
       this.previewData = jsonData;
-      this.headers = Object.keys(jsonData[0] || {});
+      this.headers = actualHeaders;
 
       await this.pushDataExcel(this.previewData);
     };
