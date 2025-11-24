@@ -204,7 +204,7 @@
         <div class="table-responsive">
             <au-collection items.bind="data.Items" errors.bind="error.Items" title="Pilih PO Internal"
                 columns.bind="items.columns" remove.bind="items.onRemove" options.bind="options" read-only.bind="readOnly"
-                change.delegate="itemsChanged($event)" show.bind="isItem" view-model.ref="DetailsCollection"
+                change.delegate="onItemChangeDelegate($event)" show.bind="isItem" view-model.ref="DetailsCollection"
                 footer-template="modules/garment-purchasing/purchase-order-external/template/purchase-order-external-item-footer"
                 header-template="modules/garment-purchasing/purchase-order-external/template/purchase-order-external-item-header"
                 item-template="modules/garment-purchasing/purchase-order-external/template/purchase-order-external-item">

@@ -1,4 +1,5 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
+import { BindingSignaler } from 'aurelia-templating-resources';
 import { Service } from "./service";
 var SupplierLoader = require('../../../loader/garment-supplier-loader');
 var CurrencyLoader = require('../../../loader/garment-currencies-by-date-loader');
@@ -7,7 +8,7 @@ var VatTaxLoader = require('../../../loader/vat-tax-loader');
 import moment from 'moment';
 
 @containerless()
-@inject(Service, BindingEngine)
+@inject(Service, BindingSignaler, BindingEngine)
 export class DataForm {
     @bindable readOnly = false;
     @bindable isEdit = false;
@@ -40,8 +41,9 @@ export class DataForm {
         }
     }
 
-    constructor(service, bindingEngine) {
+    constructor(service, bindingSignaler, bindingEngine) {
         this.service = service;
+        this.signaler = bindingSignaler;
         this.bindingEngine = bindingEngine;
     }
 
@@ -603,6 +605,45 @@ export class DataForm {
 
     itemsChanged(e) {
         this.checkOverBudgetAll();
+    }
+
+    findParent(el, tagName) {
+        while (el && el.tagName !== tagName.toUpperCase()) {
+            el = el.parentElement;
+        }
+        return el;
+        }
+
+    onitemchange(event) {
+        var td = this.findParent(event.target, "td");
+        var tr = this.findParent(event.target, "tr");
+
+        if (!td || !tr) return 
+
+        var columnName = (td && td.dataset) ? td.dataset.column : undefined;
+        if (!columnName) return
+
+        var allowedColumns = ["PI", "ETD", "ETA", "IsArrived"];
+        if (allowedColumns.indexOf(columnName) === -1) return;
+
+        var row = tr.rowIndex;
+        var newValue;
+        if (columnName === "ETD" || columnName === "ETA") {
+            newValue = new Date(event.target.value);
+        } else if (columnName === "IsArrived") {
+            newValue = event.target.checked;
+        } else {
+            newValue = event.target.value;
+        }
+
+        for (var i = row; i < this.data.Items.length; i++) {
+            this.data.Items[i][columnName] = newValue;
+        }
+    }
+
+    onItemChangeDelegate(event) {
+        this.onitemchange(event); 
+        this.itemsChanged(event);  
     }
 
 }
