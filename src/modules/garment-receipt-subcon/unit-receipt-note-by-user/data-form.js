@@ -31,8 +31,8 @@ export class DataForm {
   @bindable uen;
   @bindable options = {};
 
-  typeOptions = ["TERIMA SUBCON", "PROSES"];
-
+  // typeOptions = ["TERIMA SUBCON", "PROSES"];
+  typeOptions = ["TERIMA SUBCON"];
   filterDR = {
     IsUsed: false,
   };
