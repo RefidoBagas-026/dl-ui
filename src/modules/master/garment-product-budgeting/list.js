@@ -66,4 +66,8 @@ export class List {
   create() {
     this.router.navigateToRoute('create');
   }
+
+  ExportToExcel() {
+        this.service.generateExcel();
+    }
 }
