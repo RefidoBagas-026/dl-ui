@@ -158,6 +158,12 @@
               click.delegate="removeImage($index)">Remove</button>
           </div>
         </template>
+        <div class="text-left">
+          <button type="button" class="btn btn-primary" if.bind="readOnly"
+                click.delegate="DownloadAllImages()">
+            Download Image
+          </button>
+        </div>
         <au-textbox error.bind="error.ImageFile" read-only.bind="true"></au-textbox>
       </div>
     </div>
