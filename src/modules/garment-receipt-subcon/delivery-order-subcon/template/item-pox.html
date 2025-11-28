@@ -6,7 +6,7 @@
         error.bind="error.EPONo"
         loader.bind="EPOLoader"
         text.bind = "epoView"
-        read-only.bind="readOnly"
+        read-only.bind="readOnly || isEdit"
         options.bind="controlOptions">
       </au-autocomplete>
     </td>
@@ -17,7 +17,7 @@
         error.bind="error.Product"
         loader.bind="productLoader"
         text.bind = "productView"
-        read-only.bind="readOnly"
+        read-only.bind="readOnly || isEdit"
         options.bind="controlOptions">
       </au-autocomplete>
     </td>
@@ -29,7 +29,7 @@
         error.bind="error.POSerialNumber"
         loader.bind="PONumberLoader"
         text.bind = "POView"
-        read-only.bind="readOnly"
+        read-only.bind="readOnly || isEdit"
         options.bind="controlOptions">
       </au-autocomplete>
     </td>
