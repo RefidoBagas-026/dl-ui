@@ -73,6 +73,12 @@ export class Create {
                     this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
                 })
                 .catch(e => {
+                     if (e && e.message) {
+                    alert(e.message);    // << tampilkan pesan backend
+                }
+                else {
+                    alert("Terjadi kesalahan");
+                }
                     this.error = e;
                 })
         }

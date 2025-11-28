@@ -1003,4 +1003,19 @@ module.exports = [
             iconClass: 'fa fa-calculator',
         }
     },
-]; 
+    //END
+    {
+        route: '/merchandiser/monitoring-status-ro-job',
+        name: 'monitoring-status-ro-job',
+        moduleId: './modules/merchandiser/report/monitoring-status-ro-job/index',
+        nav: true,
+        title: 'Monitoring Status RO Job',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "monitoring",
+            permission: { "L65": 1 },
+            iconClass: 'fa fa-calculator',
+        }
+    },
+];

@@ -58,4 +58,7 @@ export class List {
         break;
     }
   }
+  ExportToExcel() {
+        this.service.generateExcel();
+    }
 }
