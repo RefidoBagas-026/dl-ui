@@ -212,6 +212,7 @@ export class DataForm {
     get roLoader() {
         return (keyword) => {
             var info = {
+                size: 25,
               keyword: keyword,
               filter: JSON.stringify({UnitId: this.data.Unit.Id,"Items.Any(RemainingQuantity>0)":true})
             };
