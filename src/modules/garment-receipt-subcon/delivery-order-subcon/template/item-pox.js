@@ -160,9 +160,11 @@ export class ItemPOX {
       this.data.Uom = {};
       this.data.POSerialNumber = newValue.PO_SerialNumber;
       this.data.BudgetQuantity = newValue.BudgetQuantity;
-      this.data.PricePerDealUnit = newValue.PricePerDealUnit * newValue.CurrencyRate;
+      //this.data.PricePerDealUnit = newValue.PricePerDealUnit * newValue.CurrencyRate;
+      this.data.PricePerDealUnit = newValue.PricePerDealUnit;
       this.data.Uom = newValue.Uom;
-      this.data.CurrencyCode = "IDR";
+      //this.data.CurrencyCode = "IDR";
+      this.data.CurrencyCode = newValue.CurrencyCode;
       this.data.EPOItemId = newValue.EPOItemId;
       this.data.RONoMaster = newValue.RONoMaster;
       this.data.Article = newValue.Article;
