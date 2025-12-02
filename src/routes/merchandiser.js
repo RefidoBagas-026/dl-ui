@@ -407,7 +407,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-copy',
         name: 'cost-calculation-copy',
-        moduleId: './modules/merchandiser/cost-calculation/copy/index',
+        moduleId: './modules/merchandiser/cost-calculation-model-upload/copy/index',
         nav: true,
         title: 'Copy Cost Calculation',
         auth: true,

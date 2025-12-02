@@ -49,11 +49,11 @@ export class DataForm {
   @bindable previewData = [];
   @bindable headers = [];
   @bindable viewDataTable = false;
-  @bindable materialResults = [];
   @bindable dataMaterialUpload = [];
   @bindable dataMaterial = [];
-  @bindable errorManual;
   @bindable errorUpload;
+  @bindable hasSCNO;
+  @bindable hasQuantity;
 
   leadTimeList = ["", "25 hari", "40 hari"];
   subconTypes = [
@@ -87,10 +87,71 @@ export class DataForm {
     },
   };
 
-  costCalculationGarment_MaterialsInfo = {
+  // costCalculationGarment_MaterialsInfo = {
+  //   columns: [
+  //     { header: "No." },
+  //     { header: "PR Master" },
+  //     { header: "CMT", value: "isFabricCM" },
+  //     { header: "No. PO" },
+  //     { header: "Kategori", value: "Category" },
+  //     { header: "Kode Barang", value: "ProductCode" },
+  //     { header: "Komposisi", value: "Composition" },
+  //     { header: "Konstruksi", value: "Construction" },
+  //     { header: "Yarn", value: "Yarn" },
+  //     { header: "Width", value: "Width" },
+  //     { header: "Deskripsi", value: "Description" },
+  //     { header: "Detail Barang", value: "ProductRemark" },
+  //     { header: "Kuantitas", value: "Quantity" },
+  //     { header: "Satuan", value: "SatuanQuantity" },
+  //     { header: "Price", value: "Price" },
+  //     { header: "Satuan", value: "SatuanPrice" },
+  //     { header: "Konversi", value: "Conversion" },
+  //     { header: "Total", value: "Total" },
+  //     { header: "Ongkir (%)", value: "ShippingFeePortion" },
+  //     { header: "Jumlah Ongkir", value: "TotalShippingFee" },
+  //     { header: "Kuantitas Budget", value: "BudgetQuantity" },
+  //   ],
+  //   onAdd: function () {
+  //     this.dataMaterial.push({
+  //       IsAddPRMaster: true,
+  //       QuantityOrder: this.data.Quantity,
+  //       FabricAllowance: this.data.FabricAllowance,
+  //       AccessoriesAllowance: this.data.AccessoriesAllowance,
+  //       Rate: this.data.Rate,
+  //       SMV_Cutting: this.data.SMV_Cutting,
+  //       SMV_Sewing: this.data.SMV_Sewing,
+  //       SMV_Finishing: this.data.SMV_Finishing,
+  //       THR: this.data.THR,
+  //       Wage: this.data.Wage,
+  //       SMV_Total: this.data.SMV_Total,
+  //       Efficiency: this.data.Efficiency,
+  //       CCType: this.data.CCType,
+  //       SubconType: this.data.SubconType,
+  //       IsFromUpload: false,
+  //     });
+  //     this.dataMaterial.forEach(
+  //       (m, i) => (m.MaterialIndex = i)
+  //     );
+  //     this.dataMaterial = [...this.dataMaterial];
+  //   }.bind(this),
+  //   onRemove: function () {
+  //     this.dataMaterial.forEach(
+  //       (m, i) => (m.MaterialIndex = i)
+  //     );
+  //     this.dataMaterial = [...this.dataMaterial];
+  //     if ( this.dataMaterialUpload.length === 0 && !this.dataMaterial.some(m => m.IsAddPRMaster && m.IsFromUpload)) 
+  //     {
+  //       document.getElementById("fileCsv").value = "";
+  //     }
+  //   }.bind(this),
+  //   options: {},
+  // };
+
+  costCalculationGarment_MaterialsInfoUploads = {
     columns: [
       { header: "No." },
       { header: "PR Master" },
+      { header: "CMT", value: "isFabricCM" },
       { header: "No. PO" },
       { header: "Kategori", value: "Category" },
       { header: "Kode Barang", value: "ProductCode" },
@@ -110,75 +171,6 @@ export class DataForm {
       { header: "Jumlah Ongkir", value: "TotalShippingFee" },
       { header: "Kuantitas Budget", value: "BudgetQuantity" },
     ],
-    onAdd: function () {
-      this.dataMaterial.push({
-        IsAddPRMaster: true,
-        QuantityOrder: this.data.Quantity,
-        FabricAllowance: this.data.FabricAllowance,
-        AccessoriesAllowance: this.data.AccessoriesAllowance,
-        Rate: this.data.Rate,
-        SMV_Cutting: this.data.SMV_Cutting,
-        SMV_Sewing: this.data.SMV_Sewing,
-        SMV_Finishing: this.data.SMV_Finishing,
-        THR: this.data.THR,
-        Wage: this.data.Wage,
-        SMV_Total: this.data.SMV_Total,
-        Efficiency: this.data.Efficiency,
-        CCType: this.data.CCType,
-        SubconType: this.data.SubconType,
-        IsFromUpload: false,
-      });
-      this.dataMaterial.forEach(
-        (m, i) => (m.MaterialIndex = i)
-      );
-      this.dataMaterial = [...this.dataMaterial];
-    }.bind(this),
-    onRemove: function () {
-      this.dataMaterial.forEach(
-        (m, i) => (m.MaterialIndex = i)
-      );
-      this.dataMaterial = [...this.dataMaterial];
-      if ( this.dataMaterialUpload.length === 0 && !this.dataMaterial.some(m => m.IsAddPRMaster && m.IsFromUpload)) 
-      {
-        document.getElementById("fileCsv").value = "";
-      }
-    }.bind(this),
-    options: {},
-  };
-
-  costCalculationGarment_MaterialsInfoUploads = {
-    columns: [
-      { header: "No." },
-      { header: "Kategori", value: "Category" },
-      { header: "Kode Barang", value: "ProductCode" },
-      { header: "Komposisi", value: "Composition" },
-      { header: "Konstruksi", value: "Construction" },
-      { header: "Yarn", value: "Yarn" },
-      { header: "Width", value: "Width" },
-      { header: "Deskripsi", value: "Description" },
-      { header: "Detail Barang", value: "ProductRemark" },
-      { header: "Kuantitas", value: "Quantity" },
-      { header: "Satuan", value: "SatuanQuantity" },
-      { header: "Price", value: "Price" },
-      { header: "Satuan", value: "SatuanPrice" },
-      { header: "Konversi", value: "Conversion" },
-      { header: "Total", value: "Total" },
-      { header: "Ongkir (%)", value: "ShippingFeePortion" },
-      { header: "Jumlah Ongkir", value: "TotalShippingFee" },
-      { header: "Kuantitas Budget", value: "BudgetQuantity" },
-      { header: "", value: "" },
-    ],
-    onRemove: function () {
-      this.dataMaterialUpload.forEach(
-        (m, i) => (m.MaterialIndex = i)
-      );
-      this.dataMaterialUpload = [...this.dataMaterialUpload];
-      if ( this.dataMaterialUpload.length === 0 && !this.dataMaterial.some(m => m.IsAddPRMaster && m.IsFromUpload)) 
-      {
-        document.getElementById("fileCsv").value = "";
-      }
-
-    }.bind(this),
     options: {},
   };
   radio = {
@@ -214,11 +206,6 @@ export class DataForm {
     this.context = context;
     this.data = this.context.data;
     this.error = this.context.error;
-    if (this.data.CostCalculationGarment_Materials && this.data.CostCalculationGarment_Materials.length > 0) {
-        this.dataMaterialUpload = this.data.CostCalculationGarment_Materials.filter(m => m.IsFromUpload);
-        this.dataMaterial = this.data.CostCalculationGarment_Materials.filter(m => !m.IsFromUpload);
-        // this.dataMaterial.forEach((item, idx) => item.MaterialIndex = idx);
-      }
     this.selectedSubconType = this.data.SubconType ? this.data.SubconType : "";
     this.selectedSMV_Cutting = this.data.SMV_Cutting
       ? this.data.SMV_Cutting
@@ -366,16 +353,16 @@ export class DataForm {
         item.CCType = this.data.CCType;
         item.SubconType = this.data.SubconType;
       });
-
-      this.dataMaterialUpload = this.data.CostCalculationGarment_Materials.filter(m => m.IsFromUpload);
-      this.dataMaterial = this.data.CostCalculationGarment_Materials.filter(m => !m.IsFromUpload);
     }
 
     this.isSample = this.data.IsSample;
-    this.costCalculationGarment_MaterialsInfo.options.CCId = this.data.Id;
-    this.costCalculationGarment_MaterialsInfo.options.SCId = this.data.PreSCId;
-    this.costCalculationGarment_MaterialsInfo.options.IsEditMaterial = this.isEdit;
-    this.costCalculationGarment_MaterialsInfo.options.IsCopyCC =  this.isCopy;
+    this.costCalculationGarment_MaterialsInfoUploads.options.CCId = this.data.Id;
+    this.costCalculationGarment_MaterialsInfoUploads.options.SCId = this.data.PreSCId;
+    this.costCalculationGarment_MaterialsInfoUploads.options.IsEditMaterial = this.isEdit;
+    this.costCalculationGarment_MaterialsInfoUploads.options.IsCopyCC =  this.isCopy;
+
+    this.hasSCNO = this.data.PreSCNo ? this.data.PreSCNo : null;
+    this.hasQuantity = this.data.Quantity;
   }
 
   selectedSampleChanged(value){
@@ -502,6 +489,7 @@ export class DataForm {
       this.data.ApprovalRO = section.ApprovalRO;
       this.data.ApprovalKadiv = section.ApprovalKadiv;
 
+      this.hasSCNO = newValue.SCNo;
       this.data.Buyer = {
         Id: newValue.BuyerAgentId,
         Code: newValue.BuyerAgentCode,
@@ -528,19 +516,21 @@ export class DataForm {
       this.data.BuyerBrand = null;
       this.selectedBookingOrder = null;
       this.data.CCType = null;
+      this.hasSCNO = null;
     }
 
     if ((oldValue && newValue) || (oldValue && !newValue)) {
       if (this.data.CostCalculationGarment_Materials && this.data.CostCalculationGarment_Materials.length > 0) {
-          this.dataMaterialUpload = this.data.CostCalculationGarment_Materials.filter(m => m.IsFromUpload);
-          this.dataMaterial = this.data.CostCalculationGarment_Materials.filter(m => !m.IsFromUpload);
+          // this.dataMaterialUpload = this.data.CostCalculationGarment_Materials.filter(m => m.IsFromUpload);
+          // this.dataMaterial = this.data.CostCalculationGarment_Materials.filter(m => !m.IsFromUpload);
 
           this.data.CostCalculationGarment_Materials.splice(0);
           this.error.CostCalculationGarment_Materials.splice(0);
-          this.dataMaterialUpload.splice(0);
-          this.dataMaterial.splice(0);
-          this.errorManual = [];
-          this.errorUpload = [];
+          // this.dataMaterialUpload.splice(0);
+          // this.dataMaterial.splice(0);
+          // this.errorManual = [];
+          this.errorUpload.splice(0);
+          this.data.CostCalculationGarment_Materials = [...this.data.CostCalculationGarment_Materials];
           document.getElementById("fileCsv").value = "";
       }
     } else if (
@@ -558,7 +548,7 @@ export class DataForm {
         materialFromPRmaster.POMaster = null;
       }
     }
-    this.costCalculationGarment_MaterialsInfo.options.SCId = this.data.PreSCId;
+    this.costCalculationGarment_MaterialsInfoUploads.options.SCId = this.data.PreSCId;
   }
 
   //
@@ -638,169 +628,77 @@ export class DataForm {
     this.data.Index = numeral(numeral(index).format())
       .value()
       .toLocaleString("en-EN", { minimumFractionDigits: 2 });
-    // if (this.data.CostCalculationGarment_Materials) {
-    //   this.data.CostCalculationGarment_Materials.forEach((item) => {
-    //     item.QuantityOrder = this.data.Quantity;
-    //     item.Efficiency = this.data.Efficiency;
-    //   });
-    //   this.context.itemsCollection.bind();
-    // }
-    const targets = [
-      this.dataMaterialUpload,
-      this.dataMaterial
-    ];
-
-    targets.forEach(arr => {
-      if (Array.isArray(arr)) {
-        arr.forEach(item => {
-          item.QuantityOrder = this.data.Quantity;
-          item.Efficiency = this.data.Efficiency;
-        });
-        this.context.itemsCollection.bind();
-      }
-    });
+    if (this.data.CostCalculationGarment_Materials) {
+      this.data.CostCalculationGarment_Materials.forEach((item) => {
+        item.QuantityOrder = this.data.Quantity;
+        item.Efficiency = this.data.Efficiency;
+      });
+      this.context.itemsCollection.bind();
+    }
   }
  
   @bindable fabricAllowance;
   fabricAllowanceChanged(newValue) {
     this.data.FabricAllowance = newValue;
-    // if (this.data.CostCalculationGarment_Materials) {
-    //   this.data.CostCalculationGarment_Materials.forEach((item) => {
-    //     item.FabricAllowance = this.data.FabricAllowance;
-    //   });
-    // }
-    const targets = [
-      this.dataMaterialUpload,
-      this.dataMaterial
-    ];
-
-    targets.forEach(arr => {
-      if (Array.isArray(arr)) {
-        arr.forEach(item => {
-          item.FabricAllowance = this.data.FabricAllowance;
-        });
-        this.context.itemsCollection.bind();
-      }
-    });
+    if (this.data.CostCalculationGarment_Materials) {
+      this.data.CostCalculationGarment_Materials.forEach((item) => {
+        item.FabricAllowance = this.data.FabricAllowance;
+      });
+    }
   }
 
   @bindable accessoriesAllowance;
   accessoriesAllowanceChanged(newValue) {
     this.data.AccessoriesAllowance = newValue;
-    // if (this.data.CostCalculationGarment_Materials) {
-    //   this.data.CostCalculationGarment_Materials.forEach((item) => {
-    //     item.AccessoriesAllowance = this.data.AccessoriesAllowance;
-    //   });
-    // }
-    const targets = [
-      this.dataMaterialUpload,
-      this.dataMaterial
-    ];
-
-    targets.forEach(arr => {
-      if (Array.isArray(arr)) {
-        arr.forEach(item => {
-          item.AccessoriesAllowance = this.data.AccessoriesAllowance;
-        });
-        this.context.itemsCollection.bind();
-      }
-    });
+    if (this.data.CostCalculationGarment_Materials) {
+      this.data.CostCalculationGarment_Materials.forEach((item) => {
+        item.AccessoriesAllowance = this.data.AccessoriesAllowance;
+      });
+    }
   }
 
   @bindable selectedSubconType;
   selectedSubconTypeChanged(newValue) {
     this.data.SubconType = newValue;
-    // if (this.data.CostCalculationGarment_Materials) {
-    //   this.data.CostCalculationGarment_Materials.forEach((item) => {
-    //     item.SubconType = this.data.SubconType;
-    //   });
-    //   this.context.itemsCollection.bind();
-    // }
-    const targets = [
-      this.dataMaterialUpload,
-      this.dataMaterial
-    ];
-
-    targets.forEach(arr => {
-      if (Array.isArray(arr)) {
-        arr.forEach(item => {
-          item.SubconType = this.data.SubconType;
-        });
-        this.context.itemsCollection.bind();
-      }
-    });
+    if (this.data.CostCalculationGarment_Materials) {
+      this.data.CostCalculationGarment_Materials.forEach((item) => {
+        item.SubconType = this.data.SubconType;
+      });
+      this.context.itemsCollection.bind();
+    }
   }
 
   @bindable selectedSMV_Cutting;
   selectedSMV_CuttingChanged(newValue) {
     this.data.SMV_Cutting = newValue;
-    // if (this.data.CostCalculationGarment_Materials) {
-    //   this.data.CostCalculationGarment_Materials.forEach((item) => {
-    //     item.SMV_Cutting = this.data.SMV_Cutting;
-    //   });
-    //   this.context.itemsCollection.bind();
-    // }
-    const targets = [
-      this.dataMaterialUpload,
-      this.dataMaterial
-    ];
-
-    targets.forEach(arr => {
-      if (Array.isArray(arr)) {
-        arr.forEach(item => {
-          item.SMV_Cutting = this.data.SMV_Cutting;
-        });
-        this.context.itemsCollection.bind();
-      }
-    });
+    if (this.data.CostCalculationGarment_Materials) {
+      this.data.CostCalculationGarment_Materials.forEach((item) => {
+        item.SMV_Cutting = this.data.SMV_Cutting;
+      });
+      this.context.itemsCollection.bind();
+    }
   }
 
   @bindable selectedSMV_Sewing;
   selectedSMV_SewingChanged(newValue) {
     this.data.SMV_Sewing = newValue;
-    // if (this.data.CostCalculationGarment_Materials) {
-    //   this.data.CostCalculationGarment_Materials.forEach((item) => {
-    //     item.SMV_Sewing = this.data.SMV_Sewing;
-    //   });
-    //   this.context.itemsCollection.bind();
-    // }
-    const targets = [
-      this.dataMaterialUpload,
-      this.dataMaterial
-    ];
-
-    targets.forEach(arr => {
-      if (Array.isArray(arr)) {
-        arr.forEach(item => {
-          item.SMV_Sewing = this.data.SMV_Sewing;
-        });
-        this.context.itemsCollection.bind();
-      }
-    });
+    if (this.data.CostCalculationGarment_Materials) {
+      this.data.CostCalculationGarment_Materials.forEach((item) => {
+        item.SMV_Sewing = this.data.SMV_Sewing;
+      });
+      this.context.itemsCollection.bind();
+    }
   }
 
   @bindable selectedSMV_Finishing;
   selectedSMV_FinishingChanged(newValue) {
     this.data.SMV_Finishing = newValue;
-    // if (this.data.CostCalculationGarment_Materials) {
-    //   this.data.CostCalculationGarment_Materials.forEach((item) => {
-    //     item.SMV_Finishing = this.data.SMV_Finishing;
-    //   });
-    //   this.context.itemsCollection.bind();
-    // }
-    const targets = [
-      this.dataMaterialUpload,
-      this.dataMaterial
-    ];
-
-    targets.forEach(arr => {
-      if (Array.isArray(arr)) {
-        arr.forEach(item => {
-          item.SMV_Finishing = this.data.SMV_Finishing;
-        });
-        this.context.itemsCollection.bind();
-      }
-    });
+    if (this.data.CostCalculationGarment_Materials) {
+      this.data.CostCalculationGarment_Materials.forEach((item) => {
+        item.SMV_Finishing = this.data.SMV_Finishing;
+      });
+      this.context.itemsCollection.bind();
+    }
   }
 
   @bindable selectedUnit;
@@ -856,25 +754,11 @@ export class DataForm {
     SMV_Total = numeral(SMV_Total).format();
     this.data.SMV_Total = numeral(SMV_Total).value();
 
-    // if (this.data.CostCalculationGarment_Materials) {
-    //   this.data.CostCalculationGarment_Materials.forEach((item) => {
-    //     item.SMV_Finishing = this.data.SMV_Total;
-    //   });
-    // }
-
-      const targets = [
-        this.dataMaterialUpload,
-        this.dataMaterial
-      ];
-
-        targets.forEach(arr => {
-          if (Array.isArray(arr)) {
-            arr.forEach(item => {
-              item.SMV_Finishing = this.data.SMV_Total;
-            });
-            //this.context.itemsCollection.bind();
-          }
-        });
+    if (this.data.CostCalculationGarment_Materials) {
+      this.data.CostCalculationGarment_Materials.forEach((item) => {
+        item.SMV_Finishing = this.data.SMV_Total;
+      });
+    }
     return SMV_Total;
   }
 
@@ -979,24 +863,11 @@ export class DataForm {
 
   get freightCost() {
     let freightCost = 0;
-      const targets = [
-        this.dataMaterialUpload,
-        this.dataMaterial
-      ];
-
-      targets.forEach(arr => {
-        if (Array.isArray(arr)) {
-          arr.forEach(item => {
-            freightCost += item.TotalShippingFee;
-          });
-        }
-      });
-
-      // if (this.data.CostCalculationGarment_Materials) {
-      //   this.data.CostCalculationGarment_Materials.forEach((item) => {
-      //     freightCost += item.TotalShippingFee;
-      //   });
-      // }
+      if (this.data.CostCalculationGarment_Materials) {
+        this.data.CostCalculationGarment_Materials.forEach((item) => {
+          freightCost += item.TotalShippingFee;
+        });
+      }
     
     freightCost = numeral(freightCost).format();
     this.data.FreightCost = numeral(freightCost).value();
@@ -1006,24 +877,12 @@ export class DataForm {
 
   get NETFOBP() {
     let allMaterialCost = 0;
-      const targets = [
-        this.dataMaterialUpload,
-        this.dataMaterial
-      ];
 
-      targets.forEach(arr => {
-        if (Array.isArray(arr)) {
-          arr.forEach(item => {
-            allMaterialCost += item.Total;
-          });
-        }
+    if (this.data.CostCalculationGarment_Materials) {
+      this.data.CostCalculationGarment_Materials.forEach((item) => {
+        allMaterialCost += item.Total;
       });
-
-    //   if (this.data.CostCalculationGarment_Materials) {
-    //   this.data.CostCalculationGarment_Materials.forEach((item) => {
-    //     allMaterialCost += item.Total;
-    //   });
-    // }
+    }
     
     
     let subTotal =
@@ -1054,6 +913,21 @@ export class DataForm {
   download() {
     this.service.downloadTemplateMaterialCC();
   }
+  downloadErrorExcel(errors) {
+    // Buat struktur data untuk Excel
+    const errorData = errors.map((msg, index) => ({
+        No: index + 1,
+        Error: msg
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(errorData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Error Upload");
+
+    // Download file
+    XLSX.writeFile(workbook, "Error_Upload.xlsx");
+}
+
   async handleFileUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -1065,45 +939,104 @@ export class DataForm {
       const firstSheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[firstSheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
-      
+
       if (jsonData.length === 0) {
             alert("File kosong atau tidak memiliki data.");
             return;
         }
-
-        // Ambil header dari row pertama
-        const actualHeaders = Object.keys(jsonData[0]);
-
-        // Expected header
+        // Expected header sesuai template
         const expectedHeaders = [
-            "PR MASTER",
-            "CMT",
+            "PR MASTER",//tidak wajib
+            "CMT",//tidak wajib
             "Kode Barang",
             "Keterangan",
             "Detil Barang",
             "Usage per pcs",
             "Satuan Barang",
-            "Rincian qty",
+            "Rincian qty",//tidak wajib
             "Harga",
             "Satuan beli",
             "Konversi",
             "Ongkir %",
             "Remark RO"
         ];
-        // Loop semua expected header
+
+        let actualHeaders = Object.keys(jsonData[0]);
         for (let header of expectedHeaders) {
             if (!actualHeaders.includes(header)) {
                 alert(`Template tidak sesuai.`);
                 return;
             }
         }
+        // Hanya ambil header yang valid (tanpa __EMPTY, dst)
+        const cleanData = jsonData.map(row => {
+            const cleanedRow = {};
+            expectedHeaders.forEach(header => {
+                cleanedRow[header] = row.hasOwnProperty(header) ? row[header] : "";
+            });
+            return cleanedRow;
+        });
+
+        // Hapus semua isi jsonData
+        jsonData.length = 0;
+
+        // Isi ulang hanya baris yang tidak kosong total
+        jsonData.push(
+          ...cleanData.filter(row =>
+            Object.values(row).some(val =>
+              val !== null &&
+              val !== undefined &&
+              !(typeof val === "string" && val.trim() === "")
+            )
+          )
+        );
+
+       const mandatoryColumns = [
+            "Kode Barang",
+            "Keterangan",
+            "Detil Barang",
+            "Usage per pcs",
+            "Satuan Barang",
+            "Harga",
+            "Satuan beli",
+            "Konversi",
+            "Ongkir %",
+            "Remark RO"
+        ];
+        // Validasi kolom wajib tidak boleh kosong
+        const errors = [];
+        jsonData.forEach((row, rowIndex) => {
+            mandatoryColumns.forEach(col => {
+                const val = row[col];
+
+                // Cek wajib terisi, tapi 0 harus dianggap valid
+                const isEmpty =
+                    val === null ||
+                    val === undefined ||
+                    (typeof val === "string" && val.trim() === "");
+
+                if (isEmpty) {
+                    errors.push(`Kolom "${col}" pada baris ${rowIndex + 2} tidak boleh kosong`);
+                }
+            });
+        });
+
+        if (errors.length > 0) {
+            if (confirm("Terdapat data kosong, download file error?")) {
+                this.downloadErrorExcel(errors);
+            }
+           
+            return;
+        }
       this.previewData = jsonData;
       this.headers = actualHeaders;
+
+      console.log(this.previewData);
 
       await this.pushDataExcel(this.previewData);
     };
 
-    //document.getElementById("fileCsv").value = "";
+    document.getElementById("fileCsv").value = null;
     reader.readAsArrayBuffer(file);
     
   }
@@ -1114,14 +1047,11 @@ async pushDataExcel(value) {
     return;
   }
 
-  this.errorManual = [];
   this.errorUpload = [];
   this.error = {};
-  this.error.CostCalculationGarment_Materials = [];
 
-  this.dataMaterialUpload = [];
-  this.dataMaterial = this.dataMaterial.filter(m => !m.IsFromUpload);
-  this.materialResults = [];
+  this.data.CostCalculationGarment_Materials = [];
+  this.error.CostCalculationGarment_Materials = [];
 
   const payload = value.map((row, index) => ({
     IsAddPRMaster: (row["PR MASTER"]|| "").toString().trim() == 1 ? true : false,
@@ -1164,7 +1094,6 @@ async pushDataExcel(value) {
   }
 
   const materials = Array.isArray(resultData) ? resultData : [];
-  // const materialResults = [];
 
   for (const item of materials) {
     const hasProduct = !!item.Product;
@@ -1173,7 +1102,7 @@ async pushDataExcel(value) {
       ? {
           IsAddPRMaster: item.IsAddPRMaster,
           isFabricCM: item.isFabricCM || false,
-          Category: item.Product || {},
+          Category: item.Category || {},
           Product: item.Product || {},
           Description: item.Description || "",
           ProductRemark: item.ProductRemark || "",
@@ -1207,20 +1136,21 @@ async pushDataExcel(value) {
           HasError: true,
           IsFromUpload: item.IsFromUpload
         };
+    console.log(material.Category);
 
-    this.materialResults.push(material);
+    if (material && material.Category && ( material.Category.Name === "PROCESS" || material.Category.Name === "PROCESS SUBCON"))
+    {
+        let UOM = await this.serviceCore.getUomByUnit("PCS");
+        material.UOMQuantity = UOM;
+        material.UOMPrice = UOM;
+        material.Quantity = 1;
+        material.Conversion = 1;
+        material.Price = 0;
+    }
+
+    this.data.CostCalculationGarment_Materials.push(material);
   }
-  var dataUploadPR = this.materialResults.filter(m => m.IsAddPRMaster);
-  var dataUpload = this.materialResults.filter(m => !m.IsAddPRMaster);
-  dataUploadPR.forEach((item, idx) => item.MaterialIndex = idx);
-  dataUpload.forEach((item, idx) => item.MaterialIndex = idx);
-
-  this.dataMaterialUpload.push(...dataUpload);
-  this.dataMaterial.push(...dataUploadPR);
-  this.dataMaterial.forEach((item, idx) => item.MaterialIndex = idx);
-
-  this.dataMaterialUpload = [...this.dataMaterialUpload];
-  this.dataMaterial = [...this.dataMaterial];
+  this.data.CostCalculationGarment_Materials = [...this.data.CostCalculationGarment_Materials];
 }
 
 viewData() {
@@ -1230,4 +1160,19 @@ viewData() {
         this.viewDataTable = false;
     }
 }
+
+@bindable isItem = false;
+
+@computedFrom("hasSCNO")
+get itemOn(){
+  if(this.hasSCNO){
+    this.isItem = true;
+  }else{
+    this.isItem = false;
+  }
+  const onItem = this.isItem;
+  return onItem;
+}
+
+
 }

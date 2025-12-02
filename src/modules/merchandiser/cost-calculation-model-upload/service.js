@@ -25,8 +25,12 @@ class Service extends RestService {
         return super.list(endpoint, info);
     }
 
+    // create(data) {
+    //     var endpoint = `${serviceUri}/AutomaticRO`;
+    //     return super.post(endpoint, data);
+    // }
     create(data) {
-        var endpoint = `${serviceUri}/AutomaticRO`;
+        var endpoint = `${serviceUri}`;
         return super.post(endpoint, data);
     }
 

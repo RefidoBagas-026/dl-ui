@@ -33,6 +33,7 @@ export class CostCalculationMaterial {
     @bindable categoryNames = "";
     @bindable isEdit = false;
     @bindable isCopy = false;
+    @bindable fabricCM;
     activate(context) {
         this.context = context;
         this.data = context.data;
@@ -41,11 +42,10 @@ export class CostCalculationMaterial {
         this.readOnly = this.options.readOnly || false;
         this.isEdit = this.context.context.options.IsEditMaterial  || false;
         this.isCopy = this.context.context.options.IsCopyCC || false;
-        this.disabled = true;
         this.data.showDialog = this.data.showDialog === undefined ? (this.data.Category === undefined ? true : false) : (this.data.showDialog === true ? true : false);
         this.data.isFabricCM = this.data.isFabricCM ? this.data.isFabricCM : false;
         this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-
+        console.log(this.data);
         if (this.data.Category) {
             this.selectedCategory = this.data.Category;
             this.categoryIsExist = this.categoryNames == "FABRIC" ? true : false;
@@ -110,6 +110,13 @@ export class CostCalculationMaterial {
                 this.isReadOnly = true;
             }
         }
+        if (this.data.Category && typeof this.data.Category === "object") {
+            this.data.Category.Code = this.data.Category.code || this.data.Category.Code;
+            this.data.Category.Name = this.data.Category.name || this.data.Category.Name;
+            this.data.Category = this.data.Category;
+            console.log("Category:", this.data.Category);
+        }
+        this.fabricCM = this.data.isFabricCM ? "YES" : "NO";
     }
 
     bind() {
@@ -553,6 +560,7 @@ uomView =(uom)=>{
         this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
 
         let fabricAllowance = this.data.FabricAllowance ? this.data.FabricAllowance : 0;
+        console.log(fabricAllowance);
         let accessoriesAllowance = (this.data.AccessoriesAllowance && this.data.AccessoriesAllowance != 0)  ? this.data.AccessoriesAllowance : 0;
         if (this.data.Category) {
             if (this.categoryNames === "FABRIC") {
@@ -564,15 +572,16 @@ uomView =(uom)=>{
         let budgetQuantity = this.data.Quantity && this.data.Conversion ? this.data.Quantity * this.data.QuantityOrder / this.data.Conversion + allowance * this.data.Quantity * this.data.QuantityOrder / this.data.Conversion : 0;
         budgetQuantity = Math.ceil(budgetQuantity);
         this.data.BudgetQuantity = Math.ceil(budgetQuantity);
+        console.log(budgetQuantity);
         return budgetQuantity;
     }
 
     clickPRMaster() {
-        var productCategory = null;
-        if(this.data.Category){
-            productCategory = this.data.Category.Name;
-        }
-        this.dialog.show(PRMasterDialog, { CCId: this.context.context.options.CCId || 0, SCId: this.context.context.options.SCId || 0, CategoryName: productCategory })
+        var productCategory = this.data.Category ? this.data.Category.Name : null;
+        var productCode = this.data.Product ? this.data.Product.Code : null;
+        
+        console.log(this.data);
+        this.dialog.show(PRMasterDialog, { CCId: this.context.context.options.CCId || 0, SCId: this.context.context.options.SCId || 0, CategoryName: productCategory, ProductCode: productCode })
             .then(response => {
                 if (!response.wasCancelled) {
                     this.error = {};
@@ -583,27 +592,32 @@ uomView =(uom)=>{
                     this.data.PRMasterId = result.PRMasterId;
                     this.data.PRMasterItemId = result.PRMasterItemId;
                     this.data.POMaster = result.POMaster;
-
                     this.data.Category = result.Category;
                     this.data.Product = result.Product;
                     this.productCode = this.data.Product ? this.data.Product.Code : "";
                     this.data.Description = result.Description;
 
-                    this.data.ProductRemark = null;
-                    this.data.Quantity = 0;
-                    this.data.UOMQuantity = null;
-                    this.data.Price = result.BudgetPrice;
-                    this.data.UOMPrice = result.PriceUom;
-                    this.data.Conversion = 0;
-                    // this.total = 0;
-                    this.data.ShippingFeePortion = 0;
+                    // this.data.ProductRemark = null;
+                    // this.data.Quantity = 0;
+                    // this.data.UOMQuantity = null;
+                    //this.data.Price = result.BudgetPrice;
+                    // this.data.UOMPrice = result.PriceUom;
+                    // this.data.Conversion = 0;
+                    // // this.total = 0;
+                    // this.data.ShippingFeePortion = 0;
                     // this.totalShippingFee = 0;
                     // this.budgetQuantity = 0;
                     this.data.AvailableQuantity = result.AvailableQuantity;
                     this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
                     this.serviceCore.getCategoryId(this.data.Category.Id)
                         .then(category => {
-                            this.data.Category = category;
+                            if (category && typeof category === "object") {
+                                category.Code = category.code || category.Code;
+                                category.Name = category.name || category.Name;
+
+                                this.data.Category = category;
+                                console.log("Category:", this.data.Category);
+                            }
                             if (this.categoryNames === "FABRIC") {
                                 this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
                                     .then(response => {
