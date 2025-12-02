@@ -4,7 +4,6 @@ import { Service } from './service';
 
 @inject(Router, Service)
 export class Create {
-    @bindable errorManual = [];
     @bindable errorUpload = [];
     constructor(router, service) {
         this.router = router;
@@ -12,9 +11,6 @@ export class Create {
         this.data = {};
         this.error = {};
         this.create = true;
-        this.dataMaterialUpload = [];
-        this.dataMaterial = [];
-        
     }
 
     list() {
@@ -29,14 +25,6 @@ export class Create {
         if(!this.data.IsSample){
             this.data.SampleDescription = null;
          }
-         // Gabungkan materials dari upload & manual dengan aman
-        const uploadMaterials = Array.isArray(this.dataMaterialUpload) ? this.dataMaterialUpload : [];
-        const manualMaterials = Array.isArray(this.dataMaterial) ? this.dataMaterial : [];
-
-        this.data.CostCalculationGarment_Materials = [
-            ...uploadMaterials,
-            ...manualMaterials
-        ];
         
         this.data.CostCalculationGarment_Materials.forEach(
             (m, i) => (m.MaterialIndex = i)
@@ -47,55 +35,32 @@ export class Create {
                 this.list();
             })
             .catch(e => {
-
-            const uploadCount = this.dataMaterialUpload.length || 0;
-            const manualCount = this.dataMaterial.length || 0;
-
             this.errorUpload = [];
-            this.errorManual = [];
-
             if (e && Array.isArray(e.CostCalculationGarment_Materials)) {
 
                 e.CostCalculationGarment_Materials.forEach((materialError, index) => {
 
-                    // === TABEL 1 (UPLOAD NORMAL) ===
-                    if (index < uploadCount) {
+                    const item = this.data.CostCalculationGarment_Materials[index];
+                    const kodeBarang = item.Product ? item.Product.Code : "Unknown";
 
-                        const item = this.dataMaterialUpload[index];
-                        const kodeBarang = item.Product ? item.Product.Code : "Unknown";
+                        let rowError = {};
 
-                        if (materialError.Category) {
-                            this.errorUpload[index] = {
-                                Category: `Kategori dengan Kode Barang ${kodeBarang} tidak ditemukan`
-                            };
-                        } else {
-                            this.errorUpload[index] = materialError;
-                        }
-
-                        return;
+                    if (materialError.Category) {
+                        // Error custom khusus kategori
+                        rowError.Category = `Kategori dengan Kode Barang ${kodeBarang} tidak ditemukan`;
                     }
 
-                    // === TABEL 2 (UPLOAD PR MASTER + MANUAL) ===
+                    // Gabungkan error lain selain Category
+                    Object.keys(materialError || {})
+                        .filter(key => key !== "Category")
+                        .forEach(key => {
+                            rowError[key] = materialError[key];
+                        });
 
-                    const manualIndex = index - uploadCount; // mulai dari 0
-                    const manualItem = this.dataMaterial[manualIndex];
-                    const kodeBarangManual = manualItem.Product ? manualItem.Product.Code : "Unknown";
-
-                    console.log(manualItem);
-                    const isUploadPRMaster =
-                        manualItem.IsFromUpload === true;
-
-                    if (materialError.Category && isUploadPRMaster) {
-                        this.errorManual[manualIndex] = {
-                            Category: `Kategori dengan Kode Barang ${kodeBarangManual} tidak ditemukan`
-                        };
-                    } else {
-                        this.errorManual[manualIndex] = materialError || {};
-                    }
+                    this.errorUpload[index] = rowError;
+                        
                 });
             }
-
-
             // --- Pesan Error Lain ---
             if (e && e.message && e.message.includes("CategoryComodity")) {
                 const parts = e.message.split(":");
@@ -106,24 +71,6 @@ export class Create {
             }
             else {
                 this.error = e;
-            }
-
-            if (this.data.CostCalculationGarment_Materials &&
-                this.data.CostCalculationGarment_Materials.length > 0) {
-
-                this.dataMaterialUpload = this.data.CostCalculationGarment_Materials
-                    .filter(m => m.IsFromUpload && !m.IsAddPRMaster);
-
-                this.dataMaterial = this.data.CostCalculationGarment_Materials
-                    .filter(m => !m.IsFromUpload || m.IsAddPRMaster);
-
-                this.dataMaterialUpload.forEach((item, idx) => {
-                    item.MaterialIndex = idx;
-                });
-
-                this.dataMaterial.forEach((item, idx) => {
-                    item.MaterialIndex = idx;
-                });
             }
         });
     }

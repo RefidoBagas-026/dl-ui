@@ -173,10 +173,17 @@ export class PRMasterDialog {
         this.filter["GarmentPurchaseRequest.PRType == \"MASTER\" || GarmentPurchaseRequest.PRType == \"SAMPLE\""] = true;
         this.filter[`GarmentPurchaseRequest.SCId == ${params.SCId} || IsApprovedOpenPOKadivMd`] = true;
         this.filter["GarmentPurchaseRequest.IsValidatedMD2"] = true;
+        
         if (params.CategoryName == null) {
 
         } else {
             this.filter[`CategoryName=="${params.CategoryName}"`] = true;
+        }
+
+        if(params.ProductCode == null){
+            
+        }else{
+            this.filter[`ProductCode=="${params.ProductCode}"`] = true;
         }
 
     }
