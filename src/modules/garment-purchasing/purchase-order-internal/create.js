@@ -62,27 +62,42 @@ export class Create {
         // or activationStrategy.noChange to explicitly use the default behavior
     }
 
+    isSaving = false;
+
     save(event) {
-        if (this.dataToBeSaved.length === 0) {
-            alert(`Purchase Request belum dipilih`);
-        }
-        else {
-            this.service.create(this.dataToBeSaved)
-                .then(result => {
-                    alert(`${this.dataToBeSaved.length} data berhasil ditambahkan`);
-                    this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
-                })
-                .catch(e => {
+        if (this.isSaving) return;    // cegah double execution
+        this.isSaving = true;
+        
+        this.service.create(this.dataToBeSaved)
+            .then(result => {
+                alert(`${this.dataToBeSaved.length} data berhasil ditambahkan`);
+
+                // RESET FORM
+                this.data = []
+                this.dataToBeSaved = [];
+
+                // Refresh table
+                if (this.purchaseRequestTable) {
+                    this.purchaseRequestTable.data = [];
+                    this.purchaseRequestTable.refresh();
+                }
+                this.router.navigateToRoute('create');
+                this.search();
+            })
+            .catch(e => {
                      if (e && e.message) {
-                    alert(e.message);    // << tampilkan pesan backend
+                    alert(e.message);
                 }
                 else {
                     alert("Terjadi kesalahan");
                 }
                     this.error = e;
                 })
-        }
+            .finally(() => {
+                this.isSaving = false;
+            });
     }
+
 
     search() {
         this.service.searchByTags(this.keywords, this.shipmentDateFrom, this.shipmentDateTo)
