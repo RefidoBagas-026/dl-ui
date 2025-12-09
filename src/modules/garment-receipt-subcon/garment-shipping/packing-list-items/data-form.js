@@ -212,7 +212,7 @@ export class DataForm {
       checkedAll: this.context.isCreate == true ? false : true,
       header: this.data,
     };
-
+    this.supplier = this.data.buyer;
     if (this.data.items && this.data.id) {
       for (var item of this.data.items) {
         // item.BuyerCode = this.data.buyerAgent.code;
