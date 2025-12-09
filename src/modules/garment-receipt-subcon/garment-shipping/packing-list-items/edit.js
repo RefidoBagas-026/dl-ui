@@ -25,8 +25,6 @@ export class Edit {
     //   noteNo: this.data.localSalesNoteNo,
     // };
 
-    this.supplier = this.data.buyer;
-
     if (this.data.items && this.data.items.length > 0) {
       for (var item of this.data.items) {
         item.buyerAgent = this.data.buyerAgent;
