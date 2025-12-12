@@ -156,5 +156,27 @@ export class DataForm {
         downloadLink.download = fileName;
         downloadLink.click();
     }
+    DownloadAllImages() {
+        if (!this.imagesSrc || this.imagesSrc.length === 0) {
+            alert("Tidak ada gambar untuk didownload");
+            return;
+        }
+
+        this.imagesSrc.forEach((base64Image, index) => {
+            if (!base64Image) return;
+
+            let fileName = this.data.ImagesName[index] && this.data.ImagesName[index].trim() !== ""
+                ? this.data.ImagesName[index]
+                : `image-${index + 1}.jpg`;
+
+            const link = document.createElement("a");
+            link.href = base64Image;
+            link.download = fileName;
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
 
 }
