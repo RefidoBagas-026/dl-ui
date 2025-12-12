@@ -158,9 +158,9 @@
               click.delegate="removeImage($index)">Remove</button>
           </div>
         </template>
-        <div class="text-left">
+        <div class="text-left" show.bind="imagesSrc.length > 0">
           <button type="button" class="btn btn-primary" if.bind="readOnly"
-                click.delegate="DownloadAllImages()">
+            click.delegate="DownloadAllImages()">
             Download Image
           </button>
         </div>
