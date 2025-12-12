@@ -1,6 +1,7 @@
 import { inject, bindable } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 const PackingListLoader = require('../../../loader/garment-packing-list-loader');
 
@@ -45,8 +46,10 @@ export class Create {
     }
 
     saveCallback(event) {
+        const idEncoded = this.packingList.id;
+        const id = Base64Helper.encode(idEncoded);
         if (this.packingList) {
-            this.router.navigateToRoute('edit', { id: this.packingList.id });
+            this.router.navigateToRoute('edit', { id: id });
         } else {
             alert("Pilih Nomor Invoice");
         }

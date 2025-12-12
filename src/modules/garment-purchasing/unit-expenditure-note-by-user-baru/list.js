@@ -32,8 +32,7 @@ export class List {
             size: info.limit,
             keyword: info.search,
             order: order,
-            //filter: JSON.stringify({ ExpenditureType: "SAMPLE" })
-
+            filter: JSON.stringify({ ExpenditureType: "PROSES" })
         }
         
         return this.service.search(arg)
