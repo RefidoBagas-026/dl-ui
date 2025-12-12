@@ -9,6 +9,9 @@ export class NavBar {
     showNotification = false;
     countdown = "";
     countdownTimer = null;
+    isWarning = false; // true jika waktu kurang dari 5 menit
+    
+    isBlinkOn = true; // untuk efek kedip
     constructor(authService,router) {
         this.authService = authService;
         this.router = router;
@@ -110,10 +113,37 @@ export class NavBar {
             const mmStr = String(minutes).padStart(2, '0');
             const ssStr = String(seconds).padStart(2, '0');
 
+           
+            const wasWarning = this.isWarning;
+            this.isWarning = remainingSeconds <= 5 * 60;
+
+          
+            if (this.isWarning && !wasWarning) {
+                this.startBlinking();
+            }
+            if (!this.isWarning && wasWarning) {
+                this.stopBlinking();
+            }
             this.countdown = `${hhStr}:${mmStr}:${ssStr}`;
 
 
         }, 1000);
+    }
+
+     startBlinking() {
+        if (this.blinkTimer) return;
+        this.isBlinkOn = true;
+        this.blinkTimer = setInterval(() => {
+            this.isBlinkOn = !this.isBlinkOn;
+        }, 500); // kedip setiap 500ms
+    }
+
+    stopBlinking() {
+        if (this.blinkTimer) {
+            clearInterval(this.blinkTimer);
+            this.blinkTimer = null;
+        }
+        this.isBlinkOn = true;
     }
 
     logout() {

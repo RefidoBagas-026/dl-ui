@@ -46,11 +46,11 @@
                 role="button"
                 aria-haspopup="true"
                 aria-expanded="false">
-                <span style="
-                       padding: 7px 15px;
-                       font-size: 18px;
-                       background-color: white;
-                       color: black;">
+                <span style.bind="isWarning 
+                  ? (isBlinkOn 
+                    ? 'padding: 7px 15px; font-size: 18px; background-color: #DC143C; color: white;' 
+                    : 'padding: 7px 15px; font-size: 18px; background-color: white; color: black;') 
+                  : 'padding: 7px 15px; font-size: 18px; background-color: white; color: black;'">
 
                   Sesi berakhir dalam: <span style="font-weight: bold;">${countdown}</span> 
                 </span>
