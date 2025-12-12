@@ -8,7 +8,6 @@ import {
 import { Service } from "./service";
 import { AuthService } from "aurelia-authentication";
 var UnitDeliveryOrderLoader = require("../../../loader/garment-unit-delivery-order-for-unit-expenditure-note-loader");
-import moment from "moment";
 
 @containerless()
 @inject(Service, BindingEngine, AuthService)
@@ -19,10 +18,8 @@ export class DataForm {
   @bindable title;
   @bindable options = {};
   @bindable unitDeliveryOrder;
-  @bindable expenditureType;
-
-  // expenditureTypeOptions = ['PROSES', 'TRANSFER', 'EXTERNAL', 'SISA', 'SUBCON','TRANSFER SUBCON', 'SAMPLE','TRANSFER SAMPLE'];
-  expenditureTypeOptions = ["EXTERNAL", "SISA", "SUBCON", "SAMPLE"];
+  
+  expenditureTypeOptions = ["PROSES"];
   controlOptions = {
     label: {
       align: "right",
@@ -44,52 +41,19 @@ export class DataForm {
     this.context = context;
     this.data = this.context.data;
     this.error = this.context.error;
-    this.isTransfer = false;
     this.isItem = false;
     this.data.ExpenditureTo = "PROSES";
-    this.isExternal = false;
-    this.options.isExternal = false;
-
-    this.items.columns = this.items.columns.filter((c) => c != "Status Barang");
-    if (this.data.ExpenditureType === "TRANSFER") {
-      this.data.ExpenditureTo = "GUDANG LAIN";
-    } else if (this.data.ExpenditureType === "EXTERNAL") {
-      this.data.ExpenditureTo = "PEMBELIAN";
-    } else if (this.data.ExpenditureType === "SAMPLE") {
-      this.data.ExpenditureTo = "SAMPLE";
-    } else if (this.data.ExpenditureType === "PROSES") {
-      this.data.ExpenditureTo = "PROSES";
-    } else if (this.data.ExpenditureType === "SUBCON") {
-      this.data.ExpenditureTo = "SUBCON";
-    } else if (this.data.ExpenditureType === "TRANSFER SUBCON") {
-      this.data.ExpenditureTo = "TRANSFER SUBCON";
-    } else if (this.data.ExpenditureType === "SISA") {
-      this.data.ExpenditureTo = "GUDANG SISA";
-      this.items.columns.push("Status Barang");
-    } else if (this.data.ExpenditureType === "TRANSFER SAMPLE") {
-      this.data.ExpenditureTo = "GUDANG LAIN";
-    }
     this.options.ExpenditureType = this.data.ExpenditureType;
 
-    if (this.data.ExpenditureType === "EXTERNAL") {
-      this.isExternal = true;
-      this.options.isExternal = true;
-    }
 
-    if (
-      this.data.ExpenditureType === "TRANSFER" ||
-      this.data.ExpenditureType === "SAMPLE" ||
-      this.data.ExpenditureType === "TRANSFER SAMPLE"
-    ) {
-      this.isTransfer = true;
-    }
-
-    if (this.data.Items) console.log("items", this.data.Items);
+    if (this.data.Items) 
     if (this.data.Items.length > 0) {
       this.isItem = true;
+      
     }
 
     this.options.readOnly = this.readOnly;
+    this.options.expenditureType = this.data.ExpenditureType;
 
     this.readOnlySender = true;
     if (this.data && this.data.Items) {
@@ -98,7 +62,85 @@ export class DataForm {
         true
       );
     }
+
+    if ( Array.isArray(this.data.Items) &&
+        this.data.Items.length &&
+        !this.data.Items[0].Details
+      ) {
+      const map = new Map();
+
+      this.data.Items.forEach(item => {
+        const key = `${item.ProductId}_${item.ProductCode}_${item.BuyerId}_${item.ProductRemark}`;
+
+        if (!map.has(key)) {
+          map.set(key, {
+            
+            ProductId: item.ProductId,
+            ProductCode: item.ProductCode,
+            ProductName: item.ProductName,
+            BuyerCode: item.BuyerCode,
+            BuyerId: item.BuyerId,
+            ProductRemark: item.ProductRemark,
+            UomId: item.UomId,
+            UomUnit: item.UomUnit,
+            DesignColor: item.DesignColor,
+            IsSave: item.IsSave,
+            IsDisabled: item.IsDisabled,
+            Quantity: 0,       
+            Details: [],
+            index:0,
+          });
+        }
+
+        const group = map.get(key);
+        group.Quantity += item.Quantity;
+        group.index += 1;
+        group.Details.push({
+          index:group.index,
+          Id : item.Id,
+          UId : item.UId,
+          UnitDOItemId: item.UnitDOItemId,
+          URNItemId: item.URNItemId,
+          DODetailId: item.DODetailId,
+          POItemId: item.POItemId,
+          EPOItemId: item.EPOItemId,
+          PRItemId: item.PRItemId,
+          DOItemId : item.DOItemId,
+          UENId: item.UENId,
+          RONo: item.RONo,
+          RONOItem: item.RONOItem,
+          ProductId: item.ProductId,
+          ProductCode: item.ProductCode,
+          ProductName: item.ProductName,
+          ProductRemark: item.ProductRemark,
+          UomId: item.UomId,
+          UomUnit: item.UomUnit,
+          PricePerDealUnit: item.PricePerDealUnit,
+          OldQuantity: item.OldQuantity,
+          BuyerId: item.BuyerId,
+          BuyerCode: item.BuyerCode,
+          DesignColor: item.DesignColor,
+          FabricType: item.FabricType,
+          DOCurrencyRate: item.DOCurrencyRate,
+          Conversion : item.Conversion,
+          POSerialNumber: item.POSerialNumber,
+          selectedDOItem: item.POSerialNumber,
+          Quantity: item.Quantity,
+          PricePerDealUnit: item.PricePerDealUnit,
+          UomUnit: item.UomUnit,
+          Colour: item.Colour,
+          Rack: item.Rack,
+          Level: item.Level,
+          Box: item.Box,
+          Area: item.Area,
+          IsSave : item.Quantity > 0,
+          IsDisabled: item.IsDisabled
+        });
+      });
+      this.data.Items = Array.from(map.values());
+    }
   }
+  
 
   @computedFrom("data.Id")
   get isEdit() {
@@ -112,28 +154,11 @@ export class DataForm {
       const me = this.authService.getTokenPayload();
       username = me.username;
     }
-    // this.filter={
-    //   CreatedBy: username,
-    //   AdjustmentType: "BARANG JADI"
-    // }
     var unitDeliveryOrderFilter = {
       IsUsed: false,
     };
-
-    if (this.data.ExpenditureType === "EXTERNAL") {
-      unitDeliveryOrderFilter[
-        `UnitDOType== "RETUR" || UnitDOType== "MARKETING"`
-      ] = true;
-      //unitDeliveryOrderFilter[`UnitDOType== "MARKETING"`]=true;
-    } else if (this.data.ExpenditureType === "SAMPLE") {
-      unitDeliveryOrderFilter[`UnitSenderCode !="SMP1"`] = true;
-      unitDeliveryOrderFilter[`UnitDOType== "SAMPLE"`] = true;
-    } else {
-      unitDeliveryOrderFilter[
-        `UnitDOType== "${this.data.ExpenditureType}"`
-      ] = true;
-      unitDeliveryOrderFilter[`CreatedBy== "${username}"`] = true;
-    }
+    unitDeliveryOrderFilter[`UnitDOType== "${this.data.ExpenditureType}"`] = true;
+    unitDeliveryOrderFilter[`CreatedBy== "${username}"`] = true;
     return unitDeliveryOrderFilter;
   }
 
@@ -141,44 +166,7 @@ export class DataForm {
     var selectedCategory = e.srcElement.value;
     if (selectedCategory) {
       this.data.ExpenditureType = selectedCategory;
-      if (
-        this.data.ExpenditureType === "TRANSFER" ||
-        this.data.ExpenditureType === "SAMPLE" ||
-        this.data.ExpenditureType === "TRANSFER SAMPLE"
-      ) {
-        this.isTransfer = true;
-      } else {
-        this.isTransfer = false;
-      }
-      if (this.data.ExpenditureType === "EXTERNAL") {
-        this.isExternal = true;
-        this.options.isExternal = true;
-      } else {
-        this.isExternal = false;
-        this.options.isExternal = false;
-      }
-
-      this.items.columns = this.items.columns.filter(
-        (c) => c != "Status Barang"
-      );
-      if (this.data.ExpenditureType === "TRANSFER") {
-        this.data.ExpenditureTo = "GUDANG LAIN";
-      } else if (this.data.ExpenditureType === "EXTERNAL") {
-        this.data.ExpenditureTo = "PEMBELIAN";
-      } else if (this.data.ExpenditureType === "SAMPLE") {
-        this.data.ExpenditureTo = "SAMPLE";
-      } else if (this.data.ExpenditureType === "PROSES") {
-        this.data.ExpenditureTo = "PROSES";
-      } else if (this.data.ExpenditureType === "SUBCON") {
-        this.data.ExpenditureTo = "SUBCON";
-      } else if (this.data.ExpenditureType === "TRANSFER SUBCON") {
-        this.data.ExpenditureTo = "TRANSFER SUBCON";
-      } else if (this.data.ExpenditureType === "SISA") {
-        this.data.ExpenditureTo = "GUDANG SISA";
-        this.items.columns.push("Status Barang");
-      } else if (this.data.ExpenditureType === "TRANSFER SAMPLE") {
-        this.data.ExpenditureTo = "GUDANG LAIN";
-      }
+      this.options.expenditureType = this.data.ExpenditureType;
       this.options.ExpenditureType = this.data.ExpenditureType;
     }
     this.context.DONoViewModel._suggestions = [];
@@ -202,6 +190,8 @@ export class DataForm {
 
   async unitDeliveryOrderChanged(newValue) {
     var selectedUnitDeliveryOrder = newValue;
+    
+    this.options.expenditureType = this.data.ExpenditureType;
     this.dataItems = [];
     this.data.Items = [];
     if (this.error && this.error.Items) {
@@ -217,13 +207,8 @@ export class DataForm {
       this.isItem = false;
       this.data.UnitDOId = null;
       this.data.UnitDONo = "";
+
     } else if (selectedUnitDeliveryOrder) {
-      console.log(selectedUnitDeliveryOrder);
-      if (newValue.UnitDOType == "MARKETING") {
-        this.data.ExpenditureTo = "PENJUALAN";
-      } else if (newValue.UnitDOType == "RETUR") {
-        this.data.ExpenditureTo = "PEMBELIAN";
-      }
       this.data.UnitDOId = selectedUnitDeliveryOrder.Id;
       this.data.UnitDONo = selectedUnitDeliveryOrder.UnitDONo;
       this.data.UnitSender = selectedUnitDeliveryOrder.UnitSender;
@@ -261,6 +246,7 @@ export class DataForm {
       };
       this.dataUnitDO = await this.service.getUnitDOId(this.data.UnitDOId);
       this.data.RoJob = this.dataUnitDO.RONo;
+
       this.data.Items = [];
       for (var item of selectedUnitDeliveryOrder.Items) {
         var Items = {};
@@ -271,6 +257,7 @@ export class DataForm {
           Items.POItemId = item.POItemId;
           Items.EPOItemId = item.EPOItemId;
           Items.PRItemId = item.PRItemId;
+          Items.DOItemId = item.DOItemId;
           Items.RONo = item.RONo;
           Items.POSerialNumber = item.POSerialNumber;
           Items.ProductId = item.ProductId;
@@ -289,13 +276,13 @@ export class DataForm {
           Items.FabricType = item.FabricType;
           Items.IsSave = Items.Quantity > 0;
           Items.IsDisabled = !(Items.Quantity > 0);
-
+          Items.Conversion = item.Conversion;
+          Items.DOCurrencyRate = item.DOCurrencyRate;
           Items.Rack = item.Rack;
           Items.Level = item.Level;
           Items.Box = item.Box;
           Items.Colour = item.Colour;
           Items.Area = item.Area;
-
           this.data.Items.push(Items);
         }
       }
@@ -310,7 +297,6 @@ export class DataForm {
       this.data.StorageRequest = null;
       this.data.Items = null;
     }
-    // this.data.Items = [];
     this.context.error.Items = [];
     this.context.error = [];
   }
@@ -324,25 +310,7 @@ export class DataForm {
       "Design / Color",
       "Jumlah Keluar",
       "Satuan",
-      "Tipe Fabric",
-    ],
-  };
-
-  itemsFabric = {
-    columns: [
-      "Kode Buyer",
-      "Kode Barang",
-      "Nama Barang",
-      "Keterangan Barang",
-      "Design / Color",
-      "Jumlah Keluar",
-      "Satuan",
-      "Tipe Fabric",
-      "Warna",
-      "Rak",
-      "Box",
-      "Level",
-      "Area",
+      "",
     ],
   };
 }

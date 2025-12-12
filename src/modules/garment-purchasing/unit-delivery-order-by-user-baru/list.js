@@ -7,20 +7,21 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 @inject(Router, Service)
 export class List {
 
-    context = ["Rincian", "Cetak PDF"]
+    context = ["Rincian"]
 
     columns = [
-        
-        { field: "UENNo", title: "No. Bon Pengeluaran Unit" },
+
         { field: "UnitDONo", title: "No. Delivery Order" },
+        { field: "RONo", title: "No. RO" },
+        { field: "Article", title: "Artikel" },
         {
-            field: "ExpenditureDate", title: "Tanggal Pengeluaran", formatter: function (value, data, index) {
+            field: "UnitDODate", title: "Tanggal DeliveryOrder", formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY");
             }
         },
-        { field: "ExpenditureType", title: "Jenis Pengeluaran" },
-        { field: "ExpenditureTo", title: "Tujuan Barang" },
-        { field: "CreatedBy", title: "User" },
+        { field: "UnitDOType", title: "Jenis Delivery Order" },
+        { field: "UnitRequestName", title: "Unit Yang Meminta" },
+        { field: "StorageName", title: "Gudang Yang Mengirim" },
     ];
 
     loader = (info) => {
@@ -32,10 +33,9 @@ export class List {
             size: info.limit,
             keyword: info.search,
             order: order,
-            //filter: JSON.stringify({ ExpenditureType: "SAMPLE" })
-
+            filter: JSON.stringify({'UnitDOType=="MARKETING"': false})
         }
-        
+
         return this.service.search(arg)
             .then(result => {
                 var data = {};
@@ -69,10 +69,7 @@ export class List {
         const encoded = Base64Helper.encode(data.Id);
         switch (arg.name) {
             case "Rincian":
-                this.router.navigateToRoute('view', { id: encoded });
-                break;
-            case "Cetak PDF":
-                this.service.getPdfById(data.Id);
+                this.router.navigateToRoute('view', { id:encoded });
                 break;
         }
     }
@@ -80,7 +77,7 @@ export class List {
     contextShowCallback(index, name, data) {
         switch (name) {
             case "Cetak PDF":
-                return data.Id;
+                return data.IsPosted;
             default:
                 return true;
         }
