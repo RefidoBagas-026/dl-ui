@@ -36,10 +36,13 @@ export class List {
         
         return this.service.search(arg)
             .then(result => {
-                var data = {};
-                data.total = result.info.total;
-                data.data = result.data;
-                data.data.forEach(s => {
+                // var data = {};
+                // data.total = result.info.total;
+                // data.data = result.data;
+                let filteredData = result.data.filter(x => x.ExpenditureType !== "PROSES");
+                let total = filteredData.length;
+
+                filteredData.forEach(s => {
                     s.toString = function () {
                         var str = "<ul>";
                         for (var item of s.Items) {
@@ -50,8 +53,8 @@ export class List {
                     }
                 });
                 return {
-                    total: result.info.total,
-                    data: result.data
+                    total: total,
+                    data: filteredData
                 }
             });
     }

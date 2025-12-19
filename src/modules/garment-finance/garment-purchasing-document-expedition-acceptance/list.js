@@ -3,19 +3,27 @@ import { Router } from "aurelia-router";
 import moment from "moment";
 import numeral from "numeral";
 import { Dialog } from "../../../au-components/dialog/dialog";
-import { Service } from "./service";
+import { Service as FinanceService} from "./service";
+import { Service as PurchasingService } from "./purchasing-service";
+
 // import PurchasingDocumentExpeditionService from "../shared/purchasing-document-expedition-service";
 import { PermissionHelper } from "../../../utils/permission-helper";
 import {
-  VERIFICATION,
+  //VERIFICATION,
   CASHIER,
   ACCOUNTING,
-  RETUR,
+  //RETUR,
 } from "../shared/permission-constants";
 
-@inject(Router, Service, Dialog, PermissionHelper)
+@inject(Router, FinanceService,PurchasingService, Dialog, PermissionHelper)
 export class List {
   context = ["Rincian", "Hapus"];
+
+   dppvatFormatter(value, data, index) {
+    const inNo = String(data.InternalNoteNo).trim();
+    const isPaid = this.paidINNos ? this.paidINNos.has(inNo) : false;
+    return isPaid ? "Sudah" : "Belum";
+  }
 
   fromPurchasingColumns = [
     {
@@ -51,6 +59,11 @@ export class List {
     },
     { field: "CurrencyCode", title: "Mata Uang" },
     { field: "Remark", title: "Keterangan" },
+    {
+      field: "DPPVATIsPaid",
+      title: "DPPVAT",
+      formatter: this.dppvatFormatter.bind(this),
+    },
   ];
 
   fromVerificationColumns = [
@@ -94,6 +107,11 @@ export class List {
     },
     { field: "CurrencyCode", title: "Mata Uang" },
     { field: "Remark", title: "Keterangan" },
+   {
+      field: "DPPVATIsPaid",
+      title: "DPPVAT",
+      formatter: this.dppvatFormatter.bind(this),
+    },
   ];
 
   returFromVerificationColumns = [
@@ -123,10 +141,16 @@ export class List {
     },
     { field: "CurrencyCode", title: "Mata Uang" },
     { field: "SendToPurchasingRemark", title: "Alasan" },
+    {
+      field: "DPPVATIsPaid",
+      title: "DPPVAT",
+      formatter: this.dppvatFormatter.bind(this),
+    },
   ];
 
-  constructor(router, service, dialog, permissionHelper) {
-    this.service = service;
+  constructor(router, financeService, purchasingService, dialog, permissionHelper) {
+    this.service  = financeService;
+    this.purchasingService = purchasingService;
     this.router = router;
     this.dialog = dialog;
 
@@ -137,8 +161,10 @@ export class List {
     this.isRetur = this.activeRole.key == "RETUR";
   }
 
+
   initPermission() {
-    this.roles = [VERIFICATION, CASHIER, ACCOUNTING, RETUR];
+    //this.roles = [VERIFICATION, CASHIER, ACCOUNTING, RETUR];
+    this.roles = [CASHIER, ACCOUNTING];
     this.accessCount = 0;
     // console.log("this.permissions", this.permissions);
     // console.log("this.roles", this.roles);
@@ -219,17 +245,35 @@ export class List {
           case "RETUR":
             return false;
           default:
-            return true;
+            const inNo = String(data.InternalNoteNo).trim();
+            const isPaid = this.paidINNos
+              ? this.paidINNos.has(inNo)
+              : false;
+            return !isPaid;
         }
     }
   }
 
+async attached() {
+  try {
+    const result = await this.purchasingService.getPurchasing();
+    
+    this.paidINNos = new Set(
+      (result || []).map(x => String(x).trim())
+    );
+  } catch (error) {
+    this.paidINNos = new Set();
+  }
+}
+
   contextClickCallback(event) {
     let arg = event.detail;
     let data = arg.data;
-
     switch (arg.name) {
       case "Hapus":
+        if (!confirm("Anda yakin ingin menghapus data ini?")) {
+         break;
+        }
         switch (this.activeRole.key) {
           case "VERIFICATION":
             this.service

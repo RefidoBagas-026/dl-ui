@@ -9,8 +9,8 @@ export class Service extends RestService {
         super(http, aggregator, config, 'finance');
     }
 
-    createVerification(data) {
-        let endpoint = `${uri}/send-to-verification`;
+    createCashier(data) {
+        let endpoint = `${uri}/send-to-cashier-new`;
         return super.post(endpoint, data);
     }
 
@@ -20,7 +20,7 @@ export class Service extends RestService {
     }
 
     search(info) {
-        var endpoint = `${uri}/send-to-verification-or-accounting`;
+        var endpoint = `${uri}/send-to-cashier-or-accounting`;
         return super.list(endpoint, info);
     }
 
