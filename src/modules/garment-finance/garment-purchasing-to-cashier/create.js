@@ -69,8 +69,8 @@ export class Create {
             .then((response) => {
                 console.log(response)
                 if (!response.wasCancelled) {
-                    if (response.output.context == 'Verification') {
-                        this.service.createVerification(this.data)
+                    if (response.output.context == 'Cashier') {
+                        this.service.createCashier(this.data)
                             .then(result => {
                                 alert("Data berhasil dibuat");
                                 this.router.navigateToRoute('list');

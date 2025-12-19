@@ -9,10 +9,10 @@ import { CreateSubmit } from './dialog-template/create-submit';
 // import PurchasingDocumentExpeditionService from "../shared/purchasing-document-expedition-service";
 import { PermissionHelper } from "../../../utils/permission-helper";
 import {
-  VERIFICATION,
+  //VERIFICATION,
   CASHIER,
   ACCOUNTING,
-  RETUR,
+  //RETUR,
 } from "../shared/permission-constants";
 const InternalNoteLoader = require("../../../loader/garment-intern-note-loader");
 const SupplierLoader = require("../../../loader/garment-supplier-loader");
@@ -155,7 +155,8 @@ export class Create {
   }
 
   initPermission() {
-    this.roles = [VERIFICATION, CASHIER, ACCOUNTING, RETUR];
+    //this.roles = [VERIFICATION, CASHIER, ACCOUNTING, RETUR];
+    this.roles = [CASHIER, ACCOUNTING];
     this.accessCount = 0;
 
     for (let i = this.roles.length - 1; i >= 0; i--) {
