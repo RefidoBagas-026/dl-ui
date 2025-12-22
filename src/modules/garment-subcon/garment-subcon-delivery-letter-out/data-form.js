@@ -186,7 +186,7 @@ export class DataForm {
       UENFilter = {
         IsPreparing: false,
         ExpenditureType: "SUBCON",
-        StorageName: "GUDANG ACCESSORIES",
+        'StorageName == "GUDANG ACCESSORIES" || StorageName == "GUDANG EMBALASE"': "true",
       };
     } else if (
       this.data.DLType == "PROSES" &&
