@@ -220,7 +220,7 @@ export class Item {
       UENFilter = {
         IsPreparing: false,
         ExpenditureType: "SUBCON",
-        StorageName: "GUDANG ACCESSORIES",
+        'StorageName == "GUDANG ACCESSORIES" || StorageName == "GUDANG EMBALASE"': "true",
       };
     } else if (this.DLType == "PROSES" && this.orderType == "SAMPLE") {
       UENFilter = {
@@ -232,7 +232,7 @@ export class Item {
     } else if (this.DLType != "PROSES" && this.orderType == "JOB ORDER") {
       UENFilter = {
         ExpenditureType: "SUBCON",
-        StorageName: "GUDANG ACCESSORIES",
+        'StorageName == "GUDANG ACCESSORIES" || StorageName == "GUDANG EMBALASE"': "true",
       };
     } else if (this.DLType != "PROSES" && this.orderType == "SAMPLE") {
       UENFilter = {
