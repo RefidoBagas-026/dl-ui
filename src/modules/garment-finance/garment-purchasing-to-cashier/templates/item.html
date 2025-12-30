@@ -59,6 +59,13 @@
                         read-only.bind="false">
             </au-textbox>
         </td>
+        <td>
+            <au-textbox value.bind="data.Email"
+                        read-only.bind="false"
+                        required.bind="true"
+                        error.bind="data.error.Email">
+            </au-textbox>
+        </td>
         <td class="col-sm-1">
             <button class="btn btn-danger"
                     click.delegate="onremove(data)">-</button>
