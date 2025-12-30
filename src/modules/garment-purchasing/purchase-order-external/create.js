@@ -2,6 +2,7 @@ import {inject, Lazy} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Service} from './service';
 import {activationStrategy} from 'aurelia-router';
+let moment = require("moment");
 
 @inject(Router, Service)
 export class Create {
@@ -34,6 +35,16 @@ export class Create {
     }
 
     save(event) {
+        //ubah typedata orderDate ke DateTime
+
+        this.data.OrderDate = moment(this.data.OrderDate).format("YYYY-MM-DD HH:mm:ssZ");
+        if(this.data.Items){
+            for(var item of this.data.Items){
+                //ubah typedata DealQuantity dan SmallQuantity ke double
+                item.DealQuantity= parseFloat(item.DealQuantity);
+                item.DefaultQuantity= parseFloat(item.DefaultQuantity);
+            }
+        }
         console.log(this.data)
         this.service.create(this.data)
             .then(result => {
