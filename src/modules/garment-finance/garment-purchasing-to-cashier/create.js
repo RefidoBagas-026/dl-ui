@@ -30,7 +30,7 @@ export class Create {
         this.error = {};
 
         this.collection = {
-            columns: ['No. Nota Intern', 'Tanggal Nota Intern', 'Tanggal Jatuh Tempo', 'Supplier', 'DPP', 'PPN', 'PPh', 'Total Bayar', 'Mata Uang', 'Keterangan'],
+            columns: ['No. Nota Intern', 'Tanggal Nota Intern', 'Tanggal Jatuh Tempo', 'Supplier', 'DPP', 'PPN', 'PPh', 'Total Bayar', 'Mata Uang', 'Keterangan','Email'],
             onAdd: () => {
                 this.data.Items.push({});
             },
@@ -46,6 +46,25 @@ export class Create {
     }
 
     saveCallback(event) {
+   
+        this.data.Items.forEach(item => {
+            if (!item.error) item.error = {};
+            item.error.Email = null;
+        });
+
+     
+        this.data.Items.forEach(item => {
+            if (!item.Email || item.Email.trim() === '') {
+                item.error.Email = "Email harus diisi";
+            }
+        });
+
+    
+        let hasError = this.data.Items.some(item => item.error.Email);
+        if (hasError) {
+            return;
+        }
+
         /*
             let data = {
                 SubmissionDate: this.data.SubmissionDate,
