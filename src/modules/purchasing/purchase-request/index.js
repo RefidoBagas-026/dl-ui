@@ -8,5 +8,5 @@ export class Index {
         ]);
 
         this.router = router;
-    }
+    } 
 }
