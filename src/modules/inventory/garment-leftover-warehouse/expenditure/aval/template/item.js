@@ -3,6 +3,7 @@ import { Service } from "../service";
 
 const UnitLoader = require('../../../../../../loader/garment-units-loader');
 var ReceiptAvalLoader = require('../../../../../../loader/garment-leftover-warehouse-aval-receipt-loader');
+const UomLoader = require('../../../../../../loader/uom-loader');
 
 
 @inject(Service)
@@ -43,6 +44,7 @@ export class items {
 
     constructor(service) {
         this.service = service;
+        this.kgUom = null; 
     }
 
     async activate(context) {
@@ -61,6 +63,26 @@ export class items {
         }
 
         this.uom = "KG";
+
+            try {
+                const uoms = await UomLoader("KG", {});
+                if (uoms && uoms.length > 0) {
+                    this.kgUom = uoms.find(u => u.Unit === "KG");
+                    if (this.kgUom) {
+                        console.log("KG UOM ID:", this.kgUom.Id);
+                        if (this.data && this.data.type === "AVAL KOMPONEN") {
+                            this.data.Uom = {
+                                Id: this.kgUom.Id,
+                                Unit: this.kgUom.Unit
+                            };
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to fetch KG UOM:", error);
+            }
+
+
     }
 
     selectedAvalChanged(newValue) {
@@ -73,7 +95,17 @@ export class items {
             this.data.AvalReceiptNo = newValue.AvalReceiptNo;
             this.data.Quantity = newValue.TotalAval;
             this.data.ActualQuantity = newValue.TotalAval;
-            this.data.Uom = newValue.Items[0].Uom;
+           if (this.data.type === "AVAL KOMPONEN") {
+                if (this.kgUom) {
+                    this.data.Uom = {
+                        Id: this.kgUom.Id,
+                        Unit: this.kgUom.Unit
+                    };
+                }
+            } else {
+                // For other types, keep original Uom from aval
+                this.data.Uom = newValue.Items[0].Uom;
+            }
         }
     }
 
