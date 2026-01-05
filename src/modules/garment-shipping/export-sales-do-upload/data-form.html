@@ -1,0 +1,185 @@
+<template>
+    <au-input-form title.bind="title" with.bind="context">
+        <div class="row">
+            <div class="col-md-12">
+                    <au-textbox 
+                        label="No DO" 
+                        value.bind="data.ExportSalesDONo" 
+                        read-only="true"
+                        options.bind="controlOptions" 
+                        if.bind="readOnly || data.id">
+                </au-textbox>
+                <au-datepicker 
+                    label="Ex Factory Date" 
+                    value.bind="data.ExFactoryDate" 
+                    error.bind="error.ExFactoryDate"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-datepicker>
+
+                <au-autocomplete
+                    value.bind="selectedBuyer"
+                    error.bind="error.BuyerAgent"
+                    label="Buyer Agent"
+                    loader.bind="buyerLoader"
+                    query.bind="buyerQuery"
+                    text.bind = "buyerView"
+                    placeholder="cari buyer"
+                    read-only.bind="readOnly || isEdit"
+                    options.bind="controlOptions">
+                </au-autocomplete>
+
+                <au-dropdown 
+                label="Shipment" 
+                value.bind="data.Shipment" 
+                error.bind="error.Shipment"
+                read-only.bind="readOnly"
+                options.bind="controlOptions" 
+                items.bind="ShipmentItems">
+                </au-dropdown>
+
+                <au-textbox 
+                    label="Final Destination" 
+                    value.bind="data.FinalDestination" 
+                    error.bind="error.FinalDestination" 
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions" >
+                </au-textbox>
+
+                <div show.bind="selectedBuyer">
+                    <button show.bind="(!isEdit && !readOnly)" class="btn btn-primary" click.delegate="downloadExcelTemplate()">
+                        Download Template
+                    </button>
+                    <div class="row" show.bind="isCreate">
+                        <div class="col-md-12">
+                            <div class="${error.file ? 'has-error':''}">
+                                <label for="dataFile" class="col-sm-4 control-label">File Path</label>
+                                <div class="col-sm-4">
+                                    <input class="btn btn-default" 
+                                        type="file" 
+                                        id="fileCsv" 
+                                        name="fileUpload"  
+                                        accept=".xls,.xlsx,.csv"
+                                        change.delegate="handleFileUpload($event)">
+                                    <span class="help-block">${error.file}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group has-error">
+                    <p if.bind="error.ItemsCount" class="help-block text-center">${error.ItemsCount}</p>
+                </div>
+                <!-- Preview Data Excel -->
+                <!-- <div if.bind="previewData.length > 0" class="col-md-12">
+                    <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                        <th repeat.for="header of headers">${header}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="row of previewData">
+                        <td repeat.for="header of headers">${row[header]}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div> -->
+                <au-collection
+                    show.bind="data.Items.length > 0"
+                    items.bind="data.Items" 
+                    errors.bind="error.Items" 
+                    columns.bind="itemsColumns"
+                    read-only.bind="readOnly" 
+                    options.bind="Options"
+                    item-template="modules/garment-shipping/export-sales-do-upload/template/item">
+                </au-collection>
+            </div>
+        </div>
+      
+        <!-- <au-textbox 
+            label="No DO Penjualan Export" 
+            value.bind="data.exportSalesDONo" 
+            read-only="true"
+            options.bind="controlOptions" 
+            if.bind="readOnly || data.id">
+        </au-textbox>
+
+        <au-datepicker 
+            label="Tgl DO" 
+            value.bind="data.date" 
+            error.bind="error.date"
+            read-only.bind="readOnly" 
+            options.bind="controlOptions">
+        </au-datepicker>
+
+        <au-autocomplete 
+            label="Invoice No" 
+            placeholder="Pilih invoice no" 
+            value.bind="selectedInvoiceNo"
+            error.bind="error.invoiceNo" 
+            loader.bind="packingListLoader" 
+            text="invoiceNo"
+            query.bind="filter"
+            read-only.bind="readOnly || data.id" 
+            options.bind="controlOptions">
+        </au-autocomplete>
+
+        <au-textbox 
+            label="Buyer Agent" 
+            value.bind="data.buyerAgent.name || ''" 
+            error.bind="error.buyerAgent" 
+            read-only.bind="true"
+            options.bind="controlOptions" >
+        </au-textbox>
+
+        <au-textbox 
+            label="Kepada" 
+            value.bind="data.to" 
+            error.bind="error.to" 
+            read-only.bind="readOnly"
+            options.bind="controlOptions" >
+        </au-textbox>
+
+        
+        <au-autocomplete 
+            label="Bag Gudang Packing" 
+            placeholder="Pilih bag gudang Packing" 
+            value.bind="data.unit"
+            error.bind="error.unit" 
+            loader.bind="unitLoader" 
+            text.bind="unitView"
+            query.bind="unitQuery"
+            read-only.bind="readOnly || isEdit" 
+            options.bind="controlOptions">
+        </au-autocomplete>
+
+        <au-dropdown
+            label="Shipment Mode"
+            value.bind="data.shipmentMode"
+            error.bind="error.shipmentMode"
+            read-only.bind="readOnly"
+            items.bind="ShipmentModeOptions"
+            options.bind="controlOptions">
+        </au-dropdown>
+        
+        <au-textbox 
+            label="Tujuan" 
+            value.bind="data.deliverTo" 
+            error.bind="error.deliverTo" 
+            read-only.bind="true"
+            options.bind="controlOptions" >
+        </au-textbox>
+        
+        <au-multiline 
+            label="Keterangan" 
+            value.bind="data.remark" 
+            error.bind="error.remark" 
+            read-only.bind="readOnly"
+            options.bind="controlOptions" >
+        </au-multiline> -->
+
+        
+        
+    </au-input-form>
+</template>

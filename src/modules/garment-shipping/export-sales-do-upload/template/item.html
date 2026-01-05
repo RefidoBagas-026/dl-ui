@@ -1,0 +1,33 @@
+<template>
+    <tr>
+        <td>
+            <au-textbox
+                value.bind="data.RONumber"
+                error.bind="error.RONumber"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox
+                value.one-way="buyerView"
+                error.bind="error.BuyerBrand"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="data.QuantityOrder"
+                error.bind="error.QuantityOrder"
+                read-only.bind="true">
+            </au-numeric>
+        </td>
+        <td>
+            <au-textbox
+                value.bind="data.Note"
+                error.bind="error.Note"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+     </tr>
+</template>
+

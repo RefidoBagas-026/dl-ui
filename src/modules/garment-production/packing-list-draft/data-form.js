@@ -4,6 +4,7 @@ import { SizeIndex } from "./template/size-print";
 import { Dialog } from '../../../components/dialog/dialog';
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
 var ShippingStaffLoader = require('../../../loader/garment-shipping-staff-loader');
+var ExportSalesDOIdLoader = require('../../../loader/garment-export-sales-loader');
 
 @inject(Service,Dialog)
 export class DataForm {
@@ -11,6 +12,7 @@ export class DataForm {
     @bindable readOnly = false;
     @bindable title;
     @bindable indexText;
+    @bindable selectedExportSalesDO;
 
     constructor(service, dialog) {
         this.service = service;
@@ -115,6 +117,9 @@ export class DataForm {
     shippingStaffView = (data) => {
         return `${data.Name || data.name}`
     }
+     get ExportSalesDOIdLoader() {
+            return ExportSalesDOIdLoader;
+        }
 
     bind(context) {
         this.context = context;
@@ -136,6 +141,15 @@ export class DataForm {
         this.shippingMarkImageSrc = this.data.shippingMarkImageFile || this.noImage;
         this.sideMarkImageSrc = this.data.sideMarkImageFile || this.noImage;
         this.remarkImageSrc = this.data.remarkImageFile || this.noImage;
+
+        if(this.data.exportSalesDOId > 0 && !this.selectedExportSalesDO){
+                    ExportSalesDOIdLoader(null, { Id: this.data.exportSalesDOId })
+                    .then(results => {
+                        if (results && results.length > 0) {
+                            this.selectedExportSalesDO = results[0].exportSalesDONo;
+                        }
+                    });
+                }
     }
 
     get addItems() {

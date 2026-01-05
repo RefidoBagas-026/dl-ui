@@ -1554,4 +1554,20 @@ module.exports = [
     },
   },
   // END
+
+  {
+    route: "garment-shipping/export-sales-do-upload",
+    name: "garment-shipping/export-sales-do-upload",
+    moduleId: "modules/garment-shipping/export-sales-do-upload/index",
+    nav: true,
+    title: "DO Penjualan Export Upload",
+    auth: true,
+    settings: {
+      group: "g-shipping",
+      subGroup: "transaksi",
+      // permission: { "C9": 1, "SG": 1 },
+      permission: { P97: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
 ];
