@@ -1406,4 +1406,19 @@ module.exports = [
           iconClass: "fa fa-dashboard"
       }
   },
+  {
+      route: "garment-production/packing-list-items-do",
+      name: "garment-production/packing-list-items-do",
+      moduleId: "modules/garment-production/packing-list-items-do/index",
+      nav: true,
+      title: "Item Packing List DO",
+      auth: true,
+      settings: {
+          group: "g-production",
+          subGroup: "packing list",
+          // permission: { "C9": 1, "FP": 1 },
+          permission: { "O81": 1 },
+          iconClass: "fa fa-dashboard"
+      }
+  },
 ];
