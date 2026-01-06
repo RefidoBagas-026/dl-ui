@@ -34,11 +34,16 @@ export class InternNoteItem {
 		this.data = context.data;
 		this.error = context.error;
 		this.isShowing = false;
-    this.options = context.context.options;
-    // console.log(context);
+		this.options = context.context.options;
+		//console.log(context);
 		if (this.data.garmentInvoice && this.data.garmentInvoice.invoiceNo) {
-			this.invoice =  this.data.garmentInvoice ;
-			this.data.garmentInvoice.totalAmount = this.data.garmentInvoice.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 2,minimumFractionDigits:2});
+			this.invoice =  this.data.garmentInvoice;
+			this.read = this.context.options.readOnly;
+			if(!this.read){
+				this.data.garmentInvoice.totalAmount = this.data.garmentInvoice.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 2,minimumFractionDigits:2});
+			}else{
+				this.data.garmentInvoice.totalAmountFormatted = Math.ceil(this.data.garmentInvoice.totalAmount * 100) / 100;
+			}
 		}
 
 		this.filter={};
