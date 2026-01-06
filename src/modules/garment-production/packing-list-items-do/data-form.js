@@ -38,23 +38,24 @@ export class DataForm {
     }
 
     selectedExportSalesDOChanged(newValue, oldValue) {
-        this.data.exportSalesDOId = null;
-        console.log(newValue);
-        if (newValue && newValue.id && Array.isArray(newValue.items)) {
-            this.data.exportSalesDOId = newValue.id;
+        if(newValue){
+            this.data.exportSalesDOId = 0;
+            if (newValue && newValue.id && Array.isArray(newValue.items)) {
+                this.data.exportSalesDOId = newValue.id;
 
-            newValue.items.forEach(doItem => {
-                this.addItems();
-                let item = this.data.items[this.data.items.length - 1];
-                if (!Array.isArray(item.ExportSalesDOItems)) {
-                    item.ExportSalesDOItems = [];
-                }
+                newValue.items.forEach(doItem => {
+                    this.addItems();
+                    let item = this.data.items[this.data.items.length - 1];
+                    if (!Array.isArray(item.ExportSalesDOItems)) {
+                        item.ExportSalesDOItems = [];
+                    }
 
-                item.ExportSalesDOItems.push({
-                    costCalculationGarmentId: doItem.costCalculationGarmentId,
-                    roNumber: doItem.roNumber,
+                    item.ExportSalesDOItems.push({
+                        costCalculationGarmentId: doItem.costCalculationGarmentId,
+                        roNumber: doItem.roNumber,
+                    });
                 });
-            });
+            }
         }
     }
     
@@ -189,7 +190,10 @@ export class DataForm {
             ExportSalesDOIdLoader(null, { Id: this.data.exportSalesDOId })
             .then(results => {
                 if (results && results.length > 0) {
-                    this.selectedExportSalesDO = results[0].exportSalesDONo;
+                    this.selectedExportSalesDO = {
+                        exportSalesDONo: results[0].exportSalesDONo,
+                        id: results[0].id
+                    };
                 }
             });
         }
