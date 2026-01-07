@@ -46,6 +46,22 @@ export class View {
         this.router.navigateToRoute('list');
     }
 
+
+    canEditOrDelete() {
+        const d = this.data || {};
+        if (d.isPaid || this.isLocked) return false;
+
+        const items = Array.isArray(d.items) ? d.items : [];
+        if (items.length === 0) return true;
+
+        return items.every(i => {
+        const delivered = Number(i && (typeof i.deliveredQuantity !== 'undefined' ? i.deliveredQuantity :  0));
+        const remaining = Number(i && (typeof i.remainingQuantity !== 'undefined' ? i.remainingQuantity :  0));
+        return delivered === remaining || (delivered !== remaining && !d.isStorage);
+        });
+    }
+
+
     edit() {
         const encoded = Base64Helper.encode(this.data._id);
         if(confirm('Apakah anda ingin merubah data ini?') == true) {
