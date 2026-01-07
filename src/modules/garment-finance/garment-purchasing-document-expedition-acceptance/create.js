@@ -12,7 +12,7 @@ import {
   //VERIFICATION,
   CASHIER,
   ACCOUNTING,
-  //RETUR,
+  RETUR,
 } from "../shared/permission-constants";
 const InternalNoteLoader = require("../../../loader/garment-intern-note-loader");
 const SupplierLoader = require("../../../loader/garment-supplier-loader");
@@ -156,7 +156,7 @@ export class Create {
 
   initPermission() {
     //this.roles = [VERIFICATION, CASHIER, ACCOUNTING, RETUR];
-    this.roles = [CASHIER, ACCOUNTING];
+    this.roles = [CASHIER, ACCOUNTING, RETUR];
     this.accessCount = 0;
 
     for (let i = this.roles.length - 1; i >= 0; i--) {
