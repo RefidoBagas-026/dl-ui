@@ -22,6 +22,7 @@ export class DataForm {
         deleteText: "Hapus",
         editText: "Ubah"
     };
+    
 
     controlOptions = {
         label: {
@@ -64,6 +65,9 @@ export class DataForm {
             if(this.isEdit){
                 Promise.resolve(this.service.search({ filter: JSON.stringify({ UnitId: this.data.Unit.Id }) }))
                 .then(result => {
+                     result.data.sort((a, b) => {
+                        return (b.IsApproved === false) - (a.IsApproved === false);
+                    });
                     for(var data of result.data){
                         var item={};
                         item.Comodity=data.Comodity;
@@ -72,6 +76,7 @@ export class DataForm {
                         item.NewPrice=data.Price;
                         item.Id=data.Id;
                         item.Date=data.Date;
+                        item.IsApproved=data.IsApproved;
                         this.data.Items.push(item);
                     }
                 });

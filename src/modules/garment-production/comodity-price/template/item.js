@@ -40,7 +40,7 @@ export class Item {
                 };
                 return this.coreService.getGarmentComodity(info)
                     .then((result) => {
-                        return this.service.search({ filter: JSON.stringify({ UnitId: this.data.Unit.Id, IsValid:true }) })
+                        return this.service.search({ filter: JSON.stringify({ UnitId: this.data.Unit.Id, IsValid:true, IsApproved: false }) })
                             .then((price) => {
                                 var comoList=[];
                                 for(var a of result.data){
