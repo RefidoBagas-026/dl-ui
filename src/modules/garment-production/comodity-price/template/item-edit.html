@@ -1,5 +1,5 @@
 <template >
-    <tr>
+      <tr class.bind="data.IsApproved ? 'info' : ''">
         <td>
             <au-textbox
                 value.bind="comodity"
@@ -26,7 +26,7 @@
             <au-numeric 
                 value.bind="data.NewPrice"
                 error.bind = "error.NewPrice"
-                read-only.bind="readOnly"
+                read-only.bind="readOnly || data.IsApproved"
                 format="0,000.00">
             </au-numeric>                    
         </td>
