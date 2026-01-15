@@ -41,6 +41,7 @@
           </li>
           <li if.bind="showNotification" class="dropdown">
               <a href="#"
+                click.trigger="ConfirmUpdateTimer = !ConfirmUpdateTimer"
                 class="dropdown-toggle"
                 data-toggle="dropdown"
                 role="button"
@@ -80,4 +81,67 @@
       </div>
     </div>
   </nav>
+ 
+<!-- OVERLAY -->
+<div show.bind="ConfirmUpdateTimer"
+     click.trigger.stop
+     style="
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.45);
+        z-index: 99998;
+     ">
+</div>
+
+<!-- CONFIRM BOX -->
+<div show.bind="ConfirmUpdateTimer"
+     click.trigger.stop
+     style="
+        zoom: 1.2;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 99999;
+        width: 500px;
+     ">
+
+  <div class="card text-center"
+       style="
+          background-color: white;
+          border-radius: 8px;
+       ">
+
+    <div class="card-body" style="color: black; margin: 20px;">
+      <h2 class="mb-3">Perpanjang Sesi Waktu Anda</h2>
+
+      <p class="mb-2">
+        Waktu tersisa:
+        <strong class="fw-bold text-danger">${countdown}</strong>
+      </p>
+
+      <h4 class="text-muted">
+        Klik update untuk memperpanjang sesi Anda.
+      </h4>
+
+      <div class="d-grid gap-4 mt-3">
+        <button class="btn btn-primary"
+                click.trigger="updateDataLastTime()">
+          Update
+        </button>
+
+        <button class="btn btn-danger"
+                click.trigger="offConfirmUpdateTimer()">
+          Batal
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- END CONFIRM BOX -->
+
+</div>
+
+
 </template>
