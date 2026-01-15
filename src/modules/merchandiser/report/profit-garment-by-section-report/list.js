@@ -92,6 +92,12 @@ export class List {
                             Amount : data.Amount.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
                             GrossProfit : data.GrossProfit.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
                             Premi : data.Premi.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
+                            Total: data.Total.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
+                            OTL1: data.OTL1.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
+                            OTL2: data.OTL2.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
+                            PersenRisk: data.PersenRisk.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
+                            FreightCost: data.FreightCost.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
+                            SubTotal: data.SubTotal.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
                          });
                     
                         if (!subTotalSection[SECTION]) {
