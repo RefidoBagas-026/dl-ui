@@ -1,8 +1,9 @@
 import { inject, computedFrom } from 'aurelia-framework';
 import { AuthService } from "aurelia-authentication";
 import { Router } from "aurelia-router";
+import { Config } from "aurelia-api";
 
-@inject(AuthService,Router)
+@inject(AuthService, Router, Config)
 export class NavBar {
     timeFormatted = "";
     timer = null;
@@ -10,11 +11,12 @@ export class NavBar {
     countdown = "";
     countdownTimer = null;
     isWarning = false; // true jika waktu kurang dari 5 menit
-    
+    ConfirmUpdateTimer = false;
     isBlinkOn = true; // untuk efek kedip
-    constructor(authService,router) {
+    constructor(authService, router, config) {
         this.authService = authService;
         this.router = router;
+        this.authEndpoint = config.getEndpoint('auth');
     }
 
     @computedFrom('authService.authenticated')
@@ -34,6 +36,41 @@ export class NavBar {
 
         return this.authService.authenticated;
     }
+
+    updateDataLastTime() {
+        this.authEndpoint.update('me', null, {})
+            .then((result) => {
+                    this.authService.getMe()
+                    .then((result) => {
+                        this.me = result.data;
+                        this.resetCountdownState();
+                        if (this.me && this.me.expiredDateTime) {
+                            this.startCountdown(this.me.expiredDateTime);
+                        }
+                    })
+            })
+            .catch((error) => {
+                console.error('Error updating last login time:', error);
+            });
+    }
+    offConfirmUpdateTimer() {
+        this.ConfirmUpdateTimer = false;
+    }
+    resetCountdownState() {
+        // hentikan countdown lama
+        if (this.countdownTimer) {
+            clearInterval(this.countdownTimer);
+            this.countdownTimer = null;
+        }
+
+        // hentikan blinking
+        this.stopBlinking();
+        this.isWarning = false;
+        this.ConfirmUpdateTimer = false;
+        this.showNotification = false;
+        this.countdown = "";
+    }
+
 
     attached() {
         this.updateTime();
@@ -119,6 +156,7 @@ export class NavBar {
 
           
             if (this.isWarning && !wasWarning) {
+                this.ConfirmUpdateTimer = true;
                 this.startBlinking();
             }
             if (!this.isWarning && wasWarning) {
