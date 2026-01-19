@@ -100,6 +100,51 @@ export class CostCalculationMaterial {
 
     }
 
+    // Clear all autocomplete suggestions on attach and focus
+    attached() {
+        this.clearAllAutocompleteSuggestions();
+        this.attachFocusListeners();
+    }
+    clearAutocompleteSuggestions(autocompleteRef) {
+        if (autocompleteRef) {
+            autocompleteRef._suggestions = [];
+            autocompleteRef._suggestionVisible = false;
+        }
+    }
+
+    clearAllAutocompleteSuggestions() {
+        setTimeout(() => {
+            if (this.categoryAutocomplete) this.clearAutocompleteSuggestions(this.categoryAutocomplete);
+            if (this.compositionAutocomplete) this.clearAutocompleteSuggestions(this.compositionAutocomplete);
+            if (this.constructionAutocomplete) this.clearAutocompleteSuggestions(this.constructionAutocomplete);
+            if (this.yarnAutocomplete) this.clearAutocompleteSuggestions(this.yarnAutocomplete);
+            if (this.widthAutocomplete) this.clearAutocompleteSuggestions(this.widthAutocomplete);
+            if (this.uomQuantityAutocomplete) this.clearAutocompleteSuggestions(this.uomQuantityAutocomplete);
+            if (this.uomPriceAutocomplete) this.clearAutocompleteSuggestions(this.uomPriceAutocomplete);
+        }, 100);
+    }
+
+    attachFocusListeners() {
+        const autocompletes = [
+            this.categoryAutocomplete,
+            this.compositionAutocomplete,
+            this.constructionAutocomplete,
+            this.yarnAutocomplete,
+            this.widthAutocomplete,
+            this.uomQuantityAutocomplete,
+            this.uomPriceAutocomplete
+        ];
+
+        autocompletes.forEach(ac => {
+            if (ac && ac.element) {
+                ac.element.addEventListener('focus', () => {
+                    this.clearAutocompleteSuggestions(ac);
+                }, true);
+            }
+        });
+    }
+    //end clear all autocomplete suggestions on attach and focus
+
     // @bindable productCode = "Test";
     @bindable selectedCategory;
     @bindable categoryIsExist = false;
