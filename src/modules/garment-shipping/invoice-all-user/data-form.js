@@ -425,6 +425,8 @@ export class DataForm {
             { header: "Unit", value: "unit.code" },
             { header: "CMT Price", value: "cmtPrice" },
             { header: "Amount CMT", value: "cmtAmount" },
+            { header: "Commission", value: "commission" },
+            { header: "Total Commission", value: "commissionTotal" },
         ],
         onAdd: function () {
 

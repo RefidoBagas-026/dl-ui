@@ -87,7 +87,7 @@ export class Detail {
       UENFilter = {
         IsPreparing: false,
         ExpenditureType: "SUBCON",
-        StorageName: "GUDANG ACCESSORIES",
+        'StorageName == "GUDANG ACCESSORIES" || StorageName == "GUDANG EMBALASE"': "true",
       };
     } else if (
       this.data.DLType == "PROSES" &&
@@ -96,7 +96,7 @@ export class Detail {
       UENFilter = {
         IsPreparing: false,
         ExpenditureType: "SUBCON",
-        StorageName: "GUDANG ACCESSORIES",
+        'StorageName == "GUDANG ACCESSORIES" || StorageName == "GUDANG EMBALASE"': "true",
         UnitRequestCode: "SMP1",
       };
     } else if (
@@ -105,7 +105,7 @@ export class Detail {
     ) {
       UENFilter = {
         ExpenditureType: "SUBCON",
-        StorageName: "GUDANG ACCESSORIES",
+        'StorageName == "GUDANG ACCESSORIES" || StorageName == "GUDANG EMBALASE"': "true",
       };
     } else if (
       this.data.DLType != "PROSES" &&
@@ -113,7 +113,7 @@ export class Detail {
     ) {
       UENFilter = {
         ExpenditureType: "SUBCON",
-        StorageName: "GUDANG ACCESSORIES",
+        'StorageName == "GUDANG ACCESSORIES" || StorageName == "GUDANG EMBALASE"': "true",
         UnitRequestCode: "SMP1",
       };
     }

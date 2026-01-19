@@ -1,0 +1,94 @@
+<template >
+    <tr>
+        <!-- <td>
+            <au-textbox 
+                value.bind="data.PO_SerialNumber"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td> -->
+        <td style="text-align: center important">
+          <au-numeric
+            value.bind="data.index"
+            read-only.bind="true"
+            format="0">
+          </au-numeric>
+        </td>
+        <td>
+            <au-autocomplete
+                value.bind="data.selectedDOItem"
+                change.delegate="unitDOChanged($event)" 
+                error.bind="error.UnitDONo" 
+                read-only.bind="readOnly || isEdit"
+                query.bind = "filterUnitDeliveryOrder"
+                loader.bind="doItemsLoader"
+                text.bind = "DOView"
+                placeholder = "Cari Unit Delivery Order"
+                view-model.ref="DONoViewModel"
+                options.bind="controlOptions">
+            </au-autocomplete>
+        </td>
+       <td>
+            <au-textbox 
+                value.bind="data.RemainingQuantity"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>                    
+        </td>
+        <td style="width: 150px;">
+            <au-numeric 
+                value.bind="data.Quantity"
+                read-only.bind="options.readOnly"
+                options.bind="controlOptions"
+                error.bind="error.Quantity">
+            </au-numeric>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.UomUnit"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>                    
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.Colour"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.Rack"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.Box"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.Level"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.Area"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+
+         
+        <td if.bind="!readOnly" class="bg-light">
+            <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
+        </td>
+    </tr>
+</template>

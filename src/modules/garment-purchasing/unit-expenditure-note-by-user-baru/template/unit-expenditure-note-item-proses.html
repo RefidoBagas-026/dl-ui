@@ -1,0 +1,81 @@
+<template >
+    <tr>
+        <td>
+            <au-checkbox 
+                value.bind="data.IsSave"
+                disabled.bind="readOnly"
+                change.delegate="changeCheckBox()">
+            </au-checkbox>
+        </td>
+        <td>
+            <au-textbox value.bind="data.BuyerCode" read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox value.bind="data.ProductCode" read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox value.bind="data.ProductName" read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.ProductRemark"
+                read-only.bind="true" >
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.DesignColor"
+                read-only.bind="true" >
+            </au-textbox>                    
+        </td>
+        <td>
+            <au-numeric 
+                value.bind="data.Quantity"
+                read-only.bind="true" >
+            </au-numeric>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.UomUnit"
+                read-only.bind="true" >
+            </au-textbox>                    
+        </td>
+         <td class="bg-light" align="center">
+            <div>
+                <button class="btn btn-info" if.bind= "data.Details" click.delegate="toggle()">i</button>
+            </div>
+        </td>
+    </tr>
+        <tr if.bind="error.DetailsCount">
+            <td colspan="11" style="border:none;">
+                <div class="form-group has-error">
+                    <span class="text-danger help-block">
+                        ${error.DetailsCount}
+                    </span>
+                </div>
+            </td>
+        </tr>
+    
+    <tr show.bind="isShowing" colspan="11">
+        <td colspan="1" style='border:none;'>
+        </td>
+            <td colspan="10" align="center" style='border:none;'>
+                <au-collection 
+                    items.bind="data.Details" 
+                    errors.bind="error.Details"
+                    columns.bind="detailsColumns" 
+                    options.bind="options"
+                    add.bind="(options.readOnly || isEdit) ? null : addDetails" 
+                    remove.bind="removeDetails"
+                    read-only.bind="options.readOnly"
+                    item-template="modules/garment-purchasing/unit-expenditure-note-by-user-baru/template/items/unit-expenditure-note-detail">
+                </au-collection> 
+            </td>        
+        <td colspan="2" style='border:none;'>
+        </td>
+        
+  </tr>
+</template>

@@ -1,10 +1,10 @@
 module.exports = [
   {
-    route: '/garment-finance/garment-purchasing-to-verification',
-    name: 'garment-purchasing-to-verification',
-    moduleId: './modules/garment-finance/garment-purchasing-to-verification/index',
+    route: '/garment-finance/garment-purchasing-to-cashier',
+    name: 'garment-purchasing-to-cashier',
+    moduleId: './modules/garment-finance/garment-purchasing-to-cashier/index',
     nav: true,
-    title: 'Ekspedisi Penyerahan ke Verifikasi',
+    title: 'Ekspedisi Penyerahan ke Kasir',
     auth: true,
     settings: {
       group: "g-finance",
@@ -29,21 +29,21 @@ module.exports = [
       iconClass: 'fa fa-dashboard'
     }
   },
-  {
-    route: '/garment-finance/garment-purchasing-verification',
-    name: 'garment-purchasing-verification',
-    moduleId: './modules/garment-finance/garment-purchasing-verification/index',
-    nav: true,
-    title: 'Verifikasi Nota Intern',
-    auth: true,
-    settings: {
-      group: "g-finance",
-      subGroup: "ekspedisi ni",
-      // permission: { "B13": 1, "C9": 1, "B9": 1 },
-      permission: { "J3": 1 },
-      iconClass: 'fa fa-dashboard'
-    }
-  },
+  // {
+  //   route: '/garment-finance/garment-purchasing-verification',
+  //   name: 'garment-purchasing-verification',
+  //   moduleId: './modules/garment-finance/garment-purchasing-verification/index',
+  //   nav: true,
+  //   title: 'Verifikasi Nota Intern',
+  //   auth: true,
+  //   settings: {
+  //     group: "g-finance",
+  //     subGroup: "ekspedisi ni",
+  //     // permission: { "B13": 1, "C9": 1, "B9": 1 },
+  //     permission: { "J3": 1 },
+  //     iconClass: 'fa fa-dashboard'
+  //   }
+  // },
   //====>dokumen intelegent AI <====//
 {
     route: "/garment-finance/verification-ni-and-po",

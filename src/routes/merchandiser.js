@@ -407,7 +407,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-copy',
         name: 'cost-calculation-copy',
-        moduleId: './modules/merchandiser/cost-calculation/copy/index',
+        moduleId: './modules/merchandiser/cost-calculation-model-upload/copy/index',
         nav: true,
         title: 'Copy Cost Calculation',
         auth: true,
@@ -1051,4 +1051,35 @@ module.exports = [
         }
     },
     //END
+
+    {
+        route: '/merchandiser/cost-calculation-model-upload-by-user',
+        name: 'cost-calculation-model-upload-by-user',
+        moduleId: './modules/merchandiser/cost-calculation-model-upload/index',
+        nav: true,
+        title: 'Cost Calculation Export Garment ( Model Upload )',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "transaksi",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "L68": 1 },
+            iconClass: 'fa fa-calculator',
+            byUser: true
+        }
+    },
+    {
+        route: '/merchandiser/monitoring-status-ro-job',
+        name: 'monitoring-status-ro-job',
+        moduleId: './modules/merchandiser/report/monitoring-status-ro-job/index',
+        nav: true,
+        title: 'Monitoring Status RO Job',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "monitoring",
+            permission: { "L69": 1 },
+            iconClass: 'fa fa-calculator',
+        }
+    },
 ];

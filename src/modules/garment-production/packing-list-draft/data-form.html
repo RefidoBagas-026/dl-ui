@@ -116,6 +116,16 @@
                         placeholder="Masukkan Keterangan"
                         options.bind="controlOptions">
                     </au-multiline>
+
+                    <au-autocomplete
+                        show.bind="data.exportSalesDOId > 0"
+                        value.bind="selectedExportSalesDO"
+                        error.bind="error.ExportSalesDOId"
+                        label="No DO Penjualan"
+                        loader.bind="ExportSalesDOIdLoader"
+                        read-only.bind="true"
+                        options.bind="controlOptions">
+                    </au-autocomplete>
                 </div>
             </div>
             <div class="form-group has-error">

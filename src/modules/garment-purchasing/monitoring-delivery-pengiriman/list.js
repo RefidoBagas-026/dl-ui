@@ -5,7 +5,7 @@ import { Router } from 'aurelia-router';
 import moment from 'moment';
 
 var SupplierLoader = require('../../../loader/garment-supplier-loader');
-var AccountLoader = require('../../../loader/garment-product-loader');
+var AccountLoader = require('../../../loader/garment-internal-purchase-orders-name-loader');
 
 @inject(Router, Service)
 export class List {
@@ -34,6 +34,11 @@ export class List {
         return AccountLoader;
     }
 
+    accountView = (account) => {
+
+        return `${account.CreatedBy}`;
+    }
+
     JenisSplChanged(newvalue) {
         if (newvalue) {
             this.jnsSpl = newvalue === "LOCAL" ? false : true;          
@@ -60,12 +65,17 @@ export class List {
         {
             var info = {
             epoNo : this.epoNo ? this.epoNo : "",
-            jnsSpl : this.jnsSpl ? this.jnsSpl : "",
+            //jnsSpl : this.jnsSpl ? this.jnsSpl : "",
+            jnsSpl : this.jnsSpl,
             supplierCode : this.supplierCode ? this.supplierCode.code : "",           
-            staffName : this.staffName ? this.staffName.userName : "",           
+            staffName : this.account ? this.account.CreatedBy : "",          
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
+
+            
         }
+        console.log("JNS SPL UI:", this.jnsSpl);
+
         console.log(info);
         this.service.search(info)
             .then(result => {
@@ -84,17 +94,24 @@ export class List {
         }
     }
     
+    // rowFormatter(data, index) {
+    // if (data.flagData == "R")
+    //   return { classes: "danger" } //merah
+    // else if (data.flagData == "Y")
+    //   return { classes: "warning" } //kuning
+    // else if (data.flagData == "G")
+    //   return { classes: "success" } //hijau
+    // else if (data.flagData == "B")
+    //   return { classes: "info" } //biru
+    // else
+    //   return { classes: "default" } //default
+    // }
+
     rowFormatter(data, index) {
-    if (data.flagData == "R")
-      return { classes: "danger" }
-    else if (data.flagData == "Y")
-      return { classes: "warning" }
-    else if (data.flagData == "G")
-      return { classes: "success" }
-    else if (data.flagData == "B")
-      return { classes: "info" }
+    if (data.flagData === "R")
+        return { classes: "danger" }; // merah
     else
-      return { classes: "default" }
+        return { classes: "default" }; // putih / normal
     }
 
     fillTable() {
@@ -171,7 +188,7 @@ export class List {
                 epoNo : this.epoNo ? this.epoNo : "",
                 jnsSpl : this.jnsSpl ? this.jnsSpl : "",
                 supplierCode : this.supplierCode ? this.supplierCode.code : "",           
-                staffName : this.staffName ? this.staffName.userName : "",           
+                staffName : this.account ? this.account.CreatedBy : "",            
                 dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
                 dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
             }

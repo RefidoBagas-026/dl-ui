@@ -1,0 +1,115 @@
+import { inject, Lazy } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { Service } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
+
+@inject(Router, Service)
+export class View {
+    hasCancel = true;
+    hasEdit = true;
+    hasDelete = true;
+
+    constructor(router, service) {
+        this.router = router;
+        this.service = service;
+    }
+
+    async activate(params) {
+        var id = params.id;
+        let decoded = Base64Helper.decode(id);
+        id = decoded;
+        this.data = await this.service.getById(id);
+        if (this.data) {
+            if (this.data.UnitRequest) {
+                this.unitRequest = this.data.UnitRequest;
+            }
+
+            if (this.data.UnitSender) {
+                this.unitSender = this.data.UnitSender;
+            }
+
+            if (this.data.Storage) {
+                this.storage = this.data.Storage;
+            }
+
+            if (this.data.StorageRequest) {
+                this.storageRequest = this.data.StorageRequest;
+            }
+
+            if (this.data.RONo) {
+                if(this.data.UnitDOType=="TRANSFER"){
+                    var RO="";
+                    for(var a of this.data.Items){
+                        RO=a.RONo; break;
+                    }
+                    // this.RONoJob = {
+                    //     RONo: this.data.RONo,
+                    //     Items: []
+                    // };
+                    this.RONoJob = this.data.RONo,
+                    // this.RONo = {
+                    //     RONo: RO,
+                    //     Items: []
+                    // };
+                    this.RONo = RO
+                }
+                else{
+                    // this.RONo = {
+                    //     RONo: this.data.RONo,
+                    //     Items: []
+                    // };
+                    this.RONo = this.data.RONo
+                }
+            }
+
+            if (this.data.Items) {
+                for (let item of this.data.Items) {
+                    item.IsSave = true;
+                }
+            }
+            if (this.data.IsUsed) {
+                this.hasDelete = false;
+                this.hasEdit = false;
+            }
+
+            if(this.data.UnitDOType)
+            {
+                this.unitDOType = this.data.UnitDOType;
+            }
+        }
+    }
+
+    cancel(event) {
+        var r = confirm("Apakah anda yakin akan keluar?")
+        if (r == true ) {
+            this.router.navigateToRoute('list');
+        }
+        
+    }
+
+    edit(event) {
+        const encoded = Base64Helper.encode(this.data.Id);
+        var r = confirm("Apakah anda yakin akan mengubah data ini?")
+        if (r == true) {
+            this.router.navigateToRoute('edit', { id: encoded });
+        }
+    }
+
+    delete(event) {
+        var r = confirm("Apakah anda yakin akan menghapus data ini?")
+        if (r == true) {
+             if(this.data.UnitDOType === "PROSES"){
+                this.service.deleteTypeProses(this.data).then(result => {
+                    this.cancel();
+                });
+             }else{
+                this.service.delete(this.data).then(result => {
+                    this.cancel();
+                });
+             }
+
+            
+        }
+    }
+
+}

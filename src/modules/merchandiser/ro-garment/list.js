@@ -173,12 +173,15 @@ export class List {
                         this.dataToBePosted = [];
                         //console.log(result.message);
                     }).catch(e => {
-                        this.error = e;
-                        if(e.message === "Validation Error"){
+                        const errorMessage = e.ErrorPost || Object.values(e)[0];
+                        
 
-                            alert("Gagal Posting, CC Belum di Approve Kadiv MD");
+                        if (errorMessage == null || errorMessage === "")
+                        {
+                            alert("Terjadi kesalahan pada server.")
+                        }else{
+                            alert(errorMessage);
                         }
-                        //console.log(e);
                     })
             }
         }

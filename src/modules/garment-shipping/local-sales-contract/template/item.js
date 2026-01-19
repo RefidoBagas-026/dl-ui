@@ -16,6 +16,13 @@ export class Item {
         this.error = context.error;
         this.options = context.options;
         this.buyerType =  this.context.context.options.buyerType;
+        if (this.data.product && this.data.product.id === 0) {
+            this.data.product = null;
+        }
+
+        if (this.data.comodity && this.data.comodity.id === 0) {
+            this.data.comodity = null;
+        }
     }
 
     get productLoader() {

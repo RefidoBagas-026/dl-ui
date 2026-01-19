@@ -1350,4 +1350,35 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
+  {
+    route: "/garment/unit-delivery-order-by-user-baru",
+    name: "unit-receipt-note-by-user",
+    moduleId: "./modules/garment-purchasing/unit-delivery-order-by-user-baru/index",
+    nav: true,
+    title: "Unit Delivery Order Baru",
+    auth: true,
+    settings: {
+      group: "g-purchasing",
+      subGroup: "transaksi",
+      // permission: { "C9": 1, "C1B": 1, "C1A": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
+      permission: { H71: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  {
+    route: "/garment/unit-expenditure-note-by-user-baru",
+    name: "unit-expenditure-note-by-user-baru",
+    moduleId:
+      "./modules/garment-purchasing/unit-expenditure-note-by-user-baru/index",
+    nav: true,
+    title: "Bon Pengeluaran Unit (Proses)",
+    auth: true,
+    settings: {
+      group: "g-purchasing",
+      subGroup: "transaksi",
+      // permission: { "C9": 1, "C1B": 1, "C1A": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
+      permission: { H72: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
 ];
