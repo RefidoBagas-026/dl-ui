@@ -90,7 +90,7 @@
             <!-- kategori -->
             <td>
                 <div style="width: 100px;" class="tooltip-material-field">
-                    <au-autocomplete placeholder="Cari Kategori"  read-only.bind="isReadOnly"  value.bind="selectedCategory" key="name" text="name" error.bind="error.Category"
+                    <au-autocomplete view-model.ref="categoryAutocomplete" placeholder="Cari Kategori"  read-only.bind="isReadOnly"  value.bind="selectedCategory" key="name" text="name" error.bind="error.Category"
                         loader.one-time="garmentCategoryLoader" options.bind="controlOptions" keypress.delegate="enterDelegate($event)">
                     </au-autocomplete>
                     <span class="tooltiptext">Kategori</span>
@@ -99,7 +99,7 @@
             <!-- kode barang -->
             <td>
                 <div style="width: 100px;" class="tooltip-material-field">
-                    <au-textbox value.bind="productCode" options.bind="controlOptions" read-only.bind="true">
+                    <au-textbox value.bind="productCode" error.bind="error.ProductCode" options.bind="controlOptions" read-only.bind="true">
                     </au-textbox>
                     <span class="tooltiptext">Kode Barang</span>
                 </div>
@@ -107,7 +107,7 @@
             <!-- komposisi -->
             <td>
                 <div style="width: 200px;" class="tooltip-material-field">
-                    <au-autocomplete value.bind="selectedComposition"  read-only.bind="isReadOnly"  placeholder="Cari Komposisi" text="Composition" options.bind="controlOptions" loader.bind="garmentProductDistinctDescriptionLoader" show.bind="categoryIsExist" keypress.delegate="enterDelegate($event)">
+                    <au-autocomplete view-model.ref="compositionAutocomplete" value.bind="selectedComposition"  read-only.bind="isReadOnly"  placeholder="Cari Komposisi" text="Composition" options.bind="controlOptions" loader.bind="garmentProductDistinctDescriptionLoader" show.bind="categoryIsExist" keypress.delegate="enterDelegate($event)">
                     </au-autocomplete>
                     <span class="tooltiptext">Komposisi</span>
                 </div>
@@ -115,7 +115,7 @@
             <!-- konstruksi -->
             <td>
                 <div style="width: 100px;" class="tooltip-material-field">
-                    <au-autocomplete query.bind="filterProductQuery"  read-only.bind="isReadOnly" placeholder="Cari Konstruksi" text.bind="getConstructionText" value.bind="selectedConstruction" options.bind="controlOptions" loader.bind="garmentProductConstLoader" show.bind="compositionIsExist" keypress.delegate="enterDelegate($event)">
+                    <au-autocomplete view-model.ref="constructionAutocomplete" query.bind="filterProductQuery"  read-only.bind="isReadOnly" placeholder="Cari Konstruksi" text.bind="getConstructionText" value.bind="selectedConstruction" options.bind="controlOptions" loader.bind="garmentProductConstLoader" show.bind="compositionIsExist" keypress.delegate="enterDelegate($event)">
                     </au-autocomplete>
                     <span class="tooltiptext">Konstruksi</span>
                 </div>
@@ -123,7 +123,7 @@
             <!-- yarn -->
             <td>
                 <div style="width: 100px;" class="tooltip-material-field">
-                    <au-autocomplete query.bind="filterProductQuery"  read-only.bind="isReadOnly" placeholder="Cari Yarn" text.bind="getYarnText" value.bind="selectedYarn" options.bind="controlOptions" loader.bind="garmentProductYarnLoader" show.bind="constructionIsExist" keypress.delegate="enterDelegate($event)">
+                    <au-autocomplete view-model.ref="yarnAutocomplete" query.bind="filterProductQuery"  read-only.bind="isReadOnly" placeholder="Cari Yarn" text.bind="getYarnText" value.bind="selectedYarn" options.bind="controlOptions" loader.bind="garmentProductYarnLoader" show.bind="constructionIsExist" keypress.delegate="enterDelegate($event)">
                     </au-autocomplete>
                     <span class="tooltiptext">Yarn</span>
                 </div>
@@ -131,7 +131,7 @@
             <!-- width -->
             <td>
                 <div style="width: 100px;" class="tooltip-material-field">
-                    <au-autocomplete query.bind="filterProductQuery"  read-only.bind="isReadOnly" placeholder="Cari Width" text.bind="getWidthText" value.bind="selectedWidth" options.bind="controlOptions" loader.bind="garmentProductWidthLoader" show.bind="yarnIsExist" keypress.delegate="enterDelegate($event)">
+                    <au-autocomplete view-model.ref="widthAutocomplete" query.bind="filterProductQuery"  read-only.bind="isReadOnly" placeholder="Cari Width" text.bind="getWidthText" value.bind="selectedWidth" options.bind="controlOptions" loader.bind="garmentProductWidthLoader" show.bind="yarnIsExist" keypress.delegate="enterDelegate($event)">
                     </au-autocomplete>
                     <span class="tooltiptext">Width</span>
                 </div>
@@ -163,7 +163,7 @@
         <!-- satuan -->
         <td>
             <div style="width: 100px;" class="tooltip-material-field">
-                <au-autocomplete placeholder="Cari Satuan" value.bind="data.UOMQuantity" error.bind="error.UOMQuantity" loader.one-time="uomLoader"
+                <au-autocomplete view-model.ref="uomQuantityAutocomplete" placeholder="Cari Satuan" value.bind="data.UOMQuantity" error.bind="error.UOMQuantity" loader.one-time="uomLoader"
                     options.bind="controlOptions" text.bind="uomView" show.bind="productCodeIsExist" read-only.bind="isProcess" keypress.delegate="enterDelegate($event)">
                 </au-autocomplete>
                 <span class="tooltiptext">Satuan</span>
@@ -191,7 +191,7 @@
             <!-- satuan harga -->
             <td>
                 <div style="width: 100px;" class="tooltip-material-field">
-                    <au-autocomplete placeholder="Cari Satuan" value.bind="data.UOMPrice" error.bind="error.UOMPrice" loader.one-time="uomLoader"
+                    <au-autocomplete view-model.ref="uomPriceAutocomplete" placeholder="Cari Satuan" value.bind="data.UOMPrice" error.bind="error.UOMPrice" loader.one-time="uomLoader"
                         options.bind="controlOptions" text.bind="uomView"  show.bind="productCodeIsExist" read-only.bind="isProcess" keypress.delegate="enterDelegate($event)">
                     </au-autocomplete>
                     <span class="tooltiptext">Satuan Harga</span>
