@@ -49,7 +49,7 @@ export class Monitoring {
             .then(result => {
                 this.tableData = result.data;
                 
-                // DATA OK LEAD TIME 40  HARI
+                // DATA OK LEAD TIME 35  HARI
                 const total35 = this.tableData.filter(f => f.LeadTime == 40).length;
                 const totalOk35 = this.tableData.filter(f => f.DateDiff >= 35 && f.LeadTime == 40).length;
                 const totalNotOk35 = this.tableData.filter(f => f.DateDiff < 35 && f.LeadTime == 40).length;
@@ -64,24 +64,24 @@ export class Monitoring {
                 };
                 this.tot35 = total35;
 
-                // DATA OK LEAD TIME 25  HARI
-                const total25 = this.tableData.filter(f => f.LeadTime == 25).length;
-                const totalOk25 = this.tableData.filter(f => f.DateDiff >= 20 && f.LeadTime == 25).length;
-                const totalNotOk25 = this.tableData.filter(f => f.DateDiff < 20 && f.LeadTime == 25).length;
+                // DATA OK LEAD TIME 20  HARI
+                const total20 = this.tableData.filter(f => f.LeadTime == 25).length;
+                const totalOk20 = this.tableData.filter(f => f.DateDiff >= 20 && f.LeadTime == 25).length;
+                const totalNotOk20 = this.tableData.filter(f => f.DateDiff < 20 && f.LeadTime == 25).length;
 
-                this.dataOk25 = {
-                    total: totalOk25,
-                    percent: (totalOk25 / total25 * 100).toFixed(2)
+                this.dataOk20 = {
+                    total: totalOk20,
+                    percent: (totalOk20 / total20 * 100).toFixed(2)
                 };
-                this.dataNotOk25 = {
-                    total: totalNotOk25,
-                    percent: (totalNotOk25 / total25 * 100).toFixed(2)
+                this.dataNotOk20 = {
+                    total: totalNotOk20,
+                    percent: (totalNotOk20 / total20 * 100).toFixed(2)
                 };
-                this.tot25 = total25;
+                this.tot20 = total20;
                 // AKUMULASI DATA
-                const total = total35 + total25;
-                const totalOk =  totalOk35 + totalOk25;
-                const totalNotOk = totalNotOk35 + totalNotOk25;
+                const total = total35 + total20;
+                const totalOk =  totalOk35 + totalOk20;
+                const totalNotOk = totalNotOk35 + totalNotOk20;
                 
                 this.dataOk = {
                     total: totalOk,
@@ -91,7 +91,7 @@ export class Monitoring {
                     total: totalNotOk,
                     percent: (totalNotOk / total * 100).toFixed(2)
                 };
-                this.tot = this.tot25 + this.tot35; 
+                this.tot = this.tot20 + this.tot35; 
             });
     }
 
