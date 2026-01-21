@@ -70,70 +70,58 @@ export class Confirm {
 
         if (warning.length > 0 && warning_confirm.length <= 0) {
           if (confirm('Tanggal Confirm <= 45 hari \n' + warning.toString().replace(/,/g, "") + 'Tetap Confirm ?')) {
-            this.service.update(this.data)
+            this.service.updateConfirm(this.data)
               .then(result => {
                 alert("Data Confirmed");
                 this.cancel();
               }).catch(e => {
                 this.error = e;
-                  if (this.error.LockBooking)
-                      alert(this.error.LockBooking);
               });
           }
         }
         else if (warning.length > 0 && warning_confirm.length > 0) {
           if (confirm('Tanggal Confirm <= 45 hari \n' + warning.toString().replace(/,/g, "") + warning_confirm.toString() + 'Tetap Confirm?')) {
-            this.service.update(this.data)
+            this.service.updateConfirm(this.data)
               .then(result => {
                 alert("Data Confirmed");
                 this.cancel();
               }).catch(e => {
                 this.error = e;
-                  if (this.error.LockBooking)
-                      alert(this.error.LockBooking);
               });
           }
         }
         else if (warning_confirm.length > 0) {
           if (confirm(warning_confirm.toString() + 'Tetap Confirm?')) {
-            this.service.update(this.data)
+            this.service.updateConfirm(this.data)
               .then(result => {
                 alert("Data Confirmed");
                 this.cancel();
               }).catch(e => {
                 this.error = e;
-                  if (this.error.LockBooking)
-                      alert(this.error.LockBooking);
               });
           }
         }
         else {
-          this.service.update(this.data).then(result => {
+          this.service.updateConfirm(this.data).then(result => {
             this.cancel();
           }).catch(e => {
             this.error = e;
-              if (this.error.LockBooking)
-                  alert(this.error.LockBooking);
           })
         }
       }
       else {
-        this.service.update(this.data).then(result => {
+        this.service.updateConfirm(this.data).then(result => {
           this.cancel();
         }).catch(e => {
           this.error = e;
-            if (this.error.LockBooking)
-                alert(this.error.LockBooking);
         })
       }
     }
     else {
-      this.service.update(this.data).then(result => {
+      this.service.updateConfirm(this.data).then(result => {
         this.cancel();
       }).catch(e => {
         this.error = e;
-          if (this.error.LockBooking)
-              alert(this.error.LockBooking);
       })
     }
   }
