@@ -122,7 +122,7 @@ export class View {
     
     if(indexCanceledItem > -1) {
       this.data.cancelConfirm=true;
-      this.service.updateConfirm(this.data)
+      this.service.cancelConfirm(this.data)
         .then(result => {
           alert("Confirm Canceled");
           // this.hasEdit = true;
