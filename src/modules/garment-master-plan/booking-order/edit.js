@@ -36,6 +36,8 @@ export class Edit {
             this.cancel();
         }).catch(e => {
             this.error = e;
+                if (this.error.LockBooking)
+                    alert(this.error.LockBooking);
         });
 
         // var conf=false;
