@@ -3,19 +3,29 @@ import { Router } from "aurelia-router";
 import moment from "moment";
 import numeral from "numeral";
 import { Dialog } from "../../../au-components/dialog/dialog";
-import { Service } from "./service";
+import { CashierReason } from "./dialog-template/cashier-reason";
+import { Service as FinanceService} from "./service";
+import { Service as PurchasingService } from "./purchasing-service";
+
 // import PurchasingDocumentExpeditionService from "../shared/purchasing-document-expedition-service";
 import { PermissionHelper } from "../../../utils/permission-helper";
 import {
-  VERIFICATION,
+  //VERIFICATION,
   CASHIER,
   ACCOUNTING,
   RETUR,
 } from "../shared/permission-constants";
 
-@inject(Router, Service, Dialog, PermissionHelper)
+@inject(Router, FinanceService,PurchasingService, Dialog, PermissionHelper)
 export class List {
-  context = ["Rincian", "Hapus"];
+  //sebelumnya hapus
+  context = ["Rincian", "Retur"];
+
+   dppvatFormatter(value, data, index) {
+    const inNo = String(data.InternalNoteNo).trim();
+    const isPaid = this.paidINNos ? this.paidINNos.has(inNo) : false;
+    return isPaid ? "Sudah" : "Belum";
+  }
 
   fromPurchasingColumns = [
     {
@@ -51,6 +61,11 @@ export class List {
     },
     { field: "CurrencyCode", title: "Mata Uang" },
     { field: "Remark", title: "Keterangan" },
+    {
+      field: "DPPVATIsPaid",
+      title: "DPPVAT",
+      formatter: this.dppvatFormatter.bind(this),
+    },
   ];
 
   fromVerificationColumns = [
@@ -94,6 +109,11 @@ export class List {
     },
     { field: "CurrencyCode", title: "Mata Uang" },
     { field: "Remark", title: "Keterangan" },
+   {
+      field: "DPPVATIsPaid",
+      title: "DPPVAT",
+      formatter: this.dppvatFormatter.bind(this),
+    },
   ];
 
   returFromVerificationColumns = [
@@ -123,22 +143,30 @@ export class List {
     },
     { field: "CurrencyCode", title: "Mata Uang" },
     { field: "SendToPurchasingRemark", title: "Alasan" },
+    {
+      field: "DPPVATIsPaid",
+      title: "DPPVAT",
+      formatter: this.dppvatFormatter.bind(this),
+    },
   ];
 
-  constructor(router, service, dialog, permissionHelper) {
-    this.service = service;
+  constructor(router, financeService, purchasingService, dialog, permissionHelper) {
+    this.service  = financeService;
+    this.purchasingService = purchasingService;
     this.router = router;
     this.dialog = dialog;
 
     this.permissions = permissionHelper.getUserPermissions();
     this.initPermission();
 
-    this.isVerification = this.activeRole.key == "VERIFICATION";
+    //this.isVerification = this.activeRole.key == "VERIFICATION";
     this.isRetur = this.activeRole.key == "RETUR";
   }
 
+
   initPermission() {
-    this.roles = [VERIFICATION, CASHIER, ACCOUNTING, RETUR];
+    //this.roles = [VERIFICATION, CASHIER, ACCOUNTING, RETUR];
+    this.roles = [CASHIER, ACCOUNTING, RETUR];
     this.accessCount = 0;
     // console.log("this.permissions", this.permissions);
     // console.log("this.roles", this.roles);
@@ -214,22 +242,38 @@ export class List {
           default:
             return false;
         }
-      case "Hapus":
+        //sebelumnya hapus
+      case "Retur":
         switch (this.activeRole.key) {
           case "RETUR":
             return false;
           default:
-            return true;
+            const inNo = String(data.InternalNoteNo).trim();
+            const isPaid = this.paidINNos
+              ? this.paidINNos.has(inNo)
+              : false;
+            return !isPaid;
         }
     }
   }
 
+async attached() {
+  try {
+    const result = await this.purchasingService.getPurchasing();
+    
+    this.paidINNos = new Set(
+      (result || []).map(x => String(x).trim())
+    );
+  } catch (error) {
+    this.paidINNos = new Set();
+  }
+}
+
   contextClickCallback(event) {
     let arg = event.detail;
     let data = arg.data;
-
     switch (arg.name) {
-      case "Hapus":
+      case "Retur":
         switch (this.activeRole.key) {
           case "VERIFICATION":
             this.service
@@ -242,13 +286,23 @@ export class List {
               });
             break;
           case "CASHIER":
-            this.service
-              .voidCashier(data.Id)
-              .then((result) => {
-                this.tableList.refresh();
-              })
-              .catch((e) => {
-                this.error = e;
+            this.dialog.show(CashierReason, {message: "Silakan masukkan alasan retur:" })
+              .then(response => {
+                if (!response.wasCancelled) {
+                  const remark = response.output;
+                  if (!remark || String(remark).trim() === "") {
+                    alert('Alasan tidak boleh kosong.');
+                    return;
+                  }
+                  this.service
+                    .sendToPurchasingRejected(data.Id, String(remark).trim())
+                    .then((result) => {
+                      this.tableList.refresh();
+                    })
+                    .catch((e) => {
+                      this.error = e;
+                    });
+                }
               });
             break;
           case "ACCOUNTING":
@@ -261,16 +315,16 @@ export class List {
                 this.error = e;
               });
             break;
-          // case "RETUR":
-          //   this.service
-          //     .voidRetur(data.Id)
-          //     .then((result) => {
-          //       this.tableList.refresh();
-          //     })
-          //     .catch((e) => {
-          //       this.error = e;
-          //     });
-          //   break;
+          case "RETUR":
+            this.service
+              .voidRetur(data.Id)
+              .then((result) => {
+                this.tableList.refresh();
+              })
+              .catch((e) => {
+                this.error = e;
+              });
+            break;
           default:
             break;
         }

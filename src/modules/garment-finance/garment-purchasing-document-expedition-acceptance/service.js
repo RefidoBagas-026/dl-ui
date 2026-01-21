@@ -43,9 +43,10 @@ export class Service extends RestService {
     return super.put(endpoint, {});
   }
 
-  voidCashier(id) {
-    let endpoint = `${uri}/void-cashier-accepted/${id}`;
-    return super.put(endpoint, {});
+  sendToPurchasingRejected(id, remark) {
+    let endpoint = `${uri}/send-to-purchasing-rejected/${id}`;
+    let body = { Remark: remark };
+    return super.put(endpoint, body);
   }
 
   voidAccounting(id) {

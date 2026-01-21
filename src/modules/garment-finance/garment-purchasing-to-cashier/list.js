@@ -73,6 +73,7 @@ export class List {
         let data = arg.data;
         switch (arg.name) {
             case "Hapus":
+                if (!confirm('Yakin ingin menghapus data ini?')) return;
                 this.service.sendToPurchasing(data)
                     .then(result => {
                         alert("Data berhasil dihapus");

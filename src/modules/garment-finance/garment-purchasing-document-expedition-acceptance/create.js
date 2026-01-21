@@ -9,7 +9,7 @@ import { CreateSubmit } from './dialog-template/create-submit';
 // import PurchasingDocumentExpeditionService from "../shared/purchasing-document-expedition-service";
 import { PermissionHelper } from "../../../utils/permission-helper";
 import {
-  VERIFICATION,
+  //VERIFICATION,
   CASHIER,
   ACCOUNTING,
   RETUR,
@@ -155,7 +155,8 @@ export class Create {
   }
 
   initPermission() {
-    this.roles = [VERIFICATION, CASHIER, ACCOUNTING, RETUR];
+    //this.roles = [VERIFICATION, CASHIER, ACCOUNTING, RETUR];
+    this.roles = [CASHIER, ACCOUNTING, RETUR];
     this.accessCount = 0;
 
     for (let i = this.roles.length - 1; i >= 0; i--) {
