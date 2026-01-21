@@ -76,6 +76,8 @@ export class Confirm {
                 this.cancel();
               }).catch(e => {
                 this.error = e;
+                  if (this.error.LockBooking)
+                      alert(this.error.LockBooking);
               });
           }
         }
@@ -87,6 +89,8 @@ export class Confirm {
                 this.cancel();
               }).catch(e => {
                 this.error = e;
+                  if (this.error.LockBooking)
+                      alert(this.error.LockBooking);
               });
           }
         }
@@ -98,6 +102,8 @@ export class Confirm {
                 this.cancel();
               }).catch(e => {
                 this.error = e;
+                  if (this.error.LockBooking)
+                      alert(this.error.LockBooking);
               });
           }
         }
@@ -106,6 +112,8 @@ export class Confirm {
             this.cancel();
           }).catch(e => {
             this.error = e;
+              if (this.error.LockBooking)
+                  alert(this.error.LockBooking);
           })
         }
       }
@@ -114,6 +122,8 @@ export class Confirm {
           this.cancel();
         }).catch(e => {
           this.error = e;
+            if (this.error.LockBooking)
+                alert(this.error.LockBooking);
         })
       }
     }
@@ -122,6 +132,8 @@ export class Confirm {
         this.cancel();
       }).catch(e => {
         this.error = e;
+          if (this.error.LockBooking)
+              alert(this.error.LockBooking);
       })
     }
   }
