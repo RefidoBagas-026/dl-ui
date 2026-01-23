@@ -20,7 +20,7 @@ export class Service extends RestService {
     }
 
     getById(id) {
-        const endpoint = `${serviceUri}/${id}`;
+        const endpoint = `${serviceUri}/totalamountcalculation/${id}`;
         return super.get(endpoint);
     }
 
