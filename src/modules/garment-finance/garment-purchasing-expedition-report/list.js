@@ -88,14 +88,15 @@ export class List {
 
       },
       { field: "Remark", title: "Keterangan", rowspan: 2, sortable: true },
-      { field: "SendToVerificationBy", title: "Admin", rowspan: 2, sortable: true },
-      { title: "Verifikasi", colspan: 2 },
-      {
-        field: "VerificationAcceptedBy",
-        title: "Verifikator",
-        sortable: true,
-        rowspan: 2,
-      },
+      //{ field: "SendToVerificationBy", title: "Admin", rowspan: 2, sortable: true },
+      { field: "SendToCashierBy", title: "Admin", rowspan: 2, sortable: true },
+      // { title: "Verifikasi", colspan: 2 },
+      // {
+      //   field: "VerificationAcceptedBy",
+      //   title: "Verifikator",
+      //   sortable: true,
+      //   rowspan: 2,
+      // },
       { title: "Kasir", colspan: 3 },
       { title: "Pembelian", colspan: 3 },
       { title: "Accounting", colspan: 2 },
@@ -139,8 +140,8 @@ export class List {
         align: "right",
       },
       {
-        field: "SendToVerificationDate",
-        title: "Verifikasi",
+        field: "SendToCashierDate",
+        title: "Kasir",
         formatter: function (value, data, index) {
           return value ? moment(value).format("DD MMM YYYY") : "-";
         },
@@ -154,22 +155,22 @@ export class List {
         },
         sortable: true,
       },
-      {
-        field: "VerificationAcceptedDate",
-        title: "Tgl Terima",
-        formatter: function (value, data, index) {
-          return value ? moment(value).format("DD MMM YYYY") : "-";
-        },
-        sortable: true,
-      },
-      {
-        field: "VerificationSendDate",
-        title: "Tgl Kirim",
-        formatter: function (value, data, index) {
-          return value ? moment(value).format("DD MMM YYYY") : "-";
-        },
-        sortable: true,
-      },
+      // {
+      //   field: "VerificationAcceptedDate",
+      //   title: "Tgl Terima",
+      //   formatter: function (value, data, index) {
+      //     return value ? moment(value).format("DD MMM YYYY") : "-";
+      //   },
+      //   sortable: true,
+      // },
+      // {
+      //   field: "VerificationSendDate",
+      //   title: "Tgl Kirim",
+      //   formatter: function (value, data, index) {
+      //     return value ? moment(value).format("DD MMM YYYY") : "-";
+      //   },
+      //   sortable: true,
+      // },
       {
         field: "CashierAcceptedDate",
         title: "Tgl Terima",
@@ -399,6 +400,14 @@ export class List {
 
       filter.startDate = moment(filter.startDate).format("MM/DD/YYYY");
       filter.endDate = moment(filter.endDate).format("MM/DD/YYYY");
+    }
+
+     if (this.dateFromAccounting && this.dateFromAccounting != "Invalid Date") {
+      filter.startDateAccounting = this.dateFromAccounting;
+      filter.endDateAccounting = this.dateToAccounting;
+
+      filter.startDateAccounting = moment(filter.startDateAccounting).format("MM/DD/YYYY");
+      filter.endDateAccounting = moment(filter.endDateAccounting).format("MM/DD/YYYY");
     }
 
     this.service.xls(filter);
