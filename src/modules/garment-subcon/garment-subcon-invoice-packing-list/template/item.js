@@ -96,15 +96,22 @@ export class Item {
 
                   this.data.TotalNW += this.datas.NW*item.SmallQuantity;
                   this.data.TotalGW += this.datas.GW*item.SmallQuantity;
-                }else{
+                }
+                else if(this.DL.SubconCategory == "SUBCON ACCESORIS"){
+                  for(var detail of item.Details){
+                    this.quantity += detail.Quantity;
+                    this.data.TotalNW += this.datas.NW*detail.Quantity;
+                    this.data.TotalGW += this.datas.GW*detail.Quantity;
+                  } 
+                }
+                else{
                   this.quantity += item.Quantity; 
 
                   this.data.TotalNW += this.datas.NW*item.Quantity;
                   this.data.TotalGW += this.datas.GW*item.Quantity;
                 }
 
-                this.data.TotalPrice = this.datas.CIF*item.Quantity;
- 
+                this.data.TotalPrice = this.datas.CIF*this.quantity;
                 UOM.push(item.Uom);
             }
             this.UOM = UOM;
