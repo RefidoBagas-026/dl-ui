@@ -127,12 +127,20 @@ export class DataForm {
       this.data.RemainingQuantity = 0;
       this.data.Quantity = 0;
 
-      var dls = await this.service.searchDeliveryLetterOut({
-        filter: JSON.stringify({
-          ContractNo: this.data.SubconContractNo,
-          IsUsed: true,
-        }),
-      });
+      const dlNosArray = this.Items
+        .map(i => i.SubconDLOutNo)
+        .filter(no => no);
+
+      if (dlNosArray.length > 0) {
+        const dlNos = dlNosArray.map(no => `"${no}"`).join(',');
+        
+        const dls = await this.service.searchDeliveryLetterOut({
+          filter: JSON.stringify({
+            [`x => new[] {${dlNos}}.Contains(x.DLNo)`]: true, 
+            ContractNo: this.data.SubconContractNo,
+            IsUsed: true,
+          }),
+        });
 
       for (var dl of dls.data) {
         var existDL = this.Items.find((x) => x.SubconDLOutNo === dl.DLNo);
@@ -171,7 +179,18 @@ export class DataForm {
           this.data.Items.push(item);
         }
       }
+      } else {
+        window.alert('Tidak ada DLNo yang valid, service tidak dijalankan.');
+      }
 
+      
+
+      // var dls = await this.service.searchDeliveryLetterOut({
+      //   filter: JSON.stringify({
+      //     ContractNo: this.data.SubconContractNo,
+      //     IsUsed: true,
+      //   }),
+      // });
       // const dataCustomsOut = await this.service.searchComplete({ filter: JSON.stringify({ SubconContractId: dataSubconContract.Id }) });
       // const dataJumlahCustomsOut = dataCustomsOut.data.map(x => {
       //     return x.Items.reduce((acc, cur) => acc += cur.Quantity, 0);
