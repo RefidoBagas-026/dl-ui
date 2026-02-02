@@ -71,38 +71,39 @@ export class Edit {
             .then((listUsedBudget) => {
                 for(var item of this.data.Items){
                     var Ipo= listUsedBudget.find(a=>a.Id==item.POId);
+                    console.log(Ipo);
                     var po= Ipo.Items[0];
-                    if(!initial[item.PRNo + item.Product.Id + item.PO_SerialNumber]){
-                        initial[item.PRNo + item.Product.Id + item.PO_SerialNumber]=po.RemainingBudget + item.UsedBudget;
+                    if(!initial[item.Id]){
+                        initial[item.Id]=po.RemainingBudget + item.UsedBudget;
                     }
                     else{
-                        initial[item.PRNo + item.Product.Id + item.PO_SerialNumber]+= item.UsedBudget;
+                        initial[item.Id]+= item.UsedBudget;
                     }
                 }
                 for(var a of this.data.Items){
                     var filter= a.PRNo + a.Product.Id;
-                    a.Initial=initial[a.PRNo + a.Product.Id + a.PO_SerialNumber];
+                    a.Initial=initial[a.Id];
                     if(pr.length==0){
                         pr.push(a);
                         //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
                         //remaining[a.PRNo + a.Product.Id]=a.Initial;
                         a.remainingBudget=a.Initial;
-                        remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber]=a.remainingBudget-a.UsedBudget;
+                        remaining[a.Id]=a.remainingBudget-a.UsedBudget;
                     }
-                    else{
-                        var dup=pr.find(b=> b.PRNo == a.PRNo && b.Product.Id==a.Product.Id && b.PO_SerialNumber==a.PO_SerialNumber);
-                        if(dup){
-                            //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
-                            a.remainingBudget=remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber];
-                            remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber]=a.remainingBudget-a.UsedBudget;
-                        }
-                        else{
-                            pr.push(a);
-                            //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
-                            a.remainingBudget=a.Initial;
-                            remaining[a.PRNo + a.Product.Id+ a.PO_SerialNumber]=a.remainingBudget-a.UsedBudget;
-                        }
-                    }
+                    // else{
+                    //     var dup=pr.find(b=> b.PRNo == a.PRNo && b.Product.Id==a.Product.Id && b.PO_SerialNumber==a.PO_SerialNumber);
+                    //     if(dup){
+                    //         //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
+                    //         a.remainingBudget=remaining[a.Id];
+                    //         remaining[a.Id]=a.remainingBudget-a.UsedBudget;
+                    //     }
+                    //     else{
+                    //         pr.push(a);
+                    //         //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
+                    //         a.remainingBudget=a.Initial;
+                    //         remaining[a.Id]=a.remainingBudget-a.UsedBudget;
+                    //     }
+                    // }
                 }
             });
     }
