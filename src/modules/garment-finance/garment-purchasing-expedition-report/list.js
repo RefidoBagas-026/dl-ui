@@ -88,14 +88,15 @@ export class List {
 
       },
       { field: "Remark", title: "Keterangan", rowspan: 2, sortable: true },
-      { field: "SendToVerificationBy", title: "Admin", rowspan: 2, sortable: true },
-      { title: "Verifikasi", colspan: 2 },
-      {
-        field: "VerificationAcceptedBy",
-        title: "Verifikator",
-        sortable: true,
-        rowspan: 2,
-      },
+      //{ field: "SendToVerificationBy", title: "Admin", rowspan: 2, sortable: true },
+      { field: "SendToCashierBy", title: "Admin", rowspan: 2, sortable: true },
+      // { title: "Verifikasi", colspan: 2 },
+      // {
+      //   field: "VerificationAcceptedBy",
+      //   title: "Verifikator",
+      //   sortable: true,
+      //   rowspan: 2,
+      // },
       { title: "Kasir", colspan: 3 },
       { title: "Pembelian", colspan: 3 },
       { title: "Accounting", colspan: 2 },
@@ -139,8 +140,8 @@ export class List {
         align: "right",
       },
       {
-        field: "SendToVerificationDate",
-        title: "Verifikasi",
+        field: "SendToCashierDate",
+        title: "Kasir",
         formatter: function (value, data, index) {
           return value ? moment(value).format("DD MMM YYYY") : "-";
         },
@@ -154,22 +155,22 @@ export class List {
         },
         sortable: true,
       },
-      {
-        field: "VerificationAcceptedDate",
-        title: "Tgl Terima",
-        formatter: function (value, data, index) {
-          return value ? moment(value).format("DD MMM YYYY") : "-";
-        },
-        sortable: true,
-      },
-      {
-        field: "VerificationSendDate",
-        title: "Tgl Kirim",
-        formatter: function (value, data, index) {
-          return value ? moment(value).format("DD MMM YYYY") : "-";
-        },
-        sortable: true,
-      },
+      // {
+      //   field: "VerificationAcceptedDate",
+      //   title: "Tgl Terima",
+      //   formatter: function (value, data, index) {
+      //     return value ? moment(value).format("DD MMM YYYY") : "-";
+      //   },
+      //   sortable: true,
+      // },
+      // {
+      //   field: "VerificationSendDate",
+      //   title: "Tgl Kirim",
+      //   formatter: function (value, data, index) {
+      //     return value ? moment(value).format("DD MMM YYYY") : "-";
+      //   },
+      //   sortable: true,
+      // },
       {
         field: "CashierAcceptedDate",
         title: "Tgl Terima",
@@ -241,8 +242,8 @@ export class List {
     sortable: false
   };
 
-  startDateLabel = "Tgl Pembelian Kirim Verifikasi Awal";
-  endDateLabel = "Tgl Pembelian Kirim Verifikasi Akhir";
+  startDateLabel = "Tgl Pembelian Kirim Kasir Awal";
+  endDateLabel = "Tgl Pembelian Kirim Kasir Akhir";
 
   startDateAccountingLabel  = "Tgl Kirim ke Accounting Awal";
   endDateAccountingLabel = "Tgl Kirim ke Accounting Awal";
@@ -257,8 +258,8 @@ export class List {
     this.itemsStatus = [
       { text: "", value: 0 },
       { text: "Pembelian", value: 1 },
-      { text: "Kirim ke Verifikasi", value: 2 },
-      { text: "Verifikasi (Diterima)", value: 3 },
+      //{ text: "Kirim ke Verifikasi", value: 2 },
+      //{ text: "Verifikasi (Diterima)", value: 3 },
       { text: "Kirim ke Kasir", value: 4 },
       { text: "Kasir (Diterima)", value: 5 },
       { text: "Kirim ke Pembelian (Not Verified)", value: 6 },
@@ -277,17 +278,17 @@ export class List {
           this.startDateLabel = "Tgl Pembelian Terima Awal";
           this.endDateLabel = "Tgl Pembelian Terima Akhir";
           break;
-        case 2:
-          this.startDateLabel = "Tgl Pembelian Kirim Verifikasi Awal";
-          this.endDateLabel = "Tgl Pembelian Kirim Verifikasi Akhir";
-          break;
-        case 3:
-          this.startDateLabel = "Tgl Verifikasi Terima Awal";
-          this.endDateLabel = "Tgl Verifikasi Terima Akhir";
-          break;
+        // case 2:
+        //   this.startDateLabel = "Tgl Pembelian Kirim Verifikasi Awal";
+        //   this.endDateLabel = "Tgl Pembelian Kirim Verifikasi Akhir";
+        //   break;
+        // case 3:
+        //   this.startDateLabel = "Tgl Verifikasi Terima Awal";
+        //   this.endDateLabel = "Tgl Verifikasi Terima Akhir";
+        //   break;
         case 4:
-          this.startDateLabel = "Tgl Verifikasi Kirim Awal";
-          this.endDateLabel = "Tgl Verifikasi Kirim Akhir";
+          this.startDateLabel = "Tgl Pembelian Kirim Awal";
+          this.endDateLabel = "Tgl Pembelian Kirim Akhir";
           break;
         case 5:
           this.startDateLabel = "Tgl Kasir Terima Awal";
@@ -298,13 +299,13 @@ export class List {
           this.endDateLabel = "Tgl Accounting Diterima Akhir";
           break;
         default:
-          this.startDateLabel = "Tgl Pembelian Kirim Verifikasi Awal";
-          this.endDateLabel = "Tgl Pembelian Kirim Verifikasi Akhir";
+          this.startDateLabel = "Tgl Pembelian Kirim Kasir Awal";
+          this.endDateLabel = "Tgl Pembelian Kirim Kasir Akhir";
           break;
       }
     } else {
-      this.startDateLabel = "Tgl Pembelian Kirim Verifikasi Awal";
-      this.endDateLabel = "Tgl Pembelian Kirim Verifikasi Akhir";
+      this.startDateLabel = "Tgl Pembelian Kirim Kasir Awal";
+      this.endDateLabel = "Tgl Pembelian Kirim Kasir Akhir";
     }
   }
 
@@ -399,6 +400,14 @@ export class List {
 
       filter.startDate = moment(filter.startDate).format("MM/DD/YYYY");
       filter.endDate = moment(filter.endDate).format("MM/DD/YYYY");
+    }
+
+     if (this.dateFromAccounting && this.dateFromAccounting != "Invalid Date") {
+      filter.startDateAccounting = this.dateFromAccounting;
+      filter.endDateAccounting = this.dateToAccounting;
+
+      filter.startDateAccounting = moment(filter.startDateAccounting).format("MM/DD/YYYY");
+      filter.endDateAccounting = moment(filter.endDateAccounting).format("MM/DD/YYYY");
     }
 
     this.service.xls(filter);

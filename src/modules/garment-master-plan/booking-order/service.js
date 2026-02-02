@@ -39,6 +39,15 @@ export class Service extends RestService {
         return super.put(endpoint, data);
     }
 
+    updateConfirm(data) {
+        var endpoint = `${serviceUri}/updateConfirm/${data.Id}`;
+        return super.put(endpoint, data);
+    }
+    cancelConfirm(data) {
+        var endpoint = `${serviceUri}/cancelConfirm/${data.Id}`;
+        return super.put(endpoint, data);
+    }
+
     delete(data) {
         var endpoint = `${serviceUri}/${data.Id}`;
         return super.delete(endpoint, data);

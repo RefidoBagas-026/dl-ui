@@ -130,8 +130,9 @@ export class NavBar {
             this.showNotification = true;
             clearInterval(this.countdownTimer);
             this.countdownTimer = null;
-
+            // this.updateDataLastTime();
             this.logout();
+            this.ConfirmUpdateTimer = false;
             return;
             }
 
