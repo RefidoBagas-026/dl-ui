@@ -525,7 +525,7 @@ router-view > div > router-view,
 
 .side-nav-bar.minimized.expand + router-view > .content-wrapper,
 .side-nav-bar.minimized.expand + router-view > div > router-view {
-  margin-left: 280px;
+  margin-left: 55px;
 }
 
 /* .side-nav-bar.minimized.expand-more + router-view > .content-wrapper,

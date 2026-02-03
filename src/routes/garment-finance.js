@@ -513,21 +513,21 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     }
   },
-  {
-    route: "garment-finance/report/export-sales-journal",
-    name: "export-sales-journal",
-    moduleId: "./modules/garment-finance/bank-cash/report/export-sales-journal/index",
-    nav: true,
-    title: "Jurnal Penjualan Export",
-    auth: true,
-    settings: {
-      group: "g-finance",
-      subGroup: "report kas bank",
-      // permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
-      //permission: { "J31": 1 },
-      iconClass: "fa fa-dashboard",
-    }
-  },
+  // {
+  //   route: "garment-finance/report/export-sales-journal",
+  //   name: "export-sales-journal",
+  //   moduleId: "./modules/garment-finance/bank-cash/report/export-sales-journal/index",
+  //   nav: true,
+  //   title: "Jurnal Penjualan Export",
+  //   auth: true,
+  //   settings: {
+  //     group: "g-finance",
+  //     subGroup: "report kas bank",
+  //     // permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+  //     //permission: { "J31": 1 },
+  //     iconClass: "fa fa-dashboard",
+  //   }
+  // },
   {
       route: "garment-finance/local-sales-note-approval",
       name: "garment-finance/local-sales-note-approval",
@@ -633,21 +633,21 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     }
   },
-  {
-    route: "garment-finance/report/local-sales-journal",
-    name: "local-sales-journal",
-    moduleId: "./modules/garment-finance/bank-cash/report/local-sales-journal/index",
-    nav: true,
-    title: "Jurnal Penjualan Lokal",
-    auth: true,
-    settings: {
-      group: "g-finance",
-      subGroup: "report kas bank",
-      // permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
-      //permission: { "J36": 1 },
-      iconClass: "fa fa-dashboard",
-    }
-  },
+  // {
+  //   route: "garment-finance/report/local-sales-journal",
+  //   name: "local-sales-journal",
+  //   moduleId: "./modules/garment-finance/bank-cash/report/local-sales-journal/index",
+  //   nav: true,
+  //   title: "Jurnal Penjualan Lokal",
+  //   auth: true,
+  //   settings: {
+  //     group: "g-finance",
+  //     subGroup: "report kas bank",
+  //     // permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+  //     //permission: { "J36": 1 },
+  //     iconClass: "fa fa-dashboard",
+  //   }
+  // },
   {
     route: "garment-finance/report/local-sales-debtor-report",
     name: "local-sales-debtor-report",

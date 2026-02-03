@@ -62,7 +62,7 @@
       </ul>
     </aside>
 
-    <aside class="secondary-sidebar">
+    <aside class="secondary-sidebar" if.bind="!minimized">
       <div class="sidebar-header">
         <span class="title">${activeTitle.toUpperCase()}</span>
       </div>
@@ -71,8 +71,8 @@
           value.bind="activeSubMenu" class.bind="activeSubMenu == value ? 'active' : ''"
           class="${key === 'uncategorized' ? 'hide' : ''}">
           <a href="#" title.bind="key.toUpperCase()">
-            <span if.bind="!minimized">${key.toUpperCase()}</span>
-            <div class="pull-right" if.bind="value.length > 0 && !minimized">
+            <span>${key.toUpperCase()}</span>
+            <div class="pull-right" if.bind="value.length > 0">
               <i class="fa ${activeSubMenu == value ? 'fa-angle-left' : 'fa-angle-right'}"></i>
             </div>
           </a>
@@ -88,7 +88,7 @@
       </ul>
     </aside>
 
-    <aside class="tertiary-sidebar">
+    <aside class="tertiary-sidebar" if.bind="!minimized">
       <div class="sidebar-header">
         <span class="title">${activeSubtitle.toUpperCase()}</span>
       </div>

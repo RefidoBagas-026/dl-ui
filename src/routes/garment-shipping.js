@@ -196,7 +196,7 @@ module.exports = [
     },
   },
   {
-    route: "/merchandiser/garment-sales-contract",
+    route: "garment-shipping/garment-sales-contract",
     name: "garment-sales-contract",
     moduleId: "./modules/merchandiser/garment-sales-contract/index",
     nav: true,
@@ -519,19 +519,19 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
-  {
-    route: "garment-shipping/vb-payment",
-    name: "garment-shipping/vb-payment",
-    moduleId: "modules/garment-shipping/vb-payment/index",
-    nav: true,
-    title: "Pembayaran VB",
-    auth: true,
-    settings: {
-      group: "g-shipping",
-      // permission: { "C9": 1, "SG": 1 },
-      iconClass: "fa fa-dashboard",
-    },
-  },
+  // {
+  //   route: "garment-shipping/vb-payment",
+  //   name: "garment-shipping/vb-payment",
+  //   moduleId: "modules/garment-shipping/vb-payment/index",
+  //   nav: true,
+  //   title: "Pembayaran VB",
+  //   auth: true,
+  //   settings: {
+  //     group: "g-shipping",
+  //     // permission: { "C9": 1, "SG": 1 },
+  //     iconClass: "fa fa-dashboard",
+  //   },
+  // },
   {
     route: "garment-shipping/monitoring/shipment-garment",
     name: "garment-shipping/monitoring/shipment-garment",
@@ -563,21 +563,21 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
-  {
-    route: "garment-shipping/monitoring/omzet-by-unit",
-    name: "garment-shipping/monitoring/omzet-by-unit",
-    moduleId:
-      "modules/garment-shipping/monitoring/garment-omzet-monthy-by-unit/index",
-    nav: true,
-    title: "Report Omzet Garment Per Unit / Bulan",
-    auth: true,
-    settings: {
-      group: "g-shipping",
-      subGroup: "laporan",
-      // permission: { "C9": 1, "SG": 1, "PGA": 1 },
-      iconClass: "fa fa-dashboard",
-    },
-  },
+  // {
+  //   route: "garment-shipping/monitoring/omzet-by-unit",
+  //   name: "garment-shipping/monitoring/omzet-by-unit",
+  //   moduleId:
+  //     "modules/garment-shipping/monitoring/garment-omzet-monthy-by-unit/index",
+  //   nav: true,
+  //   title: "Report Omzet Garment Per Unit / Bulan",
+  //   auth: true,
+  //   settings: {
+  //     group: "g-shipping",
+  //     subGroup: "laporan",
+  //     // permission: { "C9": 1, "SG": 1, "PGA": 1 },
+  //     iconClass: "fa fa-dashboard",
+  //   },
+  // },
   {
     route: "garment-shipping/report/detail-omzet-by-unit",
     name: "garment-shipping/report/detail-omzet-by-unit",
@@ -999,7 +999,7 @@ module.exports = [
     },
   },
   {
-    route: "garment-shipping/report/detail-omzet-by-unit",
+    route: "garment-shipping/report-detail/detail-omzet-by-unit",
     name: "garment-shipping/report/detail-omzet-by-unit",
     moduleId:
       "modules/garment-shipping/monitoring/garment-detail-omzet-by-unit/index",
@@ -1045,20 +1045,20 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
-  {
-    route: "garment-shipping/monitoring/omzet-year-unit",
-    name: "garment-shipping/monitoring/omzet-year-unit",
-    moduleId: "modules/garment-shipping/monitoring/omzet-year-unit/index",
-    nav: true,
-    title: "Report Omzet Per Tahun Per Unit",
-    auth: true,
-    settings: {
-      group: "g-shipping",
-      subGroup: "laporan",
-      // permission: { "C9": 1, "SG": 1 },
-      iconClass: "fa fa-dashboard",
-    },
-  },
+  // {
+  //   route: "garment-shipping/monitoring/omzet-year-unit",
+  //   name: "garment-shipping/monitoring/omzet-year-unit",
+  //   moduleId: "modules/garment-shipping/monitoring/omzet-year-unit/index",
+  //   nav: true,
+  //   title: "Report Omzet Per Tahun Per Unit",
+  //   auth: true,
+  //   settings: {
+  //     group: "g-shipping",
+  //     subGroup: "laporan",
+  //     // permission: { "C9": 1, "SG": 1 },
+  //     iconClass: "fa fa-dashboard",
+  //   },
+  // },
   {
     route: "garment-shipping/monitoring/omzet-year-unit",
     name: "garment-shipping/monitoring/omzet-year-unit",
@@ -1184,7 +1184,7 @@ module.exports = [
     },
   },
   {
-    route: "garment-production/packing-list-draft-list",
+    route: "garment-shipping/packing-list-draft-list",
     name: "garment-production/packing-list-draft-list",
     moduleId: "modules/garment-shipping/packing-list-draft-list/index",
     nav: true,

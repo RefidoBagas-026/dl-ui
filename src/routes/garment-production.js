@@ -639,7 +639,7 @@ module.exports = [
         }
     },
     {
-        route: '/customs/pemasukan-tc-kecil',
+        route: '/garment-production/customs/pemasukan-tc-kecil',
         name: 'monitoring-pemasukan-tc-kecil',
         moduleId: './modules/customs/tc-kecil-in/index',
         nav: true,
@@ -655,7 +655,7 @@ module.exports = [
 
     },
     {
-        route: '/customs/pengeluaran-tc-kecil',
+        route: '/garment-production/customs/pengeluaran-tc-kecil',
         name: 'monitoring-pengeluaran-tc-kecil',
         moduleId: './modules/customs/tc-kecil-out/index',
         nav: true,
@@ -672,7 +672,7 @@ module.exports = [
     },
 
     {
-        route: '/customs/pemasukan-sampah-sapuan',
+        route: '/garment-production/customs/pemasukan-sampah-sapuan',
         name: 'monitoring-pemasukan-sampah-sapuan',
         moduleId: './modules/customs/sapuan-in/index',
         nav: true,
@@ -688,7 +688,7 @@ module.exports = [
 
     },
     {
-        route: '/customs/pengeluaran-sampah-sapuan',
+        route: '/garment-production/customs/pengeluaran-sampah-sapuan',
         name: 'monitoring-pengeluaran-sampah-sapuan',
         moduleId: './modules/customs/sapuan-out/index',
         nav: true,
@@ -855,20 +855,20 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    {
-        route: '/garment-production/monitoring-prepare-bookkeeping',
-        name: 'garment-production-monitoring-prepare-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-prepare-bookkeeping/index',
-        nav: true,
-        title: 'Monitoring Prepare Pembukuan',
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "laporan",
-            // permission: {"C9": 1, "B1":1},
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    // {
+    //     route: '/garment-production/monitoring-prepare-bookkeeping',
+    //     name: 'garment-production-monitoring-prepare-bookkeeping',
+    //     moduleId: './modules/garment-production/monitoring-prepare-bookkeeping/index',
+    //     nav: true,
+    //     title: 'Monitoring Prepare Pembukuan',
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "laporan",
+    //         // permission: {"C9": 1, "B1":1},
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: '/garment-production/monitoring-cutting',
         name: 'garment-production-monitoring-cutting',
@@ -884,20 +884,20 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    {
-        route: '/garment-production/monitoring-cutting-bookkeeping',
-        name: 'garment-production-monitoring-cutting-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-cutting-bookkeeping/index',
-        nav: true,
-        title: 'Monitoring Cutting Pembukuan',
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "transaksi",
-            // permission: {"C9": 1, "B1":1},
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    // {
+    //     route: '/garment-production/monitoring-cutting-bookkeeping',
+    //     name: 'garment-production-monitoring-cutting-bookkeeping',
+    //     moduleId: './modules/garment-production/monitoring-cutting-bookkeeping/index',
+    //     nav: true,
+    //     title: 'Monitoring Cutting Pembukuan',
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "transaksi",
+    //         // permission: {"C9": 1, "B1":1},
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: '/garment-production/monitoring-loading',
         name: 'garment-production-monitoring-loading',
@@ -913,20 +913,20 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    {
-        route: '/garment-production/monitoring-loading-bookkeeping',
-        name: 'garment-production-monitoring-loading-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-loading-bookkeeping/index',
-        nav: true,
-        title: 'Monitoring Loading Pembukuan',
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "laporan",
-            // permission: {"C9": 1, "B1":1},
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    // {
+    //     route: '/garment-production/monitoring-loading-bookkeeping',
+    //     name: 'garment-production-monitoring-loading-bookkeeping',
+    //     moduleId: './modules/garment-production/monitoring-loading-bookkeeping/index',
+    //     nav: true,
+    //     title: 'Monitoring Loading Pembukuan',
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "laporan",
+    //         // permission: {"C9": 1, "B1":1},
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: '/garment-production/monitoring-sewing',
         name: 'garment-production-monitoring-sewing',
@@ -941,20 +941,21 @@ module.exports = [
             permission: { "O36": 1 },
             iconClass: 'fa fa-dashboard'
         }
-    }, {
-        route: '/garment-production/monitoring-sewing-bookkeeping',
-        name: 'garment-production-monitoring-sewing-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-sewing-bookkeeping/index',
-        nav: true,
-        title: 'Monitoring Sewing Pembukuan',
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "laporan",
-            // permission: {"C9": 1, "B1":1},
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    }, 
+    // {
+    //     route: '/garment-production/monitoring-sewing-bookkeeping',
+    //     name: 'garment-production-monitoring-sewing-bookkeeping',
+    //     moduleId: './modules/garment-production/monitoring-sewing-bookkeeping/index',
+    //     nav: true,
+    //     title: 'Monitoring Sewing Pembukuan',
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "laporan",
+    //         // permission: {"C9": 1, "B1":1},
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: '/garment-production/monitoring-finishing',
         name: 'garment-production-monitoring-finishing',
@@ -971,20 +972,20 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    {
-        route: '/garment-production/monitoring-finishing-bookkeeping',
-        name: 'garment-production-monitoring-finishing-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-finishing-bookkeeping/index',
-        nav: true,
-        title: 'Monitoring Finishing Pembukuan',
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "laporan",
-            // permission: {"C9": 1, "B1":1},
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    // {
+    //     route: '/garment-production/monitoring-finishing-bookkeeping',
+    //     name: 'garment-production-monitoring-finishing-bookkeeping',
+    //     moduleId: './modules/garment-production/monitoring-finishing-bookkeeping/index',
+    //     nav: true,
+    //     title: 'Monitoring Finishing Pembukuan',
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "laporan",
+    //         // permission: {"C9": 1, "B1":1},
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: '/garment-production/monitoring-expenditure-good-delivery',
         name: 'garment-production-monitoring-expenditure-good-delivery',
@@ -1001,20 +1002,20 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    {
-        route: '/garment-production/monitoring-expenditure-good-delivery-bookkeeping',
-        name: 'garment-production-monitoring-expenditure-good-delivery-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-expenditure-good-delivery-bookkeeping/index',
-        nav: true,
-        title: 'Monitoring Pengiriman Barang Jadi Pembukuan',
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "laporan",
-            // permission: {"C9": 1, "B1":1},
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    // {
+    //     route: '/garment-production/monitoring-expenditure-good-delivery-bookkeeping',
+    //     name: 'garment-production-monitoring-expenditure-good-delivery-bookkeeping',
+    //     moduleId: './modules/garment-production/monitoring-expenditure-good-delivery-bookkeeping/index',
+    //     nav: true,
+    //     title: 'Monitoring Pengiriman Barang Jadi Pembukuan',
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "laporan",
+    //         // permission: {"C9": 1, "B1":1},
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: '/garment-production/monitoring-production-flow-by-size',
         name: 'garment-production-monitoring-production-flow-by-size',
@@ -1030,20 +1031,20 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    {
-        route: '/garment-production/monitoring-production-flow-by-size-bookkeeping',
-        name: 'garment-production-monitoring-production-flow-by-size-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-production-flow-by-size-bookkeeping/index',
-        nav: true,
-        title: 'Monitoring Flow Produksi per Size Pembukuan',
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "laporan",
-            // permission: {"C9": 1, "B1":1},
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    // {
+    //     route: '/garment-production/monitoring-production-flow-by-size-bookkeeping',
+    //     name: 'garment-production-monitoring-production-flow-by-size-bookkeeping',
+    //     moduleId: './modules/garment-production/monitoring-production-flow-by-size-bookkeeping/index',
+    //     nav: true,
+    //     title: 'Monitoring Flow Produksi per Size Pembukuan',
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "laporan",
+    //         // permission: {"C9": 1, "B1":1},
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: '/garment-production/monitoring-production-stock-flow',
         name: 'garment-production-monitoring-production-stock-flow',
@@ -1059,21 +1060,21 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    {
-        route: '/garment-production/monitoring-production-stock-flow-bookkeeping',
-        name: 'garment-production-monitoring-production-stock-flow-bookkeeping',
-        moduleId: './modules/garment-production/monitoring-production-stock-flow-bookkeeping/index',
-        nav: true,
-        title: 'Monitoring Flow Persediaan Pembukuan',
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "laporan",
-            // permission: {"C9": 1, "B1":1},
+    // {
+    //     route: '/garment-production/monitoring-production-stock-flow-bookkeeping',
+    //     name: 'garment-production-monitoring-production-stock-flow-bookkeeping',
+    //     moduleId: './modules/garment-production/monitoring-production-stock-flow-bookkeeping/index',
+    //     nav: true,
+    //     title: 'Monitoring Flow Persediaan Pembukuan',
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "laporan",
+    //         // permission: {"C9": 1, "B1":1},
 
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: '/garment-production/production-flow-feature',
         name: 'garment-production-production-flow-feature',
