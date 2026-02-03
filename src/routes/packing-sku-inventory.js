@@ -195,20 +195,20 @@ module.exports = [
       iconClass: 'fa fa-dashboard'
     }
   },
-  {
-    route: 'packing-sku-inventory/quality-control/defect',
-    name: 'fabric-quality-control',
-    moduleId: './modules/packing-sku-inventory/fabric-quality-control/index',
-    nav: true,
-    title: 'Pencatatan Pemeriksaan Kain',
+  // {
+  //   route: 'packing-sku-inventory/quality-control/defect',
+  //   name: 'fabric-quality-control',
+  //   moduleId: './modules/packing-sku-inventory/fabric-quality-control/index',
+  //   nav: true,
+  //   title: 'Pencatatan Pemeriksaan Kain',
 
-    auth: true,
-    settings: {
-      group: "ps-inventory",
-      // permission: { "C9": 1, "F1": 1, "F2": 1 },
-      iconClass: 'fa fa-dashboard'
-    }
-  },
+  //   auth: true,
+  //   settings: {
+  //     group: "ps-inventory",
+  //     // permission: { "C9": 1, "F1": 1, "F2": 1 },
+  //     iconClass: 'fa fa-dashboard'
+  //   }
+  // },
   {
     route: 'packing-sku-inventory/im-area-output',
     name: 'product-packing',
@@ -254,19 +254,19 @@ module.exports = [
       iconClass: 'fa fa-dashboard'
     }
   },
-  {
-    route: 'packing-sku-inventory/transit-balance-summary',
-    name: 'transit-balance-summary',
-    moduleId: './modules/packing-sku-inventory/transit-balance-summary/index',
-    nav: true,
-    title: 'Saldo Transit',
-    auth: true,
-    settings: {
-      group: "ps-inventory",
-      // permission: { "C9": 1, "F1": 1, "F2": 1 },
-      iconClass: 'fa fa-dashboard'
-    }
-  },
+  // {
+  //   route: 'packing-sku-inventory/transit-balance-summary',
+  //   name: 'transit-balance-summary',
+  //   moduleId: './modules/packing-sku-inventory/transit-balance-summary/index',
+  //   nav: true,
+  //   title: 'Saldo Transit',
+  //   auth: true,
+  //   settings: {
+  //     group: "ps-inventory",
+  //     // permission: { "C9": 1, "F1": 1, "F2": 1 },
+  //     iconClass: 'fa fa-dashboard'
+  //   }
+  // },
   //#region dicomment
   // {
   //     route: 'packing-sku-inventory/dyeing-printing-in-packaging',
@@ -401,19 +401,19 @@ module.exports = [
       iconClass: 'fa fa-dashboard'
     }
   },
-  {
-    route: 'packing-sku-inventory/inspection-im-balance',
-    name: 'product-packing',
-    moduleId: './modules/packing-sku-inventory/inspection-im-balance/index',
-    nav: true,
-    title: 'Saldo IM',
-    auth: true,
-    settings: {
-      group: "ps-inventory",
-      // permission: { "C9": 1, "F1": 1, "F2": 1 },
-      iconClass: 'fa fa-dashboard'
-    }
-  },
+  // {
+  //   route: 'packing-sku-inventory/inspection-im-balance',
+  //   name: 'product-packing',
+  //   moduleId: './modules/packing-sku-inventory/inspection-im-balance/index',
+  //   nav: true,
+  //   title: 'Saldo IM',
+  //   auth: true,
+  //   settings: {
+  //     group: "ps-inventory",
+  //     // permission: { "C9": 1, "F1": 1, "F2": 1 },
+  //     iconClass: 'fa fa-dashboard'
+  //   }
+  // },
   {
     route: 'packing-sku-inventory/shipping-area-input',
     name: 'shipping-area-input',
@@ -474,21 +474,21 @@ module.exports = [
       iconClass: 'fa fa-dashboard'
     }
   },
-  {
-    route: 'packing-sku-inventory/dyeing-printing-stock-opname-document',
-    name: 'dyeing-printing-stock-opname-document',
-    moduleId: './modules/packing-sku-inventory/dyeing-printing-stock-opname-document/index',
-    nav: true,
-    title: 'Stock Opname Sudah Di Scan (Barcode)',
-    auth: true,
-    settings: {
-      group: "ps-inventory",
-      subGroup: "stok",
-      // permission: { "C9": 1, "F1": 1, "F2": 1, "A2": 1, "W2": 1 },
-      //permission :{"S27":1},
-      iconClass: 'fa fa-dashboard'
-    }
-  },
+  // {
+  //   route: 'packing-sku-inventory/dyeing-printing-stock-opname-document',
+  //   name: 'dyeing-printing-stock-opname-document',
+  //   moduleId: './modules/packing-sku-inventory/dyeing-printing-stock-opname-document/index',
+  //   nav: true,
+  //   title: 'Stock Opname Sudah Di Scan (Barcode)',
+  //   auth: true,
+  //   settings: {
+  //     group: "ps-inventory",
+  //     subGroup: "stok",
+  //     // permission: { "C9": 1, "F1": 1, "F2": 1, "A2": 1, "W2": 1 },
+  //     //permission :{"S27":1},
+  //     iconClass: 'fa fa-dashboard'
+  //   }
+  // },
   {
     route: 'packing-sku-inventory/dyeing-printing-stock-opname',
     name: 'dyeing-printing-stock-opname',
@@ -536,19 +536,19 @@ module.exports = [
       iconClass: 'fa fa-dashboard'
     }
   },
-  {
-    route: 'packing-sku-inventory/aval-stock-report',
-    name: 'aval-stock-report',
-    moduleId: './modules/packing-sku-inventory/aval-stock-report/index',
-    nav: true,
-    title: 'Laporan Stock Gudang Aval',
-    auth: true,
-    settings: {
-      group: "ps-inventory",
-      // permission: { "C9": 1, "F1": 1, "F2": 1 },
-      iconClass: 'fa fa-dashboard'
-    }
-  },
+  // {
+  //   route: 'packing-sku-inventory/aval-stock-report',
+  //   name: 'aval-stock-report',
+  //   moduleId: './modules/packing-sku-inventory/aval-stock-report/index',
+  //   nav: true,
+  //   title: 'Laporan Stock Gudang Aval',
+  //   auth: true,
+  //   settings: {
+  //     group: "ps-inventory",
+  //     // permission: { "C9": 1, "F1": 1, "F2": 1 },
+  //     iconClass: 'fa fa-dashboard'
+  //   }
+  // },
   {
     route: 'packing-sku-inventory/master/category',
     name: 'packing-sku-category',

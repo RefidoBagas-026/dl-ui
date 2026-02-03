@@ -158,22 +158,22 @@ module.exports = [
             byUser: false
         }
     },
-    {
-        route: '/merchandiser/cost-calculation-approval/mkt',
-        name: 'cost-calculation-approval-mkt',
-        moduleId: './modules/merchandiser/cost-calculation-approval/index',
-        nav: true,
-        title: 'Cost Calculation Approval - Marketing',
-        auth: true,
-        settings: {
-            group: "merchandiser",
-            subGroup: "approval",
-            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            // permission: {"L57":1},
-            iconClass: 'fa fa-calculator',
-            type: "mkt"
-        }
-    },
+    // {
+    //     route: '/merchandiser/cost-calculation-approval/mkt',
+    //     name: 'cost-calculation-approval-mkt',
+    //     moduleId: './modules/merchandiser/cost-calculation-approval/index',
+    //     nav: true,
+    //     title: 'Cost Calculation Approval - Marketing',
+    //     auth: true,
+    //     settings: {
+    //         group: "merchandiser",
+    //         subGroup: "approval",
+    //         // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+    //         // permission: {"L57":1},
+    //         iconClass: 'fa fa-calculator',
+    //         type: "mkt"
+    //     }
+    // },
     {
         route: '/merchandiser/cost-calculation-approval/md',
         name: 'cost-calculation-approval-md',
@@ -361,19 +361,19 @@ module.exports = [
     //         iconClass: 'fa fa-calculator'
     //     }
     // },
-    {
-        route: '/merchandiser/ro-acceptance',
-        name: 'ro-acceptance',
-        moduleId: './modules/merchandiser/ro-acceptance/index',
-        nav: true,
-        title: 'Penerimaan RO',
-        auth: true,
-        settings: {
-            group: "merchandiser",
-            //        permission: { "P": 1, "C9": 1 },
-            iconClass: 'fa fa-calculator'
-        }
-    },
+    // {
+    //     route: '/merchandiser/ro-acceptance',
+    //     name: 'ro-acceptance',
+    //     moduleId: './modules/merchandiser/ro-acceptance/index',
+    //     nav: true,
+    //     title: 'Penerimaan RO',
+    //     auth: true,
+    //     settings: {
+    //         group: "merchandiser",
+    //         //        permission: { "P": 1, "C9": 1 },
+    //         iconClass: 'fa fa-calculator'
+    //     }
+    // },
     {
         route: '/merchandiser/ro-available',
         name: 'ro-available',
@@ -644,21 +644,21 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    {
-        route: '/merchandiser/available-budget-report',
-        name: 'available-budget-report',
-        moduleId: './modules/merchandiser/report/available-budget-report/index',
-        nav: true,
-        title: 'Laporan Kesiapan Budget',
-        auth: true,
-        settings: {
-            group: "merchandiser",
-            subGroup: "monitoring",
-            // permission: { "PGA": 1, "P": 1, "C9": 1 },
-            // permission: {"L22":1},
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    // {
+    //     route: '/merchandiser/available-budget-report',
+    //     name: 'available-budget-report',
+    //     moduleId: './modules/merchandiser/report/available-budget-report/index',
+    //     nav: true,
+    //     title: 'Laporan Kesiapan Budget',
+    //     auth: true,
+    //     settings: {
+    //         group: "merchandiser",
+    //         subGroup: "monitoring",
+    //         // permission: { "PGA": 1, "P": 1, "C9": 1 },
+    //         // permission: {"L22":1},
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: '/merchandiser/latest-available-budget-report',
         name: 'latest-available-budget-report',
@@ -674,21 +674,21 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    {
-        route: '/merchandiser/available-ro-garment-report',
-        name: 'available-ro-garment-report',
-        moduleId: './modules/merchandiser/report/available-ro-garment-report/index',
-        nav: true,
-        title: 'Laporan Kesiapan RO',
-        auth: true,
-        settings: {
-            group: "merchandiser",
-            subGroup: "monitoring",
-            // permission: { "PGA": 1, "P": 1, "C9": 1 },
-            // permission: {"L24":1},
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    // {
+    //     route: '/merchandiser/available-ro-garment-report',
+    //     name: 'available-ro-garment-report',
+    //     moduleId: './modules/merchandiser/report/available-ro-garment-report/index',
+    //     nav: true,
+    //     title: 'Laporan Kesiapan RO',
+    //     auth: true,
+    //     settings: {
+    //         group: "merchandiser",
+    //         subGroup: "monitoring",
+    //         // permission: { "PGA": 1, "P": 1, "C9": 1 },
+    //         // permission: {"L24":1},
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: '/merchandiser/latest-available-ro-garment-report',
         name: 'latest-available-ro-garment-report',

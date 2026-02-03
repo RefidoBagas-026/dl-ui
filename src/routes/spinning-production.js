@@ -300,19 +300,19 @@ module.exports = [
     //         iconClass: 'fa fa-dashboard'
     //     }
     // },
-    {
-        route: 'production/spinning/count-configuration',
-        name: 'count-configuration',
-        moduleId: './modules/production/spinning/count-configuration/index',
-        nav: true,
-        title: 'Konfigurasi Count',
-        auth: true,
-        settings: {
-            group: "spinning",
-            // permission: { "C9": 1, "S1": 1, "S2": 1, "S3": 1, "S4": 1 },
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    // {
+    //     route: 'production/spinning/count-configuration',
+    //     name: 'count-configuration',
+    //     moduleId: './modules/production/spinning/count-configuration/index',
+    //     nav: true,
+    //     title: 'Konfigurasi Count',
+    //     auth: true,
+    //     settings: {
+    //         group: "spinning",
+    //         // permission: { "C9": 1, "S1": 1, "S2": 1, "S3": 1, "S4": 1 },
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: 'production/spinning/count-configuration-blowing',
         name: 'count-configuration-blowing',
@@ -702,17 +702,17 @@ module.exports = [
         }
     },
 
-    {
-        route: 'production/spinning/lot-configuration-excel',
-        name: 'lot-configuration-excel',
-        moduleId: './modules/production/spinning/lot-configuration-excel/index',
-        nav: true,
-        title: 'Excel Lot Configuration',
-        auth: true,
-        settings: {
-            group: "spinning",
-            //permission: { "C9": 1, "S1": 1, "S2": 1, "S3": 1, "S4": 1 },
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    // {
+    //     route: 'production/spinning/lot-configuration-excel',
+    //     name: 'lot-configuration-excel',
+    //     moduleId: './modules/production/spinning/lot-configuration-excel/index',
+    //     nav: true,
+    //     title: 'Excel Lot Configuration',
+    //     auth: true,
+    //     settings: {
+    //         group: "spinning",
+    //         //permission: { "C9": 1, "S1": 1, "S2": 1, "S3": 1, "S4": 1 },
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
 ]

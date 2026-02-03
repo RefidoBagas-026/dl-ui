@@ -88,7 +88,7 @@ module.exports = [
     },
   },
   {
-    route: "unit-payment-order-not-verified-report",
+    route: "expedition/unit-payment-order-not-verified-report",
     name: "unit-payment-order-not-verified-report",
     moduleId:
       "./modules/expedition/reports/unit-payment-order-not-verified-report/index",

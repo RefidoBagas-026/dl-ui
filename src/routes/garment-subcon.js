@@ -119,21 +119,21 @@ module.exports = [
       iconClass: 'fa fa-dashboard'
     }
   },
-  {
-    route: '/garment-subcon/subcon-customs-in',
-    name: 'subcon-customs-in',
-    moduleId: './modules/garment-subcon/garment-subcon-customs-in/index',
-    nav: true,
-    title: 'BC Masuk',
-    auth: true,
-    settings: {
-      group: "g-subcon",
-      subGroup: "bc subcon",
-      // permission: { "E": 1, "K": 1, "C9": 1, "B9": 1, "C5": 1, "P1A": 1, "C2A": 1, "C2B": 1, "FP": 1, "P": 1, "FC": 1, "PG": 1, "C1A": 1, "C1B": 1, "KK": 1, "B1": 1 },
-      // permission: { "Q8": 1 },
-      iconClass: 'fa fa-dashboard'
-    }
-  },
+  // {
+  //   route: '/garment-subcon/subcon-customs-in',
+  //   name: 'subcon-customs-in',
+  //   moduleId: './modules/garment-subcon/garment-subcon-customs-in/index',
+  //   nav: true,
+  //   title: 'BC Masuk',
+  //   auth: true,
+  //   settings: {
+  //     group: "g-subcon",
+  //     subGroup: "bc subcon",
+  //     // permission: { "E": 1, "K": 1, "C9": 1, "B9": 1, "C5": 1, "P1A": 1, "C2A": 1, "C2B": 1, "FP": 1, "P": 1, "FC": 1, "PG": 1, "C1A": 1, "C1B": 1, "KK": 1, "B1": 1 },
+  //     // permission: { "Q8": 1 },
+  //     iconClass: 'fa fa-dashboard'
+  //   }
+  // },
   {
     route: '/garment-subcon/subcon-customs-out',
     name: 'subcon-sewing',

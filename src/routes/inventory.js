@@ -278,19 +278,19 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    {
-        route: 'inventory/reports/fp-packing-receipt-report',
-        name: 'inventory/reports/fp-packing-receipt-report',
-        moduleId: './modules/inventory/reports/fp-packing-receipt-report/index',
-        nav: true,
-        title: 'Laporan Penerimaan Packing',
-        auth: true,
-        settings: {
-            group: "Inventory",
-            //permission: { "C9": 1, "F1": 1, "F2": 1 },
-            iconClass: 'fa fa-dashboard'
-        }
-    },
+    // {
+    //     route: 'inventory/reports/fp-packing-receipt-report',
+    //     name: 'inventory/reports/fp-packing-receipt-report',
+    //     moduleId: './modules/inventory/reports/fp-packing-receipt-report/index',
+    //     nav: true,
+    //     title: 'Laporan Penerimaan Packing',
+    //     auth: true,
+    //     settings: {
+    //         group: "Inventory",
+    //         //permission: { "C9": 1, "F1": 1, "F2": 1 },
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     {
         route: 'inventory/finishing-printing/fp-retur-to-qc-doc',
         name: 'inventory/finishing-printing/fp-retur-to-qc-doc',
@@ -446,32 +446,32 @@ module.exports = [
             iconClass: "fa fa-dashboard"
         }
     },
-    {
-        route: "inventory/stock-transfer-note",
-        name: "inventory/stock-transfer-note",
-        moduleId: "modules/inventory/stock-transfer-note/index",
-        nav: true,
-        title: "Catatan Transfer Stok",
-        auth: true,
-        settings: {
-            group: "Inventory",
-            //permission: { "C9": 1, "F1": 1, "F2": 1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
-    {
-        route: "inventory/stock-transfer-approval",
-        name: "inventory/stock-transfer-approval",
-        moduleId: "modules/inventory/stock-transfer-approval/index",
-        nav: true,
-        title: "Terima Transfer Stok",
-        auth: true,
-        settings: {
-            group: "Inventory",
-            //permission: { "C9": 1, "F1": 1, "F2": 1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
+    // {
+    //     route: "inventory/stock-transfer-note",
+    //     name: "inventory/stock-transfer-note",
+    //     moduleId: "modules/inventory/stock-transfer-note/index",
+    //     nav: true,
+    //     title: "Catatan Transfer Stok",
+    //     auth: true,
+    //     settings: {
+    //         group: "Inventory",
+    //         //permission: { "C9": 1, "F1": 1, "F2": 1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
+    // {
+    //     route: "inventory/stock-transfer-approval",
+    //     name: "inventory/stock-transfer-approval",
+    //     moduleId: "modules/inventory/stock-transfer-approval/index",
+    //     nav: true,
+    //     title: "Terima Transfer Stok",
+    //     auth: true,
+    //     settings: {
+    //         group: "Inventory",
+    //         //permission: { "C9": 1, "F1": 1, "F2": 1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
     {
         route: "inventory/finishing-printing/reports/material-distribution-note",
         name: "inventory/finishing-printing/reports/material-distribution-note",
@@ -486,19 +486,19 @@ module.exports = [
             iconClass: "fa fa-dashboard"
         }
     },
-    {
-        route: "inventory/finishing-printing/fp-return-inv-to-purchasing",
-        name: "inventory/finishing-printing/fp-return-inv-to-purchasing",
-        moduleId: "modules/inventory/finishing-printing/fp-return-inv-to-purchasing/index",
-        nav: true,
-        title: "Bon Retur Barang - Pembelian",
-        auth: true,
-        settings: {
-            group: "Inventory",
-            //permission: { "C9": 1, "F1": 1, "F2": 1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
+    // {
+    //     route: "inventory/finishing-printing/fp-return-inv-to-purchasing",
+    //     name: "inventory/finishing-printing/fp-return-inv-to-purchasing",
+    //     moduleId: "modules/inventory/finishing-printing/fp-return-inv-to-purchasing/index",
+    //     nav: true,
+    //     title: "Bon Retur Barang - Pembelian",
+    //     auth: true,
+    //     settings: {
+    //         group: "Inventory",
+    //         //permission: { "C9": 1, "F1": 1, "F2": 1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
     {
         route: "inventory/garment/leftover-warehouse/receipt/fabric",
         name: "inventory/garment/leftover-warehouse/receipt/fabric",
