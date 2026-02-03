@@ -83,4 +83,9 @@ export class Service extends RestService {
     getFile(path, fileName) {
         return super.getFile(`azure-documents/${path}?fileName=${fileName}`);
     }
+
+    getExcelById(id) {
+        var endpoint = `${serviceUri}/excelIntellocut/${id}`;
+        return super.getFile(endpoint);
+    }
 }
