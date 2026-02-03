@@ -29,6 +29,15 @@ export class DataForm {
         }
     };
 
+    controlOptions2 = {
+        label: {
+            length: 0
+        },
+        control: {
+            length: `12 placeholder-right`
+        },
+    };
+
     lcTypeOptions = [
         "AT SIGHT",
         "USANCE",

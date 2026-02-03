@@ -1,4 +1,9 @@
 <template>
+    <style>
+        .placeholder-right input::placeholder, .placeholder-right input {
+            text-align: right;
+        }
+    </style>
     <div class="row">
         <div class="col-sm-12">
             <au-input-form title.bind="title" with.bind="context">
@@ -14,7 +19,7 @@
                             placeholder="Invoice No" read-only.bind="readOnly || isEdit" options.bind="controlOptions">
                         </au-autocomplete>
 
-                        <au-datepicker label="Tanggal" value.bind="data.date" read-only="true"
+                        <au-datepicker label="Tanggal" value.bind="data.date" read-only="true" error.bind="error.date"
                             options.bind="controlOptions">
                         </au-datepicker>
 
@@ -36,7 +41,7 @@
                         </au-numeric>             
                         
                         <au-numeric label="Paid Amount (US$)" value.bind="data.amountPaid" read-only.bind="readOnly" 
-                            options.bind="controlOptions">
+                            options.bind="controlOptions" error.bind="error.amountPaid">
                         </au-numeric>
 
                         <au-numeric label="Balance Amount(US$)" value.bind="BalanceAmount" read-only="true"
@@ -96,7 +101,7 @@
                             show.bind="data.paymentTerm == 'LC'">
                         </au-textbox>
 
-                        <au-numeric label="Nett Nego (US$)" value.bind="NETTNEGO"
+                        <au-numeric label="Nett Nego (US$)" value.bind="NETTNEGO" error.bind="error.nettNego"
                             options.bind="controlOptions"
                             read-only="disabled">
                         </au-numeric>
@@ -152,7 +157,7 @@
 
                         <h1 class="page-header">BUYER</h1>
 
-                        <au-textbox label="Buyer" value.bind="data.buyer.name" read-only="true"
+                        <au-textbox label="Buyer" value.bind="data.buyer.name" read-only="true" error.bind="error.buyer"
                             options.bind="controlOptions">
                         </au-textbox>
                       
@@ -167,7 +172,7 @@
                         <hr />
                         <h1 class="page-header">BANK</h1>
 
-                        <au-textbox label="Bank" value.bind="data.bank.accountName" read-only="true"
+                        <au-textbox label="Bank" value.bind="data.bank.accountName" read-only="true" error.bind="error.bank"
                             options.bind="controlOptions">
                         </au-textbox>
 
@@ -204,10 +209,24 @@
                             read-only.bind="readOnly" options.bind="controlOptions">
                         </au-numeric>
 
-                        <au-numeric label="Other Charge" value.bind="data.otherCharge" error.bind="error.otherCharge"
-                            read-only.bind="readOnly" options.bind="controlOptions"
-                            show.bind="data.paymentTerm == 'TT/OA'">
+                        <au-numeric label.bind="data.otherChargeName ? data.otherChargeName : 'Other Charge'" value.bind="data.otherCharge" error.bind="error.otherCharge"
+                            read-only.bind="true" options.bind="controlOptions"
+                            show.bind="data.paymentTerm == 'TT/OA' && readOnly">
                         </au-numeric>
+                        
+                        <div class="form-group" show.bind="data.paymentTerm == 'TT/OA' && !readOnly">
+                            <div class="col-sm-4">
+                            <au-textbox value.bind="data.otherChargeName" error.bind="error.otherChargeName" placeholder="Charge Name"
+                                read-only.bind="false" options.bind="controlOptions2">
+                            </au-textbox>
+                            </div>
+                            <div class="col-sm-6">
+                            <au-numeric value.bind="data.otherCharge" error.bind="error.otherCharge"
+                                read-only.bind="false" options.bind="controlOptions2">
+                                <!-- show.bind="data.paymentTerm == 'TT/OA'"> -->
+                            </au-numeric>
+                            </div>
+                        </div>
 
                         <au-datepicker label="Document Presente" value.bind="data.documentPresente"
                             error.bind="error.documentPresente" read-only.bind="readOnly" options.bind="controlOptions"
