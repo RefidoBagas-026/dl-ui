@@ -15,6 +15,22 @@ module.exports = [
         }
     },
     {
+        route: 'pr/all-user',
+        name: 'purchase-request-all-user',
+        moduleId: './modules/purchasing/purchase-request-all/index',
+        nav: true,
+        title: 'Purchase Request (Semua User)',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "S4": 1, "C3": 1, "E": 1, "K": 1, "S1": 1, "S2": 1, "S3": 1, "U1": 1, "F1": 1, "F2": 1, "L3": 1, "LK": 1, "L8": 1, "L2": 1, "C2": 1, "A2": 1, "C1": 1, "B5": 1, "L1": 1, "B4": 1, "B3": 1, "C4": 1, "OJ": 1, "C9": 1, "A1": 1, "B9": 1, "A4": 1, "C5": 1, "P1A": 1, "C2A": 1, "C2B": 1, "FP": 1, "PI": 1, "P": 1, "FC": 1, "GU": 1, "GS": 1, "PG": 1, "C1A": 1, "C1B": 1, "KK": 1, "B1": 1, "W1": 1, "W2": 1, "B7": 1 },
+            permission: { "E47": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+
+    {
         route: 'pr/monitoring',
         name: 'purchase-request-monitoring',
         moduleId: './modules/purchasing/monitoring-purchase-request/index',
@@ -731,4 +747,382 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
 },
+
+    {
+        //pinjam permission
+        route: 'purchasing-general-disposition',
+        name: 'purchasing-general-disposition',
+        moduleId: './modules/purchasing/purchasing-general-disposition/index',
+        nav: true,
+        title: 'Disposisi Umum',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
+            permission: { "E48": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+
+     {
+        //pinjam permission
+        route: 'purchasing-general-disposition-all',
+        name: 'purchasing-general-disposition-all',
+        moduleId: './modules/purchasing/purchasing-general-disposition-all/index',
+        nav: true,
+        title: 'Disposisi Umum (Semua User)',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
+            permission: { "E49": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+
+     {
+        //pinjam permission
+        route: 'purchasing-disposition-unit',
+        name: 'purchasing-disposition-unit',
+        moduleId: './modules/purchasing/purchasing-disposition-unit/index',
+        nav: true,
+        title: 'Disposisi Permintaan Unit',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
+            permission: { "E50": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+
+    {
+        //pinjam permission
+        route: 'purchasing-disposition-unit-all',
+        name: 'purchasing-disposition-unit-all',
+        moduleId: './modules/purchasing/purchasing-disposition-unit-all/index',
+        nav: true,
+        title: 'Disposisi Permintaan Unit (Semua User)',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
+            permission: { "E51": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+
+    {
+        //pinjam permission
+        route: 'purchasing-disposition-purchase',
+        name: 'purchasing-disposition-purchase',
+        moduleId: './modules/purchasing/purchasing-disposition-purchase/index',
+        nav: true,
+        title: 'Disposisi Pembelian',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
+            permission: { "E52": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
+        //pinjam permission
+        route: 'purchasing-disposition-purchase-all',
+        name: 'purchasing-disposition-purchase-all',
+        moduleId: './modules/purchasing/purchasing-disposition-purchase-all/index',
+        nav: true,
+        title: 'Disposisi Pembelian (Semua User)',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
+            permission: { "E53": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+
+    {
+        //pinjam permission
+        route: '/purchasing/disposition-unit-approval/unit1',
+        name: 'disposition-unit-approval-unit1',
+        moduleId: './modules/purchasing/disposition-unit-approval/index',
+        nav: true,
+        title: 'Disposition Permintaan Unit Approval - Unit 1',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E54": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "unit1"
+        }
+    },
+
+     {
+        //pinjam permission
+        route: '/purchasing/disposition-unit-approval/unit2',
+        name: 'disposition-unit-approval-unit2',
+        moduleId: './modules/purchasing/disposition-unit-approval/index',
+        nav: true,
+        title: 'Disposition Permintaan Unit Approval - Unit 2',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E55": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "unit2"
+        }
+    },
+
+      {
+        //pinjam permission
+        route: '/purchasing/disposition-unit-approval/gm',
+        name: 'disposition-unit-approval-gm',
+        moduleId: './modules/purchasing/disposition-unit-approval/index',
+        nav: true,
+        title: 'Disposition Permintaan Unit Approval - GM Purchasing',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E56": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "gm"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/disposition-general-purchasing-approval/manager',
+        name: 'disposition-general-purchasing-approval-manager',
+        moduleId: './modules/purchasing/disposition-general-purchasing-approval/index',
+        nav: true,
+        title: 'Disposition Umum Approval - Manager Purchasing',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E57": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "manager"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/disposition-general-purchasing-approval/gm',
+        name: 'disposition-general-purchasing-approval-gm',
+        moduleId: './modules/purchasing/disposition-general-purchasing-approval/index',
+        nav: true,
+        title: 'Disposition Umum Approval - GM Purchasing',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E58": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "gm"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/disposition-general-purchasing-approval/directurkeu',
+        name: 'disposition-general-purchasing-approval-directurkeu',
+        moduleId: './modules/purchasing/disposition-general-purchasing-approval/index',
+        nav: true,
+        title: 'Disposition Umum Approval - Direktur Keuangan',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E59": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "directurkeu"
+        }
+    },
+
+    {
+        //pinjam permission
+        route: '/purchasing/disposition-general-purchasing-approval/anggaran',
+        name: 'disposition-general-purchasing-approval-anggaran',
+        moduleId: './modules/purchasing/disposition-general-purchasing-approval/index',
+        nav: true,
+        title: 'Disposition Umum Approval - Anggaran',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E60": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "anggaran"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/purchase-request-approval/unit1',
+        name: 'purchase-request-approval-unit1',
+        moduleId: './modules/purchasing/purchase-request-approval/index',
+        nav: true,
+        title: 'Purchase Request Approval - Unit 1',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E61": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "unit1"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/purchase-request-approval/unit2',
+        name: 'purchase-request-approval-unit2',
+        moduleId: './modules/purchasing/purchase-request-approval/index',
+        nav: true,
+        title: 'Purchase Request Approval - Unit 2',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E62": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "unit2"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/purchase-request-approval/purchasing',
+        name: 'purchase-request-approval-purchasing',
+        moduleId: './modules/purchasing/purchase-request-approval/index',
+        nav: true,
+        title: 'Purchase Request Approval Price - Purchasing',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E63": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "purchasing"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/purchase-request-approval/manager',
+        name: 'purchase-request-approval-manager',
+        moduleId: './modules/purchasing/purchase-request-approval/index',
+        nav: true,
+        title: 'Purchase Request Approval - Manager Purchasing',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E64": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "manager"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/purchase-request-approval/gm',
+        name: 'purchase-request-approval-gm',
+        moduleId: './modules/purchasing/purchase-request-approval/index',
+        nav: true,
+        title: 'Purchase Request Approval - GM Purchasing',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E65": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "gm"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/purchase-request-approval/anggaran',
+        name: 'purchase-request-approval-anggaran',
+        moduleId: './modules/purchasing/purchase-request-approval/index',
+        nav: true,
+        title: 'Purchase Request Approval - Anggaran',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E66": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "anggaran"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/disposition-purchasing-approval/level1',
+        name: 'disposition-purchasing-approval-level1',
+        moduleId: './modules/purchasing/disposition-purchasing-approval/index',
+        nav: true,
+        title: 'Disposition Pembelian Approval - Level 1',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E67": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "level1"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/disposition-purchasing-approval/level2',
+        name: 'disposition-purchasing-approval-level2',
+        moduleId: './modules/purchasing/disposition-purchasing-approval/index',
+        nav: true,
+        title: 'Disposition Pembelian Approval - Level 2',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E68": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "level2"
+        }
+    },
+    {
+        //pinjam permission
+        route: '/purchasing/disposition-purchasing-approval/directurkeu',
+        name: 'disposition-purchasing-approval-directurkeu',
+        moduleId: './modules/purchasing/disposition-purchasing-approval/index',
+        nav: true,
+        title: 'Disposition Pembelian Approval - Directur Keuangan',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E69": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "directurkeu"
+        }
+    },
+
 ]

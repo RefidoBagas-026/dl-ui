@@ -5,11 +5,7 @@
 
         <div slot="actions" class="btn-group">
             <button class="btn btn-default" click.delegate="context.cancel($event)" if.one-way="context.hasCancel">Kembali</button>
-            <button class="btn btn-primary" click.delegate="context.edit($event)" if.one-way="context.hasEdit">Ubah</button>
-            <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Simpan</button>
-            <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button>
-            <button class="btn btn-primary" click.delegate="context.unpost($event)" if.one-way="context.hasUnpost && !data.isApprovedUnit1">Unpost</button>
-        </div>
+       </div>
 
         <au-textbox 
             label="No. PR" 
@@ -61,18 +57,6 @@
             options.bind="controlOptions">
         </au-autocomplete>
 
-        <!-- <au-autocomplete 
-            value.bind="data.unit" 
-            error.bind="error.unit"
-            label="Unit" 
-            change.delegate="unitChanged($event)" 
-            loader.bind="unitLoader"
-            placeholder="cari unit" 
-            key="Code"
-            read-only.bind="(readOnly || isEdit)"
-            options.bind="controlOptions">
-        </au-autocomplete> -->
-
         <au-autocomplete 
             value.bind="data.category" 
             error.bind="error.category"
@@ -85,13 +69,6 @@
             options.bind="controlOptions">
         </au-autocomplete>
 
-<!--         <au-checkbox 
-            label="Pembelian Internal ?" 
-            value.bind="prInternal" 
-            error.bind="error.prInternal" 
-            read-only.bind="readOnly"
-            options.bind="controlOptions">
-        </au-checkbox> -->
 
         <au-multiline 
             label="Keterangan" 

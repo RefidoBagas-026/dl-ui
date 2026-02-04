@@ -21,13 +21,6 @@ export class List {
 
   columns = [
     {
-      field: "isPosting", title: "Post", checkbox: true, sortable: false,
-      formatter: function (value, data, index) {
-        this.checkboxEnabled = !data.isPosted;
-        return ""
-      }
-    },
-    {
       field: "date", title: "Tgl. PR", formatter: function (value, data, index) {
         return moment(value).format("DD MMM YYYY");
       }
@@ -36,7 +29,6 @@ export class List {
     { field: "DivisionName", title: "Divisi" },
     { field: "UnitName", title: "Unit" },
     { field: "CategoryName", title: "Kategori" },
-    // { field: "NPWP", title: "NPWP" },
     {
       field: "isPosted", title: "Posted",
       formatter: function (value, row, index) {
@@ -49,6 +41,7 @@ export class List {
     { field: "IsApprovedManagerLabel", title: "Approval Manager" },
     { field: "IsApprovedGMLabel", title: "Approval GM Pembelian" },
     { field: "IsApprovedAnggaranLabel", title: "Approval Anggaran" },
+    { field: "CreatedBy", title: "Dibuat Oleh" },
 
   ];
 
@@ -61,7 +54,7 @@ export class List {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      select:["date", "no", "unit.division.name","unit.name", "category.name", "isPosted", "isUpdatePricePurchasing", "isApprovedUnit1", "isApprovedUnit2", "isApprovedManager", "isApprovedGeneralManager", "isApprovedAnggaran"],
+      select:["date", "no", "unit.division.name","unit.name","CreatedBy" ,"category.name", "isPosted", "isUpdatePricePurchasing", "isApprovedUnit1", "isApprovedUnit2", "isApprovedManager", "isApprovedGeneralManager", "isApprovedAnggaran"],
       order: order
     }
 
@@ -78,6 +71,7 @@ export class List {
             data.IsApprovedGMLabel = data.isApprovedGeneralManager ? "SUDAH" : "BELUM";
             data.IsApprovedAnggaranLabel = data.isApprovedAnggaran ? "SUDAH" : "BELUM";
             data.CategoryName = data.category.name;
+            data.CreatedBy = data.CreatedBy;
         }
         return {
           total: result.info.total,
@@ -113,17 +107,6 @@ export class List {
         return true;
     }
   }
-
-  posting() {
-    if (this.dataToBePosted.length > 0) {
-      this.service.post(this.dataToBePosted).then(result => {
-        this.table.refresh();
-      }).catch(e => {
-        this.error = e;
-      })
-    }
-  }
-
   create() {
     this.router.navigateToRoute('create');
   }
