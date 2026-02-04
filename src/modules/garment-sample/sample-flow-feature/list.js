@@ -81,7 +81,7 @@ export class List {
         }
         else {
 
-            this.service.searchPreparing({ filter: JSON.stringify({ RONo: this.RONo}) })
+            this.service.searchPreparing({ size: 9999, filter: JSON.stringify({ RONo: this.RONo}) })
             .then(result => {
               this.data = [];
               this.products=[];
@@ -110,7 +110,7 @@ export class List {
                     this.data.push(dataItem);
                 }
 
-                this.service.searchCutting({ filter: JSON.stringify({ RONo: this.RONo}) })
+                this.service.searchCutting({ size: 9999, filter: JSON.stringify({ RONo: this.RONo}) })
                 .then(result => {
                     this.cuttingData=[];
                     this.cuttingSizes=[];
@@ -162,8 +162,9 @@ export class List {
                     
                  
 
-                        this.service.searchSewing({ filter: JSON.stringify({ RONo: this.RONo, SewingTo:"FINISHING"}) })
+                        this.service.searchSewing({ size:9999, filter: JSON.stringify({ RONo: this.RONo, SewingTo:"FINISHING"}) })
                         .then(result => {
+                            console.log(result);
                             this.sewingData=[];
                             this.sewingSizes=[];
                             this.totalSewingQuantity=0;
@@ -249,7 +250,7 @@ export class List {
                                 }
                             }
 
-                            this.service.searchFinishing({ filter: JSON.stringify({ RONo: this.RONo, FinishingTo:"GUDANG JADI"}) })
+                            this.service.searchFinishing({ size: 9999, filter: JSON.stringify({ RONo: this.RONo, FinishingTo:"GUDANG JADI"}) })
                             .then(result => {
                                 this.finishingData=[];
                                 this.finishingSizes=[];
@@ -337,7 +338,7 @@ export class List {
                                     }
                                 }
 
-                                this.service.searchExpenditure({ filter: JSON.stringify({ RONo: this.RONo}) })
+                                this.service.searchExpenditure({ size: 9999, filter: JSON.stringify({ RONo: this.RONo}) })
                                 .then(result => {
                                     this.expenditureData=[];
                                     this.expenditureSizes=[];
