@@ -211,12 +211,12 @@
 
                         <au-numeric label.bind="data.otherChargeName ? data.otherChargeName : 'Other Charge'" value.bind="data.otherCharge" error.bind="error.otherCharge"
                             read-only.bind="true" options.bind="controlOptions"
-                            show.bind="data.paymentTerm == 'TT/OA' && readOnly">
+                            show.bind="readOnly">
                         </au-numeric>
                         
-                        <div class="form-group" show.bind="data.paymentTerm == 'TT/OA' && !readOnly">
+                        <div class="form-group" show.bind="!readOnly">
                             <div class="col-sm-4">
-                            <au-textbox value.bind="data.otherChargeName" error.bind="error.otherChargeName" placeholder="Charge Name"
+                            <au-textbox value.bind="data.otherChargeName" error.bind="error.otherChargeName" placeholder="Other Charge"
                                 read-only.bind="false" options.bind="controlOptions2">
                             </au-textbox>
                             </div>
