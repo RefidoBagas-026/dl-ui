@@ -1,0 +1,71 @@
+<template>
+  <style>
+    .bordered {
+      border-style: solid;
+      border-width: 1px;
+      padding-top: 15px;
+    }
+
+    .bordered-next {
+      border-left-width: 0px;
+      padding-top: 18.5px;
+      padding-bottom: 18.5px;
+    }
+
+    .bordered-not-last {
+      border-bottom-width: 0px;
+    }
+
+    .wrap {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .approval-status {
+      margin-top: 20px;
+    }
+
+    .approval-box {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 10px;
+      background-color: #f9f9f9;
+    }
+
+    .approval-box.approved {
+      background-color: #d4edda;
+      border-color: #c3e6cb;
+    }
+
+    .approval-box h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+  </style>
+  <require from="../../../lib/number-format-value-converter.js"></require>
+  <require from="../../../lib/date-format-value-converter.js"></require>
+
+  <au-input-form title.bind="title" with.bind="context" options.bind="formOptions" edit.call="editCallback($event)">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-4">
+          <au-textbox label="No. PR" options.bind="length4" value.bind="data.no" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Tanggal PR" options.bind="length4" value.bind="data.date" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Tanggal Diminta Datang" options.bind="length4" value.bind="data.expectedDeliveryDate" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Budget" options.bind="length4" value.bind="data.budget" change.delegate="budgetChanged($event)" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Unit" options.bind="length4" value.bind="data.unit" change.delegate="unitChanged($event)" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Category" options.bind="length4" value.bind="data.category" change.delegate="categoryChanged($event)" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Dibuat Oleh" options.bind="length4" value.bind="data.CreatedBy" read-only.bind="readOnly"></au-textbox>
+          <au-multiline label="Keterangan" options.bind="length4" value.bind="data.remark" read-only.bind="readOnly"></au-multiline>
+        </div>
+      </div>
+    </div>
+    
+    <br>
+    <h4>Daftar Barang</h4>
+    <au-collection items.bind="data.items" columns.bind="itemsInfo.columns" read-only.bind="readOnly">
+    </au-collection>
+
+  </au-input-form>
+
+</template>
