@@ -1,4 +1,6 @@
 <template>
+  <require from="./validation-status-converter"></require>
+  
   <au-input-form title="Detail SPB" with.bind="context">
     <au-comparison
       label="Nomor SPB"
@@ -25,8 +27,8 @@
 
     <au-comparison
       label="Nomor Invoice"
-      value1.bind="data.invoices && data.invoices[0] ? data.invoices[0].invoiceNo : ''"
-      value2.bind="data.invoices && data.invoices[0] ? data.invoices[0].invoiceNoScanResult : ''"
+      value1.bind="cleanedInvoiceNo"
+      value2.bind="data.invoices && data.invoices[0] ? data.invoices[0].InvoiceNoScanResult : null"
       label1="Data SPB"
       label2="Data Hasil Scan"
       highlight-differences.bind="highlightDifferencesInvoiceNo"
@@ -93,33 +95,34 @@
 
     <au-comparison
       label="Grand Total"
-      value1.bind="totalAmount"
+      value1.bind="formattedTotalSPb"
       value2.bind="data.totalSPbScanResult"
       label1="Data SPB"
       label2="Data Hasil Scan"
       format="0.00"
+      highlight-differences.bind="highlightDifferencesTotalSPb"
       options.bind="controlOptions"
     >
     </au-comparison>
 
     <!-- Tabel khusus spbNo dan tombol 'i' -->
-    <au-table
+    <!-- <au-table
       data.bind="specialTableData"
       columns.bind="[ { field: 'spbNo', title: 'Nomor SPB' }, { field: 'actions', title: '', formatter: actionFormatter } ]"
       options.bind="tableOptions"
       view-model.ref="specialTable"
     >
-    </au-table>
+    </au-table> -->
 
     <!-- Tabel items spb, muncul saat tombol 'i' diklik -->
-    <au-collection
+    <!-- <au-collection
       if.bind="showItemsTable"
       items.bind="itemsData"
       columns.bind="itemsColumns"
       read-only="true"
       options.bind="{ control: { length: 12 } }"
     >
-    </au-collection>
+    </au-collection> -->
 
     <!-- Tabel Nomor invoice, selalu tampil -->
     <!-- <au-table
@@ -132,15 +135,31 @@
 
     <!-- Tabel Nomor Bon Unit, selalu tampil -->
     <au-table
+      id="urnTable"
       data.bind="filteredURNs"
       columns.bind="urnsColumns"
       options.bind="urnTableOptions"
-      view-model.ref="urnTable"
     >
     </au-table>
 
+    <au-collection
+      if.bind="showURNItemsTable"
+      items.bind="urnItemsData"
+      columns.bind="urnItemsColumns"
+      read-only="true"
+    >
+      <template replace-part="item-template">
+        <tr>
+          <td>${$item.ItemName}</td>
+          <td>${$item.Quantity}</td>
+          <td innerhtml.bind="$item.ValidationStatus | validationStatus"></td>
+        </tr>
+      </template>
+    </au-collection>
+
     <!-- Tabel Nomor PR, selalu tampil -->
     <au-table
+      id="prTable"
       data.bind="filteredPRs"
       columns.bind="prsColumns"
       options.bind="prTableOptions"
@@ -148,8 +167,24 @@
     >
     </au-table>
 
+    <au-collection
+      if.bind="showPRItemsTable"
+      items.bind="prItemsData"
+      columns.bind="prItemsColumns"
+      read-only="true"
+    >
+      <template replace-part="item-template">
+        <tr>
+          <td>${$item.ItemName}</td>
+          <td>${$item.Quantity}</td>
+          <td innerhtml.bind="$item.ValidationStatus | validationStatus"></td>
+        </tr>
+      </template>
+    </au-collection>
+
     <!-- Tabel Nomor PO, selalu tampil -->
     <au-table
+      id="poTable"
       data.bind="filteredPOs"
       columns.bind="posColumns"
       options.bind="poTableOptions"
@@ -162,8 +197,14 @@
       items.bind="poItemsData"
       columns.bind="poItemsColumns"
       read-only="true"
-      options.bind="{ control: { length: 12 } }"
     >
+      <template replace-part="item-template">
+        <tr>
+          <td>${$item.ItemName}</td>
+          <td>${$item.Quantity}</td>
+          <td innerhtml.bind="$item.ValidationStatus | validationStatus"></td>
+        </tr>
+      </template>
     </au-collection>
 
     <!-- <au-table
