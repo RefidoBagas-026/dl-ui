@@ -1,0 +1,315 @@
+<template>
+  <style>
+    .bordered {
+      border-style: solid;
+      border-width: 1px;
+      padding-top: 15px;
+    }
+
+    .bordered-next {
+      border-left-width: 0px;
+      padding-top: 18.5px;
+      padding-bottom: 18.5px;
+    }
+
+    .bordered-not-last {
+      border-bottom-width: 0px;
+    }
+
+    .wrap {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .approval-status {
+      margin-top: 20px;
+    }
+
+    .approval-box {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 10px;
+      background-color: #f9f9f9;
+    }
+
+    .approval-box.approved {
+      background-color: #d4edda;
+      border-color: #c3e6cb;
+    }
+
+    .approval-box h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    /* Resizable Modal Styles */
+    #pdfPreviewModal .modal-dialog {
+      position: relative;
+      margin: 30px auto;
+      width: 90%;
+      max-width: 90%;
+    }
+
+    .resize-handle {
+      position: absolute;
+      z-index: 10;
+    }
+
+    .resize-handle.resize-e {
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      cursor: ew-resize;
+    }
+
+    .resize-handle.resize-w {
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      cursor: ew-resize;
+    }
+
+    .resize-handle.resize-s {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 10px;
+      cursor: ns-resize;
+    }
+
+    .resize-handle.resize-n {
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 10px;
+      cursor: ns-resize;
+    }
+
+    .resize-handle.resize-se {
+      right: 0;
+      bottom: 0;
+      width: 15px;
+      height: 15px;
+      cursor: nwse-resize;
+    }
+
+    .resize-handle.resize-sw {
+      left: 0;
+      bottom: 0;
+      width: 15px;
+      height: 15px;
+      cursor: nesw-resize;
+    }
+
+    .resize-handle.resize-ne {
+      right: 0;
+      top: 0;
+      width: 15px;
+      height: 15px;
+      cursor: nesw-resize;
+    }
+
+    .resize-handle.resize-nw {
+      left: 0;
+      top: 0;
+      width: 15px;
+      height: 15px;
+      cursor: nwse-resize;
+    }
+
+    .resize-handle:hover {
+      background-color: rgba(0, 123, 255, 0.1);
+    }
+
+    .preview-size-indicator {
+      position: absolute;
+      top: 10px;
+      right: 50px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 12px;
+      pointer-events: none;
+      z-index: 1060;
+    }
+  </style>
+  <require from="../../../lib/number-format-value-converter.js"></require>
+  <require from="../../../lib/date-format-value-converter.js"></require>
+
+  <au-input-form title.bind="title" with.bind="context" options.bind="formOptions" edit.call="editCallback($event)" delete.call="deleteCallback($event)">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-4">
+          <au-textbox label="No. Disposisi" options.bind="length4" value.bind="data.DispositionNo" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Tipe Disposisi" options.bind="length4" value.bind="data.TypeDisposition" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Tanggal Disposisi" options.bind="length4" value.bind="data.DispositionDateFormatted" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Dibuat Oleh" options.bind="length4" value.bind="data.CreatedBy" read-only.bind="readOnly"></au-textbox>
+          <au-multiline label="Keterangan" options.bind="length4" value.bind="data.Remark" read-only.bind="readOnly"></au-multiline>
+        </div>
+      </div>
+    </div>
+    
+    <br>
+    <h4>Daftar Barang</h4>
+    
+    <div if.bind="data.TypeDisposition === 'Disposisi Baru'">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Kode Barang</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Nama Barang</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Satuan</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Mata Uang</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Harga</th>
+            <th colspan="2" style="text-align: center;">Supplier 1</th>
+            <th colspan="2" style="text-align: center;">Supplier 2</th>
+            <th colspan="2" style="text-align: center;">Supplier 3</th>
+          </tr>
+          <tr>
+            <th style="text-align: center;">Nama</th>
+            <th style="text-align: center;">Harga</th>
+            <th style="text-align: center;">Nama</th>
+            <th style="text-align: center;">Harga</th>
+            <th style="text-align: center;">Nama</th>
+            <th style="text-align: center;">Harga</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr repeat.for="item of data.Items">
+            <td>${item.ProductCode}</td>
+            <td>${item.ProductName}</td>
+            <td>${item.Uom}</td>
+            <td>${item.ProductCurrency}</td>
+            <td class="text-right">${item.ProductPrice}</td>
+            <td>${item.SupplierName1}</td>
+            <td class="text-right">${item.SupplierPrice1}</td>
+            <td>${item.SupplierName2}</td>
+            <td class="text-right">${item.SupplierPrice2}</td>
+            <td>${item.SupplierName3}</td>
+            <td class="text-right">${item.SupplierPrice3}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div if.bind="data.TypeDisposition === 'Disposisi Kenaikan Harga'">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Kode Barang</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Nama Barang Lama</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Satuan Lama</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Mata Uang</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Tanggal Terakhir Beli</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Harga Terakhir Beli</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Harga Master</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Harga Update</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Selisih Harga</th>
+            <th rowspan="2" style="vertical-align: middle; text-align: center;">Persentase</th>
+            <th colspan="2" style="text-align: center;">Supplier 1</th>
+            <th colspan="2" style="text-align: center;">Supplier 2</th>
+            <th colspan="2" style="text-align: center;">Supplier 3</th>
+          </tr>
+          <tr>
+            <th style="text-align: center;">Nama</th>
+            <th style="text-align: center;">Harga</th>
+            <th style="text-align: center;">Nama</th>
+            <th style="text-align: center;">Harga</th>
+            <th style="text-align: center;">Nama</th>
+            <th style="text-align: center;">Harga</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr repeat.for="item of data.Items">
+            <td>${item.ProductCode}</td>
+            <td>${item.ProductName}</td>
+            <td>${item.Uom}</td>
+            <td>${item.ProductCurrency}</td>
+            <td>${item.LastPurchaseDate}</td>
+            <td class="text-right">${item.LastPurchasePrice}</td>
+            <td class="text-right">${item.ProductPrice}</td>
+            <td class="text-right">${item.UpdatePrice}</td>
+            <td class="text-right">${item.PriceDifference}</td>
+            <td class="text-right">${item.Percentage}</td>
+            <td>${item.SupplierName1}</td>
+            <td class="text-right">${item.SupplierPrice1}</td>
+            <td>${item.SupplierName2}</td>
+            <td class="text-right">${item.SupplierPrice2}</td>
+            <td>${item.SupplierName3}</td>
+            <td class="text-right">${item.SupplierPrice3}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <br>
+    <div class="col-md-12">
+      <h4>Dokumen Pendukung</h4>
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th class="col-md-11">File</th>
+            <th if.bind="!readOnly" class="col-md-1">
+              <button click.delegate="onAddDocument()" class="btn btn-success pull-right">+</button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr if.bind="!data.DocumentsFileName || data.DocumentsFileName.length < 1">
+            <td colspan="2">
+              Tidak ada file
+            </td>
+          </tr>
+          <tr if.bind="data.DocumentsFileName" repeat.for="doc of data.DocumentsFileName">
+            <td>
+              <button class="btn btn-primary justify-content-center"
+                click.delegate="downloadDocument($index)">${doc}</button>
+              <button class="btn btn-info ml-2"
+                click.delegate="previewDocument($index)">Preview</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </au-input-form>
+
+  <!-- PDF Preview Modal -->
+  <div class="modal fade" id="pdfPreviewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      
+        <div class="resize-handle resize-n" data-direction="n"></div>
+        <div class="resize-handle resize-s" data-direction="s"></div>
+        <div class="resize-handle resize-e" data-direction="e"></div>
+        <div class="resize-handle resize-w" data-direction="w"></div>
+        <div class="resize-handle resize-ne" data-direction="ne"></div>
+        <div class="resize-handle resize-nw" data-direction="nw"></div>
+        <div class="resize-handle resize-se" data-direction="se"></div>
+        <div class="resize-handle resize-sw" data-direction="sw"></div>
+        
+        <div class="modal-header">
+          <h5 class="modal-title" id="previewModalLabel">Preview</h5>
+          <span class="preview-size-indicator">
+            Lebar: ${previewWidth}% | Tinggi: ${previewHeight}px
+          </span>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <embed id="pdfEmbed" width="100%" type="application/pdf" style="display: none;" css="height: ${previewHeight}px">
+          <div id="excelTable" style="display: none; overflow-y: auto;" css="max-height: ${previewHeight}px"></div>
+          <img id="imagePreview" style="display: none; max-width: 100%;" css="max-height: ${previewHeight}px">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>
