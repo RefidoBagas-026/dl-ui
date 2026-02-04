@@ -37,6 +37,7 @@ export class List {
     };
 
     return this.service.search(arg).then((result) => {
+    //return this.localService.search(arg).then((result) => {
       var data = {};
       data.total = result.info.total;
       data.data = result.data;
@@ -239,6 +240,7 @@ export class List {
     }
     //console.log('[List] Deleting id:', id, 'index:', index, 'rowData:', this.loadedData ? this.loadedData[index] : 'N/A');
     if (confirm('Yakin ingin menghapus data ini?')) {
+      // this.localService.delete(id)
       this.service.delete(id)
         .then((response) => {
           //console.log('[List] Delete response:', response);
