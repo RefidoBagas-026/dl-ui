@@ -74,6 +74,10 @@
         
         <au-datepicker label="Delivery Date" value.bind="data.CostCalculationGarment.DeliveryDate" read-only.bind="disabled" options.bind="length4"
           show.bind="hasCostCalculationGarment"></au-datepicker>
+        <au-textbox label="Sample" value.bind="data.CostCalculationGarment.IsSample ? 'Ya' : 'Tidak'" read-only.bind="disabled" options.bind="length4"
+          show.bind="hasCostCalculationGarment"></au-textbox>
+        <au-textbox label="Sample Description" value.bind="data.CostCalculationGarment.SampleDescription" read-only.bind="disabled" options.bind="length4" 
+          show.bind="hasCostCalculationGarment && data.CostCalculationGarment.IsSample"></au-textbox>  
       </div>
     </div>
     <div class="row" if.bind="readOnly">
@@ -115,6 +119,10 @@
           show.bind="hasCostCalculationGarment"></au-datepicker>
         <au-textbox label="Size Range" value.bind="data.CostCalculationGarment.SizeRange" read-only.bind="disabled" options.bind="length4"
           show.bind="hasCostCalculationGarment"></au-textbox>
+        <au-textbox label="Sample" value.bind="data.CostCalculationGarment.IsSample ? 'Ya' : 'Tidak'" read-only.bind="disabled" options.bind="length4"
+          show.bind="hasCostCalculationGarment"></au-textbox>
+        <au-textbox label="Sample Description" value.bind="data.CostCalculationGarment.SampleDescription" read-only.bind="disabled" options.bind="length4" 
+          show.bind="hasCostCalculationGarment && data.CostCalculationGarment.IsSample"></au-textbox>
       </div>
     </div>
     <div class="col-md-10">
