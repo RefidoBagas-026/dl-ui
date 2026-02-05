@@ -4,7 +4,7 @@ var StorageLoader = require('../../../loader/storage-loader');
 //var UnitLoader = require('../../../loader/garment-units-loader');
 var UnitSenderLoader = require('../../../loader/garment-sample-unit-loader');
 var UnitReceiptNoteLoader = require('../../../loader/garment-unit-receipt-note-for-unit-delivery-order-loader');
-var DeliveryOrderLoader= require('../../../loader/garment-delivery-order-by-garment-unit-receipt-note-loader');
+var DeliveryOrderLoader= require('../../../loader/garment-delivery-order-by-garment-unit-receipt-note-loader-all');
 import moment from 'moment';
 
 @containerless()
@@ -92,7 +92,7 @@ export class DataForm {
     }
 
     deliveryOrderView=(DO)=>{
-        return DO.DONo;
+        return `${DO.DONo} - ${moment(DO.ReceiptDate).format("DD-MMM-YYYY")}` 
     }
 
     storageView = (storage) => {
@@ -144,7 +144,8 @@ export class DataForm {
             var doFilter={
                 UnitCode: this.data.UnitSender.Code,
                 StorageCode: this.data.Storage.code,
-                DONo: selectedDO.DONo
+                DONo: selectedDO.DONo,
+                DOId: selectedDO.DOId
             };
             var info={
                 filter: JSON.stringify(doFilter)
