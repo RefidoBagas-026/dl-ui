@@ -3,7 +3,7 @@ import { Router } from "aurelia-router";
 import { Service } from "./service";
 
 @inject(Router, Service)
-export class Create {
+export default class Create {
   isScanning = false;
   constructor(router, service) {
     this.router = router;
