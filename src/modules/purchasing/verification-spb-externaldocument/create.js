@@ -1,14 +1,13 @@
 import { inject } from "aurelia-framework";
 import { Router } from "aurelia-router";
-import { Service, LocalService } from "./service";
+import { Service } from "./service";
 
-@inject(Router, Service, LocalService)
-export class Create {
+@inject(Router, Service)
+export default class Create {
   isScanning = false;
-  constructor(router, service, localService) {
+  constructor(router, service) {
     this.router = router;
     this.service = service;
-    this.localService = localService;
   }
 
   bind() {
@@ -25,11 +24,12 @@ export class Create {
     const dataForm = this.dataFormRef;
     let selected = dataForm && dataForm.SPB ? dataForm.SPB : null;
     if (!selected || !(selected.UPONo || selected._id)) {
-      console.log("dataForm:", dataForm);
-      console.log("Selected UPO:", selected);
+      // console.log("dataForm:", dataForm);
+      // console.log("Selected UPO:", selected);
       alert("Anda harus memilih Nomor Surat Perintah Bayar terlebih dahulu.");
       return;
     }
+    //console.log("Selected UPO untuk diproses:", selected);
 
     let scanResult = dataForm && dataForm.scanResult;
     let file = dataForm && dataForm.selectedFile;
@@ -42,12 +42,25 @@ export class Create {
     try {
       if (file && !scanResult) {
         try {
-          const uploadResult = await this.service.uploadFile(file);
-          alert('Hasil Scan Dokumen Berhasil');
+          const uploadResult = await this.service.uploadFile(
+            file,
+            selected,
+          );
+          //console.log("Hasil upload file:", uploadResult);
+          if (
+            uploadResult &&
+            uploadResult.data &&
+            uploadResult.data.alreadyChecked === true
+          ) {
+            alert(uploadResult.message);
+            this.isScanning = false;
+            return;
+          }
+          alert("Hasil Scan Dokumen Berhasil");
           scanResult = uploadResult;
         } catch (e) {
           this.isScanning = false;
-          alert(e.message || 'Gagal upload file');
+          alert(e.message || "Gagal upload file");
           return;
         }
       }
@@ -59,10 +72,10 @@ export class Create {
           raw = scanResult.result;
         }
         const root = raw.data || raw.Data || raw;
-        console.log(
-          "Root data dari scanResult:",
-          JSON.stringify(root, null, 2)
-        );
+        // console.log(
+        //   "Root data dari scanResult:",
+        //   JSON.stringify(root, null, 2),
+        // );
 
         let upo = {};
         if (root.UPO) {
@@ -114,7 +127,7 @@ export class Create {
           purchaseOrder.TotalAmount = purchaseOrder.POs.reduce(
             (sum, po) =>
               sum + ((po.POHeader && po.POHeader.GrandTotalAfterTax) || 0),
-            0
+            0,
           );
         }
 
@@ -153,16 +166,19 @@ export class Create {
           delete scanResultToSend.UnitReceiptNote;
         }
 
-        console.log(
-          "[Verifikasi SPB] ScanResult (template) yang akan dikirim:",
-          JSON.stringify(scanResultToSend, null, 2)
-        );
+        // console.log(
+        //   "[Verifikasi SPB] ScanResult (template) yang akan dikirim:",
+        //   JSON.stringify(scanResultToSend, null, 2),
+        // );
       }
 
       const response = await this.service.postCompareUPO(selected, {
         scanResult: scanResultToSend ? JSON.stringify(scanResultToSend) : null,
         file: file,
       });
+
+      // console.log("FULL RESPONSE FROM API:", response);
+      // console.log("RESPONSE.DATA:", response && response.data);
 
       if (
         scanResultToSend &&
@@ -176,22 +192,19 @@ export class Create {
 
       this.isScanning = false;
 
-      let status = response && (response.status || response.statusCode);
-      if (typeof status === "string") status = parseInt(status);
-      if (status === 200) {
-        if (window.confirm("Selamat Hasil Pengecekan Dokumen SPB Sama!")) {
-          this.router.navigateToRoute("list");
-        }
-      } else if (status === 201) {
-        if (
-          window.confirm(
-            "Hasil Pengecekan Data Selesai, Terdapat Data yang berbeda."
-          )
-        ) {
+      const remark = response && response.data && response.data.remark;
+      // console.log(remark);
+      
+      if (remark === 1) {
+        if (window.confirm("Selamat! Hasil Pengecekan Dokumen SPB Sama!")) {
           this.router.navigateToRoute("list");
         }
       } else {
-        if (window.confirm("Hasil pengecekan selesai.")) {
+        if (
+          window.confirm(
+            "Hasil Pengecekan Data Selesai, Terdapat Data yang berbeda.",
+          )
+        ) {
           this.router.navigateToRoute("list");
         }
       }

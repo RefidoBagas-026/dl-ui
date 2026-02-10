@@ -140,7 +140,7 @@ export class DataForm {
             for(let item of deliveryOrder.items) {
                 for (let detail of item.fulfillments) {
                     let correctionNoteItem = {};
-console.log(detail)
+//console.log(detail)
                     correctionNoteItem.DODetailId = detail.Id;
 
                     correctionNoteItem.EPOId = item.purchaseOrderExternal.Id;

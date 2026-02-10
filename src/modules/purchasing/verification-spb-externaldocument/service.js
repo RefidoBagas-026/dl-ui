@@ -31,25 +31,28 @@ export class Service extends RestService {
       });
   }
 
-  uploadFile(file) {
+  uploadFile(file, spbObj) {
     if (!file) {
       return Promise.reject(new Error("File is required"));
     }
     const formData = new FormData();
     formData.append("file", file);
-    return this.endpoint.client
-      .fetch(serviceUriScan, {
-        method: "POST",
-        body: formData,
-      })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Upload failed: ${response.status} ${response.statusText}`
-          );
-        }
-        return response.json();
-      });
+    formData.append("UPO", JSON.stringify(spbObj));
+    return super.post(serviceUriScan, formData);
+
+    // return this.endpoint.client
+    //   .fetch(serviceUriScan, {
+    //     method: "POST",
+    //     body: formData,
+    //   })
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error(
+    //         `Upload failed: ${response.status} ${response.statusText}`,
+    //       );
+    //     }
+    //     return response.json();
+    //   });
   }
 
   /**
@@ -174,7 +177,7 @@ export class Service extends RestService {
     if (!scanResult && !file) {
       alert("Either scanResult or file must be provided");
       return Promise.reject(
-        new Error("Either scanResult or file must be provided")
+        new Error("Either scanResult or file must be provided"),
       );
     }
 
@@ -192,12 +195,12 @@ export class Service extends RestService {
               throw new Error(
                 `Compare UPO failed: ${response.status} - ${
                   err.message || JSON.stringify(err)
-                }`
+                }`,
               );
             })
             .catch(() => {
               throw new Error(
-                `Compare UPO failed: ${response.status} ${response.statusText}`
+                `Compare UPO failed: ${response.status} ${response.statusText}`,
               );
             });
         }
@@ -235,24 +238,43 @@ export class LocalService extends RestService {
     super(http, aggregator, config, "purchasing-local-azure");
   }
 
-  uploadFile(file) {
+  getSPBData(spbId) {
+    console.log("Getting SPB data for ID:", spbId);
+    var endpoint = `${serviceUri}/${spbId}`;
+    return super
+      .get(endpoint)
+      .then((data) => {
+        console.log("SPB data received:", data);
+        return data;
+      })
+      .catch((error) => {
+        console.error("Error getting SPB data:", error);
+        throw error;
+      });
+  }
+
+  uploadFile(file, spbObj) {
     if (!file) {
       return Promise.reject(new Error("File is required"));
     }
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("UPO", JSON.stringify(spbObj));
     return this.endpoint.client
       .fetch(serviceUriScan, {
         method: "POST",
         body: formData,
       })
-      .then((response) => {
+      .then(async (response) => {
+        const result = await response.json(); 
         if (!response.ok) {
-          throw new Error(
-            `Upload failed: ${response.status} ${response.statusText}`
-          );
+          alert(result.message || "Upload failed");
+          return result; 
         }
-        return response.json();
+        if (result.data && result.data.alreadyChecked === true) {
+          return result;
+        }
+        return result;
       });
   }
 
@@ -380,7 +402,7 @@ export class LocalService extends RestService {
     if (!scanResult && !file) {
       alert("Either scanResult or file must be provided");
       return Promise.reject(
-        new Error("Either scanResult or file must be provided")
+        new Error("Either scanResult or file must be provided"),
       );
     }
 
@@ -398,12 +420,12 @@ export class LocalService extends RestService {
               throw new Error(
                 `Compare UPO failed: ${response.status} - ${
                   err.message || JSON.stringify(err)
-                }`
+                }`,
               );
             })
             .catch(() => {
               throw new Error(
-                `Compare UPO failed: ${response.status} ${response.statusText}`
+                `Compare UPO failed: ${response.status} ${response.statusText}`,
               );
             });
         }

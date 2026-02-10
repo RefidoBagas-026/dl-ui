@@ -1,0 +1,129 @@
+<template>
+    <au-input-form 
+        title.bind="title" 
+        with.bind="context">
+
+        <div class="row">
+            <div class="col-md-6">
+                 <au-textbox 
+                    label="Nomor Disposisi" 
+                    value.bind="data.dispositionNo" 
+                    error.bind="error.dispositionNo" 
+                    read-only.bind="true"
+                    if.bind="(readOnly || isEdit)"
+                    options.bind="controlOptions">
+                </au-textbox>
+                
+                <au-textbox
+                    label="Kepada"
+                    value.bind="data.to"
+                    error.bind="error.to"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+
+                <au-textbox
+                    label="Jabatan Kepada"
+                    value.bind="data.toPosition"
+                    error.bind="error.toPosition"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+                
+                <au-datepicker 
+                    label="Tgl. Disposisi" 
+                    value.bind="data.dispositionDate" 
+                    error.bind="error.dispositionDate" 
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+                </au-datepicker>
+                <au-textbox
+                    label="Alasan Disposisi"
+                    value.bind="data.reasonDisposition"
+                    error.bind="error.reasonDisposition"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+                 <au-textbox
+                    label="Refer To"
+                    value.bind="data.referTo"
+                    error.bind="error.referTo"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+                 <au-textbox
+                    label="Term Of Payment"
+                    value.bind="data.termOfPayment"
+                    error.bind="error.termOfPayment"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+                 <au-textbox
+                    label="Term Of Shipment"
+                    value.bind="data.termOfShipment"
+                    error.bind="error.termOfShipment"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+            </div>
+            <div class="col-md-6">
+                 <au-textbox
+                    label="Account Name"
+                    value.bind="data.accountName"
+                    error.bind="error.accountName"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+                 <au-textbox
+                    label="Account Number"
+                    value.bind="data.accountNumber"
+                    error.bind="error.accountNumber"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+                 <au-textbox
+                    label="Beneficiary Bank"
+                    value.bind="data.beneficiaryBank"
+                    error.bind="error.beneficiaryBank"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+                 <au-textbox
+                    label="Bank Address"
+                    value.bind="data.bankAddress"
+                    error.bind="error.bankAddress"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+                 <au-textbox
+                    label="Swift Code"
+                    value.bind="data.swiftCode"
+                    error.bind="error.swiftCode"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+            </div>
+        </div>
+
+        <au-textbox error.bind="error.itemscount" read-only.bind="true"></au-textbox>
+
+        <au-collection 
+            items.bind="data.items" 
+            errors.bind="error.items"
+            columns.bind="items.columns"
+            options.bind="options"
+            read-only.bind="readOnly" 
+            if.bind="isItem"
+            header-template="modules/purchasing/purchasing-disposition-purchase/template/disposition-item-header"
+            item-template="modules/purchasing/purchasing-disposition-purchase/template/disposition-item">
+        </au-collection>
+    
+        <div slot="actions" class="btn-group">
+            <button type="button" class="btn btn-default" click.delegate="context.cancel($event)"     if.one-way="context.hasCancel">Kembali</button>
+            <button type="button" class="btn btn-primary" click.delegate="context.edit($event)"    if.bind="context.hasEdit">Ubah</button>
+            <button type="button" class="btn btn-success" click.delegate="context.save($event)"       if.one-way="context.hasSave">Simpan</button>
+            <button type="button" class="btn btn-danger"  click.delegate="context.delete($event)"   if.bind="context.hasDelete">Hapus</button>
+            <button class="btn btn-primary" click.delegate="context.unpost($event)" if.one-way="context.hasUnpost && !data.isApprovedLevel1">Unpost</button>
+        </div>
+  </au-input-form>
+</template>

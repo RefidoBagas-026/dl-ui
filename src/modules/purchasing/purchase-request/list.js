@@ -9,8 +9,10 @@ export class List {
   dataToBePosted = [];
 
   rowFormatter(data, index) {
-    if (data.isPosted)
+    if (data.isPosted && data.isUpdatePricePurchasing && data.isApprovedManager && data.isApprovedGeneralManager && data.isApprovedAnggaran)
       return { classes: "success" }
+    else if (data.isPosted)
+      return { classes: "danger" }
     else
       return {}
   }
@@ -40,7 +42,14 @@ export class List {
       formatter: function (value, row, index) {
         return value ? "SUDAH" : "BELUM";
       }
-    }
+    },
+    { field: "IsUnit1Label", title: "Approval Unit 1" },
+    { field: "IsUnit2Label", title: "Approval Unit 2" },
+    { field: "IsUpdatePriceLabel", title: "Approval Pembelian" },
+    { field: "IsApprovedManagerLabel", title: "Approval Manager" },
+    { field: "IsApprovedGMLabel", title: "Approval GM Pembelian" },
+    { field: "IsApprovedAnggaranLabel", title: "Approval Anggaran" },
+
   ];
 
   loader = (info) => {
@@ -52,7 +61,7 @@ export class List {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      select:["date", "no", "unit.division.name","unit.name", "category.name", "isPosted"],
+      select:["date", "no", "unit.division.name","unit.name", "category.name", "isPosted", "isUpdatePricePurchasing", "isApprovedUnit1", "isApprovedUnit2", "isApprovedManager", "isApprovedGeneralManager", "isApprovedAnggaran"],
       order: order
     }
 
@@ -62,6 +71,12 @@ export class List {
             data.Id = data.Id || data._id || 0;
             data.DivisionName = data.unit.division.name;
             data.UnitName = data.unit.name;
+            data.IsUpdatePriceLabel = data.isUpdatePricePurchasing ? "SUDAH" : "BELUM";
+            data.IsUnit1Label = data.isApprovedUnit1 ? "SUDAH" : "BELUM";
+            data.IsUnit2Label = data.isApprovedUnit2 ? "SUDAH" : "BELUM";
+            data.IsApprovedManagerLabel = data.isApprovedManager ? "SUDAH" : "BELUM";
+            data.IsApprovedGMLabel = data.isApprovedGeneralManager ? "SUDAH" : "BELUM";
+            data.IsApprovedAnggaranLabel = data.isApprovedAnggaran ? "SUDAH" : "BELUM";
             data.CategoryName = data.category.name;
         }
         return {
