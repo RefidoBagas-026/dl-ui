@@ -520,33 +520,31 @@ export class DataForm {
                 var remaining = [];
                 var items = [];
                 for (var a of this.items) {
-                    a.remainingBudget = a.Initial;
-                    a.RemainingBudget = parseFloat(a.Initial) - parseFloat(a.budgetUsed.toFixed(4)).toFixed(4);
-                    // if (pr.length == 0) {
-                    //     pr.push(a);
-                    //     //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
-                    //     a.remainingBudget = a.Initial;
-                    //     remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.Initial - parseFloat(a.budgetUsed.toFixed(4));
-                    //     a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
-                    //     //a.remainingBudget=remaining[a.PRNo + a.Product.Id]-a.budgetUsed;
-                    //     //remaining[a.PRNo + a.Product.Id]=a.remainingBudget;
-                    // }
-                    // else {
-                    //     var dup = pr.find(b => b.PRNo == a.PRNo && b.Product.Id == a.Product.Id && a.PO_SerialNumber == b.PO_SerialNumber);
-                    //     if (dup) {
-                    //         //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
-                    //         a.remainingBudget = remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber];
-                    //         remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.remainingBudget - parseFloat(a.budgetUsed.toFixed(4));
-                    //         a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
-                    //     }
-                    //     else {
-                    //         pr.push(a);
-                    //         //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
-                    //         a.remainingBudget = a.Initial;
-                    //         remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.Initial - parseFloat(a.budgetUsed.toFixed(4));
-                    //         a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
-                    //     }
-                    // }
+                    if (pr.length == 0) {
+                        pr.push(a);
+                        //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
+                        a.remainingBudget = a.Initial;
+                        remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.Initial - parseFloat(a.budgetUsed.toFixed(4));
+                        a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
+                        //a.remainingBudget=remaining[a.PRNo + a.Product.Id]-a.budgetUsed;
+                        //remaining[a.PRNo + a.Product.Id]=a.remainingBudget;
+                    }
+                    else {
+                        var dup = pr.find(b => b.PRNo == a.PRNo && b.Product.Id == a.Product.Id && a.PO_SerialNumber == b.PO_SerialNumber);
+                        if (dup) {
+                            //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
+                            a.remainingBudget = remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber];
+                            remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.remainingBudget - parseFloat(a.budgetUsed.toFixed(4));
+                            a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
+                        }
+                        else {
+                            pr.push(a);
+                            //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
+                            a.remainingBudget = a.Initial;
+                            remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.Initial - parseFloat(a.budgetUsed.toFixed(4));
+                            a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
+                        }
+                    }
                     if (a.RemainingBudget < 0) {
                         a.IsOverBudget = true;
                     }
@@ -564,41 +562,31 @@ export class DataForm {
             var remaining = [];
             var items = [];
             for (var a of this.data.Items) {
-                a.remainingBudget = a.Initial;
-                a.RemainingBudget = parseFloat(a.Initial) - parseFloat(a.budgetUsed.toFixed(4)).toFixed(4);
-                // if (pr.length == 0) {
-                //     pr.push(a);
-                //     //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
-                //     a.remainingBudget = a.Initial;
-                //     remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.Initial - parseFloat(a.budgetUsed.toFixed(4));
-                //     a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
-                //     //a.remainingBudget=remaining[a.PRNo + a.Product.Id]-a.budgetUsed;
-                //     //remaining[a.PRNo + a.Product.Id]=a.remainingBudget;
-                //     console.log(pr);
-                // }
-                // else {
-                //     pr.push(a);
-                //         //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
-                //         a.remainingBudget = a.Initial;
-                //         remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.Initial - parseFloat(a.budgetUsed.toFixed(4));
-                //         a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
-                //     // var dup = pr.find(b => b.PRNo == a.PRNo && b.Product.Id == a.Product.Id && a.PO_SerialNumber == b.PO_SerialNumber);
-                //     // if (dup) {
-                //     //     //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
-                //     //     a.remainingBudget = remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber];
-                //     //     remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.remainingBudget - parseFloat(a.budgetUsed.toFixed(4));
-                //     //     a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
-                //     //     console.log(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber]);
-                //     //     console.log(a.RemainingBudget);
-                //     // }
-                //     // else {
-                //     //     pr.push(a);
-                //     //     //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
-                //     //     a.remainingBudget = a.Initial;
-                //     //     remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.Initial - parseFloat(a.budgetUsed.toFixed(4));
-                //     //     a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
-                //     // }
-                // }
+                if (pr.length == 0) {
+                    pr.push(a);
+                    //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
+                    a.remainingBudget = a.Initial;
+                    remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.Initial - parseFloat(a.budgetUsed.toFixed(4));
+                    a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
+                    //a.remainingBudget=remaining[a.PRNo + a.Product.Id]-a.budgetUsed;
+                    //remaining[a.PRNo + a.Product.Id]=a.remainingBudget;
+                }
+                else {
+                    var dup = pr.find(b => b.PRNo == a.PRNo && b.Product.Id == a.Product.Id && a.PO_SerialNumber == b.PO_SerialNumber);
+                    if (dup) {
+                        //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
+                        a.remainingBudget = remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber];
+                        remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.remainingBudget - parseFloat(a.budgetUsed.toFixed(4));
+                        a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
+                    }
+                    else {
+                        pr.push(a);
+                        //a.budgetUsed=a.PricePerDealUnit*a.DealQuantity*this.kurs.Rate;
+                        a.remainingBudget = a.Initial;
+                        remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber] = a.Initial - parseFloat(a.budgetUsed.toFixed(4));
+                        a.RemainingBudget = parseFloat(remaining[a.PRNo + a.Product.Id + a.PO_SerialNumber].toFixed(4));
+                    }
+                }
 
                 if (a.UENItemId) {
                     a.RemainingBudget = parseFloat((a.BudgetFromUEN - parseFloat(a.budgetUsed.toFixed(4))).toFixed(4));
