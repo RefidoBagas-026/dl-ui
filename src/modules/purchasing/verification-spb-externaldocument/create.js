@@ -31,8 +31,8 @@ export default class Create {
     }
     //console.log("Selected UPO untuk diproses:", selected);
 
-    const scanResult = dataForm && dataForm.scanResult;
-    const file = dataForm && dataForm.selectedFile;
+    let scanResult = dataForm && dataForm.scanResult;
+    let file = dataForm && dataForm.selectedFile;
     if (!scanResult && !file) {
       alert("Pastikan anda mengupload File Dokumen Eksternal");
       return;
@@ -40,8 +40,6 @@ export default class Create {
 
     this.isScanning = true;
     try {
-      console.log("[Verifikasi SPB] JSON UPO yang akan dikirim:");
-      console.log(JSON.stringify(selected, null, 2));
       if (file && !scanResult) {
         try {
           const uploadResult = await this.service.uploadFile(
@@ -68,7 +66,6 @@ export default class Create {
       }
 
       let scanResultToSend = {};
-
       if (scanResult) {
         let raw = scanResult;
         if (typeof scanResult === "object" && scanResult.result) {
@@ -169,12 +166,6 @@ export default class Create {
           delete scanResultToSend.UnitReceiptNote;
         }
 
-        console.log(
-          "[Verifikasi SPB] ScanResult (template) yang akan dikirim:",
-          JSON.stringify(scanResultToSend, null, 2)
-        );
-      } else if (file) {
-        console.log("[Verifikasi SPB] File PDF yang dipilih:", file.name);
         // console.log(
         //   "[Verifikasi SPB] ScanResult (template) yang akan dikirim:",
         //   JSON.stringify(scanResultToSend, null, 2),
