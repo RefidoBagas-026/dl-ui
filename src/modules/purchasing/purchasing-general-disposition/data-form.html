@@ -151,10 +151,12 @@
         <au-collection 
             items.bind="data.Items" 
             errors.bind="error.Items"
-            columns.bind="items.columns"
-            options.bind="options"
+            columns.bind="ItemsNewDisposition.columns"
+            add.bind="ItemsNewDisposition.onAdd"
+            onRemove.bind="ItemsNewDisposition.onRemove"
+            options.bind="ItemsNewDisposition.options"
             read-only.bind="readOnly" 
-            if.bind="isItem && TypeDisposition === 'Disposisi Baru'"
+            if.bind="isItem && TypeDisposition === 'Disposisi Baru'" responsive.bind="true"
             header-template="modules/purchasing/purchasing-general-disposition/template/disposition-new-header"
             item-template="modules/purchasing/purchasing-general-disposition/template/disposition-new-item">
         </au-collection>
@@ -162,15 +164,19 @@
         <au-collection 
             items.bind="data.Items" 
             errors.bind="error.Items"
-            columns.bind="items.columns"
-            options.bind="options"
+            columns.bind="ItemsPriceIncreaseDisposition.columns"
+            add.bind="ItemsPriceIncreaseDisposition.onAdd"
+            onRemove.bind="ItemsPriceIncreaseDisposition.onRemove"
+            options.bind="ItemsPriceIncreaseDisposition.options"
             read-only.bind="readOnly" 
-            if.bind="isItem && TypeDisposition === 'Disposisi Kenaikan Harga'"
+            if.bind="isItem && TypeDisposition === 'Disposisi Kenaikan Harga'" responsive.bind="true"
             header-template="modules/purchasing/purchasing-general-disposition/template/disposition-price-increases-header"
             item-template="modules/purchasing/purchasing-general-disposition/template/disposition-price-increases-item">
         </au-collection>
     
-        <div class="row" if.bind="isItem && TypeDisposition === 'Disposisi Baru' || TypeDisposition === 'Disposisi Kenaikan Harga'">
+        
+
+        <div class="row" if.bind="isItem && (TypeDisposition === 'Disposisi Baru' || TypeDisposition === 'Disposisi Kenaikan Harga')">
       <div class="col-md-6">
         <h4>File Dokumen</h4>
         <table class="table table-hover table-bordered">

@@ -31,15 +31,16 @@
                 error.bind="error.ProductCurrency"
                 loader.bind="currencyLoader"
                 placeholder="cari mata uang" 
-                text="Code"
+                text="code"
                 key="Id"
                 read-only.bind="readOnly">
             </au-autocomplete>
         </td>
+        
         <td>
             <au-numeric 
                 value.bind="data.ProductPrice"
-                read-only.bind="readOnly"
+                read-only.bind="true"
                 error.bind="error.ProductPrice">
             </au-numeric>
         </td>
@@ -87,7 +88,21 @@
         </td>
         
         <td if.bind="!readOnly">
-            <button type="button" click.delegate="options.remove(data)" class="btn btn-danger btn-sm">-</button>
+            <button type="button" click.delegate="onremove(data, $event)" class="btn btn-danger btn-sm">-</button>
+        </td>
+    </tr>
+    <tr style="padding: 5px; background-color: #e2e2e2; justify-content:start;"
+        show.bind="!readOnly && (data.SupplierName1 && data.SupplierPrice1>0) || (data.SupplierName2 && data.SupplierPrice2>0) || (data.SupplierName3 && data.SupplierPrice3>0)">
+        <td colspan="12" style="border: none; padding: 10px;">
+            <au-dropdown
+                value.bind="selectedSupplier" 
+                label="Pilih Supplier" 
+                items.one-way="supplierList"
+                key="id" 
+                text="label"
+                change.delegate="supplierChanged($event)"
+                options.bind="controlOptions">
+            </au-dropdown>
         </td>
     </tr>
 </template>

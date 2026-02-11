@@ -29,8 +29,8 @@ export class List {
         },
         { field: "TypeDisposition", title: "Tipe Disposisi" },
         { field: "IsPostedLabel", title: "Status Posting" },
-        { field: "IsApprovedUnit1Label", title: "Approval Unit 1" },
-        { field: "IsApprovedUnit2Label", title: "Approval Unit 2" },
+        { field: "IsApprovedUnit1Label", title: "Approval Pimpinan 1" },
+        { field: "IsApprovedUnit2Label", title: "Approval Pimpinan 2" },
         { field: "IsApprovedGMLabel", title: "Approval GM Purchasing" },
         { field: "ReasonRejected", title: "Alasan Reject" }
     ];

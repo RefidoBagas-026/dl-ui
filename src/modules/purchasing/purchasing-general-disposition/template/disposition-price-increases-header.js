@@ -9,19 +9,11 @@ export default class DisposisiKenaikanHargaHeader {
 
   activate(context) {
     this.context = context;
+    console.log(this.context);
     this.data = context.data;
     this.items = context.items;
-    this.options = context.options;
+    this.options = context.options.options || {};
+    console.log(this.options);
     this.readOnly = this.options.readOnly;
-  }
-
-   addItem() {
-    if (
-      this.context &&
-      this.context.options &&
-      typeof this.context.options.add === 'function'
-    ) {
-      this.context.options.add();
-    }
   }
 }
