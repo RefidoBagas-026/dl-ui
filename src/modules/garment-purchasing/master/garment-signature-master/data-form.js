@@ -11,6 +11,7 @@ export class DataForm {
     @bindable title;
     @bindable selectedAccount;
     @bindable options = { readOnly: false };
+    //@bindable isEdit = false;
 
     get accountLoader() {
         return AccountLoader;

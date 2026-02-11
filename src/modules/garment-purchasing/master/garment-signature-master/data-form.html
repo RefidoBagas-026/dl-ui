@@ -3,14 +3,14 @@
     <au-input-form title.bind="title" with.bind="context">
         <div slot="actions" class="btn-group">
             <button class="btn btn-default" click.delegate="context.cancel($event)" if.one-way="context.hasCancel">Kembali</button>
-            <!-- <button class="btn btn-primary" click.delegate="context.edit($event)" if.one-way="context.hasEdit">Ubah</button> -->
+            <button class="btn btn-primary" click.delegate="context.edit($event)" if.one-way="context.hasEdit">Ubah</button>
             <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Simpan</button>
             <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button>
         </div>
         <au-autocomplete value.bind="selectedAccount" 
             error.bind="error.UserName" label="User Name" 
             loader.bind="accountLoader" text="username"
-            placeholder="cari user name" key="username" read-only.bind="readOnly" 
+            placeholder="cari user name" key="username" read-only.bind=" readOnly || isEdit" 
             options.bind="controlOptions" >
         </au-autocomplete>
         <au-textbox label="First Name" if.bind="selectedAccount"
@@ -25,8 +25,12 @@
             value.bind="selectedUnit" 
             error.bind="error.Unit" loader.bind="unitLoader"
             text.bind="unitView" placeholder="Unit" 
-            read-only.bind="readOnly" options.bind="controlOptions">
+            read-only.bind="readOnly || isEdit" options.bind="controlOptions">
         </au-autocomplete>
+        <au-textbox label="Jabatan"
+            value.bind="data.Position" error.bind="error.Position" 
+            read-only.bind="readOnly" options.bind="controlOptions">
+        </au-textbox>
         <!-- Upload Signature -->
         <div class="form-group row align-items-center">
             <label class="col-sm-4 col-form-label text-right">Signature</label>
