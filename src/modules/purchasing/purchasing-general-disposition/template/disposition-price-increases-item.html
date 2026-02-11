@@ -120,7 +120,7 @@
             </au-numeric>
         </td>
         <td if.bind="!readOnly">
-            <button type="button" click.delegate="options.remove(data)" class="btn btn-danger btn-sm">-</button>
+            <button type="button" click.delegate="onremove(data, $event)" class="btn btn-danger btn-sm">-</button>
         </td>
     </tr>
 </template>

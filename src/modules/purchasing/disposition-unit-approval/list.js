@@ -72,13 +72,15 @@ export class List {
             case "unit1":
                 this.filter = {
                     IsPosted: true,
-                    IsApprovedUnit1: false
+                    IsApprovedUnit1: false,
+                    ApprovedUnit1By: username
                 };
                 break;
             case "unit2":
                 this.filter = {                 
                     IsApprovedUnit1: true,
-                    IsApprovedUnit2: false
+                    IsApprovedUnit2: false,
+                    ApprovedUnit2By: username
                 };
                 break;
             case "gm":

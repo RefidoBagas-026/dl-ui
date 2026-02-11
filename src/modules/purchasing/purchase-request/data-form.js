@@ -2,11 +2,14 @@ import {inject, bindable, computedFrom} from 'aurelia-framework'
 var UnitLoader = require('../../../loader/unit-loader');
 var BudgetLoader = require('../../../loader/budget-loader');
 var CategoryLoader = require('../../../loader/category-loader');
+var accountSignatureLoader = require('../../../loader/garment-account-signature-loader');
 
 export class DataForm {
     @bindable readOnly = false;
     @bindable data = {};
     @bindable error = {};
+    @bindable IsApprovedUnit1;
+    @bindable IsApprovedUnit2;
     // @bindable prInternal;
 
     @bindable title;
@@ -24,7 +27,12 @@ export class DataForm {
         this.context = context;
         this.data = this.context.data;
         this.error = this.context.error;
-
+        this.IsApprovedUnit1 ={
+            UserName: this.data.approvedUnit1By || ""
+        };
+        this.IsApprovedUnit2 = {
+            UserName: this.data.approvedUnit2By || ""
+        };
         // if(this.data.internal){
         //     this.prInternal = this.data.internal;
         // }
@@ -89,4 +97,38 @@ export class DataForm {
             this.data.items.push({})
         };
     }
+
+    get accountSignatureLoader1() {
+          return (keyword) => accountSignatureLoader(keyword, { UserName: "TIKA" }); //Username ganti dengan jabatan atau posisi dari Account Signature yang diinginkan
+        }
+    
+        get accountSignatureLoader2() {
+          return (keyword) => accountSignatureLoader(keyword); //Username ganti dengan jabatan atau posisi dari Account Signature yang diinginkan
+        }
+        ApprovedUnit1View = (unit) => {
+            return `${unit.UserName}`;
+        }
+        ApprovedUnit2View = (unit) => {
+            return `${unit.UserName}`;
+        }
+    
+        IsApprovedUnit1Changed(newValue) {
+          this.IsApprovedUnit1 = newValue;
+          if (this.IsApprovedUnit1){
+            this.data.ApprovedUnit1By = this.IsApprovedUnit1.UserName;
+          }else{
+            this.data.ApprovedUnit1By = "";
+            this.IsApprovedUnit1 = null;
+          }
+        }
+    
+        IsApprovedUnit2Changed(newValue) {
+          this.IsApprovedUnit2 = newValue;
+          if (this.IsApprovedUnit2) {
+            this.data.ApprovedUnit2By = this.IsApprovedUnit2.UserName;
+          }else{
+            this.data.ApprovedUnit2By = "";
+            this.IsApprovedUnit2 = null;
+          }
+        }
 }

@@ -34,6 +34,29 @@
                     read-only.bind="readOnly" 
                     options.bind="controlOptions">
                 </au-multiline>
+
+                 <au-autocomplete 
+                    label="Pimpinan 1"
+                    value.bind="IsApprovedUnit1" 
+                    error.bind="error.ApprovedUnit1By"
+                    loader.bind="accountSignatureLoader1"
+                    placeholder="Cari Pimpinan 1" 
+                    text.bind="ApprovedUnit1View"
+                    key="Id"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+                </au-autocomplete>
+                <au-autocomplete 
+                    label="Pimpinan 2"
+                    value.bind="IsApprovedUnit2" 
+                    error.bind="error.ApprovedUnit2By"
+                    loader.bind="accountSignatureLoader2"
+                    placeholder="Cari Pimpinan 2" 
+                    text.bind="ApprovedUnit2View"
+                    key="Id"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+                </au-autocomplete>
             </div>
     </div>
 

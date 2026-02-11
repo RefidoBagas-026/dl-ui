@@ -155,8 +155,8 @@
             options.bind="options"
             read-only.bind="readOnly" 
             if.bind="isItem && TypeDisposition === 'Disposisi Baru'"
-            header-template="modules/purchasing/purchasing-general-disposition/template/disposition-new-header"
-            item-template="modules/purchasing/purchasing-general-disposition/template/disposition-new-item">
+            header-template="modules/purchasing/purchasing-general-disposition-all/template/disposition-new-header"
+            item-template="modules/purchasing/purchasing-general-disposition-all/template/disposition-new-item">
         </au-collection>
 
         <au-collection 
@@ -166,8 +166,8 @@
             options.bind="options"
             read-only.bind="readOnly" 
             if.bind="isItem && TypeDisposition === 'Disposisi Kenaikan Harga'"
-            header-template="modules/purchasing/purchasing-general-disposition/template/disposition-price-increases-header"
-            item-template="modules/purchasing/purchasing-general-disposition/template/disposition-price-increases-item">
+            header-template="modules/purchasing/purchasing-general-disposition-all/template/disposition-price-increases-header"
+            item-template="modules/purchasing/purchasing-general-disposition-all/template/disposition-price-increases-item">
         </au-collection>
     
         <div class="row" if.bind="isItem">

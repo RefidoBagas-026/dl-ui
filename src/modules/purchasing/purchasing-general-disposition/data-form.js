@@ -22,8 +22,8 @@ export class DataForm {
   @bindable unit;
   @bindable TypeDisposition;
 
+  selectedSupplier = null;
   dispositionTypes = [" ","Disposisi Baru", "Disposisi Kenaikan Harga"];
-
   controlOptions = {
     label: {
       align: "right",
@@ -48,38 +48,22 @@ export class DataForm {
   bind(context) {
     this.context = context;
     this.data = this.context.data;
-    this.error = this.context.error;
+    this.error = this.context.error || {};
     this.isItem = false;
     this.isEdit = this.data.Id ? true : false;
 
     if (!this.data.Items) {
       this.data.Items = [];
     }
-    if (this.data.Items)
+    if (!this.error.Items) {
+      this.error.Items = [];
+    }
     if (this.data.Items && this.data.Items.length > 0) {
       this.isItem = true;
     }
-    if (this.data.Items && this.data.Items.length > 0) {
-      for (let it of this.data.Items) {
-        this.subscribeItem(it);
-      }
-    }
+
     this.options.readOnly = this.readOnly;
     this.options.isEdit = this.isEdit;
-    this.options.add = () => {
-      this.addItems();
-    };
-
-    this.options.calculateTotalPrice = (item) => {
-      this.calculateTotalPrice(item);
-    };
-
-    this.options.remove = (item) => {
-      if (!this.data.Items) return;
-      this.unsubscribeItem(item);
-      var index = this.data.Items.indexOf(item);
-      if (index > -1) this.data.Items.splice(index, 1);
-    };
 
     this.readOnlySender = true;
    
@@ -91,62 +75,8 @@ export class DataForm {
   
   }
 
-  addItems() {
-    if (!this.data.Items) {
-      this.data.Items = [];
-    }
-    var item = { 
-      TotalPrice: 0,
-      ProductPrice : 0,
-      PriceDifference: 0,
-      Percentage: 0,
-      IsNew: true
-    };
-    this.data.Items.push(item);
-    this.subscribeItem(item);
-  }
-
-  disposeSubscription(sub) {
-    try {
-      if (sub && typeof sub.dispose === 'function') sub.dispose();
-      else if (typeof sub === 'function') sub();
-    } catch (e) {}
-  }
-
-  observe(item, prop) {
-  try {
-    return this.bindingEngine
-      .propertyObserver(item, prop)
-      .subscribe(() => this.calculateTotalPrice(item));
-  } catch (e) {
-    return null;
-  }
-}
-
-  subscribeItem(item) {
-  if (!item) return;
-
-  const subs = [
-    this.observe(item, 'Quantity'),
-    this.observe(item, 'ProductPrice'),
-    this.observe(item, 'MasterPrice'),
-    this.observe(item, 'UpdatePrice')
-  ].filter(Boolean);
-
-  this._itemSubscriptions.set(item, subs);
-  this.calculateTotalPrice(item);
-}
-
-  unsubscribeItem(item) {
-    const subs = this._itemSubscriptions.get(item) || [];
-    subs.forEach(s => this.disposeSubscription(s));
-    this._itemSubscriptions.delete(item);
-  }
-
-  get items() {
-    if (this.TypeDisposition === "Disposisi Baru") {
-      return {
-        columns: [
+ItemsNewDisposition = {
+    columns: [
           "Kode Barang",
           "Nama Barang",
           "Satuan",
@@ -159,11 +89,33 @@ export class DataForm {
           "Nama Supplier 3",
           "Harga Supplier 3",
         ],
-      };
-      
-    }
-    else if (this.TypeDisposition === "Disposisi Kenaikan Harga") {
-      return { columns: [
+        onAdd: function () {
+          this.data.Items.push({
+            ProductCode: null,
+            ProductName: null,
+            Uom: null,
+            ProductCurrency: null,
+            ProductPrice: 0,
+            Supplier1Name: null,
+            Supplier1Price: 0,
+            Supplier2Name: null,
+            Supplier2Price: 0,
+            Supplier3Name: null,
+            Supplier3Price: 0,
+            IsNew: true
+          }); 
+          this.data.Items.forEach((m, i) => m.itemindex = i);
+        }.bind(this),
+        onRemove: function () {
+          this.data.Items.forEach((m, i) => (m.itemindex = i));
+        }.bind(this),
+        options: {
+          options: this.options,
+        },
+  };
+
+  ItemsPriceIncreaseDisposition = {
+    columns: [
         "Kode Barang",
         "Nama Barang Lama",     
         "Satuan Lama", 
@@ -180,48 +132,83 @@ export class DataForm {
         "Harga Supplier 2", 
         "Nama Supplier 3",
         "Harga Supplier 3",        
-    ] };
+    ],
+    onAdd: function () {
+      this.data.Items.push({
+        ProductCode: null,
+        ProductName: null,
+        Uom: null,
+        ProductCurrency: null,
+        LastPurchaseDate: null,
+        LastPurchasePrice: 0,
+        ProductPrice: 0,
+        UpdatePrice: 0,
+        PriceDifference: 0,
+        Percentage: 0,
+        Supplier1Name: null,
+        Supplier1Price: 0,
+        Supplier2Name: null,
+        Supplier2Price: 0,
+        Supplier3Name: null,
+        Supplier3Price: 0,
+        IsNew: true,
 
-
-    return { columns: [] };
-  }
-}
+      });
+      this.data.Items.forEach((m, i) => m.itemindex = i);
+    }.bind(this),
+    onRemove: function () {
+      this.data.Items.forEach((m, i) => (m.itemindex = i));
+    }.bind(this),
+    options: {
+      options: this.options,
+    },
+  };   
 
   dispositionTypeChanged(event) {
-  // if (
-  //     (this.data.Items && this.data.Items.length) ||
-  //     (this.data.DocumentsFileName && this.data.DocumentsFileName.length)
-  //   ) {
-  //     if (!confirm("Ganti tipe disposisi akan menghapus item dan dokumen. Lanjutkan?")) {
-  //       return;
-  //     }
-  //   }
-
   this.data.TypeDisposition = this.TypeDisposition;
-  this.isItem = !!this.TypeDisposition;
-
-  if (this._itemSubscriptions) {
-    for (const subs of this._itemSubscriptions.values()) {
-      subs.forEach(s => this.disposeSubscription(s));
-    }
-    this._itemSubscriptions.clear();
+  
+  // Set isItem false dulu untuk destroy collection
+  this.isItem = false;
+  
+  // Pastikan error ada
+  if (!this.error) {
+    this.error = {};
   }
   
-  if (!this.data.Items) {
-    this.data.Items = [];
+  // Reset error.Items DULU sebelum splice data.Items
+  if (this.error.Items && Array.isArray(this.error.Items)) {
+    this.error.Items.splice(0);
   } else {
-    this.data.Items.length = 0;
-  }
-
-
-  if (this.error) {
     this.error.Items = [];
   }
-
+  
+  this.data.Items.splice(0);
+  
+  // Reset semua property error menjadi null/kosong
+  Object.keys(this.error).forEach(key => {
+    if (key !== 'Items') {
+      delete this.error[key];
+    }
+  });
+  
+  // Reset juga context.error agar binding tetap sinkron
+  if (this.context && this.context.error) {
+    if (this.context.error.Items && Array.isArray(this.context.error.Items)) {
+      this.context.error.Items.splice(0);
+    }
+    Object.keys(this.context.error).forEach(key => {
+      if (key !== 'Items') {
+        delete this.context.error[key];
+      }
+    });
+  }
+  
   this.resetDocuments();
-  //  this.taskQueue.queueMicroTask(() => {
-  //   this.isItem = true;
-  // });
+  
+  // Re-enable collection setelah reset
+  this.taskQueue.queueMicroTask(() => {
+    this.isItem = !!this.TypeDisposition;
+  });
 }
 
  resetDocuments() {
@@ -255,21 +242,11 @@ export class DataForm {
     }
   }
 
-  unbind() {
-      this.disposeSubscription(this.expenditureDateSubscription);
-      if (!this._itemSubscriptions) return;
-      for (const subs of this._itemSubscriptions.values()) {
-        subs.forEach(s => this.disposeSubscription(s));
-      }
-      this._itemSubscriptions.clear();
-    }
-
   onAddDocument() {
       this.data.DocumentsFile.push("");
       this.data.DocumentsFileName.push("");
       this.documentsPathTemp.push("");
       
-      // Initialize error array if not exists
       if (!this.error.DocumentsFile) {
           this.error.DocumentsFile = [];
       }
@@ -501,6 +478,5 @@ export class DataForm {
               alert('Preview not supported for this file type.');
           }
       }
-
 }
 
