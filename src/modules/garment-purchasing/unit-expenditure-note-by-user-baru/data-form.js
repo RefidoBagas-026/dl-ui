@@ -158,7 +158,7 @@ export class DataForm {
       IsUsed: false,
     };
     unitDeliveryOrderFilter[`UnitDOType== "${this.data.ExpenditureType}"`] = true;
-    unitDeliveryOrderFilter[`CreatedBy== "${username}"`] = true;
+    //unitDeliveryOrderFilter[`CreatedBy== "${username}"`] = true;
     return unitDeliveryOrderFilter;
   }
 
