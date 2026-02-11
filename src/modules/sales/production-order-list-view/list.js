@@ -33,8 +33,7 @@ export class List {
             formatter: function (value, data, index) {
                 return data.IsClosed ? "Closed" : "Open";
             }
-        },
-        { field: "Account.UserName", title: "Created By" },
+        }
     ];
 
     rowFormatter(data, index) {
