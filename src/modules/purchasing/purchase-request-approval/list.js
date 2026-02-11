@@ -88,6 +88,7 @@ export class List {
                 this.filter = {
                     IsApprovedUnit1: false,
                     IsPosted: true,
+                    ApprovedUnit1By: username
                 };
                 break;
             case "unit2":

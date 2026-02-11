@@ -43,8 +43,8 @@ export class List {
         return value ? "SUDAH" : "BELUM";
       }
     },
-    { field: "IsUnit1Label", title: "Approval Unit 1" },
-    { field: "IsUnit2Label", title: "Approval Unit 2" },
+    { field: "IsUnit1Label", title: "Approval Pimpinan 1" },
+    { field: "IsUnit2Label", title: "Approval Pimpinan 2" },
     { field: "IsUpdatePriceLabel", title: "Approval Pembelian" },
     { field: "IsApprovedManagerLabel", title: "Approval Manager" },
     { field: "IsApprovedGMLabel", title: "Approval GM Pembelian" },
