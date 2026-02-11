@@ -38,7 +38,26 @@ export class Service extends RestService {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("UPO", JSON.stringify(spbObj));
-    return super.post(serviceUriScan, formData);
+    
+    return this.endpoint.client
+      .fetch(serviceUriScan, {
+        method: "POST",
+        body: formData,
+      })
+      .then((response) => {
+        return response.text().then(text => {
+          if (!response.ok) {
+            throw new Error(`Upload failed: ${response.status} ${response.statusText}`);
+          }
+          if (!text) return {};
+          try {
+            return JSON.parse(text);
+          } catch (e) {
+            console.error("Invalid JSON:", text);
+            throw new Error("Invalid response from server");
+          }
+        });
+      });
 
     // return this.endpoint.client
     //   .fetch(serviceUriScan, {
@@ -187,24 +206,29 @@ export class Service extends RestService {
         body: formData,
       })
       .then((response) => {
-        if (!response.ok) {
-          return response
-            .json()
-            .then((err) => {
-              console.log("Backend error detail:", err);
-              throw new Error(
-                `Compare UPO failed: ${response.status} - ${
-                  err.message || JSON.stringify(err)
-                }`,
-              );
-            })
-            .catch(() => {
-              throw new Error(
-                `Compare UPO failed: ${response.status} ${response.statusText}`,
-              );
-            });
-        }
-        return response.json();
+        return response.text().then(text => {
+          if (!response.ok) {
+            let err;
+            try {
+              err = JSON.parse(text);
+            } catch (e) {
+              err = { message: text || response.statusText };
+            }
+            console.log("Backend error detail:", err);
+            throw new Error(
+              `Compare UPO failed: ${response.status} - ${
+                err.message || JSON.stringify(err)
+              }`,
+            );
+          }
+          if (!text) return {};
+          try {
+            return JSON.parse(text);
+          } catch (e) {
+            console.error("Invalid JSON:", text);
+            throw new Error("Invalid response from server");
+          }
+        });
       })
       .catch((error) => {
         console.error("Error detail:", error);
