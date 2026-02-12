@@ -1381,4 +1381,71 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
+  {
+    route: "/garment/purchasing-debet-note",
+    name: "purchasing-debet-note",
+    moduleId:
+      "./modules/garment-purchasing/purchasing-debet-note/index",
+    nav: true,
+    title: "Nota Debet",
+    auth: true,
+    settings: {
+      group: "g-purchasing",
+      subGroup: "transaksi",
+      // permission: { "C9": 1, "C1B": 1, "C1A": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
+      permission: { H73: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+   {
+        //pinjam permission
+        route: '/garment/purchasing-debet-note-approval/gm',
+        name: 'purchasing-debet-note-approval-gm',
+        moduleId: './modules/garment-purchasing/purchasing-debet-note-approval/index',
+        nav: true,
+        title: 'Debet Note Approval - GM Purchasing',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { H75 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "gm"
+        }
+    },
+    {
+    route: "/garment/purchasing-retur-note",
+    name: "purchasing-retur-note",
+    moduleId:
+      "./modules/garment-purchasing/purchasing-retur-note/index",
+    nav: true,
+    title: "Nota Retur",
+    auth: true,
+    settings: {
+      group: "g-purchasing",
+      subGroup: "transaksi",
+      // permission: { "C9": 1, "C1B": 1, "C1A": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
+      permission: { H74: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  {
+        //pinjam permission
+        route: '/garment/purchasing-retur-note-approval/gm',
+        name: 'purchasing-retur-note-approval-gm',
+        moduleId: './modules/garment-purchasing/purchasing-retur-note-approval/index',
+        nav: true,
+        title: 'Retur Note Approval - GM Purchasing',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { H76 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "gm"
+        }
+    },
+
 ];
