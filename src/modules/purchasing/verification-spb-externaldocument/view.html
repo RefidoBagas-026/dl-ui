@@ -1,6 +1,6 @@
 <template>
   <require from="./validation-status-converter"></require>
-  
+
   <au-input-form title="Detail SPB" with.bind="context">
     <au-comparison
       label="Nomor SPB"
@@ -134,19 +134,21 @@
     </au-table> -->
 
     <!-- Tabel Nomor Bon Unit, selalu tampil -->
-    <au-table
-      id="urnTable"
-      data.bind="filteredURNs"
-      columns.bind="urnsColumns"
-      options.bind="urnTableOptions"
-    >
-    </au-table>
-
+    <div class="table-section">
+      <label class="section-label" for="urnTable">Daftar Nomor URN</label>
+      <au-table
+        id="urnTable"
+        data.bind="filteredURNs"
+        columns.bind="urnsColumns"
+        options.bind="urnTableOptions"
+      ></au-table>
+    </div>
     <au-collection
       if.bind="showURNItemsTable"
       items.bind="urnItemsData"
       columns.bind="urnItemsColumns"
       read-only="true"
+      class="mb-5"
     >
       <template replace-part="item-template">
         <tr>
@@ -158,20 +160,22 @@
     </au-collection>
 
     <!-- Tabel Nomor PR, selalu tampil -->
-    <au-table
-      id="prTable"
-      data.bind="filteredPRs"
-      columns.bind="prsColumns"
-      options.bind="prTableOptions"
-      view-model.ref="prTable"
-    >
-    </au-table>
+    <div class="table-section">
+      <label class="section-label" for="prTable">Daftar Nomor PR</label>
+      <au-table
+        id="prTable"
+        data.bind="filteredPRs"
+        columns.bind="prsColumns"
+        options.bind="prTableOptions"
+      ></au-table>
+    </div>
 
     <au-collection
       if.bind="showPRItemsTable"
       items.bind="prItemsData"
       columns.bind="prItemsColumns"
       read-only="true"
+      class="mb-5"
     >
       <template replace-part="item-template">
         <tr>
@@ -183,20 +187,22 @@
     </au-collection>
 
     <!-- Tabel Nomor PO, selalu tampil -->
-    <au-table
-      id="poTable"
-      data.bind="filteredPOs"
-      columns.bind="posColumns"
-      options.bind="poTableOptions"
-      view-model.ref="poTable"
-    >
-    </au-table>
+    <div class="table-section">
+      <label class="section-label" for="poTable">Daftar Nomor PO</label>
+      <au-table
+        id="poTable"
+        data.bind="filteredPOs"
+        columns.bind="posColumns"
+        options.bind="poTableOptions"
+      ></au-table>
+    </div>
 
     <au-collection
       if.bind="showPOItemsTable"
       items.bind="poItemsData"
       columns.bind="poItemsColumns"
       read-only="true"
+      class="mb-5"
     >
       <template replace-part="item-template">
         <tr>
