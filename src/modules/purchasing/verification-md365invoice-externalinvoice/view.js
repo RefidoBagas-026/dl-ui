@@ -247,7 +247,8 @@ export class View {
     const list = Array.isArray(window.listData) ? window.listData : [];
     const row = list.find(x => String(x.Id) === String(id));
     if (!row) return;
-    this.router.navigateToRoute('view', { id: row.Id });
+    const idDecode = Base64Helper.decode(row.Id);
+    this.router.navigateToRoute('view', { id: idDecode });
   }
 
   cancel() {
