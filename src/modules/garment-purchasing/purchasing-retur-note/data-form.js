@@ -130,7 +130,7 @@ export class DataForm {
 
   get items() {
     return { 
-      columns: ["Keterangan", "Kuantum", "Satuan","Harga Satuan", "Harga Jual"] 
+      columns: ["Rincian", "Kuantum", "Satuan","Harga Satuan", "Harga Jual"] 
     };
   }
 
