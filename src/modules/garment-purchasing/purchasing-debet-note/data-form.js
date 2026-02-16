@@ -100,7 +100,7 @@ export class DataForm {
 
 
   get items() {
-    let cols = ["Keterangan", "Jumlah", "Kena PPN", "PPh", "Total"];
+    let cols = ["Rincian", "Jumlah", "Kena PPN", "PPh", "Total"];
     if (this.isEdit) {
       cols.unshift("Tanggal");
     }
