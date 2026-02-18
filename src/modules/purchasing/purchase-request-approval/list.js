@@ -94,7 +94,8 @@ export class List {
             case "unit2":
                 this.filter = {                 
                     IsApprovedUnit1: true,
-                    IsApprovedUnit2: false
+                    IsApprovedUnit2: false,
+                    ApprovedUnit2By: username
                 };
                 break;
              case "purchasing":

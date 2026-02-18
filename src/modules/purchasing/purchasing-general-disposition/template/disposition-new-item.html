@@ -91,9 +91,10 @@
             <button type="button" click.delegate="onremove(data, $event)" class="btn btn-danger btn-sm">-</button>
         </td>
     </tr>
-    <tr style="padding: 5px; background-color: #e2e2e2; justify-content:start;"
-        show.bind="!readOnly && (data.SupplierName1 && data.SupplierPrice1>0) || (data.SupplierName2 && data.SupplierPrice2>0) || (data.SupplierName3 && data.SupplierPrice3>0)">
-        <td colspan="12" style="border: none; padding: 10px;">
+   <tr style="padding: 5px; background-color: #e2e2e2; justify-content:start;"
+    show.bind="!readOnly && ((data.SupplierName1 && data.SupplierPrice1>0) || (data.SupplierName2 && data.SupplierPrice2>0) || (data.SupplierName3 && data.SupplierPrice3>0))">
+    <td colspan="17" style="border: none; padding: 10px;">
+        <div style="width: 50%;">
             <au-dropdown
                 value.bind="selectedSupplier" 
                 label="Pilih Supplier" 
@@ -103,6 +104,7 @@
                 change.delegate="supplierChanged($event)"
                 options.bind="controlOptions">
             </au-dropdown>
-        </td>
-    </tr>
+        </div>
+    </td>
+</tr>
 </template>

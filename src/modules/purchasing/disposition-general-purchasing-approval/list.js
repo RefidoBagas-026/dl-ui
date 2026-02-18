@@ -37,8 +37,7 @@ export class List {
         }
 
         const searchMethods = {
-            directurkeu: this.service.searchDirectur,
-            anggaran: this.service.searchAnggaran
+            anggaran: this.service.searchAnggaran,
         };
 
         const searchMethod = searchMethods[this.type] || this.service.search;
@@ -86,12 +85,7 @@ export class List {
                     IsApprovedGeneralManager: false
                 };
                 break;
-            case "directurkeu":
-     
-            this.filter = {};
-            break;
             case "anggaran":
-            
             this.filter = {};
             break;
         

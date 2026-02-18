@@ -68,9 +68,6 @@ export class View {
             case "gm":
                 this.type = "GeneralManager";
                 break;
-            case "directurkeu":
-                this.type = "Directur";
-                break;
             case "anggaran":
                 this.type = "Anggaran";
                 break;
