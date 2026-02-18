@@ -69,12 +69,12 @@ export class View {
             case "level1":
                 this.type = "Level1";
                 break;
-            case "level2":
-                this.type = "Level2";
-                break;
-            case "directurkeu":
-                this.type = "Directur";
-                break;
+            // case "level2":
+            //     this.type = "Level2";
+            //     break;
+            // case "directurkeu":
+            //     this.type = "Directur";
+            //     break;
             default: break;
         }
 
@@ -94,7 +94,6 @@ export class View {
             let no = 0;
             for (let item of this.data.items) {
                 item.no = ++no;
-                //item.IsSave = true;
                 item.productPrice = numeral(item.product.price).format();
                 item.quantity = numeral(item.quantity).format();
                 item.totalPrice = numeral(item.totalPrice).format();

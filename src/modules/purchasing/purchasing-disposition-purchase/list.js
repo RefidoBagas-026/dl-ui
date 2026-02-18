@@ -30,7 +30,6 @@ export class List {
         { field: "typeDisposition", title: "Tipe Disposisi" },
         { field: "IsPostedLabel", title: "Status Posting" },
         { field: "IsApprovedUnit1Label", title: "Approval Level 1" },
-        { field: "IsApprovedUnit2Label", title: "Approval Level 2" },
         { field: "IsApprovedDirecturLabel", title: "Approval Directur" },
         { field: "reasonRejected", title: "Alasan Reject" }
     ];
@@ -38,7 +37,7 @@ export class List {
     rowFormatter(data, index) {
         if (data.reasonRejected) {
             return { classes: "" };
-        } else if (data.isApprovedLevel1 && data.isApprovedLevel2 && (!data.isOverPrice || data.isApprovedDirectur)) {
+        } else if (data.isApprovedLevel1 && (!data.isOverPrice || data.isApprovedDirectur)) {
             return { classes: "success" };
         } else {
             return { classes: "danger" };
@@ -61,7 +60,6 @@ export class List {
                 result.data.map(data => {
                     data.IsPostedLabel  = data.isPosted ? "SUDAH" : "BELUM";
                     data.IsApprovedUnit1Label = data.isApprovedLevel1 ? "SUDAH" : "BELUM";
-                    data.IsApprovedUnit2Label = data.isApprovedLevel2 ? "SUDAH" : "BELUM";
                     data.IsApprovedDirecturLabel = data.isOverPrice ? (data.isApprovedDirectur ? "SUDAH" : "BELUM") : "-";
                     return data;
                 });

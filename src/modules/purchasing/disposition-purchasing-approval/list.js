@@ -36,7 +36,6 @@ export class List {
         }
 
         const searchMethods = {
-            level2: this.service.searchLevel2,
             directurkeu: this.service.searchDirectur
         };
 
@@ -80,16 +79,11 @@ export class List {
                     isApprovedLevel1: false
                 };
                 break;
-            case "level2":
-                this.filter = {
+            // case "directurkeu":
+            //     this.filter = {
                     
-                };
-                break;
-            case "directurkeu":
-                this.filter = {
-                    
-                };
-                break;
+            //     };
+            //     break;
             default:
                 break;
         }

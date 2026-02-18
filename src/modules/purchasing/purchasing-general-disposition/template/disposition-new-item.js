@@ -55,6 +55,7 @@ export default class DisposisiBaruItem {
     this.updateSupplierList();
     this.isInitialLoad = false;
     this.setupObservers();
+    
   }
 
   setupObservers() {
