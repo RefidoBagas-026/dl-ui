@@ -7,6 +7,11 @@ var CurrencyLoader = require('../../../../loader/garment-currencies-by-date-load
 export default class DisposisiKenaikanHargaItem {
 @bindable dataProduct;
   subscriptions = [];
+  selectedSupplier = null;
+  supplierList = [];
+  ShowSupplierDropdown = false;
+  defaultSupplier = { id: 0, name: '', price: 0, label: '-- Pilih Harga Supplier --' };
+  isInitialLoad = false;
 
   constructor(bindingEngine) {
     this.bindingEngine = bindingEngine;
@@ -30,6 +35,12 @@ export default class DisposisiKenaikanHargaItem {
       this.bindingEngine.propertyObserver(this.data, 'UpdatePrice')
         .subscribe(() => this.calculatePriceDiff())
     );
+
+    this.selectedSupplier = this.defaultSupplier;
+    this.isInitialLoad = true;
+    this.updateSupplierList();
+    this.isInitialLoad = false;
+    this.setupObservers();
   }
 
   detached() {
@@ -76,6 +87,57 @@ export default class DisposisiKenaikanHargaItem {
       delete this.data.product;
     }
     }
+
+    setupObservers() {
+    const propsToObserve = [
+      'SupplierName1', 'SupplierPrice1',
+      'SupplierName2', 'SupplierPrice2',
+      'SupplierName3', 'SupplierPrice3'
+    ];
+
+    propsToObserve.forEach(prop => {
+      let subscription = this.bindingEngine
+        .propertyObserver(this.data, prop)
+        .subscribe(() => this.updateSupplierList());
+      this.subscriptions.push(subscription);
+    });
+  }
+
+  updateSupplierList() {
+    if (!this.data) {
+      this.supplierList = [this.defaultSupplier];
+      this.selectedSupplier = this.defaultSupplier;
+      this.ShowSupplierDropdown = false;
+      return;
+    }
+
+    var suppliers = [1, 2, 3]
+      .filter(i => this.data[`SupplierName${i}`] && this.data[`SupplierPrice${i}`] && this.data[`SupplierPrice${i}`] !== 0)
+      .map(i => ({
+        id: i,
+        name: this.data[`SupplierName${i}`],
+        price: this.data[`SupplierPrice${i}`],
+        label: `${this.data[`SupplierName${i}`]} - ${this.data[`SupplierPrice${i}`]}`
+      }));
+
+    this.supplierList = [this.defaultSupplier, ...suppliers];
+
+    // Reset ke default setiap ada perubahan (bukan saat initial load), user harus klik ulang
+    if (!this.isInitialLoad) {
+      this.selectedSupplier = this.defaultSupplier;
+      this.data.UpdatePrice = 0;
+    }
+
+    this.ShowSupplierDropdown = suppliers.length > 0;
+  }
+
+ 
+  supplierChanged(e) {
+    this.SupplierPick = this.selectedSupplier;
+    if (this.selectedSupplier) {
+      this.data.UpdatePrice = this.selectedSupplier.price;
+    }
+  }
   
      isPostedQuery = {
       "Active": true

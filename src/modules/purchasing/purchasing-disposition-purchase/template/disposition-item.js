@@ -14,10 +14,32 @@ export default class DisposisiPembelianItem {
     this.options = (this.context && this.context.context && this.context.context.options) || this.context.options || {};
     this.readOnly = this.options.readOnly || this.data.IsDisabled;
 
-    if (this.data.product) {
+    if (!this.data.product) {
+      this.data.product = {
+        _id: null,
+        code: null,
+        name: null,
+        price: 0,
+        uom: {
+          _id: null,
+          unit: null
+        }
+      };
+    }
+
+    if (this.data.product && this.data.product.code && this.data.product.name) {
       this.dataProduct = `${this.data.product.code} - ${this.data.product.name}`;
     }
-    if (this.data.currency) {
+
+    if (!this.data.currency) {
+      this.data.currency = {
+        _id: null,
+        code: null,
+        rate: 0
+      };
+    }
+
+    if (this.data.currency && this.data.currency.code) {
       this.dataCurrency = this.data.currency;
     }
   }
@@ -41,17 +63,34 @@ export default class DisposisiPembelianItem {
           unit: newValue.UOM.Unit
         }
       };
+    } else {
+      this.data.productId = null;
+      this.data.product = {
+        _id: null,
+        code: null,
+        name: null,
+        price: 0,
+        uom: {
+          _id: null,
+          unit: null
+        }
+      };
     }
   }
 
 
    dataCurrencyChanged(newValue) {
-    this.data.currency = newValue;
-    if (this.data.currency) {
+    if (newValue) {
       this.data.currency = {
-        _id: this.data.currency.Id,
-        code: this.data.currency.code,
-        rate: this.data.currency.rate
+        _id: newValue.Id,
+        code: newValue.code,
+        rate: newValue.rate
+      }
+    } else {
+      this.data.currency = {
+        _id: null,
+        code: null,
+        rate: 0
       }
     }
   }

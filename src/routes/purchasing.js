@@ -938,9 +938,9 @@ module.exports = [
     },
     {
         //pinjam permission
-        route: '/purchasing/disposition-general-purchasing-approval/directurkeu',
-        name: 'disposition-general-purchasing-approval-directurkeu',
-        moduleId: './modules/purchasing/disposition-general-purchasing-approval/index',
+        route: '/purchasing/disposition-general-purchasing-approval/directur',
+        name: 'disposition-general-purchasing-approval-directur',
+        moduleId: './modules/purchasing/purchasing-general-disposition-approval-directur/index',
         nav: true,
         title: 'Disposition Umum Approval - Direktur Keuangan',
         auth: true,
@@ -950,7 +950,6 @@ module.exports = [
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
             permission: { "E59": 1 },
             iconClass: 'fa fa-calculator',
-            type: "directurkeu"
         }
     },
 
@@ -1092,26 +1091,9 @@ module.exports = [
     },
     {
         //pinjam permission
-        route: '/purchasing/disposition-purchasing-approval/level2',
-        name: 'disposition-purchasing-approval-level2',
-        moduleId: './modules/purchasing/disposition-purchasing-approval/index',
-        nav: true,
-        title: 'Disposition Pembelian Approval - Level 2',
-        auth: true,
-        settings: {
-            group: "purchasing",
-            subGroup: "approval",
-            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: { "E68": 1 },
-            iconClass: 'fa fa-calculator',
-            type: "level2"
-        }
-    },
-    {
-        //pinjam permission
-        route: '/purchasing/disposition-purchasing-approval/directurkeu',
-        name: 'disposition-purchasing-approval-directurkeu',
-        moduleId: './modules/purchasing/disposition-purchasing-approval/index',
+        route: '/purchasing/purchasing-disposition-purchase-approval-directur',
+        name: 'disposition-purchasing-approval-directur',
+        moduleId: './modules/purchasing/purchasing-disposition-purchase-approval-directur/index',
         nav: true,
         title: 'Disposition Pembelian Approval - Directur Keuangan',
         auth: true,
@@ -1121,7 +1103,6 @@ module.exports = [
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
             permission: { "E69": 1 },
             iconClass: 'fa fa-calculator',
-            type: "directurkeu"
         }
     },
 

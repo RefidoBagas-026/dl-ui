@@ -37,7 +37,7 @@ export class List {
     rowFormatter(data, index) {
         if (data.ReasonRejected) {
             return { classes: "" };
-        } else if (data.IsApprovedManager && data.IsApprovedGeneralManager && data.IsApprovedAnggaran && (!data.isOverPrice || data.IsApprovedDirectur))
+        } else if (data.IsApprovedManager && data.IsApprovedGeneralManager && data.IsApprovedAnggaran && (!data.isOverPrice && !data.isOverPriceDiff || data.IsApprovedDirectur))
             return { classes: "success" }
         else
             return { classes: "danger" }
@@ -60,7 +60,7 @@ export class List {
                     data.IsPostedLabel  = data.IsPosted ? "SUDAH" : "BELUM";
                     data.IsApprovedManagerLabel = data.IsApprovedManager ? "SUDAH" : "BELUM";
                     data.IsApprovedGeneralManagerLabel = data.IsApprovedGeneralManager ? "SUDAH" : "BELUM";
-                    data.IsApprovedDirecturLabel = data.isOverPrice ? (data.IsApprovedDirectur ? "SUDAH" : "BELUM") : "-";
+                    data.IsApprovedDirecturLabel = data.isOverPrice || data.isOverPriceDiff ? (data.IsApprovedDirectur ? "SUDAH" : "BELUM") : "-";
                     data.IsApprovedAnggaranLabel = data.IsApprovedAnggaran ? "SUDAH" : "BELUM";
                     return data;
                 });

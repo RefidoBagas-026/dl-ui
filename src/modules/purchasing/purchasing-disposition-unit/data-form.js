@@ -205,7 +205,7 @@ export class DataForm {
     }
 
     get accountSignatureLoader1() {
-      return (keyword) => accountSignatureLoader(keyword, { UserName: "TIKA" }); //Username ganti dengan jabatan atau posisi dari Account Signature yang diinginkan
+      return (keyword) => accountSignatureLoader(keyword,); //Username ganti dengan jabatan atau posisi dari Account Signature yang diinginkan
     }
 
     get accountSignatureLoader2() {

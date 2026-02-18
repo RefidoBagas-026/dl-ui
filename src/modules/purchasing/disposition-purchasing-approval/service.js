@@ -14,11 +14,6 @@ class Service extends RestService {
         return super.list(endpoint, info);
     }
 
-     searchLevel2(info) {
-        var endpoint = `${serviceUri}/get-approve-level2`;
-        return super.list(endpoint, info);
-    }
-
     searchDirectur(info) {
         var endpoint = `${serviceUri}/get-approve-directur`;
         return super.list(endpoint, info);
