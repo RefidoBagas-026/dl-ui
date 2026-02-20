@@ -8,8 +8,8 @@ export const PasswordValidator = {
       validationMessage += "Password harus diisi.\n";
     } else {
       // Validasi panjang minimal
-      if (password.length < 8) {
-        validationMessage += "Password minimal harus 8 karakter.\n";
+      if (password.length < 10) {
+        validationMessage += "Password minimal harus 10 karakter.\n";
       }
 
       // Validasi kompleksitas
