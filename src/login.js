@@ -10,6 +10,11 @@ export class Login {
 
     username="";
     password="";
+
+    usernameError = "";
+    passwordError = "";
+    generalError = "";
+
     error = false;
     disabledButton = false;
     
@@ -19,6 +24,23 @@ export class Login {
 
     login() {
         this.error = false;
+
+        this.usernameError = "";
+        this.passwordError = "";
+        this.generalError = "";
+
+        if (!this.username) {
+            this.usernameError = "Username wajib diisi";
+        }
+
+        if (!this.password) {
+            this.passwordError = "Password wajib diisi";
+        }
+
+        if (this.usernameError || this.passwordError) {
+            return;
+        }
+
         this.disabledButton = true;
         const PUBLIC_KEY =`-----BEGIN PUBLIC KEY-----MIIBCgKCAQEAyUDO910BLcBrwdscKorajZKQJdR9TNnR/oqNcTpL10C4Ts9JQq4djGlcxdIG09rm23x5r54/eFmthu4lpeSBEPsS9O4ai0SF0mA39n5lvfNzWJ/JNBYswXU0S2BoTKdClbme+Z1hhqwksej+y2r+AzxiUay23Tn/AvIRxmPQg/66lD6zNyTWHOHAowhdOLUF8GagwdNOeCC0BZDdjP7Iyrk0d5XYeffMAcNR2vLTDpreMcjda7fGHbDTu8khsFTpFDwub0Pg96lxbFV9i//dZ7sPl+RpIrrLV9alCuDyz4+86Sl1jVqbwyh4j4XjgYck1CcmDg5cWN5iB9MnHJZaAQIDAQAB-----END PUBLIC KEY-----`;
         
@@ -41,8 +63,47 @@ export class Login {
             .catch(err => {
                 this.error = true;
                 this.disabledButton = false;
-                // console.log(err);
-                console.log("login failure");
+
+                const defaultMsg = "Username atau password salah";
+
+                if (err && typeof err.json === 'function') {
+                    return err.json()
+                        .then(d => {
+                            let msg = defaultMsg;
+                            try {
+                                if (d) msg = d.message || d.Message || d.error || JSON.stringify(d) || msg;
+                            } catch (e) {
+                            }
+                            this.generalError = msg;
+                        })
+                        .catch(() => {
+                            this.generalError = err.statusText || defaultMsg;
+                        });
+                }
+
+                let msg = defaultMsg;
+                try {
+                    if (err) {
+                        if (err.response && err.response.data) {
+                            const d = err.response.data;
+                            msg = d.message || d.Message || d.error || JSON.stringify(d) || msg;
+                        } else if (err.data) {
+                            const d = err.data;
+                            msg = d.message || d.Message || d.error || JSON.stringify(d) || msg;
+                        } else if (err.message) {
+                            msg = err.message;
+                        } else if (typeof err === 'string') {
+                            msg = err;
+                        } else if (err.statusText) {
+                            msg = err.statusText;
+                        }
+                    }
+                } catch (e) {}
+
+                this.generalError = msg;
+                
             });
     }
+
+
 } 
