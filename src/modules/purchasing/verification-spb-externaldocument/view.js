@@ -233,7 +233,7 @@ export class View {
   activePOIndex = null;
   poItemsColumns = [
     { header: "Nama Item", value: "ItemName" },
-    { header: "Qty", value: "Quantity" },
+    { header: "Jumlah", value: "Quantity" },
     { header: "Validasi", value: "ValidationStatus" },
   ];
 
@@ -829,13 +829,13 @@ export class View {
 
   prItemsColumns = [
     { header: "Nama Item", value: "ItemName" },
-    { header: "Qty", value: "Quantity" },
+    { header: "Jumlah", value: "Quantity" },
     { header: "Validasi", value: "ValidationStatus" },
   ];
 
   urnItemsColumns = [
     { header: "Nama Item", value: "ItemName" },
-    { header: "Qty", value: "Quantity" },
+    { header: "Jumlah", value: "Quantity" },
     { header: "Validasi", value: "ValidationStatus" },
   ];
 }
