@@ -84,6 +84,7 @@ export class List {
         { field: "NoSalesContract", title: "No Sales Kontrak"},
         { field: "designNumber", title: "No Design"},
         { field: "colorType", title: "Warna" },
+        { field: "finishTypeName", title: "Jenis Finish" },
         { field: "Price", title : "Harga" },
         { field: "CurrCode", title : "Mata Uang"},
         { field: "orderQuantity", title: "Panjang SPP (M)" },
