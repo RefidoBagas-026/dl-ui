@@ -177,16 +177,31 @@ export class DataForm {
 
     //
 
+    // @computedFrom('data.amountToBePaid', 'data.dhlCharges', 'data.amountPaid')
+    //     get BalanceAmount() {
+    //         // console.log(this.data.amountToBePaid);
+    //         // console.log(this.data.amountPaid);
+    //         let BalanceAmount = this.data.amountToBePaid + this.data.dhlCharges - this.data.amountPaid;
+    //         console.log(BalanceAmount);
+    //         BalanceAmount = numeral(BalanceAmount).format();
+    //         this.data.balanceamount = numeral(BalanceAmount).value();           
+    //         return BalanceAmount;                    
+    //   }
     @computedFrom('data.amountToBePaid', 'data.dhlCharges', 'data.amountPaid')
-        get BalanceAmount() {
-            // console.log(this.data.amountToBePaid);
-            // console.log(this.data.amountPaid);
-            let BalanceAmount = this.data.amountToBePaid + this.data.dhlCharges - this.data.amountPaid;
-            console.log(BalanceAmount);
-            BalanceAmount = numeral(BalanceAmount).format();
-            this.data.balanceamount = numeral(BalanceAmount).value();           
-            return BalanceAmount;                    
-      }
+            get BalanceAmount() {
+
+                let amountToBePaid = parseFloat(this.data.amountToBePaid) || 0;
+                let dhlCharges = parseFloat(this.data.dhlCharges) || 0;
+                let amountPaid = parseFloat(this.data.amountPaid) || 0;
+
+                let balance = amountToBePaid + dhlCharges - amountPaid;
+
+                balance = Math.round(balance * 100) / 100;
+
+                this.data.balanceamount = balance;
+
+                return balance;
+            }
 
     @computedFrom('data.paymentTerm', 'data.amountPaid', 'data.amountToBePaid', 'data.bankCharges', 'data.otherCharge', 'data.bankComission', 'data.discrepancyFee', 'data.creditInterest')
     get NETTNEGO() {
