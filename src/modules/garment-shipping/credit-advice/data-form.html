@@ -44,7 +44,11 @@
                             options.bind="controlOptions" error.bind="error.amountPaid">
                         </au-numeric>
 
-                        <au-numeric label="Balance Amount(US$)" value.bind="BalanceAmount" read-only="true"
+                        <!-- <au-numeric label="Balance Amount(US$)" value.bind="BalanceAmount" read-only="true"
+                            options.bind="controlOptions">
+                        </au-numeric> -->
+
+                        <au-numeric label="Balance Amount(US$)" value.one-way="BalanceAmount" read-only="true"
                             options.bind="controlOptions">
                         </au-numeric>
 
