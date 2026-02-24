@@ -120,19 +120,30 @@ export class PurchaseOrderItem {
             // set over budget remark string
             this.data.OverBudgetType = remark.map(r => `- ${r}`).join('\n');
 
-            // calculate over budget amount
-            let OBQty = parseFloat((this.data.DealQuantity - this.defaultDealQuantity) * this.data.PricePerDealUnit);
+            // calculate over budget amount for ob qty
+            // let OBQty = parseFloat((this.data.DealQuantity - this.defaultDealQuantity) * (this.data.PricePerDealUnit * this.kurs.Rate));
+            let budgetPrice = this.defaultPricePerDealUnit * this.defaultDealQuantity;
+            let currentPrice = (this.data.PricePerDealUnit * this.kurs.Rate) * this.data.DealQuantity;
+            let OBAmount = (this.data.DealQuantity - this.defaultDealQuantity) * (this.data.PricePerDealUnit * this.kurs.Rate);
+            let OBQty = parseFloat(OBAmount - (OBAmount - (currentPrice - budgetPrice)));
+
+            // calculate over budget amount for ob price
             let OBPrice = parseFloat(((this.data.PricePerDealUnit * this.kurs.Rate) - this.defaultPricePerDealUnit) * this.defaultDealQuantity);
 
             // set over budget amount
-            overBudgetAmount.push(OBQty, OBPrice);
+            overBudgetAmount.push(OBQty.toFixed(4), OBPrice.toFixed(4));
             // sum over budget amount from OBQty and OBPrice
-            this.data.OverBudgetAmount = parseFloat((OBQty + OBPrice).toFixed(4));
+            this.data.OverBudgetAmount = parseFloat((OBQty + OBPrice)).toFixed(4);
           }
           // calculate over budget type and amount when deal quantity is different from default value
           else if (this.defaultDealQuantity < this.data.DealQuantity) {
             this.data.OverBudgetType = "- Selisih Qty";
-            this.data.OverBudgetAmount = parseFloat((this.data.DealQuantity - this.defaultDealQuantity) * this.data.PricePerDealUnit).toFixed(4);
+
+            // calculate over budget amount
+            let budgetPrice = this.defaultPricePerDealUnit * this.defaultDealQuantity;
+            let currentPrice = (this.data.PricePerDealUnit * this.kurs.Rate) * this.data.DealQuantity;
+            let OBAmount = (this.data.DealQuantity - this.defaultDealQuantity) * (this.data.PricePerDealUnit * this.kurs.Rate);
+            this.data.OverBudgetAmount = parseFloat(OBAmount - (OBAmount - (currentPrice - budgetPrice))).toFixed(4);
             overBudgetAmount.push(this.data.OverBudgetAmount);
           }
           // calculate over budget type and amount when price per deal unit is different from default value
