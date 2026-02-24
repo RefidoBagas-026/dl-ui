@@ -59,7 +59,16 @@
                     options.bind="controlOptions">
                 </au-textbox>
 
-                <au-autocomplete label="No Faktur"
+                <au-textbox 
+                    label="No Faktur" 
+                    value.bind="data.VatNo" 
+                    error.bind="error.VatNo" 
+                    read-only.bind="readOnly"
+                    show.bind="data.Supplier"
+                    options.bind="controlOptions">
+                </au-textbox>
+
+                <!-- <au-autocomplete label="No Faktur"
                         value.bind="invoice" 
                         error.bind="error.VatNo" 
                         loader.bind="invoiceNoteLoader" 
@@ -69,7 +78,7 @@
                         read-only.bind="readOnly" 
                         if.bind="data.Supplier"
                         options.bind="controlOptions">
-                </au-autocomplete>
+                </au-autocomplete> -->
                 
                  <au-autocomplete label="Mata Uang"
                        value.bind="currency"
