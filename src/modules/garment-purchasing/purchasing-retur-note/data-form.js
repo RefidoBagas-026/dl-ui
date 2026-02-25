@@ -68,7 +68,7 @@ export class DataForm {
       this.selectedSupplier = this.data.Supplier;
     }
 
-    this.updateInvoiceFilter();
+    //this.updateInvoiceFilter();
     
     this.options.Rate = (this.data.Currency && this.data.Currency.Rate) || 1;
     this.options.CurrencyCode = this.currency ? this.currency.Code : null;
@@ -220,7 +220,7 @@ export class DataForm {
   }
 
 
-  async selectedSupplierChanged(newValue) {
+  async selectedSupplierChanged(newValue, oldValue) {
     if (newValue && (newValue.Id || newValue.id)) {
       if (!this.data.Supplier) {
         this.data.Supplier = {};
@@ -230,43 +230,47 @@ export class DataForm {
       this.data.Supplier.Id = newValue.Id || newValue.id;
       this.data.Supplier.Address = newValue.address || newValue.Address;
       this.data.Supplier.NPWP = newValue.NPWP;
-      
-      this.invoice = null;
-      this.updateInvoiceFilter();
+     
+      if (oldValue) {
+        this.data.VatNo = null;
+        this.invoice = null;
+      }
+      //this.updateInvoiceFilter();
     } else {
       this.data.Supplier = null;
+      this.data.VatNo = null;
       this.invoice = null;
       this.filter = {};
     }
   }
 
   
-  invoiceChanged(newValue) {
-    if (newValue && newValue.vatNo) {
-      this.data.VatNo = newValue.vatNo || this.data.VatNo;
-    }
-  }
+  // invoiceChanged(newValue) {
+  //   if (newValue && newValue.vatNo) {
+  //     this.data.VatNo = newValue.vatNo || this.data.VatNo;
+  //   }
+  // }
 
-  updateInvoiceFilter() {
-    const supplierId = (this.data.Supplier && (this.data.Supplier.Id || this.data.Supplier.id)) || this.options.supplierId;
+  // updateInvoiceFilter() {
+  //   const supplierId = (this.data.Supplier && (this.data.Supplier.Id || this.data.Supplier.id)) || this.options.supplierId;
     
-    this.filter = supplierId ? {
-      "supplierId": supplierId,
-      "IsDeleted": false
-    } : {};
-  }
+  //   this.filter = supplierId ? {
+  //     "supplierId": supplierId,
+  //     "IsDeleted": false
+  //   } : {};
+  // }
 
   get supplierLoader() {
     return SupplierLoader;
   }
 
-  get invoiceNoteLoader() {
-    return InvoiceNoteLoader;
-  }
+  // get invoiceNoteLoader() {
+  //   return InvoiceNoteLoader;
+  // }
 
-  garmentInvoiceView = (gInvoices) => {
-    return `${gInvoices.vatNo} - ${gInvoices.supplier.Name}`;
-  }
+  // garmentInvoiceView = (gInvoices) => {
+  //   return `${gInvoices.vatNo} - ${gInvoices.supplier.Name}`;
+  // }
 
   supplierView = (supplier) => {
     const code = supplier.code || supplier.Code;
