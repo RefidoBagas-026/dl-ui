@@ -1447,5 +1447,36 @@ module.exports = [
             type: "gm"
         }
     },
+    {
+    route: "/garment/debet-note/monitoring",
+    name: "debet-note-monitoring",
+    moduleId: "./modules/garment-purchasing/monitoring-debet-note/index",
+    nav: true,
+    title: "Monitoring Nota Debet",
+    auth: true,
+    settings: {
+      group: "g-purchasing",
+      subGroup: "monitoring",
+      //permission: { "PGA": 1, "C9": 1 },
+      permission: { H77 : 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
 
+  {
+    route: "/garment/retur-note/monitoring",
+    name: "retur-note-monitoring",
+    moduleId: "./modules/garment-purchasing/monitoring-retur-note/index",
+    nav: true,
+    title: "Monitoring Nota Retur",
+    auth: true,
+    settings: {
+      group: "g-purchasing",
+      subGroup: "monitoring",
+      //permission: { "PGA": 1, "C9": 1 },
+      permission: { H78 : 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  
 ];
