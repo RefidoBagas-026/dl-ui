@@ -8,10 +8,148 @@ import '../styles/styles.theme.css';
 import '../styles/dashboard.css';
 import 'bootstrap';
 import authConfig from "../auth-config";
+import { Config } from "aurelia-api";
+import { AuthService } from 'aurelia-authentication';
+let authService;
 
 // comment out if you don't want a Promise polyfill (remove also from webpack.common.js)
 import * as Bluebird from 'bluebird';
 Bluebird.config({ warnings: false });
+
+// === Idle Timeout / Auto-Logout ===
+const IDLE_TIMEOUT_MINUTES = 1;
+let idleTimer;
+let warningTimer;
+let warningPopup;
+let countdownInterval;
+
+let idleEvents = ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'];
+let warningActive = false;
+
+function enableIdleEvents() {
+    if (!idleEventsActive) {
+        idleEvents.forEach(event => {
+            window.addEventListener(event, resetIdleTimer);
+        });
+        idleEventsActive = true;
+    }
+}
+
+function disableIdleEvents() {
+    if (idleEventsActive) {
+        idleEvents.forEach(event => {
+            window.removeEventListener(event, resetIdleTimer);
+        });
+        idleEventsActive = false;
+    }
+}
+
+// function updateLastLogin() {
+//     console.log(authService);
+//     console.log(authEndpoint);
+//     if (authEndpoint && authService) {
+//         authEndpoint.update('me', null, {})
+//             .then(() => {
+//                 authService.getMe()
+//                     .then((result) => {
+//                         // result.data berisi user terbaru
+//                         // Jika ingin update state global, tambahkan di sini
+//                         resetIdleTimer();
+//                     });
+//             })
+//             .catch((error) => {
+//                 console.error('Error updating last login time:', error);
+//                 resetIdleTimer(); // Tetap reset timer meski gagal
+//             });
+//     } else {
+//         resetIdleTimer();
+//     }
+// }
+
+
+function showWarningPopup() {
+    // Jangan tampilkan popup jika sudah di halaman login
+    if (window.location.hash.indexOf('#/login') !== -1) return;
+    // Jika popup sudah ada, jangan buat lagi
+    if (document.getElementById('idle-warning-popup')) return;
+    warningActive = true;
+    let secondsLeft = 18000; // 5 jam dalam detik
+    warningPopup = document.createElement('div');
+    warningPopup.id = 'idle-warning-popup';
+    warningPopup.style.position = 'fixed';
+    warningPopup.style.top = '0';
+    warningPopup.style.left = '0';
+    warningPopup.style.width = '100vw';
+    warningPopup.style.height = '100vh';
+    warningPopup.style.background = 'rgba(0,0,0,0.3)';
+    warningPopup.style.display = 'flex';
+    warningPopup.style.justifyContent = 'center';
+    warningPopup.style.alignItems = 'center';
+    warningPopup.style.zIndex = '9999';
+    warningPopup.innerHTML = `
+        <div style="background:white;padding:32px;border-radius:8px;box-shadow:0 2px 8px #0003;text-align:center;">
+            <h3>Anda akan logout otomatis dalam <span id="idle-countdown">${formatDuration(secondsLeft)}</span></h3>
+            <p>Silakan klik tombol di bawah jika Anda masih aktif.</p>
+            <button class="btn btn-primary" id="idle-warning-btn" style="padding:8px 24px;font-size:16px;">I'm here</button>
+        </div>
+    `;
+    document.body.appendChild(warningPopup);
+    document.getElementById('idle-warning-btn').onclick = () => {
+        resetIdleTimer();
+        hideWarningPopup();
+    };
+    countdownInterval = setInterval(() => {
+        secondsLeft--;
+        const countdownSpan = document.getElementById('idle-countdown');
+        if (countdownSpan) countdownSpan.textContent = formatDuration(secondsLeft);
+        if (secondsLeft <= 0) {
+            clearInterval(countdownInterval);
+            hideWarningPopup();
+            // Logout otomatis
+            if (authService) {
+                authService.logout().then(() => {
+                    window.location.href = '#/login';
+                });
+            } else {
+                window.localStorage.clear();
+                window.location.href = '#/login';
+            }
+        }
+    }, 1000);
+}
+
+function formatDuration(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function hideWarningPopup() {
+    if (warningPopup) {
+        warningPopup.remove();
+        warningPopup = null;
+    }
+    clearInterval(countdownInterval);
+    warningActive = false;
+}
+
+function resetIdleTimer() {
+    clearTimeout(idleTimer);
+    clearTimeout(warningTimer);
+    if (warningActive) return; // Jangan reset timer jika popup warning sedang tampil
+    hideWarningPopup();
+    idleTimer = setTimeout(() => {
+        showWarningPopup(); // Munculkan popup setelah 15 menit
+    }, IDLE_TIMEOUT_MINUTES * 60 * 1000);
+}
+
+function setupIdleTimeout() {
+    idleEvents.forEach(event => {
+        window.addEventListener(event, resetIdleTimer);
+    });
+    resetIdleTimer();
+}
 
 export async function configure(aurelia) {
     aurelia.use
@@ -19,7 +157,6 @@ export async function configure(aurelia) {
         .feature('au-components')
         .feature('components')
         .feature('converters')
-
         .plugin("aurelia-api", config => {
             var offset = new Date().getTimezoneOffset() / 60 * -1;
             var defaultConfig = {
@@ -62,7 +199,7 @@ export async function configure(aurelia) {
             const garmentShipping = "https://garment-etl-service.azurewebsites.net/api/";
             var ItInven = "https://it-inventory-etl-service-v8.azurewebsites.net/api/";
             var danlirisReport = "https://com-danliris-service-it-inventory.azurewebsites.net/v1/";
-
+            console.log(defaultConfig);
             config.registerEndpoint('auth', auth);
             config.registerEndpoint('core', core);
             config.registerEndpoint('production', production, defaultConfig);
@@ -90,6 +227,7 @@ export async function configure(aurelia) {
         })
         .plugin("aurelia-authentication", baseConfig => {
             baseConfig.configure(authConfig);
+            authService = aurelia.container.get(AuthService);
 
             if (baseConfig.client && baseConfig.client.client) {
                 var offset = new Date().getTimezoneOffset() / 60 * -1;
@@ -163,7 +301,18 @@ export async function configure(aurelia) {
     // aurelia.use.plugin('aurelia-html-import-template-loader')
 
     await aurelia.start();
+    //authEndpoint = aurelia.container.get(Config).getEndpoint('auth');
     aurelia.setRoot('app');
+
+    // Mark app as ready for splash screen
+    setTimeout(() => {
+        if (window.splashManager) {
+            window.splashManager.markAppReady();
+        }
+    }, 1000);
+
+    // Setup idle timeout
+    setupIdleTimeout();
 
     // if you would like your website to work offline (Service Worker), 
     // install and enable the @easy-webpack/config-offline package in webpack.config.js and uncomment the following code:
