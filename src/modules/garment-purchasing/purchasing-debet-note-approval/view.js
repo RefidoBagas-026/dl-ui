@@ -122,7 +122,7 @@ export class View {
     }
 
     approve(event) {
-        if (confirm("Approve Disposition?")) {
+        if (confirm("Approve Nota Debet?")) {
             const jsonPatch = [
                 { op: "replace", path: `/IsApproved${this.type}`, value: true },
                 { op: "replace", path: `/Approved${this.type}By`, value: this.me.username },
