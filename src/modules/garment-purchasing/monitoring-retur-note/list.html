@@ -1,0 +1,50 @@
+<template>
+    <h1 class="page-header">Monitoring Nota Retur</h1>
+    <form class="form-horizontal">
+        <au-datepicker label="Tanggal Awal" value.bind="dateFrom" error.bind="error.dateFrom" options.bind="controlOptions"></au-datepicker>
+        <au-datepicker label="Tanggal Akhir" value.bind="dateTo" error.bind="error.dateTo" options.bind="controlOptions"></au-datepicker>
+        <div class="form-group">
+            <label for="contact" class="col-sm-6 control-label"></label>
+            <div class="col-sm-3">
+                <button click.delegate="search()" class='btn btn-success' >Cari Data</button>
+                <button click.delegate="reset()" class='btn btn-danger'>Reset Data</button>
+            </div>
+        </div>  
+        <div slot="toolbar" class="btn-group">
+            <button class='btn btn-primary' click.delegate="ExportToExcel()">Export To Excel</button>
+          </div>
+        <br>
+        <table class="table table-bordered table-hover" id="myTable">
+            <thead>
+                 <tr>
+                    <th class="text-center">Tanggal Create</th>
+                    <th class="text-center">Tanggal Nota Debet</th>
+                    <th class="text-center">Nomor Nota</th>
+                    <th class="text-center">Supplier</th>
+                    <th class="text-center">Keterangan</th>                    
+                    <th class="text-center">Amount BKP</th> 
+                    <th class="text-center">DPP</th>    
+                    <th class="text-center">Pajak Yang Dikembalikan</th>              
+                 </tr>
+            </thead>
+            <tbody>
+                    <tr repeat.for="item of data">
+                        <td>${formatDate(item.CreatedDate)}</td>
+                        <td>${formatDate(item.ReturNoteDate)}</td>
+                        <td>${item.ReturNoteNo}</td>
+                        <td>${item.SupplierName}</td>
+                        <td>${item.Description}</td>                    
+                        <td>${formatAmount(item.BKPReturnPrice)}</td>
+                        <td>${formatAmount(item.OtherTaxBaseAmount)}</td>
+                        <td>${formatAmount(item.VatToBeRefunded)}</td>
+                    </tr>
+            </tbody>
+        </table>
+        <div class="alert alert-info text-center" role="alert" if.bind="data.length == 0">
+            Tidak Ada Data Yang Ditemukan.
+        </div>
+        <pagination if.bind="info.total>info.size"  info.bind="info" change.delegate="changePage($event)"></pagination>
+        <hr/>
+    </form>
+
+</template>

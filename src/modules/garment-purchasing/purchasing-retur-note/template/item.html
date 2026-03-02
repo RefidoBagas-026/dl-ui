@@ -1,0 +1,54 @@
+<template>
+  <tr>
+    <td>
+      <au-multiline value.bind="data.Description"
+                  error.bind="error.Description"
+                  placeholder="Keterangan"
+                  read-only.bind="readOnly"
+                  options.bind="controlOptions">
+      </au-multiline>
+    </td>
+    <td>
+      <au-numeric 
+          value.bind="selectedQuantity"
+          read-only.bind="readOnly"
+          error.bind="error.Quantity"
+          options.bind="controlOptions">
+      </au-numeric>
+    </td>
+    <td>
+            <au-autocomplete 
+                value.bind="dataUom" 
+                error.bind="error.Uom"
+                loader.bind="uomLoader"
+                placeholder="cari satuan" 
+                text="Unit"
+                key="Id"
+                read-only.bind="readOnly"
+                options.bind="controlOptions">
+            </au-autocomplete>
+        </td>
+    <td>
+      <au-numeric value.bind="selectedPricePerUnit"
+                  read-only.bind="readOnly"
+                  error.bind="error.PricePerUnit"
+                  format="0,0.00"
+                  options.bind="controlOptions">
+      </au-numeric>
+    </td>
+    <td>
+      <au-numeric value.bind="data.TotalPrice"
+                  read-only.bind="true"
+                  format="0,0.00"
+                  error.bind="error.TotalPrice"
+                  options.bind="controlOptions">
+      </au-numeric>
+    </td>
+    <td class="col-sm-1"
+        if.bind="!readOnly">
+      <button class="btn btn-danger pull-right"
+              click.delegate="onremove(data, $event)">-
+      </button>
+    </td>
+  </tr>
+</template>

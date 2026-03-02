@@ -1,0 +1,8 @@
+<template >
+    <tr>
+        <th repeat.for="column of columns">
+            <label>${column}</label>
+        </th>
+        <th if.bind="!readOnly" style="width: 75px;"><button type="button" click.delegate="addItem()" class="btn btn-success btn-sm">+</button></th>
+    </tr>
+</template>

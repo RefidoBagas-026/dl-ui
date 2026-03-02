@@ -1,0 +1,106 @@
+<template>
+  <tr>
+    <!-- <require from="../../../../lib/number-format-value-converter"></require> -->
+    <td if.bind="options.isEdit">
+      <au-datepicker value.bind="data.DebetNoteDate"
+                     error.bind="error.DebetNoteDate"
+                     read-only.bind="true"
+                     options.bind="controlOptions">
+      </au-datepicker>
+    </td>
+    <td>
+      <au-multiline value.bind="data.Description"
+                  error.bind="error.Description"
+                  placeholder="Keterangan"
+                  read-only.bind="readOnly"
+                  options.bind="controlOptions">
+      </au-multiline>
+    </td>
+    <td>
+      <au-numeric value.bind="selectedAmount"
+                  read-only.bind="readOnly"
+                  error.bind="error.Amount"
+                  format="0,0.00"
+                  options.bind="controlOptions">
+      </au-numeric>
+    </td>
+    <td style="text-align:center;">
+      <au-checkbox value.bind="selectedVat"
+                   error.bind="error.IsGetPpn"
+                   read-only.bind="readOnly"
+                   options.bind="controlOptions"
+                   checked.bind="IsGetPpn">
+      </au-checkbox>
+
+      <br>
+
+      <div show.bind="selectedVat">
+        <au-autocomplete value.bind="selectedVatTax"
+                         error.bind="error.VatTax"
+                         loader.bind="vatTaxLoader"
+                         placeholder="cari ppn"
+                         text.bind="vatTaxView"
+                         read-only.bind="readOnly">
+        </au-autocomplete>
+        
+      </div>
+
+    </td>
+    <td style="text-align:center;">
+      <au-checkbox value.bind="selectedPPh"
+                   error.bind="error.IsGetPph"
+                   read-only.bind="readOnly"
+                   options.bind="controlOptions"
+                   checked.bind="IsGetPph">
+      </au-checkbox>
+      <br>
+
+      <div show.bind="selectedPPh">
+        <au-autocomplete value.bind="selectedIncomeTax"
+                         error.bind="error.IncomeTax"
+                         loader.bind="incomeTaxLoader"
+                         placeholder="cari pph"
+                         text.bind="incomeTaxView"
+                         read-only.bind="readOnly">
+        </au-autocomplete>
+
+        <br>
+
+
+        <numeric label="Rate" value.bind="data.IncomeTax.Rate" error.bind="error.incomeTaxRate" format="0"
+          read-only.bind="true" post-fix="%" options.bind="controlOptions">
+
+        </numeric>
+
+        <au-textbox value.bind="'Ditanggung Oleh:'"
+                    read-only.bind="true">
+        </au-textbox>
+
+        <br>
+
+        <au-dropdown items.bind="IncomeTaxByOptions"
+                     value.bind="selectedIncomeTaxBy"
+                     error.bind="error.IncomeTaxBy"
+                     read-only.bind="readOnly"
+                     options.bind="controlOptions">
+        </au-dropdown>
+
+      </div>
+
+    </td>
+    <td>
+      <au-numeric value.bind="data.AmountFinal"
+                  read-only.bind="true"
+                  format="0,0.00"
+                  error.bind="error.AmountFinal"
+                  options.bind="controlOptions">
+      </au-numeric>
+    </td>
+    <td class="col-sm-1"
+        if.bind="!readOnly">
+      <button class="btn btn-danger pull-right"
+              click.delegate="onremove(data, $event)">-
+      </button>
+    </td>
+  </tr>
+</template>
