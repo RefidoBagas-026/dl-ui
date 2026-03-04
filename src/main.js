@@ -74,7 +74,8 @@ function showWarningPopup() {
     // Jika popup sudah ada, jangan buat lagi
     if (document.getElementById('idle-warning-popup')) return;
     warningActive = true;
-    let secondsLeft = 3600; // 1 jam dalam detik
+    const warningDurationSeconds = 3600; 
+    const warningEndAt = Date.now() + (warningDurationSeconds * 1000);
     warningPopup = document.createElement('div');
     warningPopup.id = 'idle-warning-popup';
     warningPopup.style.position = 'fixed';
@@ -89,7 +90,7 @@ function showWarningPopup() {
     warningPopup.style.zIndex = '9999';
     warningPopup.innerHTML = `
         <div style="background:white;padding:32px;border-radius:8px;box-shadow:0 2px 8px #0003;text-align:center;">
-            <h3>Anda akan logout otomatis dalam <span id="idle-countdown">${formatDuration(secondsLeft)}</span></h3>
+            <h3>Anda akan logout otomatis dalam <span id="idle-countdown">${formatDuration(warningDurationSeconds)}</span></h3>
             <p>Silakan klik tombol di bawah jika Anda masih aktif.</p>
             <button class="btn btn-primary" id="idle-warning-btn" style="padding:8px 24px;font-size:16px;">I'm here</button>
         </div>
@@ -99,11 +100,26 @@ function showWarningPopup() {
         resetIdleTimer();
         hideWarningPopup();
     };
+    let blinkOn = true;
     countdownInterval = setInterval(() => {
-        secondsLeft--;
+        const remainingMs = Math.max(0, warningEndAt - Date.now());
+        const secondsLeft = Math.ceil(remainingMs / 1000);
         const countdownSpan = document.getElementById('idle-countdown');
-        if (countdownSpan) countdownSpan.textContent = formatDuration(secondsLeft);
-        if (secondsLeft <= 0) {
+        if (countdownSpan) {
+            countdownSpan.textContent = formatDuration(secondsLeft);
+
+            if (secondsLeft <= 300 && remainingMs > 0) {
+                countdownSpan.style.color = '#d9534f';
+                countdownSpan.style.fontWeight = '700';
+                blinkOn = !blinkOn;
+                countdownSpan.style.opacity = blinkOn ? '1' : '0.2';
+            } else {
+                countdownSpan.style.color = '';
+                countdownSpan.style.fontWeight = '';
+                countdownSpan.style.opacity = '1';
+            }
+        }
+        if (remainingMs <= 0) {
             clearInterval(countdownInterval);
             hideWarningPopup();
             // Logout otomatis
