@@ -74,7 +74,7 @@ function showWarningPopup() {
     // Jika popup sudah ada, jangan buat lagi
     if (document.getElementById('idle-warning-popup')) return;
     warningActive = true;
-    let secondsLeft = 18000; // 5 jam dalam detik
+    let secondsLeft = 3600; // 1 jam dalam detik
     warningPopup = document.createElement('div');
     warningPopup.id = 'idle-warning-popup';
     warningPopup.style.position = 'fixed';
