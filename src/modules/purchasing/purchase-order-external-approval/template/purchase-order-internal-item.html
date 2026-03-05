@@ -2,20 +2,17 @@
                 <template >
                     <tr>
                     <td>
-                        <au-autocomplete 
-                            value.bind="data.product" 
-                            error.bind="error.product"
-                            loader.bind="productLoader"
-                            text.bind="productView"
-                            key="code"
-                            read-only.bind="true"
+                        <au-textbox 
+                            value.bind="data.product.code + ' - ' + data.product.name" 
+                            error.bind="error.product" 
+                            read-only.bind="options.readOnly"
                             options.bind="controlOptions">
-                        </au-autocomplete>
+                        </au-textbox>
                     </td>
                     <td>
                         <au-numeric 
                             value.bind="data.defaultQuantity" 
-                            read-only.bind="true" 
+                            read-only.bind="options.readOnly" 
                             format = "0,0.00"
                             options.bind="controlOptions">
                         </au-numeric>
@@ -23,7 +20,7 @@
                     <td>
                         <au-textbox 
                             value.bind="data.defaultUom.unit" 
-                            read-only.bind="true" 
+                            read-only.bind="options.readOnly" 
                             options.bind="controlOptions">
                         </au-textbox>                    
                     </td>
@@ -36,17 +33,12 @@
                         </au-numeric>
                     </td>
                     <td>
-                        <au-autocomplete 
-                            value.bind="selectedDealUom" 
+                        <au-textbox 
+                            value.bind="data.product.uom.unit" 
                             error.bind="error.dealUom"
-                            change.delegate="selectedDealUomChanged($event)"
-                            loader.bind="uomLoader"
-                            text.bind="uomView"
-                            placeholder="cari satuan" 
-                            key="unit"
                             read-only.bind="options.readOnly"
                             options.bind="controlOptions">
-                        </au-autocomplete>                   
+                        </au-textbox>                   
                     </td>
                     <td>
                         <au-numeric 
@@ -62,34 +54,22 @@
                         <au-numeric 
                             value.bind="data.priceMaster" 
                             error.bind="error.priceMaster"
-                            read-only.bind="true" 
+                            format="0,0.00"
+                            read-only.bind="options.readOnly"
                             options.bind="controlOptions">
                         </au-numeric>
                     </td>
-                    <td if.bind = "hasView">
+
+                     <td>
                         <au-numeric 
                             value.bind="data.priceBeforeTax" 
-                            error.bind="error.price2"
-                            read-only.bind="options.readOnly" 
-                            change.delegate="priceBeforeTaxChanged($event)"
-                            format = "0,0.00"
-                            options.bind="controlOptions"
-                            >
+                            error.bind="error.priceBeforeTax"
+                            format="0,0.00"
+                            read-only.bind="options.readOnly"
+                            options.bind="controlOptions">
                         </au-numeric>
                     </td>
-                    <td if.bind = "!hasView" align="right">
-                        <au-textbox 
-                            value.bind="data.priceBeforeTax" 
-                            error.bind="error.price"
-                            if.bind = "!hasView"
-                            read-only.bind="options.readOnly" 
-                            change.delegate="priceBeforeTaxChanged($event)"
-                            options.bind="controlOptions"
-                            >
-                    </au-textbox>
-                    </td>
 
-                  
                     <td if.bind="context.context.options.useVat" align="center">
                         <au-checkbox 
                             value.bind="data.includePpn" 
