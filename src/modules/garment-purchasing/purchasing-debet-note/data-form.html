@@ -20,6 +20,15 @@
                     options.bind="controlOptions">
                 </au-textbox>
 
+                <au-dropdown
+                    label="Tipe Supplier"
+                    value.bind="data.SupplierType"
+                    error.bind="error.SupplierType"
+                    items.bind="formatOptions"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+                </au-dropdown>
+
                 <au-autocomplete 
                     label="Nama Supplier" 
                     value.bind="selectedSupplier" 
@@ -30,6 +39,7 @@
                     placeholder="cari supplier" 
                     key="code"
                     read-only.bind="readOnly" 
+                    if.bind="data.SupplierType == 'Master Supplier'"
                     options.bind="controlOptions">
                 </au-autocomplete>
 
@@ -37,8 +47,26 @@
                     label="Alamat Supplier" 
                     value.bind="data.Supplier.Address" 
                     error.bind="error.SupplierAddress" 
+                    read-only.bind="true"
+                    if.bind="data.SupplierType == 'Master Supplier' && data.Supplier"
+                    options.bind="controlOptions">
+                </au-textbox>
+
+                <au-textbox 
+                    label="Nama Supplier" 
+                    value.bind="data.Supplier.Name" 
+                    error.bind="error.SupplierName" 
                     read-only.bind="readOnly"
-                    if.bind="data.Supplier"
+                    if.bind="data.SupplierType == 'Manual Entry'"
+                    options.bind="controlOptions">
+                </au-textbox>
+
+                <au-textbox 
+                    label="Alamat Supplier" 
+                    value.bind="data.Supplier.Address" 
+                    error.bind="error.SupplierAddress" 
+                    read-only.bind="readOnly"
+                    if.bind="data.SupplierType == 'Manual Entry'"
                     options.bind="controlOptions">
                 </au-textbox>
                 

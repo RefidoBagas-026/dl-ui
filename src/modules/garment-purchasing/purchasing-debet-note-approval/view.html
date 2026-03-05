@@ -25,7 +25,14 @@
         </au-textbox>
 
         <au-textbox 
-            label="Supplier" 
+            label="Tipe Supplier" 
+            value.bind="data.SupplierType" 
+            read-only.bind="true"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-textbox 
+            label="Nama Supplier" 
             value.bind="data.Supplier.Name" 
             read-only.bind="true"
             options.bind="controlOptions">
