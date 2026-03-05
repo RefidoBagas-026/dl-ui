@@ -1105,5 +1105,21 @@ module.exports = [
             iconClass: 'fa fa-calculator',
         }
     },
+     {
+        route: '/purchasing/purchase-order-external-approval/level1',
+        name: 'purchase-order-external-approval-level1',
+        moduleId: './modules/purchasing/purchase-order-external-approval/index',
+        nav: true,
+        title: 'Purchase Order External Approval - GM Purchasing',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "E70": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "level1"
+        }
+    },
 
 ]

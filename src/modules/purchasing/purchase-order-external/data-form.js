@@ -45,6 +45,9 @@ export class DataForm {
     this.data = this.context.data;
     this.error = this.context.error;
 
+    // ensure items array exists so observers can be attached immediately
+    if (!this.data.items) this.data.items = [];
+
     if (this.data.supplier) {
       this.selectedSupplier = this.data.supplier;
     }
@@ -67,11 +70,115 @@ export class DataForm {
     if (this.data.useVat) {
       this.options.useVat = true;
     }
+
+    
+    this.setupObservers();
+    this.evaluateShowPriceReductionReason();
+
+    this._onPriceCheck = () => this.evaluateShowPriceReductionReason();
+    try { document.addEventListener('price-check', this._onPriceCheck); } catch (e) { }
   }
 
   @computedFrom("data._id")
   get isEdit() {
     return (this.data._id || '').toString() != '';
+  }
+
+  showPriceReductionReason = false;
+
+  setupObservers() {
+    if (!this.bindingEngine) return;
+
+    if (!this._subscriptions) this._subscriptions = [];
+    for (let s of this._subscriptions) {
+      try {
+        if (s && typeof s.dispose === 'function') s.dispose();
+        else if (typeof s === 'function') s();
+      } catch (e) { }
+    }
+    this._subscriptions = [];
+
+    if (!this.data || !this.data.items) return;
+
+    try {
+      let itemsObs = this.bindingEngine.collectionObserver(this.data.items).subscribe(() => {
+        this.setupObservers();
+        this.evaluateShowPriceReductionReason();
+      });
+      this._subscriptions.push(itemsObs);
+
+      for (let po of this.data.items) {
+        let details = po.details || po.items;
+        if (Array.isArray(details)) {
+            
+          let detailsObs = this.bindingEngine.collectionObserver(details).subscribe(() => {
+            this.evaluateShowPriceReductionReason();
+            this.setupObservers();
+          });
+          this._subscriptions.push(detailsObs);
+
+          for (let detail of details) {
+            if (!detail) continue;
+            try {
+              let sub1 = this.bindingEngine.propertyObserver(detail, 'priceBeforeTax').subscribe(() => this.evaluateShowPriceReductionReason());
+              let sub2 = this.bindingEngine.propertyObserver(detail, 'priceMaster').subscribe(() => this.evaluateShowPriceReductionReason());
+              this._subscriptions.push(sub1);
+              this._subscriptions.push(sub2);
+            } catch (e) { }
+          }
+        }
+      }
+    } catch (e) { }
+  }
+
+  _toNumber(v) {
+    if (v === null || v === undefined || v === '') return NaN;
+    if (typeof v === 'string') v = v.replace(/,/g, '').trim();
+    return parseFloat(v);
+  }
+
+  
+  evaluateShowPriceReductionReason() {
+    let show = false;
+
+    if (this.data && this.data.items) {
+      for (let po of this.data.items) {
+        let details = po.details || po.items;
+        if (details && details.length) {
+          for (let detail of details) {
+            const pb = this._toNumber(detail.priceBeforeTax);
+            const pm = this._toNumber(detail.priceMaster);
+            if (!isNaN(pb) && !isNaN(pm)) {
+              if (pb < pm) {
+                show = true;
+              } else {
+                try { detail.priceReductionReason = null; } catch (e) { }
+              }
+            }
+          }
+        }
+        if (show) break;
+      }
+    }
+
+    this.showPriceReductionReason = show;
+    if (!show) {
+      try { this.data.priceReductionReason = null; } catch (e) { }
+    }
+  }
+
+  unbind() {
+    if (this._subscriptions && this._subscriptions.length) {
+      for (let s of this._subscriptions) {
+        try {
+          if (s && typeof s.dispose === 'function') s.dispose();
+          else if (typeof s === 'function') s();
+        } catch (e) { }
+      }
+      this._subscriptions = [];
+    }
+
+    try { document.removeEventListener('price-check', this._onPriceCheck); } catch (e) { }
   }
 
   selectedSupplierChanged(newValue) {
