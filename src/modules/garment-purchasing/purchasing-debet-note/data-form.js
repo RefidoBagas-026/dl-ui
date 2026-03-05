@@ -48,6 +48,12 @@ export class DataForm {
     this.isItem = false;
     this.isEdit = this.data.Id ? true : false;
 
+    this.formatOptions = ['Manual Entry', 'Master Supplier'];
+    
+    if (!this.data.SupplierType) {
+      this.data.SupplierType = 'Master Supplier';
+    }
+
     if (!this.data.Items) {
       this.data.Items = [];
     }
@@ -66,8 +72,12 @@ export class DataForm {
             this.currency = this.data.Currency;
         }
 
-    if (this.data.Supplier) {
-        this.selectedSupplier = this.data.Supplier;
+    if (this.data.SupplierType === 'Master Supplier' && this.data.Supplier) {
+    this.selectedSupplier = this.data.Supplier;
+    }
+
+    if (!this.data.Supplier) {
+      this.data.Supplier = {};
     }
 
     this.readOnlySender = true;
@@ -82,6 +92,12 @@ export class DataForm {
       this.data.TotalAmount = this.itemSum;
     });
     this.data.TotalAmount = this.itemSum;
+
+    this.supplierTypeSubscription = this.bindingEngine.propertyObserver(this.data, 'SupplierType').subscribe((newValue, oldValue) => {
+      if (oldValue && newValue !== oldValue) {
+        this.resetSupplierData();
+      }
+    });
   
   }
 
@@ -130,6 +146,9 @@ export class DataForm {
 
 
   async selectedSupplierChanged(newValue) {
+          if (this.data.SupplierType !== "Master Supplier") {
+              return;
+          }
         var _selectedSupplier = newValue;
         if (_selectedSupplier && (_selectedSupplier.Id || _selectedSupplier.id)) {
             if (!this.data.Supplier) {
@@ -158,9 +177,22 @@ export class DataForm {
           return CurrencyLoader;
       }
 
+  resetSupplierData() {
+    this.data.Supplier = {
+      Name: null,
+      Address: null,
+      Code: null,
+      Id: null
+    };
+    this.selectedSupplier = null;
+  }
+
   unbind() {
     if (this.itemSumSubscription) {
       this.itemSumSubscription.dispose();
+    }
+    if (this.supplierTypeSubscription) {
+      this.supplierTypeSubscription.dispose();
     }
   }
 
