@@ -49,6 +49,10 @@ export class PurchaseOrderItem {
       this.data.priceBeforeTax = this.data.product.price;
     }
 
+    if (!this.data.priceMaster || this.data.priceMaster === 0) {
+      this.data.priceMaster = this.data.product.price;
+    }
+
     if (!this.data.conversion || this.data.conversion === 0) {
       this.data.priceBeforeTax = this.data.product.price;
     }
@@ -121,8 +125,32 @@ export class PurchaseOrderItem {
       this.error.price="Harga Barang Harus Diisi Dengan Angka";
     }
     
+    this.notifyParentPriceCheck();
   }
 
+  notifyParentPriceCheck() {
+    try {
+    
+      let ctx = this.context;
+      let depth = 0;
+      while (ctx && depth < 6) {
+        if (typeof ctx.evaluateShowPriceReductionReason === 'function') {
+          ctx.evaluateShowPriceReductionReason();
+          return;
+        }
+        if (ctx.context && typeof ctx.context.evaluateShowPriceReductionReason === 'function') {
+          ctx.context.evaluateShowPriceReductionReason();
+          return;
+        }
+        ctx = ctx.context;
+        depth++;
+      }
+
+      try { document.dispatchEvent(new CustomEvent('price-check', { detail: {} })); } catch (e) { }
+    } catch (e) { }
+  }
+
+  
   useIncomeTaxChanged(e) {
     this.updatePrice();
   }

@@ -46,7 +46,7 @@ export class View {
             this.hasDelete = true;
             this.hasEdit = true;
         }
-        if (this.data.isPosted && !isVoid  && !this.data.isClosed && !this.data.isCanceled) {
+        if (this.data.isPosted && !isVoid  && !this.data.isClosed && !this.data.isCanceled && !this.data.isApprovedLevel1) {
             this.hasUnpost = true;
             this.hasCancelPo = true;
         }

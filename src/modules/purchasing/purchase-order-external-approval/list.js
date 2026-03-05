@@ -1,33 +1,15 @@
 import { inject } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
-import moment from 'moment';
+import { activationStrategy } from 'aurelia-router';
+import { AuthService } from "aurelia-authentication";
 import { Base64Helper } from '../../../utils/base-64-coded-helper';
+import moment from 'moment';
 
-@inject(Router, Service)
+@inject(Router, Service, AuthService)
 export class List {
-    dataToBePosted = [];
-    info = { page: 1, keyword: '' };
-
-     rowFormatter(data, index) {
-        if (!data.isPosted) {
-            return { classes: "" };
-        } else if ((!data.isPriceReduction && data.isPosted) || (data.isPriceReduction && data.isApprovedLevel1))
-            return { classes: "success" }
-        else
-            return { classes: "danger" }
-    }
-
-    context = ["Rincian", "Cetak PDF"]
-
-    columns = [
-        {
-            field: "isPosting", title: "Post", checkbox: true, sortable: false,
-            formatter: function (value, data, index) {
-                this.checkboxEnabled = !data.isPosted;
-                return ""
-            }
-        },
+    context = ["Detail"];
+     columns = [
         { field: "no", title: "Nomor PO Eksternal" },
         {
             field: "orderDate", title: "Tanggal PO Eksternal", formatter: function (value, data, index) {
@@ -53,25 +35,22 @@ export class List {
                 return value ? "SUDAH" : "BELUM";
             }
         },
-        {
-            field: "isPriceReduction", title: "Harga Lebih Rendah",
-            formatter: function (value, row, index) {
-                return value ? "IYA" : "TIDAK";
-            }
-        },
-        { field: "IsApprovedGMLabel", title: "Approval GM" },
+        { field: "CreatedBy", title: "Dibuat Oleh" },
     ];
+    filter = {};
 
     loader = (info) => {
         var order = {};
+
         if (info.sort)
             order[info.sort] = info.order;
+
         var arg = {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             keyword: info.search,
-            select: ["date", "no", "supplier.name", "items.purchaseRequest.no", "isPosted", "isPriceReduction", "isApprovedLevel1"],
-            order: order
+            order: order,
+            filter: JSON.stringify(this.filter)
         }
 
         return this.service.search(arg)
@@ -85,54 +64,59 @@ export class List {
                         return prNo.indexOf(item) == pos;
                     })
                     _data.purchaseRequestNo = `<ul>${uniqueArray.join()}</ul>`;
-                    _data.IsApprovedGMLabel = _data.isPriceReduction ? (_data.isApprovedLevel1 ? "SUDAH" : "BELUM") : "-";
                 }
                 return {
                     total: result.info.total,
                     data: result.data
                 }
             });
-    }
 
-    constructor(router, service) {
+        }
+
+    constructor(router, service, authService) {
         this.service = service;
         this.router = router;
+        this.authService = authService;
     }
 
-    contextClickCallback(event) {
+    determineActivationStrategy() {
+        return activationStrategy.replace;
+    }
+
+    activate(params, routeConfig, navigationInstruction) {
+        const instruction = navigationInstruction.getAllInstructions()[0];
+        const parentInstruction = instruction.parentInstruction;
+        this.title = parentInstruction.config.title;
+        const type = parentInstruction.config.settings.type;
+        this.type = type;
+
+        let username = null;
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            username = me.username;
+        }
+
+        switch (type) {
+            case "level1":
+                this.filter = {
+                    isPosted: true,
+                    isApprovedLevel1: false,
+                    isValid : false,
+                };
+                break;
+            default:
+                break;
+        }
+    }
+
+    contextCallback(event) {
         var arg = event.detail;
         var data = arg.data;
-        const encoded = Base64Helper.encode(data._id);
+        const encoded = Base64Helper.encode(data.Id);
         switch (arg.name) {
-            case "Rincian":
+            case "Detail":
                 this.router.navigateToRoute('view', { id: encoded });
                 break;
-            case "Cetak PDF":
-                this.service.getPdfById(data._id);
-                break;
         }
-    }
-
-    contextShowCallback(index, name, data) {
-        switch (name) {
-            case "Cetak PDF":
-                return data.isPosted;
-            default:
-                return true;
-        }
-    }
-
-    posting() {
-        if (this.dataToBePosted.length > 0) {
-            this.service.post(this.dataToBePosted).then(result => {
-                this.table.refresh();
-            }).catch(e => {
-                this.error = e;
-            })
-        }
-    }
-
-    create() {
-        this.router.navigateToRoute('create');
     }
 }
