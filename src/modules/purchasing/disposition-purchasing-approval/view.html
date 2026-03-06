@@ -1,0 +1,80 @@
+<template>
+  <style>
+    .bordered {
+      border-style: solid;
+      border-width: 1px;
+      padding-top: 15px;
+    }
+
+    .bordered-next {
+      border-left-width: 0px;
+      padding-top: 18.5px;
+      padding-bottom: 18.5px;
+    }
+
+    .bordered-not-last {
+      border-bottom-width: 0px;
+    }
+
+    .wrap {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .approval-status {
+      margin-top: 20px;
+    }
+
+    .approval-box {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 10px;
+      background-color: #f9f9f9;
+    }
+
+    .approval-box.approved {
+      background-color: #d4edda;
+      border-color: #c3e6cb;
+    }
+
+    .approval-box h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+  </style>
+  <require from="../../../lib/number-format-value-converter.js"></require>
+  <require from="../../../lib/date-format-value-converter.js"></require>
+
+  <au-input-form title.bind="title" with.bind="context" options.bind="formOptions" edit.call="editCallback($event)" delete.call="deleteCallback($event)">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-6">
+          <au-textbox label="No. Disposisi" options.bind="length4" value.bind="data.dispositionNo" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Tipe Disposisi" options.bind="length4" value.bind="data.typeDisposition" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Tanggal Disposisi" options.bind="length4" value.bind="data.dispositionDateFormatted" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Kepada" options.bind="length4" value.bind="data.to" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Jabatan Kepada" options.bind="length4" value.bind="data.toPosition" read-only.bind="readOnly"></au-textbox>
+          <au-multiline label="Alasan Disposisi" options.bind="length4" value.bind="data.reasonDisposition" read-only.bind="readOnly"></au-multiline>
+          <au-textbox label="Refer To" options.bind="length4" value.bind="data.referTo" read-only.bind="readOnly"></au-textbox>
+        </div>
+        <div class="col-md-6">
+          <au-textbox label="Term Of Payment" options.bind="length4" value.bind="data.termOfPayment" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Term Of Shipment" options.bind="length4" value.bind="data.termOfShipment" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Account Name" options.bind="length4" value.bind="data.accountName" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Account Number" options.bind="length4" value.bind="data.accountNumber" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Beneficiary Bank" options.bind="length4" value.bind="data.beneficiaryBank" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Bank Address" options.bind="length4" value.bind="data.bankAddress" read-only.bind="readOnly"></au-textbox>
+          <au-textbox label="Swift Code" options.bind="length4" value.bind="data.swiftCode" read-only.bind="readOnly"></au-textbox>
+          <au-checkbox label="Investasi" options.bind="length4" value.bind="data.isInvestment" read-only.bind="readOnly"></au-checkbox>
+        </div>
+      </div>
+    </div>
+    
+    <br>
+    <h4>Daftar Barang</h4>
+    <au-collection items.bind="data.items" columns.bind="itemsInfo.columns" read-only.bind="readOnly">
+    </au-collection>
+
+  </au-input-form>
+
+</template>

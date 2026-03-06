@@ -9,11 +9,13 @@ export class List {
     dataToBePosted = [];
     info = { page: 1, keyword: '' };
 
-    rowFormatter(data, index) {
-        if (data.isPosted)
+     rowFormatter(data, index) {
+        if (!data.isPosted) {
+            return { classes: "" };
+        } else if ((!data.isPriceReduction && data.isPosted) || (data.isPriceReduction && data.isApprovedLevel1))
             return { classes: "success" }
         else
-            return {}
+            return { classes: "danger" }
     }
 
     context = ["Rincian", "Cetak PDF"]
@@ -50,7 +52,14 @@ export class List {
             formatter: function (value, row, index) {
                 return value ? "SUDAH" : "BELUM";
             }
-        }
+        },
+        {
+            field: "isPriceReduction", title: "Harga Lebih Rendah",
+            formatter: function (value, row, index) {
+                return value ? "IYA" : "TIDAK";
+            }
+        },
+        { field: "IsApprovedGMLabel", title: "Approval GM" },
     ];
 
     loader = (info) => {
@@ -61,7 +70,7 @@ export class List {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             keyword: info.search,
-            select: ["date", "no", "supplier.name", "items.purchaseRequest.no", "isPosted"],
+            select: ["date", "no", "supplier.name", "items.purchaseRequest.no", "isPosted", "isPriceReduction", "isApprovedLevel1"],
             order: order
         }
 
@@ -76,6 +85,7 @@ export class List {
                         return prNo.indexOf(item) == pos;
                     })
                     _data.purchaseRequestNo = `<ul>${uniqueArray.join()}</ul>`;
+                    _data.IsApprovedGMLabel = _data.isPriceReduction ? (_data.isApprovedLevel1 ? "SUDAH" : "BELUM") : "-";
                 }
                 return {
                     total: result.info.total,

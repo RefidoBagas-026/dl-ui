@@ -1,0 +1,84 @@
+<template>
+    <au-input-form 
+        title.bind="title" 
+        with.bind="context">
+
+        <div class="row">
+            <div class="col-md-6">
+                <au-textbox 
+                    label=""
+                    read-only.bind="true"
+                    options.bind="controlOptions">
+                </au-textbox>
+                
+                <au-textbox 
+                    label="Nomor Disposisi" 
+                    value.bind="data.DispositionNo" 
+                    error.bind="error.DispositionNo" 
+                    read-only.bind="true"
+                    if.bind="(readOnly || isEdit)"
+                    options.bind="controlOptions">
+                </au-textbox>
+                
+                <au-datepicker 
+                    label="Tgl. Disposisi" 
+                    value.bind="data.DispositionDate" 
+                    error.bind="error.DispositionDate" 
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+                </au-datepicker>
+                 <au-multiline
+                    label="Keterangan"
+                    value.bind="data.Remark"
+                    error.bind="error.Remark"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-multiline>
+
+                 <au-autocomplete 
+                    label="Pimpinan 1"
+                    value.bind="IsApprovedUnit1" 
+                    error.bind="error.ApprovedUnit1By"
+                    loader.bind="accountSignatureLoader1"
+                    placeholder="Cari Pimpinan 1" 
+                    text.bind="ApprovedUnit1View"
+                    key="Id"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+                </au-autocomplete>
+                <au-autocomplete 
+                    label="Pimpinan 2"
+                    value.bind="IsApprovedUnit2" 
+                    error.bind="error.ApprovedUnit2By"
+                    loader.bind="accountSignatureLoader2"
+                    placeholder="Cari Pimpinan 2" 
+                    text.bind="ApprovedUnit2View"
+                    key="Id"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+                </au-autocomplete>
+            </div>
+    </div>
+
+        <au-textbox error.bind="error.ItemsCount" read-only.bind="true"></au-textbox>
+
+        <au-collection 
+            items.bind="data.Items" 
+            errors.bind="error.Items"
+            columns.bind="items.columns"
+            options.bind="options"
+            read-only.bind="readOnly" 
+            if.bind="isItem"
+            header-template="modules/purchasing/purchasing-disposition-unit/template/disposition-purchase-header"
+            item-template="modules/purchasing/purchasing-disposition-unit/template/disposition-purchase-item">
+        </au-collection>
+    
+        <div slot="actions" class="btn-group">
+            <button type="button" class="btn btn-default" click.delegate="context.cancel($event)"     if.one-way="context.hasCancel">Kembali</button>
+            <button type="button" class="btn btn-primary" click.delegate="context.edit($event)"    if.bind="context.hasEdit">Ubah</button>
+            <button type="button" class="btn btn-success" click.delegate="context.save($event)"       if.one-way="context.hasSave">Simpan</button>
+            <button type="button" class="btn btn-danger"  click.delegate="context.delete($event)"   if.bind="context.hasDelete">Hapus</button>
+            <button class="btn btn-primary" click.delegate="context.unpost($event)" if.one-way="context.hasUnpost && !data.IsApprovedUnit1">Unpost</button>
+        </div>
+  </au-input-form>
+</template>

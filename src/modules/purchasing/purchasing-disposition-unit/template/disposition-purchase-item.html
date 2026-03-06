@@ -1,0 +1,56 @@
+<template >
+    <tr>
+        <td  class="col-sm-3">
+            <au-autocomplete 
+                    value.bind="dataProduct" 
+                    error.bind="error.ProductName"
+                    loader.bind="productLoader"
+                    placeholder="cari barang" 
+                    key="code"
+                    query.bind="isPostedQuery"
+                    read-only.bind="(options.readOnly || (options.isEdit && !data.IsNew))">
+                </au-autocomplete>
+        </td>
+        <td>
+            <au-numeric 
+                value.bind="data.Quantity"
+                read-only.bind="readOnly"
+                error.bind="error.Quantity"
+                input.delegate="options.calculateTotalPrice(data)">
+            </au-numeric>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.Uom" 
+                read-only.bind="true"
+                error.bind="error.Uom">
+            </au-textbox>
+        </td>
+         <td>
+            <au-textbox 
+                value.bind="data.ProductCurrency"
+                read-only.bind="true"
+                error.bind="error.ProductCurrency">
+            </au-textbox>
+        </td>
+        <td>
+            <au-numeric 
+                value.bind="data.ProductPrice"
+                read-only.bind="true" 
+                error.bind="error.ProductPrice"
+                input.delegate="options.calculateTotalPrice(data)">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric 
+                value.bind="data.TotalPrice"
+                read-only="true"
+                error.bind="error.TotalPrice">
+            </au-numeric>
+        </td>
+       
+        <td if.bind="!readOnly">  
+            <button type="button" click.delegate="options.remove(data)" class="btn btn-danger btn-sm">-</button>
+        </td>
+    </tr>
+</template>

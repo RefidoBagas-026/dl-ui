@@ -8,7 +8,7 @@
             <button class="btn btn-primary" click.delegate="context.edit($event)" if.one-way="context.hasEdit">Ubah</button>
             <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Simpan</button>
             <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button>
-            <button class="btn btn-primary" click.delegate="context.unpost($event)" if.one-way="context.hasUnpost">Unpost</button>
+            <button class="btn btn-primary" click.delegate="context.unpost($event)" if.one-way="context.hasUnpost && !data.isApprovedUnit1">Unpost</button>
         </div>
 
         <au-textbox 
@@ -100,6 +100,29 @@
             read-only.bind="readOnly"
             options.bind="controlOptions">
         </au-multiline>
+
+        <au-autocomplete 
+            label="Pimpinan 1"
+            value.bind="IsApprovedUnit1" 
+            error.bind="error.ApprovedUnit1By"
+            loader.bind="accountSignatureLoader1"
+            placeholder="Cari Pimpinan 1" 
+            text.bind="ApprovedUnit1View"
+            key="Id"
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-autocomplete>
+        <au-autocomplete 
+            label="Pimpinan 2"
+            value.bind="IsApprovedUnit2" 
+            error.bind="error.ApprovedUnit2By"
+            loader.bind="accountSignatureLoader2"
+            placeholder="Cari Pimpinan 2" 
+            text.bind="ApprovedUnit2View"
+            key="Id"
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-autocomplete>
 
         <au-textbox
             show.bind="error.itemscount"

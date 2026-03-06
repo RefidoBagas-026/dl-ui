@@ -200,6 +200,15 @@
                   options.bind="controlOptions">
     </au-multiline>
 
+        <au-multiline label="Alasan"
+                        value.bind="data.priceReductionReason"
+                        error.bind="error.priceReductionReason"
+                        placeholder="tambah alasan pengurangan harga"
+                        read-only.bind="readOnly"
+                        options.bind="controlOptions"
+                        if.bind="showPriceReductionReason">
+        </au-multiline>
+
     <au-textbox show.bind="error.itemscount"
                 error.bind="error.itemscount"
                 read-only="true">

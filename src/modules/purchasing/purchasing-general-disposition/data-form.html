@@ -1,0 +1,263 @@
+
+<template>
+
+  <style>
+/* Resizable Modal Styles */
+    #pdfPreviewModal .modal-dialog {
+      position: relative;
+      margin: 30px auto;
+      width: 90%;
+      max-width: 90%;
+    }
+
+    .resize-handle {
+      position: absolute;
+      z-index: 10;
+    }
+
+    .resize-handle.resize-e {
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      cursor: ew-resize;
+    }
+
+    .resize-handle.resize-w {
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      cursor: ew-resize;
+    }
+
+    .resize-handle.resize-s {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 10px;
+      cursor: ns-resize;
+    }
+
+    .resize-handle.resize-n {
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 10px;
+      cursor: ns-resize;
+    }
+
+    .resize-handle.resize-se {
+      right: 0;
+      bottom: 0;
+      width: 15px;
+      height: 15px;
+      cursor: nwse-resize;
+    }
+
+    .resize-handle.resize-sw {
+      left: 0;
+      bottom: 0;
+      width: 15px;
+      height: 15px;
+      cursor: nesw-resize;
+    }
+
+    .resize-handle.resize-ne {
+      right: 0;
+      top: 0;
+      width: 15px;
+      height: 15px;
+      cursor: nesw-resize;
+    }
+
+    .resize-handle.resize-nw {
+      left: 0;
+      top: 0;
+      width: 15px;
+      height: 15px;
+      cursor: nwse-resize;
+    }
+
+    .resize-handle:hover {
+      background-color: rgba(0, 123, 255, 0.1);
+    }
+
+    .preview-size-indicator {
+      position: absolute;
+      top: 10px;
+      right: 50px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 12px;
+      pointer-events: none;
+      z-index: 1060;
+    }
+
+</style>
+    <au-input-form 
+        title.bind="title" 
+        with.bind="context">
+
+        
+
+        <div class="row">
+            <div class="col-md-6">
+                <au-textbox 
+                    label=""
+                    read-only.bind="true"
+                    options.bind="controlOptions">
+                </au-textbox>
+                
+                <au-textbox 
+                    label="Nomor Disposisi" 
+                    value.bind="data.DispositionNo" 
+                    error.bind="error.DispositionNo" 
+                    read-only.bind="true"
+                    if.bind="(readOnly || isEdit)"
+                    options.bind="controlOptions">
+                </au-textbox>
+                 <au-dropdown 
+                    label="Jenis Disposisi"
+                    value.bind="TypeDisposition"
+                    error.bind="error.ReceiptName"
+                    read-only.bind="(readOnly || isEdit)" 
+                    items.bind="dispositionTypes"
+                    change.delegate="dispositionTypeChanged($event)"
+                    options.bind="controlOptions">
+                </au-dropdown>
+                <au-datepicker 
+                    label="Tgl. Disposisi" 
+                    value.bind="data.DispositionDate" 
+                    error.bind="error.DispositionDate" 
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+                </au-datepicker>
+                 <au-multiline
+                    label="Keterangan"
+                    value.bind="data.Remark"
+                    error.bind="error.Remark"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-multiline>
+               
+            </div>
+    </div>
+
+        <au-textbox error.bind="error.ItemsCount" read-only.bind="true"></au-textbox>
+
+        <au-collection 
+            items.bind="data.Items" 
+            errors.bind="error.Items"
+            columns.bind="ItemsNewDisposition.columns"
+            add.bind="ItemsNewDisposition.onAdd"
+            onRemove.bind="ItemsNewDisposition.onRemove"
+            options.bind="ItemsNewDisposition.options"
+            read-only.bind="readOnly" 
+            if.bind="isItem && TypeDisposition === 'Disposisi Baru'"
+            header-template="modules/purchasing/purchasing-general-disposition/template/disposition-new-header"
+            item-template="modules/purchasing/purchasing-general-disposition/template/disposition-new-item">
+        </au-collection>
+
+        <au-collection 
+            items.bind="data.Items" 
+            errors.bind="error.Items"
+            columns.bind="ItemsPriceIncreaseDisposition.columns"
+            add.bind="ItemsPriceIncreaseDisposition.onAdd"
+            onRemove.bind="ItemsPriceIncreaseDisposition.onRemove"
+            options.bind="ItemsPriceIncreaseDisposition.options"
+            read-only.bind="readOnly" 
+            if.bind="isItem && TypeDisposition === 'Disposisi Kenaikan Harga'"
+            header-template="modules/purchasing/purchasing-general-disposition/template/disposition-price-increases-header"
+            item-template="modules/purchasing/purchasing-general-disposition/template/disposition-price-increases-item">
+        </au-collection>
+    
+        
+
+        <div class="row" if.bind="isItem && (TypeDisposition === 'Disposisi Baru' || TypeDisposition === 'Disposisi Kenaikan Harga')">
+      <div class="col-md-6">
+        <h4>File Dokumen</h4>
+        <table class="table table-hover table-bordered">
+          <thead>
+            <th class="col-md-11">File</th>
+            <th if.bind="!readOnly" class="col-md-1">
+              <button click.delegate="onAddDocument()" class="btn btn-success pull-right">+</button>
+            </th>
+          </thead>
+          <tbody>
+            <tr if.bind="!data.DocumentsFileName || data.DocumentsFileName.length < 1">
+              <td colspan="2">
+                Tidak ada file
+              </td>
+            </tr>
+            <tr if.bind="data.DocumentsFileName" repeat.for="doc of data.DocumentsFileName">
+              <td if.bind="readOnly">
+                <button class="btn btn-primary justify-content-center"
+                  click.delegate="downloadDocument($index)">${doc}</button>
+                  <button class="btn btn-info ml-2"
+                click.delegate="previewDocument($index)">Preview</button>
+              </td>
+              <td if.bind="!readOnly">
+                <input if.bind="!documentsPathTemp[$index]" type="file" id="documentInput${$index}"
+                  value.bind="documentUpload" change.delegate="documentInputChanged($index)"
+                  accept=".pdf, .xls, .xlsx, .doc, .docx">
+                <button if.bind="documentsPathTemp[$index]" class="btn btn-primary justify-content-center"
+                  click.delegate="downloadDocument($index)">${doc}</button>
+                <span class="text-danger" if.bind="error.DocumentsFile[$index]">${error.DocumentsFile[$index]}</span>
+              </td>
+              <td if.bind="!readOnly">
+                <button class="btn btn-danger pull-right" click.delegate="onRemoveDocument($index)">-</button>
+                
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+       <!-- PDF Preview Modal -->
+      <div class="modal fade" id="pdfPreviewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+          
+            <div class="resize-handle resize-n" data-direction="n"></div>
+            <div class="resize-handle resize-s" data-direction="s"></div>
+            <div class="resize-handle resize-e" data-direction="e"></div>
+            <div class="resize-handle resize-w" data-direction="w"></div>
+            <div class="resize-handle resize-ne" data-direction="ne"></div>
+            <div class="resize-handle resize-nw" data-direction="nw"></div>
+            <div class="resize-handle resize-se" data-direction="se"></div>
+            <div class="resize-handle resize-sw" data-direction="sw"></div>
+            
+            <div class="modal-header">
+              <h5 class="modal-title" id="previewModalLabel">Preview</h5>
+              <span class="preview-size-indicator">
+                Lebar: ${previewWidth}% | Tinggi: ${previewHeight}px
+              </span>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <embed id="pdfEmbed" width="100%" type="application/pdf" style="display: none;" css="height: ${previewHeight}px">
+              <div id="excelTable" style="display: none; overflow-y: auto;" css="max-height: ${previewHeight}px"></div>
+              <img id="imagePreview" style="display: none; max-width: 100%;" css="max-height: ${previewHeight}px">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <div slot="actions" class="btn-group">
+            <button type="button" class="btn btn-default" click.delegate="context.cancel($event)"     if.one-way="context.hasCancel">Kembali</button>
+            <button type="button" class="btn btn-primary" click.delegate="context.edit($event)"    if.bind="context.hasEdit">Ubah</button>
+            <button type="button" class="btn btn-success" click.delegate="context.save($event)"       if.one-way="context.hasSave">Simpan</button>
+            <button type="button" class="btn btn-danger"  click.delegate="context.delete($event)"   if.bind="context.hasDelete">Hapus</button>
+            <button class="btn btn-primary" click.delegate="context.unpost($event)" if.one-way="context.hasUnpost && !data.IsApprovedManager">Unpost</button>
+        </div>
+  </au-input-form>
+</template>

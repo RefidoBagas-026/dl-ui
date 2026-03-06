@@ -1,0 +1,26 @@
+<template >
+    <tr>
+        <th rowspan="2" style="vertical-align: middle; text-align: center;">Kode Barang</th>
+        <th rowspan="2" style="vertical-align: middle; text-align: center;">Nama Barang Lama</th>
+        <th rowspan="2" style="vertical-align: middle; text-align: center;">Satuan Lama</th>
+        <th rowspan="2" style="vertical-align: middle; text-align: center;">Mata Uang</th>
+        <th rowspan="2" style="vertical-align: middle; text-align: center;">Tanggal Terakhir Beli</th>
+        <th rowspan="2" style="vertical-align: middle; text-align: center;">Harga Terakhir Beli</th>
+        <th rowspan="2" style="vertical-align: middle; text-align: center;">Harga Master</th>
+        <th rowspan="2" style="vertical-align: middle; text-align: center;">Harga Update</th>
+        <th rowspan="2" style="vertical-align: middle; text-align: center;">Selisih Harga</th>
+        <th rowspan="2" style="vertical-align: middle; text-align: center;">Persentase</th>
+        <th colspan="2" style="text-align: center;">Supplier 1</th>
+        <th colspan="2" style="text-align: center;">Supplier 2</th>
+        <th colspan="2" style="text-align: center;">Supplier 3</th>
+        <th if.bind="!readOnly" rowspan="2" style="width: 75px; vertical-align: middle;"><button type="button" click.delegate="onadd(data, $event)" class="btn btn-success btn-sm">+</button></th>
+    </tr>
+    <tr>
+        <th style="text-align: center;">Nama</th>
+        <th style="text-align: center;">Harga</th>
+        <th style="text-align: center;">Nama</th>
+        <th style="text-align: center;">Harga</th>
+        <th style="text-align: center;">Nama</th>
+        <th style="text-align: center;">Harga</th>
+    </tr>
+</template>

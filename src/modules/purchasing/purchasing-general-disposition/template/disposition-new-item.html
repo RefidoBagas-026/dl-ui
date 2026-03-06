@@ -1,0 +1,110 @@
+<template >
+    <tr>
+         <td>
+            <au-textbox 
+                value.bind="data.ProductCode"
+                read-only.bind="readOnly"
+                error.bind="error.ProductCode">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.ProductName"
+                read-only.bind="readOnly"
+                error.bind="error.ProductName">
+            </au-textbox>
+        </td>
+        <td>
+            <au-autocomplete 
+                value.bind="dataUom" 
+                error.bind="error.Uom"
+                loader.bind="uomLoader"
+                placeholder="cari satuan" 
+                text="Unit"
+                key="Id"
+                read-only.bind="readOnly">
+            </au-autocomplete>
+        </td>
+        <td>
+            <au-autocomplete 
+                value.bind="dataCurrency" 
+                error.bind="error.ProductCurrency"
+                loader.bind="currencyLoader"
+                placeholder="cari mata uang" 
+                text="code"
+                key="Id"
+                read-only.bind="readOnly">
+            </au-autocomplete>
+        </td>
+        
+        <td>
+            <au-numeric 
+                value.bind="data.ProductPrice"
+                read-only.bind="true"
+                error.bind="error.ProductPrice">
+            </au-numeric>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.SupplierName1"
+                read-only.bind="readOnly"
+                error.bind="error.SupplierName1">
+            </au-textbox>
+        </td>
+        <td>
+            <au-numeric 
+                value.bind="data.SupplierPrice1"
+                read-only.bind="readOnly"
+                error.bind="error.SupplierPrice1">
+            </au-numeric>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.SupplierName2"
+                read-only.bind="readOnly"
+                error.bind="error.SupplierName2">
+            </au-textbox>
+        </td>
+        <td>
+            <au-numeric 
+                value.bind="data.SupplierPrice2"
+                read-only.bind="readOnly"
+                error.bind="error.SupplierPrice2">
+            </au-numeric>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.SupplierName3"
+                read-only.bind="readOnly"
+                error.bind="error.SupplierName3">
+            </au-textbox>
+        </td>
+        <td>
+            <au-numeric 
+                value.bind="data.SupplierPrice3"
+                read-only.bind="readOnly"
+                error.bind="error.SupplierPrice3">
+            </au-numeric>
+        </td>
+        
+        <td if.bind="!readOnly">
+            <button type="button" click.delegate="onremove(data, $event)" class="btn btn-danger btn-sm">-</button>
+        </td>
+    </tr>
+   <tr style="padding: 5px; background-color: #e2e2e2; justify-content:start;"
+    show.bind="!readOnly && ((data.SupplierName1 && data.SupplierPrice1>0) || (data.SupplierName2 && data.SupplierPrice2>0) || (data.SupplierName3 && data.SupplierPrice3>0))">
+    <td colspan="17" style="border: none; padding: 10px;">
+        <div style="width: 50%;">
+            <au-dropdown
+                value.bind="selectedSupplier" 
+                label="Pilih Supplier" 
+                items.one-way="supplierList"
+                key="id" 
+                text="label"
+                change.delegate="supplierChanged($event)"
+                options.bind="controlOptions">
+            </au-dropdown>
+        </div>
+    </td>
+</tr>
+</template>

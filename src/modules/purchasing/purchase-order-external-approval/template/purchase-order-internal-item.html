@@ -1,0 +1,92 @@
+
+                <template >
+                    <tr>
+                    <td>
+                        <au-textbox 
+                            value.bind="data.product.code + ' - ' + data.product.name" 
+                            error.bind="error.product" 
+                            read-only.bind="options.readOnly"
+                            options.bind="controlOptions">
+                        </au-textbox>
+                    </td>
+                    <td>
+                        <au-numeric 
+                            value.bind="data.defaultQuantity" 
+                            read-only.bind="options.readOnly" 
+                            format = "0,0.00"
+                            options.bind="controlOptions">
+                        </au-numeric>
+                    </td>
+                    <td>
+                        <au-textbox 
+                            value.bind="data.defaultUom.unit" 
+                            read-only.bind="options.readOnly" 
+                            options.bind="controlOptions">
+                        </au-textbox>                    
+                    </td>
+                    <td>
+                        <au-numeric 
+                            value.bind="data.dealQuantity" 
+                            error.bind="error.dealQuantity"
+                            read-only.bind="options.readOnly" 
+                            options.bind="controlOptions">
+                        </au-numeric>
+                    </td>
+                    <td>
+                        <au-textbox 
+                            value.bind="data.product.uom.unit" 
+                            error.bind="error.dealUom"
+                            read-only.bind="options.readOnly"
+                            options.bind="controlOptions">
+                        </au-textbox>                   
+                    </td>
+                    <td>
+                        <au-numeric 
+                            value.bind="data.conversion" 
+                            error.bind="error.conversion"
+                            read-only.bind="options.readOnly" 
+                            change.delegate="conversionChanged($event)"
+                            options.bind="controlOptions">
+                        </au-numeric>
+                    </td>
+
+                      <td>
+                        <au-numeric 
+                            value.bind="data.priceMaster" 
+                            error.bind="error.priceMaster"
+                            format="0,0.00"
+                            read-only.bind="options.readOnly"
+                            options.bind="controlOptions">
+                        </au-numeric>
+                    </td>
+
+                     <td>
+                        <au-numeric 
+                            value.bind="data.priceBeforeTax" 
+                            error.bind="error.priceBeforeTax"
+                            format="0,0.00"
+                            read-only.bind="options.readOnly"
+                            options.bind="controlOptions">
+                        </au-numeric>
+                    </td>
+
+                    <td if.bind="context.context.options.useVat" align="center">
+                        <au-checkbox 
+                            value.bind="data.includePpn" 
+                            error.bind="error.includePpn" 
+                            read-only.bind="readOnly"
+                            change.delegate="useIncomeTaxChanged($event)"
+                            options.bind="controlOptions">
+                        </au-checkbox>
+                    </td>
+                    <td>
+                        <au-textbox 
+                            value.bind="data.productRemark" 
+                            error.bind="error.productRemark"
+                            read-only.bind="options.readOnly" 
+                            placeholder="tambah keterangan" 
+                            options.bind="controlOptions">
+                        </au-textbox>
+                    </td>
+                    </tr>
+                </template>
