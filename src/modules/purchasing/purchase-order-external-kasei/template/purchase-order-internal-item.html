@@ -58,6 +58,15 @@
                             options.bind="controlOptions">
                         </au-numeric>
                     </td>
+                    <td>
+                        <au-numeric 
+                            value.bind="data.priceMaster" 
+                            error.bind="error.priceMaster"
+                            format="0,0.0000"
+                            read-only.bind="options.readOnly"
+                            options.bind="controlOptions">
+                        </au-numeric>
+                    </td>
                     <td if.bind = "hasView">
                         <au-numeric 
                             value.bind="data.priceBeforeTax" 
