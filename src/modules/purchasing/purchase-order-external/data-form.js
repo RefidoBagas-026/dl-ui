@@ -149,7 +149,8 @@ export class DataForm {
             const pb = this._toNumber(detail.priceBeforeTax);
             const pm = this._toNumber(detail.priceMaster);
             if (!isNaN(pb) && !isNaN(pm)) {
-              if (pb < pm) {
+              //if (pb < pm && (pm - pb) / pm * 100 > 20) {
+              if (pm > 0 && pb < pm * 0.8) {
                 show = true;
               } else {
                 try { detail.priceReductionReason = null; } catch (e) { }

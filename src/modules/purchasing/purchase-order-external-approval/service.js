@@ -10,7 +10,7 @@ class Service extends RestService {
     }
 
      search(info) {
-        var endpoint = `${serviceUri}`;
+        var endpoint = `${serviceUri}/approval`;
         return super.list(endpoint, info);
     }
 
