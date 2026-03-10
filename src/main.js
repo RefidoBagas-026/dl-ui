@@ -11,6 +11,8 @@ import authConfig from "../auth-config";
 import { Config } from "aurelia-api";
 import { AuthService } from 'aurelia-authentication';
 let authService;
+let authEndpoint;
+let idleEventsActive = false;
 
 // comment out if you don't want a Promise polyfill (remove also from webpack.common.js)
 import * as Bluebird from 'bluebird';
@@ -22,6 +24,7 @@ let idleTimer;
 let warningTimer;
 let warningPopup;
 let countdownInterval;
+let currentWarningEndAt = null;
 
 let idleEvents = ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'];
 let warningActive = false;
@@ -44,27 +47,20 @@ function disableIdleEvents() {
     }
 }
 
-// function updateLastLogin() {
-//     console.log(authService);
-//     console.log(authEndpoint);
-//     if (authEndpoint && authService) {
-//         authEndpoint.update('me', null, {})
-//             .then(() => {
-//                 authService.getMe()
-//                     .then((result) => {
-//                         // result.data berisi user terbaru
-//                         // Jika ingin update state global, tambahkan di sini
-//                         resetIdleTimer();
-//                     });
-//             })
-//             .catch((error) => {
-//                 console.error('Error updating last login time:', error);
-//                 resetIdleTimer(); // Tetap reset timer meski gagal
-//             });
-//     } else {
-//         resetIdleTimer();
-//     }
-// }
+function updateLastLogin() {
+    return authEndpoint.update('me', null, {})
+        .then(() => {
+            return authService.getMe();
+        })
+        .then((result) => {
+            // result.data berisi user terbaru termasuk expiredDateTime
+            return result.data;
+        })
+        .catch((error) => {
+            console.error('Error updating last login time:', error);
+            return null;
+        });
+}
 
 
 function showWarningPopup() {
@@ -73,8 +69,27 @@ function showWarningPopup() {
     // Jika popup sudah ada, jangan buat lagi
     if (document.getElementById('idle-warning-popup')) return;
     warningActive = true;
-    const warningDurationSeconds = 3600; 
-    const warningEndAt = Date.now() + (warningDurationSeconds * 1000);
+
+    // Update last login dan ambil expiredDateTime untuk countdown
+    updateLastLogin().then((me) => {
+        let warningEndAt;
+        if (me && me.expiredDateTime) {
+            // Gunakan expiredDateTime dari server untuk countdown
+            warningEndAt = new Date(me.expiredDateTime).getTime();
+        } else {
+            // Fallback: 1 jam dari sekarang jika expiredDateTime tidak tersedia
+            warningEndAt = Date.now() + (3600 * 1000);
+        }
+
+        currentWarningEndAt = warningEndAt;
+        const initialSecondsLeft = Math.max(0, Math.ceil((warningEndAt - Date.now()) / 1000));
+        renderWarningPopup(warningEndAt, initialSecondsLeft);
+    });
+}
+
+function renderWarningPopup(warningEndAt, initialSecondsLeft) {
+    // Cek ulang jika popup sudah hilang saat menunggu response API
+    if (!warningActive) return;
     warningPopup = document.createElement('div');
     warningPopup.id = 'idle-warning-popup';
     warningPopup.style.position = 'fixed';
@@ -89,15 +104,15 @@ function showWarningPopup() {
     warningPopup.style.zIndex = '9999';
     warningPopup.innerHTML = `
         <div style="background:white;padding:32px;border-radius:8px;box-shadow:0 2px 8px #0003;text-align:center;">
-            <h3>Anda akan logout otomatis dalam <span id="idle-countdown">${formatDuration(warningDurationSeconds)}</span></h3>
+            <h3>Anda akan logout otomatis dalam <span id="idle-countdown">${formatDuration(initialSecondsLeft)}</span></h3>
             <p>Silakan klik tombol di bawah jika Anda masih aktif.</p>
             <button class="btn btn-primary" id="idle-warning-btn" style="padding:8px 24px;font-size:16px;">I'm here</button>
         </div>
     `;
     document.body.appendChild(warningPopup);
     document.getElementById('idle-warning-btn').onclick = () => {
-        resetIdleTimer();
-        hideWarningPopup();
+        hideWarningPopup();   // harus duluan agar warningActive = false
+        resetIdleTimer();     // baru set idle timer baru
     };
     let blinkOn = true;
     countdownInterval = setInterval(() => {
@@ -120,16 +135,7 @@ function showWarningPopup() {
         }
         if (remainingMs <= 0) {
             clearInterval(countdownInterval);
-            hideWarningPopup();
-            // Logout otomatis
-            if (authService) {
-                authService.logout().then(() => {
-                    window.location.href = '#/login';
-                });
-            } else {
-                window.localStorage.clear();
-                window.location.href = '#/login';
-            }
+            forceLogout();
         }
     }, 1000);
 }
@@ -148,6 +154,48 @@ function hideWarningPopup() {
     }
     clearInterval(countdownInterval);
     warningActive = false;
+    currentWarningEndAt = null;
+}
+
+function forceLogout() {
+    hideWarningPopup();
+    if (authService) {
+        authService.logout().then(() => {
+            window.location.href = '#/login';
+        });
+    } else {
+        window.localStorage.clear();
+        window.location.href = '#/login';
+    }
+}
+
+function onVisibilityChange() {
+    if (document.visibilityState !== 'visible') return;
+    if (window.location.hash.indexOf('#/login') !== -1) return;
+
+    // Jika popup warning aktif dan ada expiredDateTime, cek langsung
+    if (warningActive && currentWarningEndAt) {
+        if (Date.now() >= currentWarningEndAt) {
+            forceLogout();
+            return;
+        }
+    }
+
+    // Jika tidak ada popup, cek ke server apakah session sudah expired
+    if (authService && authService.isAuthenticated()) {
+        authService.getMe()
+            .then((result) => {
+                if (result && result.data && result.data.expiredDateTime) {
+                    const expiredAt = new Date(result.data.expiredDateTime).getTime();
+                    if (Date.now() >= expiredAt) {
+                        forceLogout();
+                    }
+                }
+            })
+            .catch((error) => {
+                console.error('Error checking session on visibility change:', error);
+            });
+    }
 }
 
 function resetIdleTimer() {
@@ -164,6 +212,7 @@ function setupIdleTimeout() {
     idleEvents.forEach(event => {
         window.addEventListener(event, resetIdleTimer);
     });
+    document.addEventListener('visibilitychange', onVisibilityChange);
     resetIdleTimer();
 }
 
@@ -317,7 +366,31 @@ export async function configure(aurelia) {
     // aurelia.use.plugin('aurelia-html-import-template-loader')
 
     await aurelia.start();
-    //authEndpoint = aurelia.container.get(Config).getEndpoint('auth');
+    authEndpoint = aurelia.container.get(Config).getEndpoint('auth');
+
+    // Cek expiredDateTime saat refresh halaman
+    if (authService && authService.isAuthenticated()) {
+        try {
+            const result = await authService.getMe();
+            if (result && result.data && result.data.expiredDateTime) {
+                const expiredAt = new Date(result.data.expiredDateTime).getTime();
+                if (Date.now() >= expiredAt) {
+                    await authService.logout();
+                    window.location.href = '#/login';
+                    aurelia.setRoot('login');
+                    return;
+                }
+            }
+        } catch (error) {
+            console.error('Error checking session on page load:', error);
+            // Jika gagal cek, arahkan ke login untuk keamanan
+            await authService.logout();
+            window.location.href = '#/login';
+            aurelia.setRoot('login');
+            return;
+        }
+    }
+
     aurelia.setRoot('app');
 
     // Mark app as ready for splash screen
