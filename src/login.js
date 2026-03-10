@@ -2,6 +2,7 @@ import { Aurelia, inject } from 'aurelia-framework';
 import { AuthService } from "aurelia-authentication";
 import '../styles/signin.css';
 import JSEncrypt from 'jsencrypt';
+import { PasswordValidator } from './utils/password-validator';
 
 @inject(AuthService)
 export class Login {
@@ -58,6 +59,15 @@ export class Login {
         return this.authService.login({ authEncrypted })
             .then(response => {
                 console.log("success logged " + response);
+                this.statusMessage = PasswordValidator.validate(this.password);
+                
+                if (this.statusMessage) {
+                    alert(this.statusMessage);
+                    this.disabledButton = false;
+                    window.location.href = `#/changepass?Username=${this.username}`;
+                }
+                
+                // location.reload();
             })
             .catch(err => {
                 this.error = true;
