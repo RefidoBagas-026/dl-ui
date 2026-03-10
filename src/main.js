@@ -19,7 +19,7 @@ import * as Bluebird from 'bluebird';
 Bluebird.config({ warnings: false });
 
 // === Idle Timeout / Auto-Logout ===
-const IDLE_TIMEOUT_MINUTES = 1;
+const IDLE_TIMEOUT_MINUTES = 15;
 let idleTimer;
 let warningTimer;
 let warningPopup;
