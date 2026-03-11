@@ -29,6 +29,16 @@ let currentWarningEndAt = null;
 let idleEvents = ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'];
 let warningActive = false;
 
+/**
+ * Cek apakah expiredDateTime adalah DateTime.MinValue (0001-01-01T00:00:00).
+ * Jika ya, berarti session tidak memiliki batas waktu.
+ */
+function isDateTimeMinValue(dateStr) {
+    if (!dateStr) return false;
+    const d = new Date(dateStr);
+    return d.getFullYear() <= 1;
+}
+
 function enableIdleEvents() {
     if (!idleEventsActive) {
         idleEvents.forEach(event => {
@@ -47,8 +57,13 @@ function disableIdleEvents() {
     }
 }
 
-function updateLastLogin() {
-    return authEndpoint.update('me', null, {})
+/**
+ * Update last login ke server.
+ * @param {string} source - Asal request: 'popup' | 'im-here'
+ */
+function updateLastLogin(source) {
+    const body = source ? { source } : {};
+    return authEndpoint.update('me', null, body)
         .then(() => {
             return authService.getMe();
         })
@@ -71,7 +86,14 @@ function showWarningPopup() {
     warningActive = true;
 
     // Update last login dan ambil expiredDateTime untuk countdown
-    updateLastLogin().then((me) => {
+    updateLastLogin('popup').then((me) => {
+        // Jika expiredDateTime adalah DateTime.MinValue, session tidak dibatasi waktu
+        if (me && isDateTimeMinValue(me.expiredDateTime)) {
+            console.log('Session has no expiration (DateTime.MinValue). Skipping warning popup.');
+            warningActive = false;
+            return;
+        }
+
         let warningEndAt;
         if (me && me.expiredDateTime) {
             // Gunakan expiredDateTime dari server untuk countdown
@@ -111,6 +133,7 @@ function renderWarningPopup(warningEndAt, initialSecondsLeft) {
     `;
     document.body.appendChild(warningPopup);
     document.getElementById('idle-warning-btn').onclick = () => {
+        updateLastLogin('im-here'); // Kirim ke backend bahwa user masih aktif
         hideWarningPopup();   // harus duluan agar warningActive = false
         resetIdleTimer();     // baru set idle timer baru
     };
@@ -186,6 +209,7 @@ function onVisibilityChange() {
         authService.getMe()
             .then((result) => {
                 if (result && result.data && result.data.expiredDateTime) {
+                    if (isDateTimeMinValue(result.data.expiredDateTime)) return;
                     const expiredAt = new Date(result.data.expiredDateTime).getTime();
                     if (Date.now() >= expiredAt) {
                         forceLogout();
@@ -373,14 +397,19 @@ export async function configure(aurelia) {
         try {
             const result = await authService.getMe();
             if (result && result.data && result.data.expiredDateTime) {
-                const expiredAt = new Date(result.data.expiredDateTime).getTime();
-                if (Date.now() >= expiredAt) {
-                    await authService.logout();
-                    window.location.href = '#/login';
-                    aurelia.setRoot('login');
-                    return;
+                if (!isDateTimeMinValue(result.data.expiredDateTime)) {
+                    const expiredAt = new Date(result.data.expiredDateTime).getTime();
+                    if (Date.now() >= expiredAt) {
+                        await authService.logout();
+                        window.location.href = '#/login';
+                        aurelia.setRoot('login');
+                        return;
+                    }
                 }
             }
+
+            // Update last login saat reload halaman
+            await updateLastLogin('reload');
         } catch (error) {
             console.error('Error checking session on page load:', error);
             // Jika gagal cek, arahkan ke login untuk keamanan
