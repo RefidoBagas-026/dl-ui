@@ -128,7 +128,7 @@ export class Edit {
                     IsUseVat: item.IsUseVat,
                     IsPayVAT: item.IsPayVat,
                     VatValue: item.VatValue,
-                    VatValueView: item.Details.map(detail => detail['PaidPrice']).reduce((sum, current) => sum + current, 0) * (item.VatRate / 100),
+                    VatValueView: parseFloat(item.VatRate) === 12 ? item.Details.map(detail => detail['PaidPrice']).reduce((sum, current) => sum + current, 0) * (11 / 12) * (parseFloat(item.VatRate) / 100) : item.Details.map(detail => detail['PaidPrice']).reduce((sum, current) => sum + current, 0) * (parseFloat(item.VatRate) / 100),
                     DispositionAmountPaid: item.DispositionAmountPaid,
                     DispositionAmountCreated: item.DispositionAmountCreated,
                     DispositionQuantityCreated: item.DispositionQuantityCreated,
