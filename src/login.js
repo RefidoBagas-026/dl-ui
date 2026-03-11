@@ -1,10 +1,11 @@
 import { Aurelia, inject } from 'aurelia-framework';
 import { AuthService } from "aurelia-authentication";
+import { Config } from "aurelia-api";
 import '../styles/signin.css';
 import JSEncrypt from 'jsencrypt';
 import { PasswordValidator } from './utils/password-validator';
 
-@inject(AuthService)
+@inject(AuthService, Config)
 export class Login {
     // username = "dev";
     // password = "Standar123";
@@ -19,8 +20,9 @@ export class Login {
     error = false;
     disabledButton = false;
     
-    constructor(authService) {
+    constructor(authService, config) {
         this.authService = authService;
+        this.authEndpoint = config.getEndpoint('auth');
     }
 
     login() {
@@ -59,6 +61,12 @@ export class Login {
         return this.authService.login({ authEncrypted })
             .then(response => {
                 console.log("success logged " + response);
+
+                // Update last login dengan source 'login'
+                this.authEndpoint.update('me', null, { source: 'login' })
+                    .then(() => console.log('Last login updated (source: login)'))
+                    .catch(err => console.error('Error updating last login on sign in:', err));
+
                 this.statusMessage = PasswordValidator.validate(this.password);
                 
                 if (this.statusMessage) {
