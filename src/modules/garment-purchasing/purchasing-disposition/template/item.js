@@ -228,9 +228,9 @@ export class PurchasingDispositionItem {
                     if (this.data.IsPayVAT) {  
                         //ppn = item.PricePerDealUnit * qtyRemains *( this.selectedEPO.Vat.Rate / 100);   
                         if(this.selectedEPO.Vat.Rate == "12"){
-                            ppnView = item.PricePerDealUnit * qtyRemains * 11/12 * (this.selectedEPO.Vat.Rate / 100);
+                            ppn = item.PricePerDealUnit * qtyRemains * 11/12 * (this.selectedEPO.Vat.Rate / 100);
                         }else{
-                            ppnView = item.PricePerDealUnit * qtyRemains * (this.selectedEPO.Vat.Rate / 100);
+                            ppn = item.PricePerDealUnit * qtyRemains * (this.selectedEPO.Vat.Rate / 100);
                         }                   
                     }
                     if (this.data.IsUseVat) {  
@@ -322,10 +322,21 @@ export class PurchasingDispositionItem {
                     pph = parseFloat(detail.PaidPrice) * (parseFloat(this.data.IncomeTax.Rate) / 100);
                 }
                 if (this.data.IsPayVAT) {
-                    ppn = parseFloat(detail.PaidPrice) * (this.data.Vat.Rate / 100);
+                    //ppn = parseFloat(detail.PaidPrice) * (this.data.Vat.Rate / 100);
+                    if(this.data.Vat.Rate == "12"){
+                        ppn = parseFloat(detail.PaidPrice) * 11/12 * (this.data.Vat.Rate / 100);
+                    }else{
+                        ppn = parseFloat(detail.PaidPrice) * (this.data.Vat.Rate / 100);
+                    }
                 }
                 if (this.data.IsUseVat) {
-                    ppnView = parseFloat(detail.PaidPrice) * (this.data.Vat.Rate / 100);
+                    //ppnView = parseFloat(detail.PaidPrice) * (this.data.Vat.Rate / 100);
+                    if (this.data.Vat.Rate == "12") {
+                        ppnView = parseFloat(detail.PaidPrice) * 11/12 * (this.data.Vat.Rate / 100);
+                    } else {
+                        ppnView = parseFloat(detail.PaidPrice) * (this.data.Vat.Rate / 100);
+                    }
+                    
                 }
                 this.incomeTaxValue += pph;
                 this.incomeTaxValueView += pphView;
