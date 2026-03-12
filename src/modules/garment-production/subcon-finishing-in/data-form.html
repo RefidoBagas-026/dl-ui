@@ -41,7 +41,7 @@
         </au-autocomplete>
 
         <au-dropdown if.bind="selectedURN" value.bind="selectedRONo" error.bind="error.RONo" label="No RO"
-            items.bind="itemsRONo" read-only.bind="readOnly" options.bind="controlOptions">
+            items.bind="itemsRONo" text="RONo" read-only.bind="readOnly" options.bind="controlOptions">
         </au-dropdown>
 
         <au-collection items.bind="dataDODetails" columns.bind="doDetailColumns" read-only="true" title="Detail SJ"
