@@ -9,7 +9,7 @@ export class List {
     context = ["Rincian"];
     columns = [
         { field: "UserName", title: "User Name" },
-        { field: "FullName", title: "Nama Lengkap" },
+        { field: "Position", title: "Jabatan" },
         {
             field: "CreatedDate", title: "Tanggal Dibuat", formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY");
