@@ -32,6 +32,11 @@ export class List {
         return moment(value).format("DD MMM YYYY");
       }
     },
+    {
+      field: "CreatedUtc", title: "Tgl. Buat", formatter: function (value, data, index) {
+        return moment(value).format("DD MMM YYYY");
+      }
+    },
     { field: "no", title: "No. PR" },
     { field: "DivisionName", title: "Divisi" },
     { field: "UnitName", title: "Unit" },
