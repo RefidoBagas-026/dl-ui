@@ -57,6 +57,11 @@ class PurchasingService extends RestService {
         var endpoint = `${UENServiceUri}`;
         return super.list(endpoint, info);
     }
+
+    getGarmentDOByDONo(DONo) {
+        var endpoint = `${DOServiceUri}/DONo`;
+        return super.list(endpoint, { DONo });
+    }
 }
 
 class SalesService extends RestService {

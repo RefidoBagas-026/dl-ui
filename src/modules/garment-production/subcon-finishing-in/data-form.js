@@ -205,28 +205,50 @@ export class DataForm {
     this.selectedRONo = null;
 
     if (newValue) {
-      this.data.DOId = newValue.DOId;
+      // this.data.DOId = newValue.DOId;
       this.data.DONo = newValue.DONo;
 
       Promise.resolve(
-        this.purchasingService.getGarmentDOById(newValue.DOId)
-      ).then((result) => {
-        this.garmentDOData = result;
+      this.purchasingService.getGarmentDOByDONo(newValue.DONo).then((result) => {
+        this.garmentDOData = result.data;
+        
         this.itemsRONo = [""];
-        for (var item of result.items) {
-          for (var detail of item.fulfillments) {
-            if (
-              this.itemsRONo.indexOf(detail.rONo) < 0 &&
-              (detail.product.Code === "PRC001" ||
-                detail.product.Code === "PRCS001")
-            ) {
-              this.itemsRONo.push(detail.rONo);
+        for (var data of this.garmentDOData) {
+            for (var item of data.items) {
+              for (var detail of item.fulfillments) {
+                if (
+                  this.itemsRONo.indexOf(detail.rONo) < 0 &&
+                  (detail.product.Code === "PRC001" ||
+                    detail.product.Code === "PRCS001")
+                ) {
+                  this.itemsRONo.push({ RONo: detail.rONo, Id: data.Id });
+                }
+              }
             }
           }
-        }
-      });
+       })
+
+      );
+      
+      // Promise.resolve(
+      //   this.purchasingService.getGarmentDOById(newValue.DOId)
+      // ).then((result) => {
+      //   this.garmentDOData = result;
+      //   this.itemsRONo = [""];
+      //   for (var item of result.items) {
+      //     for (var detail of item.fulfillments) {
+      //       if (
+      //         this.itemsRONo.indexOf(detail.rONo) < 0 &&
+      //         (detail.product.Code === "PRC001" ||
+      //           detail.product.Code === "PRCS001")
+      //       ) {
+      //         this.itemsRONo.push(detail.rONo);
+      //       }
+      //     }
+      //   }
+      // });
     } else {
-      this.data.DOId = 0;
+      // this.data.DOId = 0;
       this.data.DONo = null;
     }
   }
@@ -235,15 +257,17 @@ export class DataForm {
     this.dataDODetails.splice(0);
     this.data.Items.splice(0);
     this.subconDetails.options.subconCuttingList = {};
-
+    
     if (newValue && newValue != oldValue) {
-      this.data.RONo = newValue;
+      this.data.RONo = newValue.RONo;
+      this.data.DOId = newValue.Id;
 
       let DODetailIds = [];
-      for (var item of this.garmentDOData.items) {
+    for (var data of this.garmentDOData) {
+      for (var item of data.items) {
         for (var detail of item.fulfillments) {
           if (
-            detail.rONo === newValue &&
+            detail.rONo === newValue.RONo &&
             (detail.product.Code === "PRC001" ||
               detail.product.Code === "PRCS001")
           ) {
@@ -251,6 +275,7 @@ export class DataForm {
           }
         }
       }
+    }
 
       const DODetailIdFilter = DODetailIds.filter(
         (DODetailId, i) => DODetailIds.indexOf(DODetailId) == i
@@ -264,12 +289,12 @@ export class DataForm {
       };
 
       const subconCuttingInfo = {
-        filter: JSON.stringify({ RONo: newValue }),
+        filter: JSON.stringify({ RONo: newValue.RONo }),
         size: 300,
       };
 
       const costCalculationInfo = {
-        filter: JSON.stringify({ RO_Number: newValue }),
+        filter: JSON.stringify({ RO_Number: newValue.RONo }),
       };
 
       this.salesService
@@ -291,10 +316,11 @@ export class DataForm {
                     item.ReceiptCorrection * item.CorrectionConversion;
                 }
               }
-              for (var item of this.garmentDOData.items) {
+            for (var data of this.garmentDOData) {
+              for (var item of data.items) {
                 for (var detail of item.fulfillments) {
                   if (
-                    detail.rONo === newValue &&
+                    detail.rONo === newValue.RONo &&
                     (detail.product.Code === "PRC001" ||
                       detail.product.Code === "PRCS001")
                   ) {
@@ -309,6 +335,7 @@ export class DataForm {
                   }
                 }
               }
+            }
             }
             this.service
               .searchSubconCutting(subconCuttingInfo)
@@ -374,6 +401,7 @@ export class DataForm {
         });
     } else {
       this.data.RONo = null;
+      this.data.DOId = null;
       this.data.Article = null;
       this.data.Comodity = null;
     }
