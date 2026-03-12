@@ -63,9 +63,9 @@ export class Login {
                 console.log("success logged " + response);
 
                 // Update last login dengan source 'login'
-                this.authEndpoint.update('me', null, { source: 'login' })
-                    .then(() => console.log('Last login updated (source: login)'))
-                    .catch(err => console.error('Error updating last login on sign in:', err));
+                // this.authEndpoint.update('me', null, { source: 'login' })
+                //     .then(() => console.log('Last login updated (source: login)'))
+                //     .catch(err => console.error('Error updating last login on sign in:', err));
 
                 this.statusMessage = PasswordValidator.validate(this.password);
                 
