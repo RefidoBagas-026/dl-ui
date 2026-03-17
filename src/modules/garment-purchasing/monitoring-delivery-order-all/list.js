@@ -139,6 +139,12 @@ export class List {
         { field: "TermPayment", title: "Term Pembayaran", sortable: false },
         { field: "diffArrival", title: "Selisih Kedatangan dengan PO", sortable: false },
         { field: "surplus", title: "% Kelebihan Kedatangan", sortable: false },
+
+        {
+            field: "CreateDateDO", title: "Tanggal Pembuatan Surat Jalan", sortable: false, formatter: function (value, data, index) {
+                return moment(value).format("DD MMM YYYY");
+            }
+        },
     ];
 
     search() {
@@ -192,6 +198,8 @@ export class List {
             paymentbill: this.paymentbill ? this.paymentbill : "",
             dateTo: this.dateTo ? moment(this.dateTo).format("MM/DD/YYYY") : "",
             dateFrom: this.dateFrom ? moment(this.dateFrom).format("MM/DD/YYYY") : "",
+            createDateTo: this.createDateTo ? moment(this.createDateTo).format("MM/DD/YYYY") : "",
+            createDateFrom: this.createDateFrom ? moment(this.createDateFrom).format("MM/DD/YYYY") : "",
         };
         return this.flag ?
             (
@@ -238,6 +246,8 @@ export class List {
                 paymentbill: this.paymentbill ? this.paymentbill : "",
                 dateTo: this.dateTo ? moment(this.dateTo).format("MM/DD/YYYY") : "",
                 dateFrom: this.dateFrom ? moment(this.dateFrom).format("MM/DD/YYYY") : "",
+                createDateTo: this.createDateTo ? moment(this.createDateTo).format("MM/DD/YYYY") : "",
+                createDateFrom: this.createDateFrom ? moment(this.createDateFrom).format("MM/DD/YYYY") : "",
 
             };
             // Check if Type is Report or Monitoring
