@@ -68,11 +68,11 @@
 
                 <numeric label="Tempo Pembayaran" value.bind="data.PaymentDueDays" error.bind="error.PaymentDueDays"
                     format="0" read-only.bind="true" post-fix="hari"
-                    if.bind="data.PaymentType=='CASH' || data.PaymentType=='T/T BEFORE'">
+                    if.bind="data.PaymentType=='CASH' || data.PaymentType=='T/T BEFORE'" options.bind="controlOptions">
                 </numeric>
 
                 <numeric label="Tempo Pembayaran" value.bind="data.PaymentDueDays" error.bind="error.PaymentDueDays"
-                    format="0" read-only.bind="readOnly" post-fix="hari" if.bind="data.PaymentType =='T/T AFTER'">
+                    format="0" read-only.bind="readOnly" post-fix="hari" if.bind="data.PaymentType =='T/T AFTER'" options.bind="controlOptions">
                 </numeric>
 
                 <au-autocomplete value.bind="selectedCurrency" error.bind="error.Currency" label="Mata Uang"
@@ -81,7 +81,7 @@
                 </au-autocomplete>
 
                 <numeric label="Rate" value.bind="data.CurrencyRate" error.bind="error.currencyRate" format="0"
-                    read-only.bind="true">
+                    read-only.bind="true" options.bind="controlOptions">
                 </numeric>
 
                 <au-checkbox label="Apakah kena Pph?" value.bind="data.Supplier.usetax" read-only.bind="true"
@@ -139,6 +139,18 @@
                 <au-multiline label="Keterangan" value.bind="data.Remark" placeholder="tambah keterangan"
                     read-only.bind="readOnly" options.bind="controlOptions">
                 </au-multiline>
+                <au-autocomplete 
+                    label="Manager Approval"
+                    value.bind="IsApprovedManager" 
+                    error.bind="error.ApprovedManagerBy"
+                    loader.bind="accountSignatureLoader1"
+                    placeholder="Cari Manager Approval" 
+                    text.bind="ApprovedManagerView"
+                    key="Id"
+                    read-only.bind="readOnly"
+                    if.bind="hasOverBudgetItems"
+                    options.bind="controlOptions">
+                </au-autocomplete>
             </div>
             <div class="col-md-6" show.bind="isFabric">
                 <h4>Standar Kualitas</h4>

@@ -6,6 +6,7 @@ var SupplierLoader = require('../../../loader/garment-supplier-loader');
 var CurrencyLoader = require('../../../loader/garment-currencies-by-latest-date-loader');
 // var CurrencyLoader = require('../../../loader/garment-currencies-bi-by-latest-date-loader');
 var CategoryLoader = require('../../../loader/garment-category-loader');
+var accountSignatureLoader = require('../../../loader/garment-account-signature-loader');
 
 //var IncomeTaxLoader = require('../../../loader/income-tax-loader');
 
@@ -23,6 +24,7 @@ export class DataForm {
     @bindable incomeTaxValueView;
     @bindable vatValue;
     @bindable vatValueView;
+    @bindable IsApprovedManager;
 
 
     controlOptions = {
@@ -60,6 +62,9 @@ export class DataForm {
         if (this.data.supplier) {
             this.selectedSupplier = this.data.supplier;
         }
+         this.IsApprovedManager ={
+            UserName: this.data.ApprovedManagerBy || ""
+        };
     }
 
     @computedFrom("data.Id")
@@ -617,6 +622,24 @@ export class DataForm {
         }
             else return 0;
 
+        }
+    }
+
+     get accountSignatureLoader1() {
+            return (keyword) => accountSignatureLoader(keyword, { Position: "Manager Purchasing" }); //Username ganti dengan jabatan atau posisi dari Account Signature yang diinginkan
+        }
+    
+    ApprovedManagerView = (unit) => {
+        return `${unit.UserName}`;
+    }
+        
+    IsApprovedManagerChanged(newValue) {
+        this.IsApprovedManager = newValue;
+        if (this.IsApprovedManager){
+        this.data.ApprovedManagerBy = this.IsApprovedManager.UserName;
+        }else{
+        this.data.ApprovedManagerBy = "";
+        this.IsApprovedManager = null;
         }
     }
 

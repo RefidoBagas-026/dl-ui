@@ -260,6 +260,7 @@ export class Edit {
         bodyRequest.Id = this.data.Id;
         bodyRequest.ConfirmationOrderNo = this.data.ConfirmationOrderNo;
         bodyRequest.DispositionNo = this.data.DispositionNo;
+        bodyRequest.ApprovedManagerBy = this.data.ApprovedManagerBy;
         
         bodyRequest.Items = [];
         this.data.Items.forEach(element => {

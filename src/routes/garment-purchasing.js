@@ -1445,5 +1445,89 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
+
+  {
+        route: '/garment/purchase-order-external-approval/manager',
+        name: 'purchase-order-external-approval-manager',
+        moduleId: './modules/garment-purchasing/purchase-order-external-approval/index',
+        nav: true,
+        title: 'Purchase Order External Approval - Manager Purchasing',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { H79 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "manager"
+        }
+    },
+
+    {
+        route: '/garment/purchase-order-external-approval/gm',
+        name: 'purchase-order-external-approval-gm',
+        moduleId: './modules/garment-purchasing/purchase-order-external-approval/index',
+        nav: true,
+        title: 'Purchase Order External Approval - GM Purchasing',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { H80 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "gm"
+        }
+    },
+     {
+        route: '/garment/purchasing-disposition-approval/manager',
+        name: 'purchasing-disposition-approval-manager',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Disposisi Pembayaran Approval - Manager Purchasing',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { H81 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "manager"
+        }
+    },
+
+    {
+        route: '/garment/purchasing-disposition-approval/gm',
+        name: 'purchasing-disposition-approval-gm',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Disposisi Pembayaran Approval - GM Purchasing',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { H82 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "gm"
+        }
+    },
+
+    {
+        route: '/garment/intern-note-approval/gm',
+        name: 'intern-note-approval-gm',
+        moduleId: './modules/garment-purchasing/intern-note-approval/index',
+        nav: true,
+        title: 'Intern Note Approval - GM Purchasing',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { H83 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "gm"
+        }
+    },
   
 ];

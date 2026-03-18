@@ -12,6 +12,13 @@ export class List {
     context = ["Rincian", "Cetak PDF"]
 
     columns = [
+        {
+            field: "isPosting", title: "Post", checkbox: true, sortable: false,
+            formatter: function (value, data, index) {
+                this.checkboxEnabled = !data.IsPosted;
+                return ""
+            }
+         },
         { field: "DispositionNo", title: "Nomor Disposisi Pembayaran" },
         {
             field: "CreatedUtc", title: "Tanggal Disposisi", formatter: function (value, data, index) {
@@ -29,8 +36,22 @@ export class List {
         { field: "AmountDisposition", title: "Nominal Disposisi", sortable: false,formatter:function(value, data, index) {
             return numeral(value).format("0,000.00");
         }},
+        { field: "IsPostedLabel", title: "Status Posting" },
+        { field: "IsApprovedManagerLabel", title: "Approval Manager" },
+        { field: "IsApprovedGMLabel", title: "Approval GM" },
+        { field: "ReasonRejected", title: "Alasan Reject" }
         
     ];
+
+     rowFormatter(data, index) {
+        if (data.ReasonRejected) {
+            return { classes: "" };
+        } else if (data.IsApprovedGeneralManager && data.IsApprovedManager) {
+            return { classes: "success" };
+        } else {
+            return { classes: "danger" };
+        }
+    }
 
     loader = (info) => {
         var order = {};
@@ -45,10 +66,19 @@ export class List {
 
         return this.service.search(arg)
             .then(result => {
-
+                if (result.data && result.data.Data && Array.isArray(result.data.Data)) {
+                    result.data.Data.map(data => {
+                        data.IsPostedLabel  = data.IsPosted ? "SUDAH" : "BELUM";
+                        data.IsApprovedManagerLabel = data.IsApprovedManager ? "SUDAH" : "BELUM";
+                        data.IsApprovedGMLabel = data.IsApprovedGeneralManager ? "SUDAH" : "BELUM";
+                        return data;
+                    });
+                } else {
+                    result.data.Data = [];
+                }
                 return {
-                    total: result.data.Total,
-                    data: result.data.Data
+                    total: result.data ? result.data.Total : 0,
+                    data: result.data ? result.data.Data : []
                 }
             });
     }
@@ -83,5 +113,15 @@ export class List {
 
     create() {
         this.router.navigateToRoute('create');
+    }
+
+    posting() {
+        if (this.dataToBePosted.length > 0) {
+        this.service.post(this.dataToBePosted).then(result => {
+            this.table.refresh();
+        }).catch(e => {
+            this.error = e;
+        })
+        }
     }
 }

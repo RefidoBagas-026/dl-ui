@@ -10,7 +10,7 @@ export class List {
     info = { page: 1, keyword: '' };
 
     rowFormatter(data, index) {
-        if (data.IsApproved)
+        if (data.IsApprovedAnggaran)
             return { classes: "success" }
         else
             return {}
@@ -22,7 +22,7 @@ export class List {
         {
             field: "isApprove", title: "Approve", checkbox: true, sortable: false,
             formatter: function (value, data, index) {
-                this.checkboxEnabled = data.IsOverBudget && !data.IsApproved;
+                this.checkboxEnabled = data.IsOverBudget && !data.IsApprovedAnggaran;
                 return ""
             }
         },
@@ -34,7 +34,7 @@ export class List {
         },
         { field: "Supplier.Name", title: "Nama Supplier" },
         { field: "purchaseRequestNo", title: "Nomor Purchase Request" ,sortable:false},
-        { field: "IsApproved", title: "Status Approve" , formatter: function (value, data, index) {
+        { field: "IsApprovedAnggaran", title: "Status Approve" , formatter: function (value, data, index) {
                 return data.approveStatus;}
         }
     ];
@@ -44,7 +44,7 @@ export class List {
         if (info.sort)
             order[info.sort] = info.order;
         var arg = {
-            filter: JSON.stringify({ "IsOverBudget": true, "IsPosted": true }),
+            filter: JSON.stringify({ "IsOverBudget": true, "IsApprovedGeneralManager": true }),
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             keyword: info.search,
@@ -63,7 +63,7 @@ export class List {
                     })
                     _data.purchaseRequestNo = `<ul>${prNo.join()}</ul>`;
                     if (_data.IsOverBudget) {
-                        if (_data.IsApproved) {
+                        if (_data.IsApprovedAnggaran) {
                             _data.approveStatus = "SUDAH";
                         } else {
                             _data.approveStatus = "BELUM";

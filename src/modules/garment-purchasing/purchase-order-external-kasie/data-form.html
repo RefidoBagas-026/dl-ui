@@ -237,6 +237,19 @@
                     read-only.bind="readOnly"
                     options.bind="controlOptions">
                 </au-multiline>
+
+                <au-autocomplete 
+                    label="Manager Approval"
+                    value.bind="IsApprovedManager" 
+                    error.bind="error.ApprovedManagerBy"
+                    loader.bind="accountSignatureLoader1"
+                    placeholder="Cari Manager Approval" 
+                    text.bind="ApprovedManagerView"
+                    key="Id"
+                    read-only.bind="readOnly"
+                    if.bind="hasOverBudgetItems"
+                    options.bind="controlOptions">
+                </au-autocomplete>
             </div>
             <div class="col-md-6" show.bind="isFabric">
                 <h4>Standar Kualitas</h4>

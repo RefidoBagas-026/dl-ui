@@ -66,17 +66,17 @@ export class View {
             this.selectedVatTax=this.data.Vat;
         }
 
-        if (!this.data.IsPosted && !isUsedSJ && !this.data.IsApproved) {
+        if (!this.data.IsPosted && !isUsedSJ && !this.data.IsApprovedManager) {
             this.hasDelete = true;
             this.hasEdit = true;
         }
         if (this.data.IsPosted && !isUsedSJ) {
             this.hasUnpost = true;
         }
-        if (this.data.IsCanceled || this.data.IsClosed || this.data.IsUnpost || this.isVBWithPO || this.data.IsApproved) {
+        if (this.data.IsCanceled || this.data.IsClosed || this.data.IsUnpost || this.isVBWithPO || this.data.IsApprovedManager) {
             this.hasUnpost = false;
         }
-        if (!isUsedSJ && !this.data.IsApproved ) {
+        if (!isUsedSJ && !this.data.IsApprovedManager ) {
             this.hasEdit = true;
             if(this.data.IsPosted){
                 this.hasUnpost = true;

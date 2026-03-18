@@ -103,6 +103,15 @@
             options.bind="controlOptions">
         </au-textbox>
 
+        <au-multiline label="Alasan Keterlambatan" 
+            value.bind="data.lateReason" 
+            error.bind="error.lateReason" 
+            placeholder="masukan alasan keterlambatan" 
+            read-only.bind="readOnly" 
+            show.bind="data.isLate" 
+            options.bind="controlOptions">
+        </au-multiline>
+
         <!-- <au-collection items.bind="data.items" errors.bind="error.items" columns.bind="itemsInfo.columns" show.bind="data.supplier  && !readOnly"
             add.bind="itemsInfo.onAdd" remove.bind="itemsInfo.onRemove" view-model.ref="ItemsCollection" remove.bind="itemsInfo.onRemove"
             read-only.bind="readOnly" options.bind="options" checkall.delegate="onClickAllDataSource($event)" item-template="modules/garment-purchasing/invoice-note/template/invoice-note-item">
