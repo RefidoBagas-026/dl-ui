@@ -195,6 +195,14 @@
         </au-numeric>
 
         <au-textbox
+            value.bind="data.ApprovedManagerBy"
+            error.bind="error.ApprovedManagerBy"
+            label="Manager Approval" 
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-textbox
             show.bind="error.itemscount"
             error.bind="error.itemscount"
             read-only="true">

@@ -57,6 +57,16 @@ export class Service extends RestService {
             });
     }
 
+    post(data) {
+        var endpoint = `${serviceUri}/post`;
+        return super.post(endpoint, data);
+    }
+
+    unpost(id) {
+        var endpoint = `${serviceUri}/unpost/${id}`;
+        return super.put(endpoint);
+    }
+
     getEPOById(param){
         // var endpoint = `${serviceEPOUri}/${epoId}`
         var endpoint = `${serviceUri}/po-external-id/${param.Id}?supplierId=${param.supplierId}&currencyCode=${param.currencyCode}`

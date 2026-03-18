@@ -15,8 +15,22 @@ export class List {
         },
         { field: "supplier.Name", title: "Supplier" },
         { field: "items", title: "List No. Invoice", sortable: false },
+        { field: "IsLateLabel", title: "Terlambat" },
+        { field: "IsPostedLabel", title: "Status Posting" },
+        { field: "IsApprovedGMLabel", title: "Approval GM" },
+        { field: "rejectedReason", title: "Alasan Reject" },
         { field: "CreatedBy", title: "Admin Pembelian" }
     ];
+
+    rowFormatter(data, index) {
+    if (data.rejectedReason) {
+        return { classes: "" };
+    }
+    if (!data.isLate || data.isApprovedGeneralManager) {
+        return { classes: "success" };
+    }
+    return { classes: "danger" };
+}
     
     context = ["Rincian", "Cetak PDF"];
 
@@ -39,6 +53,9 @@ export class List {
                 data.data = result.data;
                 data.data.forEach(s => {
                     s.items.toString = function () {
+                        s.IsApprovedGMLabel = s.isLate ? (s.isApprovedGeneralManager ? "SUDAH" : "BELUM") : "-";
+                        s.IsPostedLabel = s.isLate ? (s.isPosted ? "SUDAH" : "BELUM") : "-";
+                        s.IsLateLabel = s.isLate ? "IYA" : "TIDAK";
                         var str = "<ul>";
                         for (var item of s.items) {
                             str += `<li>${item.garmentInvoice.invoiceNo}</li>`;

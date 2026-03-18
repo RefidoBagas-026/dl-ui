@@ -4,6 +4,7 @@ var SupplierLoader = require('../../../loader/garment-supplier-loader');
 var CurrencyLoader = require('../../../loader/garment-currencies-by-date-loader');
 var IncomeTaxLoader = require('../../../loader/income-tax-loader');
 var VatTaxLoader = require('../../../loader/vat-tax-loader');
+var accountSignatureLoader = require('../../../loader/garment-account-signature-loader');
 import moment from 'moment';
 
 @containerless()
@@ -20,6 +21,8 @@ export class DataForm {
     @bindable options = { isUseIncomeTax: false };
     keywords = ''
     @bindable kurs = {};
+    @bindable IsApprovedManager;
+    @bindable hasOverBudgetItems = false;
 
     termPaymentImportOptions = ['T/T PAYMENT', 'CMT', 'FREE FROM BUYER', 'SAMPLE'];
     termPaymentLocalOptions = ['DAN LIRIS', 'CMT', 'FREE FROM BUYER', 'SAMPLE'];
@@ -103,6 +106,26 @@ export class DataForm {
         } else {
             this.options.kurs = { Rate: 1 };
         }
+
+         this.IsApprovedManager ={
+            UserName: this.data.ApprovedManagerBy || ""
+        };
+
+        if (this.data.Id || this.ISEDIT) {
+            this.updateOverBudgetStatus();
+        } else if (this.data.Items && this.data.Items.length > 0 && this.options.checkOverBudget) {
+            
+            this.checkOverBudgetAll();
+        } else {
+            this.updateOverBudgetStatus();
+        }
+
+        var originalOnRemove = this.items.onRemove;
+        var self = this;
+        this.items.onRemove = function () {
+            originalOnRemove.call(this);
+            self.updateOverBudgetStatus();
+        };
         
     }
 
@@ -121,6 +144,19 @@ export class DataForm {
         }
         else
             return "Lokal"
+    }
+
+     updateOverBudgetStatus() {
+        const previousOverBudgetStatus = this.hasOverBudgetItems;
+        if (this.data.Items && this.data.Items.length > 0) {
+            this.hasOverBudgetItems = this.data.Items.some(item => item.IsOverBudget === true);
+        } else {
+            this.hasOverBudgetItems = false;
+        }
+        if (previousOverBudgetStatus === true && this.hasOverBudgetItems === false) {
+        this.IsApprovedManager = null;
+        this.data.ApprovedManagerBy = "";
+    }
     }
 
     @computedFrom("data.SupplierId")
@@ -280,13 +316,29 @@ export class DataForm {
         }
     }
 
+    // resetIsOverBudget() {
+    //     if (this.data.Items) {
+    //         this.data.Items.map(items => {
+    //             items.IsOverBudget = false;
+    //             items.OverBudgetRemark = "";
+    //         })
+    //         this.options.resetOverBudget = true;
+    //         this.context.DetailsCollection.bind();
+    //     }
+    // }
+
     resetIsOverBudget() {
         if (this.data.Items) {
             this.data.Items.map(items => {
                 items.IsOverBudget = false;
                 items.OverBudgetRemark = "";
+                items.OverBudgetType = "";
+                items.OverBudgetAmountStr = "";
+                items.OverBudgetAmount = 0;
             })
             this.options.resetOverBudget = true;
+            // Update status over budget untuk menyembunyikan approval fields
+            this.updateOverBudgetStatus();
             this.context.DetailsCollection.bind();
         }
     }
@@ -471,6 +523,12 @@ export class DataForm {
         items = [].concat.apply([], items);
         this.data.Items=items;
         this.isItem = true;
+
+         if (this.options.checkOverBudget) {
+            this.checkOverBudgetAll();
+        } else {
+            this.updateOverBudgetStatus();
+        }
     }
 
 
@@ -580,8 +638,28 @@ export class DataForm {
                 a.UsedBudget=parseFloat(a.budgetUsed.toFixed(4));
 
             }
+
+             this.updateOverBudgetStatus();
         }
     }
+
+    get accountSignatureLoader1() {
+            return (keyword) => accountSignatureLoader(keyword, { Position: "Manager Purchasing" }); //Username ganti dengan jabatan atau posisi dari Account Signature yang diinginkan
+        }
+    
+        ApprovedManagerView = (unit) => {
+            return `${unit.UserName}`;
+        }
+        
+        IsApprovedManagerChanged(newValue) {
+            this.IsApprovedManager = newValue;
+            if (this.IsApprovedManager){
+            this.data.ApprovedManagerBy = this.IsApprovedManager.UserName;
+            }else{
+            this.data.ApprovedManagerBy = "";
+            this.IsApprovedManager = null;
+            }
+        }
 
     itemsChanged(e){
         this.checkOverBudgetAll();

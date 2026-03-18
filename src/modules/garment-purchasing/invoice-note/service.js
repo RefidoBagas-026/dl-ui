@@ -59,4 +59,14 @@ export class Service extends RestService {
         var endpoint = `${internNoteUri}/pdf/${id}`;
         return super.getPdf(endpoint);
     }
+
+    post(id) {
+        var endpoint = `${serviceUri}/post/${id}`;
+        return super.put(endpoint);
+    }
+
+    unpost(id) {
+        var endpoint = `${serviceUri}/unpost/${id}`;
+        return super.put(endpoint);
+    }
 }
