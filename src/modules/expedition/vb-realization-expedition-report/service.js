@@ -32,7 +32,7 @@ export class Service extends RestService {
     
     const status = info.status ? `status=${info.status}` : "";
 
-    const query = `?${vbId}${vbRealizationId}${vbRequestName}${unitId}${divisionId}${dateStart}${dateEnd}${status}`;
+    const query = `?${vbId}${vbRealizationId}${vbRequestName}${unitId}${divisionId}${dateStart}${dateEnd}${approvalStart}${approvalEnd}${status}`;
 
     // var query = `?vbId=${info.vbId}&vbRealizationId=${info.vbRealizationId}&vbRequestName=${info.vbRequestName}&unitId=${info.unitId}&divisionId=${info.divisionId}&dateStart=${info.dateStart}&dateEnd=${info.dateEnd}&status=${info.status}`;
 
