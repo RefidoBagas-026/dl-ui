@@ -14,12 +14,28 @@ export class View {
     hasCancel = true;
     hasEdit = true;
     hasDelete = true;
+    hasUnpost = false;
+    dispoId = "";
     async activate(params) {
         var id = params.id;
         let decoded = Base64Helper.decode(id);
+        this.dispoId = decoded;
         id = decoded;
         this.data = await this.service.getById(id);
-        
+
+        if (!this.data.IsPosted) {
+            this.hasEdit = true;
+            this.hasDelete = true;
+        } else {
+            if (!this.data.IsUsed) {
+                this.hasUnpost = true;
+            }
+        }
+
+        if (this.hasUnpost) {
+            this.hasEdit = false;
+            this.hasDelete = false;
+        }
         var nullInvoiceCount = this.data.Items.filter(item => item.Invoice !== null).length;
         //console.log("Number of items with null invoice:", nullInvoiceCount);
         this.data.proformaView = nullInvoiceCount > 0 ? true : false;
@@ -186,5 +202,12 @@ export class View {
                 this.cancel();
             });
         }
+    }
+     unpost(event) {
+        this.service.unpost(this.dispoId).then(result => {
+            this.cancel();
+        }).catch(e => {
+            this.error = e;
+        })
     }
 }

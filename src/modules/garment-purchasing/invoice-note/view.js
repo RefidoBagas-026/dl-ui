@@ -10,7 +10,10 @@ export class View {
     hasEdit = true;
     hasDelete = true;
     totalData = 0;
+    hasPosting = false;
+    hasUnpost = false;
     size = 5;
+    niId = "";
     items = [];
 
     constructor(router, service) {
@@ -23,6 +26,7 @@ export class View {
     
         var id = params.id;
         let decoded = Base64Helper.decode(id);
+        this.niId = decoded;
         id = decoded;
         this.data = await this.service.getById(id);
         this.supplier = this.data.supplier;
@@ -45,6 +49,14 @@ export class View {
         {
             this.hasEdit = true;
             this.hasDelete = true;
+        }
+        if(this.data.isLate === true && this.data.isPosted === false)
+        {
+            this.hasPosting = true;
+        }
+        if (this.data.isLate === true && this.data.isPosted === true && this.data.isApprovedGeneralManager === false)
+        {
+            this.hasUnpost = true;
         }
     }
 
@@ -87,5 +99,21 @@ export class View {
             });
         }
        
+    }
+
+    posting(event) {
+        this.service.post(this.niId).then(result => {
+            this.cancel();
+        }).catch(e => {
+            this.error = e;
+        })
+    }
+
+    unpost(event) {
+        this.service.unpost(this.niId).then(result => {
+            this.cancel();
+        }).catch(e => {
+            this.error = e;
+        })
     }
 }

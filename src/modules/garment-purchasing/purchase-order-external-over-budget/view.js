@@ -1,17 +1,20 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service, ServiceFinance } from './service';
+import { Dialog } from "../../../au-components/dialog/dialog";
+import { RejectReason } from "./dialog-template/reject-reason";
 import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
-@inject(Router, Service, ServiceFinance)
+@inject(Router, Service, ServiceFinance, Dialog)
 export class View {
     hasCancel = true;
     hasUnpost = false;
 
-    constructor(router, service, serviceFinance) {
+    constructor(router, service, serviceFinance, dialog) {
         this.router = router;
         this.service = service;
         this.serviceFinance = serviceFinance;
+        this.dialog = dialog;
     }
     
     async activate(params) {
@@ -33,7 +36,7 @@ export class View {
       if(this.data.IncomeTax){
          this.selectedIncomeTax=this.data.IncomeTax.Name+" - "+this.data.IncomeTax.Rate;
       }
-      if(this.data.IsApproved && !this.data.IsUnpost && !this.IsVBWithPO){
+      if(this.data.IsApprovedAnggaran && !this.data.IsUnpost && !this.IsVBWithPO){
          this.hasUnpost = true;
       }  
     }
@@ -42,12 +45,33 @@ export class View {
         this.router.navigateToRoute('list');
     }
 
+    // unpostPO(event) {
+    //   this.service.unpost(this.poExId).then(result => {
+    //       this.cancel();
+    //   }).catch(e => {
+    //       this.error = e;
+    //   })
+    // }
+
     unpostPO(event) {
-      this.service.unpost(this.poExId).then(result => {
-          this.cancel();
-      }).catch(e => {
-          this.error = e;
-      })
-    }
+           this.dialog.show(RejectReason, {message: "Silakan masukkan alasan reject:" })
+            .then(response => {
+            if (!response.wasCancelled) {
+                const reason = response.output;
+                if (!reason || String(reason).trim() === "") {
+                alert('Alasan tidak boleh kosong.');
+                return;
+                }
+                this.service
+                .unpost(this.data.Id, String(reason).trim())
+                .then((result) => {
+                    this.cancel();
+                })
+                .catch((e) => {
+                    this.error = e;
+                });
+            }
+            });
+        }
 
 }

@@ -58,6 +58,7 @@ export class Create {
         bodyRequest.PaymentType = this.data.PaymentType;
         bodyRequest.ProformaNo = this.data.ProformaNo;
         bodyRequest.Remark = this.data.Remark;
+        bodyRequest.ApprovedManagerBy = this.data.ApprovedManagerBy;
         //bodyRequest.Supplier = this.data.Supplier;
         bodyRequest.SupplierCode = this.data.SupplierCode;
         bodyRequest.SupplierId = this.data.SupplierId;

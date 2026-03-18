@@ -10,10 +10,12 @@ export class List {
     info = { page: 1, keyword: '' };
 
     rowFormatter(data, index) {
-        if (data.IsPosted)
+        if (data.ReasonRejected) {
+            return { classes: "" };
+        } else if ((!data.IsOverBudget ||data.IsApprovedGeneralManager) && (!data.IsOverBudget ||data.IsApprovedAnggaran) && (!data.IsOverBudget || data.IsApprovedManager))
             return { classes: "success" }
         else
-            return {}
+            return { classes: "danger" }
     }
 
     context = ["Rincian", "Cetak PDF"]
@@ -46,9 +48,10 @@ export class List {
                 return value ? "YA" : "TIDAK";
             }
         },
-        { field: "IsApproved", title: "Status Approve" , formatter: function (value, data, index) {
-                return data.approveStatus;}
-        }
+        { field: "IsApprovedManagerLabel", title: "Approval Manager" },
+        { field: "IsApprovedGMManagerLabel", title: "Approval GM" },
+        { field: "IsApprovedAnggaranLabel", title: "Approval Anggaran" },
+        { field: "ReasonRejected", title: "Alasan Reject" }
     ];
 
     loader = (info) => {
@@ -73,15 +76,10 @@ export class List {
                         return index == self.indexOf(elem);
                     })
                     _data.purchaseRequestNo = `<ul>${prNo.join()}</ul>`;
-                    if (_data.IsOverBudget) {
-                        if (_data.IsApproved) {
-                            _data.approveStatus = "SUDAH";
-                        } else {
-                            _data.approveStatus = "BELUM";
-                        }
-                    } else {
-                        _data.approveStatus = "-";
-                    }
+                    _data.IsApprovedManagerLabel = _data.IsOverBudget ? (_data.IsApprovedManager ? "SUDAH" : "BELUM") : "-";
+                    _data.IsApprovedGMManagerLabel = _data.IsOverBudget ? (_data.IsApprovedGeneralManager ? "SUDAH" : "BELUM") : "-";
+                    _data.IsApprovedAnggaranLabel = _data.IsOverBudget ? (_data.IsApprovedAnggaran ? "SUDAH" : "BELUM") : "-";
+                
                 }
                 return {
                     total: result.info.total,
