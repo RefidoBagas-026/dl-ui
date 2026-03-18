@@ -23,7 +23,7 @@ export class Service extends RestService {
     }
 
     getXls(info) {
-        var endpoint = `${serviceUri}/download?no=${info.no}&poEksNo=${info.poEksNo}&supplierId=${info.supplierId}&billno=${info.billno}&paymentbill=${info.paymentbill}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}`;
+        var endpoint = `${serviceUri}/download?no=${info.no}&poEksNo=${info.poEksNo}&supplierId=${info.supplierId}&billno=${info.billno}&paymentbill=${info.paymentbill}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&createDateFrom=${info.createDateFrom}&createDateTo=${info.createDateTo}`;
         return super.getXls(endpoint);
     }
 }
@@ -46,7 +46,7 @@ export class PurchasingService extends RestService {
     }
 
     getXls(info) {
-        var endpoint = `${deliveryOrderServiceUri}/monitoring/download?no=${info.no}&poEksNo=${info.poEksNo}&supplierId=${info.supplierId}&billno=${info.billno}&paymentbill=${info.paymentbill}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}`;
+        var endpoint = `${deliveryOrderServiceUri}/monitoring/download?no=${info.no}&poEksNo=${info.poEksNo}&supplierId=${info.supplierId}&billno=${info.billno}&paymentbill=${info.paymentbill}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&createDateFrom=${info.createDateFrom}&createDateTo=${info.createDateTo}`;
         return super.getXls(endpoint);
     }
 
