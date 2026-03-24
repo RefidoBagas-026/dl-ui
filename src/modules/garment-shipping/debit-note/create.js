@@ -27,6 +27,19 @@ export class Create {
     }
 
     saveCallback(event) {
+        // Pastikan payload selalu format buyer
+         this.data.loaderType = this.data.selectedLoader;
+        console.log(this.data);
+        if (this.data.selectedLoader === "supplier" && this.data.supplier) {
+            this.data.buyer = {
+                Id: this.data.supplier.Id,
+                Code: this.data.supplier.code,
+                Name: this.data.supplier.name
+            };
+            //this.data.buyer = this.data.supplier;
+            delete this.data.supplier;
+        }
+       
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");

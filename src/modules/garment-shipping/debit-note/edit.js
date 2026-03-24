@@ -26,6 +26,11 @@ export class Edit {
     }
 
     saveCallback(event) {
+        // Pastikan payload selalu format buyer
+        if (this.data.selectedLoader === "supplier" && this.data.supplier) {
+            this.data.buyer = this.data.supplier;
+            delete this.data.supplier;
+        }
         this.service.update(this.data)
             .then(result => {
                 const encoded = Base64Helper.encode(this.data.id);

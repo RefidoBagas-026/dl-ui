@@ -1,0 +1,12 @@
+.radiobutton-inline-label {
+  display: flex;
+  align-items: center;
+}
+.radiobutton-inline-label label {
+  margin-bottom: 0;
+  margin-right: 10px;
+  min-width: 120px;
+}
+.radiobutton-inline-label .radio-inline {
+  margin-right: 150px;
+}
