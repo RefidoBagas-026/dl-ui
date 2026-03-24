@@ -12,10 +12,19 @@
                     options.bind="controlOptions">
                 </au-datepicker>
 
-                <au-autocomplete label="Buyer" placeholder="Pilih Buyer" value.bind="data.buyer"
+                <radiobutton label="Pilih Loader" value.bind="selectedLoader" error.bind="error.selectedLoader" selections.bind="loaderSelections" read-only.bind="readOnly" options.bind="controlOptions"></radiobutton>
+
+
+                <au-autocomplete if.bind="selectedLoader === 'buyer'" label="Buyer" placeholder="Pilih Buyer" value.bind="data.buyer"
                     error.bind="error.buyer" loader.bind="buyerLoader" text.bind="buyerView"
                     read-only.bind="readOnly" options.bind="controlOptions">
                 </au-autocomplete>
+
+                <au-autocomplete if.bind="selectedLoader === 'supplier'" label="Supplier" value.bind="data.supplier"
+                    placeholder="Pilih Supplier" loader.bind="supplierLoader" text.bind="supplierView"
+                    read-only.bind="readOnly" options.bind="controlOptions">
+                </au-autocomplete>
+                
 
                 <au-numeric label="Amount" value.to-view="totalAmount" error.bind="error.amount" read-only="true"
                     options.bind="controlOptions">
