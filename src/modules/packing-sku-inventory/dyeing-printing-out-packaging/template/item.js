@@ -90,11 +90,11 @@ export class CartItem {
                 }
             }
 
-            if (this.selectedProductionOrder.OrderNo.charAt(0) === 'P') {
-                this.data.unit = "PRINTING"
-            } else {
-                this.data.unit = "DYEING"
-            }
+            // if (this.selectedProductionOrder.OrderNo.charAt(0) === 'P') {
+            //     this.data.unit = "PRINTING"
+            // } else {
+            //     this.data.unit = "DYEING"
+            // }
 
         }
     }
