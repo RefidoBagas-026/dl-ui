@@ -44,16 +44,16 @@ export class ROGarmentSizeBreakdown {
         this.error = this.context.error;
         this.RO_Garment_SizeBreakdown_DetailsInfo.options.readOnly = this.readOnly;
         this.shown = false;
-        // for(var detail of this.data.RO_Garment_SizeBreakdown_Details) {
-        //     //console.log(detail.Information);
-        //     detail.Remark = (this.data.PONo ? this.data.PONo : " ") + ";" 
-        //                   + (this.data.Style ? this.data.Style : " ") + ";" 
-        //                   + (this.data.Color.Name ? this.data.Color.Name : " ") + ";" 
-        //                   + (detail.Fit ? detail.Fit : " ") + ";" 
-        //                   + (detail.Information ? detail.Information : " ") + ";" 
-        //                   + (detail.Destination ? detail.Destination : " ") + ";"
-        //                   + (this.data.ShipMode ? this.data.ShipMode : " ") + ";"
-        // }
+        for(var detail of this.data.RO_Garment_SizeBreakdown_Details) {
+            //console.log(detail.Information);
+            detail.Remark = (this.data.PONo ? this.data.PONo : " ") + ";" 
+                          + (this.data.Style ? this.data.Style : " ") + ";" 
+                          + (this.data.Color.Name ? this.data.Color.Name : " ") + ";" 
+                          + (detail.Fit ? detail.Fit : " ") + ";" 
+                          + (detail.Information ? detail.Information : " ") + ";" 
+                          + (detail.Destination ? detail.Destination : " ") + ";"
+                          + (this.data.ShipMode ? this.data.ShipMode : " ") + ";"
+        }
 }
 
     get total() {
