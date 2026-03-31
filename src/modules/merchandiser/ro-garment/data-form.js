@@ -159,54 +159,54 @@ export class DataForm {
     this.data.DocumentsFile = this.data.DocumentsFile || [];
     this.data.DocumentsFileName = this.data.DocumentsFileName || [];
     this.documentsPathTemp = [].concat(this.data.DocumentsPath);
-    if(this.readOnly) {
-      this.groupByColor();
-    }
+    // if(this.readOnly) {
+    //   this.groupByColor();
+    // }
   }
 
-  groupByColor() {
-    let grouped = {};
+//   groupByColor() {
+//     let grouped = {};
 
-    for (var sizeBreakdown of this.data.RO_Garment_SizeBreakdowns) {
+//     for (var sizeBreakdown of this.data.RO_Garment_SizeBreakdowns) {
 
-        let colorKey = sizeBreakdown.Color && sizeBreakdown.Color.Name 
-            ? sizeBreakdown.Color.Name 
-            : " ";
+//         let colorKey = sizeBreakdown.Color && sizeBreakdown.Color.Name 
+//             ? sizeBreakdown.Color.Name 
+//             : " ";
 
-        if (!grouped[colorKey]) {
-            grouped[colorKey] = {
-                Color: sizeBreakdown.Color,
-                Total: 0,
-                SizeBreakdownIndex: 0,
-                RO_Garment_SizeBreakdown_Details: []
-            };
-        }
+//         if (!grouped[colorKey]) {
+//             grouped[colorKey] = {
+//                 Color: sizeBreakdown.Color,
+//                 Total: 0,
+//                 SizeBreakdownIndex: 0,
+//                 RO_Garment_SizeBreakdown_Details: []
+//             };
+//         }
 
-        for (var detail of sizeBreakdown.RO_Garment_SizeBreakdown_Details) {
+//         for (var detail of sizeBreakdown.RO_Garment_SizeBreakdown_Details) {
 
-            detail.Remark = (sizeBreakdown.PONo || " ") + ";" 
-                          + (sizeBreakdown.Style || " ") + ";" 
-                          + (colorKey || " ") + ";" 
-                          + (detail.Fit || " ") + ";" 
-                          + (detail.Information || " ") + ";" 
-                          + (detail.Destination || " ") + ";"
-                          + (sizeBreakdown.ShipMode || " ") + ";";
-            detail.SizeBreakdownDetailIndex = 0;
+//             detail.Remark = (sizeBreakdown.PONo || " ") + ";" 
+//                           + (sizeBreakdown.Style || " ") + ";" 
+//                           + (colorKey || " ") + ";" 
+//                           + (detail.Fit || " ") + ";" 
+//                           + (detail.Information || " ") + ";" 
+//                           + (detail.Destination || " ") + ";"
+//                           + (sizeBreakdown.ShipMode || " ") + ";";
+//             detail.SizeBreakdownDetailIndex = 0;
 
-            grouped[colorKey].RO_Garment_SizeBreakdown_Details.push(detail);
-        }
-    }
+//             grouped[colorKey].RO_Garment_SizeBreakdown_Details.push(detail);
+//         }
+//     }
 
-    this.data.GroupedSizeBreakdowns = Object.values(grouped);
-    this.data.GroupedSizeBreakdowns.forEach((group, index) => {
-        group.SizeBreakdownIndex = index + 1;
-    });
-    this.data.GroupedSizeBreakdowns.forEach(group => {
-        group.RO_Garment_SizeBreakdown_Details.forEach((detail, index) => {
-            detail.SizeBreakdownDetailIndex = index + 1;
-        });
-    });
-}
+//     this.data.GroupedSizeBreakdowns = Object.values(grouped);
+//     this.data.GroupedSizeBreakdowns.forEach((group, index) => {
+//         group.SizeBreakdownIndex = index + 1;
+//     });
+//     this.data.GroupedSizeBreakdowns.forEach(group => {
+//         group.RO_Garment_SizeBreakdown_Details.forEach((detail, index) => {
+//             detail.SizeBreakdownDetailIndex = index + 1;
+//         });
+//     });
+// }
 
   async costCalculationGarmentChanged(newValue) {
     if (newValue && newValue.Id) {
