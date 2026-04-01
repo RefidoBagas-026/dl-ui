@@ -60,4 +60,8 @@ export class List {
   create() {
     this.router.navigateToRoute('create');
   }
+
+  downloadTemplate() {
+    this.service.downloadTemplate();
+  } 
 }

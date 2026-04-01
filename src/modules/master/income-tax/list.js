@@ -57,4 +57,8 @@ export class List {
   upload() {
     this.router.navigateToRoute('upload');
   }
+
+  downloadTemplate() {
+    this.service.downloadTemplate();
+  } 
 }
