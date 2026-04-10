@@ -29,4 +29,9 @@ export class Service extends RestService {
     let endpoint = `${serviceUri}/${data._id}`;
     return super.put(endpoint, data);
   }
+
+  downloadTemplate() {
+    var endpoint = `${serviceUri}/download-template`;
+    return super.getXls(endpoint);
+  } 
 }

@@ -130,4 +130,9 @@ export class List {
   download() {
     this.service.download();
   }
+
+  downloadTemplate() {
+    this.service.downloadTemplate();
+  }
+
 }

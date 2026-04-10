@@ -77,4 +77,8 @@ export class List {
       console.error(err);
     }
   }
+
+  downloadTemplate() {
+    this.service.downloadTemplate();
+  } 
 }

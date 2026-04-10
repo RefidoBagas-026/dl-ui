@@ -100,15 +100,41 @@ export class List {
     }
   }
 
-  posting() {
-    if (this.dataToBePosted.length > 0) {
-      this.service.post(this.dataToBePosted).then(result => {
+  // posting() {
+  //   if (this.dataToBePosted.length > 0) {
+  //     this.service.post(this.dataToBePosted).then(result => {
+  //       this.table.refresh();
+  //     }).catch(e => {
+  //       this.error = e;
+  //     })
+  //   }
+  // }
+
+posting() {
+  if (this.dataToBePosted.length > 0) {
+    this.service.post(this.dataToBePosted)
+      .then(result => {
+        if (result && result.error) {
+          alert(result.error);
+          return;
+        }
         this.table.refresh();
-      }).catch(e => {
-        this.error = e;
       })
-    }
+      .catch(e => {
+        var message = "Terjadi error";
+        if (e) {
+          if (e.error) {
+            message = e.error;
+          } else if (e.message) {
+            message = e.message;
+          }
+        }
+        alert(message);
+      });
+  } else {
+    alert("Tidak ada data dipilih");
   }
+}
 
   create() {
     this.router.navigateToRoute('create');
@@ -117,4 +143,8 @@ export class List {
   upload() {
     this.router.navigateToRoute('upload');
   }
+
+  downloadTemplate() {
+    this.service.downloadTemplate();
+  } 
 }
