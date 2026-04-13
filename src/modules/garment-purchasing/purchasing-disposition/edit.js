@@ -261,6 +261,9 @@ export class Edit {
         bodyRequest.ConfirmationOrderNo = this.data.ConfirmationOrderNo;
         bodyRequest.DispositionNo = this.data.DispositionNo;
         bodyRequest.ApprovedManagerBy = this.data.ApprovedManagerBy;
+        bodyRequest.DocumentsPath = this.data.DocumentsPath;
+        bodyRequest.DocumentsFile = this.data.DocumentsFile;
+        bodyRequest.DocumentsFileName = this.data.DocumentsFileName;
         
         bodyRequest.Items = [];
         this.data.Items.forEach(element => {
