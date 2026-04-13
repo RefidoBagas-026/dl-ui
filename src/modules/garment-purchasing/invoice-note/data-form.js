@@ -362,12 +362,13 @@ export class DataForm {
     }
 
     get isLate() {
-        if (!this.data.invoiceDate || !this.data.items || this.data.items.length === 0) {
+        if (!this.data.items || this.data.items.length === 0) {
             this.data.isLate = false;
             this.data.lateReason = "";
             return false;
         }
-        var invoiceDate = new Date(this.data.invoiceDate);
+        var now = new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         var minDoDate = null;
         var minPaymentDueDays = 0;
         for (var item of this.data.items) {
@@ -396,7 +397,7 @@ export class DataForm {
         }
         var dueDate = new Date(minDoDate);
         dueDate.setDate(dueDate.getDate() + minPaymentDueDays);
-        var result = dueDate < invoiceDate;
+        var result = dueDate < today;
         this.data.isLate = result;
         if (!result) {
             this.data.lateReason = "";

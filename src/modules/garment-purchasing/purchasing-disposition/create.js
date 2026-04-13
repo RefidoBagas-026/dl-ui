@@ -67,6 +67,9 @@ export class Create {
         bodyRequest.VatValue = this.data.VatValue;
         bodyRequest.VatValueView = this.data.VatValueView;
         bodyRequest.ConfirmationOrderNo = this.data.ConfirmationOrderNo;
+        bodyRequest.DocumentsPath = this.data.DocumentsPath;
+        bodyRequest.DocumentsFile = this.data.DocumentsFile;
+        bodyRequest.DocumentsFileName = this.data.DocumentsFileName;
         bodyRequest.Items = [];
         if(this.data.Items){
             this.data.Items.forEach(element => {
