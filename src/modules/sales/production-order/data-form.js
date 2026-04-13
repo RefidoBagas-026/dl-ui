@@ -41,6 +41,15 @@ export class DataForm {
   rq = false;
 
   UOMOptions = ["MTR", "PCS"];
+   controlOptions = {
+    label: {
+      length: 4
+    },
+    control: {
+      length: 7,
+      align: "right"
+    }
+  }
 
 
   constructor(bindingEngine, element, service) {
