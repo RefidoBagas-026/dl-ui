@@ -168,6 +168,14 @@
             error.bind="error.ShippingQuantityTolerance" read-only.bind="readOnly" post-fix="%" if.bind="nameCheck">
           </numeric>
 
+          <au-checkbox
+          label="Toleransi Minus?"
+          value.bind="data.IsTolerance"
+          read-only.bind="readOnly"
+          options.bind="controlOptions"
+          if.bind="nameCheck">
+          </au-checkbox>
+
           <textbox label="Asal Material" value.bind="data.MaterialOrigin" error.bind="error.MaterialOrigin"
             read-only.bind="(readOnly)"></textbox>
 
