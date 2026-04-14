@@ -29,6 +29,11 @@ class Service extends RestService {
         var endpoint = `${serviceUri}/${id}`;
         return super.patch(endpoint, data);
     }
+
+    update(id, data) {
+        var endpoint = `${serviceUri}/${id}`;
+        return super.put(endpoint, data);
+    }
     
 
 };

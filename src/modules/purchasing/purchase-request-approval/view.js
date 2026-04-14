@@ -1,6 +1,8 @@
 import { inject } from "aurelia-framework";
 import { Router } from "aurelia-router";
-import { Service } from "./service";
+//import { Service } from "./service";
+import { Service as PurchasingService} from "./service";
+import { Service as CoreService } from "./core-service";
 import { Dialog } from "../../../au-components/dialog/dialog";
 import { AuthService } from "aurelia-authentication";
 import moment from 'moment';
@@ -9,9 +11,10 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 numeral.defaultFormat("0,0.00");
 
-@inject(Router, Service, Dialog, AuthService)
+@inject(Router, PurchasingService, Dialog, AuthService, CoreService)
 export class View {
     readOnly = true;
+    hasPriceDifference = false;
     length4 = {
         label: {
             align: "left",
@@ -37,14 +40,16 @@ export class View {
         //deleteText: "Reject"
     };
 
-    constructor(router, service, dialog, authService) {
+    constructor(router, purchasingService, dialog, authService, coreService) {
         this.router = router;
-        this.service = service;
+        this.purchasingService = purchasingService;
         this.dialog = dialog;
         this.authService = authService;
+        this.coreService = coreService;
     }
 
     async activate(params, routeConfig, navigationInstruction) {
+        this._activateArgs = { params, routeConfig, navigationInstruction };
         const instruction = navigationInstruction.getAllInstructions()[0];
         const parentInstruction = instruction.parentInstruction;
         this.title = parentInstruction.config.title;
@@ -84,17 +89,19 @@ export class View {
             };
         } else {
             // UNTUK PURCHASING, MANAGER, GENERAL MANAGER, ANGGARAN
-            this.itemsInfo = {
-                columns: [
-                    { header: "Barang", value: "productName" },
-                    { header: "Jumlah", value: "quantity" },
-                    { header: "Satuan", value: "uomUnit" },
-                    { header: "Mata Uang", value: "currency" },
-                    { header: "Harga Satuan", value: "pricePerDealUnit" },
-                    { header: "Total Harga", value: "totalPrice" },
-                    { header: "Keterangan", value: "remark" }
-                ]
-            };
+            const columns = [
+                { header: "Barang", value: "productName" },
+                { header: "Jumlah", value: "quantity" },
+                { header: "Satuan", value: "uomUnit" },
+                { header: "Mata Uang", value: "currency" },
+                { header: "Harga Satuan", value: "pricePerDealUnit" },
+                { header: "Total Harga", value: "totalPrice" },
+                { header: "Keterangan", value: "remark" }
+            ];
+            if (this.type === "Anggaran") {
+                columns.splice(5, 0, { header: "Harga Master", value: "masterPrice" });
+            }
+            this.itemsInfo = { columns };
         }
 
         if (this.authService.authenticated) {
@@ -107,12 +114,39 @@ export class View {
         var id = params.id;
         let decoded = Base64Helper.decode(id);
         id = decoded;
-        this.data = await this.service.getById(id);
+        this.data = await this.purchasingService.getById(id);
+        this.rawData = JSON.parse(JSON.stringify(this.data));
+
+        // Build master price map from core product API (Anggaran only)
+        let productMap = {};
+        if (this.type === "Anggaran") {
+            try {
+                const productIds = (this.data.items || []).map(item => parseInt(item.product._id));
+                const productResult = await this.coreService.getProductsByIds(productIds);
+                const products = (productResult && productResult.data) || [];
+                for (let p of products) {
+                    productMap[p.Id] = p.Price;
+                }
+            } catch (e) {
+                // leave productMap empty on error
+            }
+        }
+
+        this.hasPriceDifference = false;
 
         if (this.data.items) {
             let no = 0;
             for (let item of this.data.items) {
                 item.No = ++no;
+                item._rawPricePerDealUnit = item.pricePerDealUnit;
+                item._rawQuantity = item.quantity;
+                const rawMasterPrice = productMap[parseInt(item.product._id)] || 0;
+                item._rawMasterPrice = rawMasterPrice;
+
+                if (this.type === "Anggaran" && rawMasterPrice > 0 && item.pricePerDealUnit !== rawMasterPrice) {
+                    this.hasPriceDifference = true;
+                }
+
                 item.pricePerDealUnit = numeral(item.pricePerDealUnit).format();
                 item.quantity = numeral(item.quantity).format();
                 item.totalPrice = numeral(item.totalPrice).format();
@@ -123,6 +157,9 @@ export class View {
             item.productName = item.product.name;
             item.uomUnit = item.product.uom.unit;
             item.currency = item.currency.code;
+            if (this.type === "Anggaran") {
+                item.masterPrice = numeral(productMap[parseInt(item.product._id)] || 0).format();
+            }
         }
 
         if (this.data.date) {
@@ -132,26 +169,19 @@ export class View {
             this.data.expectedDeliveryDate = moment(this.data.expectedDeliveryDate).format("DD MMMM YYYY");
         }
 
-        this.data.unit.toString = function () {
-            return [this.division.name, this.name]
-                .filter((item, index) => {
-                    return item && item.toString().trim().length > 0;
-                }).join(" - ");
-        }
-        this.data.budget.toString = function () {
-            return [this.code, this.name]
-                .filter((item, index) => {
-                    return item && item.toString().trim().length > 0;
-                }).join(" - ");
-        }
-        this.data.category.toString = function () {
-            return [this.code, this.name]
-                .filter((item, index) => {
-                    return item && item.toString().trim().length > 0;
-                }).join(" - ");
-        }
+        this.data.unit = [this.data.unit.division && this.data.unit.division.name, this.data.unit.name]
+            .filter(v => v && v.toString().trim().length > 0)
+            .join(" - ");
+        this.data.budget = [this.data.budget.code, this.data.budget.name]
+            .filter(v => v && v.toString().trim().length > 0)
+            .join(" - ");
+        this.data.category = [this.data.category.code, this.data.category.name]
+            .filter(v => v && v.toString().trim().length > 0)
+            .join(" - ");
 
-        this.editCallback = this.approve;
+        if (!this.hasPriceDifference) {
+            this.editCallback = this.approve;
+        }
         //this.deleteCallback = this.reject;
     }
 
@@ -206,7 +236,7 @@ export class View {
                 ];
             }
 
-            this.service.replace(this.data.Id, jsonPatch)
+            this.purchasingService.replace(this.data.Id, jsonPatch)
                 .then(result => {
                     this.list();
                 })
@@ -214,6 +244,36 @@ export class View {
                     this.error = e;
                     if (e.statusCode === 500) {
                         alert("Gagal menyimpan, silakan coba lagi!");
+                    }
+                });
+        }
+    }
+
+    async attached() {
+    }
+
+    updateHarga() {
+        if (confirm("Update harga satuan sesuai harga master?")) {
+            (this.data.items || []).forEach((item, index) => {
+                if (item._rawMasterPrice > 0 && item._rawPricePerDealUnit !== item._rawMasterPrice) {
+                    this.rawData.items[index].pricePerDealUnit = item._rawMasterPrice;
+                    this.rawData.items[index].totalPrice = item._rawMasterPrice * item._rawQuantity;
+                }
+            });
+
+            this.purchasingService.update(this.rawData.Id, this.rawData)
+                .then(() => {
+                    const { params, routeConfig, navigationInstruction } = this._activateArgs;
+                    this.activate(params, routeConfig, navigationInstruction);
+                    this.categoryChanged();
+                    this.unitChanged();
+                    this.budgetChanged();
+
+                })
+                .catch(e => {
+                    this.error = e;
+                    if (e.statusCode === 500) {
+                        alert("Gagal update harga, silakan coba lagi!");
                     }
                 });
         }

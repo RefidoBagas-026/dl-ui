@@ -66,6 +66,10 @@
     <au-collection items.bind="data.items" columns.bind="itemsInfo.columns" read-only.bind="readOnly">
     </au-collection>
 
+    <div class="pull-right" if.bind="hasPriceDifference">
+      <button class="btn btn-warning" click.delegate="updateHarga()">Update Harga</button>
+    </div>
+
   </au-input-form>
 
 </template>
