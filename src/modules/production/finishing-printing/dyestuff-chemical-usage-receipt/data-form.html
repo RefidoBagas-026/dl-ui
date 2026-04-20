@@ -170,7 +170,7 @@
                             <th>
                                 Warna
                             </th>
-                            <th colspan="6">
+                            <th colspan="7">
                                 ${color.ColorCode}
                             </th>
                         </tr>
@@ -191,11 +191,17 @@
                                 Adjs 3
                             </th>
                             <th width="20%">
-                                Adjs 4
+                                Adjs 4 aa
                             </th>
-                            <th rowspan="2">
+                            <th width="20%">
+                                Adjs 5
+                            </th>
+                            <th width="20%">
+                                Adjs 6
+                            </th>
+                            <!-- <th rowspan="2">
                                 Total
-                            </th>
+                            </th> -->
                         </tr>
                         <tr>
                             <th>
@@ -220,6 +226,16 @@
                             </th>
                             <th>
                                 <au-datepicker value.bind="color.Adjs4Date" error.bind="error.Adjs4Date"
+                                    read-only.bind="readOnly">
+                                </au-datepicker>
+                            </th>
+                            <th>
+                                <au-datepicker value.bind="color.Adjs5Date" error.bind="error.Adjs5Date"
+                                    read-only.bind="readOnly">
+                                </au-datepicker>
+                            </th>
+                            <th>
+                                <au-datepicker value.bind="color.Adjs6Date" error.bind="error.Adjs6Date"
                                     read-only.bind="readOnly">
                                 </au-datepicker>
                             </th>
@@ -251,11 +267,19 @@
                                 </au-numeric>
                             </td>
                             <td>
+                                <au-numeric format="0.00" value.bind="item.Adjs5Quantity" read-only.bind="readOnly">
+                                </au-numeric>
+                            </td>
+                            <td>
+                                <au-numeric format="0.00" value.bind="item.Adjs6Quantity" read-only.bind="readOnly">
+                                </au-numeric>
+                            </td>
+                            <!-- <td>
                                 <au-numeric format="0.00" show.bind="item.Name != 'Viscositas'"
                                     value.bind="item.ReceiptQuantity + item.Adjs1Quantity + item.Adjs2Quantity + item.Adjs3Quantity + item.Adjs4Quantity + item.Adjs5Quantity"
                                     read-only.bind="true">
                                 </au-numeric>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
                 </table>
@@ -290,7 +314,7 @@
                             <th>
                                 Warna
                             </th>
-                            <th colspan="6">
+                            <th colspan="7">
                                 ${color.ColorCode}
                             </th>
                         </tr>
@@ -313,9 +337,15 @@
                             <th>
                                 Adjs 4
                             </th>
-                            <th rowspan="2">
-                                Total
+                            <th>
+                                Adjs 5
                             </th>
+                            <th>
+                                Adjs 6
+                            </th>
+                            <!-- <th rowspan="2">
+                                Total
+                            </th> -->
                         </tr>
                         <tr>
                             <th>
@@ -340,6 +370,16 @@
                             </th>
                             <th>
                                 <au-datepicker value.bind="color.Adjs4Date" error.bind="error.Adjs4Date"
+                                    read-only.bind="readOnly">
+                                </au-datepicker>
+                            </th>
+                            <th>
+                                <au-datepicker value.bind="color.Adjs5Date" error.bind="error.Adjs5Date"
+                                    read-only.bind="readOnly">
+                                </au-datepicker>
+                            </th>
+                            <th>
+                                <au-datepicker value.bind="color.Adjs6Date" error.bind="error.Adjs6Date"
                                     read-only.bind="readOnly">
                                 </au-datepicker>
                             </th>
@@ -370,10 +410,18 @@
                                 <au-numeric format="0.00" value.bind="item.Adjs4Quantity" read-only.bind="readOnly">
                                 </au-numeric>
                             </td>
-                            <td>
+                            <!-- <td>
                                 <au-numeric format="0.00" show.bind="item.Name != 'Viscositas'"
                                     value.bind="item.ReceiptQuantity + item.Adjs1Quantity + item.Adjs2Quantity + item.Adjs3Quantity + item.Adjs4Quantity + item.Adjs5Quantity"
                                     read-only.bind="true">
+                                </au-numeric>
+                            </td> -->
+                            <td>
+                                <au-numeric format="0.00" value.bind="item.Adjs5Quantity" read-only.bind="readOnly">
+                                </au-numeric>
+                            </td>
+                            <td>
+                                <au-numeric format="0.00" value.bind="item.Adjs6Quantity" read-only.bind="readOnly">
                                 </au-numeric>
                             </td>
                         </tr>
