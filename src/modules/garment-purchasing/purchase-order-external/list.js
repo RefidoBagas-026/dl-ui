@@ -11,6 +11,9 @@ export class List {
 
 
      rowFormatter(data, index) {
+        if (!data.IsPosted) {
+        return { classes: "" }; // putih / default
+    }
         if (data.ReasonRejected) {
             return { classes: "" };
         } else if ((!data.IsOverBudget ||data.IsApprovedGeneralManager) && (!data.IsOverBudget ||data.IsApprovedAnggaran) && (!data.IsOverBudget || data.IsApprovedManager))
