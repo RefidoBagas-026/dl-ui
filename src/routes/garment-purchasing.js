@@ -1457,7 +1457,7 @@ module.exports = [
             group: "g-purchasing",
             subGroup: "approval",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: { H79 : 1 },
+            permission: { H77 : 1 },
             iconClass: 'fa fa-calculator',
             type: "manager"
         }
@@ -1474,7 +1474,7 @@ module.exports = [
             group: "g-purchasing",
             subGroup: "approval",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: { H80 : 1 },
+            permission: { H78 : 1 },
             iconClass: 'fa fa-calculator',
             type: "gm"
         }
@@ -1490,7 +1490,7 @@ module.exports = [
             group: "g-purchasing",
             subGroup: "approval",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: { H81 : 1 },
+            permission: { H79 : 1 },
             iconClass: 'fa fa-calculator',
             type: "manager"
         }
@@ -1507,7 +1507,7 @@ module.exports = [
             group: "g-purchasing",
             subGroup: "approval",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: { H82 : 1 },
+            permission: { H80 : 1 },
             iconClass: 'fa fa-calculator',
             type: "gm"
         }
@@ -1524,7 +1524,7 @@ module.exports = [
             group: "g-purchasing",
             subGroup: "approval",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: { H83 : 1 },
+            permission: { H81 : 1 },
             iconClass: 'fa fa-calculator',
             type: "gm"
         }
