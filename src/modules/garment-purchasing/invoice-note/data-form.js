@@ -361,6 +361,50 @@ export class DataForm {
         this.resetErrorItems(); 
     }
 
+    get isLate() {
+        if (!this.data.items || this.data.items.length === 0) {
+            this.data.isLate = false;
+            this.data.lateReason = "";
+            return false;
+        }
+        var now = new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        var minDoDate = null;
+        var minPaymentDueDays = 0;
+        for (var item of this.data.items) {
+            var itemDoDate = item.doDate || (item.deliveryOrder && item.deliveryOrder.doDate);
+            if (!itemDoDate) continue;
+            var doDate = new Date(itemDoDate);
+            if (minDoDate === null || doDate < minDoDate) {
+                minDoDate = doDate;
+                var details = item.details || [];
+                if (item.deliveryOrder && item.deliveryOrder.items && details.length === 0) {
+                    details = item.deliveryOrder.items;
+                }
+                minPaymentDueDays = 0;
+                for (var detail of details) {
+                    var days = detail.paymentDueDays || 0;
+                    if (days > minPaymentDueDays) {
+                        minPaymentDueDays = days;
+                    }
+                }
+            }
+        }
+        if (minDoDate === null) {
+            this.data.isLate = false;
+            this.data.lateReason = "";
+            return false;
+        }
+        var dueDate = new Date(minDoDate);
+        dueDate.setDate(dueDate.getDate() + minPaymentDueDays);
+        var result = dueDate < today;
+        this.data.isLate = result;
+        if (!result) {
+            this.data.lateReason = "";
+        }
+        return result;
+    }
+
     @computedFrom("data.items.length")
     get isActivitiesEqualTotal() {
         return this.totalItem == this.data.items.length;

@@ -5,6 +5,7 @@ var SupplierLoader = require('../../../loader/garment-supplier-loader');
 var CurrencyLoader = require('../../../loader/garment-currencies-by-date-loader');
 var IncomeTaxLoader = require('../../../loader/income-tax-loader');
 var VatTaxLoader = require('../../../loader/vat-tax-loader');
+var accountSignatureLoader = require('../../../loader/garment-account-signature-loader');
 import moment from 'moment';
 
 @containerless()
@@ -22,6 +23,8 @@ export class DataForm {
     @bindable options = { isUseIncomeTax: false };
     keywords = ''
     @bindable kurs = {};
+    @bindable IsApprovedManager;
+    @bindable hasOverBudgetItems = false;
 
     termPaymentImportOptions = ['T/T PAYMENT', 'CMT', 'FREE FROM BUYER', 'SAMPLE'];
     termPaymentLocalOptions = ['DAN LIRIS', 'CMT', 'FREE FROM BUYER', 'SAMPLE'];
@@ -108,8 +111,7 @@ export class DataForm {
         if (this.data.Currency) {
             this.data.CurrencyRate = this.data.Currency.Rate;
         }
-        //var kurs = await this.service.getKurs(this.data.Currency.Code, new Date(this.data.OrderDate).toLocaleDateString());
-        //this.kurs=kurs[0];
+  
         if (Object.getOwnPropertyNames(this.kurs).length > 0) {
             this.options.kurs = this.kurs;
         } else {
@@ -120,6 +122,25 @@ export class DataForm {
             this.readOnly = true;
         }
 
+        this.IsApprovedManager ={
+            UserName: this.data.ApprovedManagerBy || ""
+        };
+
+        if (this.data.Id || this.ISEDIT) {
+            this.updateOverBudgetStatus();
+        } else if (this.data.Items && this.data.Items.length > 0 && this.options.checkOverBudget) {
+            
+            this.checkOverBudgetAll();
+        } else {
+            this.updateOverBudgetStatus();
+        }
+
+        var originalOnRemove = this.items.onRemove;
+        var self = this;
+        this.items.onRemove = function () {
+            originalOnRemove.call(this);
+            self.updateOverBudgetStatus();
+        };
     }
 
     @computedFrom("data.Id")
@@ -137,6 +158,19 @@ export class DataForm {
         }
         else
             return "Lokal"
+    }
+
+    updateOverBudgetStatus() {
+        const previousOverBudgetStatus = this.hasOverBudgetItems;
+        if (this.data.Items && this.data.Items.length > 0) {
+            this.hasOverBudgetItems = this.data.Items.some(item => item.IsOverBudget === true);
+        } else {
+            this.hasOverBudgetItems = false;
+        }
+        if (previousOverBudgetStatus === true && this.hasOverBudgetItems === false) {
+        this.IsApprovedManager = null;
+        this.data.ApprovedManagerBy = "";
+    }
     }
 
     @computedFrom("data.SupplierId")
@@ -175,10 +209,6 @@ export class DataForm {
             this.data.IsUseVat = _selectedSupplier.usevat;
             this.data.Vat = {};
             this.data.IsIncomeTax = _selectedSupplier.usetax;
-            // this.data.IncomeTax = _selectedSupplier.IncomeTaxes;
-            // this.data.IncomeTax.Name = _selectedSupplier.IncomeTaxes.name;
-            // this.data.IncomeTax.Rate = _selectedSupplier.IncomeTaxes.Rate ? _selectedSupplier.IncomeTaxes.Rate : _selectedSupplier.IncomeTaxes.rate ? _selectedSupplier.IncomeTaxes.rate : 0;
-            // this.data.IncomeTax.rate=this.data.IncomeTax.Rate;
 
             if (this.data.IsUseVat) {
 
@@ -305,6 +335,8 @@ export class DataForm {
                 items.OverBudgetAmount = 0;
             })
             this.options.resetOverBudget = true;
+            // Update status over budget untuk menyembunyikan approval fields
+            this.updateOverBudgetStatus();
             this.context.DetailsCollection.bind();
         }
     }
@@ -491,9 +523,16 @@ export class DataForm {
         items = [].concat.apply([], items);
         this.data.Items = items;
         this.isItem = true;
+        
+        if (this.options.checkOverBudget) {
+            this.checkOverBudgetAll();
+        } else {
+            this.updateOverBudgetStatus();
+        }
     }
 
     items = {
+        parent: this,
         columns: [
             "Nomor PR - No. Referensi PR - Article",
             "Nomor RO",
@@ -600,6 +639,8 @@ export class DataForm {
                 }
                 a.UsedBudget = parseFloat(a.budgetUsed.toFixed(4));
             }
+            // Update status over budget untuk menampilkan/menyembunyikan approval fields
+            this.updateOverBudgetStatus();
         }
     }
 
@@ -640,6 +681,25 @@ export class DataForm {
             this.data.Items[i][columnName] = newValue;
         }
     }
+
+    get accountSignatureLoader1() {
+        return (keyword) => accountSignatureLoader(keyword, { Position: "Manager Purchasing" }); //Username ganti dengan jabatan atau posisi dari Account Signature yang diinginkan
+    }
+
+    ApprovedManagerView = (unit) => {
+        return `${unit.UserName}`;
+    }
+    
+    IsApprovedManagerChanged(newValue) {
+        this.IsApprovedManager = newValue;
+        if (this.IsApprovedManager){
+        this.data.ApprovedManagerBy = this.IsApprovedManager.UserName;
+        }else{
+        this.data.ApprovedManagerBy = "";
+        this.IsApprovedManager = null;
+        }
+    }
+        
 
     onItemChangeDelegate(event) {
         this.onitemchange(event); 

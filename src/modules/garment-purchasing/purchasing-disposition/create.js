@@ -58,6 +58,7 @@ export class Create {
         bodyRequest.PaymentType = this.data.PaymentType;
         bodyRequest.ProformaNo = this.data.ProformaNo;
         bodyRequest.Remark = this.data.Remark;
+        bodyRequest.ApprovedManagerBy = this.data.ApprovedManagerBy;
         //bodyRequest.Supplier = this.data.Supplier;
         bodyRequest.SupplierCode = this.data.SupplierCode;
         bodyRequest.SupplierId = this.data.SupplierId;
@@ -66,6 +67,9 @@ export class Create {
         bodyRequest.VatValue = this.data.VatValue;
         bodyRequest.VatValueView = this.data.VatValueView;
         bodyRequest.ConfirmationOrderNo = this.data.ConfirmationOrderNo;
+        bodyRequest.DocumentsPath = this.data.DocumentsPath;
+        bodyRequest.DocumentsFile = this.data.DocumentsFile;
+        bodyRequest.DocumentsFileName = this.data.DocumentsFileName;
         bodyRequest.Items = [];
         if(this.data.Items){
             this.data.Items.forEach(element => {

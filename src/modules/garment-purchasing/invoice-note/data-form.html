@@ -6,6 +6,8 @@
             <!-- <button class="btn btn-primary" click.delegate="context.edit($event)" if.one-way="context.hasEdit">Ubah</button> -->
             <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Simpan</button>
             <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button>
+            <button class="btn btn-success" click.delegate="context.posting($event)" if.one-way="context.hasPosting">Posting</button>
+            <button class="btn btn-danger" click.delegate="context.unpost($event)" if.one-way="context.hasUnpost">Unpost</button>
         </div>
 
         <au-textbox label="Nomor Invoice" value.bind="data.invoiceNo" error.bind="error.invoiceNo" placeholder="masukan nomor invoice" read-only.bind="readOnly"
@@ -93,6 +95,15 @@
             show.bind="data.useIncomeTax" change.delegate="isPayTaxChanged($event)"
             options.bind="controlOptions">
         </au-checkbox>
+
+        <au-multiline label="Alasan Keterlambatan" 
+            value.bind="data.lateReason" 
+            error.bind="error.lateReason" 
+            placeholder="masukan alasan keterlambatan" 
+            read-only.bind="readOnly" 
+            show.bind="isLate" 
+            options.bind="controlOptions">
+        </au-multiline>
 
         <au-textbox 
             label="Admin Pembelian" 

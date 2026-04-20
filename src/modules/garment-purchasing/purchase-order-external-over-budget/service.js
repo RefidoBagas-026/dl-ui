@@ -27,10 +27,16 @@ export class Service extends RestService {
         return super.post(endpoint, data);
     }
 
-    unpost(id) {
-      var endpoint = `${serviceUri}/unpost/${id}`;
-      return super.put(endpoint);
-  }
+  //   unpost(id) {
+  //     var endpoint = `${serviceUri}/unpost/${id}`;
+  //     return super.put(endpoint);
+  // }
+
+    unpost(id, reason) {
+      let endpoint = `${serviceUri}/epo-rejected/${id}`;
+      let body = { Reason: reason };
+      return super.put(endpoint, body);
+    }
 }
 
 export class ServiceFinance extends RestService {
