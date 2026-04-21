@@ -706,4 +706,9 @@ export class DataForm {
         this.itemsChanged(event);  
     }
 
+    @computedFrom("hasOverBudgetItems", "options.checkOverBudget")
+        get showManagerApproval() {
+            return this.hasOverBudgetItems && this.options.checkOverBudget;
+        }
+
 }
