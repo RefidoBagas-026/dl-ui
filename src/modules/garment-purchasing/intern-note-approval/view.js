@@ -88,6 +88,23 @@ export class View {
         this.data = await this.service.getById(id);
         this.error = {};
 
+        // Ensure top-level paymentDueDate is set from first available detail
+        let paymentDue = null;
+        if (this.data && this.data.items && this.data.items.length) {
+            for (let it of this.data.items) {
+                if (it && it.details && it.details.length) {
+                    for (let det of it.details) {
+                        if (det && det.paymentDueDate) {
+                            paymentDue = det.paymentDueDate;
+                            break;
+                        }
+                    }
+                }
+                if (paymentDue) break;
+            }
+        }
+        this.data.paymentDueDate = paymentDue ? new Date(paymentDue) : null;
+
         // Setup options for templates
         if (!this.itemsInfo.options) {
             this.itemsInfo.options = {};
