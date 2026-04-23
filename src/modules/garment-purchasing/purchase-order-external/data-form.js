@@ -682,9 +682,18 @@ export class DataForm {
         }
     }
 
-    get accountSignatureLoader1() {
-        return (keyword) => accountSignatureLoader(keyword, { Position: "Manager Purchasing" }); //Username ganti dengan jabatan atau posisi dari Account Signature yang diinginkan
-    }
+    // get accountSignatureLoader1() {
+    //     return (keyword) => accountSignatureLoader(keyword, { Position: ["Manager Purchasing", "Manager Merchandiser"] }); //Username ganti dengan jabatan atau posisi dari Account Signature yang diinginkan
+    // }
+
+  get accountSignatureLoader1() {
+    return async (keyword) => {
+        const res1 = await accountSignatureLoader(keyword, { Position: "Manager Purchasing" });
+        const res2 = await accountSignatureLoader(keyword, { Position: "Manager Merchandiser" });
+
+        return [...res1, ...res2];
+    };
+}
 
     ApprovedManagerView = (unit) => {
         return `${unit.UserName}`;
