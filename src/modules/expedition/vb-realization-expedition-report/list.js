@@ -85,120 +85,160 @@ export class List {
   ];
 
   columns2 = [
-    { field: "VBNo", title: "No. VB" },
-    { field: "VBRealizationNo", title: "No. Realisasi VB" },
-    {
-      field: "VBType",
-      title: "Tipe VB",
-      formatter: function (value, data, index) {
-        return value == 1 ? "Dengan PO" : "Tanpa PO";
+    // --- Row 1 ---
+    [
+      { field: "VBNo", title: "No. VB", rowspan: 2 },
+      { field: "VBRealizationNo", title: "No. Realisasi VB", rowspan: 2 },
+      {
+        field: "VBType",
+        title: "Tipe VB",
+        rowspan: 2,
+        formatter: function (value, data, index) {
+          return value == 1 ? "Dengan PO" : "Tanpa PO";
+        },
       },
-    },
-    { field: "VBRequestName", title: "Nama" },
-    { field: "UnitName", title: "Bagian/Unit" },
-    { field: "DivisionName", title: "Divisi" },
-    {
-      field: "SendToVerificationDate",
-      title: "Tanggal Unit Kirim",
-      formatter: function (value, data, index) {
-        return value ? moment.utc(value).local().format("DD MMM YYYY") : "-";
+      { field: "VBRequestName", title: "Nama", rowspan: 2 },
+      { field: "UnitName", title: "Bagian/Unit", rowspan: 2 },
+      { field: "DivisionName", title: "Divisi", rowspan: 2 },
+      {
+        field: "SendToVerificationDate",
+        title: "Tanggal Unit Kirim",
+        rowspan: 2,
+        formatter: function (value, data, index) {
+          return value ? moment.utc(value).local().format("DD MMM YYYY") : "-";
+        },
       },
-    },
-    { field: "Purpose", title: "Keperluan" },
-    { field: "RemarkRealization", title: "Keterangan Realisasi" },
-    { field: "CurrencyCode", title: "Mata Uang VB" },
-    {
-      field: "VBAmount",
-      title: "Nominal VB",
-      formatter: function (value, data, index) {
-        return numeral(value).format("0,000.00");
+      { field: "Purpose", title: "Keperluan", rowspan: 2 },
+      { field: "RemarkRealization", title: "Keterangan Realisasi", rowspan: 2 },
+      { field: "CurrencyCode", title: "Mata Uang VB", rowspan: 2 },
+      {
+        field: "VBAmount",
+        title: "Nominal VB",
+        rowspan: 2,
+        formatter: function (value, data, index) {
+          return numeral(value).format("0,000.00");
+        },
+        align: "right",
       },
-      align: "right",
-    },
-    { field: "CurrencyCode", title: "Mata Uang Realisasi" },
-    {
-      field: "VBRealizationAmount",
-      title: "Nominal Realisasi",
-      formatter: function (value, data, index) {
-        return numeral(value).format("0,000.00");
+      { field: "CurrencyCode", title: "Mata Uang Realisasi", rowspan: 2 },
+      // Nominal Realisasi group header
+      { title: "Nominal Realisasi", colspan: 4, align: "center" },
+      {
+        field: "VBRealizationDate",
+        title: "Tanggal Realisasi",
+        rowspan: 2,
+        formatter: function (value, data, index) {
+          return moment.utc(value).local().format("DD MMM YYYY");
+        },
       },
-      align: "right",
-    },
-    {
-      field: "VBRealizationDate",
-      title: "Tanggal Realisasi",
-      formatter: function (value, data, index) {
-        return moment.utc(value).local().format("DD MMM YYYY");
+      {
+        field: "VerificationReceiptDate",
+        title: "Tanggal Verif Terima",
+        rowspan: 2,
+        formatter: function (value, data, index) {
+          return value ? moment.utc(value).local().format("DD MMM YYYY") : "-";
+        },
       },
-    },
-    {
-      field: "VerificationReceiptDate",
-      title: "Tanggal Verif Terima",
-      formatter: function (value, data, index) {
-        return value ? moment.utc(value).local().format("DD MMM YYYY") : "-";
+      {
+        field: "Position",
+        title: "Nama Verifikator",
+        rowspan: 2,
+        formatter: function (value, data, index) {
+          if (value >= 4 && value != 6) return data.VerifiedToCashierBy;
+          else if (value == 6) return data.NotVerifiedBy;
+          else return "-";
+        },
       },
-    },
-    {
-      field: "Position",
-      title: "Nama Verifikator",
-      formatter: function (value, data, index) {
-        // console.log(index);
-        // console.log(data);
-        if (value >= 4 && value != 6) return data.VerifiedToCashierBy;
-        else if (value == 6) return data.NotVerifiedBy;
-        else return "-";
+      {
+        field: "VerifiedToCashierDate",
+        title: "Tanggal Verif Kirim Kasir/Retur",
+        rowspan: 2,
+        formatter: function (value, data, index) {
+          return value
+            ? moment.utc(value).local().format("DD MMM YYYY")
+            : data.NotVerifiedDate
+              ? moment.utc(data.NotVerifiedDate).local().format("DD MMM YYYY")
+              : "-";
+        },
       },
-    },
-    {
-      field: "VerifiedToCashierDate",
-      title: "Tanggal Verif Kirim Kasir/Retur",
-      formatter: function (value, data, index) {
-        return value
-          ? moment.utc(value).local().format("DD MMM YYYY")
-          : data.NotVerifiedDate
-            ? moment.utc(data.NotVerifiedDate).local().format("DD MMM YYYY")
-            : "-";
+      {
+        field: "Position",
+        title: "Posisi",
+        rowspan: 2,
+        formatter: (value, data, index) => {
+          switch (value) {
+            case 1:
+              return "Pembelian";
+            case 2:
+              return "Penyerahan Ke Verifikasi";
+            case 3:
+              return "Verifikasi";
+            case 4:
+              return "Verifikasi Ke Kasir";
+            case 5:
+              return "Kasir";
+            case 6:
+              return "Retur";
+          }
+        },
       },
-    },
-    {
-      field: "Position",
-      title: "Posisi",
-      formatter: (value, data, index) => {
-        switch (value) {
-          case 1:
-            return "Pembelian";
-          case 2:
-            return "Penyerahan Ke Verifikasi";
-          case 3:
-            return "Verifikasi";
-          case 4:
-            return "Verifikasi Ke Kasir";
-          case 5:
-            return "Kasir";
-          case 6:
-            return "Retur";
-        }
+      { field: "NotVerifiedReason", title: "Keterangan (Retur)", rowspan: 2 },
+      {
+        field: "CashierReceiptDate",
+        title: "Tanggal Kasir Terima",
+        rowspan: 2,
+        formatter: function (value, data, index) {
+          return value ? moment.utc(value).local().format("DD MMM YYYY") : "-";
+        },
       },
-    },
-    { field: "NotVerifiedReason", title: "Keterangan (Retur)" },
-    {
-      field: "CashierReceiptDate",
-      title: "Tanggal Kasir Terima",
-      formatter: function (value, data, index) {
-        return value ? moment.utc(value).local().format("DD MMM YYYY") : "-";
+      { field: "ClearanceName", title: "Nama Clearance", rowspan: 2 },
+      {
+        field: "ClearanceDate",
+        title: "Tanggal Clearance",
+        rowspan: 2,
+        formatter: function (value, data, index) {
+          return value ? moment.utc(value).local().format("DD MMM YYYY") : "-";
+        },
       },
-    },
-    { field: "ClearanceName", title: "Nama Clearance" },
-    {
-      field: "ClearanceDate",
-      title: "Tanggal Clearance",
-      formatter: function (value, data, index) {
-        return value ? moment.utc(value).local().format("DD MMM YYYY") : "-";
+      { field: "TakenBy", title: "Nama Pengambil VB", rowspan: 2 },
+      { field: "PhoneNumber", title: "Nomor Telepon", rowspan: 2 },
+      { field: "Email", title: "Email Pembuat VB", rowspan: 2 },
+    ],
+    // --- Row 2 (sub-columns under "Nominal Realisasi") ---
+    [
+      {
+        field: "TaxBasis",
+        title: "DPP",
+        formatter: function (value, data, index) {
+          return numeral(value).format("0,000.00");
+        },
+        align: "right",
       },
-    },
-    { field: "TakenBy", title: "Nama Pengambil VB" },
-    { field: "PhoneNumber", title: "Nomor Telepon" },
-    { field: "Email", title: "Email Pembuat VB" },
+      {
+        field: "VatAmount",
+        title: "PPN",
+        formatter: function (value, data, index) {
+          return numeral(value).format("0,000.00");
+        },
+        align: "right",
+      },
+      {
+        field: "IncomeTaxAmount",
+        title: "PPH",
+        formatter: function (value, data, index) {
+          return numeral(value).format("0,000.00");
+        },
+        align: "right",
+      },
+      {
+        field: "VBRealizationAmount",
+        title: "Total",
+        formatter: function (value, data, index) {
+          return numeral(value).format("0,000.00");
+        },
+        align: "right",
+      },
+    ],
   ];
 
   controlOptions = {
