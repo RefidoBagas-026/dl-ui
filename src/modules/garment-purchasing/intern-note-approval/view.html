@@ -44,9 +44,15 @@
             value.bind="data.lateReason" 
             error.bind="error.lateReason" 
             read-only.bind="readOnly" 
-            show.bind="data.isLate" 
             options.bind="controlOptions">
         </au-multiline>
+
+         <au-datepicker label="Tanggal Jatuh Tempo" 
+            value.bind="data.paymentDueDate" 
+            read-only.bind="true" 
+            options.bind="controlOptions">
+        </au-datepicker>
+
       </div>
     </div>
 
