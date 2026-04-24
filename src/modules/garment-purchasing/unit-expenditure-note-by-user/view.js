@@ -60,8 +60,24 @@ export class View {
       }
     }
     if (this.data.ExpenditureType === "EXTERNAL") {
-      if (this.data.ExpenditureTo != "PENJUALAN") {
-        this.hasDelete = false;
+      // if (this.data.ExpenditureTo != "PENJUALAN") {
+      //   this.hasDelete = false;
+      // }
+      console.log(this.data.DOQuantity);
+          console.log(this.data.IsDeletedCount);
+      if (this.data.ExpenditureTo == "PENJUALAN") {
+        this.hasDelete = true;
+      }else if (this.data.ExpenditureTo == "PEMBELIAN")
+      {
+        if(this.data.IsDeletedCount > 0 ){
+          this.hasDelete = false;
+        }else if (this.data.IsDeletedCount == 0 && this.data.DOQuantity > 0){
+
+          
+          this.hasDelete = false;
+        }else{
+          this.hasDelete = true;
+        }
       }
       this.hasEdit = false;
     }
