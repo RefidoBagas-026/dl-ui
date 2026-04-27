@@ -14,6 +14,9 @@ export class View {
     async activate(params) {
         let id = params.id;
         this.data = await this.service.getById(id);
+        console.log(this.data.NumberOfPartial);
+        
+
     }
 
     list() {
