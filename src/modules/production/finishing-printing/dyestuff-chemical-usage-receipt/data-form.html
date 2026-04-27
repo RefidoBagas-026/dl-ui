@@ -72,7 +72,9 @@
                     read-only.bind="readOnly || isEdit" error.bind="error.ProductionOrder"
                     options.bind="controlOptions">
                 </au-autocomplete>
-
+                <au-textbox label=" " value.bind="textPartial" read-only.bind="true" if.bind="partialNumber > 0" 
+                    options.bind="controlOptions">
+                </au-textbox>
                 <au-numeric label="Jumlah Order" format="0.00" value.bind="data.ProductionOrder.OrderQuantity"
                     read-only.bind="true" options.bind="controlOptions">
                 </au-numeric>
@@ -191,7 +193,7 @@
                                 Adjs 3
                             </th>
                             <th width="20%">
-                                Adjs 4 aa
+                                Adjs 4
                             </th>
                             <th width="20%">
                                 Adjs 5

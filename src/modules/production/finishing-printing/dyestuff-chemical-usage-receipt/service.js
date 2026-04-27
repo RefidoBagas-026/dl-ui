@@ -45,4 +45,9 @@ export class Service extends RestService {
     return super.get(endpoint);
   }
 
+  getPartial(productionOrderId) {
+    let endpoint = `${serviceUri}/get-partial/${productionOrderId}`;
+    return super.get(endpoint);
+  }
+
 }
