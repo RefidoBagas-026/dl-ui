@@ -14,6 +14,11 @@ class Service extends RestService {
         return super.list(endpoint, info);
     }
 
+     searchManager(info) {
+        var endpoint = `${serviceUri}/manager`;
+        return super.list(endpoint, info);
+    }
+
     getById(id) {
         var endpoint = `${serviceUri}/${id}`;
         return super.get(endpoint);

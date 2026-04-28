@@ -132,7 +132,19 @@
                 <au-multiline label="Keterangan" value.bind="data.Remark" placeholder="tambah keterangan"
                     read-only.bind="readOnly" options.bind="controlOptions">
                 </au-multiline>
+
+                <au-checkbox label="Approve MG Sourcing/MD?" value.bind="data.ApproveOther" 
+                    read-only.bind="readOnly" options.bind="controlOptions">
+                </au-checkbox>
                 
+                <au-textbox 
+                    label="MG Sourcing/MD Approval"
+                    value.bind="data.ApprovedOtherBy" 
+                    read-only.bind="true"
+                    if.bind="data.ApproveOther"
+                    options.bind="controlOptions">
+                </au-textbox>
+
                 <au-textbox 
                     label="Manager Approval"
                     value.bind="data.ApprovedManagerBy" 

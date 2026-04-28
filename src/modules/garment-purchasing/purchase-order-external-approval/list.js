@@ -62,6 +62,34 @@ export class List {
         //         }
         //     });
 
+            if (this.type === "manager") {
+                return this.service.searchManager(arg)
+                .then(result => {
+                    for (var _data of result.data) {
+                        var prNo = _data.Items.map(function (item) {
+                            return `<li>${item.PRNo}</li>`;
+                        });
+                        prNo = prNo.filter(function (elem, index, self) {
+                            return index == self.indexOf(elem);
+                        })
+                        _data.purchaseRequestNo = `<ul>${prNo.join()}</ul>`;
+                        if (_data.IsOverBudget) {
+                            if (_data.IsApprovedAnggaran) {
+                                _data.approveStatus = "SUDAH";
+                            } else {
+                                _data.approveStatus = "BELUM";
+                            }
+                        } else {
+                            _data.approveStatus = "-";
+                        }
+                    }
+                    return {
+                        total: result.info.total,
+                        data: result.data
+                    }
+                });
+            }
+
             return this.service.search(arg)
             .then(result => {
                 for (var _data of result.data) {
@@ -113,11 +141,18 @@ export class List {
         }
 
         switch (type) {
-            case "manager":
+            case "other":
                 this.filter = {
                     IsPosted: true,
-                    IsApprovedManager: false,
+                    ApproveOther: true,
+                    IsApprovedOther: false,
                     IsOverBudget: true,
+                    ApprovedOtherBy: username
+                };
+                break;
+            case "manager":
+                this.filter = {
+                    IsApprovedManager: false,
                     ApprovedManagerBy: username
                 };
                 break;

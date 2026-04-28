@@ -1445,7 +1445,22 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
-
+  {
+        route: '/garment/purchase-order-external-approval/other',
+        name: 'purchase-order-external-approval-other',
+        moduleId: './modules/garment-purchasing/purchase-order-external-approval/index',
+        nav: true,
+        title: 'Purchase Order External Approval',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { H84 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "other"
+        }
+    },
   {
         route: '/garment/purchase-order-external-approval/manager',
         name: 'purchase-order-external-approval-manager',
