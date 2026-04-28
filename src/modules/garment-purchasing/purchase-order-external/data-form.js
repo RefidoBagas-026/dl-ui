@@ -24,6 +24,7 @@ export class DataForm {
     keywords = ''
     @bindable kurs = {};
     @bindable IsApprovedManager;
+    @bindable IsApprovedOther;
     @bindable hasOverBudgetItems = false;
 
     termPaymentImportOptions = ['T/T PAYMENT', 'CMT', 'FREE FROM BUYER', 'SAMPLE'];
@@ -126,6 +127,10 @@ export class DataForm {
             UserName: this.data.ApprovedManagerBy || ""
         };
 
+        this.IsApprovedOther ={
+            UserName: this.data.ApprovedOtherBy || ""
+        };
+
         if (this.data.Id || this.ISEDIT) {
             this.updateOverBudgetStatus();
         } else if (this.data.Items && this.data.Items.length > 0 && this.options.checkOverBudget) {
@@ -170,6 +175,8 @@ export class DataForm {
         if (previousOverBudgetStatus === true && this.hasOverBudgetItems === false) {
         this.IsApprovedManager = null;
         this.data.ApprovedManagerBy = "";
+        this.IsApprovedOther = null;
+        this.data.ApprovedOtherBy = "";
     }
     }
 
@@ -682,18 +689,18 @@ export class DataForm {
         }
     }
 
-    // get accountSignatureLoader1() {
-    //     return (keyword) => accountSignatureLoader(keyword, { Position: ["Manager Purchasing", "Manager Merchandiser"] }); //Username ganti dengan jabatan atau posisi dari Account Signature yang diinginkan
-    // }
+    get accountSignatureLoader1() {
+        return (keyword) => accountSignatureLoader(keyword, { Position: "Manager Purchasing" }); //Username ganti dengan jabatan atau posisi dari Account Signature yang diinginkan
+    }
 
-  get accountSignatureLoader1() {
-    return async (keyword) => {
-        const res1 = await accountSignatureLoader(keyword, { Position: "Manager Purchasing" });
-        const res2 = await accountSignatureLoader(keyword, { Position: "Manager Merchandiser" });
+//   get accountSignatureLoader1() {
+//     return async (keyword) => {
+//         const res1 = await accountSignatureLoader(keyword, { Position: "Manager Purchasing" });
+//         const res2 = await accountSignatureLoader(keyword, { Position: "Manager Merchandiser" });
 
-        return [...res1, ...res2];
-    };
-}
+//         return [...res1, ...res2];
+//     };
+// }
 
     ApprovedManagerView = (unit) => {
         return `${unit.UserName}`;
@@ -709,6 +716,41 @@ export class DataForm {
         }
     }
         
+
+       get accountSignatureLoader2() {
+    return async (keyword) => {
+        const res1 = await accountSignatureLoader(keyword, { Position: "Manager Sourcing" });
+        const res2 = await accountSignatureLoader(keyword, { Position: "Manager Merchandiser" });
+
+        return [...res1, ...res2];
+    };
+}
+
+    ApprovedOtherView = (unit) => {
+        return `${unit.UserName}`;
+    }
+    
+    IsApprovedOtherChanged(newValue) {
+        this.IsApprovedOther = newValue;
+        if (this.IsApprovedOther){
+        this.data.ApprovedOtherBy = this.IsApprovedOther.UserName;
+        this.data.ApprovedOtherPosition = this.IsApprovedOther.Position;
+        }else{
+        this.data.ApprovedOtherBy = "";
+        this.data.ApprovedOtherPosition = "";
+        this.IsApprovedOther = null;
+        }
+    }
+
+    approveOtherChanged(e) {
+        var isChecked = e.srcElement.checked || false;
+        if (!isChecked) {
+            this.IsApprovedOther = null;
+            this.data.ApprovedOtherBy = "";
+            this.data.ApprovedOtherPosition = "";
+            if (this.error) this.error.ApprovedOtherBy = "";
+        }
+    }
 
     onItemChangeDelegate(event) {
         this.onitemchange(event); 
