@@ -139,6 +139,21 @@
                 <au-multiline label="Keterangan" value.bind="data.Remark" placeholder="tambah keterangan"
                     read-only.bind="readOnly" options.bind="controlOptions">
                 </au-multiline>
+                <au-checkbox label="Approve MG Sourcing/MD?" value.bind="data.ApproveOther" 
+                    read-only.bind="readOnly" if.bind="showManagerApproval" change.delegate="approveOtherChanged($event)" options.bind="controlOptions">
+                </au-checkbox>
+                <au-autocomplete 
+                    label="MG Sourcing/MD Approval"
+                    value.bind="IsApprovedOther" 
+                    error.bind="error.ApprovedOtherBy"
+                    loader.bind="accountSignatureLoader2"
+                    placeholder="Cari Approval" 
+                    text.bind="ApprovedOtherView"
+                    key="Id"
+                    read-only.bind="readOnly"
+                    if.bind="data.ApproveOther"
+                    options.bind="controlOptions">
+                </au-autocomplete>
                 <au-autocomplete 
                     label="Manager Approval"
                     value.bind="IsApprovedManager" 
