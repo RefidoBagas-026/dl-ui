@@ -69,9 +69,11 @@ export class View {
         this.hasDelete = true;
       }else if (this.data.ExpenditureTo == "PEMBELIAN")
       {
-        if(this.data.IsDeletedCount > 0 ){
-          this.hasDelete = false;
-        }else if (this.data.IsDeletedCount == 0 && this.data.DOQuantity > 0){
+        // if(this.data.IsDeletedCount > 0 ){
+        //   this.hasDelete = false;
+        // }else 
+          
+          if (this.data.IsDeletedCount == 0 && this.data.DOQuantity > 0){
 
           
           this.hasDelete = false;
