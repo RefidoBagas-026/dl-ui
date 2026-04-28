@@ -31,4 +31,10 @@ export class Service extends RestService {
     return super.delete(endpoint, data);
   }
 
+  downloadTemplate()
+  {
+      var endpoint = `${serviceUri}/generate-template`;
+      return super.getXls(endpoint);
+  }
+
 }

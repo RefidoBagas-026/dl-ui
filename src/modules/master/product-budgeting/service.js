@@ -55,6 +55,12 @@ export class Service extends RestService {
       return super.getXls(endpoint);
   }
 
+  downloadTemplate()
+  {
+      var endpoint = `${serviceUri}/download-template`;
+      return super.getXls(endpoint);
+  }
+
   post(data) {
     var endpoint = `${serviceUri}/posting`;
     return super.put(endpoint, data);

@@ -49,4 +49,9 @@ export class Service extends RestService {
     var endpoint = `${serviceUri}/nonactived/${id}`;
     return super.put(endpoint);
   }
+
+    downloadTemplate() {
+    var endpoint = `${serviceUri}/download-template`;
+    return super.getXls(endpoint);
+  } 
 }

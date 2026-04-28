@@ -143,5 +143,9 @@ export class List {
 
    download() {
     this.router.navigateToRoute('download');
+  }
+
+  downloadTemplate() {
+    this.service.downloadTemplate();
   } 
 } 

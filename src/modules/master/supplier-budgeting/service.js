@@ -50,4 +50,9 @@ export class Service extends RestService {
     return super.put(endpoint, data);
   } 
 
+  downloadTemplate() {
+    var endpoint = `${serviceUri}/download-template`;
+    return super.getXls(endpoint);
+  }
+
 }
