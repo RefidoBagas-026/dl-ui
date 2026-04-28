@@ -75,4 +75,7 @@ export class List {
     }
   }
 
+  downloadTemplate() {
+    this.service.downloadTemplate();
+  } 
 }

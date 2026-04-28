@@ -114,4 +114,11 @@ export class List {
         this.router.navigateToRoute('upload');
     } 
 
+  upload() {
+    this.router.navigateToRoute('upload');
+  }
+
+  downloadTemplate() {
+    this.service.downloadTemplate();
+  } 
 }

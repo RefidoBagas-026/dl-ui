@@ -68,4 +68,9 @@ export class List {
     ExportToExcel() {
           this.service.generateExcel();
       }
+  
+
+  downloadTemplate() {
+    this.service.downloadTemplate();
   }
+}
