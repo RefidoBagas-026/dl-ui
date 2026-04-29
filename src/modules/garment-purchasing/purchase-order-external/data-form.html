@@ -139,11 +139,11 @@
                 <au-multiline label="Keterangan" value.bind="data.Remark" placeholder="tambah keterangan"
                     read-only.bind="readOnly" options.bind="controlOptions">
                 </au-multiline>
-                <au-checkbox label="Approve MG Sourcing/MD?" value.bind="data.ApproveOther" 
+                <au-checkbox label="Approve MG Sourcing/Md?" value.bind="data.ApproveOther" 
                     read-only.bind="readOnly" if.bind="showManagerApproval" change.delegate="approveOtherChanged($event)" options.bind="controlOptions">
                 </au-checkbox>
                 <au-autocomplete 
-                    label="MG Sourcing/MD Approval"
+                    label="MG Sourcing/Md Approval"
                     value.bind="IsApprovedOther" 
                     error.bind="error.ApprovedOtherBy"
                     loader.bind="accountSignatureLoader2"
@@ -155,7 +155,7 @@
                     options.bind="controlOptions">
                 </au-autocomplete>
                 <au-autocomplete 
-                    label="Manager Approval"
+                    label="Manager Purchasing Approval"
                     value.bind="IsApprovedManager" 
                     error.bind="error.ApprovedManagerBy"
                     loader.bind="accountSignatureLoader1"
