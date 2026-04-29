@@ -261,6 +261,12 @@ export class Edit {
         bodyRequest.ConfirmationOrderNo = this.data.ConfirmationOrderNo;
         bodyRequest.DispositionNo = this.data.DispositionNo;
         bodyRequest.ApprovedManagerBy = this.data.ApprovedManagerBy;
+        bodyRequest.ApprovedManagerDate = this.data.ApprovedManagerDate;
+        bodyRequest.ApprovedGeneralManagerBy = this.data.ApprovedGeneralManagerBy;
+        bodyRequest.ApprovedGeneralManagerDate = this.data.ApprovedGeneralManagerDate;
+        bodyRequest.RejectedReason = this.data.RejectedReason;
+        bodyRequest.RejectedBy = this.data.RejectedBy;
+        bodyRequest.RejectedDate = this.data.RejectedDate;
         bodyRequest.DocumentsPath = this.data.DocumentsPath;
         bodyRequest.DocumentsFile = this.data.DocumentsFile;
         bodyRequest.DocumentsFileName = this.data.DocumentsFileName;

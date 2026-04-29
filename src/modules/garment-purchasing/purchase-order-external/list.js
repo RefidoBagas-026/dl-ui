@@ -54,6 +54,7 @@ export class List {
                 return value ? "YA" : "TIDAK";
             }
         },
+        { field: "IsApprovedOtherLabel", title: "Approval Other" },
         { field: "IsApprovedManagerLabel", title: "Approval Manager" },
         { field: "IsApprovedGMManagerLabel", title: "Approval GM" },
         { field: "IsApprovedAnggaranLabel", title: "Approval Anggaran" },
@@ -85,6 +86,7 @@ export class List {
                     _data.IsApprovedManagerLabel = _data.IsOverBudget ? (_data.IsApprovedManager ? "SUDAH" : "BELUM") : "-";
                     _data.IsApprovedGMManagerLabel = _data.IsOverBudget ? (_data.IsApprovedGeneralManager ? "SUDAH" : "BELUM") : "-";
                     _data.IsApprovedAnggaranLabel = _data.IsOverBudget ? (_data.IsApprovedAnggaran ? "SUDAH" : "BELUM") : "-";
+                    _data.IsApprovedOtherLabel = _data.ApproveOther ? (_data.IsApprovedOther ? "SUDAH" : "BELUM") : "-";
                 }
                 return {
                     total: result.info.total,
