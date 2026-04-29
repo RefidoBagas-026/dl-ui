@@ -1456,7 +1456,7 @@ module.exports = [
             group: "g-purchasing",
             subGroup: "approval",
             // permission: { "PGA": 1, "C7": 1, "C9": 1 },
-            permission: { H84 : 1 },
+            permission: { H82 : 1 },
             iconClass: 'fa fa-calculator',
             type: "other"
         }
