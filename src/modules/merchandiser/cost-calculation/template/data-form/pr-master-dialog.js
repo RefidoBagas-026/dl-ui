@@ -57,7 +57,7 @@ export class PRMasterDialog {
             order: order,
             select: "new( " +
                 "GarmentPurchaseRequest.Id as PRId, GarmentPurchaseRequest.PRType, GarmentPurchaseRequest.SCId, GarmentPurchaseRequest.SCNo, GarmentPurchaseRequest.PRNo, GarmentPurchaseRequest.RONo, GarmentPurchaseRequest.Article," +
-                "Id, PO_SerialNumber, CategoryId, CategoryName, ProductId, ProductCode, ProductName, ProductRemark, Quantity, BudgetPrice, UomId, UomUnit, PriceUomId, PriceUomUnit" +
+                "Id, PO_SerialNumber, CategoryId, CategoryName, ProductId, ProductCode, ProductName, ProductRemark, Quantity, BudgetPrice, UomId, UomUnit, PriceUomId, PriceUomUnit, IsCMT" +
                 ")",
             filter: JSON.stringify(this.filter),
         }

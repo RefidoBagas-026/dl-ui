@@ -80,6 +80,7 @@ export class DataForm {
   costCalculationGarment_MaterialsInfo = {
     columns: [
       { header: "No." },
+      { value: "isFabricCM", titleCheck: "CMT" },
       { header: "PR Master" },
       { header: "No. PO" },
       { header: "Kategori", value: "Category" },
@@ -102,6 +103,7 @@ export class DataForm {
     ],
     onAdd: function () {
       this.data.CostCalculationGarment_Materials.push({
+        IsFabricCM: this.data.isFabricCM,
         QuantityOrder: this.data.Quantity,
         FabricAllowance: this.data.FabricAllowance,
         AccessoriesAllowance: this.data.AccessoriesAllowance,
@@ -295,6 +297,7 @@ export class DataForm {
     // this.selectedRate = this.data.Rate ? this.data.Rate.Name : "";
     if (this.data.CostCalculationGarment_Materials) {
       this.data.CostCalculationGarment_Materials.forEach((item) => {
+        item.IsFabricCM = this.data.isFabricCM;
         item.QuantityOrder = this.data.Quantity;
         item.FabricAllowance = this.data.FabricAllowance;
         item.AccessoriesAllowance = this.data.AccessoriesAllowance;
