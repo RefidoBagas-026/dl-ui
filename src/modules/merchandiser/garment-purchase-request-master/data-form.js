@@ -68,6 +68,7 @@ export class DataForm {
 
     if (this.readOnly || this.isEdit) {
       this.itemsColumns.splice(0, 0, { header: "No. PO" });
+      this.itemColumnViews.splice(0, 0, { header: "No. PO" });
     }
   }
 
@@ -83,7 +84,26 @@ export class DataForm {
     return PreSalesContractLoader;
   }
 
+
   itemsColumns = [
+    {value: "IsCMT", titleCheck: "CMT" },
+    { header: "Kategori" },
+    { header: "Kode Barang" },
+    { header: "Komposisi" },
+    { header: "Konstruksi" },
+    { header: "Yarn" },
+    { header: "Width" },
+    { header: "Keterangan" },
+    { header: "Jumlah" },
+    { header: "Satuan" },
+    { header: "Price" },
+    { header: "Satuan Harga" },
+    { header: "Konversi" },
+    { header: "Total" },
+  ];
+
+  itemColumnViews = [
+    { header: "CMT" },
     { header: "Kategori" },
     { header: "Kode Barang" },
     { header: "Komposisi" },
@@ -145,7 +165,9 @@ export class DataForm {
 
   get addItems() {
     return (event) => {
-      this.data.Items.push({});
+      this.data.Items.push({
+        IsCMT: false,
+      });
     };
   }
 

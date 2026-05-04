@@ -102,7 +102,7 @@
         <au-collection 
             items.bind="data.Items" 
             errors.bind="error.Items" 
-            columns.bind="itemsColumns"
+            columns.bind="readOnly ? itemColumnViews :itemsColumns"
             read-only.bind="readOnly" 
             add.bind="addItems" 
             remove.bind="removeItems"

@@ -26,8 +26,8 @@ export class _Layout {
     var defaultLength = (this.label || "").toString().length > 0 ? 3 : 0;
     var _options = Object.assign({}, (this.options || { label: {} }).label || {});
     _options.length = _options.length || defaultLength;
-    _options.align = (_options.align || "right").toLowerCase() === "right" ? "right" : "left";
-
+    const align = (_options.align || "left").toLowerCase();
+    _options.align = ["left", "right", "center"].includes(align) ? align : "left";
     // console.log(`${this.label} : ${JSON.stringify(_options)}`)
     // console.log(JSON.stringify(this.options));
     return _options;

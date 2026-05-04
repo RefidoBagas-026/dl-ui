@@ -28,8 +28,14 @@
         <td>
             <au-textbox value.bind="data.MaterialIndex + 1" options.bind="controlOptions" read-only="true"></au-textbox>
         </td>
-        <!-- prmaster -->
         <td>
+            <div style="width: 50px;" class="tooltip-material-field text-center">
+                <au-checkbox value.bind="data.isFabricCM" options.bind="controlOptions" ></au-checkbox>
+                <span class="tooltiptext">CMT</span>
+            </div>
+        </td>
+        <!-- prmaster -->
+        <td class="text-center">
             <button class="btn btn-primary" click.delegate="clickPRMaster()">+</button>
         </td>
         <!-- pomaster -->

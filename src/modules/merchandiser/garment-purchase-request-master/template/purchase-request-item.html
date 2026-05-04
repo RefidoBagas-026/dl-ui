@@ -7,6 +7,14 @@
                 options.bind="controlOptions">
             </au-textbox>
         </td>
+        <td class="text-center">
+            <au-checkbox 
+                value.bind="data.IsCMT"
+                read-only.bind="readOnly"
+                simbol.bind="readOnly"
+                options.bind="controlOptions">
+            </au-checkbox>
+        </td>
         <td class="col-sm-1">
             <au-autocomplete
                 value.bind="selectedCategory"

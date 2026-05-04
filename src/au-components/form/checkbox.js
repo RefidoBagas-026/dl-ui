@@ -10,6 +10,7 @@ export class Checkbox {
   @bindable({ defaultBindingMode: bindingMode.twoWay }) error;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) readOnly;
   @bindable({ defaultBindingMode: bindingMode.twoWay }) disabled;
+  @bindable({ defaultBindingMode: bindingMode.twoWay }) simbol;
   @bindable options; 
 
   bind() {
