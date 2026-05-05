@@ -455,7 +455,6 @@ export class DataForm {
             for (var item of data.Items) {
                 if (pr.length == 0) {
                     // item.RemainingBudget=pr[item.PRNo];
-
                     items.push({
                         index: index++,
                         PONo: data.PONo,
@@ -482,6 +481,7 @@ export class DataForm {
                         Remark: item.ProductRemark,
                         Initial: parseFloat(item.RemainingBudget.toFixed(4)),
                         DefaultPricePerDealUnit: Number(item.BudgetPrice),
+                        IsCMT: item.IsCMT,
                     });
 
                     pr[item.PRNo + item.PO_SerialNumber + item.Product.Id] = item.RemainingBudget - item.budgetUsed;
@@ -521,6 +521,7 @@ export class DataForm {
                         Remark: item.ProductRemark,
                         Initial: parseFloat(item.RemainingBudget.toFixed(4)),
                         DefaultPricePerDealUnit: Number(item.BudgetPrice),
+                        IsCMT: item.IsCMT,
                     });
                 }
 

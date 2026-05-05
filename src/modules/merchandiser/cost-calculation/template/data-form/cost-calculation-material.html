@@ -28,8 +28,14 @@
         <td>
             <au-textbox value.bind="data.MaterialIndex + 1" options.bind="controlOptions" read-only="true"></au-textbox>
         </td>
-        <td>
-            <div style="width: 50px;" class="tooltip-material-field text-center">
+        <td if.bind="data.IsPRMaster">
+             <div style="width: 50px;" class="tooltip-material-field text-center">
+                <au-checkbox value.bind="data.isFabricCM" simbol.bind="true" read-only.bind="true" options.bind="controlOptions" ></au-checkbox>
+                <span class="tooltiptext">CMT</span>
+            </div>
+        </td>
+        <td if.bind="!data.IsPRMaster">
+             <div style="width: 50px;" class="tooltip-material-field text-center">
                 <au-checkbox value.bind="data.isFabricCM" options.bind="controlOptions" ></au-checkbox>
                 <span class="tooltiptext">CMT</span>
             </div>

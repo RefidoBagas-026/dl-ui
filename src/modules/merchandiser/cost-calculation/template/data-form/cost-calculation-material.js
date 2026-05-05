@@ -164,13 +164,14 @@ export class CostCalculationMaterial {
             this.productCode = "";
             if (this.data.Category.name.toUpperCase() === "FABRIC") {
                 this.categoryIsExist = true;
-                this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
-                    .then(response => {
-                        if (response == "ok") {
-                            this.data.isFabricCM = true;
-                        }
-                        this.data.showDialog = false;
-                    });
+                // this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
+                //     .then(response => {
+                //         if (response == "ok") {
+                //             this.data.isFabricCM = true;
+                //         }
+                //         this.data.showDialog = false;
+                //     });
+                this.data.showDialog = false;
                 
             } else if (this.data.Category.name.toUpperCase() === "PROCESS" || this.data.Category.name.toUpperCase() === "PROCESS SUBCON") {
                 this.data.Product = await this.serviceCore.getByName(newVal.name);
@@ -609,23 +610,25 @@ uomView =(uom)=>{
                     // this.totalShippingFee = 0;
                     // this.budgetQuantity = 0;
                     this.data.AvailableQuantity = result.AvailableQuantity;
-
+                    this.data.isFabricCM = result.IsCMT;
                     this.serviceCore.getCategoryId(this.data.Category.Id)
                         .then(category => {
                             this.data.Category = category;
-                            if (this.data.Category.name.toUpperCase() === "FABRIC") {
-                                this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
-                                    .then(response => {
-                                        if (response == "ok") {
-                                            this.data.isFabricCM = true;
-                                        } else {
-                                            this.data.isFabricCM = false;
-                                        }
-                                        this.data.showDialog = false;
-                                    });
-                            }
+                            this.data.showDialog = false;
+                            // if (this.data.Category.name.toUpperCase() === "FABRIC") {
+                            //     this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
+                            //         .then(response => {
+                            //             if (response == "ok") {
+                            //                 this.data.isFabricCM = true;
+                            //             } else {
+                            //                 this.data.isFabricCM = false;
+                            //             }
+                            //             this.data.showDialog = false;
+                            //         });
+                            // }
                         });
                 }
+                console.log(this.data);
             });
     }
 

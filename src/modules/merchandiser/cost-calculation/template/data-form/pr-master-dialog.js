@@ -25,7 +25,14 @@ export class PRMasterDialog {
     }
 
     columns = [
+        
         { field: "isSelected", radio: true, sortable: false, },
+        { field: "IsCMT", title: "CMT", formatter: (value, data) => {
+            return `<div class="text-center">
+            <input type="checkbox" ${value ? "checked" : ""} class="form-check-input" />
+            </div>`
+            }
+        },
         { field: "GarmentPurchaseRequest.PRNo", title: "Nomor PR" },
         { field: "GarmentPurchaseRequest.RONo", title: "Nomor RO" },
         { field: "GarmentPurchaseRequest.Article", title: "Artikel" },
@@ -101,7 +108,8 @@ export class PRMasterDialog {
                         PriceUom: {
                             Id: d.PriceUomId,
                             Unit: d.PriceUomUnit
-                        }
+                        },
+                        IsCMT: d.IsCMT
                     }, d));
                 }
 
