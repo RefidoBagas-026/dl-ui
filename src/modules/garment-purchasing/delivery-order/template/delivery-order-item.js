@@ -194,7 +194,8 @@ export class DeliveryOrderItem {
             smallUom : item.SmallUom,
             purchaseOrderUom : item.DealUom,
             isSave : false,
-            remark : item.Remark
+            remark : item.Remark,
+            IsCMT : item.IsCMT
           };
           this.data.fulfillments.push(fulfillment);
         // }
@@ -241,7 +242,8 @@ export class DeliveryOrderItem {
             codeRequirment : codeRequirmentTemp,
             smallUom : item.SmallUom,
             purchaseOrderUom : item.DealUom,
-            remark : item.Remark
+            remark : item.Remark,
+            IsCMT : item.IsCMT
           };
           this.data.fulfillments.push(fulfillment);
 

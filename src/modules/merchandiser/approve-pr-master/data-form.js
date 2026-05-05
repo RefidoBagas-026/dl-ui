@@ -18,6 +18,7 @@ export class DataForm {
         }
     }
     itemsColumns = [
+        { header: "CMT" },
         { header: "Kategori" },
         { header: "Kode Barang" },
         { header: "Komposisi" },

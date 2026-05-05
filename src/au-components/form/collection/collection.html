@@ -19,7 +19,7 @@
               </label>
               <label if.bind="column.titleCheck">
                 <span if.bind="column.titleCheck">${column.titleCheck}</span><br>
-                <input type="checkbox" change.delegate="checkCustomCallBack($event, column)" data-property.bind="column.value" />
+                <input type="checkbox" change.delegate="checkCustomCallBack($event, column, column.filter)" data-property.bind="column.value" />
               </label>
             </th>
             <th if.bind="!readOnly && buttons.add"><button click.delegate="onadd($event)"

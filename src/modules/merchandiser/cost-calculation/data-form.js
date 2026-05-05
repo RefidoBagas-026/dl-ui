@@ -80,7 +80,7 @@ export class DataForm {
   costCalculationGarment_MaterialsInfo = {
     columns: [
       { header: "No." },
-      { value: "isFabricCM", titleCheck: "CMT" },
+      { value: "isFabricCM", titleCheck: "CMT", filter: (data) => data.IsPRMaster === false || !data.IsPRMaster },
       { header: "PR Master" },
       { header: "No. PO" },
       { header: "Kategori", value: "Category" },

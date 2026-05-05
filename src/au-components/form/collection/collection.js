@@ -205,25 +205,38 @@ export class Collection {
   }
 
    // Fungsi untuk handle checkbox custom di header kolom
-  checkCustomCallBack($event, column) {
-    // Ambil property yang ingin diubah dari attribute data-property pada checkbox atau dari column.value
-    let property = $event.target.getAttribute("data-property");
-    if (!property && column && column.value) {
-      property = column.value;
-    }
-    if (!property) {
-      // fallback default
-      property = "IsSave";
-    }
-    const checked = $event.target.checked;
-    // Ubah semua item
-    if (this.context && this.context.items) {
-      this.context.items.forEach(item => {
-        if (item.data && property in item.data) {
-          item.data[property] = checked;
-        }
-      });
-      this.callback();
-    }
+  checkCustomCallBack($event, column, filterFn) {
+  let property = $event.target.getAttribute("data-property");
+
+  if (!property && column && column.value) {
+    property = column.value;
   }
+
+  if (!property) {
+    property = "IsSave";
+  }
+
+  const checked = $event.target.checked;
+
+  if (this.context && this.context.items) {
+    this.context.items.forEach(item => {
+      if (!item.data || !(property in item.data)) return;
+
+      // 🔥 gunakan filter custom jika ada
+      let isAllowed = true;
+
+      if (filterFn && typeof filterFn === "function") {
+        isAllowed = filterFn(item.data);
+      } else if (column && typeof column.filter === "function") {
+        isAllowed = column.filter(item.data);
+      }
+
+      if (isAllowed) {
+        item.data[property] = checked;
+      }
+    });
+
+    this.callback();
+  }
+}
 }
