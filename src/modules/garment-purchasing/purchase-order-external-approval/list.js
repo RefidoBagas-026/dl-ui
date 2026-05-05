@@ -152,6 +152,7 @@ export class List {
                 break;
             case "manager":
                 this.filter = {
+                    IsPosted: true,
                     IsApprovedManager: false,
                     ApprovedManagerBy: username
                 };
