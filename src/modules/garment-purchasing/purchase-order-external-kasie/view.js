@@ -60,7 +60,7 @@ export class View {
             console.log(this.data.Vat);
         }
 
-        if (!this.data.IsPosted && !this.data.IsApproved) {
+        if (!this.data.IsPosted && !this.data.IsApprovedManager && !this.data.IsApprovedOther) {
             this.hasDelete = true;
             this.hasEdit = true;
         }
@@ -71,7 +71,7 @@ export class View {
         if (this.data.IsPosted==true && this.data.IsClosed==false && canClose && this.data.IsCanceled==false){
             this.hasClosePo=true;
         }
-        if (this.data.IsCanceled || this.data.IsClosed || this.data.IsUnpost || this.isVBWithPO || this.data.IsApproved) {
+        if (this.data.IsCanceled || this.data.IsClosed || this.data.IsUnpost || this.isVBWithPO || this.data.IsApprovedManager || this.data.IsApprovedOther) {
             this.hasUnpost = false;
             this.hasCancelPo = false;
         }
