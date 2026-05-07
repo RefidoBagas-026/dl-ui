@@ -70,7 +70,7 @@ export class DataForm {
             this.data.BuyerAgentId = selectedBuyerAgent.Id;
             this.data.BuyerAgentCode = selectedBuyerAgent.Code;
             this.data.BuyerAgentName = selectedBuyerAgent.Name;
-            this.filterBuyerBrand = {"BuyerName":this.data.BuyerAgentName};
+            this.filterBuyerBrand = {"BuyerName":this.data.BuyerAgentName, "Active" : true};
             if(newValue.Type){
                 this.buyerBrand = null;
                 this.data.BuyerBrandId = null;

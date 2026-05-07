@@ -704,7 +704,7 @@ export class DataForm {
 
     if (this.data.CostCalculationGarment_Materials) {
       this.data.CostCalculationGarment_Materials.forEach((item) => {
-        item.SMV_Finishing = this.data.SMV_Total;
+        item.SMV_Total = this.data.SMV_Total;
       });
     }
 
