@@ -1,11 +1,12 @@
 import { Aurelia, inject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
 import { AuthService } from "aurelia-authentication";
 import { Config } from "aurelia-api";
 import '../styles/signin.css';
 import JSEncrypt from 'jsencrypt';
 import { PasswordValidator } from './utils/password-validator';
 
-@inject(AuthService, Config)
+@inject(AuthService, Config, Router)
 export class Login {
     // username = "dev";
     // password = "Standar123";
@@ -20,9 +21,10 @@ export class Login {
     error = false;
     disabledButton = false;
     
-    constructor(authService, config) {
+    constructor(authService, config, router) {
         this.authService = authService;
         this.authEndpoint = config.getEndpoint('auth');
+        this.router = router;
     }
 
     login() {
@@ -73,9 +75,10 @@ export class Login {
                     alert(this.statusMessage);
                     this.disabledButton = false;
                     window.location.href = `#/changepass?Username=${this.username}`;
+                } else {
+                    // Navigasi ke halaman utama setelah login berhasil
+                    this.router.navigate('/');
                 }
-                
-                // location.reload();
             })
             .catch(err => {
                 this.error = true;
