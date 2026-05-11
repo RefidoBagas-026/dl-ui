@@ -5,37 +5,80 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
+
     data = [];
-    info = { page: 1, keyword: '' };
+
+    info = {
+        page: 1,
+        size: 25,
+        total: 0,
+        keyword: ''
+    };
 
     constructor(router, service) {
         this.service = service;
         this.router = router;
-        this.accountId = "";
-        this.accounts = [];
     }
 
     async activate() {
+
+        this.info.page = 1;
         this.info.keyword = '';
-        var result = await this.service.search(this.info);
-        this.data = result.data.sort((a, b) => b.isLocked - a.isLocked);
-        this.info = result.info;
+
+        const result = await this.service.search(this.info);
+
+        this.data = result.data;
+        this.info = {
+            ...this.info,
+            ...result.info
+        };
     }
 
     loadPage() {
-        var keyword = this.info.keyword;
+
+        this.info.page = 1;
+
         this.service.search(this.info)
             .then(result => {
-                this.data = result.data.sort((a, b) => b.isLocked - a.isLocked);
-                this.info = result.info;
-                this.info.keyword = keyword;
-            })
+
+                this.data = result.data;
+
+                this.info = {
+                    ...this.info,
+                    ...result.info,
+                    page: 1
+                };
+
+                console.log(this.info);
+            });
     }
 
     changePage(e) {
-        var page = e.detail;
+
+        let page = e.detail;
+
+        const maxPage = Math.ceil(this.info.total / this.info.size);
+
+        if (page < 1) {
+            page = 1;
+        }
+
+        if (page > maxPage) {
+            page = maxPage;
+        }
+
         this.info.page = page;
-        this.loadPage();
+
+        this.service.search(this.info)
+            .then(result => {
+
+                this.data = result.data;
+
+                this.info = {
+                    ...this.info,
+                    ...result.info
+                };
+            });
     }
     
     view(data) {
