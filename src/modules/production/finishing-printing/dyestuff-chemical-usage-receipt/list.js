@@ -8,7 +8,17 @@ export class List {
     context = ["Detail", "Cetak PDF"];
     itemYears = [];
     columns = [
-        { field: "ProductionOrder.OrderNo", title: "No SPP" },
+        {
+            field: "ProductionOrder.OrderNo",
+            title: "No SPP",
+            formatter: function(value, data, index) {
+                // Cek property NumberOfPartial pada data
+                if (data.NumberOfPartial && data.NumberOfPartial > 0) {
+                    return `${value} - Partial ${data.NumberOfPartial}`;
+                }
+                return value;
+            }
+        },
         { field: "StrikeOff.Code", title: "Motif" }
     ];
     loader = (info) => {

@@ -7,6 +7,7 @@ var moment = require('moment');
 
 @inject(Service)
 export class DataForm {
+    partialNumber = 0;
     @bindable title;
     @bindable readOnly;
 
@@ -81,12 +82,25 @@ export class DataForm {
 
     construction = "";
     @bindable selectedProductionOrder;
-    selectedProductionOrderChanged(n, o) {
+    async selectedProductionOrderChanged(n, o) {
         if (this.selectedProductionOrder) {
             this.data.ProductionOrder = this.selectedProductionOrder;
-
-            this.construction = `${this.selectedProductionOrder.Material.Name} / ${this.selectedProductionOrder.MaterialConstruction.Name} / ${this.selectedProductionOrder.MaterialWidth}`
+            this.construction = `${this.selectedProductionOrder.Material.Name} / ${this.selectedProductionOrder.MaterialConstruction.Name} / ${this.selectedProductionOrder.MaterialWidth}`;
+            // Ambil partial number
+            try {
+                const result = await this.service.getPartial(this.data.ProductionOrder.Id);
+                this.partialNumber = result && result.Data ? result.Data : 0;
+            } catch (e) {
+                this.partialNumber = 0;
+            }
+        } else {
+            this.partialNumber = 0;
         }
+        this.partialNumber = this.isEdit ? this.data.NumberOfPartial : this.partialNumber;
+        console.log(this.isEdit);
+        this.textPartial = this.partialNumber > 0 ? `Partial ${this.partialNumber}` : "";
+        this.data.NumberOfPartial = this.partialNumber;
+
     }
     @bindable selectedStrikeOff;
     async selectedStrikeOffChanged(n, o) {
