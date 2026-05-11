@@ -314,6 +314,7 @@ export class DataForm {
                     this.newProduct.Box = selectedROHeader.Box;
                     this.newProduct.Colour = selectedROHeader.Colour;
                     this.newProduct.Area = selectedROHeader.Area;
+                    this.newProduct.IsCMT = selectedROHeader.IsCMT;
                 });
 
         }
@@ -432,6 +433,7 @@ export class DataForm {
                                 Items.Box = item.Box;
                                 Items.Colour = item.Colour;
                                 Items.Area = item.Area;
+                                Items.IsCMT = item.IsCMT;
 
                                 this.dataItems.push(Items);
                             }

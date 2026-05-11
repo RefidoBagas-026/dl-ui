@@ -300,6 +300,7 @@ export class DataForm {
                         DRItem.Box = dritem.Box,
                         DRItem.Colour= dritem.Colour,
                         DRItem.Area = dritem.Area,
+                        DRItem.IsCMT = dritem.IsCMT,    
                         DRItems.push(DRItem)
                     }
                 }
@@ -657,7 +658,7 @@ export class DataForm {
                 item.DesignColor=i.DesignColor;
                 item.Conversion=1;
                 item.UENItemId=i.Id;
-
+                item.IsCMT=i.IsCMT;
                 var unitDOItem= await this.service.getUnitDOItemById(i.UnitDOItemId);
                 item.DOCurrencyRate=unitDOItem.DOCurrency.Rate;
                 this.data.Items.push(item);

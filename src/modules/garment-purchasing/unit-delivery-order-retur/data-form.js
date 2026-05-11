@@ -191,7 +191,8 @@ export class DataForm {
                     Items.Box= item.Box,
                     Items.Area= item.Area,
                     Items.Level= item.Level,
-                    Items.DOItemsId= item.DOItemsId
+                    Items.DOItemsId= item.DOItemsId,
+                    Items.IsCMT = item.IsCMT
                     if(Items.ReturQuantity>0){
                         dataItems.push(Items);
                     }

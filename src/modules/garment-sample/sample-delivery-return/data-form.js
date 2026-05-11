@@ -234,6 +234,7 @@ export class DataForm {
                         Box : itemUnitDO.Box,
                         Colour : itemUnitDO.Colour,
                         Area : itemUnitDO.Area,
+                        IsCMT : itemUnitDO.IsCMT,
                     }
 
                     if (item.ProductName == "FABRIC") {
