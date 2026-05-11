@@ -275,6 +275,7 @@ export class DataForm {
                         DRItem.ReceiptCorrection = DRItem.SmallQuantity / DRItem.Conversion;
                         DRItem.OrderQuantity = 0;
                         DRItem.DOCurrencyRate = dup.DOCurrency.Rate;
+                        DRItem.IsCMT = dup.IsCMT;
                         DRItems.push(DRItem)
                     }
                 }
@@ -424,6 +425,8 @@ export class DataForm {
                     _item.Article = fulfillment.article;
 
                     _item.Buyer = { Name: fulfillment.buyer.name };
+
+                    _item.IsCMT = fulfillment.IsCMT;
 
                     if (_item.ReceiptQuantity > 0)
                         _items.push(_item);
@@ -629,6 +632,7 @@ export class DataForm {
                 item.DesignColor = i.DesignColor;
                 item.Conversion = 1;
                 item.UENItemId = i.Id;
+                item.IsCMT = i.IsCMT;
 
                 var unitDOItem = await this.service.getUnitDOItemById(i.UnitDOItemId);
                 item.DOCurrencyRate = unitDOItem.DOCurrency.Rate;

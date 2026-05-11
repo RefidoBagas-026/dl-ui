@@ -205,6 +205,7 @@ export class Detail {
                 item.UENId = uenId;
                 item.DLType = this.data.DLType;
                 item.OrderType = this.data.OrderType;
+                item.IsCMT = uenItem.IsCMT;
                 dataArr.push(item);
               }
             }
