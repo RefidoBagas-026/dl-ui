@@ -27,6 +27,23 @@ export class Login {
         this.router = router;
     }
 
+    activate() {
+        if (!sessionStorage.getItem('loginReloaded')) {
+            sessionStorage.setItem('loginReloaded', 'true');
+            window.location.reload();
+        } else {
+            sessionStorage.removeItem('loginReloaded');
+        }
+    }
+
+    handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            this.login();
+            return false;
+        }
+        return true;
+    }
+
     login() {
         this.error = false;
 
@@ -62,7 +79,7 @@ export class Login {
         //return this.authService.login({ "username": this.username, "password": this.password })
         return this.authService.login({ authEncrypted })
             .then(response => {
-                console.log("success logged " + response);
+                // console.log("success logged " + response);
 
                 // Update last login dengan source 'login'
                 // this.authEndpoint.update('me', null, { source: 'login' })
@@ -70,7 +87,7 @@ export class Login {
                 //     .catch(err => console.error('Error updating last login on sign in:', err));
 
                 this.statusMessage = PasswordValidator.validate(this.password);
-                
+                console.log("statusMessage " + this.statusMessage);
                 if (this.statusMessage) {
                     alert(this.statusMessage);
                     this.disabledButton = false;
@@ -78,11 +95,14 @@ export class Login {
                 } else {
                     // Navigasi ke halaman utama setelah login berhasil
                     this.router.navigate('/');
+                    
+                    //location.reload();
                 }
             })
             .catch(err => {
                 this.error = true;
                 this.disabledButton = false;
+               
 
                 const defaultMsg = "Username atau password salah";
 
