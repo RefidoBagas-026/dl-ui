@@ -49,7 +49,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-purchase-request-master-by-user',
         name: 'purchase-request-master-by-user',
-        moduleId: './modules/merchandiser/garment-purchase-request-master/index',
+        moduleId: './modules/merchandiser/garment-purchase-request-master-newNoSC/index',
         nav: true,
         title: 'PR Master',
         auth: true,
@@ -65,7 +65,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-purchase-request-master',
         name: 'purchase-request-master',
-        moduleId: './modules/merchandiser/garment-purchase-request-master/index',
+        moduleId: './modules/merchandiser/garment-purchase-request-master-newNoSC/index',
         nav: true,
         title: 'PR Master (Semua User)',
         auth: true,
@@ -129,7 +129,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-by-user',
         name: 'cost-calculation-by-user',
-        moduleId: './modules/merchandiser/cost-calculation/index',
+        moduleId: './modules/merchandiser/cost-calculation-newNoSC/index',
         nav: true,
         title: 'Cost Calculation Export Garment',
         auth: true,
