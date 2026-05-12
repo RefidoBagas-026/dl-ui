@@ -2,15 +2,12 @@ import { inject, bindable, computedFrom } from 'aurelia-framework';
 import { Dialog } from '../../../../../components/dialog/dialog';
 import numeral from 'numeral';
 numeral.defaultFormat("0,0.00");
-const GarmentProductLoader = require('../../../../../loader/garment-product-loader');
 const GarmentCategoryLoader = require('../../../../../loader/garment-category-loader');
 import { Service } from '../../service';
 import { ServiceCore } from '../../service-core';
 import { PRMasterDialog } from './pr-master-dialog';
 
 const rateNumberFormat = "0,0.000";
-
-// const materialLoader = require('../../../../../loader/material-md-loader');
 const UomLoader = require('../../../../../loader/uom-loader');
 
 @inject(Dialog, Service, ServiceCore)
@@ -28,36 +25,25 @@ export class CostCalculationMaterial {
         this.serviceCore = serviceCore
     }
 
-    @bindable categoryName = "";
     @bindable isProcess = false;
-    @bindable categoryNames = "";
-    @bindable isEdit = false;
-    @bindable isCopy = false;
-    @bindable fabricCM;
     activate(context) {
         this.context = context;
         this.data = context.data;
         this.error = context.error;
         this.options = context.options;
         this.readOnly = this.options.readOnly || false;
-        this.isEdit = this.context.context.options.IsEditMaterial  || false;
-        this.isCopy = this.context.context.options.IsCopyCC || false;
+        this.disabled = true;
         this.data.showDialog = this.data.showDialog === undefined ? (this.data.Category === undefined ? true : false) : (this.data.showDialog === true ? true : false);
         this.data.isFabricCM = this.data.isFabricCM ? this.data.isFabricCM : false;
-        this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-        console.log(this.data);
         if (this.data.Category) {
             this.selectedCategory = this.data.Category;
-            this.categoryIsExist = this.categoryNames == "FABRIC" ? true : false;
+            this.categoryIsExist = this.data.Category.name.toUpperCase() == "FABRIC" ? true : false;
 
-            if (this.categoryNames == 'PROCESS') {
+            if (this.data.Category.name.toUpperCase() == 'PROCESS') {
                 this.isProcess = true;
                 if (!this.data.Id) {
-                    //Calculated Price jika CC bukan tipe Subcon Keluar
                     if (this.data.CCType != "SUBCON KELUAR")
                         this.data.Price = this.calculateProcessPrice();
-
-                    //Calculated Price jika CC tipe Subcon Keluar
                     else if (this.data.CCType == "SUBCON KELUAR") {
                         this.data.Price = this.calculateProcessPriceSubconOut();
                     };
@@ -67,35 +53,26 @@ export class CostCalculationMaterial {
         }
 
         if (this.data.Product) {
-            if(this.isEdit || this.isCopy){
-                if (this.data.Product.Code) {
+            if (this.data.Product.Code) {
                 this.productCode = this.data.Product.Code;
                 this.productCodeIsExist = true;
-            }}
-            else{
-                this.productCode = this.data.Product.Code;
-                if (this.data.Product.Code && this.data.Product.Name) {
-                    this.productCodeIsExist = true;
-                }
             }
-            
-            
             if (this.data.Product.Composition) {
                 this.data.Product.Composition = this.data.Product.Composition;
-                this.compositionIsExist = this.categoryNames == "FABRIC" ? true : false;
+                this.compositionIsExist = this.data.Category.name.toUpperCase() == "FABRIC" ? true : false;
                 this.selectedComposition = Object.assign({}, this.data.Product);
             }
 
            
             if (this.data.Product.Const) {
                 this.data.Product.Const=(this.data.Product.Const);
-                this.constructionIsExist = this.categoryNames == "FABRIC" ? true : false;
+                this.constructionIsExist = this.data.Category.name.toUpperCase() == "FABRIC" ? true : false;
                 this.selectedConstruction = Object.assign({}, this.data.Product);
 
             }
 
             if (this.data.Product.Yarn) {
-                this.yarnIsExist = this.categoryNames == "FABRIC" ? true : false;
+                this.yarnIsExist = this.data.Category.name.toUpperCase() == "FABRIC" ? true : false;
                 this.selectedYarn = Object.assign({}, this.data.Product);
             }
 
@@ -106,24 +83,58 @@ export class CostCalculationMaterial {
 
         if(this.data.Id || this.data.isCopy)
         {
-            if (this.data.Category && this.categoryNames !== "FABRIC") {
+            if (this.data.Category && this.data.Category.name && this.data.Category.name.toUpperCase() !== "FABRIC") {
                 this.isReadOnly = true;
             }
         }
-        if (this.data.Category && typeof this.data.Category === "object") {
-            this.data.Category.Code = this.data.Category.code || this.data.Category.Code;
-            this.data.Category.Name = this.data.Category.name || this.data.Category.Name;
-            this.data.Category = this.data.Category;
-            console.log("Category:", this.data.Category);
-        }
-        this.fabricCM = this.data.isFabricCM ? "YES" : "NO";
     }
 
     bind() {
 
     }
 
-    // @bindable productCode = "Test";
+    attached() {
+        this.clearAllAutocompleteSuggestions();
+        this.attachFocusListeners();
+    }
+    clearAutocompleteSuggestions(autocompleteRef) {
+        if (autocompleteRef) {
+            autocompleteRef._suggestions = [];
+            autocompleteRef._suggestionVisible = false;
+        }
+    }
+
+    clearAllAutocompleteSuggestions() {
+        setTimeout(() => {
+            if (this.categoryAutocomplete) this.clearAutocompleteSuggestions(this.categoryAutocomplete);
+            if (this.compositionAutocomplete) this.clearAutocompleteSuggestions(this.compositionAutocomplete);
+            if (this.constructionAutocomplete) this.clearAutocompleteSuggestions(this.constructionAutocomplete);
+            if (this.yarnAutocomplete) this.clearAutocompleteSuggestions(this.yarnAutocomplete);
+            if (this.widthAutocomplete) this.clearAutocompleteSuggestions(this.widthAutocomplete);
+            if (this.uomQuantityAutocomplete) this.clearAutocompleteSuggestions(this.uomQuantityAutocomplete);
+            if (this.uomPriceAutocomplete) this.clearAutocompleteSuggestions(this.uomPriceAutocomplete);
+        }, 100);
+    }
+
+    attachFocusListeners() {
+        const autocompletes = [
+            this.categoryAutocomplete,
+            this.compositionAutocomplete,
+            this.constructionAutocomplete,
+            this.yarnAutocomplete,
+            this.widthAutocomplete,
+            this.uomQuantityAutocomplete,
+            this.uomPriceAutocomplete
+        ];
+
+        autocompletes.forEach(ac => {
+            if (ac && ac.element) {
+                ac.element.addEventListener('focus', () => {
+                    this.clearAutocompleteSuggestions(ac);
+                }, true);
+            }
+        });
+    }
     @bindable selectedCategory;
     @bindable categoryIsExist = false;
     async selectedCategoryChanged(newVal, oldVal) {
@@ -138,23 +149,13 @@ export class CostCalculationMaterial {
             this.data.UOMPrice = null;
             this.data.Conversion = 0;
             this.data.ShippingFeePortion = 0;
-            // this.data.Product = await this.serviceCore.getByName(newVal.name);
             this.productCode = "";
-
-            this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-
-            if (this.categoryNames === "FABRIC") {
+            if (this.data.Category.name.toUpperCase() === "FABRIC") {
                 this.categoryIsExist = true;
-                // this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
-                //     .then(response => {
-                //         if (response == "ok") {
-                //             this.data.isFabricCM = true;
-                //         }
-                //         this.data.showDialog = false;
-                //     });
+                this.data.showDialog = false;
                 
-            } else if (this.categoryNames === "PROCESS" || this.categoryNames === "PROCESS SUBCON") {
-                this.data.Product = await this.serviceCore.getByName(newVal.Name);
+            } else if (this.data.Category.name.toUpperCase() === "PROCESS" || this.data.Category.name.toUpperCase() === "PROCESS SUBCON") {
+                this.data.Product = await this.serviceCore.getByName(newVal.name);
                 let UOM = await this.serviceCore.getUomByUnit("PCS");
                 this.data.UOMQuantity = UOM;
                 this.data.UOMPrice = UOM;
@@ -163,22 +164,17 @@ export class CostCalculationMaterial {
                 this.data.Conversion = 1;
                 this.categoryIsExist = false;
                 this.productCode = this.data.Product ? this.data.Product.Code : "";
-                //Calculated Price jika CC bukan tipe Subcon Keluar tapi Category Process
-                if (this.data.CCType != "SUBCON KELUAR" && this.categoryNames === "PROCESS") {
-                    this.data.Price = this.calculateProcessPrice(); 
-
-                //Calculated Price jika CC tipe Subcon Keluar tapi Category Process
-                } else if(this.data.CCType == "SUBCON KELUAR" && this.categoryNames === "PROCESS") {
+                if (this.data.CCType != "SUBCON KELUAR" && this.data.Category.name.toUpperCase() === "PROCESS") {
+                    this.data.Price = this.calculateProcessPrice();
+                } else if(this.data.CCType == "SUBCON KELUAR" && this.data.Category.name.toUpperCase() === "PROCESS") {
                     this.data.Price = this.calculateProcessPriceSubconOut();
-
-                //Disable IsProcess untuk jika Category PROCESS SUBCON
-                } else if (this.categoryNames === "PROCESS SUBCON") {
+                } else if (this.data.Category.name.toUpperCase() === "PROCESS SUBCON") {
                     this.isProcess = false;
                 }
                 
             } else {
                 this.categoryIsExist = false;
-                this.data.Product = await this.serviceCore.getByName(newVal.Name);
+                this.data.Product = await this.serviceCore.getByName(newVal.name);
                 this.productCode = this.data.Product ? this.data.Product.Code : "";
             }
         } else if (!newVal) {
@@ -199,27 +195,22 @@ export class CostCalculationMaterial {
 
     calculateProcessPriceSubconOut() {
         let CuttingFee = 0;
-        // let SewingFee = this.data.Wage.Value * this.data.SMV_Sewing * (100 / this.data.Efficiency.Value);
         let SewingFee = 0;
         let FinishingFee = 0;
         let THR = 0;
         switch (this.data.SubconType) {
-            //Jika tipe subcon Sewing maka ingore SMV_Sewing
             case "SUBCON SEWING":
                 CuttingFee = this.data.Wage.Value * this.data.SMV_Cutting * (100 / 70);
                 FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
                 THR = this.data.THR.Value * (this.data.SMV_Cutting + this.data.SMV_Finishing);
                 break;
-            //Jika tipe subcon Cutting Sewing maka ingore SMV_Sewing dan SMV_Cutting
             case "SUBCON CUTTING SEWING":
                 FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
                 THR = this.data.THR.Value * this.data.SMV_Finishing;
-                break
-             //Jika tipe subcon Cutting Sewing Finishing maka ignore semua SMV
+                break;
             default:
                 break;
         }
-        // let THR = this.data.THR.Value * this.data.SMV_Total;
         let result = CuttingFee + SewingFee + FinishingFee + THR;
         return numeral(numeral(result).format(rateNumberFormat)).value();
     }
@@ -293,7 +284,6 @@ export class CostCalculationMaterial {
                 this.data.Product.Const = this.selectedConstruction.Const;
                 this.data.Product.Yarn = this.selectedYarn.Yarn;
                 this.data.Product.Width = this.selectedWidth.Width;
-                 
             }
 
         } else if (!newVal) {
@@ -312,22 +302,20 @@ export class CostCalculationMaterial {
         
             return (keyword) => {
                 var filter = "";
-                this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-
-                if (this.selectedCategory && this.selectedCategory.Name) {
+                if (this.selectedCategory && this.selectedCategory.name) {
                     if (this.selectedComposition && this.selectedComposition.Composition) {
                         if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
                             if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.Yarn.length > 0) {
-                                filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
+                                filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
                             } else {
-                                filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
+                                filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
                             }
                         } else {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition });
+                            filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition });
                         }
                     } else {
-                        if (this.categoryNames == 'FABRIC') {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name })
+                        if (this.selectedCategory.name.toUpperCase() == 'FABRIC') {
+                            filter = JSON.stringify({ "name": this.selectedCategory.name })
                         }
                     }
                 }
@@ -343,21 +331,20 @@ export class CostCalculationMaterial {
         
         return (keyword) => {
             var filter = "";
-                this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-            if (this.selectedCategory && this.selectedCategory.Name) {
+            if (this.selectedCategory && this.selectedCategory.name) {
                 if (this.selectedComposition && this.selectedComposition.Composition) {
                     if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
                         if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.Yarn.length > 0) {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
+                            filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
                         } else {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
+                            filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
                         }
                     } else {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition });
+                        filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition });
                     }
                 } else {
-                    if (this.categoryNames == 'FABRIC') {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name })
+                    if (this.selectedCategory.name.toUpperCase() == 'FABRIC') {
+                        filter = JSON.stringify({ "name": this.selectedCategory.name })
                     }
                 }
             }
@@ -373,21 +360,20 @@ get garmentProductWidthLoader() {
         
     return (keyword) => {
         var filter = "";
-               this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-        if (this.selectedCategory && this.selectedCategory.Name) {
+        if (this.selectedCategory && this.selectedCategory.name) {
             if (this.selectedComposition && this.selectedComposition.Composition) {
                 if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
                     if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.Yarn.length > 0) {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
+                        filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
                     } else {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
+                        filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
                     }
                 } else {
-                    filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition });
+                    filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition });
                 }
             } else {
-                if (this.categoryNames == 'FABRIC') {
-                    filter = JSON.stringify({ "Name": this.selectedCategory.Name })
+                if (this.selectedCategory.name.toUpperCase() == 'FABRIC') {
+                    filter = JSON.stringify({ "name": this.selectedCategory.name })
                 }
             }
         }
@@ -419,22 +405,20 @@ get garmentProductWidthLoader() {
         return (keyword) => {
             var filter = "";
 
-            this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-
-            if (this.selectedCategory && this.selectedCategory.Name) {
+            if (this.selectedCategory && this.selectedCategory.name) {
                 if (this.selectedComposition && this.selectedComposition.Composition) {
                     if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
                         if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.Yarn.length > 0) {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
+                            filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
                         } else {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
+                            filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
                         }
                     } else {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition });
+                        filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition });
                     }
                 } else {
-                    if (this.categoryNames == 'FABRIC') {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name })
+                    if (this.selectedCategory.name.toUpperCase() == 'FABRIC') {
+                        filter = JSON.stringify({ "name": this.selectedCategory.name })
                     }
                 }
             }
@@ -449,22 +433,20 @@ get garmentProductWidthLoader() {
     get garmentProductDistinctDescriptionLoader() {
         return (keyword) => {
             var filter = "";
-            this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-
-            if (this.selectedCategory && this.selectedCategory.Name) {
+            if (this.selectedCategory && this.selectedCategory.name) {
                 if (this.selectedComposition && this.selectedComposition.Composition) {
                     if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
                         if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.properties.Yarn > 0) {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
+                            filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
                         } else {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
+                            filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
                         }
                     } else {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition });
+                        filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition });
                     }
                 } else {
-                    if (this.categoryNames == 'FABRIC') {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name })
+                    if (this.selectedCategory.name.toUpperCase() == 'FABRIC') {
+                        filter = JSON.stringify({ "name": this.selectedCategory.name })
                     }
                 }
             }
@@ -481,19 +463,16 @@ get garmentProductWidthLoader() {
         return UomLoader;
     }
 
- 
-uomView =(uom)=>{
-    return uom?`${uom.Unit}` : "";
-}
+    
+    uomView =(uom)=>{
+        return uom?`${uom.Unit}` : "";
+    }
 
     @computedFrom('data.Quantity', 'data.Price', 'data.Conversion', 'data.isFabricCM')
     get total() {
         let total = 0;
-        this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-        //Calculated Item jika bukan tipe Subcon Keluar
         if (this.data.CCType != "SUBCON KELUAR") {
             total = this.data.Quantity && this.data.Conversion && parseFloat(this.data.Price) ? (parseFloat(this.data.Price) / this.data.Conversion * this.data.Quantity) : 0;
-            //total = numeral(total).format();
             if (this.data.isFabricCM) {
                 this.data.Total = 0;
                 this.data.TotalTemp = numeral(total).value();
@@ -504,32 +483,14 @@ uomView =(uom)=>{
                 this.data.TotalTemp = numeral(total).value();;
                 this.data.CM_Price = null;
             }
-        //Calculated Item jika tipe Subcon Keluar
         } else if (this.data.CCType == "SUBCON KELUAR" && this.data.Category) {
-            //Calculated Item jika Category PROCESS SUBCON
-            if (this.categoryNames === "PROCESS SUBCON") {
-                // total = this.data.Quantity && this.data.Conversion && parseFloat(this.data.Price) ? (parseFloat(this.data.Price) / this.data.Conversion * this.data.Quantity) : 0;
+            if (this.data.Category.name.toUpperCase() === "PROCESS SUBCON") {
                 total =  this.data.Price ?  parseFloat(this.data.Price) : 0;
-                // //total = numeral(total).format();
-                // switch (this.data.SubconType) {
-                //     case "SUBCON SEWING":
-                //         total = total * (this.data.SMV_Sewing);
-                //         break;
-                //     case "SUBCON CUTTING SEWING":
-                //         total = total * (this.data.SMV_Sewing + this.data.SMV_Cutting);
-                //         break;
-                //     case "SUBCON CUTTING SEWING FINISHING":
-                //         total = total * (this.data.SMV_Sewing + this.data.SMV_Cutting + this.data.SMV_Finishing);
-                //         break;
-                // }
-            
                 this.data.Total = numeral(total).value();
                 this.data.TotalTemp = numeral(total).value();;
                 this.data.CM_Price = null;
-            //Calculated Item jika Category bukan PROCESS SUBCON
             } else {
                 total = this.data.Quantity && this.data.Conversion && parseFloat(this.data.Price) ? (parseFloat(this.data.Price) / this.data.Conversion * this.data.Quantity) : 0;
-                //total = numeral(total).format();
                 if (this.data.isFabricCM) {
                     this.data.Total = 0;
                     this.data.TotalTemp = numeral(total).value();
@@ -543,7 +504,6 @@ uomView =(uom)=>{
             }
         }
         total=parseFloat(total).toFixed(2);
-        
         return total;
     }
 
@@ -557,31 +517,23 @@ uomView =(uom)=>{
     @computedFrom('data.Category', 'data.Quantity', 'data.Conversion', 'data.QuantityOrder', 'data.FabricAllowance', 'data.AccessoriesAllowance')
     get budgetQuantity() {
         let allowance = 0;
-        this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-
-        let fabricAllowance = this.data.FabricAllowance ? this.data.FabricAllowance : 0;
-        console.log(fabricAllowance);
-        let accessoriesAllowance = (this.data.AccessoriesAllowance && this.data.AccessoriesAllowance != 0)  ? this.data.AccessoriesAllowance : 0;
         if (this.data.Category) {
-            if (this.categoryNames === "FABRIC") {
-                allowance =  fabricAllowance / 100;
+            if (this.data.Category.name.toUpperCase() === "FABRIC") {
+                allowance = this.data.FabricAllowance / 100;
             } else {
-                allowance = accessoriesAllowance / 100;
+                allowance = this.data.AccessoriesAllowance / 100;
             }
         }
         let budgetQuantity = this.data.Quantity && this.data.Conversion ? this.data.Quantity * this.data.QuantityOrder / this.data.Conversion + allowance * this.data.Quantity * this.data.QuantityOrder / this.data.Conversion : 0;
         budgetQuantity = Math.ceil(budgetQuantity);
         this.data.BudgetQuantity = Math.ceil(budgetQuantity);
-        console.log(budgetQuantity);
         return budgetQuantity;
     }
 
     clickPRMaster() {
-        var productCategory = this.data.Category ? this.data.Category.Name : null;
-        var productCode = this.data.Product ? this.data.Product.Code : null;
-        
-        console.log(this.data);
-        this.dialog.show(PRMasterDialog, { CCId: this.context.context.options.CCId || 0, SCId: this.context.context.options.SCId || 0, CategoryName: productCategory, ProductCode: productCode })
+        this.dialog.show(PRMasterDialog, { CCId: this.context.context.options.CCId || 0, 
+            BuyerCode: this.context.context.options.BuyerCode || null, 
+            SectionName: this.context.context.options.SectionName || null })
             .then(response => {
                 if (!response.wasCancelled) {
                     this.error = {};
@@ -592,43 +544,28 @@ uomView =(uom)=>{
                     this.data.PRMasterId = result.PRMasterId;
                     this.data.PRMasterItemId = result.PRMasterItemId;
                     this.data.POMaster = result.POMaster;
+
                     this.data.Category = result.Category;
                     this.data.Product = result.Product;
                     this.productCode = this.data.Product ? this.data.Product.Code : "";
                     this.data.Description = result.Description;
 
-                    // this.data.ProductRemark = null;
-                    // this.data.Quantity = 0;
-                    // this.data.UOMQuantity = null;
+                    this.data.ProductRemark = null;
+                    this.data.Quantity = 0;
+                    this.data.UOMQuantity = null;
                     this.data.Price = result.BudgetPrice;
                     this.data.UOMPrice = result.PriceUom;
-                    // this.data.Conversion = 0;
-                    // // this.total = 0;
-                    // this.data.ShippingFeePortion = 0;
+                    this.data.Conversion = 0;
+                    // this.total = 0;
+                    this.data.ShippingFeePortion = 0;
                     // this.totalShippingFee = 0;
                     // this.budgetQuantity = 0;
                     this.data.AvailableQuantity = result.AvailableQuantity;
-                    this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
+                    this.data.isFabricCM = result.IsCMT;
                     this.serviceCore.getCategoryId(this.data.Category.Id)
                         .then(category => {
-                            if (category && typeof category === "object") {
-                                category.Code = category.code || category.Code;
-                                category.Name = category.name || category.Name;
-
-                                this.data.Category = category;
-                                console.log("Category:", this.data.Category);
-                            }
-                            if (this.categoryNames === "FABRIC") {
-                                this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
-                                    .then(response => {
-                                        if (response == "ok") {
-                                            this.data.isFabricCM = true;
-                                        } else {
-                                            this.data.isFabricCM = false;
-                                        }
-                                        this.data.showDialog = false;
-                                    });
-                            }
+                            this.data.Category = category;
+                            this.data.showDialog = false;
                         });
                 }
             });

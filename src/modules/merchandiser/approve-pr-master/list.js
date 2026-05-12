@@ -13,7 +13,6 @@ export class List {
 
     context = ["Rincian"];
     columns = [
-        { field: "SCNo", title: "No Sales Contract" },
         { field: "PRNo", title: "No PR" },
         { field: "PRType", title: "Jenis PR" },
         { field: "RONo", title: "NO Ro" },

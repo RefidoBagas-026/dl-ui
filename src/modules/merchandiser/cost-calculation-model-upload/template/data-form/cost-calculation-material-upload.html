@@ -57,6 +57,11 @@
                     <au-textbox value.bind="data.Category.Name" error.bind="error.Category" options.bind="controlOptions" read-only.bind="true">
                     </au-textbox>
                     <span class="tooltiptext">Kategori Barang</span>
+                    <div if.bind="data.Product.IsError && !error.Category" class="form-group has-error">
+						<span if.bind="data.Product.IsError" class="help-block">
+							${data.Product.ErrorMessage}
+						</span>
+					</div>
                 </div>
             </td>
             
