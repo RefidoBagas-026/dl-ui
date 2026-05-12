@@ -56,4 +56,9 @@ export class PurchasingService extends RestService {
         var endpoint = `${unitExpenditureNoteUri}`;
         return super.list(endpoint, info);
     }
+
+    getUnitDeliveryOrderById(id) {
+        var endpoint = `${unitDeliveryOrderUri}/${id}`;
+        return super.get(endpoint);
+    }
 }

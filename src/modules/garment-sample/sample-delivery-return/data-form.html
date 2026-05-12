@@ -27,9 +27,23 @@
             options.bind="controlOptions" view-model.ref="StoragesViewModel">
         </au-autocomplete>
 
-        <au-autocomplete value.bind="selectedUnitDO" error.bind="error.UnitDONo" label="No Unit DO"
+        <!-- <au-autocomplete value.bind="selectedUnitDO" error.bind="error.UnitDONo" label="No Unit DO"
             loader.bind="unitDOLoader" text="UnitDONo" placeholder="No Unit DO" query.bind="filterDO"
             read-only.bind="readOnly || isEdit" options.bind="controlOptions" view-model.ref="selectedUnitDOViewModel">
+        </au-autocomplete> -->
+
+        <au-autocomplete 
+            label="No Bukti Pengeluaran"
+            value.bind="uenNo"
+            error.bind="error.UENNo"
+            loader.bind="uenLoader"
+            text.bind = "uenView"
+            key="UENNo"
+            placeholder="Cari No Bukti Pengeluaran"
+            query.bind="filterUEN"
+            read-only.bind="readOnly"
+            options.bind="controlOptions"
+            view-model.ref="UENViewModel">
         </au-autocomplete>
 
         <au-textbox label="RO" value.bind="data.RONo" error.bind="error.RONo" if.bind="data.RONo" read-only.bind="true"
