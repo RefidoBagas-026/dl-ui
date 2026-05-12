@@ -656,7 +656,7 @@ export class DataForm {
     this.data.Unit = newVal;
     this.data.UnitId = newVal.Id;
     this.data.UnitCode = newVal.Code;
-    this.data.BuyerName = newVal.Name;
+    this.data.UnitName = newVal.Name;
     if (newVal) {
       let UnitCode = newVal.Code;
 
@@ -706,7 +706,7 @@ export class DataForm {
 
     if (this.data.CostCalculationGarment_Materials) {
       this.data.CostCalculationGarment_Materials.forEach((item) => {
-        item.SMV_Finishing = this.data.SMV_Total;
+        item.SMV_Total = this.data.SMV_Total;
       });
     }
 
