@@ -15,7 +15,7 @@
               </div>
               <div class.bind="passwordError ? 'form-group has-error' : 'form-group'">
                 <label for="" class="control-label">Password</label>
-                <input type="password" class="form-control" placeholder="Password" value.bind="password">
+                <input type="password" class="form-control" placeholder="Password" value.bind="password" keydown.delegate="handleKeyPress($event)">
                  <small class="text-danger" show.bind="passwordError">
                     ${passwordError}
                   </small>
