@@ -27,6 +27,15 @@ export class Login {
         this.router = router;
     }
 
+    activate() {
+        if (!sessionStorage.getItem('loginReloaded')) {
+            sessionStorage.setItem('loginReloaded', 'true');
+            window.location.reload();
+        } else {
+            sessionStorage.removeItem('loginReloaded');
+        }
+    }
+
     handleKeyPress(event) {
         if (event.key === 'Enter') {
             this.login();
