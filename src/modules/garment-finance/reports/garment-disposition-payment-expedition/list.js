@@ -134,7 +134,7 @@ export class List {
           return numeral(value).format("0,0.00")
         }, align: "right"
       },
-      { field: "CurrencyCode", title: "Mata Uang" }
+      { field: "CurrencyName", title: "Mata Uang" }
     ]
   ]
 

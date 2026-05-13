@@ -35,7 +35,7 @@ export class List {
         rowspan: 2,
         sortable: true,
       },
-      { title: "Jumlah", colspan: 4 },
+      { title: "Jumlah", colspan: 5 },
       {
         field: "PaymentType",
         title: "Tipe Bayar",
@@ -102,6 +102,17 @@ export class List {
       { title: "Accounting", colspan: 2 },
     ],
     [
+
+      {
+        field: "CurrencyCode",
+        title: "Mata Uang",
+        formatter: function (value, data, index) {
+          return value ? value : "-";
+        },
+        sortable: true,
+        align: "center",
+      },
+
       {
         field: "DPP",
         title: "DPP",
