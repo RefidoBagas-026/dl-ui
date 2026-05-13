@@ -50,6 +50,7 @@ export class List {
         { field: "productCode", title: "Kode Barang", sortable: false },
         { field: "productName", title: "Nama Barang", sortable: false },
         // { field: "quantity", title: "Jumlah Diminta", sortable: false },
+        {field: "currencyCode", title: "Mata Uang", sortable: false},
         { field: "quantity", title: "Jumlah Diminta", sortable: false, formatter:(value,data)=>{
             return value.toLocaleString('en-EN', { minimumFractionDigits: 2 });
         }  },
