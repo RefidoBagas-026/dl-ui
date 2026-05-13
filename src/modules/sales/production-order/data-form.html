@@ -199,9 +199,6 @@
             read-only.bind="(readOnly)" if.bind="isPrintingOnly"></textbox>
           <textbox label="Nomor Desain" value.bind="data.DesignNumber" error.bind="error.DesignNumber"
             read-only.bind="(readOnly)" if.bind="isPrintingOnly"></textbox>
-        </div>
-
-        <div class="col-md-6" style="padding:0">
 
           <div class="col-sm-10" style="padding-left:18%">
             <au-autocomplete value.bind="data.Currency" label="Mata Uang" error.bind="error.Currency" text="Code"
@@ -209,14 +206,15 @@
             </au-autocomplete>
           </div>
 
-
           <numeric label="Harga" value.bind="data.Price" error.bind="error.Price" read-only.bind="readOnly"
             placeholder="Input Harga" format="0,0">
           </numeric>
-
-
           <textbox label="Standar Handling" value.bind="data.HandlingStandard" error.bind="error.HandlingStandard"
             read-only.bind="(readOnly)"></textbox>
+        </div>
+
+        <div class="col-md-6" style="padding:0">
+          
           <dropdown label="RUN" value.bind="data.Run" error.bind="error.Run" read-only.bind="(readOnly)"
             items.bind="RUNOptions" if.bind="isPrintingOnly" change.delegate="RUNChanged($event)"></dropdown>
 
@@ -265,6 +263,9 @@
               error.bind="error.Account" read-only.bind="readOnly" loader.bind="accountLoader">
             </au-autocomplete>
           </div>
+
+          <textbox label="Email" value.bind="data.EmailAccountStaff" error.bind="error.EmailAccountStaff"
+            read-only.bind="readOnly"></textbox>
 
         </div>
       </div>
