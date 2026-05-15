@@ -41,14 +41,11 @@ export class CostCalculationMaterial {
 
             if (this.data.Category.name.toUpperCase() == 'PROCESS') {
                 this.isProcess = true;
-                if (!this.data.Id) {
-                    if (this.data.CCType != "SUBCON KELUAR")
+                    if (this.data.CCType != "SUBCON KELUAR"){
                         this.data.Price = this.calculateProcessPrice();
-                    else if (this.data.CCType == "SUBCON KELUAR") {
+                    }else if (this.data.CCType == "SUBCON KELUAR") {
                         this.data.Price = this.calculateProcessPriceSubconOut();
                     };
-                }
-                
             }
         }
 
@@ -88,7 +85,6 @@ export class CostCalculationMaterial {
             }
         }
     }
-
     bind() {
 
     }
@@ -480,14 +476,14 @@ get garmentProductWidthLoader() {
             }
             else {
                 this.data.Total = numeral(total).value();
-                this.data.TotalTemp = numeral(total).value();;
+                this.data.TotalTemp = numeral(total).value();
                 this.data.CM_Price = null;
             }
         } else if (this.data.CCType == "SUBCON KELUAR" && this.data.Category) {
             if (this.data.Category.name.toUpperCase() === "PROCESS SUBCON") {
                 total =  this.data.Price ?  parseFloat(this.data.Price) : 0;
                 this.data.Total = numeral(total).value();
-                this.data.TotalTemp = numeral(total).value();;
+                this.data.TotalTemp = numeral(total).value();
                 this.data.CM_Price = null;
             } else {
                 total = this.data.Quantity && this.data.Conversion && parseFloat(this.data.Price) ? (parseFloat(this.data.Price) / this.data.Conversion * this.data.Quantity) : 0;
@@ -498,7 +494,7 @@ get garmentProductWidthLoader() {
                 }
                 else {
                     this.data.Total = numeral(total).value();
-                    this.data.TotalTemp = numeral(total).value();;
+                    this.data.TotalTemp = numeral(total).value();
                     this.data.CM_Price = null;
                 }
             }
