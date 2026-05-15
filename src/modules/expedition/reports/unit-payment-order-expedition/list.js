@@ -35,8 +35,8 @@ export class List {
             { field: 'InvoiceNo', title: 'Nomor Invoice', rowspan: 2, sortable: true },
             { field: 'Supplier.name', title: 'Supplier', rowspan: 2, sortable: true },
             { field: 'PaymentMethod', title: 'Term Pembayaran', rowspan: 2, sortable: true },
-            { field: 'Currency', title: 'Kurs', rowspan: 2, sortable: true },
-            { title: 'Jumlah', colspan: 4 },
+            { field: 'Rate', title: 'Kurs', rowspan: 2, sortable: true },
+            { title: 'Jumlah', colspan: 5 },
             {
                 // field: 'totalDays', title: 'Tempo', rowspan: 2, sortable: true, formatter: function (value, data, index) {
                 //     return moment(data.DueDate).diff(moment(data.Date), 'days', false);
@@ -91,6 +91,12 @@ export class List {
             }
         ],
         [{
+            field: 'Currency',
+            title: 'Mata Uang',
+            sortable: true,
+            align: 'center'
+        },
+            {
             field: 'DPP',
             title: 'DPP',
             formatter: function (value, data, index) {
