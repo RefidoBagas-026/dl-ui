@@ -115,7 +115,7 @@ export class DataForm {
       length: 8,
     },
   };
-  CCTypeList = ["JOB ORDER", "SAMPLE", "TERIMA SUBCON","SUBCON KELUAR"];
+  CCTypeList = ["MOQ", "PRE-JOB", "OB", "TERIMA SUBCON","SUBCON KELUAR"];
 
   costCalculationGarment_MaterialsInfo = {
     columns: [
@@ -200,7 +200,6 @@ export class DataForm {
     this.dataSection = this.data.Section ? { Code: this.data.Section, Name: this.data.SectionName } : null;
     this.dataBuyerAgent = this.data.Buyer ? { Id: this.data.Buyer.Id, Code: this.data.Buyer.Code, Name: this.data.Buyer.Name } : null;
     this.dataBuyerBrand = this.data.BuyerBrand ? { Id: this.data.BuyerBrand.Id, Code: this.data.BuyerBrand.Code, Name: this.data.BuyerBrand.Name } : null;
-    console.log(this.dataBuyerBrand);
     this.selectedCCType = this.data.CCType;
     this.selectedSubconType = this.data.SubconType ? this.data.SubconType : "";
     this.selectedSMV_Cutting = this.data.SMV_Cutting
@@ -230,11 +229,7 @@ export class DataForm {
     this.data.OTL2 = this.data.OTL2
       ? this.data.OTL2
       : Object.assign({}, this.defaultRate);
-    this.data.ConfirmPrice = this.data.ConfirmPrice
-      ? this.data.ConfirmPrice.toLocaleString("en-EN", {
-          minimumFractionDigits: 4,
-        })
-      : 0;
+    this.data.ConfirmPrice = this.data.ConfirmPrice;
     this.create = this.context.create;
     if (!this.create) {
       this.selectedBookingOrder = {
@@ -393,7 +388,6 @@ get toOpenBookingOrder() {
   };
   
   selectedCCTypeChanged(newValue, oldValue) {
-    console.log(newValue);
     this.data.CCType = newValue;
       if (this.data.CostCalculationGarment_Materials) {
       this.data.CostCalculationGarment_Materials.forEach((item) => {
@@ -480,6 +474,7 @@ get toOpenBookingOrder() {
     ).format("DD MMM YYYY")}`;
   };
 
+  @computedFrom("data.BuyerBrandCode", "data.Section", "data.ComodityCode")
   get filter() {
     var filter = {};
     filter = {
@@ -906,27 +901,16 @@ get toOpenBookingOrder() {
   }
 
   @computedFrom(
-    "data.Wage",
-    "data.SMV_Sewing",
-    "data.Efficiency" + "data.SMV_Cutting",
-    "data.SMV_Finishing",
-    "data.THR",
-    "data.SMV_Total"
-  )
-
-  @computedFrom(
     "data.ConfirmPrice",
     "data.Insurance",
     "data.Freight",
     "data.Rate",
     "data.CommissionRate"
   )
-
   get NETFOB() {
     let NETFOB =
       (this.data.ConfirmPrice - this.data.Insurance - this.data.Freight) *
-        this.data.Rate.Value -
-      this.data.CommissionRate;
+        this.data.Rate.Value - this.data.CommissionRate;
     NETFOB = numeral(NETFOB).format();
     this.data.NETFOB = numeral(NETFOB).value();
     return NETFOB;
@@ -941,7 +925,6 @@ get toOpenBookingOrder() {
     }
     freightCost = numeral(freightCost).format();
     this.data.FreightCost = numeral(freightCost).value();
-
     return freightCost;
   }
 

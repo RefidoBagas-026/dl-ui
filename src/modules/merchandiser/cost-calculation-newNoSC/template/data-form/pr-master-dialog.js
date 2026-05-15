@@ -178,7 +178,7 @@ export class PRMasterDialog {
     activate(params) {
         this.CCId = params.CCId;
         this.filter = {};
-        this.filter["GarmentPurchaseRequest.PRType == \"MASTER\" || GarmentPurchaseRequest.PRType == \"SAMPLE\""] = true;
+        this.filter["GarmentPurchaseRequest.PRType == \"MOQ\" || GarmentPurchaseRequest.PRType == \"PRE-JOB\" || GarmentPurchaseRequest.PRType == \"OB\" || GarmentPurchaseRequest.PRType == \"SAMPLE\""] = true;
         this.filter[`GarmentPurchaseRequest.BuyerCode == "${params.BuyerCode}" && GarmentPurchaseRequest.SectionName == "${params.SectionName}" || IsApprovedOpenPOKadivMd`] = true;
         this.filter["GarmentPurchaseRequest.IsValidatedMD2"] = true;
     }
