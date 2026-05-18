@@ -81,7 +81,7 @@ module.exports = [
     {
         route: '/merchandiser/approve-pr-master/kasie-md',
         name: 'approve-purchase-request-master',
-        moduleId: './modules/merchandiser/approve-pr-master/index',
+        moduleId: './modules/merchandiser/approve-pr-master-newNoSC/index',
         nav: true,
         title: 'Approval PR Master - Kasie Md',
         auth: true,
@@ -97,7 +97,7 @@ module.exports = [
     {
         route: '/merchandiser/approve-pr-master/purchasing',
         name: 'approve-purchase-request-master',
-        moduleId: './modules/merchandiser/approve-pr-master/index',
+        moduleId: './modules/merchandiser/approve-pr-master-newNoSC/index',
         nav: true,
         title: 'Approval PR Master - Purchasing',
         auth: true,
@@ -113,7 +113,7 @@ module.exports = [
     {
         route: '/merchandiser/approve-pr-master/kabag-md',
         name: 'approve-purchase-request-master',
-        moduleId: './modules/merchandiser/approve-pr-master/index',
+        moduleId: './modules/merchandiser/approve-pr-master-newNoSC/index',
         nav: true,
         title: 'Approval PR Master - Kabag Md',
         auth: true,

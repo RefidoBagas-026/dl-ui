@@ -39,9 +39,8 @@
             <!-- CMT -->
              <td>
                 <div style="width: 100px;" class="tooltip-material-field">
-                    <au-textbox value.bind="fabricCM" error.bind="error.isFabricCM" options.bind="controlOptions" read-only.bind="true">
-                    </au-textbox>
-                    <span class="tooltiptext">CMT</span>
+                    <au-checkbox value.bind="data.isFabricCM" simbol.bind="true" read-only.bind="true" options.bind="controlOptions" ></au-checkbox>
+                <span class="tooltiptext">CMT</span>
                 </div>
             </td>
             <td>

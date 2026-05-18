@@ -197,6 +197,8 @@ export class DataForm {
     this.context = context;
     this.data = this.context.data;
     this.error = this.context.error;
+    this.create = this.context.create;
+    console.log(this.create);
     this.dataSection = this.data.Section ? { Code: this.data.Section, Name: this.data.SectionName } : null;
     this.dataBuyerAgent = this.data.Buyer ? { Id: this.data.Buyer.Id, Code: this.data.Buyer.Code, Name: this.data.Buyer.Name } : null;
     this.dataBuyerBrand = this.data.BuyerBrand ? { Id: this.data.BuyerBrand.Id, Code: this.data.BuyerBrand.Code, Name: this.data.BuyerBrand.Name } : null;
@@ -230,7 +232,6 @@ export class DataForm {
       ? this.data.OTL2
       : Object.assign({}, this.defaultRate);
     this.data.ConfirmPrice = this.data.ConfirmPrice;
-    this.create = this.context.create;
     if (!this.create) {
       this.selectedBookingOrder = {
         BookingOrderId: this.data.BookingOrderId,
@@ -381,8 +382,41 @@ get toOpenBookingOrder() {
       this.isSample = false;
     }
   }
-  
 
+  get dataIsFabricCM() {
+
+    const materials =
+      this.data &&
+      this.data.CostCalculationGarment_Materials;
+
+    if (!Array.isArray(materials)) {
+      return '';
+    }
+
+    const hasChanged = materials.some(item =>
+      item.isFabricCM &&
+      (
+        item.ShippingFeePortion !== 0 ||
+        item.TotalShippingFee !== 0
+      )
+    );
+
+    if (hasChanged) {
+
+      materials.forEach((item) => {
+
+        if (item.isFabricCM) {
+          item.ShippingFeePortion = 0;
+          item.TotalShippingFee = 0;
+        }
+
+      });
+
+      this.context.itemsCollection.bind();
+    }
+
+    return '';
+  }
   sectionView = (section) => {
     return section ? `${section.Code} - ${section.Name}` : "";
   };
@@ -420,7 +454,7 @@ get toOpenBookingOrder() {
             this.data.ConfirmDate = null;
             this.costCalculationGarment_MaterialsInfo.options.SectionName = null;
         }
-        if(!this.isEdit){
+        if(this.create){
           if (newValue !== oldValue && this.data.CostCalculationGarment_Materials.length > 0) {
             for (let i = this.data.CostCalculationGarment_Materials.length - 1; i >= 0; i--) {
               if (this.data.CostCalculationGarment_Materials[i].IsPRMaster) {
@@ -554,7 +588,7 @@ get toOpenBookingOrder() {
             this.data.BuyerBrandName = null;
             this.dataBuyerBrand = null;
         }
-        if(!this.isEdit){
+        if(this.create){
           if(newValue !==  oldValue){
             this.buyerBrand = null;
             this.dataBuyerBrand = null;
@@ -601,7 +635,7 @@ get toOpenBookingOrder() {
           this.costCalculationGarment_MaterialsInfo.options.BuyerCode = null;
         }
 
-      if(!this.isEdit){
+      if(this.create){
       if (newValue !== oldValue && this.data.CostCalculationGarment_Materials.length > 0) {
           for (let i = this.data.CostCalculationGarment_Materials.length - 1; i >= 0; i--) {
             if (this.data.CostCalculationGarment_Materials[i].IsPRMaster) {
@@ -613,7 +647,7 @@ get toOpenBookingOrder() {
   }
 
     buyerBrandView = (buyerBrand) => {
-      if(!this.isEdit){  
+      if(this.create){  
         if(buyerBrand.BuyerName != this.data.Buyer.Name){            
             return "";
           }

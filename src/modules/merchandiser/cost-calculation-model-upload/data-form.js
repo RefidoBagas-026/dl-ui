@@ -11,6 +11,9 @@ import { ServiceEffeciency } from "./service-efficiency";
 import { RateService } from "./service-rate";
 import { ServiceCore } from "./service-core";
 import moment from "moment";
+import SectionLoader from "../../../loader/garment-sections-loader";
+import GarmentBuyerLoader from "../../../loader/garment-buyers-loader";
+import GarmentBuyerBrandLoader from "../../../loader/garment-buyer-brands-loader";
 
 import numeral from "numeral";
 numeral.defaultFormat("0,0.00");
@@ -54,6 +57,7 @@ export class DataForm {
   @bindable errorUpload;
   @bindable hasSCNO;
   @bindable hasQuantity;
+  @bindable selectedCCType;
 
   leadTimeList = ["", "25 hari", "40 hari"];
   subconTypes = [
@@ -87,65 +91,7 @@ export class DataForm {
     },
   };
 
-  // costCalculationGarment_MaterialsInfo = {
-  //   columns: [
-  //     { header: "No." },
-  //     { header: "PR Master" },
-  //     { header: "CMT", value: "isFabricCM" },
-  //     { header: "No. PO" },
-  //     { header: "Kategori", value: "Category" },
-  //     { header: "Kode Barang", value: "ProductCode" },
-  //     { header: "Komposisi", value: "Composition" },
-  //     { header: "Konstruksi", value: "Construction" },
-  //     { header: "Yarn", value: "Yarn" },
-  //     { header: "Width", value: "Width" },
-  //     { header: "Deskripsi", value: "Description" },
-  //     { header: "Detail Barang", value: "ProductRemark" },
-  //     { header: "Kuantitas", value: "Quantity" },
-  //     { header: "Satuan", value: "SatuanQuantity" },
-  //     { header: "Price", value: "Price" },
-  //     { header: "Satuan", value: "SatuanPrice" },
-  //     { header: "Konversi", value: "Conversion" },
-  //     { header: "Total", value: "Total" },
-  //     { header: "Ongkir (%)", value: "ShippingFeePortion" },
-  //     { header: "Jumlah Ongkir", value: "TotalShippingFee" },
-  //     { header: "Kuantitas Budget", value: "BudgetQuantity" },
-  //   ],
-  //   onAdd: function () {
-  //     this.dataMaterial.push({
-  //       IsAddPRMaster: true,
-  //       QuantityOrder: this.data.Quantity,
-  //       FabricAllowance: this.data.FabricAllowance,
-  //       AccessoriesAllowance: this.data.AccessoriesAllowance,
-  //       Rate: this.data.Rate,
-  //       SMV_Cutting: this.data.SMV_Cutting,
-  //       SMV_Sewing: this.data.SMV_Sewing,
-  //       SMV_Finishing: this.data.SMV_Finishing,
-  //       THR: this.data.THR,
-  //       Wage: this.data.Wage,
-  //       SMV_Total: this.data.SMV_Total,
-  //       Efficiency: this.data.Efficiency,
-  //       CCType: this.data.CCType,
-  //       SubconType: this.data.SubconType,
-  //       IsFromUpload: false,
-  //     });
-  //     this.dataMaterial.forEach(
-  //       (m, i) => (m.MaterialIndex = i)
-  //     );
-  //     this.dataMaterial = [...this.dataMaterial];
-  //   }.bind(this),
-  //   onRemove: function () {
-  //     this.dataMaterial.forEach(
-  //       (m, i) => (m.MaterialIndex = i)
-  //     );
-  //     this.dataMaterial = [...this.dataMaterial];
-  //     if ( this.dataMaterialUpload.length === 0 && !this.dataMaterial.some(m => m.IsAddPRMaster && m.IsFromUpload)) 
-  //     {
-  //       document.getElementById("fileCsv").value = "";
-  //     }
-  //   }.bind(this),
-  //   options: {},
-  // };
+  CCTypeList = ["MOQ", "PRE-JOB", "OB", "TERIMA SUBCON","SUBCON KELUAR"];
 
   costCalculationGarment_MaterialsInfoUploads = {
     columns: [
@@ -178,11 +124,6 @@ export class DataForm {
     Rupiah: "Rupiah",
   };
 
-  preSalesContractFilter = {
-    IsPosted: true,
-    'SCType == "JOB ORDER" || SCType == "SUBCON" || SCType == "TERIMA SUBCON" || SCType == "SUBCON KELUAR"': true,
-  };
-
   constructor(
     router,
     bindingEngine,
@@ -201,11 +142,19 @@ export class DataForm {
     this.serviceCore = serviceCore;
     this.service = service;
   }
+  @bindable dataSection;
+  @bindable dataBuyerAgent;
+  @bindable dataBuyerBrand;
 
   async bind(context) {
     this.context = context;
     this.data = this.context.data;
     this.error = this.context.error;
+    this.create = this.context.create;
+    this.dataSection = this.data.Section ? { Code: this.data.Section, Name: this.data.SectionName } : null;
+    this.dataBuyerAgent = this.data.Buyer ? { Id: this.data.Buyer.Id, Code: this.data.Buyer.Code, Name: this.data.Buyer.Name } : null;
+    this.dataBuyerBrand = this.data.BuyerBrand ? { Id: this.data.BuyerBrand.Id, Code: this.data.BuyerBrand.Code, Name: this.data.BuyerBrand.Name } : null;
+    this.selectedCCType = this.data.CCType;
     this.selectedSubconType = this.data.SubconType ? this.data.SubconType : "";
     this.selectedSMV_Cutting = this.data.SMV_Cutting
       ? this.data.SMV_Cutting
@@ -234,12 +183,7 @@ export class DataForm {
     this.data.OTL2 = this.data.OTL2
       ? this.data.OTL2
       : Object.assign({}, this.defaultRate);
-    this.data.ConfirmPrice = this.data.ConfirmPrice
-      ? this.data.ConfirmPrice.toLocaleString("en-EN", {
-          minimumFractionDigits: 4,
-        })
-      : 0;
-    this.create = this.context.create;
+    this.data.ConfirmPrice = this.data.ConfirmPrice;
     if (!this.create) {
       this.selectedBookingOrder = {
         BookingOrderId: this.data.BookingOrderId,
@@ -357,11 +301,10 @@ export class DataForm {
 
     this.isSample = this.data.IsSample;
     this.costCalculationGarment_MaterialsInfoUploads.options.CCId = this.data.Id;
-    this.costCalculationGarment_MaterialsInfoUploads.options.SCId = this.data.PreSCId;
+    this.costCalculationGarment_MaterialsInfoUploads.options.BuyerCode = this.data.BuyerBrand ? this.data.BuyerBrand.Code : "";
+    this.costCalculationGarment_MaterialsInfoUploads.options.SectionName = this.data.SectionName;
     this.costCalculationGarment_MaterialsInfoUploads.options.IsEditMaterial = this.isEdit;
     this.costCalculationGarment_MaterialsInfoUploads.options.IsCopyCC =  this.isCopy;
-
-    this.hasSCNO = this.data.PreSCNo ? this.data.PreSCNo : null;
     this.hasQuantity = this.data.Quantity;
   }
 
@@ -380,6 +323,82 @@ export class DataForm {
     return GarmentMarketingLoader;
   }
 
+  @computedFrom("data.BuyerBrand", "data.Section", "data.Comodity")
+get toOpenBookingOrder() {
+  const hasBuyerBrand = !!this.data.BuyerBrand;
+  const hasComodity = !!this.data.Comodity;
+  const hasSection = !!this.data.Section;
+  if (hasBuyerBrand && hasComodity && hasSection) {
+    return false;
+  } else {    
+    return true;
+  }
+}
+
+  @computedFrom("dataBuyerAgent")
+  get noBuyerAgent() {
+    if(!this.dataBuyerAgent){
+      return true;
+    }else{
+      this.requiredBuyerAgent = null;
+      return false;
+    }
+  }
+  
+  selectedSampleChanged(value){
+    if(this.data.IsSample){
+      this.isSample = true;
+    }else{
+      this.isSample = false;
+    }
+  }
+  
+
+  sectionView = (section) => {
+    return section ? `${section.Code} - ${section.Name}` : "";
+  };
+  
+  selectedCCTypeChanged(newValue, oldValue) {
+    this.data.CCType = newValue;
+      if (this.data.CostCalculationGarment_Materials) {
+      this.data.CostCalculationGarment_Materials.forEach((item) => {
+        item.CCType = this.data.CCType;
+      });
+      this.context.itemsCollection.bind();
+    }
+  }
+  dataSectionChanged(newValue, oldValue){
+    this.context.BookingOrderViewModel.editorValue = "";
+        if(newValue){
+            this.data.Section = newValue.Code;
+            this.data.SectionName = newValue.Name;
+            this.data.ApprovalCC = newValue.ApprovalCC;
+            this.data.ApprovalRO = newValue.ApprovalRO;
+            this.data.ApprovalKadiv = newValue.ApprovalKadiv;
+            this.costCalculationGarment_MaterialsInfoUploads.options.SectionName = newValue.Name;
+        }else{
+          this.data.Section = null;
+            this.data.SectionName = null;
+            this.data.ApprovalCC = null;
+            this.data.ApprovalRO = null;
+            this.data.ApprovalKadiv = null;
+
+            this.selectedBookingOrder = null;
+            this.data.BookingOrderId = 0;
+            this.data.BookingOrderItemId = 0;
+            this.data.BookingOrderNo = null;
+            this.data.BOQuantity = 0;
+            this.data.ConfirmDate = null;
+            this.costCalculationGarment_MaterialsInfoUploads.options.SectionName = null;
+        }
+        if(this.create){
+          if (newValue !== oldValue) {
+              this.data.CostCalculationGarment_Materials.splice(0);
+              this.context.itemsCollection.bind();
+          }
+        }
+
+    }
   @bindable selectedGarmentMarketing;
   async selectedGarmentMarketingChanged(newValue, oldValue) {
     if (newValue) {
@@ -394,6 +413,7 @@ export class DataForm {
   @bindable selectedComodity;
   async selectedComodityChanged(newVal, oldValue) {
     this.data.Comodity = newVal;
+    this.context.BookingOrderViewModel.editorValue = "";
     if (newVal) {
       this.data.ComodityID = newVal.Id;
       this.data.ComodityCode = newVal.Code;
@@ -401,6 +421,11 @@ export class DataForm {
     } else {
       this.selectedComodity = null;
       this.selectedBookingOrder = null;
+      this.data.BookingOrderId = 0;
+      this.data.BookingOrderItemId = 0;
+      this.data.BookingOrderNo = null;
+      this.data.BOQuantity = 0;
+      this.data.ConfirmDate = null;
     }
   }
 
@@ -430,6 +455,9 @@ export class DataForm {
     return filter;
   }
 
+  get sectionLoader() {
+            return SectionLoader;
+        }
   get sizeRangeLoader() {
     return SizeRangeLoader;
   }
@@ -551,6 +579,112 @@ export class DataForm {
     this.costCalculationGarment_MaterialsInfoUploads.options.SCId = this.data.PreSCId;
   }
 
+  filterBuyerBrand = {};
+  
+    get garmentBuyerLoader() { 
+            return GarmentBuyerLoader;
+        }
+  
+  
+    dataBuyerAgentChanged(newValue, oldValue) {
+      this.context.dataBuyerBrandViewModel.editorValue = "";
+      this.context.BookingOrderViewModel.editorValue = "";
+          if(newValue){
+              this.data.Buyer = {
+                  Id: newValue.Id,
+                  Code: newValue.Code,
+                  Name: newValue.Name
+              };
+              this.filterBuyerBrand = {"BuyerCode": newValue.Code, "Active": true};
+              if(newValue.Type){
+                  this.buyerBrand = null;
+                  this.data.BuyerBrandId = null;
+                  this.data.BuyerBrandCode = null;
+                  this.data.BuyerBrandName = null;
+              }
+          }else{
+              this.data.Buyer = null;
+              this.filterBuyerBrand = {};
+              this.buyerBrand = null;
+              this.data.BuyerBrand = null;
+              this.data.BuyerBrandId = null;
+              this.data.BuyerBrandCode = null;
+              this.data.BuyerBrandName = null;
+              this.dataBuyerBrand = null;
+              
+          }
+          if(this.create){
+            if(newValue !==  oldValue){
+              this.buyerBrand = null;
+              this.dataBuyerBrand = null;
+              this.data.BuyerBrand = null;
+              this.data.BuyerBrandId = null;
+              this.data.BuyerBrandCode = null;
+              this.data.BuyerBrandName = null;
+              this.data.CostCalculationGarment_Materials.splice(0);
+              this.context.itemsCollection.bind();    
+            }
+          }
+  
+      }
+  
+      buyerAgentView = (buyerAgent) => {
+          return buyerAgent ? `${buyerAgent.Code} - ${buyerAgent.Name}` : "";
+      }
+  
+       get garmentBuyerBrandLoader() { 
+              return GarmentBuyerBrandLoader;
+          }
+  
+      dataBuyerBrandChanged(newValue, oldValue) { 
+        this.context.BookingOrderViewModel.editorValue = "";
+          if(newValue){
+            this.data.BuyerBrand = {
+                  Id: newValue.Id,
+                  Code: newValue.Code,
+                  Name: newValue.Name
+              };
+            this.data.BuyerBrandId = newValue.Id;
+            this.data.BuyerBrandCode = newValue.Code;
+            this.data.BuyerBrandName = newValue.Name;
+            this.costCalculationGarment_MaterialsInfoUploads.options.BuyerCode = newValue.Code;
+          } else {
+            this.data.BuyerBrand = null;
+            this.data.BuyerBrandId = null;
+            this.data.BuyerBrandCode = null;
+            this.data.BuyerBrandName = null;
+            this.selectedBookingOrder = null;
+            this.data.BookingOrderId = 0;
+            this.data.BookingOrderItemId = 0;
+            this.data.BookingOrderNo = null;
+            this.data.BOQuantity = 0;
+            this.data.ConfirmDate = null;
+            this.costCalculationGarment_MaterialsInfoUploads.options.BuyerCode = null;
+            // this.data.CostCalculationGarment_Materials.splice(0);
+            // this.context.itemsCollection.bind();
+          }
+  
+        if(this.create){
+        if (newValue !== oldValue) {
+              this.data.CostCalculationGarment_Materials.splice(0);
+              this.context.itemsCollection.bind();
+          }
+        }
+    }
+  
+      buyerBrandView = (buyerBrand) => {
+        if(this.create){  
+          if(buyerBrand.BuyerName != this.data.Buyer.Name){            
+              return "";
+            }
+        }
+          return buyerBrand ? `${buyerBrand.Code} - ${buyerBrand.Name}` : "";
+      }
+  
+    get buyerQuery(){
+      var result = { "Active" : true }
+      return result;   
+    }
   //
   @bindable selectedBookingOrder;
   async selectedBookingOrderChanged(newValue, oldValue) {
@@ -836,15 +970,6 @@ export class DataForm {
   }
 
   @computedFrom(
-    "data.Wage",
-    "data.SMV_Sewing",
-    "data.Efficiency" + "data.SMV_Cutting",
-    "data.SMV_Finishing",
-    "data.THR",
-    "data.SMV_Total"
-  )
-
-  @computedFrom(
     "data.ConfirmPrice",
     "data.Insurance",
     "data.Freight",
@@ -994,7 +1119,6 @@ export class DataForm {
        const mandatoryColumns = [
             "Kode Barang",
             "Keterangan",
-            "Detil Barang",
             "Usage per pcs",
             "Satuan Barang",
             "Harga",
@@ -1030,9 +1154,6 @@ export class DataForm {
         }
       this.previewData = jsonData;
       this.headers = actualHeaders;
-
-      console.log(this.previewData);
-
       await this.pushDataExcel(this.previewData);
     };
 
@@ -1054,13 +1175,13 @@ async pushDataExcel(value) {
   this.error.CostCalculationGarment_Materials = [];
 
   const payload = value.map((row, index) => ({
-    IsAddPRMaster: (row["PR MASTER"]|| "").toString().trim() == 1 ? true : false,
+    IsAddPRMaster: row["PR MASTER"] != null && String(row["PR MASTER"]).trim() === "1",
+    isFabricCM: row["CMT"] != null && String(row["CMT"]).trim() === "1",
     KodeBarang: (row["Kode Barang"] || "").toString().trim(),
     SatuanBeli: (row["Satuan beli"] || "").toString().trim(),
     SatuanBarang: (row["Satuan Barang"] || "").toString().trim(),
-    isFabricCM: (row["CMT"] || "").toString().trim() == 1 ? true : false,
     Description: (row["Keterangan"] || "").toString(),
-    ProductRemark: (row["Detil Barang"] || "").toString(),
+    ProductRemark: row["Detil Barang"] && row["Detil Barang"].toString().trim() !== "" ? row["Detil Barang"].toString() : "-",
     Quantity: parseFloat(row["Usage per pcs"]) || 0,
     Price: parseFloat(row["Harga"]) || 0,
     Conversion: parseFloat(row["Konversi"]) || 0,
@@ -1078,11 +1199,10 @@ async pushDataExcel(value) {
     Wage: this.data.Wage || 0,
     SMV_Total: this.data.SMV_Total || 0,
     Efficiency: this.data.Efficiency || 0,
-    CCType: this.data.CCType || "",
-    SubconType: this.data.SubconType || "",
+    CCType: this.data.CCType,
+    SubconType: this.data.SubconType,
     IsFromUpload: true
   }));
-
   let resultData = [];
 
   try {
@@ -1104,14 +1224,14 @@ async pushDataExcel(value) {
           isFabricCM: item.isFabricCM || false,
           Category: item.Category || {},
           Product: item.Product || {},
-          Description: item.Description || "",
-          ProductRemark: item.ProductRemark || "",
+          Description: item.Description,
+          ProductRemark: item.ProductRemark,
           Quantity: item.Quantity || 0,
           UOMQuantity: item.UOMQuantity || null,
           Price: item.Price || 0,
           Conversion: item.Conversion || 0,
           ShippingFeePortion: item.ShippingFeePortion || 0,
-          Information: item.Information || "",
+          Information: item.Information,
           UOMPrice: item.UOMPrice || null,
           MaterialIndex: item.MaterialIndex || 0,
           QuantityOrder: item.QuantityOrder || 0,
@@ -1125,8 +1245,8 @@ async pushDataExcel(value) {
           Wage: item.Wage || 0,
           SMV_Total: item.SMV_Total || 0,
           Efficiency: item.Efficiency || 0,
-          CCType: item.CCType || "",
-          SubconType: item.SubconType || "",
+          CCType: item.CCType,
+          SubconType: item.SubconType,
           IsFromUpload: item.IsFromUpload
         }
       : {
@@ -1140,8 +1260,10 @@ async pushDataExcel(value) {
           HasError: true,
           IsFromUpload: item.IsFromUpload
         };
-    console.log(material);
 
+    if (material && material.isFabricCM) {
+      material.ShippingFeePortion = 0;
+    }
     if (material && material.Category && ( material.Category.Name === "PROCESS" || material.Category.Name === "PROCESS SUBCON"))
     {
         let UOM = await this.serviceCore.getUomByUnit("PCS");
@@ -1165,18 +1287,15 @@ viewData() {
     }
 }
 
-@bindable isItem = false;
-
-@computedFrom("hasSCNO")
+@computedFrom("data.BuyerBrand", "data.Section")
 get itemOn(){
-  if(this.hasSCNO){
-    this.isItem = true;
-  }else{
-    this.isItem = false;
+  const hasBuyerBrand = !!this.data.BuyerBrand;
+  const hasSection = !!this.data.Section;
+  if (hasBuyerBrand && hasSection) {
+    return true;
+  } else {    
+    return false;
   }
-  const onItem = this.isItem;
-  return onItem;
 }
-
 
 }
