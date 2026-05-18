@@ -26,6 +26,12 @@ export class PRMasterDialog {
 
     columns = [
         { field: "isSelected", radio: true, sortable: false, },
+        { field: "IsCMT", title: "CMT", formatter: (value, data) => {
+            return `<div class="text-center">
+            <input type="checkbox" ${value ? "checked" : ""} class="form-check-input" />
+            </div>`
+            }
+        },
         { field: "GarmentPurchaseRequest.PRNo", title: "Nomor PR" },
         { field: "GarmentPurchaseRequest.RONo", title: "Nomor RO" },
         { field: "GarmentPurchaseRequest.Article", title: "Artikel" },
@@ -56,8 +62,8 @@ export class PRMasterDialog {
             search: JSON.stringify(["PO_SerialNumber", "CategoryName", "ProductCode", "ProductName", "GarmentPurchaseRequest.PRNo", "GarmentPurchaseRequest.Article", "GarmentPurchaseRequest.RONo"]),
             order: order,
             select: "new( " +
-                "GarmentPurchaseRequest.Id as PRId, GarmentPurchaseRequest.PRType, GarmentPurchaseRequest.SCId, GarmentPurchaseRequest.SCNo, GarmentPurchaseRequest.PRNo, GarmentPurchaseRequest.RONo, GarmentPurchaseRequest.Article," +
-                "Id, PO_SerialNumber, CategoryId, CategoryName, ProductId, ProductCode, ProductName, ProductRemark, Quantity, BudgetPrice, UomId, UomUnit, PriceUomId, PriceUomUnit" +
+                "GarmentPurchaseRequest.Id as PRId, GarmentPurchaseRequest.SectionName, GarmentPurchaseRequest.BuyerId, GarmentPurchaseRequest.BuyerCode, GarmentPurchaseRequest.BuyerName, GarmentPurchaseRequest.PRType, GarmentPurchaseRequest.PRNo, GarmentPurchaseRequest.RONo, GarmentPurchaseRequest.Article," +
+                "Id, PO_SerialNumber, CategoryId, CategoryName, ProductId, ProductCode, ProductName, ProductRemark, Quantity, BudgetPrice, UomId, UomUnit, PriceUomId, PriceUomUnit, IsCMT" +
                 ")",
             filter: JSON.stringify(this.filter),
         }
@@ -101,7 +107,8 @@ export class PRMasterDialog {
                         PriceUom: {
                             Id: d.PriceUomId,
                             Unit: d.PriceUomUnit
-                        }
+                        },
+                        IsCMT: d.IsCMT
                     }, d));
                 }
 
@@ -170,22 +177,10 @@ export class PRMasterDialog {
     activate(params) {
         this.CCId = params.CCId;
         this.filter = {};
-        this.filter["GarmentPurchaseRequest.PRType == \"MASTER\" || GarmentPurchaseRequest.PRType == \"SAMPLE\""] = true;
-        this.filter[`GarmentPurchaseRequest.SCId == ${params.SCId} || IsApprovedOpenPOKadivMd`] = true;
+        this.filter["GarmentPurchaseRequest.PRType == \"MOQ\" || GarmentPurchaseRequest.PRType == \"PRE-JOB\" || GarmentPurchaseRequest.PRType == \"OB\" || GarmentPurchaseRequest.PRType == \"SAMPLE\""] = true;
+        this.filter[`CategoryName == "${params.CategoryName}" && ProductCode == "${params.ProductCode}"`] = true;
+        this.filter[`GarmentPurchaseRequest.BuyerCode == "${params.BuyerCode}" && GarmentPurchaseRequest.SectionName == "${params.SectionName}" || IsApprovedOpenPOKadivMd`] = true;
         this.filter["GarmentPurchaseRequest.IsValidatedMD2"] = true;
-        
-        if (params.CategoryName == null) {
-
-        } else {
-            this.filter[`CategoryName=="${params.CategoryName}"`] = true;
-        }
-
-        if(params.ProductCode == null){
-            
-        }else{
-            this.filter[`ProductCode=="${params.ProductCode}"`] = true;
-        }
-
     }
 
     select() {

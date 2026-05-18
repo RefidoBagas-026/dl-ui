@@ -30,7 +30,7 @@ class Service extends RestService {
     //     return super.post(endpoint, data);
     // }
     create(data) {
-        var endpoint = `${serviceUri}`;
+        var endpoint = `${serviceUri}/NoPSCon`;
         return super.post(endpoint, data);
     }
 
@@ -45,12 +45,12 @@ class Service extends RestService {
     }
 
     update(data) {
-        var endpoint = `${serviceUri}/${data.Id}`;
+        var endpoint = `${serviceUri}/NoPSCon/${data.Id}`;
         return super.put(endpoint, data);
     }
 
     delete(data) {
-        var endpoint = `${serviceUri}/${data.Id}`;
+        var endpoint = `${serviceUri}/NoPSCon/${data.Id}`;
         return super.delete(endpoint, data);
     }
 

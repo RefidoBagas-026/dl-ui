@@ -45,24 +45,17 @@ export class CostCalculationMaterial {
         this.data.showDialog = this.data.showDialog === undefined ? (this.data.Category === undefined ? true : false) : (this.data.showDialog === true ? true : false);
         this.data.isFabricCM = this.data.isFabricCM ? this.data.isFabricCM : false;
         this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-        console.log(this.data);
         if (this.data.Category) {
             this.selectedCategory = this.data.Category;
             this.categoryIsExist = this.categoryNames == "FABRIC" ? true : false;
 
             if (this.categoryNames == 'PROCESS') {
                 this.isProcess = true;
-                if (!this.data.Id) {
-                    //Calculated Price jika CC bukan tipe Subcon Keluar
                     if (this.data.CCType != "SUBCON KELUAR")
                         this.data.Price = this.calculateProcessPrice();
-
-                    //Calculated Price jika CC tipe Subcon Keluar
                     else if (this.data.CCType == "SUBCON KELUAR") {
                         this.data.Price = this.calculateProcessPriceSubconOut();
                     };
-                }
-                
             }
         }
 
@@ -114,16 +107,13 @@ export class CostCalculationMaterial {
             this.data.Category.Code = this.data.Category.code || this.data.Category.Code;
             this.data.Category.Name = this.data.Category.name || this.data.Category.Name;
             this.data.Category = this.data.Category;
-            console.log("Category:", this.data.Category);
         }
-        this.fabricCM = this.data.isFabricCM ? "YES" : "NO";
     }
 
     bind() {
 
     }
 
-    // @bindable productCode = "Test";
     @bindable selectedCategory;
     @bindable categoryIsExist = false;
     async selectedCategoryChanged(newVal, oldVal) {
@@ -138,21 +128,13 @@ export class CostCalculationMaterial {
             this.data.UOMPrice = null;
             this.data.Conversion = 0;
             this.data.ShippingFeePortion = 0;
-            // this.data.Product = await this.serviceCore.getByName(newVal.name);
             this.productCode = "";
 
             this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
 
             if (this.categoryNames === "FABRIC") {
                 this.categoryIsExist = true;
-                // this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
-                //     .then(response => {
-                //         if (response == "ok") {
-                //             this.data.isFabricCM = true;
-                //         }
-                //         this.data.showDialog = false;
-                //     });
-                
+                this.data.showDialog = false;
             } else if (this.categoryNames === "PROCESS" || this.categoryNames === "PROCESS SUBCON") {
                 this.data.Product = await this.serviceCore.getByName(newVal.Name);
                 let UOM = await this.serviceCore.getUomByUnit("PCS");
@@ -163,15 +145,10 @@ export class CostCalculationMaterial {
                 this.data.Conversion = 1;
                 this.categoryIsExist = false;
                 this.productCode = this.data.Product ? this.data.Product.Code : "";
-                //Calculated Price jika CC bukan tipe Subcon Keluar tapi Category Process
                 if (this.data.CCType != "SUBCON KELUAR" && this.categoryNames === "PROCESS") {
                     this.data.Price = this.calculateProcessPrice(); 
-
-                //Calculated Price jika CC tipe Subcon Keluar tapi Category Process
                 } else if(this.data.CCType == "SUBCON KELUAR" && this.categoryNames === "PROCESS") {
                     this.data.Price = this.calculateProcessPriceSubconOut();
-
-                //Disable IsProcess untuk jika Category PROCESS SUBCON
                 } else if (this.categoryNames === "PROCESS SUBCON") {
                     this.isProcess = false;
                 }
@@ -199,27 +176,22 @@ export class CostCalculationMaterial {
 
     calculateProcessPriceSubconOut() {
         let CuttingFee = 0;
-        // let SewingFee = this.data.Wage.Value * this.data.SMV_Sewing * (100 / this.data.Efficiency.Value);
         let SewingFee = 0;
         let FinishingFee = 0;
         let THR = 0;
         switch (this.data.SubconType) {
-            //Jika tipe subcon Sewing maka ingore SMV_Sewing
             case "SUBCON SEWING":
                 CuttingFee = this.data.Wage.Value * this.data.SMV_Cutting * (100 / 70);
                 FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
                 THR = this.data.THR.Value * (this.data.SMV_Cutting + this.data.SMV_Finishing);
                 break;
-            //Jika tipe subcon Cutting Sewing maka ingore SMV_Sewing dan SMV_Cutting
             case "SUBCON CUTTING SEWING":
                 FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
                 THR = this.data.THR.Value * this.data.SMV_Finishing;
-                break
-             //Jika tipe subcon Cutting Sewing Finishing maka ignore semua SMV
+                break;
             default:
                 break;
         }
-        // let THR = this.data.THR.Value * this.data.SMV_Total;
         let result = CuttingFee + SewingFee + FinishingFee + THR;
         return numeral(numeral(result).format(rateNumberFormat)).value();
     }
@@ -309,7 +281,6 @@ export class CostCalculationMaterial {
         return GarmentCategoryLoader;
     }
     get garmentProductConstLoader() {
-        
             return (keyword) => {
                 var filter = "";
                 this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
@@ -490,10 +461,8 @@ uomView =(uom)=>{
     get total() {
         let total = 0;
         this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-        //Calculated Item jika bukan tipe Subcon Keluar
         if (this.data.CCType != "SUBCON KELUAR") {
             total = this.data.Quantity && this.data.Conversion && parseFloat(this.data.Price) ? (parseFloat(this.data.Price) / this.data.Conversion * this.data.Quantity) : 0;
-            //total = numeral(total).format();
             if (this.data.isFabricCM) {
                 this.data.Total = 0;
                 this.data.TotalTemp = numeral(total).value();
@@ -504,32 +473,15 @@ uomView =(uom)=>{
                 this.data.TotalTemp = numeral(total).value();;
                 this.data.CM_Price = null;
             }
-        //Calculated Item jika tipe Subcon Keluar
         } else if (this.data.CCType == "SUBCON KELUAR" && this.data.Category) {
-            //Calculated Item jika Category PROCESS SUBCON
             if (this.categoryNames === "PROCESS SUBCON") {
-                // total = this.data.Quantity && this.data.Conversion && parseFloat(this.data.Price) ? (parseFloat(this.data.Price) / this.data.Conversion * this.data.Quantity) : 0;
                 total =  this.data.Price ?  parseFloat(this.data.Price) : 0;
-                // //total = numeral(total).format();
-                // switch (this.data.SubconType) {
-                //     case "SUBCON SEWING":
-                //         total = total * (this.data.SMV_Sewing);
-                //         break;
-                //     case "SUBCON CUTTING SEWING":
-                //         total = total * (this.data.SMV_Sewing + this.data.SMV_Cutting);
-                //         break;
-                //     case "SUBCON CUTTING SEWING FINISHING":
-                //         total = total * (this.data.SMV_Sewing + this.data.SMV_Cutting + this.data.SMV_Finishing);
-                //         break;
-                // }
-            
                 this.data.Total = numeral(total).value();
                 this.data.TotalTemp = numeral(total).value();;
                 this.data.CM_Price = null;
             //Calculated Item jika Category bukan PROCESS SUBCON
             } else {
                 total = this.data.Quantity && this.data.Conversion && parseFloat(this.data.Price) ? (parseFloat(this.data.Price) / this.data.Conversion * this.data.Quantity) : 0;
-                //total = numeral(total).format();
                 if (this.data.isFabricCM) {
                     this.data.Total = 0;
                     this.data.TotalTemp = numeral(total).value();
@@ -560,7 +512,6 @@ uomView =(uom)=>{
         this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
 
         let fabricAllowance = this.data.FabricAllowance ? this.data.FabricAllowance : 0;
-        console.log(fabricAllowance);
         let accessoriesAllowance = (this.data.AccessoriesAllowance && this.data.AccessoriesAllowance != 0)  ? this.data.AccessoriesAllowance : 0;
         if (this.data.Category) {
             if (this.categoryNames === "FABRIC") {
@@ -572,16 +523,17 @@ uomView =(uom)=>{
         let budgetQuantity = this.data.Quantity && this.data.Conversion ? this.data.Quantity * this.data.QuantityOrder / this.data.Conversion + allowance * this.data.Quantity * this.data.QuantityOrder / this.data.Conversion : 0;
         budgetQuantity = Math.ceil(budgetQuantity);
         this.data.BudgetQuantity = Math.ceil(budgetQuantity);
-        console.log(budgetQuantity);
         return budgetQuantity;
     }
 
     clickPRMaster() {
         var productCategory = this.data.Category ? this.data.Category.Name : null;
         var productCode = this.data.Product ? this.data.Product.Code : null;
-        
-        console.log(this.data);
-        this.dialog.show(PRMasterDialog, { CCId: this.context.context.options.CCId || 0, SCId: this.context.context.options.SCId || 0, CategoryName: productCategory, ProductCode: productCode })
+        this.dialog.show(PRMasterDialog, { CCId: this.context.context.options.CCId || 0, 
+            BuyerCode: this.context.context.options.BuyerCode || null, 
+            SectionName: this.context.context.options.SectionName || null, 
+            CategoryName: productCategory, 
+            ProductCode: productCode })
             .then(response => {
                 if (!response.wasCancelled) {
                     this.error = {};
@@ -608,6 +560,10 @@ uomView =(uom)=>{
                     // this.totalShippingFee = 0;
                     // this.budgetQuantity = 0;
                     this.data.AvailableQuantity = result.AvailableQuantity;
+                    this.data.isFabricCM = result.IsCMT;
+                    if(this.data.isFabricCM){
+                        this.data.ShippingFeePortion = 0;
+                    }
                     this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
                     this.serviceCore.getCategoryId(this.data.Category.Id)
                         .then(category => {
@@ -616,19 +572,19 @@ uomView =(uom)=>{
                                 category.Name = category.name || category.Name;
 
                                 this.data.Category = category;
-                                console.log("Category:", this.data.Category);
                             }
-                            if (this.categoryNames === "FABRIC") {
-                                this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
-                                    .then(response => {
-                                        if (response == "ok") {
-                                            this.data.isFabricCM = true;
-                                        } else {
-                                            this.data.isFabricCM = false;
-                                        }
-                                        this.data.showDialog = false;
-                                    });
-                            }
+                            this.data.showDialog = false;
+                            // if (this.categoryNames === "FABRIC") {
+                            //     this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
+                            //         .then(response => {
+                            //             if (response == "ok") {
+                            //                 this.data.isFabricCM = true;
+                            //             } else {
+                            //                 this.data.isFabricCM = false;
+                            //             }
+                            //             this.data.showDialog = false;
+                            //         });
+                            // }
                         });
                 }
             });
