@@ -1,18 +1,22 @@
 import { inject, bindable, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Base64Helper } from '../../../../utils/base-64-coded-helper';
+import { Service } from '../service';
+import { activationStrategy } from 'aurelia-router';
 
-@inject(Router)
+@inject(Router, Service)
 export class View {
-  constructor(router) {
+  constructor(router, service) {
     this.router = router;
+    this.service = service;
   }
 
   @bindable data;
 
-  activate(params) {
-    var idEncode = Base64Helper.encode(params.id);
-    this.data = window.listData.find(item => item.Id === Number(idEncode));
+  async activate(params) {
+    var idDecode = Base64Helper.decode(params.id);
+    this.idEncode = params.id;
+    this.data = await this.service.getById(idDecode);
   }
 
   cancel() {
@@ -21,14 +25,35 @@ export class View {
     }
   }
 
+  determineActivationStrategy() {
+    return activationStrategy.replace; //replace the viewmodel with a new instance
+    // or activationStrategy.invokeLifecycle to invoke router lifecycle methods on the existing VM
+    // or activationStrategy.noChange to explicitly use the default behavior
+  }
+
+  save(event) {
+    if (confirm("Simpan Keterangan?")) {
+      const jsonPatch = [
+        { op: "replace", path: '/Description', value: this.data.description },
+      ];
+
+      this.service.replace(this.data.Id, jsonPatch)
+        .then(result => {
+          alert("Keterangan berhasil disimpan");
+          this.router.navigateToRoute('view', { id: this.idEncode }, { replace: true, trigger: true });
+        })
+        .catch(e => {
+          this.error = e;
+          if (e.statusCode === 500) {
+            alert("Gagal menyimpan, silakan coba lagi!");
+          }
+        });
+    }
+  }
+
   @computedFrom('data')
   get safeData() {
     return this.data || {};
-  }
-
-  @computedFrom('safeData.invoiceNo')
-  get highlightDifferencesInvoiceNo() {
-    return this.safeData.invoiceNo ? true : false;
   }
 
   @computedFrom('safeData.isPayVat', 'safeData.useVat')
@@ -60,11 +85,25 @@ export class View {
 
   itemsInfoReadOnly = {
     columnsReadOnly: [
-      { header: "No Surat Jalan" },
       { header: "Nama Barang" },
       { header: "Quantity" },
       { header: "Keterangan" },
     ]
   }
+
+  deliveryOrdersInfoReadOnly = [
+    { header: "Surat Jalan" },
+    { header: "Keterangan" }
+  ]
+
+  auInputOptions = {
+    label: {
+      length: 4,
+      align: "center"
+    },
+    control: {
+      length: 5
+    }
+  };
 
 }

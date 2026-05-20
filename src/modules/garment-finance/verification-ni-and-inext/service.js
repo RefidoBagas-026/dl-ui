@@ -39,6 +39,16 @@ export class Service extends RestService {
         return super.get(endpoint);
     }
 
+    replace(id, data) {
+        var endpoint = `${serviceUri}/${id}`;
+        return super.patch(endpoint, data);
+    }
+
+    getPdfById(id) {
+        var endpoint = `${serviceUri}/download/pdf/${id}`;
+        return super.getPdf(endpoint);
+    }
+
     /**
      * Create new Invoice External revision (Placeholder)
      * @param {Object} data - Invoice External revision data
