@@ -40,6 +40,7 @@ export class View {
     costCalculationGarment_MaterialsInfo = {
         columns: [
             { header: "No", value: "MaterialIndex" },
+            { header: "CMT", value: "isFabricCM" },
             { header: "Kategori", value: "Category" },
             { header: "Kode Barang", value: "Product.code" },
             { header: "Komposisi", value: "Product.composition" },
