@@ -15,6 +15,8 @@ export class Comparison {
     @bindable readOnly = true;
     @bindable highlightDifferences = true;
     @bindable useAbsolute = false;
+    @bindable useCustomDifferentFunction = false;
+    @bindable isDifferentResult = false;
     @bindable remark = '';
     @bindable remarkType = 'info'; // 'info', 'warning', 'success', 'danger'
 
@@ -66,6 +68,9 @@ export class Comparison {
 
     get isDifferent() {
         if (!this.highlightDifferences) return false;
+        if (this.useCustomDifferentFunction) {
+            return !this.isDifferentResult;
+        }
         return this.formattedValue1 !== this.formattedValue2;
     }
 
