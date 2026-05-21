@@ -164,6 +164,22 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
+
+    {
+        route: 'po-external/all-user',
+        name: 'purchase-order-external-all-user',
+        moduleId: './modules/purchasing/purchase-order-external-all-user/index',
+        nav: true,
+        title: 'Purchase Order External (Semua User)',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            // permission: { "P1": 7, "P3": 7, "P4": 7, "P6": 7, "P7": 7, "PI": 7, "PG": 7, "PK": 7, "C9": 1 },
+            permission: { "E71": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
     {
         route: 'po/monitoring/all',
         name: 'purchase-order-monitoring',
