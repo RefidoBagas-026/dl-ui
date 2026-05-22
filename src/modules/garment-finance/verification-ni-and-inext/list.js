@@ -18,7 +18,7 @@ export class List {
     window.viewModel = this;
   }
 
-  context = ["Rincian"];
+  context = ["Rincian", "Cetak PDF"];
 
   contextClickCallback(event) {
     var arg = event.detail;
@@ -26,6 +26,8 @@ export class List {
     var idEncode = Base64Helper.encode(data.Id);
     if (arg.name === "Rincian") {
       this.router.navigateToRoute('view', { id: idEncode });
+    } else if (arg.name === "Cetak PDF") {
+      this.service.getPdfById(data.Id);
     }
   }
 
@@ -110,7 +112,7 @@ export class List {
           item.invoiceNo = item.invoiceNo || item.INNo || 'N/A';
           item.inNo = item.inNo || 'N/A';
           item.supplierName = item.supplierName || 'N/A';
-          item.totalAmountBeforeTax = item.totalAmountBeforeTax || 0;
+          item.totalAmountAfterTax = item.totalAmountAfterTax || 0;
         });
         return {
           total: data.total,
@@ -164,13 +166,14 @@ export class List {
       }
     },
     {
-      field: 'totalAmountBeforeTax', title: 'Total Amount', width: 120, align: 'right', sortable: true, formatter: (value) => {
+      field: 'totalAmountAfterTax', title: 'Total Amount', width: 120, align: 'right', sortable: true, formatter: (value) => {
         if (value == null || value === '') return '';
         const num = Number(value);
         if (isNaN(num)) return value;
         return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       }
     },
+    { field: 'remarkDescription', title: 'Keterangan', width: 150, align: 'left', sortable: true },
     {
       field: 'actions',
       title: 'Aksi',
@@ -205,7 +208,6 @@ export class List {
           <thead>
             <tr>
               <th width="40">No</th>
-              <th width="150">No Surat Jalan</th>
               <th width="150">Nama Barang</th>
               <th width="120">Quantity</th>
               <th width="150">Keterangan</th>
@@ -220,7 +222,6 @@ export class List {
       html += `
         <tr>
           <td>${idx + 1}</td>
-          <td>${item.doNo || 'N/A'}</td>
           <td>${item.productName || 'N/A'}</td>
           <td style="text-align:right">${quantity.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
           <td>${item.remarkDescription || 'N/A'}</td>
