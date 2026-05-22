@@ -48,6 +48,11 @@ export class Service extends RestService {
         return super.getPdf(endpoint);
     }
 
+     getPdfOverBudgetById(id) {
+        var endpoint = `${serviceUri}/over-budget/${id}`;
+        return super.getPdf(endpoint);
+    }
+
     searchByTags(keyword, category, shipmentDateFrom, shipmentDateTo) {
         var endpoint = 'garment-internal-purchase-orders/by-tags';
         var filter = {};
