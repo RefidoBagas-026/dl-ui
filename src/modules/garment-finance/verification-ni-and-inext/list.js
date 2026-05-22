@@ -173,7 +173,7 @@ export class List {
         return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       }
     },
-    { field: 'remarkDescription', title: 'Keterangan', width: 150, align: 'left', sortable: true },
+    { field: 'remark', title: 'Keterangan', width: 150, align: 'left', sortable: true },
     {
       field: 'actions',
       title: 'Aksi',
