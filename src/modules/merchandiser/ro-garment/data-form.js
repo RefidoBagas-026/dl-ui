@@ -319,27 +319,76 @@ export class DataForm {
     downloadLink.click();
   }
 
-  documentInputChanged(index) {
-    let documentInput = document.getElementById('documentInput' + index);
+  async documentInputChanged(index) {
+  let documentInput = document.getElementById('documentInput' + index);
+  if (!documentInput.files[0]) return;
 
-    if (documentInput.files[0]) {
-      let reader = new FileReader();
-      reader.onload = event => {
-        let base64Document = event.target.result;
-        const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
-        if (base64Content.length * 6 / 8 > 52428800) {
-          documentInput.value = "";
-          this.data.DocumentsFile[index] = "";
-          this.data.DocumentsFileName[index] = "";
-          alert("Maximum Document Size is 50 MB")
-        } else {
-          this.data.DocumentsFile[index] = base64Document;
-          this.data.DocumentsFileName[index] = documentInput.value.replace(/^.*[\\\/]/, '');
-        }
-      }
-      reader.readAsDataURL(documentInput.files[0]);
+  try {
+    const file = documentInput.files[0];
+    // =========================
+    // VALIDASI SIZE
+    // =========================
+    if (file.size > 52428800) {
+      throw new Error("Maximum Document Size is 50 MB");
     }
+    // =========================
+    // BACA FILE
+    // =========================
+    const arrayBuffer = await file.arrayBuffer();
+    if (!arrayBuffer || arrayBuffer.byteLength === 0) {
+      throw new Error("File corrupt");
+    }
+
+    // =========================
+    // VALIDASI SIGNATURE
+    // =========================
+    const bytes = new Uint8Array(arrayBuffer.slice(0, 8));
+    const signature = Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
+    const extension = file.name.split('.').pop().toLowerCase();
+
+    let valid = false;
+
+    // PDF
+    if (extension === "pdf" && signature.startsWith("25504446")){
+        valid = true;
+    }
+    // XLSX / DOCX
+    else if (["xlsx", "docx"].includes(extension) && signature.startsWith("504b0304")){
+        valid = true;
+    }
+    // XLS / DOC lama
+    else if (["xls", "doc"].includes(extension) && signature.startsWith("d0cf11e0")) {
+        valid = true;
+    }
+
+    if (!valid) {
+      throw new Error(`File "${file.name}" corrupt or is not a valid document`);
+    }
+
+    // =========================
+    // BASE64
+    // =========================
+    const reader = new FileReader();
+    reader.onload = event => {
+      let base64Document = event.target.result;
+      this.data.DocumentsFile[index] = base64Document;
+      this.data.DocumentsFileName[index] = file.name;
+    };
+
+    reader.onerror = () => {
+      throw new Error(`Failed reading file ${file.name}`);
+    };
+
+    reader.readAsDataURL(file);
   }
+  catch (error) {
+    documentInput.value = "";
+    this.data.DocumentsFile[index] = "";
+    this.data.DocumentsFileName[index] = "";
+    alert(error.message);
+    console.error(error);
+  }
+}
 
   download() {
     var endpoint = 'ro-garments/download-template';
