@@ -91,7 +91,7 @@ export class DataForm {
     },
   };
 
-  CCTypeList = ["MOQ", "PRE-JOB", "OB", "TERIMA SUBCON","SUBCON KELUAR"];
+  CCTypeList = ["JOB ORDER", "SAMPLE", "TERIMA SUBCON","SUBCON KELUAR"];
 
   costCalculationGarment_MaterialsInfoUploads = {
     columns: [
@@ -1175,8 +1175,20 @@ async pushDataExcel(value) {
   this.error.CostCalculationGarment_Materials = [];
 
   const payload = value.map((row, index) => ({
-    IsAddPRMaster: row["PR MASTER"] != null && String(row["PR MASTER"]).trim() === "1",
-    isFabricCM: row["CMT"] != null && String(row["CMT"]).trim() === "1",
+    IsAddPRMaster: row["PR MASTER"] != null && (String(row["PR MASTER"]).trim() === "1" || 
+                                                String(row["PR MASTER"]).trim().toLowerCase() === "true" || 
+                                                String(row["PR MASTER"]).trim().toLowerCase() == "ya") ||
+                                                String(row["PR MASTER"]).trim().toLowerCase() === "yes" ||
+                                                String(row["PR MASTER"]).trim().toLowerCase() === "iya" ||
+                                                String(row["PR MASTER"]).trim().toLowerCase() === "benar" ||
+                                                String(row["PR MASTER"]).trim().toLowerCase() === "prmaster",
+    isFabricCM: row["CMT"] != null && (String(row["CMT"]).trim() === "1" ||
+                                       String(row["CMT"]).trim().toLowerCase() === "true" ||
+                                       String(row["CMT"]).trim().toLowerCase() == "ya") ||
+                                       String(row["CMT"]).trim().toLowerCase() === "yes" ||
+                                       String(row["CMT"]).trim().toLowerCase() === "iya" ||
+                                       String(row["CMT"]).trim().toLowerCase() === "benar" ||
+                                       String(row["CMT"]).trim().toLowerCase() === "cmt",
     KodeBarang: (row["Kode Barang"] || "").toString().trim(),
     SatuanBeli: (row["Satuan beli"] || "").toString().trim(),
     SatuanBarang: (row["Satuan Barang"] || "").toString().trim(),
