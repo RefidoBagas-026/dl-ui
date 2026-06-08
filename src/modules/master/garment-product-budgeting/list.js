@@ -14,6 +14,7 @@ export class List {
     // { field: "currency.code", title: "Mata Uang" },
     // { field: "price", title: "Harga Barang" },
     { field: "Tags", title: "Tags" },
+    { field: "HsCode", title: "Hs Code" },
   ];
 
   loader = (info) => {
