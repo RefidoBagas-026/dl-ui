@@ -16,6 +16,7 @@ export class List {
     { field: "Yarn", title: "Yarn" },
     { field: "Width", title: "Width" },
     { field: "UomUnit", title: "Satuan Default" },
+    { field: "HsCode", title: "Hs Code" },
   ];
 
   loader = (info) => {
