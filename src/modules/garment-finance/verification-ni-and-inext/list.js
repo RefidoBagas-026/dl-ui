@@ -2,6 +2,8 @@ import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { Base64Helper } from '../../../utils/base-64-coded-helper';
+import { ApprovalEnum } from './enum/approval-enum';
+import { ScanResultRemarkEnum } from './enum/scan-result-remark-enum';
 var moment = require("moment");
 
 @inject(Router, Service)
@@ -138,6 +140,13 @@ export class List {
 
   // Konfigurasi kolom tabel
   columns = [
+    {
+      field: "isPosting", title: "Post", checkbox: true, sortable: false,
+      formatter: function (value, data, index) {
+        this.checkboxEnabled = data.remarkEnum === ScanResultRemarkEnum.INVOICE_DATA_NOT_MATCH && data.approvalStatusEnum === ApprovalEnum.UNDEFINED;
+        return ""
+      }
+    },
     { field: 'index', title: 'No', formatter: (value, row, index) => index + 1, width: 80, align: 'center', sortable: false },
     { field: 'invoiceNo', title: 'Invoice', width: 150, align: 'left', sortable: true },
     { field: 'inNo', title: 'No NI', width: 150, align: 'left', sortable: true },
@@ -236,6 +245,28 @@ export class List {
     `;
 
     return html;
+  }
+
+  rowFormatter(data, index) {
+    if (data.approvalStatusEnum === ApprovalEnum.APPROVED)
+      return { classes: "success" }
+    else if (data.remarkEnum === ScanResultRemarkEnum.INVOICE_DATA_NOT_MATCH || data.approvalStatusEnum === ApprovalEnum.REJECTED)
+      return { classes: "danger" }
+    else if (data.approvalStatusEnum === ApprovalEnum.REQUESTED)
+      return { classes: "warning" }
+    else
+      return { classes: "" };
+  }
+
+  posting() {
+    if (this.dataToBePosted.length > 0) {
+      this.service.approvalSubmitRequest(this.dataToBePosted).then(result => {
+        this.dataToBePosted = [];
+        this.table.refresh();
+      }).catch(e => {
+        this.error = e;
+      })
+    }
   }
 
   // Function untuk create (tidak digunakan untuk saat ini)
