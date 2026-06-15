@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import { Base64Helper } from '../../../../utils/base-64-coded-helper';
 import { Service } from '../service';
 import { activationStrategy } from 'aurelia-router';
+import { ApprovalEnum } from '../enum/approval-enum';
 
 @inject(Router, Service)
 export class View {
@@ -81,6 +82,11 @@ export class View {
       return 'info';
     }
     return 'info';
+  }
+
+  @computedFrom("safeData.approvalStatusEnum")
+  get isRejected() {
+    return this.safeData.approvalStatusEnum === ApprovalEnum.REJECTED;
   }
 
   itemsInfoReadOnly = {
