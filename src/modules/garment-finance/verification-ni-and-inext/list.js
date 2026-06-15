@@ -114,6 +114,7 @@ export class List {
           item.inNo = item.inNo || 'N/A';
           item.supplierName = item.supplierName || 'N/A';
           item.totalAmountAfterTax = item.totalAmountAfterTax || 0;
+          item.approvalStatus = item.approvalStatusEnum === ApprovalEnum.UNDEFINED ? 'BELUM POSTING' : item.approvalStatus;
         });
         return {
           total: data.total,
@@ -182,6 +183,7 @@ export class List {
       }
     },
     { field: 'remark', title: 'Keterangan', width: 150, align: 'left', sortable: true },
+    { field: 'approvalStatus', title: 'Status Approval', width: 150, align: 'left', sortable: true },
     {
       field: 'actions',
       title: 'Aksi',
@@ -249,7 +251,7 @@ export class List {
   rowFormatter(data, index) {
     if (data.approvalStatusEnum === ApprovalEnum.APPROVED)
       return { classes: "success" }
-    else if (data.remarkEnum === ScanResultRemarkEnum.INVOICE_DATA_NOT_MATCH || data.approvalStatusEnum === ApprovalEnum.REJECTED)
+    else if (data.remarkEnum === ScanResultRemarkEnum.INVOICE_DATA_NOT_MATCH && data.approvalStatusEnum !== ApprovalEnum.REQUESTED)
       return { classes: "danger" }
     else if (data.approvalStatusEnum === ApprovalEnum.REQUESTED)
       return { classes: "warning" }

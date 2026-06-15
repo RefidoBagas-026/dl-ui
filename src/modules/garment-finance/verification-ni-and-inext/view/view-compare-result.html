@@ -73,5 +73,8 @@
 
     <au-textbox label="Keterangan" value.bind="data.description" options.bind="auInputOptions">
     </au-textbox>
+
+    <au-textbox label="Keterangan Reject" read-only="true" value.bind="data.approvalDescription" options.bind="auInputOptions" if.bind="isRejected">
+    </au-textbox>
   </au-input-form>
 </template>
