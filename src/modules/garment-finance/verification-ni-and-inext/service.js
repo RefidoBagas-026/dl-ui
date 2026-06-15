@@ -26,7 +26,7 @@ export class Service extends RestService {
      * @param {Object} info - Search parameters (keyword, page, size, order)
      */
     search(info) {
-        const endpoint = `${serviceUri}`;
+        const endpoint = `${serviceUri}/by-user`;
         return super.list(endpoint, info);
     }
 
@@ -42,6 +42,11 @@ export class Service extends RestService {
     replace(id, data) {
         var endpoint = `${serviceUri}/${id}`;
         return super.patch(endpoint, data);
+    }
+
+    approvalSubmitRequest(data) {
+        var endpoint = `${serviceUri}/approval-request`;
+        return super.put(endpoint, data);
     }
 
     getPdfById(id) {

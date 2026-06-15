@@ -45,7 +45,7 @@ module.exports = [
   //   }
   // },
   //====>dokumen intelegent AI <====//
-{
+  {
     route: "/garment-finance/verification-ni-and-po",
     name: "verification-ni-and-po",
     moduleId: "./modules/garment-finance/verification-ni-and-po/index",
@@ -60,7 +60,7 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
-{
+  {
     route: "/garment-finance/verification-ni-and-sj",
     name: "verification-ni-and-sj",
     moduleId: "./modules/garment-finance/verification-ni-and-sj/index",
@@ -88,7 +88,21 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
-{
+  {
+    route: "/garment-finance/verification-ni-and-inext-all",
+    name: "verification-ni-and-inext-all",
+    moduleId: "./modules/garment-finance/verification-ni-and-inext-all/index",
+    nav: true,
+    title: "Verifikasi NI dan Invoice External Garment All",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "ekspedisi ni",
+      permission: { "J55": 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  {
     route: '/garment-finance/garment-purchasing-expedition-report',
     name: 'garment-purchasing-expedition-report',
     moduleId: './modules/garment-finance/garment-purchasing-expedition-report/index',
@@ -331,7 +345,7 @@ module.exports = [
       group: "g-finance",
       subGroup: "report",
       // permission: { "B13": 1, "C9": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1 },
-      permission: { "J18": 1 },      
+      permission: { "J18": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -479,7 +493,7 @@ module.exports = [
       group: "g-finance",
       subGroup: "kas bank",
       //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
-      permission: {"J50":1},
+      permission: { "J50": 1 },
       iconClass: "fa fa-dashboard",
     }
   },
@@ -529,19 +543,19 @@ module.exports = [
     }
   },
   {
-      route: "garment-finance/local-sales-note-approval",
-      name: "garment-finance/local-sales-note-approval",
-      moduleId: "modules/garment-finance/local-sales-note-approval/index",
-      nav: true,
-      title: "Approval Penjualan Lokal",
-      auth: true,
-      settings: {
-          group: "g-finance",
-          subGroup: "approval",
-          // permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
-          permission: { "J40": 1 },
-          iconClass: "fa fa-dashboard"
-      }
+    route: "garment-finance/local-sales-note-approval",
+    name: "garment-finance/local-sales-note-approval",
+    moduleId: "modules/garment-finance/local-sales-note-approval/index",
+    nav: true,
+    title: "Approval Penjualan Lokal",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "approval",
+      // permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: { "J40": 1 },
+      iconClass: "fa fa-dashboard"
+    }
   },
   {
     route: "garment-finance/bank-cash/bank-cash-receipt-detail-locals",
@@ -610,13 +624,13 @@ module.exports = [
     nav: true,
     title: "Report Kartu Debitur Lokal",
     auth: true,
-      settings: {
-          group: "g-finance",
-          subGroup: "report kas bank",
-          // permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
-          permission: { "J34": 1 },
-          iconClass: "fa fa-dashboard"
-      }
+    settings: {
+      group: "g-finance",
+      subGroup: "report kas bank",
+      // permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: { "J34": 1 },
+      iconClass: "fa fa-dashboard"
+    }
   },
   {
     route: "garment-finance/report/local-bank-cash-receipt-monthly-recap",
