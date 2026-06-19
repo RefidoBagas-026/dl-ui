@@ -1063,6 +1063,20 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
+  {
+    route: "country",
+    name: "country",
+    moduleId: "./modules/master/country/index",
+    nav: true,
+    title: "Negara",
+    auth: true,
+    settings: {
+      group: "master",
+      // permission: { "*": 1 },
+      permission :{"B60":1},
+      iconClass: "fa fa-dashboard",
+    },
+  },
 
   
 ];
