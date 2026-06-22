@@ -33,6 +33,18 @@ export class List {
     }
   }
 
+  contextShowCallback(index, name, data) {
+    switch (name) {
+      case "Cetak PDF":
+        if (data.approvalStatusEnum === ApprovalEnum.REJECTED)
+          return false;
+        else
+          return true;
+      case "Rincian":
+        return true;
+    }
+  }
+
   // Lifecycle method untuk memastikan tabel ter-render dengan benar
   attached() {
     // Pastikan event handler lama dihapus agar tidak duplikat
