@@ -10,6 +10,7 @@
             page-size="25"
             context.bind="context"
             context-click.delegate="contextClickCallback($event)"
+            context-show.call="contextShowCallback(index, context, data)"
             options.bind="tableOptions"
             selectable.bind="true"
             selections.bind="dataToBePosted"
