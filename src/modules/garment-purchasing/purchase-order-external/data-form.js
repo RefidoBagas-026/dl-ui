@@ -22,6 +22,7 @@ export class DataForm {
     @bindable selectedVatTax;
     @bindable options = { isUseIncomeTax: false };
     keywords = ''
+    filterKeywords = ''
     @bindable kurs = {};
     @bindable IsApprovedManager;
     @bindable IsApprovedOther;
@@ -447,7 +448,7 @@ export class DataForm {
 
     async search() {
 
-        var result = await this.service.searchByTags(this.keywords, this.data.Category, this.context.shipmentDateFrom, this.context.shipmentDateTo);
+        var result = await this.service.searchByTags(this.keywords, this.data.Category, this.filterKeywords, this.context.shipmentDateFrom, this.context.shipmentDateTo);
         var items = [];
         var pr = [];
         var index = 0;
