@@ -126,6 +126,18 @@ export class List {
         }
     }
 
+    contextShowCallback(index, name, data) {
+        switch (name) {
+            case "Cetak PDF":
+                if (data.approvalStatusEnum === ApprovalEnum.REJECTED)
+                    return false;
+                else
+                    return true;
+            case "Rincian":
+                return true;
+        }
+    }
+
     attached() {
         this.detached();
 
