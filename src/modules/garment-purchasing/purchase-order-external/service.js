@@ -54,7 +54,7 @@ export class Service extends RestService {
         return super.getPdf(endpoint);
     }
 
-    searchByTags(keyword, category, shipmentDateFrom, shipmentDateTo) {
+    searchByTags(keyword, category, remark, shipmentDateFrom, shipmentDateTo) {
         var endpoint = 'garment-internal-purchase-orders/by-tags';
         var filter = {};
         if (keyword && shipmentDateFrom && shipmentDateTo) {
@@ -62,14 +62,16 @@ export class Service extends RestService {
                 category: category,
                 shipmentDateFrom: moment(shipmentDateFrom).format("YYYY-MM-DD"),
                 shipmentDateTo: moment(shipmentDateTo).format("YYYY-MM-DD"),
-                tags: keyword
+                tags: keyword,
+                remark: remark
             };
             return super.list(endpoint, filter);
         }
         else if (keyword) {
             filter = {
                 category: category,
-                tags: keyword
+                tags: keyword,
+                remark: remark
             };
             return super.list(endpoint, filter);
         } else if (shipmentDateFrom && shipmentDateTo) {
@@ -77,10 +79,11 @@ export class Service extends RestService {
                 category: category,
                 shipmentDateFrom: moment(shipmentDateFrom).format("YYYY-MM-DD"),
                 shipmentDateTo: moment(shipmentDateTo).format("YYYY-MM-DD"),
+                remark: remark
             };
             return super.list(endpoint, filter);
         } else {
-            filter = { category: category };
+            filter = { category: category, remark: remark };
             return super.list(endpoint,filter);
         }
     }
