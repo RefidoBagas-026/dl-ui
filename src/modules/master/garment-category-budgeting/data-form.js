@@ -13,7 +13,7 @@ export class DataForm {
     editText: "Ubah",
   }
 
- CodeRequirements = ['BB', 'BP', 'BE']
+ CodeRequirements = ['BB', 'BP', 'BE', 'PRC']
  CategoryTypes = ['FABRIC', 'NON FABRIC']
 
   @computedFrom("data._id")
