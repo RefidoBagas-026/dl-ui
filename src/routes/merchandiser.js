@@ -129,7 +129,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-by-user',
         name: 'cost-calculation-by-user',
-        moduleId: './modules/merchandiser/cost-calculation-newNoSC/index',
+        moduleId: './modules/merchandiser/cost-calculation/index',
         nav: true,
         title: 'Cost Calculation Export Garment',
         auth: true,
