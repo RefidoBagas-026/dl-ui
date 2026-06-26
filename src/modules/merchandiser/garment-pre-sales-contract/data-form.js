@@ -65,6 +65,7 @@ export class DataForm {
     }
 
     buyerAgentChanged(newValue) {
+        this.context.dataBuyerBrandViewModel.editorValue = "";
         var selectedBuyerAgent = newValue;
         if(selectedBuyerAgent){
             this.data.BuyerAgentId = selectedBuyerAgent.Id;
