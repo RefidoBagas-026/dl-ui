@@ -207,23 +207,31 @@
 
         <hr />
         <div class="form-group" show.bind="!readOnly && data.Currency && !isEdit">
-            <div class="col-sm-3">
-                <au-textbox value.bind="keywords" placeholder="#nama unit #nama buyer #kategori (harus berurutan)">
-                </au-textbox>
-            </div>
-            <div class="col-sm-7">
+            <div class="row">
                 <div class="col-sm-3">
-                    <au-textbox value.bind="label" read-only.bind="true"> </au-textbox>
+                    <au-textbox value.bind="keywords" placeholder="#nama unit #nama buyer #kategori (harus berurutan)">
+                    </au-textbox>
+                </div>
+                <div class="col-sm-3">
+                    <au-textbox value.bind="filterKeywords" placeholder="keterangan">
+                    </au-textbox>
                 </div>
                 <div class="col-sm-4">
-                    <au-datepicker value.bind="shipmentDateFrom"></au-datepicker>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <au-textbox value.bind="label" read-only.bind="true"> </au-textbox>
+                        </div>
+                        <div class="col-sm-4">
+                            <au-datepicker value.bind="shipmentDateFrom"></au-datepicker>
+                        </div>
+                        <div class="col-sm-4">
+                            <au-datepicker value.bind="shipmentDateTo"></au-datepicker>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <au-datepicker value.bind="shipmentDateTo"></au-datepicker>
+                <div class="col-sm-2">
+                    <button class="btn btn-success" click.delegate="search()">Cari</button>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <button class="btn btn-success" click.delegate="search()">Cari</button>
             </div>
         </div>
 
