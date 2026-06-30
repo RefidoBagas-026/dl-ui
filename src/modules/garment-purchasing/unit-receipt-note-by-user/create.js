@@ -7,6 +7,7 @@ import { activationStrategy } from 'aurelia-router';
 export class Create {
     hasCancel = true;
     hasSave = true;
+    isSaving = false;
     constructor(router, service) {
         this.router = router;
         this.service = service;
@@ -16,6 +17,7 @@ export class Create {
     bind() {
         this.data = { Items: [] };
         this.error = {};
+        this.isSaving = false;
     }
 
     cancel(event) {
@@ -28,6 +30,9 @@ export class Create {
     }
 
     save() {
+        if (this.isSaving) return;
+        this.isSaving = true;
+
         this.data.ReceiptDate = new Date(new Date().setHours(0, 0, 0, 0));
         if(this.data.URNType=="PROSES"){
             this.data.Items=[];
@@ -53,6 +58,7 @@ export class Create {
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
+                this.isSaving = false;
                 if (e.statusCode === 500) {
                     alert("Gagal menyimpan, silakan coba lagi!");
                 } else {
