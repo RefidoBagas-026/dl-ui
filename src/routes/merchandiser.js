@@ -49,7 +49,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-purchase-request-master-by-user',
         name: 'purchase-request-master-by-user',
-        moduleId: './modules/merchandiser/garment-purchase-request-master-newNoSC/index',
+        moduleId: './modules/merchandiser/garment-purchase-request-master/index',
         nav: true,
         title: 'PR Master',
         auth: true,
@@ -65,7 +65,7 @@ module.exports = [
     {
         route: '/merchandiser/garment-purchase-request-master',
         name: 'purchase-request-master',
-        moduleId: './modules/merchandiser/garment-purchase-request-master-newNoSC/index',
+        moduleId: './modules/merchandiser/garment-purchase-request-master/index',
         nav: true,
         title: 'PR Master (Semua User)',
         auth: true,

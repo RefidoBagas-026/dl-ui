@@ -1,4 +1,4 @@
-import { inject, Lazy } from "aurelia-framework";
+import { bindable, inject, Lazy } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { Service } from "./service";
 import { Dialog } from "../../../au-components/dialog/dialog";
@@ -68,6 +68,35 @@ export class View {
   get isDollar() {
     return this.data.Rate.Id !== 0;
   }
+  @bindable TotalCOGM;
+  @bindable GrossProfit;
+  @bindable GrossProfitPercentage;
+  @bindable NonOperatingExpenses;
+  @bindable NonOperatingExpensesPercentage;
+  @bindable GeneralAdminExpenses;
+  @bindable GeneralAdminExpensesPercentage;
+  @bindable SellingExpense;
+  @bindable SellingExpensePercentage;
+  @bindable TotalBOM;
+  @bindable Risk;
+  @bindable RiskPercentage;
+  @bindable BeaAngkut;
+  @bindable BeaAngkutValue;
+  @bindable SubTotal;
+  @bindable ConfirmPrice;
+  @bindable Komisi;
+  @bindable KomisiPercentage;
+  @bindable NetProfit;
+  @bindable NetProfitPercentage;
+
+  @bindable FreightValue;
+  @bindable InsuranceValue;
+  @bindable ConfirmPriceValue;
+  @bindable SMVCutValue;
+  @bindable SMVSewValue;
+  @bindable SMVFinValue;
+  @bindable SMVTotalValue;
+
 
   async activate(params, routeConfig, navigationInstruction) {
     const instruction = navigationInstruction.getAllInstructions()[0];
@@ -78,7 +107,6 @@ export class View {
     let decoded = Base64Helper.decode(id);
     id = decoded;
     this.data = await this.service.getById(id);
-
     if(this.data.ApprovalMD.IsApproved || this.data.SCGarmentId)
     {
       this.editCallback=null;
@@ -98,10 +126,10 @@ export class View {
     this.data.Total = total;
     var _confirmPrice= this.data.ConfirmPrice;
     var _insurance=this.data.Insurance;
-    this.data.AfterOTL1 = this.data.Total + this.data.OTL1.CalculatedValue;
-    this.data.AfterOTL2 = this.data.AfterOTL1 + this.data.OTL2.CalculatedValue;
-    this.data.AfterRisk = (100 + this.data.Risk) * this.data.AfterOTL2 / 100;
-    this.data.AfterFreightCost = this.data.AfterRisk + this.data.FreightCost;
+    // this.data.AfterOTL1 = this.data.Total + this.data.OTL1.CalculatedValue;
+    // this.data.AfterOTL2 = this.data.AfterOTL1 + this.data.OTL2.CalculatedValue;
+    // this.data.AfterRisk = (100 + this.data.Risk) * this.data.AfterOTL2 / 100;
+    // this.data.AfterFreightCost = this.data.AfterRisk + this.data.FreightCost;
     this.data.ConfirmPriceWithRate =
       this.data.ConfirmPrice * this.data.Rate.Value;
       this.data.ConfirmPriceWithRate=this.data.ConfirmPriceWithRate.toLocaleString('en-EN', { minimumFractionDigits: 4});
@@ -130,14 +158,14 @@ export class View {
     {
       FOB_Price=0;
     }
-    this.data.ConfirmPrice = this.isDollar
+    this.ConfirmPriceValue = this.isDollar
       ? US + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4})//numeral(this.data.ConfirmPrice).format()
       : RP + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4});
     this.data.FOB_Price = this.isDollar
       ? US + numeral(FOB_Price).format()
       : RP + numeral(FOB_Price).format();
     this.data.CMT_Price =
-      CM_Price > 0 ? this.data.ConfirmPrice : numeral(0).format();
+      CM_Price > 0 ? this.ConfirmPriceValue : numeral(0).format();
     this.data.CNF_Price = this.isDollar
       ? US + numeral(( CNF_Price +this.data.Freight)).format()
       : RP + numeral(0).format();
@@ -153,19 +181,19 @@ export class View {
       }
     ];
    
-    this.data.Freight = this.isDollar
+    this.FreightValue = this.isDollar
       ? US + numeral(this.data.Freight).format()
       : RP + numeral(this.data.Freight).format();
-    this.data.Insurance = this.isDollar
+    this.InsuranceValue = this.isDollar
       ? US + numeral(this.data.Insurance).format()
       : RP + numeral(this.data.Insurance).format();
-    this.data.SMV_Cutting = numeral(this.data.SMV_Cutting).format();
-    this.data.SMV_Sewing = numeral(this.data.SMV_Sewing).format();
-    this.data.SMV_Finishing = numeral(this.data.SMV_Finishing).format();
-    this.data.SMV_Total = numeral(this.data.SMV_Total).format();
+    this.SMVCutValue = numeral(this.data.SMV_Cutting).format();
+    this.SMVSewValue = numeral(this.data.SMV_Sewing).format();
+    this.SMVFinValue = numeral(this.data.SMV_Finishing).format();
+    this.SMVTotalValue = numeral(this.data.SMV_Total).format();
 
     this.data.LeadTime = `${this.data.LeadTime} hari`
-    this.data.ConfirmPrice=(this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4}));
+    
 
     this.data.BookingOrderId =this.data.BookingOrderId;
     this.data.BookingOrderItemId = this.data.BookingOrderItemId;
@@ -190,6 +218,38 @@ export class View {
       this.deleteCallback = null;
       this.hasUnpost = false; 
     }
+
+    this.TotalCOGM = this.data.Total;
+    this.GrossProfit = this.data.ConfirmPrice - this.data.Total;
+    this.GrossProfitPercentage = (this.GrossProfit / this.data.ConfirmPrice) * 100;
+
+    this.NonOperatingExpenses = this.data.NonOperatingExpense * this.data.SMV_Total;
+    this.NonOperatingExpensesPercentage = (this.NonOperatingExpenses / this.data.ConfirmPrice) * 100;
+
+    this.GeneralAdminExpenses = this.data.GeneralAdminExpense * this.data.SMV_Total;
+    console.log(this.GeneralAdminExpenses);
+    this.GeneralAdminExpensesPercentage = (this.GeneralAdminExpenses / this.data.ConfirmPrice) * 100;
+
+    this.SellingExpense = this.data.SellingExpense * this.data.SMV_Total;
+    this.SellingExpensePercentage = (this.SellingExpense / this.data.ConfirmPrice) * 100;
+
+    this.TotalBOM = this.data.Total + this.NonOperatingExpenses + this.GeneralAdminExpenses + this.SellingExpense;
+
+    this.Risk = this.TotalBOM + (this.TotalBOM * this.data.Risk / 100);
+    this.RiskPercentage = this.data.Risk;
+
+    this.BeaAngkut = this.data.FreightCost + this.Risk;
+    this.BeaAngkutValue = this.data.FreightCost;
+
+    this.SubTotal = this.BeaAngkut;
+    this.ConfirmPrice = this.data.ConfirmPrice;
+    
+
+    this.Komisi = this.data.ConfirmPrice * this.data.CommissionPortion / 100;
+    this.KomisiPercentage = this.data.CommissionPortion;
+
+    this.NetProfit = (this.ConfirmPrice - this.Komisi) - this.SubTotal;
+    this.NetProfitPercentage = (this.NetProfit / this.ConfirmPrice) * 100;
   }
 
   async bind(context) {

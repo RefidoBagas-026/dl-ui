@@ -34,6 +34,15 @@ export class CostCalculationMaterial {
     @bindable isEdit = false;
     @bindable isCopy = false;
     @bindable fabricCM;
+    @bindable selectedUOMPrice;
+    @bindable selectedUOMQuantity;
+    @bindable productCode = "";
+    @bindable selectedComposition;
+    @bindable selectedConstruction;
+    @bindable selectedYarn;
+    @bindable selectedCategory;
+    @bindable selectedWidth;
+    
     activate(context) {
         this.context = context;
         this.data = context.data;
@@ -44,57 +53,45 @@ export class CostCalculationMaterial {
         this.isCopy = this.context.context.options.IsCopyCC || false;
         this.data.showDialog = this.data.showDialog === undefined ? (this.data.Category === undefined ? true : false) : (this.data.showDialog === true ? true : false);
         this.data.isFabricCM = this.data.isFabricCM ? this.data.isFabricCM : false;
-        this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
+        this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toString().trim().toUpperCase() : "";
         if (this.data.Category) {
             this.selectedCategory = this.data.Category;
-            this.categoryIsExist = this.categoryNames == "FABRIC" ? true : false;
-
-            if (this.categoryNames == 'PROCESS') {
-                this.isProcess = true;
-                    if (this.data.CCType != "SUBCON KELUAR")
-                        this.data.Price = this.calculateProcessPrice();
-                    else if (this.data.CCType == "SUBCON KELUAR") {
-                        this.data.Price = this.calculateProcessPriceSubconOut();
-                    };
+            if(this.data.CCType != "SUBCON KELUAR"){
+                if (this.categoryNames == 'PROCESS') {
+                    this.data.Price = this.calculateProcessPrice();
+                }else if (this.categoryNames == 'PROCESS SEWING') {
+                    this.data.Price = this.calculateProcessPriceSewing();
+                }else if (this.categoryNames == 'PROCESS CUTTING') {
+                    this.data.Price = this.calculateProcessPriceCutting();
+                }else if (this.categoryNames == 'PROCESS FINISHING') {
+                    this.data.Price = this.calculateProcessPriceFinishing();
+                }
+            }else if(this.data.CCType == "SUBCON KELUAR" && this.categoryNames == 'PROCESS'){
+                this.data.Price = this.calculateProcessPriceSubconOut();
             }
         }
 
         if (this.data.Product) {
-            if(this.isEdit || this.isCopy){
-                if (this.data.Product.Code) {
                 this.productCode = this.data.Product.Code;
-                this.productCodeIsExist = true;
-            }}
-            else{
-                this.productCode = this.data.Product.Code;
-                if (this.data.Product.Code && this.data.Product.Name) {
-                    this.productCodeIsExist = true;
-                }
-            }
-            
-            
             if (this.data.Product.Composition) {
-                this.data.Product.Composition = this.data.Product.Composition;
-                this.compositionIsExist = this.categoryNames == "FABRIC" ? true : false;
                 this.selectedComposition = Object.assign({}, this.data.Product);
             }
-
-           
             if (this.data.Product.Const) {
-                this.data.Product.Const=(this.data.Product.Const);
-                this.constructionIsExist = this.categoryNames == "FABRIC" ? true : false;
                 this.selectedConstruction = Object.assign({}, this.data.Product);
-
             }
-
             if (this.data.Product.Yarn) {
-                this.yarnIsExist = this.categoryNames == "FABRIC" ? true : false;
                 this.selectedYarn = Object.assign({}, this.data.Product);
             }
-
             if (this.data.Product.Width) {
                 this.selectedWidth = Object.assign({}, this.data.Product);
             }
+        }
+
+        if(this.data.UOMPrice){
+            this.selectedUOMPrice = this.data.UOMPrice.Unit;
+        }
+        if(this.data.UOMQuantity){
+            this.selectedUOMQuantity = this.data.UOMQuantity.Unit;
         }
 
         if(this.data.Id || this.data.isCopy)
@@ -114,57 +111,31 @@ export class CostCalculationMaterial {
 
     }
 
-    @bindable selectedCategory;
-    @bindable categoryIsExist = false;
-    async selectedCategoryChanged(newVal, oldVal) {
-        this.data.Category = newVal;
-        if (newVal) {
-            this.selectedComposition = null;
-            this.data.Description = "";
-            this.data.ProductRemark = null;
-            this.data.Quantity = 0;
-            this.data.UOMQuantity = null;
-            this.data.Price = 0;
-            this.data.UOMPrice = null;
-            this.data.Conversion = 0;
-            this.data.ShippingFeePortion = 0;
-            this.productCode = "";
 
-            this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
 
-            if (this.categoryNames === "FABRIC") {
-                this.categoryIsExist = true;
-                this.data.showDialog = false;
-            } else if (this.categoryNames === "PROCESS" || this.categoryNames === "PROCESS SUBCON") {
-                this.data.Product = await this.serviceCore.getByName(newVal.Name);
-                let UOM = await this.serviceCore.getUomByUnit("PCS");
-                this.data.UOMQuantity = UOM;
-                this.data.UOMPrice = UOM;
-                this.isProcess = true;
-                this.data.Quantity = 1;
-                this.data.Conversion = 1;
-                this.categoryIsExist = false;
-                this.productCode = this.data.Product ? this.data.Product.Code : "";
-                if (this.data.CCType != "SUBCON KELUAR" && this.categoryNames === "PROCESS") {
-                    this.data.Price = this.calculateProcessPrice(); 
-                } else if(this.data.CCType == "SUBCON KELUAR" && this.categoryNames === "PROCESS") {
-                    this.data.Price = this.calculateProcessPriceSubconOut();
-                } else if (this.categoryNames === "PROCESS SUBCON") {
-                    this.isProcess = false;
-                }
-                
-            } else {
-                this.categoryIsExist = false;
-                this.data.Product = await this.serviceCore.getByName(newVal.Name);
-                this.productCode = this.data.Product ? this.data.Product.Code : "";
-            }
-        } else if (!newVal) {
-            this.selectedComposition = null;
-            this.categoryIsExist = false;
-        }
-         
+    //SEMENTARA RUMUS PERHITUNGAN DIPISAHKAN BY TYPE PROCESS NYA
+    calculateProcessPriceCutting() {
+        let CuttingFee = this.data.Wage.Value * this.data.SMV_Cutting * (100 / 70);
+        console.log("CuttingFee", CuttingFee);
+        let THR = this.data.THR.Value * this.data.SMV_Cutting;
+        let result = CuttingFee + THR;
+        return numeral(numeral(result).format(rateNumberFormat)).value();
+    }
+    calculateProcessPriceSewing() {
+        let SewingFee = this.data.Wage.Value * this.data.SMV_Sewing * (100 / this.data.Efficiency.Value);
+        console.log("SewingFee", SewingFee);
+        let THR = this.data.THR.Value * this.data.SMV_Sewing;
+        let result = SewingFee + THR;
+        return numeral(numeral(result).format(rateNumberFormat)).value();
+    }
+    calculateProcessPriceFinishing() {
+        let FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
+        let THR = this.data.THR.Value * this.data.SMV_Finishing;
+        let result = FinishingFee + THR;
+        return numeral(numeral(result).format(rateNumberFormat)).value();
     }
 
+    
     calculateProcessPrice() {
         let CuttingFee = this.data.Wage.Value * this.data.SMV_Cutting * (100 / 70);
         let SewingFee = this.data.Wage.Value * this.data.SMV_Sewing * (100 / this.data.Efficiency.Value);
@@ -196,268 +167,7 @@ export class CostCalculationMaterial {
         return numeral(numeral(result).format(rateNumberFormat)).value();
     }
 
-
-    @bindable selectedComposition;
-    filterProductQuery = {};
-    compositionIsExist = false;
-    selectedCompositionChanged(newVal, oldVal) {
-        if (newVal) {
-            this.selectedConstruction = null;
-            this.compositionIsExist = true;
-            this.filterProductQuery = newVal.Composition;
-        } else if (!newVal) {
-            this.selectedConstruction = null;
-            this.compositionIsExist = false;
-        }
-    }
-
-    @bindable selectedConstruction;
-    constructionIsExist = false;
-    selectedConstructionChanged(newVal, oldVal) {
-        if (newVal) {
-            this.selectedYarn = null;
-            this.constructionIsExist = true;
-            this.filterProductQuery=newVal.Const;
-        } else if (!newVal) {
-            this.selectedYarn = null;
-            this.constructionIsExist = false;
-        }
-    }
-
-    @bindable selectedYarn;
-    yarnIsExist = false;
-    selectedYarnChanged(newVal, oldVal) {
-        if (newVal) {
-            this.yarnIsExist = true;
-            this.selectedWidth = null;
-            this.filterProductQuery=(newVal.Yarn);
-        } else if (!newVal) {
-            this.selectedWidth = null;
-            this.yarnIsExist = false;
-        }
-    }
-
-    @bindable productCode = "";
-    productCodeIsExist = false;
-    productCodeChanged(newVal, oldVal) {
-        if (newVal) {
-            this.productCodeIsExist = true;
-        } else {
-            this.productCodeIsExist = false;
-        }
-    }
-
-    @bindable selectedWidth;
-    selectedWidthChanged(newVal, oldVal) {
-        this.data.Product = newVal;
-        if (newVal) {
-            // this.
-            this.productCode = newVal.Code;
-            this.data.Product.Width = newVal.Width;
-            this.filterProductQuery=(newVal.Width);
-
-            
-            if (this.selectedComposition.Composition) {
-                this.data.Product.Composition = this.selectedComposition.Composition;
-            }
-
-            if (this.selectedConstruction.Const.length > 0) {
-                this.data.Product.Const = this.selectedConstruction.Const;
-                this.data.Product.Yarn = this.selectedYarn.Yarn;
-                this.data.Product.Width = this.selectedWidth.Width;
-                 
-            }
-
-        } else if (!newVal) {
-            this.productCode = "";
-            this.data.Product = null;
-        }
-    }
-    comodityView = (comodity) => {
-        return`${comodity.Code} - ${comodity.Name}`
-      }
-    
-    get garmentCategoryLoader() {
-        return GarmentCategoryLoader;
-    }
-    get garmentProductConstLoader() {
-            return (keyword) => {
-                var filter = "";
-                this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-
-                if (this.selectedCategory && this.selectedCategory.Name) {
-                    if (this.selectedComposition && this.selectedComposition.Composition) {
-                        if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
-                            if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.Yarn.length > 0) {
-                                filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
-                            } else {
-                                filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
-                            }
-                        } else {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition });
-                        }
-                    } else {
-                        if (this.categoryNames == 'FABRIC') {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name })
-                        }
-                    }
-                }
-    
-                return this.service.getGarmentProductConsts(keyword, filter)
-                    .then((result) => {
-                       return result;
-                    });
-            }
-      
-    }
-    get garmentProductYarnLoader() {
-        
-        return (keyword) => {
-            var filter = "";
-                this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-            if (this.selectedCategory && this.selectedCategory.Name) {
-                if (this.selectedComposition && this.selectedComposition.Composition) {
-                    if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
-                        if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.Yarn.length > 0) {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
-                        } else {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
-                        }
-                    } else {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition });
-                    }
-                } else {
-                    if (this.categoryNames == 'FABRIC') {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name })
-                    }
-                }
-            }
-
-            return this.service.getGarmentProductYarns(keyword, filter)
-                .then((result) => {
-                   return result;
-                });
-        }
-  
-}
-get garmentProductWidthLoader() {
-        
-    return (keyword) => {
-        var filter = "";
-               this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-        if (this.selectedCategory && this.selectedCategory.Name) {
-            if (this.selectedComposition && this.selectedComposition.Composition) {
-                if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
-                    if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.Yarn.length > 0) {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
-                    } else {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
-                    }
-                } else {
-                    filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition });
-                }
-            } else {
-                if (this.categoryNames == 'FABRIC') {
-                    filter = JSON.stringify({ "Name": this.selectedCategory.Name })
-                }
-            }
-        }
-
-        return this.service.getGarmentProductWidths(keyword, filter)
-            .then((result) => {
-               return result;
-            });
-    }
-
-}
-    getWidthText = (product) => {
-        return product ? `${product.Width}` : '';
-    }
-
-    getYarnText = (product) => {
-        return product ? `${product.Yarn}` : '';
-    }
-
-    getConstructionText = (product) => {
-        return product ? `${product.Const}` : '';
-    }
-
-    async getGarmentByFilter() {
-        return await this.garmentProductLoader('', this.filterProductQuery);
-    }
-
-    get garmentProductLoader() {
-        return (keyword) => {
-            var filter = "";
-
-            this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-
-            if (this.selectedCategory && this.selectedCategory.Name) {
-                if (this.selectedComposition && this.selectedComposition.Composition) {
-                    if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
-                        if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.Yarn.length > 0) {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
-                        } else {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
-                        }
-                    } else {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition });
-                    }
-                } else {
-                    if (this.categoryNames == 'FABRIC') {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name })
-                    }
-                }
-            }
-
-            return this.service.getGarmentProducts(keyword, filter)
-                .then((result) => {
-                    return result;
-                });
-        }
-    }
-
-    get garmentProductDistinctDescriptionLoader() {
-        return (keyword) => {
-            var filter = "";
-            this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-
-            if (this.selectedCategory && this.selectedCategory.Name) {
-                if (this.selectedComposition && this.selectedComposition.Composition) {
-                    if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
-                        if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.properties.Yarn > 0) {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
-                        } else {
-                            filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
-                        }
-                    } else {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name, "Composition": this.selectedComposition.Composition });
-                    }
-                } else {
-                    if (this.categoryNames == 'FABRIC') {
-                        filter = JSON.stringify({ "Name": this.selectedCategory.Name })
-                    }
-                }
-            }
-
-            return this.service.getGarmentProductsDistinctDescription(keyword, filter)
-                .then((result) => {
-                    return result;
-                  
-                });
-        }
-    }
-
-    get uomLoader() {
-        return UomLoader;
-    }
-
- 
-uomView =(uom)=>{
-    return uom?`${uom.Unit}` : "";
-}
-
-    @computedFrom('data.Quantity', 'data.Price', 'data.Conversion', 'data.isFabricCM')
+    @computedFrom('data.Quantity', 'data.Price', 'data.Conversion', 'data.isFabricCM', 'data.CCType', 'data.Category', 'data.Category.Name', 'data.Category.name')
     get total() {
         let total = 0;
         this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
@@ -506,7 +216,7 @@ uomView =(uom)=>{
         return totalShippingFee;
     }
 
-    @computedFrom('data.Category', 'data.Quantity', 'data.Conversion', 'data.QuantityOrder', 'data.FabricAllowance', 'data.AccessoriesAllowance')
+    @computedFrom('data.Category', 'data.Category.Name', 'data.Category.name', 'data.Quantity', 'data.Conversion', 'data.QuantityOrder', 'data.FabricAllowance', 'data.AccessoriesAllowance')
     get budgetQuantity() {
         let allowance = 0;
         this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
@@ -548,17 +258,8 @@ uomView =(uom)=>{
                     this.data.Product = result.Product;
                     this.productCode = this.data.Product ? this.data.Product.Code : "";
                     this.data.Description = result.Description;
-
-                    // this.data.ProductRemark = null;
-                    // this.data.Quantity = 0;
-                    // this.data.UOMQuantity = null;
                     this.data.Price = result.BudgetPrice;
                     this.data.UOMPrice = result.PriceUom;
-                    // this.data.Conversion = 0;
-                    // // this.total = 0;
-                    // this.data.ShippingFeePortion = 0;
-                    // this.totalShippingFee = 0;
-                    // this.budgetQuantity = 0;
                     this.data.AvailableQuantity = result.AvailableQuantity;
                     this.data.isFabricCM = result.IsCMT;
                     if(this.data.isFabricCM){
@@ -574,17 +275,6 @@ uomView =(uom)=>{
                                 this.data.Category = category;
                             }
                             this.data.showDialog = false;
-                            // if (this.categoryNames === "FABRIC") {
-                            //     this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
-                            //         .then(response => {
-                            //             if (response == "ok") {
-                            //                 this.data.isFabricCM = true;
-                            //             } else {
-                            //                 this.data.isFabricCM = false;
-                            //             }
-                            //             this.data.showDialog = false;
-                            //         });
-                            // }
                         });
                 }
             });
