@@ -18,9 +18,10 @@ export class DataForm {
     }
     tarifOptions = [
             { text: "-- Pilih Tarif --", value: "" },
-            { text: "Beban Penjualan", value: "Beban Penjualan" },
-            { text: "Beban Umum dan Administrasi", value: "Beban Umum dan Administrasi" },
-            { text: "Beban (Pendapatan) Diluar Usaha", value: "Beban (Pendapatan) Diluar Usaha" },
+            { text: "Beban Penjualan", value: {Name : "Beban Penjualan", Code : "BP" } },
+            { text: "Beban Umum dan Administrasi", value: {Name : "Beban Umum dan Administrasi", Code : "BUA" } },
+            { text: "Beban (Pendapatan) Diluar Usaha", value: {Name : "Beban (Pendapatan) Diluar Usaha", Code : "BPU" } },
+            { text: "OTL", value: {Name : "OTL", Code : "OTL" } },
         ];
     controlOptions = {
         label: {
@@ -39,10 +40,10 @@ export class DataForm {
             var name = this.data.Name || "";
 
             var match = this.tarifOptions.find(function (option) {
-                return option.value === name;
+                return option.value.Name === name;
             });
 
-            this.selectedTarif = match ? match.value : null;
+            this.selectedTarif = match ? match.value.Name : null;
 
             console.log(this.selectedTarif);
         } else {
@@ -52,9 +53,11 @@ export class DataForm {
 
     selectedTarifChanged(newValue, oldValue) {
         if (newValue) {
-            this.data.Name = newValue.value;
+            this.data.Name = newValue.value.Name;
+            this.data.Code = newValue.value.Code;
         } else {
             this.data.Name = "";
+            this.data.Code = "";
         }
     }
 }
