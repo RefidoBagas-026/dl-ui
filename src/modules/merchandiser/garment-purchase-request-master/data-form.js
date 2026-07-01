@@ -24,7 +24,7 @@ export class DataForm {
     },
   };
 
-  prTypes = ["MASTER", "SAMPLE", "SUBCON", "TERIMA SUBCON"];
+  prTypes = ["MOQ","PRE-JOB","OB","SAMPLE", "SUBCON", "TERIMA SUBCON"];
 
   formOptions = {
     cancelText: "Kembali",
@@ -43,7 +43,7 @@ export class DataForm {
     if (this.data.PRType == "SAMPLE") {
       filter.IsPR = false;
       filter.SCType = "SAMPLE";
-    } else if (this.data.PRType == "MASTER") {
+    } else if (this.data.PRType == "MOQ" || this.data.PRType == "PRE-JOB" || this.data.PRType == "OB") {
       filter.SCType = "JOB ORDER";
     } else if (this.data.PRType == "SUBCON") {
       let filterSubcon = {

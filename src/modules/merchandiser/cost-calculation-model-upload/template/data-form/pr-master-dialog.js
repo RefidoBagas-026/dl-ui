@@ -179,7 +179,7 @@ export class PRMasterDialog {
         this.filter = {};
         this.filter["GarmentPurchaseRequest.PRType == \"MOQ\" || GarmentPurchaseRequest.PRType == \"PRE-JOB\" || GarmentPurchaseRequest.PRType == \"OB\" || GarmentPurchaseRequest.PRType == \"SAMPLE\""] = true;
         this.filter[`CategoryName == "${params.CategoryName}" && ProductCode == "${params.ProductCode}"`] = true;
-        this.filter[`GarmentPurchaseRequest.BuyerCode == "${params.BuyerCode}" && GarmentPurchaseRequest.SectionName == "${params.SectionName}" || IsApprovedOpenPOKadivMd`] = true;
+        this.filter[`GarmentPurchaseRequest.BuyerCode == "${params.BuyerCode}" || IsApprovedOpenPOKadivMd`] = true;
         this.filter["GarmentPurchaseRequest.IsValidatedMD2"] = true;
     }
 
