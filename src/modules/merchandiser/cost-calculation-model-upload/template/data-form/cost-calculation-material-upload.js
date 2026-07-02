@@ -115,22 +115,20 @@ export class CostCalculationMaterial {
 
     //SEMENTARA RUMUS PERHITUNGAN DIPISAHKAN BY TYPE PROCESS NYA
     calculateProcessPriceCutting() {
-        let CuttingFee = this.data.Wage.Value * this.data.SMV_Cutting * (100 / 70);
-        console.log("CuttingFee", CuttingFee);
-        let THR = this.data.THR.Value * this.data.SMV_Cutting;
+        let CuttingFee = this.data.Wage.Value * (100 / 70);
+        let THR = this.data.THR.Value;
         let result = CuttingFee + THR;
         return numeral(numeral(result).format(rateNumberFormat)).value();
     }
     calculateProcessPriceSewing() {
-        let SewingFee = this.data.Wage.Value * this.data.SMV_Sewing * (100 / this.data.Efficiency.Value);
-        console.log("SewingFee", SewingFee);
-        let THR = this.data.THR.Value * this.data.SMV_Sewing;
+        let SewingFee = this.data.Wage.Value * (100 / this.data.Efficiency.Value);
+        let THR = this.data.THR.Value;
         let result = SewingFee + THR;
         return numeral(numeral(result).format(rateNumberFormat)).value();
     }
     calculateProcessPriceFinishing() {
-        let FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
-        let THR = this.data.THR.Value * this.data.SMV_Finishing;
+        let FinishingFee = this.data.Wage.Value * (100 / 92);
+        let THR = this.data.THR.Value;
         let result = FinishingFee + THR;
         return numeral(numeral(result).format(rateNumberFormat)).value();
     }
@@ -240,8 +238,8 @@ export class CostCalculationMaterial {
         var productCategory = this.data.Category ? this.data.Category.Name : null;
         var productCode = this.data.Product ? this.data.Product.Code : null;
         this.dialog.show(PRMasterDialog, { CCId: this.context.context.options.CCId || 0, 
-            BuyerCode: this.context.context.options.BuyerCode || null, 
-            SectionName: this.context.context.options.SectionName || null, 
+            BuyerCode: this.context.context.options.BuyerCode || null,
+            IsCMT: this.data.isFabricCM || false,  
             CategoryName: productCategory, 
             ProductCode: productCode })
             .then(response => {

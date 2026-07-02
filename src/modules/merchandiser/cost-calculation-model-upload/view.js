@@ -36,6 +36,7 @@ export class View {
   costCalculationGarment_MaterialsInfo = {
     columns: [
       { header: "No.", value: "MaterialIndex" },
+      { header: "CMT", value: "isFabricCM" },
       { header: "Kategori", value: "Category" },
       { header: "Kode Barang", value: "Product.code" },
       { header: "Komposisi", value: "Product.composition" },
@@ -132,7 +133,7 @@ export class View {
     // this.data.AfterFreightCost = this.data.AfterRisk + this.data.FreightCost;
     this.data.ConfirmPriceWithRate =
       this.data.ConfirmPrice * this.data.Rate.Value;
-      this.data.ConfirmPriceWithRate=this.data.ConfirmPriceWithRate.toLocaleString('en-EN', { minimumFractionDigits: 4});
+      this.data.ConfirmPriceWithRate=this.data.ConfirmPriceWithRate.toLocaleString('en-EN', { minimumFractionDigits: 2});
     let CM_Price = 0;
     if (this.data.CostCalculationGarment_Materials) {
       this.data.CostCalculationGarment_Materials.forEach(item => {
@@ -141,7 +142,7 @@ export class View {
     }
     
     this.CM_Price = ((CM_Price  * 1.05) / this.data.Rate.Value) + _confirmPrice;
-    this.CM_Price = US + this.CM_Price.toLocaleString('en-EN', { minimumFractionDigits: 4});
+    this.CM_Price = US + this.CM_Price.toLocaleString('en-EN', { minimumFractionDigits: 2});
 
     let FOB_Price = this.data.ConfirmPrice;
     let CNF_Price=_confirmPrice;
@@ -159,8 +160,8 @@ export class View {
       FOB_Price=0;
     }
     this.ConfirmPriceValue = this.isDollar
-      ? US + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4})//numeral(this.data.ConfirmPrice).format()
-      : RP + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4});
+      ? US + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 2})//numeral(this.data.ConfirmPrice).format()
+      : RP + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 2});
     this.data.FOB_Price = this.isDollar
       ? US + numeral(FOB_Price).format()
       : RP + numeral(FOB_Price).format();
@@ -219,19 +220,20 @@ export class View {
       this.hasUnpost = false; 
     }
 
+    this.ConfirmPrice = this.data.ConfirmPrice * this.data.Rate.Value;
     this.TotalCOGM = this.data.Total;
-    this.GrossProfit = this.data.ConfirmPrice - this.data.Total;
-    this.GrossProfitPercentage = (this.GrossProfit / this.data.ConfirmPrice) * 100;
+    this.GrossProfit = this.ConfirmPrice - this.data.Total;
+    this.GrossProfitPercentage = (this.GrossProfit / this.ConfirmPrice) * 100;
 
     this.NonOperatingExpenses = this.data.NonOperatingExpense * this.data.SMV_Total;
-    this.NonOperatingExpensesPercentage = (this.NonOperatingExpenses / this.data.ConfirmPrice) * 100;
+    this.NonOperatingExpensesPercentage = (this.NonOperatingExpenses / this.ConfirmPrice) * 100;
 
     this.GeneralAdminExpenses = this.data.GeneralAdminExpense * this.data.SMV_Total;
     console.log(this.GeneralAdminExpenses);
-    this.GeneralAdminExpensesPercentage = (this.GeneralAdminExpenses / this.data.ConfirmPrice) * 100;
+    this.GeneralAdminExpensesPercentage = (this.GeneralAdminExpenses / this.ConfirmPrice) * 100;
 
     this.SellingExpense = this.data.SellingExpense * this.data.SMV_Total;
-    this.SellingExpensePercentage = (this.SellingExpense / this.data.ConfirmPrice) * 100;
+    this.SellingExpensePercentage = (this.SellingExpense / this.ConfirmPrice) * 100;
 
     this.TotalBOM = this.data.Total + this.NonOperatingExpenses + this.GeneralAdminExpenses + this.SellingExpense;
 
@@ -242,10 +244,9 @@ export class View {
     this.BeaAngkutValue = this.data.FreightCost;
 
     this.SubTotal = this.BeaAngkut;
-    this.ConfirmPrice = this.data.ConfirmPrice;
     
 
-    this.Komisi = this.data.ConfirmPrice * this.data.CommissionPortion / 100;
+    this.Komisi = this.ConfirmPrice * this.data.CommissionPortion / 100;
     this.KomisiPercentage = this.data.CommissionPortion;
 
     this.NetProfit = (this.ConfirmPrice - this.Komisi) - this.SubTotal;
