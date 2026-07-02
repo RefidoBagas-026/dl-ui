@@ -63,8 +63,8 @@ export class PRMasterDialog {
             order: order,
             select: "new( " +
                 "GarmentPurchaseRequest.Id as PRId, GarmentPurchaseRequest.SectionName, GarmentPurchaseRequest.BuyerId, GarmentPurchaseRequest.BuyerCode, GarmentPurchaseRequest.BuyerName, GarmentPurchaseRequest.PRType, GarmentPurchaseRequest.PRNo, GarmentPurchaseRequest.RONo, GarmentPurchaseRequest.Article," +
-                "Id, PO_SerialNumber, CategoryId, CategoryName, ProductId, ProductCode, ProductName, ProductRemark, Quantity, BudgetPrice, UomId, UomUnit, PriceUomId, PriceUomUnit, IsCMT" +
-                ")",
+                "Id, PO_SerialNumber, CategoryId, CategoryName, ProductId, ProductCode, ProductName, ProductRemark, Quantity, BudgetPrice, UomId, UomUnit, PriceUomId, PriceUomUnit, IsCMT," +
+                "ProductCodeD365, ProductGroupD365)",
             filter: JSON.stringify(this.filter),
         }
 
@@ -97,6 +97,8 @@ export class PRMasterDialog {
                             Id: d.ProductId,
                             Code: d.ProductCode,
                             Name: d.ProductName,
+                            ItemCodeD365: d.ProductCodeD365,
+                            ItemGroupD365: d.ProductGroupD365
                         },
                         Description: d.ProductRemark,
                         Uom: {
@@ -179,6 +181,7 @@ export class PRMasterDialog {
         this.filter = {};
         this.filter["GarmentPurchaseRequest.PRType == \"MOQ\" || GarmentPurchaseRequest.PRType == \"PRE-JOB\" || GarmentPurchaseRequest.PRType == \"OB\" || GarmentPurchaseRequest.PRType == \"SAMPLE\""] = true;
         this.filter[`CategoryName == "${params.CategoryName}" && ProductCode == "${params.ProductCode}"`] = true;
+        this.filter[`IsCMT == ${params.IsCMT}`] = true;
         this.filter[`GarmentPurchaseRequest.BuyerCode == "${params.BuyerCode}" || IsApprovedOpenPOKadivMd`] = true;
         this.filter["GarmentPurchaseRequest.IsValidatedMD2"] = true;
     }

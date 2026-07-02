@@ -169,7 +169,7 @@ export class DataForm {
     this.selectedLeadTime = this.data.LeadTime
       ? `${this.data.LeadTime} hari`
       : "";
-    this.selectedUnit = this.data.Unit ? this.data.Unit : "";
+    this.selectedUnit = this.data.Unit && this.data.Unit.Id ? this.data.Unit : null;
     this.data.OTL1 = this.data.OTL1
       ? this.data.OTL1
       : Object.assign({}, this.defaultRate);
@@ -274,6 +274,12 @@ export class DataForm {
     });
     this.data.THR = all[1];
     this.data.Rate = all[2];
+    if (!this.selectedUnit) {
+      const units = await UnitLoader('GMT', {});
+      if (units && units.length > 0) {
+        this.selectedUnit = units[0];
+      }
+    }
     if (this.data.CostCalculationGarment_Materials) {
       this.data.CostCalculationGarment_Materials.forEach((item) => {
         item.QuantityOrder = this.data.Quantity;
@@ -295,7 +301,6 @@ export class DataForm {
     this.isSample = this.data.IsSample;
     this.costCalculationGarment_MaterialsInfoUploads.options.CCId = this.data.Id;
     this.costCalculationGarment_MaterialsInfoUploads.options.BuyerCode = this.data.BuyerBrand ? this.data.BuyerBrand.Code : "";
-    this.costCalculationGarment_MaterialsInfoUploads.options.SectionName = this.data.SectionName;
     this.costCalculationGarment_MaterialsInfoUploads.options.IsEditMaterial = this.isEdit;
     this.costCalculationGarment_MaterialsInfoUploads.options.IsCopyCC =  this.isCopy;
     this.costCalculationGarment_MaterialsInfoUploads.options.CCId = this.data.Id;
@@ -395,6 +400,12 @@ export class DataForm {
     return `${unit.Code} - ${unit.Name}`;
   };
 
+  get unitDisplay() {
+    return this.selectedUnit && this.selectedUnit.Code
+      ? `${this.selectedUnit.Code} - ${this.selectedUnit.Name}`
+      : '';
+  }
+
   uomView = (uom) => {
     return uom ? `${uom.Unit}` : "";
   };
@@ -473,12 +484,12 @@ export class DataForm {
         materialFromPRmaster.POMaster = null;
       }
     }
+    this.costCalculationGarment_MaterialsInfoUploads.options.BuyerCode = this.data.BuyerBrand ? this.data.BuyerBrand.Code : "";
     this.costCalculationGarment_MaterialsInfoUploads.options.SCId = this.data.PreSCId;
   }
 
   @bindable selectedBookingOrder;
   async selectedBookingOrderChanged(newValue, oldValue) {
-    //console.log(newValue);
     if (newValue) {
       this.data.BookingOrderId = newValue.BookingOrderId;
       this.data.BookingOrderItemId = newValue.BookingOrderItemId;
@@ -604,7 +615,6 @@ export class DataForm {
     this.data.BuyerName = newVal.Name;
     if (newVal) {
       this.yearRate = new Date().getFullYear();
-      console.log("yearRate", this.yearRate);
       let promises = [];
       const [allExpense] = await Promise.all([
         this.serviceCore.searchRateCC({
@@ -612,15 +622,10 @@ export class DataForm {
         })
       ]);
       const rates = allExpense.data || [];
-      console.log("rates", rates);
       this.data.OTLRate = rates.find(item => item.Code.toUpperCase().includes("OTL"+this.yearRate)) ? rates.find(item => item.Code.toUpperCase().includes("OTL"+this.yearRate)).Rate : 0;
       this.data.NonOperatingExpense = rates.find(item => item.Code.toUpperCase().includes("BDU"+this.yearRate)) ? rates.find(item => item.Code.toUpperCase().includes("BDU"+this.yearRate)).Rate : 0;
       this.data.GeneralAdminExpense = rates.find(item => item.Code.toUpperCase().includes("BUA"+this.yearRate)) ? rates.find(item => item.Code.toUpperCase().includes("BUA"+this.yearRate)).Rate : 0;
       this.data.SellingExpense = rates.find(item => item.Code.toUpperCase().includes("BP"+this.yearRate)) ? rates.find(item => item.Code.toUpperCase().includes("BP"+this.yearRate)).Rate : 0;
-      console.log("this.data.NonOperatingExpense", this.data.NonOperatingExpense);
-      console.log("this.data.GeneralAdminExpense", this.data.GeneralAdminExpense);
-      console.log("this.data.SellingExpense", this.data.SellingExpense);
-      console.log("OTL", this.data.OTLRate);
 
       this.data.UnitCode = newVal.Code;
       this.data.UnitId = newVal.Id;
@@ -642,7 +647,7 @@ export class DataForm {
       this.data.CostCalculationGarment_Materials.forEach((item) => {
         item.SMV_Cutting = this.data.SMV_Cutting;
       });
-      this.context.itemsCollection.bind();
+      // this.context.itemsCollection.bind();
     }
     return numeral(smvCutting).format();
   }
@@ -660,7 +665,7 @@ export class DataForm {
       this.data.CostCalculationGarment_Materials.forEach((item) => {
         item.SMV_Sewing = this.data.SMV_Sewing;
       });
-      this.context.itemsCollection.bind();
+      // this.context.itemsCollection.bind();
     }
     return numeral(smvSewing).format();
   }
@@ -678,7 +683,7 @@ export class DataForm {
       this.data.CostCalculationGarment_Materials.forEach((item) => {
         item.SMV_Finishing = this.data.SMV_Finishing;
       });
-      this.context.itemsCollection.bind();
+      // this.context.itemsCollection.bind();
     }
     
     return numeral(smvFinishing).format();
@@ -695,7 +700,6 @@ export class DataForm {
       this.data.CostCalculationGarment_Materials.forEach((item) => {
         item.SMV_Total = this.data.SMV_Total;
       });
-      this.context.itemsCollection.bind();
     }
     return SMV_Total;
   }
@@ -899,13 +903,18 @@ export class DataForm {
             "Harga",
             "Satuan beli",
             "Konversi",
-            "Ongkir %",
             "Remark RO"
         ];
+        const processKodeBarang = ["PRCSEW", "PRCFIN", "PRCCUT"];
+        const skipIfProcess = ["Satuan Barang", "Harga", "Satuan beli", "Konversi"];
         // Validasi kolom wajib tidak boleh kosong
         const errors = [];
         jsonData.forEach((row, rowIndex) => {
+            const kodeBarang = (row["Kode Barang"] || "").toString().trim().toUpperCase();
+            const isProcess = processKodeBarang.includes(kodeBarang);
             mandatoryColumns.forEach(col => {
+                if (isProcess && skipIfProcess.includes(col)) return;
+
                 const val = row[col];
 
                 // Cek wajib terisi, tapi 0 harus dianggap valid
@@ -1002,6 +1011,7 @@ async pushDataExcel(value) {
   }
 
   const materials = Array.isArray(resultData) ? resultData : [];
+  const allMaterials = [];
 
   for (const item of materials) {
     const hasProduct = !!item.Product || item.Product !== null; // Cek apakah Product ada (bisa null jika tidak ditemukan)
@@ -1053,39 +1063,47 @@ async pushDataExcel(value) {
     if (material && material.isFabricCM) {
       material.ShippingFeePortion = 0;
     }
-    const categoryName = material && material.Category ? (material.Category.name || material.Category.Name || "").toString().trim().toUpperCase() : "";
-    if (material && (categoryName === "PROCESS" || categoryName === "PROCESS SUBCON"))
-    {
-        let UOM = await this.serviceCore.getUomByUnit("PCS");
-        material.UOMQuantity = UOM;
-        material.UOMPrice = UOM;
-        material.Quantity = 1;
-        material.Conversion = 1;
-        material.Price = 0;
-    }else if (material && (categoryName === "PROCESS SEWING" || categoryName === "PROCESS FINISHING" || categoryName === "PROCESS CUTTING"  ))
-    {
-        let UOM = await this.serviceCore.getUomByUnit("MENIT");
-        material.UOMQuantity = UOM;
-        material.UOMPrice = UOM;
-        material.Quantity = 1;
-        material.Conversion = 1;
-        material.Price = 0;
-    }
-    this.data.CostCalculationGarment_Materials.push(material);
+    allMaterials.push(material);
   }
 
-  this.data.CostCalculationGarment_Materials.forEach((item) => {
-    item.SMV_Cutting = this.data.SMV_Cutting;
-    item.SMV_Sewing = this.data.SMV_Sewing;
-    item.SMV_Finishing = this.data.SMV_Finishing;
-    item.THR = this.data.THR;
-    item.Wage = this.data.Wage;
-    item.SMV_Total = this.data.SMV_Total;
-    item.Efficiency = this.data.Efficiency;
-    item.QuantityOrder = this.data.Quantity;
-});
-this.context.itemsCollection.bind();
-  // this.data.CostCalculationGarment_Materials = [...this.data.CostCalculationGarment_Materials];
+//   this.data.CostCalculationGarment_Materials.forEach((item) => {
+//     // item.SMV_Cutting = this.data.SMV_Cutting;
+//     // item.SMV_Sewing = this.data.SMV_Sewing;
+//     // item.SMV_Finishing = this.data.SMV_Finishing;
+//     item.THR = this.data.THR;
+//     item.Wage = this.data.Wage;
+//     item.SMV_Total = this.data.SMV_Total;
+//     item.Efficiency = this.data.Efficiency;
+//     item.QuantityOrder = this.data.Quantity;
+// });
+
+  //urutkan material berdasarkan Kategori, isAddPRMaster, isFabricCM, dan Product.Code, kemudian reset materialIndex
+  allMaterials.sort((a, b) => {
+    if (a.IsAddPRMaster && !b.IsAddPRMaster) return -1;
+    if (!a.IsAddPRMaster && b.IsAddPRMaster) return 1;
+
+    const categoryA = a.Category && (a.Category.name || a.Category.Name) ? (a.Category.name || a.Category.Name).toUpperCase() : '';
+    const categoryB = b.Category && (b.Category.name || b.Category.Name) ? (b.Category.name || b.Category.Name).toUpperCase() : '';
+    if (categoryA < categoryB) return -1;
+    if (categoryA > categoryB) return 1;
+
+    if (a.isFabricCM && !b.isFabricCM) return -1;
+    if (!a.isFabricCM && b.isFabricCM) return 1;
+
+    const productCodeA = a.Product && a.Product.Code ? a.Product.Code.toUpperCase() : '';
+    const productCodeB = b.Product && b.Product.Code ? b.Product.Code.toUpperCase() : '';
+    if (productCodeA < productCodeB) return -1;
+    if (productCodeA > productCodeB) return 1;
+
+    return 0;
+  });
+
+  allMaterials.forEach((item, index) => {
+    item.MaterialIndex = index + 1;
+  });
+
+  this.data.CostCalculationGarment_Materials = allMaterials;
+  this.context.itemsCollection.bind();
 }
 
 viewData() {
