@@ -1099,9 +1099,8 @@ async pushDataExcel(value) {
   });
 
   allMaterials.forEach((item, index) => {
-    item.MaterialIndex = index + 1;
+    item.MaterialIndex = index;
   });
-
   this.data.CostCalculationGarment_Materials = allMaterials;
   this.context.itemsCollection.bind();
 }
