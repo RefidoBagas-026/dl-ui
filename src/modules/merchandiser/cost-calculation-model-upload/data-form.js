@@ -906,7 +906,7 @@ export class DataForm {
             "Remark RO"
         ];
         const processKodeBarang = ["PRCSEW", "PRCFIN", "PRCCUT"];
-        const skipIfProcess = ["Satuan Barang", "Harga", "Satuan beli", "Konversi"];
+        const skipIfProcess = ["Satuan Barang", "Harga", "Satuan beli", "Konversi", "Remark RO"];
         // Validasi kolom wajib tidak boleh kosong
         const errors = [];
         jsonData.forEach((row, rowIndex) => {
@@ -1014,7 +1014,7 @@ async pushDataExcel(value) {
   const allMaterials = [];
 
   for (const item of materials) {
-    const hasProduct = !!item.Product || item.Product !== null; // Cek apakah Product ada (bisa null jika tidak ditemukan)
+    const hasProduct = !!item.Product || item.Product !== null;
 
     const material = hasProduct
       ? {
@@ -1066,36 +1066,52 @@ async pushDataExcel(value) {
     allMaterials.push(material);
   }
 
-//   this.data.CostCalculationGarment_Materials.forEach((item) => {
-//     // item.SMV_Cutting = this.data.SMV_Cutting;
-//     // item.SMV_Sewing = this.data.SMV_Sewing;
-//     // item.SMV_Finishing = this.data.SMV_Finishing;
-//     item.THR = this.data.THR;
-//     item.Wage = this.data.Wage;
-//     item.SMV_Total = this.data.SMV_Total;
-//     item.Efficiency = this.data.Efficiency;
-//     item.QuantityOrder = this.data.Quantity;
-// });
-
-  //urutkan material berdasarkan Kategori, isAddPRMaster, isFabricCM, dan Product.Code, kemudian reset materialIndex
+  const lastCategories = ['PROCESS CUTTING', 'PROCESS SEWING', 'PROCESS FINISHING'];
   allMaterials.sort((a, b) => {
-    if (a.IsAddPRMaster && !b.IsAddPRMaster) return -1;
-    if (!a.IsAddPRMaster && b.IsAddPRMaster) return 1;
+      const categoryA = a.Category && (a.Category.name || a.Category.Name)
+          ? (a.Category.name || a.Category.Name).toUpperCase()
+          : '';
 
-    const categoryA = a.Category && (a.Category.name || a.Category.Name) ? (a.Category.name || a.Category.Name).toUpperCase() : '';
-    const categoryB = b.Category && (b.Category.name || b.Category.Name) ? (b.Category.name || b.Category.Name).toUpperCase() : '';
-    if (categoryA < categoryB) return -1;
-    if (categoryA > categoryB) return 1;
+      const categoryB = b.Category && (b.Category.name || b.Category.Name)
+          ? (b.Category.name || b.Category.Name).toUpperCase()
+          : '';
 
-    if (a.isFabricCM && !b.isFabricCM) return -1;
-    if (!a.isFabricCM && b.isFabricCM) return 1;
+      const isLastCategoryA = lastCategories.indexOf(categoryA) >= 0;
+      const isLastCategoryB = lastCategories.indexOf(categoryB) >= 0;
 
-    const productCodeA = a.Product && a.Product.Code ? a.Product.Code.toUpperCase() : '';
-    const productCodeB = b.Product && b.Product.Code ? b.Product.Code.toUpperCase() : '';
-    if (productCodeA < productCodeB) return -1;
-    if (productCodeA > productCodeB) return 1;
+      const getRank = function (item, isLastCategory) {
+          if (item.IsAddPRMaster) return 1;
+          if (item.isFabricCM && !isLastCategory) return 2;
+          if (!isLastCategory) return 3;
+          return 4;
+      };
 
-    return 0;
+      const rankA = getRank(a, isLastCategoryA);
+      const rankB = getRank(b, isLastCategoryB);
+
+      if (rankA !== rankB) {
+          return rankA - rankB;
+      }
+
+      if (rankA === 4 && rankB === 4) {
+          const processOrder = {
+              'PROCESS CUTTING': 1,
+              'PROCESS SEWING': 2,
+              'PROCESS FINISHING': 3
+          };
+          const processA = processOrder[categoryA] || 999;
+          const processB = processOrder[categoryB] || 999;
+          if (processA !== processB) {
+              return processA - processB;
+          }
+      }
+      const productCodeA = a.Product && a.Product.Code
+          ? a.Product.Code.toUpperCase()
+          : '';
+      const productCodeB = b.Product && b.Product.Code
+          ? b.Product.Code.toUpperCase()
+          : '';
+      return productCodeA.localeCompare(productCodeB);
   });
 
   allMaterials.forEach((item, index) => {
