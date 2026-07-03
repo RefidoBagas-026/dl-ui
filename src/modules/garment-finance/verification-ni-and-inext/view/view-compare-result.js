@@ -10,6 +10,12 @@ export class View {
   constructor(router, service) {
     this.router = router;
     this.service = service;
+
+    this.descriptionOptions = [
+      { label: 'Kesalahan Sistem', selected: false },
+      { label: 'Kesalahan User Input', selected: false },
+      { label: 'Kuantitas Akumulatif', selected: false }
+    ];
   }
 
   @bindable data;
@@ -18,6 +24,7 @@ export class View {
     var idDecode = Base64Helper.decode(params.id);
     this.idEncode = params.id;
     this.data = await this.service.getById(idDecode);
+    this.initializeDescriptionOptions();
   }
 
   cancel() {
@@ -34,6 +41,8 @@ export class View {
 
   save(event) {
     if (confirm("Simpan Keterangan?")) {
+      this.syncDescriptionFromOptions();
+
       const jsonPatch = [
         { op: "replace", path: '/Description', value: this.data.description },
       ];
@@ -50,6 +59,31 @@ export class View {
           }
         });
     }
+  }
+
+  initializeDescriptionOptions() {
+    const savedDescriptions = (this.data.description || '')
+      .split(';')
+      .map(item => item.trim())
+      .filter(item => item);
+
+    this.descriptionOptions.forEach(option => {
+      option.selected = savedDescriptions.includes(option.label);
+    });
+
+    this.syncDescriptionFromOptions();
+  }
+
+  onDescriptionOptionChanged() {
+    this.syncDescriptionFromOptions();
+  }
+
+  syncDescriptionFromOptions() {
+    const selectedDescriptions = this.descriptionOptions
+      .filter(option => option.selected)
+      .map(option => option.label);
+
+    this.data.description = selectedDescriptions.join('; ');
   }
 
   @computedFrom('data')

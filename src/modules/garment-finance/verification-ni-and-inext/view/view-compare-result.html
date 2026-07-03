@@ -71,8 +71,20 @@
         item-template="modules/garment-finance/verification-ni-and-inext/template/external-invoice-revision-delivery-order">
     </au-collection>
 
-    <au-textbox label="Keterangan" value.bind="data.description" options.bind="auInputOptions">
-    </au-textbox>
+    <div class="form-group">
+      <label class="col-sm-4 control-label">Keterangan</label>
+      <div class="col-sm-5">
+        <div class="checkbox" repeat.for="option of descriptionOptions">
+          <label>
+            <input
+              type="checkbox"
+              checked.bind="option.selected"
+              change.delegate="onDescriptionOptionChanged()">
+            ${option.label}
+          </label>
+        </div>
+      </div>
+    </div>
 
     <au-textbox label="Keterangan Reject" read-only="true" value.bind="data.approvalDescription" options.bind="auInputOptions" if.bind="isRejected">
     </au-textbox>
