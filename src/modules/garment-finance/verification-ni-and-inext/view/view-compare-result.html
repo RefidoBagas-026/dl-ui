@@ -12,22 +12,27 @@
   <au-input-form title="Detail Invoice" with.bind="context">
     <div slot="actions" class="btn-group">
       <button class="btn btn-default" click.delegate="cancel($event)">Kembali</button>
+      <button class="btn btn-success" click.delegate="save($event)">Simpan</button>
     </div>
     <au-comparison 
       label="Nomor Invoice" 
       value1.bind="data.invoiceNo" 
       value2.bind="data.invoiceNoScanResult" 
       label1="Data DMS" 
-      label2="Data Hasil Scan">
+      label2="Data Hasil Scan"
+      use-custom-different-function.bind="true"
+      is-different-result.bind="data.invoiceIsMatch">
     </au-comparison>
 
     <au-comparison 
-      label="DPP" 
-      value1.bind="data.totalAmountBeforeTax" 
-      value2.bind="data.totalAmountBeforeTaxScanResult" 
+      label="Total Amount" 
+      value1.bind="data.totalAmountAfterTax" 
+      value2.bind="data.totalAmountAfterTaxScanResult" 
       label1="Data DMS" 
       label2="Data Hasil Scan" 
-      format="0.00">
+      format="0.00"
+      use-custom-different-function.bind="true"
+      is-different-result.bind="data.totalAmountAfterTaxIsMatch">
     </au-comparison>
 
     <au-comparison 
@@ -39,10 +44,12 @@
       format="0.00"
       highlight-differences.bind="highlightDifferencesTax"
       remark.bind="taxComparisonRemark"
-      remark-type.bind="taxRemarkType">
+      remark-type.bind="taxRemarkType"
+      use-custom-different-function.bind="true"
+      is-different-result.bind="data.totalVatIsMatch">
     </au-comparison>
 
-    <au-comparison 
+    <!-- <au-comparison 
       label="Tanggal PPN" 
       value1.bind="data.taxInvoiceDate" 
       value2.bind="data.taxInvoiceDateScanResult" 
@@ -52,11 +59,34 @@
       highlight-differences.bind="highlightDifferencesTax"
       remark.bind="taxComparisonRemark"
       remark-type.bind="taxRemarkType">
-    </au-comparison>
+    </au-comparison> -->
 
     <au-collection items.bind="data.items" columns.bind="itemsInfoReadOnly.columnsReadOnly" show.bind="data.items.length > 0"
         read-only.bind="true"  
         item-template="modules/garment-finance/verification-ni-and-inext/template/external-invoice-revision-item">
     </au-collection>
+
+    <au-collection items.bind="data.deliveryOrders" columns.bind="deliveryOrdersInfoReadOnly" show.bind="data.deliveryOrders.length > 0"
+        read-only.bind="true"  
+        item-template="modules/garment-finance/verification-ni-and-inext/template/external-invoice-revision-delivery-order">
+    </au-collection>
+
+    <div class="form-group">
+      <label class="col-sm-4 control-label">Keterangan</label>
+      <div class="col-sm-5">
+        <div class="checkbox" repeat.for="option of descriptionOptions">
+          <label>
+            <input
+              type="checkbox"
+              checked.bind="option.selected"
+              change.delegate="onDescriptionOptionChanged()">
+            ${option.label}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <au-textbox label="Keterangan Reject" read-only="true" value.bind="data.approvalDescription" options.bind="auInputOptions" if.bind="isRejected">
+    </au-textbox>
   </au-input-form>
 </template>

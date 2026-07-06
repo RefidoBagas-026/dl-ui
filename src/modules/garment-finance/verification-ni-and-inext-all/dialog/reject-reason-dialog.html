@@ -1,0 +1,21 @@
+<template>
+    <ai-dialog style="width:500px;">
+        <ai-dialog-header>
+            ${title}
+        </ai-dialog-header>
+
+        <ai-dialog-body>
+            <au-multiline
+                label="Alasan"
+                placeholder="Masukkan alasan reject"
+                value.bind="reason"
+                error.bind="error.reason">
+            </au-multiline>
+        </ai-dialog-body>
+
+        <ai-dialog-footer>
+            <button class="btn btn-default" click.delegate="controller.cancel()">Kembali</button>
+            <button class="btn btn-danger" click.delegate="submit()">Reject</button>
+        </ai-dialog-footer>
+    </ai-dialog>
+</template>

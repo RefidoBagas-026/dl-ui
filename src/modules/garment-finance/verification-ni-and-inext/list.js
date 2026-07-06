@@ -1,6 +1,9 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
+import { ApprovalEnum } from './enum/approval-enum';
+import { ScanResultRemarkEnum } from './enum/scan-result-remark-enum';
 var moment = require("moment");
 
 @inject(Router, Service)
@@ -17,13 +20,27 @@ export class List {
     window.viewModel = this;
   }
 
-  context = ["Rincian"];
+  context = ["Rincian", "Cetak PDF"];
 
   contextClickCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     if (arg.name === "Rincian") {
-      this.router.navigateToRoute('view', { id: data.Id });
+      this.router.navigateToRoute('view', { id: idEncode });
+    } else if (arg.name === "Cetak PDF") {
+      this.service.getPdfById(data.Id);
+    }
+  }
+
+  contextShowCallback(index, name, data) {
+    switch (name) {
+      case "Cetak PDF":
+        if (data.approvalStatusEnum === ApprovalEnum.REJECTED)
+          return false;
+        else
+          return true;
+      case "Rincian":
+        return true;
     }
   }
 
@@ -108,7 +125,8 @@ export class List {
           item.invoiceNo = item.invoiceNo || item.INNo || 'N/A';
           item.inNo = item.inNo || 'N/A';
           item.supplierName = item.supplierName || 'N/A';
-          item.totalAmountBeforeTax = item.totalAmountBeforeTax || 0;
+          item.totalAmountAfterTax = item.totalAmountAfterTax || 0;
+          item.approvalStatus = item.approvalStatusEnum === ApprovalEnum.UNDEFINED ? 'BELUM POSTING' : item.approvalStatus;
         });
         return {
           total: data.total,
@@ -134,6 +152,13 @@ export class List {
 
   // Konfigurasi kolom tabel
   columns = [
+    {
+      field: "isPosting", title: "Post", checkbox: true, sortable: false,
+      formatter: function (value, data, index) {
+        this.checkboxEnabled = data.remarkEnum === ScanResultRemarkEnum.INVOICE_DATA_NOT_MATCH && data.approvalStatusEnum === ApprovalEnum.UNDEFINED;
+        return ""
+      }
+    },
     { field: 'index', title: 'No', formatter: (value, row, index) => index + 1, width: 80, align: 'center', sortable: false },
     { field: 'invoiceNo', title: 'Invoice', width: 150, align: 'left', sortable: true },
     { field: 'inNo', title: 'No NI', width: 150, align: 'left', sortable: true },
@@ -162,13 +187,15 @@ export class List {
       }
     },
     {
-      field: 'totalAmountBeforeTax', title: 'Total Amount', width: 120, align: 'right', sortable: true, formatter: (value) => {
+      field: 'totalAmountAfterTax', title: 'Total Amount', width: 120, align: 'right', sortable: true, formatter: (value) => {
         if (value == null || value === '') return '';
         const num = Number(value);
         if (isNaN(num)) return value;
         return num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       }
     },
+    { field: 'remark', title: 'Keterangan', width: 150, align: 'left', sortable: true },
+    { field: 'approvalStatus', title: 'Status Approval', width: 150, align: 'left', sortable: true },
     {
       field: 'actions',
       title: 'Aksi',
@@ -203,7 +230,6 @@ export class List {
           <thead>
             <tr>
               <th width="40">No</th>
-              <th width="150">No Surat Jalan</th>
               <th width="150">Nama Barang</th>
               <th width="120">Quantity</th>
               <th width="150">Keterangan</th>
@@ -218,7 +244,6 @@ export class List {
       html += `
         <tr>
           <td>${idx + 1}</td>
-          <td>${item.doNo || 'N/A'}</td>
           <td>${item.productName || 'N/A'}</td>
           <td style="text-align:right">${quantity.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
           <td>${item.remarkDescription || 'N/A'}</td>
@@ -233,6 +258,28 @@ export class List {
     `;
 
     return html;
+  }
+
+  rowFormatter(data, index) {
+    if (data.approvalStatusEnum === ApprovalEnum.APPROVED)
+      return { classes: "success" }
+    else if (data.remarkEnum === ScanResultRemarkEnum.INVOICE_DATA_NOT_MATCH && data.approvalStatusEnum !== ApprovalEnum.REQUESTED)
+      return { classes: "danger" }
+    else if (data.approvalStatusEnum === ApprovalEnum.REQUESTED)
+      return { classes: "warning" }
+    else
+      return { classes: "" };
+  }
+
+  posting() {
+    if (this.dataToBePosted.length > 0) {
+      this.service.approvalSubmitRequest(this.dataToBePosted).then(result => {
+        this.dataToBePosted = [];
+        this.table.refresh();
+      }).catch(e => {
+        this.error = e;
+      })
+    }
   }
 
   // Function untuk create (tidak digunakan untuk saat ini)

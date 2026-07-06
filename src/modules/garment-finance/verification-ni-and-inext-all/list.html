@@ -1,0 +1,14 @@
+<template>
+    <h1 class="page-header">Verifikasi NI dan Invoice External</h1>
+      <au-table 
+        data.bind="loader" 
+        columns.bind="columns" 
+        sortable.bind="true" 
+        page-size="25"
+        context.bind="context"
+        context-click.delegate="contextClickCallback($event)"
+        context-show.call="contextShowCallback(index, context, data)"
+        options.bind="tableOptions"
+        row-formatter.bind="rowFormatter" 
+      />
+</template>

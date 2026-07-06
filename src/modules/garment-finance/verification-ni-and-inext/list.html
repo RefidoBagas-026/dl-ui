@@ -10,10 +10,15 @@
             page-size="25"
             context.bind="context"
             context-click.delegate="contextClickCallback($event)"
-            options.bind="tableOptions">
+            context-show.call="contextShowCallback(index, context, data)"
+            options.bind="tableOptions"
+            selectable.bind="true"
+            selections.bind="dataToBePosted"
+            row-formatter.bind="rowFormatter">
             
             <div slot="toolbar" class="btn-group">
               <button class="btn btn-success" click.delegate="navigateToMainPage()">Cek NI dan Invoice External</button>
+              <button class="btn btn-primary" disabled.bind="!dataToBePosted.length > 0" click.delegate="posting()">Posting</button>
             </div>
 </au-table>
 </template>
