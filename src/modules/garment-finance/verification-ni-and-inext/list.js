@@ -25,6 +25,7 @@ export class List {
   contextClickCallback(event) {
     var arg = event.detail;
     var data = arg.data;
+    var idEncode = Base64Helper.encode(data.Id);
     if (arg.name === "Rincian") {
       this.router.navigateToRoute('view', { id: idEncode });
     } else if (arg.name === "Cetak PDF") {
