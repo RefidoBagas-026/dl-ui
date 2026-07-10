@@ -112,67 +112,79 @@ export class DataForm {
             if (!this.data.Id) {
                 this.data.UsageReceiptItems = [];
                 for (var item of this.data.StrikeOff.StrikeOffItems) {
-                    var prevUsageReceipt = null;
-                    if (prevData) {
-                        prevUsageReceipt = prevData.UsageReceiptItems.find(s => s.ColorCode == item.ColorCode);
-                    }
-                    var usageReceipt = {};
                     usageReceipt.ColorCode = item.ColorCode;
+                    var usageReceipt = {};
                     usageReceipt.UsageReceiptDetails = [];
                     var idx = 0;
-                    var viscositasDate = null;
-                    if (prevUsageReceipt) {
-                        var dates = [];
-                        if (prevUsageReceipt.Adjs1Date) {
-                            dates.push(new Date(prevUsageReceipt.Adjs1Date));
-                        }
-                        if (prevUsageReceipt.Adjs2Date) {
-                            dates.push(new Date(prevUsageReceipt.Adjs2Date));
-                        }
-                        if (prevUsageReceipt.Adjs3Date) {
-                            dates.push(new Date(prevUsageReceipt.Adjs3Date));
-                        }
-                        if (prevUsageReceipt.Adjs4Date) {
-                            dates.push(new Date(prevUsageReceipt.Adjs4Date));
-                        }
-                        if (dates.length > 0) {
-                            viscositasDate = dates.reduce(function (a, b) { return a > b ? a : b; });
-                        }
-                    }
-                    for (var detail of item.StrikeOffItemDetails) {
-                        var prevDetail = null;
+
+                    // If data is found or repeat order
+                    if (prevData) {
+                        var prevUsageReceipt = prevData.UsageReceiptItems.find(s => s.ColorCode == item.ColorCode);
+                        var viscositasDate = null;
                         if (prevUsageReceipt) {
-                            prevDetail = prevUsageReceipt.UsageReceiptDetails.find(s => s.Name == detail.Name);
-
-                        }
-
-                        var usageDetail = {};
-                        usageDetail.Index = idx++;
-                        usageDetail.Name = detail.Name;
-                        if (prevDetail && prevDetail.Name.toLowerCase() !== "viscositas") {
-                            usageDetail.ReceiptQuantity = prevDetail.ReceiptQuantity + prevDetail.Adjs1Quantity + prevDetail.Adjs2Quantity + prevDetail.Adjs3Quantity + prevDetail.Adjs4Quantity;
-                        } else if (prevDetail && prevDetail.Name.toLowerCase() === "viscositas") {
-                            if (viscositasDate) {
-                                if (prevUsageReceipt.Adjs4Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs4Date).getTime()) {
-                                    usageDetail.ReceiptQuantity = prevDetail.Adjs4Quantity;
-                                } else if (prevUsageReceipt.Adjs3Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs3Date).getTime()) {
-                                    usageDetail.ReceiptQuantity = prevDetail.Adjs3Quantity;
-                                } else if (prevUsageReceipt.Adjs2Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs2Date).getTime()) {
-                                    usageDetail.ReceiptQuantity = prevDetail.Adjs2Quantity;
-                                } else if (prevUsageReceipt.Adjs1Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs1Date).getTime()) {
-                                    usageDetail.ReceiptQuantity = prevDetail.Adjs1Quantity;
-                                }
-                            } else {
-                                usageDetail.ReceiptQuantity = detail.Quantity;
+                            var dates = [];
+                            if (prevUsageReceipt.Adjs1Date) {
+                                dates.push(new Date(prevUsageReceipt.Adjs1Date));
+                            }
+                            if (prevUsageReceipt.Adjs2Date) {
+                                dates.push(new Date(prevUsageReceipt.Adjs2Date));
+                            }
+                            if (prevUsageReceipt.Adjs3Date) {
+                                dates.push(new Date(prevUsageReceipt.Adjs3Date));
+                            }
+                            if (prevUsageReceipt.Adjs4Date) {
+                                dates.push(new Date(prevUsageReceipt.Adjs4Date));
+                            }
+                            if (dates.length > 0) {
+                                viscositasDate = dates.reduce(function (a, b) { return a > b ? a : b; });
                             }
                         }
-                        else {
-                            usageDetail.ReceiptQuantity = detail.Quantity;
-                        }
+                        for (var detail of item.StrikeOffItemDetails) {
+                            var prevDetail = null;
+                            if (prevUsageReceipt) {
+                                prevDetail = prevUsageReceipt.UsageReceiptDetails.find(s => s.Name == detail.Name);
+                            }
 
-                        usageReceipt.UsageReceiptDetails.push(usageDetail);
+                            var usageDetail = {};
+                            usageDetail.Index = idx++;
+                            usageDetail.Name = detail.Name;
+                            if (prevDetail && prevDetail.Name.toLowerCase() !== "viscositas") {
+                                usageDetail.ReceiptQuantity = prevDetail.ReceiptQuantity + prevDetail.Adjs1Quantity + prevDetail.Adjs2Quantity + prevDetail.Adjs3Quantity + prevDetail.Adjs4Quantity;
+                            } else if (prevDetail && prevDetail.Name.toLowerCase() === "viscositas") {
+                                if (viscositasDate) {
+                                    if (prevUsageReceipt.Adjs4Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs4Date).getTime()) {
+                                        usageDetail.ReceiptQuantity = prevDetail.Adjs4Quantity;
+                                    } else if (prevUsageReceipt.Adjs3Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs3Date).getTime()) {
+                                        usageDetail.ReceiptQuantity = prevDetail.Adjs3Quantity;
+                                    } else if (prevUsageReceipt.Adjs2Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs2Date).getTime()) {
+                                        usageDetail.ReceiptQuantity = prevDetail.Adjs2Quantity;
+                                    } else if (prevUsageReceipt.Adjs1Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs1Date).getTime()) {
+                                        usageDetail.ReceiptQuantity = prevDetail.Adjs1Quantity;
+                                    }
+                                } else {
+                                    usageDetail.ReceiptQuantity = detail.Quantity;
+                                }
+                            }
+                            else {
+                                usageDetail.ReceiptQuantity = detail.Quantity;
+                            }
+
+                            usageReceipt.UsageReceiptDetails.push(usageDetail);
+                        }
+                        this.data.UsageReceiptItems.push(usageReceipt);
                     }
-                    this.data.UsageReceiptItems.push(usageReceipt);
+                    // If data is not found or not repeat order
+                    else {
+                        for (var detail of item.StrikeOffItemDetails) {
+                            var usageDetail = {};
+                            usageDetail.Index = idx++;
+                            usageDetail.Name = detail.Name;
+                            usageDetail.ReceiptQuantity = detail.Quantity;
+
+                            usageReceipt.UsageReceiptDetails.push(usageDetail);
+                        }
+                        this.data.UsageReceiptItems.push(usageReceipt);
+                    }
                 }
             }
         }
