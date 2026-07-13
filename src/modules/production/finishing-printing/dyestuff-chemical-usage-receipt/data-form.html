@@ -450,5 +450,9 @@
 
         </div>
 
+        <div slot="actions" if.bind="!readOnly && isEdit && enableConfirmChecked && confirmCheckedCallback">
+            <button class="btn btn-warning" click.delegate="confirmCheckedData()">Konfirmasi Data Sudah Dicek</button>
+        </div>
+
     </au-input-form>
 </template>

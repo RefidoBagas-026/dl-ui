@@ -10,6 +10,7 @@ export class DataForm {
     partialNumber = 0;
     @bindable title;
     @bindable readOnly;
+    @bindable enableConfirmChecked;
 
     // itemYears = [];
 
@@ -70,6 +71,7 @@ export class DataForm {
         this.deleteCallback = this.context.deleteCallback;
         this.editCallback = this.context.editCallback;
         this.saveCallback = this.context.saveCallback;
+        this.confirmCheckedCallback = this.context.confirmCheckedCallback;
 
         if (this.data.StrikeOff) {
             this.selectedStrikeOff = this.data.StrikeOff;
@@ -77,6 +79,34 @@ export class DataForm {
 
         if (this.data.ProductionOrder) {
             this.selectedProductionOrder = this.data.ProductionOrder;
+        }
+    }
+
+    getLatestNonZeroQuantity(prevDetail) {
+        const quantities = [
+            prevDetail.ReceiptQuantity,
+            prevDetail.Adjs1Quantity,
+            prevDetail.Adjs2Quantity,
+            prevDetail.Adjs3Quantity,
+            prevDetail.Adjs4Quantity,
+            prevDetail.Adjs5Quantity,
+            prevDetail.Adjs6Quantity
+        ];
+
+        let latestNonZero = 0;
+        for (const quantity of quantities) {
+            const value = Number(quantity) || 0;
+            if (value !== 0) {
+                latestNonZero = value;
+            }
+        }
+
+        return latestNonZero;
+    }
+
+    confirmCheckedData() {
+        if (this.confirmCheckedCallback && typeof this.confirmCheckedCallback === 'function') {
+            this.confirmCheckedCallback({ event: null });
         }
     }
 
@@ -109,36 +139,26 @@ export class DataForm {
             var prevResult = await this.service.getPrevData(this.data.StrikeOff.Id);
             var prevData = prevResult.Data;
             this.data.RepeatedProductionOrderNo = prevResult.OrderNo;
+
+            if (this.context && typeof this.context.onPreviousAdjustmentPending === 'function') {
+                this.context.onPreviousAdjustmentPending({
+                    hasPendingAdjustment: !!(prevData && prevData.IsUpdatedAdjustmentData === true),
+                    prevDataId: prevData ? prevData.Id : null,
+                    repeatedProductionOrderNo: prevData ? prevData.ProductionOrder.OrderNo : null
+                });
+            }
+
             if (!this.data.Id) {
                 this.data.UsageReceiptItems = [];
                 for (var item of this.data.StrikeOff.StrikeOffItems) {
-                    usageReceipt.ColorCode = item.ColorCode;
                     var usageReceipt = {};
+                    usageReceipt.ColorCode = item.ColorCode;
                     usageReceipt.UsageReceiptDetails = [];
                     var idx = 0;
 
                     // If data is found or repeat order
                     if (prevData) {
                         var prevUsageReceipt = prevData.UsageReceiptItems.find(s => s.ColorCode == item.ColorCode);
-                        var viscositasDate = null;
-                        if (prevUsageReceipt) {
-                            var dates = [];
-                            if (prevUsageReceipt.Adjs1Date) {
-                                dates.push(new Date(prevUsageReceipt.Adjs1Date));
-                            }
-                            if (prevUsageReceipt.Adjs2Date) {
-                                dates.push(new Date(prevUsageReceipt.Adjs2Date));
-                            }
-                            if (prevUsageReceipt.Adjs3Date) {
-                                dates.push(new Date(prevUsageReceipt.Adjs3Date));
-                            }
-                            if (prevUsageReceipt.Adjs4Date) {
-                                dates.push(new Date(prevUsageReceipt.Adjs4Date));
-                            }
-                            if (dates.length > 0) {
-                                viscositasDate = dates.reduce(function (a, b) { return a > b ? a : b; });
-                            }
-                        }
                         for (var detail of item.StrikeOffItemDetails) {
                             var prevDetail = null;
                             if (prevUsageReceipt) {
@@ -148,24 +168,10 @@ export class DataForm {
                             var usageDetail = {};
                             usageDetail.Index = idx++;
                             usageDetail.Name = detail.Name;
-                            if (prevDetail && prevDetail.Name.toLowerCase() !== "viscositas") {
-                                usageDetail.ReceiptQuantity = prevDetail.ReceiptQuantity + prevDetail.Adjs1Quantity + prevDetail.Adjs2Quantity + prevDetail.Adjs3Quantity + prevDetail.Adjs4Quantity;
-                            } else if (prevDetail && prevDetail.Name.toLowerCase() === "viscositas") {
-                                if (viscositasDate) {
-                                    if (prevUsageReceipt.Adjs4Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs4Date).getTime()) {
-                                        usageDetail.ReceiptQuantity = prevDetail.Adjs4Quantity;
-                                    } else if (prevUsageReceipt.Adjs3Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs3Date).getTime()) {
-                                        usageDetail.ReceiptQuantity = prevDetail.Adjs3Quantity;
-                                    } else if (prevUsageReceipt.Adjs2Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs2Date).getTime()) {
-                                        usageDetail.ReceiptQuantity = prevDetail.Adjs2Quantity;
-                                    } else if (prevUsageReceipt.Adjs1Date && viscositasDate.getTime() === new Date(prevUsageReceipt.Adjs1Date).getTime()) {
-                                        usageDetail.ReceiptQuantity = prevDetail.Adjs1Quantity;
-                                    }
-                                } else {
-                                    usageDetail.ReceiptQuantity = detail.Quantity;
-                                }
-                            }
-                            else {
+                            if (prevDetail) {
+                                const latestNonZeroQuantity = this.getLatestNonZeroQuantity(prevDetail);
+                                usageDetail.ReceiptQuantity = latestNonZeroQuantity !== 0 ? latestNonZeroQuantity : detail.Quantity;
+                            } else {
                                 usageDetail.ReceiptQuantity = detail.Quantity;
                             }
 
