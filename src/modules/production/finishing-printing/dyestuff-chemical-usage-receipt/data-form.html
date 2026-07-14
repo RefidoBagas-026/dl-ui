@@ -111,8 +111,8 @@
 
         <br>
         <br>
-        <div class="row" if.bind="data.UsageReceiptItems.length > 0 && !isEdit"
-            repeat.for="color of data.UsageReceiptItems">
+        <div if.bind="!isEdit">
+        <div class="row" repeat.for="color of data.UsageReceiptItems">
             <div class="col-md-6">
                 <table id="createTable" class="table table-bordered table-hover">
                     <thead>
@@ -161,9 +161,10 @@
                 </au-numeric>
             </div>
         </div>
+        </div>
 
-        <div class="row" if.bind="data.UsageReceiptItems.length > 0 && isEdit && !readOnly"
-            repeat.for="color of data.UsageReceiptItems">
+        <div if.bind="isEdit && !readOnly">
+        <div class="row" repeat.for="color of data.UsageReceiptItems">
 
             <div class="col-md-12">
                 <table id="detailTable" class="table table-bordered table-hover">
@@ -305,9 +306,10 @@
             </div>
             
         </div>
+        </div>
 
-        <div class="row" if.bind="data.UsageReceiptItems.length > 0 && isEdit && readOnly"
-            repeat.for="color of data.UsageReceiptItems">
+        <div if.bind="isEdit && readOnly">
+        <div class="row" repeat.for="color of data.UsageReceiptItems">
 
             <div class="col-md-12">
                 <table id="viewTable" class="table table-bordered table-hover">
@@ -448,6 +450,7 @@
             </div>
 
 
+        </div>
         </div>
 
         <div slot="actions" if.bind="!readOnly && isEdit && enableConfirmChecked && confirmCheckedCallback">
