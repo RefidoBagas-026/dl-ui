@@ -111,8 +111,8 @@
 
         <br>
         <br>
-        <div class="row" if.bind="data.UsageReceiptItems.length > 0 && !isEdit"
-            repeat.for="color of data.UsageReceiptItems">
+        <div if.bind="!isEdit">
+        <div class="row" repeat.for="color of data.UsageReceiptItems">
             <div class="col-md-6">
                 <table id="createTable" class="table table-bordered table-hover">
                     <thead>
@@ -161,9 +161,10 @@
                 </au-numeric>
             </div>
         </div>
+        </div>
 
-        <div class="row" if.bind="data.UsageReceiptItems.length > 0 && isEdit && !readOnly"
-            repeat.for="color of data.UsageReceiptItems">
+        <div if.bind="isEdit && !readOnly">
+        <div class="row" repeat.for="color of data.UsageReceiptItems">
 
             <div class="col-md-12">
                 <table id="detailTable" class="table table-bordered table-hover">
@@ -184,22 +185,22 @@
                                 Resep
                             </th>
                             <th width="20%">
-                                Adjs 1
+                                Revisi Resep 1
                             </th>
                             <th width="20%">
-                                Adjs 2
+                                Revisi Resep 2
                             </th>
                             <th width="20%">
-                                Adjs 3
+                                Revisi Resep 3
                             </th>
                             <th width="20%">
-                                Adjs 4
+                                Revisi Resep 4
                             </th>
                             <th width="20%">
-                                Adjs 5
+                                Revisi Resep 5
                             </th>
                             <th width="20%">
-                                Adjs 6
+                                Revisi Resep 6
                             </th>
                             <!-- <th rowspan="2">
                                 Total
@@ -305,9 +306,10 @@
             </div>
             
         </div>
+        </div>
 
-        <div class="row" if.bind="data.UsageReceiptItems.length > 0 && isEdit && readOnly"
-            repeat.for="color of data.UsageReceiptItems">
+        <div if.bind="isEdit && readOnly">
+        <div class="row" repeat.for="color of data.UsageReceiptItems">
 
             <div class="col-md-12">
                 <table id="viewTable" class="table table-bordered table-hover">
@@ -328,22 +330,22 @@
                                 Resep
                             </th>
                             <th>
-                                Adjs 1
+                                Revisi Resep 1
                             </th>
                             <th>
-                                Adjs 2
+                                Revisi Resep 2
                             </th>
                             <th>
-                                Adjs 3
+                                Revisi Resep 3
                             </th>
                             <th>
-                                Adjs 4
+                                Revisi Resep 4
                             </th>
                             <th>
-                                Adjs 5
+                                Revisi Resep 5
                             </th>
                             <th>
-                                Adjs 6
+                                Revisi Resep 6
                             </th>
                             <!-- <th rowspan="2">
                                 Total
@@ -448,6 +450,11 @@
             </div>
 
 
+        </div>
+        </div>
+
+        <div slot="actions" if.bind="!readOnly && isEdit && enableConfirmChecked && confirmCheckedCallback">
+            <button class="btn btn-warning" click.delegate="confirmCheckedData()">Konfirmasi Data Sudah Dicek</button>
         </div>
 
     </au-input-form>
