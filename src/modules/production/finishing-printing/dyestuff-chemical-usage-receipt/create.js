@@ -3,6 +3,7 @@ import {Router} from 'aurelia-router';
 import {Service} from './service';
 import { activationStrategy } from 'aurelia-router';
 import { Dialog } from '../../../../au-components/dialog/dialog';
+import { Base64Helper } from '../../../../utils/base-64-coded-helper';
 
 
 @inject(Router, Service, Dialog)
@@ -45,7 +46,7 @@ export class Create {
 
     saveCallback(event) {
         if (this.pendingPreviousAdjustment && this.pendingPreviousAdjustment.prevDataId) {
-            const pendingId = this.pendingPreviousAdjustment.prevDataId;
+            const pendingId = Base64Helper.encode(this.pendingPreviousAdjustment.prevDataId);
             const repeatedNo = this.pendingPreviousAdjustment.repeatedProductionOrderNo || '-';
             this.dialog.prompt(
                 `Data repeat order ${repeatedNo} belum dikonfirmasi update revisi. Silakan cek data sebelumnya terlebih dahulu.`,
