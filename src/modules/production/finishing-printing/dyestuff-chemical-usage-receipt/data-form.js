@@ -1,11 +1,12 @@
 import { inject, bindable, computedFrom } from 'aurelia-framework';
 import { months } from '../../../../../node_modules/moment/moment';
 import { Service } from './service';
+import { Router } from 'aurelia-router';
 let ProductionOrderLoader = require("../../../../loader/production-order-loader");
 let StrikeOffLoader = require("../../../../loader/strike-off-usage-loader");
 var moment = require('moment');
 
-@inject(Service)
+@inject(Router, Service)
 export class DataForm {
     partialNumber = 0;
     @bindable title;
@@ -52,9 +53,9 @@ export class DataForm {
         return StrikeOffLoader;
     }
 
-    constructor(service) {
+    constructor(router, service) {
+        this.router = router;
         this.service = service;
-
     }
 
     @computedFrom("data.Id")
@@ -142,7 +143,7 @@ export class DataForm {
 
             if (this.context && typeof this.context.onPreviousAdjustmentPending === 'function') {
                 this.context.onPreviousAdjustmentPending({
-                    hasPendingAdjustment: !!(prevData && prevData.IsUpdatedAdjustmentData === true),
+                    hasPendingAdjustment: !!(prevData && prevData.IsUpdatedAdjustmentData === false),
                     prevDataId: prevData ? prevData.Id : null,
                     repeatedProductionOrderNo: prevData ? prevData.ProductionOrder.OrderNo : null
                 });
