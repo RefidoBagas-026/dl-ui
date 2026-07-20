@@ -150,10 +150,15 @@ export class DataForm {
             }
 
             if (!this.data.Id) {
+                let dataStore = this.context.dataStore.dataParam;
                 this.data.UsageReceiptItems = [];
                 for (var item of this.data.StrikeOff.StrikeOffItems) {
                     var usageReceipt = {};
                     usageReceipt.ColorCode = item.ColorCode;
+                    if (dataStore && dataStore.redirectToEdit === true) {
+                        usageReceipt.Wide = dataStore.data.UsageReceiptItems.find(s => s.ColorCode == item.ColorCode).Wide;
+                        usageReceipt.TotalRealizationQty = dataStore.data.UsageReceiptItems.find(s => s.ColorCode == item.ColorCode).TotalRealizationQty;
+                    }
                     usageReceipt.UsageReceiptDetails = [];
                     var idx = 0;
 
