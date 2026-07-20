@@ -112,55 +112,55 @@
         <br>
         <br>
         <div if.bind="!isEdit">
-        <div class="row" repeat.for="color of data.UsageReceiptItems">
-            <div class="col-md-6">
-                <table id="createTable" class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                Warna
-                            </th>
-                            <th>
-                                ${color.ColorCode}
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                Dyestuff & Chemicals
-                            </th>
-                            <th>
-                                Resep
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody repeat.for="item of color.UsageReceiptDetails">
-                        <tr>
-                            <td>
-                                ${item.Name}
-                            </td>
-                            <td>
-                                ${item.ReceiptQuantity}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <au-numeric 
-                    label="Luas Area" 
-                    format="0.00" 
-                    value.bind="color.Wide"
-                    read-only.bind="readOnly" 
-                    options.bind="controlOptionsTotal"
-                    width ="10">
-                </au-numeric>
-                <au-numeric 
-                    label="Total Realisasi Pembuatan Pasta" 
-                    format="0.00" 
-                    value.bind="color.TotalRealizationQty"
-                    read-only.bind="readOnly" 
-                    options.bind="controlOptionsTotal">
-                </au-numeric>
-            </div>
-        </div>
+          <div class="row" repeat.for="color of data.UsageReceiptItems">
+              <div class="col-md-6">
+                  <table id="createTable" class="table table-bordered table-hover">
+                      <thead>
+                          <tr>
+                              <th>
+                                  Warna
+                              </th>
+                              <th>
+                                  ${color.ColorCode}
+                              </th>
+                          </tr>
+                          <tr>
+                              <th>
+                                  Dyestuff & Chemicals
+                              </th>
+                              <th>
+                                  Resep
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody repeat.for="item of color.UsageReceiptDetails">
+                          <tr>
+                              <td>
+                                  ${item.Name}
+                              </td>
+                              <td>
+                                  ${item.ReceiptQuantity}
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <au-numeric 
+                      label="Luas Area" 
+                      format="0.00" 
+                      value.bind="color.Wide"
+                      read-only.bind="readOnly" 
+                      options.bind="controlOptionsTotal"
+                      width ="10">
+                  </au-numeric>
+                  <au-numeric 
+                      label="Total Realisasi Pembuatan Pasta" 
+                      format="0.00" 
+                      value.bind="color.TotalRealizationQty"
+                      read-only.bind="readOnly" 
+                      options.bind="controlOptionsTotal">
+                  </au-numeric>
+              </div>
+          </div>
         </div>
 
         <div if.bind="isEdit && !readOnly">
