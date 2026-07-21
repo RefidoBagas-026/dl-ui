@@ -20,7 +20,7 @@ export class DataForm {
             { text: "-- Pilih Tarif --", value: "" },
             { text: "Beban Penjualan", value: {Name : "Beban Penjualan", Code : "BP" } },
             { text: "Beban Umum dan Administrasi", value: {Name : "Beban Umum dan Administrasi", Code : "BUA" } },
-            { text: "Beban (Pendapatan) Diluar Usaha", value: {Name : "Beban (Pendapatan) Diluar Usaha", Code : "BPU" } },
+            { text: "Beban (Pendapatan) Diluar Usaha", value: {Name : "Beban (Pendapatan) Diluar Usaha", Code : "BDU" } },
             { text: "OTL", value: {Name : "OTL", Code : "OTL" } },
         ];
     controlOptions = {

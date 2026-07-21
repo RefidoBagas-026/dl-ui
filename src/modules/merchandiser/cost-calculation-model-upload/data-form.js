@@ -1066,57 +1066,57 @@ async pushDataExcel(value) {
     allMaterials.push(material);
   }
 
-  const lastCategories = ['PROCESS CUTTING', 'PROCESS SEWING', 'PROCESS FINISHING'];
-  allMaterials.sort((a, b) => {
-      const categoryA = a.Category && (a.Category.name || a.Category.Name)
-          ? (a.Category.name || a.Category.Name).toUpperCase()
-          : '';
+  // const lastCategories = ['PROCESS CUTTING', 'PROCESS SEWING', 'PROCESS FINISHING'];
+  // allMaterials.sort((a, b) => {
+  //     const categoryA = a.Category && (a.Category.name || a.Category.Name)
+  //         ? (a.Category.name || a.Category.Name).toUpperCase()
+  //         : '';
 
-      const categoryB = b.Category && (b.Category.name || b.Category.Name)
-          ? (b.Category.name || b.Category.Name).toUpperCase()
-          : '';
+  //     const categoryB = b.Category && (b.Category.name || b.Category.Name)
+  //         ? (b.Category.name || b.Category.Name).toUpperCase()
+  //         : '';
 
-      const isLastCategoryA = lastCategories.indexOf(categoryA) >= 0;
-      const isLastCategoryB = lastCategories.indexOf(categoryB) >= 0;
+  //     const isLastCategoryA = lastCategories.indexOf(categoryA) >= 0;
+  //     const isLastCategoryB = lastCategories.indexOf(categoryB) >= 0;
 
-      const getRank = function (item, isLastCategory) {
-          if (item.IsAddPRMaster) return 1;
-          if (item.isFabricCM && !isLastCategory) return 2;
-          if (!isLastCategory) return 3;
-          return 4;
-      };
+  //     const getRank = function (item, isLastCategory) {
+  //         if (item.IsAddPRMaster) return 1;
+  //         if (item.isFabricCM && !isLastCategory) return 2;
+  //         if (!isLastCategory) return 3;
+  //         return 4;
+  //     };
 
-      const rankA = getRank(a, isLastCategoryA);
-      const rankB = getRank(b, isLastCategoryB);
+  //     const rankA = getRank(a, isLastCategoryA);
+  //     const rankB = getRank(b, isLastCategoryB);
 
-      if (rankA !== rankB) {
-          return rankA - rankB;
-      }
+  //     if (rankA !== rankB) {
+  //         return rankA - rankB;
+  //     }
 
-      if (rankA === 4 && rankB === 4) {
-          const processOrder = {
-              'PROCESS CUTTING': 1,
-              'PROCESS SEWING': 2,
-              'PROCESS FINISHING': 3
-          };
-          const processA = processOrder[categoryA] || 999;
-          const processB = processOrder[categoryB] || 999;
-          if (processA !== processB) {
-              return processA - processB;
-          }
-      }
-      const productCodeA = a.Product && a.Product.Code
-          ? a.Product.Code.toUpperCase()
-          : '';
-      const productCodeB = b.Product && b.Product.Code
-          ? b.Product.Code.toUpperCase()
-          : '';
-      return productCodeA.localeCompare(productCodeB);
-  });
+  //     if (rankA === 4 && rankB === 4) {
+  //         const processOrder = {
+  //             'PROCESS CUTTING': 1,
+  //             'PROCESS SEWING': 2,
+  //             'PROCESS FINISHING': 3
+  //         };
+  //         const processA = processOrder[categoryA] || 999;
+  //         const processB = processOrder[categoryB] || 999;
+  //         if (processA !== processB) {
+  //             return processA - processB;
+  //         }
+  //     }
+  //     const productCodeA = a.Product && a.Product.Code
+  //         ? a.Product.Code.toUpperCase()
+  //         : '';
+  //     const productCodeB = b.Product && b.Product.Code
+  //         ? b.Product.Code.toUpperCase()
+  //         : '';
+  //     return productCodeA.localeCompare(productCodeB);
+  // });
 
-  allMaterials.forEach((item, index) => {
-    item.MaterialIndex = index;
-  });
+  // allMaterials.forEach((item, index) => {
+  //   item.MaterialIndex = index;
+  // });
   this.data.CostCalculationGarment_Materials = allMaterials;
   this.context.itemsCollection.bind();
 }
