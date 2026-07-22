@@ -68,19 +68,13 @@ export class Create {
         let mappedData = this.data.UsageReceiptItems.map(item => {
             let mappedDetails = item.UsageReceiptDetails.map(detail => {
                 return {
-                    Index: detail.Index,
-                    DyeStuffItems: {
-                        Name: detail.DyeStuffItems.Name
-                    },
-                    Name: detail.DyeStuffItems.Name,
-                    ReceiptQuantity: detail.ReceiptQuantity
+                    ...detail,
+                    Name: detail.DyeStuffItems ? detail.DyeStuffItems.Name : ''
                 };
             });
 
             return {
-                ColorCode: item.ColorCode,
-                Wide: item.Wide,
-                TotalRealizationQty: item.TotalRealizationQty,
+                ...item,
                 UsageReceiptDetails: mappedDetails
             };
         });
