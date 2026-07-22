@@ -3,8 +3,8 @@
         /*Setting the table width is important!*/
         #detailTable {
             width: 100% ;
-            display: block;
-            overflow-x: auto;
+            display: table;
+            overflow-x: visible;
             white-space: nowrap;
 
         }
@@ -19,6 +19,44 @@
         #viewTable th,
         td {
             overflow: hidden;
+        }
+
+        .dyestuff-autocomplete {
+            position: relative;
+            overflow: visible !important;
+            z-index: 100;
+        }
+
+        .dyestuff-autocomplete au-autocomplete,
+        .dyestuff-autocomplete au-layout,
+        .dyestuff-autocomplete .form-group,
+        .dyestuff-autocomplete .row,
+        .dyestuff-autocomplete [class*="col-"],
+        .dyestuff-autocomplete .autocomplete-container {
+            overflow: visible !important;
+        }
+
+        /* Naikkan hanya cell yang sedang aktif */
+        .dyestuff-autocomplete:focus-within {
+            z-index: 99999;
+        }
+        
+        .dyestuff-autocomplete .autocomplete-suggestion {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: auto;
+        
+            width: 100%;
+            min-width: 300px;
+            height: auto;
+            max-height: 300px;
+        
+            overflow-y: auto;
+            overflow-x: hidden;
+        
+            z-index: 100000;
+            background: #ffffff;
         }
 
         /* Setting the width of column 1. */
@@ -135,8 +173,10 @@
                       </thead>
                       <tbody repeat.for="item of color.UsageReceiptDetails">
                           <tr>
-                              <td>
-                                  ${item.Name}
+                              <td class="dyestuff-autocomplete">
+                                  <au-autocomplete value.bind="item.DyeStuffItems" error.bind="error.Product" loader.bind="dyeStuffLoader"
+                                    text="Name" query.bind="dyeStuffQuery" options.bind="controlOptionsDyeStuff">
+                                  </au-autocomplete>
                               </td>
                               <td>
                                   ${item.ReceiptQuantity}
@@ -246,8 +286,10 @@
                     </thead>
                     <tbody repeat.for="item of color.UsageReceiptDetails">
                         <tr>
-                            <td>
-                                ${item.Name}
+                            <td class="dyestuff-autocomplete">
+                                <au-autocomplete value.bind="item.DyeStuffItems" error.bind="error.Product" loader.bind="dyeStuffLoader"
+                                    text="Name" query.bind="dyeStuffQuery" options.bind="controlOptionsDyeStuff" read-only.bind="readOnlyDyeStuff">
+                                </au-autocomplete>
                             </td>
                             <td>
                                 <au-numeric format="0.00" value.bind="item.ReceiptQuantity" read-only.bind="true">

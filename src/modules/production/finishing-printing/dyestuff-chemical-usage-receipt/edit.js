@@ -19,6 +19,23 @@ export class EditInput {
         let decodedId = Base64Helper.decode(id);
         this.redirectToEdit = this.dataStore.dataParam.redirectToEdit === true;
         this.data = await this.service.getById(decodedId);
+
+        let mappedData = this.data.UsageReceiptItems.map(item => {
+            let mappedDetails = item.UsageReceiptDetails.map(detail => {
+                return {
+                    ...detail,
+                    DyeStuffItems: {
+                        Name: detail.Name
+                    }
+                };
+            });
+            return {
+                ...item,
+                UsageReceiptDetails: mappedDetails
+            };
+        });
+
+        this.data.UsageReceiptItems = mappedData;
     }
 
     cancelCallback(event) {
@@ -45,6 +62,28 @@ export class EditInput {
     }
 
     saveCallback(event) {
+        let mappedData = this.data.UsageReceiptItems.map(item => {
+            let mappedDetails = item.UsageReceiptDetails.map(detail => {
+                return {
+                    Index: detail.Index,
+                    DyeStuffItems: {
+                        Name: detail.DyeStuffItems.Name
+                    },
+                    Name: detail.DyeStuffItems.Name,
+                    ReceiptQuantity: detail.ReceiptQuantity
+                };
+            });
+
+            return {
+                ColorCode: item.ColorCode,
+                Wide: item.Wide,
+                TotalRealizationQty: item.TotalRealizationQty,
+                UsageReceiptDetails: mappedDetails
+            };
+        });
+
+        this.data.UsageReceiptItems = mappedData;
+
         this.service.update(this.data)
             .then(() => {
                 if (this.redirectToEdit) {
