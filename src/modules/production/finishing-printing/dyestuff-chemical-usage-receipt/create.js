@@ -65,6 +65,28 @@ export class Create {
             return;
         }
 
+        let mappedData = this.data.UsageReceiptItems.map(item => {
+            let mappedDetails = item.UsageReceiptDetails.map(detail => {
+                return {
+                    Index: detail.Index,
+                    DyeStuffItems: {
+                        Name: detail.DyeStuffItems.Name
+                    },
+                    Name: detail.DyeStuffItems.Name,
+                    ReceiptQuantity: detail.ReceiptQuantity
+                };
+            });
+
+            return {
+                ColorCode: item.ColorCode,
+                Wide: item.Wide,
+                TotalRealizationQty: item.TotalRealizationQty,
+                UsageReceiptDetails: mappedDetails
+            };
+        });
+
+        this.data.UsageReceiptItems = mappedData;
+
         this.service.create(this.data)
             .then(result => {
                 this.dataStore.dataParam = {};
