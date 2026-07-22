@@ -221,11 +221,7 @@ export class DataForm {
                     }
                 }
             } else if (this.isEdit && !this.readOnly) {
-                console.log("Tes Edit");
-                console.log("Prev Data", prevData);
-                console.log("Current Data", this.data);
-                if (!prevData || prevData.Id !== this.data.Id) {
-                    console.log("Prev Data is not the same as Current Data");
+                if (prevData && ((prevData.Id !== this.data.Id && prevResult.DyeStuffChemicalCount > 1) || (prevData.Id === this.data.Id && prevResult.DyeStuffChemicalCount === 1))) {
                     this.readOnlyDyeStuff = false;
                 }
 
