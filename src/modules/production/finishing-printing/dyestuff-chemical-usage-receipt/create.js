@@ -1,23 +1,26 @@
-import {inject, Lazy} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
-import {Service} from './service';
+import { inject, Lazy } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { Service } from './service';
 import { activationStrategy } from 'aurelia-router';
 import { Dialog } from '../../../../au-components/dialog/dialog';
 import { Base64Helper } from '../../../../utils/base-64-coded-helper';
+import { DataStore } from '../../../../utils/data-store';
 
 
-@inject(Router, Service, Dialog)
+@inject(Router, Service, Dialog, DataStore)
 export class Create {
-    constructor(router, service, dialog) {
+    constructor(router, service, dialog, dataStore) {
         this.router = router;
         this.service = service;
         this.dialog = dialog;
+        this.dataStore = dataStore;
         this.data = {};
         this.pendingPreviousAdjustment = null;
     }
 
-    async activate(params) {
-        this.data = {};
+    activate() {
+        var dataParam = this.dataStore.dataParam;
+        this.data = dataParam && dataParam.redirectToEdit === true ? { ...dataParam.data } : {};
         this.pendingPreviousAdjustment = null;
     }
 
@@ -30,6 +33,7 @@ export class Create {
     }
 
     cancelCallback(event) {
+        this.dataStore.dataParam = {};
         this.list();
     }
 
@@ -53,17 +57,33 @@ export class Create {
                 'Update Data Sebelumnya Diperlukan'
             ).then(response => {
                 if (response.ok) {
-                    this.router.navigateToRoute('edit', {
-                        id: pendingId,
-                        returnToCreate: true
-                    });
+                    this.dataStore.dataParam.redirectToEdit = true;
+                    this.dataStore.dataParam.data = this.data;
+                    this.router.navigateToRoute('edit', { id: pendingId });
                 }
             });
             return;
         }
 
+        let mappedData = this.data.UsageReceiptItems.map(item => {
+            let mappedDetails = item.UsageReceiptDetails.map(detail => {
+                return {
+                    ...detail,
+                    Name: detail.DyeStuffItems ? detail.DyeStuffItems.Name : ''
+                };
+            });
+
+            return {
+                ...item,
+                UsageReceiptDetails: mappedDetails
+            };
+        });
+
+        this.data.UsageReceiptItems = mappedData;
+
         this.service.create(this.data)
             .then(result => {
+                this.dataStore.dataParam = {};
                 alert('Data berhasil dibuat');
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })

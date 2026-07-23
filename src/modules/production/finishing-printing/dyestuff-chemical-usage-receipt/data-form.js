@@ -1,17 +1,20 @@
-import { inject, bindable, computedFrom } from 'aurelia-framework';
+import { inject, bindable, computedFrom, BindingEngine } from 'aurelia-framework';
 import { months } from '../../../../../node_modules/moment/moment';
 import { Service } from './service';
 import { Router } from 'aurelia-router';
 let ProductionOrderLoader = require("../../../../loader/production-order-loader");
 let StrikeOffLoader = require("../../../../loader/strike-off-usage-loader");
+let dyeStuffLoader = require('../../../../loader/product-loader');
 var moment = require('moment');
 
-@inject(Router, Service)
+@inject(Router, Service, BindingEngine)
 export class DataForm {
     partialNumber = 0;
     @bindable title;
     @bindable readOnly;
     @bindable enableConfirmChecked;
+    @bindable selectedDyeStuff;
+    @bindable readOnlyDyeStuff = true;
 
     // itemYears = [];
 
@@ -40,9 +43,19 @@ export class DataForm {
         },
     };
 
+    controlOptionsDyeStuff = {
+        control: {
+            length: 12,
+        }
+    };
+
     sppQuery = {
         OrderTypeName: 'PRINTING'
     };
+
+    dyeStuffQuery = {
+        "Tags": "Dye Stuff Printing"
+    }
 
     get productionOrderLoader() {
         return ProductionOrderLoader;
@@ -53,9 +66,14 @@ export class DataForm {
         return StrikeOffLoader;
     }
 
-    constructor(router, service) {
+    get dyeStuffLoader() {
+        return dyeStuffLoader;
+    }
+
+    constructor(router, service, bindingEngine) {
         this.router = router;
         this.service = service;
+        this.bindingEngine = bindingEngine;
     }
 
     @computedFrom("data.Id")
@@ -150,10 +168,15 @@ export class DataForm {
             }
 
             if (!this.data.Id) {
+                let dataStore = this.context.dataStore.dataParam;
                 this.data.UsageReceiptItems = [];
                 for (var item of this.data.StrikeOff.StrikeOffItems) {
                     var usageReceipt = {};
                     usageReceipt.ColorCode = item.ColorCode;
+                    if (dataStore && dataStore.redirectToEdit === true) {
+                        usageReceipt.Wide = dataStore.data.UsageReceiptItems.find(s => s.ColorCode == item.ColorCode).Wide;
+                        usageReceipt.TotalRealizationQty = dataStore.data.UsageReceiptItems.find(s => s.ColorCode == item.ColorCode).TotalRealizationQty;
+                    }
                     usageReceipt.UsageReceiptDetails = [];
                     var idx = 0;
 
@@ -168,7 +191,9 @@ export class DataForm {
 
                             var usageDetail = {};
                             usageDetail.Index = idx++;
-                            usageDetail.Name = detail.Name;
+                            usageDetail.DyeStuffItems = {
+                                Name: detail.Name,
+                            }
                             if (prevDetail) {
                                 const latestNonZeroQuantity = this.getLatestNonZeroQuantity(prevDetail);
                                 usageDetail.ReceiptQuantity = latestNonZeroQuantity !== 0 ? latestNonZeroQuantity : detail.Quantity;
@@ -185,7 +210,9 @@ export class DataForm {
                         for (var detail of item.StrikeOffItemDetails) {
                             var usageDetail = {};
                             usageDetail.Index = idx++;
-                            usageDetail.Name = detail.Name;
+                            usageDetail.DyeStuffItems = {
+                                Name: detail.Name,
+                            }
                             usageDetail.ReceiptQuantity = detail.Quantity;
 
                             usageReceipt.UsageReceiptDetails.push(usageDetail);
@@ -193,6 +220,11 @@ export class DataForm {
                         this.data.UsageReceiptItems.push(usageReceipt);
                     }
                 }
+            } else if (this.isEdit && !this.readOnly) {
+                if (prevData && ((prevData.Id !== this.data.Id && prevResult.DyeStuffChemicalCount > 1) || (prevData.Id === this.data.Id && prevResult.DyeStuffChemicalCount === 1))) {
+                    this.readOnlyDyeStuff = false;
+                }
+
             }
         }
     }

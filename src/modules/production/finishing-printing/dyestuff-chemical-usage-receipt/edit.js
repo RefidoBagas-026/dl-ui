@@ -2,27 +2,47 @@ import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { Base64Helper } from '../../../../utils/base-64-coded-helper';
+import { DataStore } from '../../../../utils/data-store';
 
 
-@inject(Router, Service)
+@inject(Router, Service, DataStore)
 export class EditInput {
-    constructor(router, service) {
+    constructor(router, service, dataStore) {
         this.router = router;
         this.service = service;
-        this.returnToCreate = false;
+        this.dataStore = dataStore;
+        this.redirectToEdit = false;
     }
 
     async activate(params) {
         let id = params.id;
         let decodedId = Base64Helper.decode(id);
-        this.returnToCreate = params.returnToCreate === true || params.returnToCreate === 'true';
+        this.redirectToEdit = this.dataStore.dataParam.redirectToEdit === true;
         this.data = await this.service.getById(decodedId);
+
+        let mappedData = this.data.UsageReceiptItems.map(item => {
+            let mappedDetails = item.UsageReceiptDetails.map(detail => {
+                return {
+                    ...detail,
+                    DyeStuffItems: {
+                        Name: detail.Name
+                    }
+                };
+            });
+            return {
+                ...item,
+                UsageReceiptDetails: mappedDetails
+            };
+        });
+
+        this.data.UsageReceiptItems = mappedData;
     }
 
     cancelCallback(event) {
-        if (this.returnToCreate) {
+        if (this.redirectToEdit) {
             this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
         } else {
+            this.dataStore.dataParam.redirectToEdit = false;
             const encoded = Base64Helper.encode(this.data.Id);
             this.router.navigateToRoute('view', { id: encoded });
         }
@@ -42,9 +62,25 @@ export class EditInput {
     }
 
     saveCallback(event) {
+        let mappedData = this.data.UsageReceiptItems.map(item => {
+            let mappedDetails = item.UsageReceiptDetails.map(detail => {
+                return {
+                    ...detail,
+                    Name: detail.DyeStuffItems ? detail.DyeStuffItems.Name : ''
+                };
+            });
+
+            return {
+                ...item,
+                UsageReceiptDetails: mappedDetails
+            };
+        });
+
+        this.data.UsageReceiptItems = mappedData;
+
         this.service.update(this.data)
             .then(() => {
-                if (this.returnToCreate) {
+                if (this.redirectToEdit) {
                     const data = [{ op: 'replace', path: '/IsUpdatedAdjustmentData', value: true }];
 
                     this.service.patch(this.data.Id, data)
@@ -56,6 +92,7 @@ export class EditInput {
                             this.error = e;
                         });
                 } else {
+                    this.dataStore.dataParam.redirectToEdit = false;
                     const encoded = Base64Helper.encode(this.data.Id);
                     this.router.navigateToRoute('view', { id: encoded });
                 }
