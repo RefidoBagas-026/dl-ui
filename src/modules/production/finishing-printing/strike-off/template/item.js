@@ -612,7 +612,7 @@ export class CartItem {
                         })
 
 
-                    }else {
+                    }else if (this.Type === "GROUND PRINTING") {
                         
                             this.data.ChemicalItems.push({
                                 Name: "Urea",
@@ -646,6 +646,24 @@ export class CartItem {
 
                        
                         
+                    } else if (this.Type === "DISPERSE REAKTIF") {
+                        this.data.ChemicalItems.push({
+                            Name: "Urea",
+                            Quantity: 50,
+                            Index: idx++
+                        });
+
+                        this.data.ChemicalItems.push({
+                            Name: "Soda Kue",
+                            Quantity: 15,
+                            Index: idx++
+                        });
+
+                        this.data.ChemicalItems.push({
+                            Name: "Stock Thickener (Lyoprint RTSA)",
+                            Quantity: 700,
+                            Index: idx++
+                        });
                     }
                     var sumQtyItem = this.data.ChemicalItems.reduce((a, b) => +a + +b.Quantity, 0);
                     var waterQty = 1000 - sumQtyItem - this.sumItem;
