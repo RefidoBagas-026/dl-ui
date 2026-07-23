@@ -97,7 +97,7 @@ export class DataForm {
     if (productType === "FABRIC") {
         this.CategoryTypes = ["BB"];
     } else if (productType === "NON FABRIC") {
-        this.CategoryTypes = ["BP", "BE"];
+        this.CategoryTypes = ["BP", "BE", "PRC"];
     } else {
         this.CategoryTypes = [];
     }
