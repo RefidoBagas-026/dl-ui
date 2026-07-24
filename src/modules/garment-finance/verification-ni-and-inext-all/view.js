@@ -34,11 +34,9 @@ export class View {
 
     approve(event) {
         if (confirm("Approve Anda yakin approve Nota Intern VS Invoice Eksternal ini?")) {
-            const jsonPatch = [
-                { op: "replace", path: '/ApprovalStatus', value: ApprovalEnum.APPROVED },
-            ];
+            this.data.approvalStatusEnum = ApprovalEnum.APPROVED;
 
-            this.service.replace(this.data.Id, jsonPatch)
+            this.service.updateApproval(this.data)
                 .then(() => {
                     alert("Approve berhasil");
                     this.router.navigateToRoute('list');
@@ -61,12 +59,11 @@ export class View {
             }
 
             const reason = (response.output || '').trim();
-            const jsonPatch = [
-                { op: 'replace', path: '/ApprovalStatus', value: ApprovalEnum.REJECTED },
-                { op: 'replace', path: '/ApprovalDescription', value: reason }
-            ];
 
-            return this.service.replace(this.data.Id, jsonPatch)
+            this.data.approvalStatusEnum = ApprovalEnum.REJECTED;
+            this.data.approvalDescription = reason;
+
+            return this.service.updateApproval(this.data)
                 .then(() => {
                     alert('Reject berhasil');
                     this.router.navigateToRoute('list');
