@@ -48,6 +48,17 @@ export class DataForm {
         return this.safeData.approvalStatusEnum === ApprovalEnum.REJECTED;
     }
 
+    @computedFrom("safeData.description")
+    get descriptionData() {
+        return this.safeData.description && this.safeData.description.trim() !== '' ? this.safeData.description : this.safeData.additionalDescription;
+    }
+
+    @computedFrom("safeData.additionalDescription")
+    get hasAdditionalDescription() {
+        return (this.safeData.description && this.safeData.description.trim() !== '') &&
+            (this.safeData.additionalDescription && this.safeData.additionalDescription.trim() !== '');
+    }
+
     itemsInfoReadOnly = {
         columnsReadOnly: [
             { header: "Nama Barang" },

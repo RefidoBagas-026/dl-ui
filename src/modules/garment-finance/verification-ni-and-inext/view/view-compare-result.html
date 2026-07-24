@@ -86,6 +86,9 @@
       </div>
     </div>
 
+    <au-textbox value.bind="data.additionalDescription" options.bind="auInputOptions">
+    </au-textbox>
+
     <au-textbox label="Keterangan Reject" read-only="true" value.bind="data.approvalDescription" options.bind="auInputOptions" if.bind="isRejected">
     </au-textbox>
   </au-input-form>
