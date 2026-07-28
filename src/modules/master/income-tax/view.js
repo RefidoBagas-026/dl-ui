@@ -8,24 +8,43 @@ export class View {
     constructor(router, service) {
         this.router = router;
         this.service = service;
+        this.canDelete = true;
+        this.isUsedInSalesTax = false;
     }
 
     async activate(params) {
         const decoded = Base64Helper.decode(params.id);
         var id = decoded;
         this.data = await this.service.getById(id);
+        const result = await this.service.getSalesTaxById(id);
+
+        this.isUsedInSalesTax = result === true;
+
+        if (this.isUsedInSalesTax) {
+            this.editCallback = null;
+        }
     }
 
     list() {
         this.router.navigateToRoute('list');
     }
 
-    editCallback(event) {
-        const encoded = Base64Helper.encode(this.data.Id);
-        this.router.navigateToRoute('edit', { id: encoded });
-    }
+    // editCallback(event) {
+    //     const encoded = Base64Helper.encode(this.data.Id);
+    //     this.router.navigateToRoute('edit', { id: encoded });
+    // }
 
     cancelCallback(event) {
         this.list();
+    }
+    
+    editCallback() {
+
+        if (this.isUsedInSalesTax) {
+            return;
+        }
+
+        const encoded = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute('edit', { id: encoded });
     }
 }
