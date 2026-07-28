@@ -51,7 +51,10 @@
             item-template="modules/garment-finance/verification-ni-and-inext-all/template/external-invoice-revision-delivery-order">
         </au-collection>
 
-        <au-textbox label="Keterangan" read-only="true" value.bind="data.description" options.bind="auInputOptions">
+        <au-textbox label="Keterangan" read-only="true" value.bind="descriptionData" options.bind="auInputOptions">
+        </au-textbox>
+
+        <au-textbox read-only="true" if.bind="hasAdditionalDescription" value.bind="data.additionalDescription" options.bind="auInputOptions">
         </au-textbox>
 
         <au-textbox label="Keterangan Reject" read-only="true" value.bind="data.approvalDescription" options.bind="auInputOptions" if.bind="isRejected">

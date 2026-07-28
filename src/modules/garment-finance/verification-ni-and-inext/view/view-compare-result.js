@@ -4,6 +4,7 @@ import { Base64Helper } from '../../../../utils/base-64-coded-helper';
 import { Service } from '../service';
 import { activationStrategy } from 'aurelia-router';
 import { ApprovalEnum } from '../enum/approval-enum';
+import ErrorHelper from '../../../../utils/error-helper';
 
 @inject(Router, Service)
 export class View {
@@ -45,6 +46,7 @@ export class View {
 
       const jsonPatch = [
         { op: "replace", path: '/Description', value: this.data.description },
+        { op: "replace", path: '/AdditionalDescription', value: this.data.additionalDescription }
       ];
 
       this.service.replace(this.data.Id, jsonPatch)
@@ -54,8 +56,13 @@ export class View {
         })
         .catch(e => {
           this.error = e;
+          console.log(e);
           if (e.statusCode === 500) {
             alert("Gagal menyimpan, silakan coba lagi!");
+          } else {
+            let message = "Terjadi Kesalahan\n";
+            message += ErrorHelper.parse(e);
+            alert(message);
           }
         });
     }

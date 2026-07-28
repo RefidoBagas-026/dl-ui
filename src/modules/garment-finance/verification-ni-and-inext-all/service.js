@@ -26,4 +26,9 @@ export class Service extends RestService {
         var endpoint = `${serviceUri}/${id}`;
         return super.patch(endpoint, data);
     }
+
+    updateApproval(data) {
+        let endpoint = `${serviceUri}/approval/${data.Id}`;
+        return super.put(endpoint, data);
+    }
 }
