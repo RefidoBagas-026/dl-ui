@@ -392,10 +392,10 @@ export class DataForm {
     return `${comodity.Code} - ${comodity.Name}`;
   };
 
-  get comodityQuery() {
-    var result = { _CreatedBy: "dev217" };
-    return result;
-  }
+  // get comodityQuery() {
+  //   var result = { _CreatedBy: "dev217" };
+  //   return result;
+  // }
 
   get uomLoader() {
     return UOMLoader;
