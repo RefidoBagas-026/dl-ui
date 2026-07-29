@@ -11,12 +11,12 @@ export class List {
   columns = [
     { field: "Code", title: "Kode Barang" },
     { field: "Name", title: "Nama Barang" },
+    { field: "UomUnit", title: "Satuan Barang" },
     { field: "Composition", title: "Komposisi" },
     { field: "Const", title: "Konstruksi" },
     { field: "Yarn", title: "Yarn" },
-    { field: "Width", title: "Width" },
-    { field: "UomUnit", title: "Satuan Default" },
-    { field: "HsCode", title: "Hs Code" },
+    { field: "Width", title: "Width" },    
+    { field: "HsCode", title: "HS Code" },
   ];
 
   loader = (info) => {

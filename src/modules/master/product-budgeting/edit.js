@@ -44,7 +44,7 @@ export class Edit {
             this.data.IsPriceChange = false;
             this.service.updateProduct(this.data)
                 .then(result => {
-                    alert("data berhasil di ubah");
+                    alert("Data berhasil di ubah");
                     const encoded = Base64Helper.encode(this.data.Id);
                     this.router.navigateToRoute('view', { id: encoded });
                 })

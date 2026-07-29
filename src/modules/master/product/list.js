@@ -15,6 +15,8 @@ export class List {
     { field: "CurrencyCode", title: "Mata Uang" },
     { field: "Price", title: "Harga Barang" },
     { field: "Tags", title: "Tags" },
+    { field: "ManufactureType", title: "Tipe Barang" },
+    { field: "OriginType", title: "Asal Barang" },
     {
       field: "IsPosted", title: "Active",
       formatter: function (value, row, index) {
