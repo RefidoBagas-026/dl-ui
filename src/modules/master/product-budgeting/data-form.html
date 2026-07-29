@@ -4,16 +4,28 @@
       <au-input-form title.bind="title"
                      with.bind="context"
                      options.bind="formOptions">
+        <au-dropdown label="Tipe Barang"
+                    value.bind="ManufactureType"
+                    error.bind="error.manufactureType"
+                    read-only.bind="(readOnly || isEdit)"
+                    items.bind="ManufactureTypeLists">
+        </au-dropdown>
+        <au-dropdown label="Asal Barang"
+                    value.bind="OriginType"
+                    error.bind="error.originType"
+                    read-only.bind="(readOnly || isEdit)"
+                    items.bind="OriginTypeLists">
+        </au-dropdown>
 
         <au-textbox label="Kode"
-                    value.bind="data.Code"
+                    value.bind="Code"
                     error.bind="error.code"
-                    read-only.bind="(readOnly || isEdit)"></au-textbox>
+                    read-only.bind="true"></au-textbox>
 
         <au-textbox label="Nama"
-                    value.bind="data.Name"
+                    value.bind="Name"
                     error.bind="error.name"
-                    read-only.bind="readOnly"></au-textbox>
+                    read-only.bind="(readOnly || isEdit)"></au-textbox>
 
         <au-autocomplete label="Satuan"
                          value.bind="UOM"

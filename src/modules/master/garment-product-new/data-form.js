@@ -314,20 +314,24 @@ export class DataForm {
 
         const nameCode = this.generateNameCode();
 
-        if (this.data.ManufactureType === "FOB") {
-            if (this.data.ProductType === "FABRIC") {
+        if (this.data.ManufactureType === "FOB" || this.ManufactureType === "FOB") {
+            if (this.data.ProductType === "FABRIC" || this.ProductType === "FABRIC") {
                 this.data.Code =
                     this.data.OriginType === "IMPORT"
                         ? `FI-${compositionCode}`
                         : `FL-${compositionCode}`;
             } else {
+                if(this.data.CategoryType === 'PRC' || this.CategoryType === 'PRC'){
+                    this.data.Code = `PR-${nameCode}`;
+                }else{
                 this.data.Code =
                     this.data.OriginType === "IMPORT"
                         ? `FI-${nameCode}`
                         : `FL-${nameCode}`;
+                }
             }
         } else if (this.data.ManufactureType === "CMT") {
-            if (this.data.ProductType === "FABRIC") {
+            if (this.data.ProductType === "FABRIC" || this.ProductType === "FABRIC") {
                 this.data.Code =
                     this.data.OriginType === "IMPORT"
                         ? `CI-${compositionCode}`
@@ -365,17 +369,47 @@ export class DataForm {
         }
         if (this.compositions.length > 1) {
             this.compositions.splice(index, 1);
-
-            this.updateComposition();
         }
+        this.updateComposition();
     }
+
     OriginTypeChanged(value) {
         if (this.readOnly || this.isEdit) {
             return;
         }
+
+        if((this.data.ManufactureType != 'FOB' || this.ManufactureType != 'FOB') && this.ProductGarmentCheck == true)
+        {
+            this.data.Code = null;
+            this.data.Name = null;
+            this.Name = null;
+            this.Composition = null;
+            this.compositions = [
+                {
+                    Composition: "",
+                    Percentage: null
+                }
+            ];
+            this.data.Composition = null;
+            this.data.Const = null;
+            this.data.Yarn = null;
+            this.data.Width = null;
+            if(this.context.ProductGarmentViewModel){
+                (this.context.ProductGarmentViewModel || {}).editorValue = "";
+                this.ProductGarment = null;
+            }
+            if(this.data.ManufactureType != 'AVAL' || this.ManufactureType != 'AVAL'){
+                this.data.UOM = null;
+                if(this.context.UOMViewModel){
+                    (this.context.UOMViewModel || {}).editorValue = "";
+                    this.UOM = null;
+                }
+            }
+        }
         if(value){
             this.data.OriginType = value;
             this.generateCode();
+            this.setCategoryTypes(this.data.ProductType || this.ProductType);
         }
     }
 
@@ -447,6 +481,7 @@ export class DataForm {
         }
         if (newValue) {
             this.data.CategoryType = newValue;
+            this.generateCode();
             if(this.context.ProductGarmentViewModel){
                 (this.context.ProductGarmentViewModel || {}).editorValue = "";
             }
@@ -461,7 +496,7 @@ export class DataForm {
             this.CategoryTypeLists = ['BB'];
         }
         else if (productType === 'NON FABRIC') {
-            if (this.data.ManufactureType === 'AVAL') {
+            if (this.data.ManufactureType === 'AVAL' || this.ManufactureType === 'AVAL' || this.data.ManufactureType === 'CMT' || this.ManufactureType === 'CMT' || this.data.OriginType === 'IMPORT' || this.OriginType === 'IMPORT') {
                 this.CategoryTypeLists = ['', 'BP', 'BE'];
             } else {
                 this.CategoryTypeLists = ['', 'BP', 'BE', 'PRC'];
