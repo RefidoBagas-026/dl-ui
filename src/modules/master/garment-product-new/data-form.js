@@ -199,13 +199,22 @@ export class DataForm {
             }
         }
     }
-   
+    capitalizeWords(text) {
+        return text
+            ? text
+                .toLowerCase()
+                .replace(/\b\w/g, c => c.toUpperCase())
+            : "";
+    }
+
     updateComposition() {
         this.Composition = this.compositions
             .map(x => [
                 x.Percentage ? `${x.Percentage}%` : null,
                 x.Composition
-                    ? x.Composition.trim().replace(/\s+/g, " ")
+                    ? this.capitalizeWords(
+                        x.Composition.trim().replace(/\s+/g, " ")
+                    )
                     : null
             ]
             .filter(v => v !== null && v !== undefined && v !== "")
@@ -291,7 +300,8 @@ export class DataForm {
             return;
         }
         if (value) {
-            this.data.Name = value;
+            this.Name = this.capitalizeWords(value);
+            this.data.Name = this.Name;
             this.generateCode();
         }
     }
