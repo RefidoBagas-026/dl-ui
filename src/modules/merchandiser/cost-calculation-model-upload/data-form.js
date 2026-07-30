@@ -927,8 +927,22 @@ export class DataForm {
                     errors.push(`Kolom "${col}" pada baris ${rowIndex + 2} tidak boleh kosong`);
                 }
             });
-        });
+        const cmtValue = (row["CMT"] || "").toString().trim().toLowerCase();
 
+        const isCMT =
+            row["CMT"] === true ||
+            ["1", "true", "ya", "yes", "iya", "benar", "cmt"].includes(cmtValue);
+
+        if (
+            isCMT &&
+            !kodeBarang.toUpperCase().startsWith("CI-") &&
+            !kodeBarang.toUpperCase().startsWith("CL-")
+        ) {
+            errors.push(
+                `Baris ${rowIndex + 2}: Jika barang CMT maka gunakan kode barang CMT`
+            );
+        }
+      });
         if (errors.length > 0) {
             if (confirm("Terdapat data kosong, download file error?")) {
                 this.downloadErrorExcel(errors);

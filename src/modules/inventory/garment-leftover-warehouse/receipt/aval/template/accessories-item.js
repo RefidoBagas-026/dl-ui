@@ -8,7 +8,8 @@ export class items {
     @bindable selectedUom;
 
     filter={
-        'Name.Contains("FABRIC")':false
+        'Name.Contains("FABRIC")':false,
+        'ManufactureType == "AVAL"':true,
     };
 
     get uomLoader() {
