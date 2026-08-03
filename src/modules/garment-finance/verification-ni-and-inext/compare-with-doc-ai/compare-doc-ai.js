@@ -141,6 +141,7 @@ export class CompareDocAi {
     try {
       // Sekarang memanggil endpoint invoice (getInternNoteById sudah diarahkan ke garment-invoices)
       const response = await this.service.getInternNoteById(garmentInvoice.Id);
+      const internNoteCalculation = await this.service.getInternNoteCalculationById(this.selectedNotaIntern.Id);
       const invoiceDetail = response.data || response || {};
 
       // Bentuk objek gabungan untuk kebutuhan tabel (prioritas tampil invoice terlebih dahulu)
@@ -153,7 +154,7 @@ export class CompareDocAi {
         // Field invoice
         invoiceNo: invoiceDetail.invoiceNo || invoiceDetail.InvoiceNo || garmentInvoice.invoiceNo || '',
         invoiceDate: invoiceDetail.invoiceDate || invoiceDetail.InvoiceDate || '',
-        totalAmount: invoiceDetail.totalAmount || invoiceDetail.grandTotal || invoiceDetail.GrandTotalAmount || '',
+        totalAmount: internNoteCalculation.totalAmountCalculation || '',
         remark: invoiceDetail.remark || '',
         currencyCode: (invoiceDetail.currency && invoiceDetail.currency.Code) ? invoiceDetail.currency.Code : '',
         // Jenis PPN (vat rate) diambil dari beberapa kemungkinan properti
@@ -165,30 +166,7 @@ export class CompareDocAi {
           return null;
         })(invoiceDetail),
         // Jumlah PPN dihitung (jika tersedia) = totalAmount * (vatRate/100)
-        vatAmount: (function (det) {
-          // let rate = null;
-          // if (det.vatRate != null) rate = det.vatRate; else if (det.vat && det.vat.rate != null) rate = det.vat.rate; else if (det.vat && det.vat.Rate != null) rate = det.vat.Rate; else if (det.VatRate != null) rate = det.VatRate;
-          // const total = det.totalAmount || det.grandTotal || det.GrandTotalAmount;
-          // const numTotal = typeof total === 'string' ? Number(total.replace(/[,]/g,'')) : Number(total);
-          // const numRate = Number(rate);
-          // if (!isNaN(numTotal) && !isNaN(numRate)) {
-          //   return +(numTotal * (numRate/100)).toFixed(2);
-          // }
-          // return null;
-          let vat = 0;
-          if (det.useVat && det.isPayVat) {
-            det.items.forEach(item => {
-              item.details.forEach(d => {
-                if (det.vatRate == 12) {
-                  vat += d.pricePerDealUnit * d.doQuantity * 0.12 * 11 / 12;
-                } else {
-                  vat += d.pricePerDealUnit * d.doQuantity * det.vatRate / 100;
-                }
-              });
-            });
-          }
-          return vat;
-        })(invoiceDetail),
+        vatAmount: internNoteCalculation.ppnTotalCalculation || '',
         // Simpan kedua ID eksplisit
         garmentInvoiceId: invoiceDetail.Id || garmentInvoice.Id || null,
         garmentInternNoteId: this.selectedNotaIntern.Id || null,
