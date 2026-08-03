@@ -105,6 +105,11 @@ export class Service extends RestService {
         return this.purchasingService.get(endpoint);
     }
 
+    getInternNoteCalculationById(id) {
+        const endpoint = `${serviceInternNotesUri}/totalamountcalculation/${id}`;
+        return this.purchasingService.get(endpoint);
+    }
+
     // =====================================
     // SCAN METHODS
     // =====================================

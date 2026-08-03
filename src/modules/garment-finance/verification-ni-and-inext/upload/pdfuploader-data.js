@@ -45,7 +45,7 @@ export class PdfuploaderData {
 
   // Kolom untuk au-table (header)
   tableColumns = [
-    { field: 'InvoiceDocumentNumber', title: 'Nomor Invoice External' },
+    { field: 'InvoiceBillDocumentNumber', title: 'Nomor Invoice External' },
     {
       field: 'ValueAddedTax', title: 'Nominal Faktur', formatter: (value) => {
         // Tampilkan selalu dengan format Indonesia dan 2 desimal
@@ -134,7 +134,7 @@ export class PdfuploaderData {
 
         // Edit InvoiceNo (cell 0)
         const invoiceNoCell = cells[0];
-        const originalInvoiceNo = doc.InvoiceExternalScanResult.InvoiceDocumentNumber;
+        const originalInvoiceNo = doc.InvoiceExternalScanResult.InvoiceBillDocumentNumber;
         invoiceNoCell.innerHTML = `<input type='text' class='form-control form-control-sm' value='${originalInvoiceNo}' style='width:100%' />`;
 
         // Edit TotalVat (cell 1)
@@ -201,7 +201,7 @@ export class PdfuploaderData {
         if (this.scannedData && doc === this.scannedData) {
           const invoiceNoInput = cells[0].querySelector('input');
           if (invoiceNoInput) {
-            this.scannedData.InvoiceExternalScanResult.InvoiceDocumentNumber = invoiceNoInput.value;
+            this.scannedData.InvoiceExternalScanResult.InvoiceBillDocumentNumber = invoiceNoInput.value;
           }
 
           const totalVatInput = cells[1].querySelector('input');
@@ -229,7 +229,7 @@ export class PdfuploaderData {
         const updatedCells = rowEl.querySelectorAll('td');
         if (updatedCells.length >= 4) {
           // Kembalikan InvoiceNo ke readonly
-          updatedCells[0].innerHTML = doc.InvoiceExternalScanResult.InvoiceDocumentNumber;
+          updatedCells[0].innerHTML = doc.InvoiceExternalScanResult.InvoiceBillDocumentNumber;
           // Kembalikan TotalVat ke readonly (format Indonesia, 2 desimal)
           updatedCells[1].innerHTML = (doc.TaxInvoiceScanResult.TaxInvoice.ValueAddedTax != null && !isNaN(Number(doc.TaxInvoiceScanResult.TaxInvoice.ValueAddedTax)))
             ? Number(doc.TaxInvoiceScanResult.TaxInvoice.ValueAddedTax).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -407,7 +407,7 @@ export class PdfuploaderData {
     return {
       total: 1,
       data: [{
-        InvoiceDocumentNumber: doc.InvoiceExternalScanResult.InvoiceDocumentNumber,
+        InvoiceBillDocumentNumber: doc.InvoiceExternalScanResult.InvoiceBillDocumentNumber,
         ValueAddedTax: doc.TaxInvoiceScanResult.TaxInvoice.ValueAddedTax ? doc.TaxInvoiceScanResult.TaxInvoice.ValueAddedTax : this.parseLocaleNumber('0'),
         IdrTotalPriceAfterTax: doc.InvoiceExternalScanResult.IdrTotalPriceAfterTax ? doc.InvoiceExternalScanResult.IdrTotalPriceAfterTax : this.parseLocaleNumber('0'),
         NonIdrTotalPriceAfterTax: doc.InvoiceExternalScanResult.NonIdrTotalPriceAfterTax ? doc.InvoiceExternalScanResult.NonIdrTotalPriceAfterTax : this.parseLocaleNumber('0')
