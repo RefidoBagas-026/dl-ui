@@ -46,6 +46,23 @@
             options.bind="controlOptions">
         </au-autocomplete>
 
+        <au-textbox 
+            label="Nomor BC" 
+            value.bind="data.bcNo" 
+            error.bind="error.bcNo" 
+            placeholder="tambahkan nomor BC" 
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-datepicker 
+            label="Tgl. BC" 
+            value.bind="data.bcDate" 
+            error.bind="error.bcDate" 
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-datepicker>
+
         <au-multiline 
             label="Keterangan" 
             value.bind="data.remark"
