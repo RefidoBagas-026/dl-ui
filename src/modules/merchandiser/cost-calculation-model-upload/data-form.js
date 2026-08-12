@@ -905,7 +905,7 @@ export class DataForm {
             "Konversi",
             "Remark RO"
         ];
-        const processKodeBarang = ["PRCSEW", "PRCFIN", "PRCCUT"];
+        const processKodeBarang = ["PRCSEW", "PRCFIN", "PRCCUT", "PR-PS0000001", "PR-PF0000001", "PR-PC0000001", "PR-P00000001"];
         const skipIfProcess = ["Satuan Barang", "Harga", "Satuan beli", "Konversi", "Remark RO"];
         // Validasi kolom wajib tidak boleh kosong
         const errors = [];
@@ -1068,7 +1068,7 @@ async pushDataExcel(value) {
           Product: { 
             Code: item.KodeBarang || "Tidak ditemukan",
             IsError: true,
-            ErrorMessage: "Tidak ditemukan"
+            ErrorMessage: `Tidak ditemukan barang dengan kode ${item.KodeBarang}`
           },
           HasError: true,
           IsFromUpload: item.IsFromUpload
