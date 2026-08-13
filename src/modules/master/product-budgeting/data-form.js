@@ -96,7 +96,7 @@ export class DataForm {
         }
 
         const formattedName = newValue
-            ? newValue.replace(/\b\w/g, c => c.toUpperCase())
+            ? newValue.toUpperCase()
             : null;
 
         if (formattedName && formattedName !== newValue) {
@@ -123,19 +123,19 @@ export class DataForm {
         const nameCode = this.generateNameCode();
         if(this.ManufactureType == "FOB"){
             if (this.OriginType == "IMPORT") {
-                this.Code = `FI-${nameCode}`;
+                this.Code = `FUI-${nameCode}`;
                 this.data.Code = this.Code;
             } else if (this.OriginType == "LOCAL") {
-                this.Code = `FL-${nameCode}`;
+                this.Code = `FUL-${nameCode}`;
                 this.data.Code = this.Code;
             }
             // this.Code = `FL-${nameCode}`;
         }else if(this.ManufactureType == "CMT"){
             if (this.OriginType == "IMPORT") {
-                this.Code = `CI-${nameCode}`;
+                this.Code = `CUI-${nameCode}`;
                 this.data.Code = this.Code;
             } else if (this.OriginType == "LOCAL") {
-                this.Code = `CL-${nameCode}`;
+                this.Code = `CUL-${nameCode}`;
                 this.data.Code = this.Code;
             }
         }
