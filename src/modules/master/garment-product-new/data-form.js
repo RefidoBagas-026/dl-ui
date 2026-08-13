@@ -201,9 +201,7 @@ export class DataForm {
     }
     capitalizeWords(text) {
         return text
-            ? text
-                .toLowerCase()
-                .replace(/\b\w/g, c => c.toUpperCase())
+            ? text.toUpperCase()
             : "";
     }
 
