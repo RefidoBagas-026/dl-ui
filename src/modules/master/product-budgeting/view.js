@@ -14,7 +14,7 @@ export class View {
         const decoded = Base64Helper.decode(params.id);
         var id = decoded;
         this.data = await this.service.getById(id);
-        const isSuccess = (this.data.StatusD365 === "Success" && this.data.Active);
+        const isSuccess = (this.data.StatusD365 === "Success");
         StatusHelper.disableEditDelete(this, isSuccess);
     }
 

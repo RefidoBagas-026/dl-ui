@@ -10,7 +10,7 @@ export class List {
     {
       field: "isPosting", title: "Post", checkbox: true, sortable: false,
       formatter: function (value, data, index) {
-        this.checkboxEnabled = !data.IsPosted;
+        this.checkboxEnabled = !data.Active;
         return ""
       }
     },
@@ -38,7 +38,7 @@ export class List {
       }
     },
     {
-      field: "IsPosted", title: "Active",
+      field: "Active", title: "Active",
       formatter: function (value, row, index) {
         return value ? "SUDAH" : "BELUM";
       }
@@ -54,7 +54,7 @@ export class List {
 
   dataToBePosted = [];
   rowFormatter(data, index) {
-    if (data.IsPosted)
+    if (data.Active)
       return { classes: "success" }
     else
       return {}
@@ -69,7 +69,7 @@ export class List {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      select: ["code", "name", "address", "country", "import", "NPWP", "usevat", "usetax", "IncomeTaxes", "IsPosted"],
+      select: ["code", "name", "address", "country", "import", "NPWP", "usevat", "usetax", "IncomeTaxes", "Active"],
       order: order
     }
 
@@ -116,9 +116,9 @@ export class List {
     switch (name) {
       case "detail ":
       case "nonaktif":
-        return data.IsPosted;
+        return (data.StatusD365 !== "Success");
       case "detail":
-        return !data.IsPosted;
+        return (data.StatusD365 === "Success");
       default:
         return true;
     }

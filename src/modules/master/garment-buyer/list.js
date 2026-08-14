@@ -92,9 +92,9 @@ export class List {
     switch (name) {
       case "detail ":
       case "nonaktif":
-        return data.IsPosted;
+        return data.StatusD365 !== "Success";
       case "detail":
-        return !data.IsPosted;
+        return data.StatusD365 === "Success";
       default:
         return true;
     }
