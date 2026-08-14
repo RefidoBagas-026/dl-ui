@@ -15,6 +15,7 @@ export class CostCalculationMaterial {
         this.data = this.context.data;
         this.options = this.context.options;
         this.readOnly = true;
+        this.data.Allowance = this.data.Allowance ? this.data.Allowance : 0;
         this.data.Category.FullName = this.data.Category.SubCategory ? this.data.Category.Name + " - " + this.data.Category.SubCategory : this.data.Category.Name;
         this.data.QuantityInUnit = numeral(this.data.Quantity).format(defaultNumberFormat) + " " + this.data.UOMQuantity.Unit;
         this.data.PricePerUnit = this.data.Price.toLocaleString('en-EN', { maximumFractionDigits: 2,minimumFractionDigits:2})+ " / " + this.data.UOMPrice.Unit;
