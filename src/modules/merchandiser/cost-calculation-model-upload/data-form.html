@@ -32,10 +32,10 @@
                     value.bind="data.CommodityDescription" error.bind="error.CommodityDescription"
                     options.bind="length4">
                 </au-multiline>
-                <au-numeric label="Fabric (%)" value.bind="fabricAllowance" error.bind="error.FabricAllowance"
+                <au-numeric label="Total Fabric (%)" value.bind="data.FabricAllowance" error.bind="error.FabricAllowance" read-only.bind="disabled"
                     options.bind="length4">
                 </au-numeric>
-                <au-numeric label="Accessories (%)" value.bind="accessoriesAllowance"
+                <au-numeric label="Total Accessories (%)" value.bind="data.AccessoriesAllowance" read-only.bind="disabled"
                     error.bind="error.AccessoriesAllowance" options.bind="length4">
                 </au-numeric>
             </div>

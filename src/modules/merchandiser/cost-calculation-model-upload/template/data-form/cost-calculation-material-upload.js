@@ -22,6 +22,12 @@ export class CostCalculationMaterial {
         }
     };
 
+    controlOptions2 = {
+        control: {
+            length: `12 text-center text-uppercase`
+        }
+    };
+
     constructor(dialog, service, serviceCore) {
         this.dialog = dialog;
         this.service = service;
@@ -214,20 +220,20 @@ export class CostCalculationMaterial {
         return totalShippingFee;
     }
 
-    @computedFrom('data.Category', 'data.Category.Name', 'data.Category.name', 'data.Quantity', 'data.Conversion', 'data.QuantityOrder', 'data.FabricAllowance', 'data.AccessoriesAllowance')
+    @computedFrom('data.Category', 'data.Category.Name', 'data.Category.name', 'data.Quantity', 'data.Conversion', 'data.QuantityOrder', 'data.Allowance')
     get budgetQuantity() {
-        let allowance = 0;
+        let allowance = this.data.Allowance ? (this.data.Allowance / 100) : 0;
         this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
 
-        let fabricAllowance = this.data.FabricAllowance ? this.data.FabricAllowance : 0;
-        let accessoriesAllowance = (this.data.AccessoriesAllowance && this.data.AccessoriesAllowance != 0)  ? this.data.AccessoriesAllowance : 0;
-        if (this.data.Category) {
-            if (this.categoryNames === "FABRIC") {
-                allowance =  fabricAllowance / 100;
-            } else {
-                allowance = accessoriesAllowance / 100;
-            }
-        }
+        // let fabricAllowance = this.data.Allowance ? this.data.Allowance : 0;
+        // let accessoriesAllowance = (this.data.AccessoriesAllowance && this.data.AccessoriesAllowance != 0)  ? this.data.AccessoriesAllowance : 0;
+        // if (this.data.Category) {
+        //     if (this.categoryNames === "FABRIC") {
+        //         allowance =  fabricAllowance / 100;
+        //     } else {
+        //         allowance = accessoriesAllowance / 100;
+        //     }
+        // }
         let budgetQuantity = this.data.Quantity && this.data.Conversion ? this.data.Quantity * this.data.QuantityOrder / this.data.Conversion + allowance * this.data.Quantity * this.data.QuantityOrder / this.data.Conversion : 0;
         budgetQuantity = Math.ceil(budgetQuantity);
         this.data.BudgetQuantity = Math.ceil(budgetQuantity);
