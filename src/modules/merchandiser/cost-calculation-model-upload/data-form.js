@@ -107,6 +107,7 @@ export class DataForm {
       { header: "Satuan", value: "SatuanPrice" },
       { header: "Konversi", value: "Conversion" },
       { header: "Total", value: "Total" },
+      { header: "Allowance (%)", value: "Allowance" },
       { header: "Ongkir (%)", value: "ShippingFeePortion" },
       { header: "Jumlah Ongkir", value: "TotalShippingFee" },
       { header: "Kuantitas Budget", value: "BudgetQuantity" },
@@ -149,20 +150,7 @@ export class DataForm {
     this.error = this.context.error;
     this.create = this.context.create;
     this.selectedSubconType = this.data.SubconType ? this.data.SubconType : "";
-    this.selectedSMV_Cutting = this.data.SMV_Cutting
-      ? this.data.SMV_Cutting
-      : 0;
-    this.selectedSMV_Sewing = this.data.SMV_Sewing ? this.data.SMV_Sewing : 0;
-    this.selectedSMV_Finishing = this.data.SMV_Finishing
-      ? this.data.SMV_Finishing
-      : 0;
     this.quantity = this.data.Quantity ? this.data.Quantity : 1;
-    this.fabricAllowance = this.data.FabricAllowance
-      ? this.data.FabricAllowance
-      : 0;
-    this.accessoriesAllowance = this.data.AccessoriesAllowance
-      ? this.data.AccessoriesAllowance
-      : 0;
     this.data.Risk = this.data.Risk ? this.data.Risk : 5;
     this.imageSrc = this.data.ImageFile =
       this.isEdit || this.isCopy ? this.data.ImageFile || "#" : "#";
@@ -283,8 +271,8 @@ export class DataForm {
     if (this.data.CostCalculationGarment_Materials) {
       this.data.CostCalculationGarment_Materials.forEach((item) => {
         item.QuantityOrder = this.data.Quantity;
-        item.FabricAllowance = this.data.FabricAllowance;
-        item.AccessoriesAllowance = this.data.AccessoriesAllowance;
+        // item.FabricAllowance = this.data.FabricAllowance;
+        // item.AccessoriesAllowance = this.data.AccessoriesAllowance;
         item.Rate = this.data.Rate;
         item.SMV_Cutting = this.data.SMV_Cutting;
         item.SMV_Sewing = this.data.SMV_Sewing;
@@ -573,27 +561,27 @@ export class DataForm {
     }
   }
  
-  @bindable fabricAllowance;
-  fabricAllowanceChanged(newValue) {
-    this.data.FabricAllowance = newValue;
-    if (this.data.CostCalculationGarment_Materials) {
-      this.data.CostCalculationGarment_Materials.forEach((item) => {
-        item.FabricAllowance = this.data.FabricAllowance;
-      });
-      this.context.itemsCollection.bind();
-    }
-  }
+  // @bindable fabricAllowance;
+  // fabricAllowanceChanged(newValue) {
+  //   this.data.FabricAllowance = newValue;
+  //   if (this.data.CostCalculationGarment_Materials) {
+  //     this.data.CostCalculationGarment_Materials.forEach((item) => {
+  //       item.FabricAllowance = this.data.FabricAllowance;
+  //     });
+  //     this.context.itemsCollection.bind();
+  //   }
+  // }
 
-  @bindable accessoriesAllowance;
-  accessoriesAllowanceChanged(newValue) {
-    this.data.AccessoriesAllowance = newValue;
-    if (this.data.CostCalculationGarment_Materials) {
-      this.data.CostCalculationGarment_Materials.forEach((item) => {
-        item.AccessoriesAllowance = this.data.AccessoriesAllowance;
-      });
-      this.context.itemsCollection.bind();
-    }
-  }
+  // @bindable accessoriesAllowance;
+  // accessoriesAllowanceChanged(newValue) {
+  //   this.data.AccessoriesAllowance = newValue;
+  //   if (this.data.CostCalculationGarment_Materials) {
+  //     this.data.CostCalculationGarment_Materials.forEach((item) => {
+  //       item.AccessoriesAllowance = this.data.AccessoriesAllowance;
+  //     });
+  //     this.context.itemsCollection.bind();
+  //   }
+  // }
 
   @bindable selectedSubconType;
   selectedSubconTypeChanged(newValue) {
@@ -637,7 +625,7 @@ export class DataForm {
       let materials = this.data.CostCalculationGarment_Materials || [];
       let smvCutting = materials
       .filter(m =>
-        (m.Category.name || m.Category.Name || "").toString().trim().toUpperCase() === "PROCESS CUTTING"
+        (((m.Category || {}).name || (m.Category || {}).Name || "").toString().trim().toUpperCase()) === "PROCESS CUTTING"
       )
       .reduce((sum, current) => sum + Number(current.Quantity || 0), 0);
 
@@ -656,7 +644,7 @@ export class DataForm {
       let materials = this.data.CostCalculationGarment_Materials || [];
       let smvSewing = materials
       .filter(m =>
-        (m.Category.name || m.Category.Name || "").toString().trim().toUpperCase() === "PROCESS SEWING"
+        (((m.Category || {}).name || (m.Category || {}).Name || "").toString().trim().toUpperCase()) === "PROCESS SEWING"
       )
       .reduce((sum, current) => sum + Number(current.Quantity || 0), 0);
     this.data.SMV_Sewing = numeral(smvSewing).value();
@@ -674,7 +662,7 @@ export class DataForm {
       let materials = this.data.CostCalculationGarment_Materials || [];
       let smvFinishing = materials
       .filter(m =>
-        (m.Category.name || m.Category.Name || "").toString().trim().toUpperCase() === "PROCESS FINISHING"
+        (((m.Category || {}).name || (m.Category || {}).Name || "").toString().trim().toUpperCase()) === "PROCESS FINISHING"
       )
       .reduce((sum, current) => sum + Number(current.Quantity || 0), 0);
     this.data.SMV_Finishing = numeral(smvFinishing).value();
@@ -861,6 +849,7 @@ export class DataForm {
             "Harga",
             "Satuan beli",
             "Konversi",
+            "Allowance %",
             "Ongkir %",
             "Remark RO"
         ];
@@ -927,6 +916,24 @@ export class DataForm {
                     errors.push(`Kolom "${col}" pada baris ${rowIndex + 2} tidak boleh kosong`);
                 }
             });
+
+        // Validasi Allowance untuk Process
+        const allowanceValue = row["Allowance %"];
+
+        const hasAllowance =
+            allowanceValue !== null &&
+            allowanceValue !== undefined &&
+            allowanceValue !== "" &&
+            !isNaN(Number(allowanceValue)) &&
+            Number(allowanceValue) !== 0;
+
+        if (isProcess && hasAllowance) {
+            errors.push(
+                `Baris ${rowIndex + 2}: Allowance % tidak boleh diisi untuk kode barang process (${kodeBarang})`
+            );
+        }
+
+        // Validasi CMT
         const cmtValue = (row["CMT"] || "").toString().trim().toLowerCase();
 
         const isCMT =
@@ -1000,8 +1007,9 @@ async pushDataExcel(value) {
     Information: (row["Remark RO"] || "").toString(),
     MaterialIndex: index,
     QuantityOrder: this.data.Quantity || 0,
-    FabricAllowance: this.data.FabricAllowance || 0,
-    AccessoriesAllowance: this.data.AccessoriesAllowance || 0,
+    Allowance: parseFloat(row["Allowance %"]) || 0,
+    // FabricAllowance: this.data.FabricAllowance || 0,
+    // AccessoriesAllowance: this.data.AccessoriesAllowance || 0,
     Rate: this.data.Rate || 0,
     SMV_Cutting: this.data.SMV_Cutting || 0,
     SMV_Sewing: this.data.SMV_Sewing || 0,
@@ -1048,8 +1056,9 @@ async pushDataExcel(value) {
           UOMPrice: item.UOMPrice || null,
           MaterialIndex: item.MaterialIndex || 0,
           QuantityOrder: item.QuantityOrder || 0,
-          FabricAllowance: item.FabricAllowance || 0,
-          AccessoriesAllowance: item.AccessoriesAllowance || 0,
+          // FabricAllowance: item.FabricAllowance || 0,
+          // AccessoriesAllowance: item.AccessoriesAllowance || 0,
+          Allowance: item.Allowance || 0,
           Rate: item.Rate || 0,
           SMV_Cutting: item.SMV_Cutting || 0,
           SMV_Sewing: item.SMV_Sewing || 0,
@@ -1132,7 +1141,20 @@ async pushDataExcel(value) {
   //   item.MaterialIndex = index;
   // });
   this.data.CostCalculationGarment_Materials = allMaterials;
-  this.context.itemsCollection.bind();
+  console.log("this.data.CostCalculationGarment_Materials", this.data.CostCalculationGarment_Materials);
+  this.data.FabricAllowance = allMaterials
+      .filter(x =>
+          (((x.Category || {}).name || (x.Category || {}).Name || "").toUpperCase() === "FABRIC")
+      )
+      .reduce((a, b) => a + Number(b.Allowance || 0), 0);
+  console.log("this.data.FabricAllowance", this.data.FabricAllowance);
+  this.data.AccessoriesAllowance = allMaterials
+      .filter(x =>
+          (((x.Category || {}).name || (x.Category || {}).Name || "").toUpperCase() !== "FABRIC")
+      )
+      .reduce((a, b) => a + Number(b.Allowance || 0), 0);
+  console.log("this.data.AccessoriesAllowance", this.data.AccessoriesAllowance);
+      this.context.itemsCollection.bind();
 }
 
 viewData() {
