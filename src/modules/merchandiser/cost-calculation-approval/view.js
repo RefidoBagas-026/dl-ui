@@ -133,9 +133,9 @@ export class View {
             this.data = await this.service.getByIdWithProductNames(id);
 
             this.approval.data = Object.assign({}, this.data);
-
+            const listProcess = ["PROCESS","PROCESS CUTTING","PROCESS SEWING","PROCESS FINISHING"];
             this.approval.data.CostCalculationGarment_Materials = this.data.CostCalculationGarment_Materials.filter(mtr => {
-                let processOrNot = mtr.Category.name.toUpperCase() !== "PROCESS";
+                let processOrNot = !listProcess.includes(mtr.Category.name.toUpperCase());
                 let isNotProcessSubcon = mtr.Category.name.toUpperCase()!= "PROCESS SUBCON";
                 return true
                     && mtr.IsPosted !== true

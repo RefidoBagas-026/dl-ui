@@ -98,14 +98,12 @@ export class Create {
                 }, false);
 
                 this.validationType = (isAnyPostedMaterials === true) ? "Process" : "Non Process";
-
+                var listProcess = ["PROCESS", "PROCESS CUTTING", "PROCESS SEWING", "PROCESS FINISHING"];
                 this.data.CostCalculationGarment_Materials = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(mtr => {
-                    let processOrNot = (isAnyPostedMaterials === true) ? (mtr.Category.name.toUpperCase() === "PROCESS") : (mtr.Category.name.toUpperCase() !== "PROCESS");
+                    let processOrNot = (isAnyPostedMaterials === true) ? listProcess.includes(mtr.Category.name.toUpperCase()) : !listProcess.includes(mtr.Category.name.toUpperCase());
                     let isNotProcessSubcon = (isAnyPostedMaterials === true) ? (mtr.Category.name.toUpperCase() === "PROCESS SUBCON") : (mtr.Category.name.toUpperCase() != "PROCESS SUBCON");
                     return true
                         && mtr.IsPosted !== true
-                        // && mtr.Category.Name.toUpperCase() !== "PROCESS"
-                        // && mtr.Category.Name.toUpperCase() === "PROCESS"
                         && (processOrNot || isNotProcessSubcon)
                 });
                 /* FILTER MATERIALS */
