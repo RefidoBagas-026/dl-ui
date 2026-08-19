@@ -685,68 +685,68 @@ module.exports = [
         }
     },
 
-    // {
-    //     route: 'purchasing-unit-expenditure-note',
-    //     name: 'purchasing-unit-expenditure-note',
-    //     moduleId: './modules/purchasing/unit-expenditure-note-by-user/index',
-    //     nav: true,
-    //     title: 'Bon Pengeluaran Unit Umum',
-    //     auth: true,
-    //     settings: {
-    //         group: "purchasing",
-    //         subGroup: "transaksi",
-    //         // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
-    //         permission: { "E43": 1},
-    //         iconClass: 'fa fa-dashboard'
-    //     }
-    // },
+    {
+        route: 'purchasing-unit-expenditure-note',
+        name: 'purchasing-unit-expenditure-note',
+        moduleId: './modules/purchasing/unit-expenditure-note-by-user/index',
+        nav: true,
+        title: 'Bon Pengeluaran Unit Umum',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
+            permission: { "E66": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
 
-    // {
-    //     route: 'purchasing-unit-expenditure-note-all',
-    //     name: 'purchasing-unit-expenditure-note-all',
-    //     moduleId: './modules/purchasing/unit-expenditure-note-all/index',
-    //     nav: true,
-    //     title: 'Bon Pengeluaran Unit Umum (Semua User)',
-    //     auth: true,
-    //     settings: {
-    //         group: "purchasing",
-    //         subGroup: "transaksi",
-    //         // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
-    //         permission: { "E44": 1},
-    //         iconClass: 'fa fa-dashboard'
-    //     }
-    // },
+    {
+        route: 'purchasing-unit-expenditure-note-all',
+        name: 'purchasing-unit-expenditure-note-all',
+        moduleId: './modules/purchasing/unit-expenditure-note-all/index',
+        nav: true,
+        title: 'Bon Pengeluaran Unit Umum (Semua User)',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
+            permission: { "E67": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
 
-    // {
-    //     route: 'expenditure-note/unit/monitoring',
-    //     name: 'expenditure-note-unit-monitoring',
-    //     moduleId: './modules/purchasing/unit-expenditure-note-monitoring/index',
-    //     nav: true,
-    //     title: 'Monitoring Bon Pengeluaran Unit',
-    //     auth: true,
-    //     settings: {
-    //         group: "purchasing",
-    //         subGroup: "monitoring",
-    //         // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "S4": 1, "C3": 1, "E": 1, "K": 1, "S1": 1, "S2": 1, "S3": 1, "U1": 1, "F1": 1, "F2": 1, "L3": 1, "LK": 1, "L8": 1, "L2": 1, "C2": 1, "A2": 1, "C1": 1, "B5": 1, "L1": 1, "B4": 1, "B3": 1, "C4": 1, "OJ": 1, "C9": 1, "A1": 1, "B9": 1, "A4": 1, "C5": 1, "P1A": 1, "C2A": 1, "C2B": 1, "FP": 1, "PI": 1, "P": 1, "FC": 1, "GU": 1, "GS": 1, "PG": 1, "C1A": 1, "C1B": 1, "KK": 1, "B1": 1, "W1": 1, "W2": 1, "B7": 1 },
-    //         permission: { "E45": 1},
-    //         iconClass: 'fa fa-dashboard'
-    //     }
-    // },
+    {
+        route: 'expenditure-note/unit/monitoring',
+        name: 'expenditure-note-unit-monitoring',
+        moduleId: './modules/purchasing/unit-expenditure-note-monitoring/index',
+        nav: true,
+        title: 'Monitoring Bon Pengeluaran Unit',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "monitoring",
+            // permission: { "P1": 1, "P3": 1, "P4": 1, "P6": 1, "P7": 1, "S4": 1, "C3": 1, "E": 1, "K": 1, "S1": 1, "S2": 1, "S3": 1, "U1": 1, "F1": 1, "F2": 1, "L3": 1, "LK": 1, "L8": 1, "L2": 1, "C2": 1, "A2": 1, "C1": 1, "B5": 1, "L1": 1, "B4": 1, "B3": 1, "C4": 1, "OJ": 1, "C9": 1, "A1": 1, "B9": 1, "A4": 1, "C5": 1, "P1A": 1, "C2A": 1, "C2B": 1, "FP": 1, "PI": 1, "P": 1, "FC": 1, "GU": 1, "GS": 1, "PG": 1, "C1A": 1, "C1B": 1, "KK": 1, "B1": 1, "W1": 1, "W2": 1, "B7": 1 },
+            permission: { "E68": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
 
-//     {
-//         route: 'report/stock-report',
-//         name: 'report-stock-report',
-//         moduleId: './modules/purchasing/reports/stock-report/index',
-//         nav: true,
-//         title: 'Laporan Stock Gudang Umum',
-//         auth: true,
-//         settings: {
-//             group: "purchasing",
-//             subGroup: "laporan",
-//             permission: { "E46": 1 },
-//             iconClass: 'fa fa-dashboard'
-//         }
-// },
+    {
+        route: 'report/stock-report',
+        name: 'report-stock-report',
+        moduleId: './modules/purchasing/reports/stock-report/index',
+        nav: true,
+        title: 'Laporan Stock Gudang Umum',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "laporan",
+            permission: { "E69": 1 },
+            iconClass: 'fa fa-dashboard'
+        }
+},
 
     {
         //pinjam permission
