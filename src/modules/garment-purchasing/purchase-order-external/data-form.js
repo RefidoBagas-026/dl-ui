@@ -193,6 +193,7 @@ export class DataForm {
         this.data.ApprovedManagerBy = "";
         this.IsApprovedOther = null;
         this.data.ApprovedOtherBy = "";
+        this.data.ApproveOther = false;
     }
     }
 
