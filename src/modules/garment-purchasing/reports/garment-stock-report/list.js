@@ -43,9 +43,11 @@ export class List {
 
     @bindable UnitItem;
     @bindable KtgrItem;
+    @bindable AsalBarang;
 
     KategoriItems = ['', 'BAHAN BAKU', 'BAHAN EMBALANCE', 'BAHAN PENDUKUNG']
     UnitItems = ['', 'KONVEKSI GARMENT', 'SAMPLE']
+    AsalBarangItems = ['', 'FOB', 'CMT']
 
     search() {
         this.info.page = 1;
@@ -74,6 +76,7 @@ export class List {
             dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
             unitcode: this.unit ? this.unit.Code : "",
             category: this.category ? this.category : "",
+            asal: this.asal ? this.asal : "",
             //suppliertype : this.Tipe
         };
         this.service.search(args)
@@ -161,7 +164,8 @@ export class List {
             unitcode: this.unit ? this.unit.Code : "",
             unitname: this.unit ? this.unit.Name : "",
             category: this.category ? this.category : "",
-            categoryname: this.categoryname ? this.categoryname : ""
+            categoryname: this.categoryname ? this.categoryname : "",
+            asal: this.asal ? this.asal : ""
         };
 
         this.service.generateExcel(args);
@@ -237,6 +241,21 @@ export class List {
         } else {
             this.unit = "";
             this.unitname = "";
+        }
+    }
+
+    AsalBarangChanged(newvalue) {
+        console.log(newvalue);
+        if (newvalue) {
+            if (newvalue === "FOB") {
+                this.asal = "BL";
+            }else if(newvalue === "CMT"){
+                this.asal = "BY";
+            }else {
+                this.asal = "";
+            }
+        } else {
+            this.asal = "";
         }
     }
 

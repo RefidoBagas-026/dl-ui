@@ -45,7 +45,32 @@
             read-only.bind="readOnly"
             options.bind="controlOptions">
         </au-autocomplete>
+        <au-checkbox 
+            label="Fasilitas" 
+            value.bind="fasilitasChecked" 
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-checkbox>
 
+        <div if.bind="fasilitasChecked">
+        <au-textbox 
+            label="Nomor BC" 
+            value.bind="data.bcNo" 
+            error.bind="error.bcNo" 
+            placeholder="tambahkan nomor BC" 
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-textbox>
+
+        <au-datepicker 
+            label="Tgl. BC" 
+            value.bind="data.bcDate" 
+            error.bind="error.bcDate" 
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-datepicker>
+
+        </div>
         <au-multiline 
             label="Keterangan" 
             value.bind="data.remark"

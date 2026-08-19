@@ -15,6 +15,12 @@
         </au-dropdown>
         <au-datepicker label="Tanggal Awal" value.bind="dateFrom" options.bind="controlOptions"></au-datepicker>
         <au-datepicker label="Tanggal Akhir" value.bind="dateTo" options.bind="controlOptions"></au-datepicker>
+        <au-dropdown 
+              label="Jenis Barang" 
+              value.bind="AsalBarang"
+              items.bind="AsalBarangItems"
+              options.bind="controlOptions" >
+        </au-dropdown>
         <div class="form-group">
             <label for="contact" class="col-sm-5 control-label"></label>
             <div class="col-sm-3">
@@ -108,7 +114,7 @@
                         <td colspan="6">P E M A S U K A N</td>
                         <td colspan="5">P E N G E L U A R A N</td>
                         <td align="center" rowspan="2">SALDO AKHIR</td>
-                        <td align="center" rowspan="2">ASAL</td>
+                        <td align="center" rowspan="2">JENIS</td>
                      </tr>
                     <tr>
                         <td >JUMLAH</td>

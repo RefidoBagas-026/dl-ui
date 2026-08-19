@@ -10,6 +10,7 @@ export class DataForm {
     @bindable error = {};
     @bindable title;
     @bindable supplier;
+    @bindable fasilitasChecked = false;
 
     controlOptions = {
         label: {
@@ -40,6 +41,8 @@ export class DataForm {
 
         if(this.data.supplier)
             this.data.supplierId = this.data.supplier._id;
+
+        this.fasilitasChecked = this.data.isFasilitas || false;
     }
 
     @computedFrom("data._id")
@@ -85,6 +88,15 @@ export class DataForm {
        return result;   
     }
 
+    fasilitasCheckedChanged(newValue, oldValue) {
+        if (newValue) {
+            this.fasilitasChecked = true;
+            this.data.isFasilitas = true;
+        } else {
+            this.fasilitasChecked = false;
+            this.data.isFasilitas = false;
+        }
+    }
     resetErrorItems() {
         if (this.error) {
             if (this.error.items) {
