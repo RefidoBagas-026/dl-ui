@@ -101,7 +101,7 @@ module.exports = [
   {
     route: "garment-products/budgeting",
     name: "garment-products/budgeting",
-    moduleId: "./modules/master/garment-product-budgeting/index",
+    moduleId: "./modules/master/garment-product-budgeting-new/index",
     nav: true,
     title: "Barang Garment",
     auth: true,

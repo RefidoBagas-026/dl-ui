@@ -4,87 +4,189 @@
         <au-input-form 
           title.bind="title" 
           with.bind="context"
-          options.bind="formOptions"> 
+          options.bind="formOptions">  
+          <au-dropdown
+            label="Tipe Barang"
+            value.bind="ManufactureType"
+            error.bind="error.manufactureType"
+            read-only.bind="(readOnly || isEdit)"
+            items.bind="ManufactureTypeLists"
+          ></au-dropdown>
 
           <au-dropdown
-            label="Jenis Produk"
-            value.bind="data.ProductType"
-            error.bind="error.ProductType"
-            read-only.bind="readOnly"
-            items.bind="ProductTypes"
-            change.delegate="ProductTypeChanged($event)"
-          ></au-dropdown>  
+            label="Asal Barang"
+            value.bind="OriginType"
+            error.bind="error.originType"
+            read-only.bind="(readOnly || isEdit || ManufactureType == 'AVAL')"
+            items.bind="OriginTypeLists"
+            if.bind="ManufactureType != 'AVAL' || data.ManufactureType != 'AVAL'"
+          ></au-dropdown>
 
+          <au-dropdown
+            label="Jenis Barang"
+            value.bind="ProductType"
+            error.bind="error.productType"
+            read-only.bind="(readOnly || isEdit || ManufactureType == 'AVAL')"
+            items.bind="ProductTypeLists"
+            if.bind="ManufactureType"
+          ></au-dropdown>
+
+          <au-dropdown
+            label="Kategori Barang"
+            value.bind="CategoryType"
+            error.bind="error.categoryType"
+            read-only.bind="(readOnly || isEdit)"
+            items.bind="CategoryTypeLists"
+            if.bind="data.ProductType"
+          ></au-dropdown>
+
+          <div>
+          <au-checkbox
+            label="Ambil dari Referensi Barang FOB"
+            value.bind="ProductGarmentCheck"
+            read-only.bind="readOnly"
+            if.bind="(data.ProductType && data.CategoryType && data.ManufactureType) && (ManufactureType != 'FOB' && ManufactureType != 'AVAL' && (!isEdit && !readOnly))"
+          ></au-checkbox>
+
+          <au-autocomplete
+            label="Referensi Barang"
+            value.bind="ProductGarment"
+            loader.bind="productGarmentLoader"
+            text.bind="productView"
+            show.bind="ProductGarmentCheck || ManufactureType == 'AVAL' && (!isEdit && !readOnly)"
+            view-model.ref="ProductGarmentViewModel"
+          ></au-autocomplete>
+          </div>
           <au-textbox
             label="Kode"
             value.bind="data.Code"
-            error.bind="error.Code"
-            read-only.bind="(readOnly || isEdit)"
+            error.bind="error.code"
+            read-only.bind="true"
+            
           ></au-textbox>
 
           <au-textbox
             label="Nama"
-            value.bind="data.Name"
-            error.bind="error.Name"
-            read-only.bind="readOnly"
+            value.bind="Name"
+            error.bind="error.name"
+            read-only.bind="(readOnly || nameCheck || ManufactureType == 'AVAL' || ProductGarmentCheck)"
           ></au-textbox>
+                   
+          
 
-          <au-autocomplete
-            label="Satuan"
-            value.bind="data.UOM"
-            error.bind="error.uom"
-            read-only.bind="readOnly"
-          ></au-autocomplete>
+          <au-textbox
+            label=" "
+            show.bind="error.combinationerror"
+            error.bind="error.combinationerror"
+            read-only="true">
+          </au-textbox>
 
           <au-textbox
             label="Komposisi"
-            value.bind="data.Composition"
-            read-only.bind="readOnly"
+            value.bind="Composition"
+            error.bind="error.composition"
+            read-only.bind="true"
+            if.bind="nameCheck"
           ></au-textbox>
+          <div if.bind="(!readOnly && !isEdit) && nameCheck && ManufactureType != 'AVAL' && !ProductGarmentCheck">
+            <table class="table table-bordered" style="margin-left:26%">
+              <thead>
+                <tr>
+                  <th width="50">%</th>
+                  <th width="150">Komposisi</th>
+                  <th width="20">
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-sm"
+                      click.delegate="addComposition()"
+                      disabled.bind="readOnly || ProductGarmentCheck"
+                      if.bind="compositions.length < 4">
+                      +
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr repeat.for="item of compositions">
+                  <td>
+                    <input
+                      type="number"
+                      class="form-control"
+                      value.bind="item.Percentage"
+                      input.delegate="updateComposition()"
+                      disabled.bind="readOnly || ProductGarmentCheck">
+                  </td>
+
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value.bind="item.Composition"
+                      input.delegate="updateComposition()"
+                      disabled.bind="readOnly || ProductGarmentCheck">
+                  </td>
+
+                  <td class="text-center">
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                      click.delegate="removeComposition($index)"
+                      disabled.bind="readOnly || ProductGarmentCheck"
+                      if.bind="compositions.length > 0">
+                      -
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <au-autocomplete
+            label="Satuan"
+            value.bind="UOM"
+            error.bind="error.uom"
+            loader.bind="uomLoader"
+            read-only.bind="(readOnly || ManufactureType == 'AVAL' || ProductGarmentCheck)"
+            key="Unit"
+            text="Unit"
+            view-model.ref="UOMViewModel"
+          ></au-autocomplete>
 
           <au-textbox
             label="Const"
             value.bind="data.Const"
-            read-only.bind="readOnly"
+            error.bind="error.const"
+            read-only.bind="readOnly || ProductGarmentCheck"
+            if.bind="nameCheck"
           ></au-textbox>
 
           <au-textbox
             label="Yarn"
             value.bind="data.Yarn"
-            read-only.bind="readOnly"
+            error.bind="error.yarn"
+            read-only.bind="readOnly || ProductGarmentCheck"
+            if.bind="nameCheck"
           ></au-textbox>
 
           <au-textbox
             label="Width"
             value.bind="data.Width"
-            read-only.bind="readOnly"
+            error.bind="error.width"
+            read-only.bind="readOnly || ProductGarmentCheck"
+            if.bind="nameCheck"
           ></au-textbox>
-
-          <!--<au-autocomplete
-            label="Mata Uang"
-            value.bind="data.currency.code"
-            error.bind="error.currency.code"
-            read-only.bind="readOnly"
-          ></au-autocomplete>
-
-          <au-numeric
-            label="Harga"
-            value.bind="data.price"
-            error.bind="error.price"
-            read-only.bind="readOnly"
-          ></au-numeric>-->
 
           <au-multiline
             label="Tags"
             value.bind="data.Tags"
-            error.bind="error.Tags"
+            error.bind="error.tags"
             read-only.bind="readOnly"
           ></au-multiline>
 
           <au-multiline
             label="Keterangan"
             value.bind="data.Remark"
-            error.bind="error.Remark"
+            error.bind="error.remark"
             read-only.bind="readOnly"
           ></au-multiline>
 

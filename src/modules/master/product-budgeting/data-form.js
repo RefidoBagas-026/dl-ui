@@ -11,8 +11,14 @@ export class DataForm {
     @bindable Currency;
     @bindable UOM;
     @bindable Price;
-
-
+    @bindable ManufactureType;
+    
+    @bindable Code;
+    @bindable Name;
+    @bindable OriginType;
+    @bindable OriginTypeLists = ['IMPORT', 'LOCAL'];
+    @bindable ManufactureTypeLists = ['FOB', 'CMT'];
+    
     formOptions = {
         cancelText: "Kembali",
         saveText: "Simpan",
@@ -48,7 +54,6 @@ export class DataForm {
         return this.data.IsPosted == true;
     }
 
-
     bind(context) {
         this.context = context;
         this.data = this.context.data;
@@ -57,6 +62,10 @@ export class DataForm {
             this.UOM = this.data.UOM;
             this.Price = this.data.Price;
             this.originPrice = this.data.Price;
+            this.Code = this.data.Code;
+            this.Name = this.data.Name;
+            this.ManufactureType = this.data.ManufactureType;
+            this.OriginType = this.data.OriginType;
             //this.isActive = this.data.IsPosted;
         }
 
@@ -70,6 +79,67 @@ export class DataForm {
         this.saveCallback = this.context.saveCallback;
     }
 
+    ManufactureTypeChanged(newValue) {
+        if (this.readOnly || this.isEdit) {
+            return;
+        }
+
+        if (newValue) {
+            this.data.ManufactureType = newValue;
+            this.generateCode();
+        }
+    }
+
+    NameChanged(newValue) {
+        if (this.readOnly || this.isEdit) {
+            return;
+        }
+
+        const formattedName = newValue
+            ? newValue.toUpperCase()
+            : null;
+
+        if (formattedName && formattedName !== newValue) {
+            this.Name = formattedName;w
+        }
+
+        this.data.Name = formattedName;
+        this.generateCode();
+    }
+
+    generateNameCode() {
+        return this.data.Name
+            ? this.data.Name
+                .trim()
+                .split(/\s+/)
+                .filter(word => /^[A-Za-z0-9]/.test(word))
+                .map(word => word.charAt(0).toUpperCase())
+                .join("")
+                .substring(0, 4)
+            : "";
+    }
+
+    generateCode() {
+        const nameCode = this.generateNameCode();
+        if(this.ManufactureType == "FOB"){
+            if (this.OriginType == "IMPORT") {
+                this.Code = `FUI-${nameCode}`;
+                this.data.Code = this.Code;
+            } else if (this.OriginType == "LOCAL") {
+                this.Code = `FUL-${nameCode}`;
+                this.data.Code = this.Code;
+            }
+            // this.Code = `FL-${nameCode}`;
+        }else if(this.ManufactureType == "CMT"){
+            if (this.OriginType == "IMPORT") {
+                this.Code = `CUI-${nameCode}`;
+                this.data.Code = this.Code;
+            } else if (this.OriginType == "LOCAL") {
+                this.Code = `CUL-${nameCode}`;
+                this.data.Code = this.Code;
+            }
+        }
+    }
     UOMChanged() {
         if (this.UOM) {
             this.data.UOM = this.UOM
@@ -94,6 +164,16 @@ export class DataForm {
         } else {
             this.Currency = {};
         }
+    }
+
+    OriginTypeChanged(newValue) {
+        if (this.readOnly || this.isEdit) {
+            return;
+        }
+        if (newValue) {
+            this.data.OriginType = newValue;
+        }
+        this.generateCode();
     }
 
     get currencyLoader() {

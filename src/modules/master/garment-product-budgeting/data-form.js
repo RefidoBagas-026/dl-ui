@@ -12,7 +12,8 @@ export class DataForm {
     @bindable width;
     @bindable nameCheck;
 
-    ProductTypes = ['FABRIC', 'NON FABRIC']
+    ProductTypes = ['','FABRIC', 'NON FABRIC']
+    CategoryTypes = [];
 
     formOptions = {
         cancelText: "Kembali",
@@ -32,6 +33,7 @@ export class DataForm {
     bind(context) {
         this.context = context;
         this.data = this.context.data;
+         this.setCategoryTypes(this.data.ProductType);
         if (this.data.Id) {
             this.Currency = this.data.Currency;
             this.UOM = this.data.UOM;
@@ -73,14 +75,31 @@ export class DataForm {
     }
 
     ProductTypeChanged(e) {
-        var selectedProductType = e.srcElement.value;
-        if(selectedProductType=="FABRIC"){
-            this.data.Name="FABRIC";
-            this.nameCheck=true;
-        }
-        else{
-            this.data.Name='';
-            this.nameCheck=false;
-        }
+    var selectedProductType = e.srcElement.value;
+
+    // set kategori berdasarkan product type
+    this.setCategoryTypes(selectedProductType);
+
+    // reset category jika berubah
+    this.data.CategoryType = null;
+
+    if (selectedProductType == "FABRIC") {
+        this.data.Name = "FABRIC";
+        this.nameCheck = true;
     }
+    else {
+        this.data.Name = '';
+        this.nameCheck = false;
+    }
+}
+
+    setCategoryTypes(productType) {
+    if (productType === "FABRIC") {
+        this.CategoryTypes = ["BB"];
+    } else if (productType === "NON FABRIC") {
+        this.CategoryTypes = ["BP", "BE", "PRC"];
+    } else {
+        this.CategoryTypes = [];
+    }
+}
 }
