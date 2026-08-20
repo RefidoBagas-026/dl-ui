@@ -13,7 +13,16 @@
             read-only.bind="(readOnly || isEdit)"
             items.bind="ProductTypes"
             change.delegate="ProductTypeChanged($event)"
-          ></au-dropdown>  
+          ></au-dropdown>
+
+          <au-dropdown
+            label="Kategori Produk"
+            value.bind="data.CategoryType"
+            error.bind="error.productType"
+            read-only.bind="(readOnly || isEdit)"
+            items.bind="CategoryTypes"
+            if.bind="data.ProductType"
+          ></au-dropdown>
 
           <au-textbox
             label="Kode"
