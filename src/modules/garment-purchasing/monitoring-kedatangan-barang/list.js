@@ -9,8 +9,8 @@ var BuyerLoader = require('../../../loader/garment-buyers-loader');
 
 @inject(Router, BindingEngine, Service)
 export class List {
-    //reprosesOption = ['','Bahan Baku', 'Bahan Pendukung', 'Bahan Embalase'];
-    reprosesOption = ['','Bahan Baku', 'Bahan Pendukung'];
+    reprosesOption = ['','Bahan Baku', 'Bahan Pendukung', 'Bahan Embalase'];
+    //reprosesOption = ['','Bahan Baku', 'Bahan Pendukung'];
   
     purchaseRequest = {};
     filter = {isPosted: true};
@@ -46,6 +46,8 @@ export class List {
 
             this.tjumOk1 = 0;
             this.tjumnotOk1 = 0; 
+
+            this.leadTime = params.category === 'Bahan Baku' ? 30 : (params.category === 'Bahan Pendukung' ? 21 : (params.category === 'Bahan Embalase' ? 15 : 0));
             
             this.service.search(info)
                 .then(result => {
@@ -103,6 +105,8 @@ export class List {
 
         this.tjumOk1 = 0;
         this.tjumnotOk1 = 0;
+
+        this.leadTime = this.category === 'Bahan Baku' ? 30 : (this.category === 'Bahan Pendukung' ? 21 : (this.category === 'Bahan Embalase' ? 15 : 0));
         
         this.service.search(info)
             .then(result => {
