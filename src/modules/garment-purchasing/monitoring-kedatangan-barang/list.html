@@ -61,10 +61,10 @@
         </div>
 
         <template if.bind="data.length > 0">
-            <au-textbox label="KESIAPAN BAHAN BAKU / BAHAN PENDUKUNG" value="DENGAN LEAD TIME 30 HARI" read-only="true"></au-textbox>
-            <au-textbox label="Status OK" value="Perhitungan dari selisih Tgl Shipment dengan Tgl Kedatangan Barang >= 30 hari" read-only="true"></au-textbox>
+            <au-textbox label="KESIAPAN BAHAN BAKU / BAHAN PENDUKUNG" value="DENGAN LEAD TIME ${leadTime} HARI" read-only="true"></au-textbox>
+            <au-textbox label="Status OK" value="Perhitungan dari selisih Tgl Shipment dengan Tgl Kedatangan Barang >= ${leadTime} hari" read-only="true"></au-textbox>
             <au-textbox label="Persentase Status OK" value="${tjumOk1}/${tjumcount} X 100% = ${tperOk} %" read-only="true"></au-textbox>
-            <au-textbox label="Status NOT OK" value="Perhitungan dari selisih Tgl Shipment dengan Tgl Kedatangan Barang < 30 hari" read-only="true"></au-textbox>
+            <au-textbox label="Status NOT OK" value="Perhitungan dari selisih Tgl Shipment dengan Tgl Kedatangan Barang < ${leadTime} hari" read-only="true"></au-textbox>
             <au-textbox label="Persentase Status NOT OK" value="${tjumnotOk1}/${tjumcount} X 100% = ${tperNotOk} %" read-only="true"></au-textbox>
         </template>
         <hr/>
