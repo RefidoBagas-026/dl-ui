@@ -21,7 +21,7 @@ export class List {
   columns = [
     { field: "ProductCode", title: "Kode Barang" },
     { field: "POSerialNumber", title: "Nomor PO" },
-    { field: "RO", title: "Nomor RO" },
+    { field: "RONoMaster", title: "Nomor RO" },
     { field: "UnitName", title: "Nama Unit" },
     { field: "ProductName", title: "Nama Barang" },
     { field: "RemainingQuantity", title: "Quantity", align: "right" },
@@ -135,6 +135,21 @@ export class List {
         data: result.data,
       };
     });
+    // return this.service.search(params).then((result) => {
+    //   const data = (result.data || []).flatMap(header =>
+    //     (header.Items || []).map(item => ({
+    //       ...item,
+
+    //       ItemId: item.Id,
+    //       Id: header.Id,
+    //       UnitName: header.UnitName
+    //     }))
+    //   );
+
+    //   return {
+    //     data: data
+    //   };
+    // });
   };
 
   search() {
