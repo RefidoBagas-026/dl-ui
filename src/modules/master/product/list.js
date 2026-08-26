@@ -1,22 +1,19 @@
 import { inject } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
-import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
-  // data = [];
-  // info = { page: 1, keyword: '' };
-  context = ["detail"];
-  columns = [
+    // data = [];
+    // info = { page: 1, keyword: '' };
+    context = ["detail"];
+    columns = [
     { field: "Code", title: "Kode Barang" },
     { field: "Name", title: "Nama Barang" },
     { field: "UomUnit", title: "Satuan Default" },
     { field: "CurrencyCode", title: "Mata Uang" },
     { field: "Price", title: "Harga Barang" },
     { field: "Tags", title: "Tags" },
-    { field: "ManufactureType", title: "Tipe Barang" },
-    { field: "OriginType", title: "Asal Barang" },
     {
       field: "IsPosted", title: "Active",
       formatter: function (value, row, index) {
@@ -46,9 +43,9 @@ export class List {
 
     return this.service.search(arg)
       .then(result => {
-        for (var a of result.data) {
-          a.UomUnit = a.UOM.Unit;
-          a.CurrencyCode = a.Currency.Code;
+        for(var a of result.data){
+          a.UomUnit=a.UOM.Unit;
+          a.CurrencyCode=a.Currency.Code;
         }
         return {
           total: result.info.total,
@@ -57,25 +54,23 @@ export class List {
       });
   }
 
-  constructor(router, service) {
-    this.service = service;
-    this.router = router;
-    this.accessoriesId = "";
-    this.accessories = [];
-  }
+    constructor(router, service) {
+        this.service = service;
+        this.router = router;
+        this.accessoriesId = "";
+        this.accessories = [];
+    }
 
-  contextCallback(event) {
+    contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     switch (arg.name) {
       case "detail":
-        const encoded = Base64Helper.encode(data.Id);
-        this.router.navigateToRoute('view', { id: encoded });
+        this.router.navigateToRoute('view', { id: data.Id });
         break;
     }
   }
-
   download() {
     this.service.download();
-  }
+}
 }
