@@ -1,83 +1,63 @@
 <template>
   <div class="row">
-    <div class="col-md-6">
-      <au-input-form title.bind="title"
-                     with.bind="context"
-                     options.bind="formOptions">
-        <au-dropdown label="Tipe Barang"
-                    value.bind="ManufactureType"
-                    error.bind="error.manufactureType"
-                    read-only.bind="(readOnly || isEdit)"
-                    items.bind="ManufactureTypeLists">
-        </au-dropdown>
-        <au-dropdown label="Asal Barang"
-                    value.bind="OriginType"
-                    error.bind="error.originType"
-                    read-only.bind="(readOnly || isEdit)"
-                    items.bind="OriginTypeLists">
-        </au-dropdown>
+      <div class="col-md-6">
+        <au-input-form 
+          title.bind="title" 
+          with.bind="context"
+          options.bind="formOptions"> 
 
-        <au-textbox label="Kode"
-                    value.bind="Code"
-                    error.bind="error.code"
-                    read-only.bind="true"></au-textbox>
+          <au-textbox
+            label="Kode"
+            value.bind="data.Code"
+            error.bind="error.Code"
+            read-only.bind="(readOnly || isEdit)"
+          ></au-textbox>
 
-        <au-textbox label="Nama"
-                    value.bind="Name"
-                    error.bind="error.name"
-                    read-only.bind="(readOnly || isEdit)"></au-textbox>
+          <au-textbox
+            label="Nama"
+            value.bind="data.Name"
+            error.bind="error.Name"
+            read-only.bind="readOnly"
+          ></au-textbox>
 
-        <au-autocomplete label="Satuan"
-                         value.bind="UOM"
-                         error.bind="error.uom"
-                         loader.bind="uomLoader"
-                         read-only.bind="readOnly"
-                         key="Unit"
-                         text="Unit"></au-autocomplete>
+          <au-autocomplete
+            label="Satuan"
+            value.bind="data.UOM"
+            error.bind="error.uom"
+            read-only.bind="readOnly"
+          ></au-autocomplete>
 
-        <au-autocomplete label="Mata Uang"
-                         value.bind="Currency"
-                         error.bind="error.currency"
-                         loader.bind="currencyLoader"
-                         read-only.bind="readOnly"
-                         key="Symbol"
-                         text="Code"></au-autocomplete>
+          <au-autocomplete
+            label="Mata Uang"
+            value.bind="data.Currency.Code"
+            error.bind="error.Currency"
+            read-only.bind="readOnly"
+          ></au-autocomplete>
 
-        <!-- <au-numeric label="Harga"
-                    value.bind="data.Price"
-                    error.bind="error.price"
-                     read-only.bind="(readOnly || isEdit)"
-                    read-only.bind="readOnly"></au-numeric> -->
-                    
-        <au-numeric label="Harga"
-                    value.bind="Price"
-                    error.bind="error.price"
-                    read-only.bind="(readOnly ||(!isActive &&isEdit ))"></au-numeric>
+          <au-numeric
+            label="Harga"
+            value.bind="data.Price"
+            error.bind="error.Price"
+            read-only.bind="readOnly"
+          ></au-numeric>
 
-        <au-multiline label="Tags"
-                      value.bind="data.Tags"
-                      error.bind="error.tags"
-                      read-only.bind="readOnly"></au-multiline>
+          <au-multiline
+            label="Tags"
+            value.bind="data.Tags"
+            error.bind="error.Tags"
+            read-only.bind="readOnly"
+          ></au-multiline>
 
-        <au-multiline label="Keterangan"
-                      value.bind="data.Description"
-                      error.bind="error.description"
-                      read-only.bind="readOnly"></au-multiline>
+          <au-multiline
+            label="Keterangan"
+            value.bind="data.Description"
+            error.bind="error.Description"
+            read-only.bind="readOnly"
+          ></au-multiline>
 
-        <au-collection if.bind="isPermitted"
-                       items.bind="data.MappingCategories"
-                       errors.bind="error.MappingCategories"
-                       columns.bind="columns"
-                       add.bind="addItems"
-                       remove.bind="onremove"
-                       read-only.bind="readOnly"
-                       item-template="modules/master/product-budgeting/template/mapping-category">
-        </au-collection>
+          <template replaceable part="actions"></template>
 
-        <template replaceable
-                  part="actions"></template>
-
-      </au-input-form>
-    </div>
+        </au-input-form>
+      </div>
   </div>
 </template>
