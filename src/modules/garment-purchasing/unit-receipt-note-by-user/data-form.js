@@ -447,7 +447,7 @@ export class DataForm {
                     _item.Article = fulfillment.article;
 
                     _item.Buyer =  { Name : fulfillment.buyer.name };
-
+                    _item.IsCMT = fulfillment.IsCMT;
                     if (_item.ReceiptQuantity > 0)
                         _items.push(_item);
                 }
