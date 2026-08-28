@@ -232,6 +232,7 @@ export class DataForm {
             this.data.Unit=selectedDR.Unit;
             this.data.ReturnType=selectedDR.ReturnType;
             this.data.UnitDONo=selectedDR.UnitDONo;
+            this.data.UENNo=selectedDR.UENNo;
             this.data.DRId=selectedDR.Id;
             this.data.DRNo=selectedDR.DRNo;
             this.data.Article=selectedDR.Article;
@@ -300,6 +301,7 @@ export class DataForm {
                         DRItem.Box = dritem.Box,
                         DRItem.Colour= dritem.Colour,
                         DRItem.Area = dritem.Area,
+                        DRItem.IsCMT = dritem.IsCMT,    
                         DRItems.push(DRItem)
                     }
                 }
@@ -316,6 +318,7 @@ export class DataForm {
             this.data.ReturnType="";
             this.data.Unit=null;
             this.data.UnitDONo="";
+            this.data.UENNo="";
             this.data.DRId=null;
             this.data.DRNo="";
             this.data.Article="";
@@ -338,6 +341,7 @@ export class DataForm {
             this.data.ReturnType="";
             this.data.Unit=null;
             this.data.UnitDONo="";
+            this.data.UENNo="";
             this.data.DRId=null;
             this.data.DRNo="";
             this.data.Article="";
@@ -360,6 +364,7 @@ export class DataForm {
             this.data.Storage=null;
             this.deliveryOrder=null;
             this.data.ReturnType="";
+            this.data.UENNo="";
             this.unit=null;
             this.storage=null;
             this.data.Storage=null;
@@ -384,6 +389,7 @@ export class DataForm {
             this.data.Storage=null;
             this.deliveryOrder=null;
             this.data.ReturnType="";
+            this.data.UENNo="";
             this.unit=null;
             this.storage=null;
             this.data.Storage=null;
@@ -657,7 +663,7 @@ export class DataForm {
                 item.DesignColor=i.DesignColor;
                 item.Conversion=1;
                 item.UENItemId=i.Id;
-
+                item.IsCMT=i.IsCMT;
                 var unitDOItem= await this.service.getUnitDOItemById(i.UnitDOItemId);
                 item.DOCurrencyRate=unitDOItem.DOCurrency.Rate;
                 this.data.Items.push(item);

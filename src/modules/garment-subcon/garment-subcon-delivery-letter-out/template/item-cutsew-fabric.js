@@ -200,6 +200,7 @@ export class Item {
                   item.Quantity = uenItem.Quantity;
                   item.UENNo = newValue.UENNo;
                   item.UENId = newValue.Id;
+                  item.IsCMT = uenItem.IsCMT;
                   this.data.Details.push(item);
                 }
               }

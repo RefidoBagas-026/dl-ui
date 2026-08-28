@@ -140,6 +140,7 @@ export class DataForm {
                                             item.ROSource = doItem.RONo;
                                             item.DesignColor = doItem.DesignColor;
                                         }
+                                        item.IsCMT = item.IsCMT;
 
                                     }
                                 }
