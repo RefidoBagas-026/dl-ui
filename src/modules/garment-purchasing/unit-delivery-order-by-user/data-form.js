@@ -462,6 +462,7 @@ export class DataForm {
                   Items.Box = item.Box;
                   Items.Colour = item.Colour;
                   Items.Area = item.Area;
+                  Items.IsCMT = item.IsCMT;
 
                   // if(item.Colour == null || item.Colour.trim() === '')
                   // {
@@ -558,7 +559,7 @@ export class DataForm {
                 Items.Box = item.Box;
                 Items.Colour = item.Colour;
                 Items.Area = item.Area;
-
+                Items.IsCMT = item.IsCMT;
                 // if(item.Colour == null || item.Colour.trim() === '')
                 // {
                 //     fInput = true;
@@ -660,6 +661,7 @@ export class DataForm {
                   Items.Box = item.Box;
                   Items.Colour = item.Colour;
                   Items.Area = item.Area;
+                  Items.IsCMT = item.IsCMT;
 
                   // if(item.Colour == null || item.Colour.trim() === '')
                   // {
@@ -846,6 +848,7 @@ export class DataForm {
         })
         .then((result) => {
           var selectedROHeader = result.data[0];
+          console.log(selectedROHeader);
           this.newProduct.DOItemsId = selectedROHeader.DOItemsId;
           this.newProduct.URNItemId = selectedROHeader.URNItemId;
           this.newProduct.URNNo = selectedROHeader.URNNo;
@@ -877,6 +880,7 @@ export class DataForm {
           this.newProduct.Box = selectedROHeader.Box;
           this.newProduct.Colour = selectedROHeader.Colour;
           this.newProduct.Area = selectedROHeader.Area;
+          this.newProduct.IsCMT = selectedROHeader.IsCMT;
         });
     }
     // this.context.error.Items = [];

@@ -29,7 +29,7 @@ export class List {
 
     columns = [
         { field: "DRNo", title: "No Retur Proses" },
-        { field: "UnitDONo", title: "No Unit DO" },
+        { field: "UENNo", title: "No Bukti Pengeluaran" },
         {
             field: "ReturnDate", title: "Tgl Retur", formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY")
