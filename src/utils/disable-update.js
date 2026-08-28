@@ -14,6 +14,8 @@ export class StatusHelper {
         if (condition) {
             context.editCallback = undefined;
             context.deleteCallback = undefined;
+            context.hasEdit = false;
+            context.hasDelete = false;
         }
     }
 
