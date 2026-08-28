@@ -33,7 +33,6 @@
               <au-textbox label="Satuan RO" value.bind="data.CostCalculationGarment.UOM.Unit" read-only.bind="disabled" options.bind="length4" show.bind="hasCostCalculationGarment"></au-textbox>
             </div>
           </div>
-          
           <au-datepicker label="Delivery Date" value.bind="data.CostCalculationGarment.DeliveryDate" read-only.bind="disabled" options.bind="length4"
             show.bind="hasCostCalculationGarment"></au-datepicker>
         </div>
@@ -60,6 +59,9 @@
               <au-numeric label="Kuantitas RO" value.bind="data.CostCalculationGarment.Quantity" 
                 read-only.bind="disabled" options.bind="length4" 
                 show.bind="hasCostCalculationGarment"></au-numeric>
+                <au-numeric label="Kuantitas Sample" value.bind="data.CostCalculationGarment.QuantitySample" 
+              read-only.bind="disabled" options.bind="length4" 
+              show.bind="hasCostCalculationGarment"></au-numeric>
             </div>
             <div class="col-md-6">
               <au-textbox label="Satuan RO" 

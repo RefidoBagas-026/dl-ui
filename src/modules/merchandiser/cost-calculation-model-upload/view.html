@@ -57,7 +57,7 @@
     <div class="row">
       <div class="col-md-10">
         <div class="col-md-4">
-          <!-- <au-textbox label="No Pre Sales Contract" options.bind="length4" value.bind="data.PreSCNo" read-only.bind="readOnly"></au-textbox> -->
+          <au-textbox label="No Pre Sales Contract" options.bind="length4" value.bind="data.PreSCNo" read-only.bind="readOnly"></au-textbox>
           <au-textbox label="RO" options.bind="length4" value.bind="data.RO_Number" read-only.bind="readOnly"></au-textbox>
           <au-textbox
           label="Tipe Cost Calculation"
@@ -87,8 +87,6 @@
         </div>
         <div class="col-md-4">
           <au-textbox label="Lead Time" options.bind="length4" value.bind="data.LeadTime" read-only.bind="readOnly"></au-textbox>
-          <au-textbox label="Total Fabric (%)" options.bind="length4" value.bind="data.FabricAllowance" read-only.bind="readOnly"></au-textbox>
-          <au-textbox label="Total Accessories (%)" options.bind="length4" value.bind="data.AccessoriesAllowance" read-only.bind="readOnly"></au-textbox>
           <au-textbox label="FOB Price" options.bind="length4" value.bind="CM_Price" read-only.bind="readOnly"></au-textbox>                   
           <au-checkbox label="Sample" value.bind="data.IsSample" error.bind="error.IsSample"
             read-only.bind="true" options.bind="length4" change.delegate="selectedSampleChanged($event)" >
@@ -117,6 +115,10 @@
               <tr>
                 <td class="label-td">Kuantitas</td>
                 <td>${data.Quantity + ' ' + data.UOM.Unit}</td>
+              </tr>
+              <tr>
+                <td class="label-td">Kuantitas Sample</td>
+                <td>${data.QuantitySample + ' ' + data.UOM.Unit}</td>
               </tr>
               <tr>
                 <td class="label-td">Deskripsi</td>
@@ -155,7 +157,7 @@
           <table class="table table-bordered small-column-table">
             <tbody>
               <tr>
-                <td class="label-td">Total COGM</td>
+                <td class="label-td">Est. Product Cost</td>
                 <td colspan="2" class="text-right">${TotalCOGM | numberFormat:'0,0.00'}</td>
               </tr>
               <tr style="font-weight: bold; background-color: #f1f1f1;">
@@ -187,15 +189,15 @@
                 <td>${RiskPercentage | numberFormat:'0,0.00'}%</td>
                 <td>${Risk | numberFormat:'0,0.00'}</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td class="label-td">Bea Angkut</td>
                 <td>${BeaAngkutValue | numberFormat:'0,0.00'}</td>
                 <td>${BeaAngkut | numberFormat:'0,0.00'}</td>
-              </tr>
-              <tr>
+              </tr> -->
+              <!-- <tr>
                 <td class="label-td">Sub Total</td>
                 <td colspan="2" class="text-right">${SubTotal | numberFormat:'0,0.00'}</td>
-              </tr>
+              </tr> -->
               <tr>
                 <td class="label-td">Confirm Price</td>
                 <td colspan="2" class="text-right">${ConfirmPrice | numberFormat:'0,0.00'}</td>

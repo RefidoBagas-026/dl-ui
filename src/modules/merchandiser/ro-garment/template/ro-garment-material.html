@@ -1,5 +1,11 @@
 <template>
     <tr if.bind="data.Category.name === 'FABRIC'">
+        <td if.bind="readOnly" class="col-sm-1">
+            <au-textbox value.bind="isMaterialUsed ? 'Used' : 'Not Used'" options.bind="controlOptions" read-only.bind="disabled"></au-textbox>
+        </td>
+        <td if.bind="!readOnly" class="col-sm-0.5">
+            <au-checkbox value.bind="isMaterialUsed" checked.bind="isMaterialUsed" disabled.bind="readOnly"></au-checkbox>
+        </td>
         <td class="col-sm-1" >
             <au-textbox value.bind="data.Product.Code" options.bind="controlOptions" read-only.bind="disabled"></au-textbox>
         </td>
@@ -24,12 +30,21 @@
         <td class="col-sm-0.5">
             <au-textbox value.bind="quantityText" options.bind="controlOptions" read-only.bind="disabled"></au-textbox>
         </td>
+        <td class="col-sm-1">
+            <au-numeric value.bind="data.QuantityUsageRO" options.bind="controlOptions" read-only.bind="!isMaterialUsed || readOnly"></au-numeric>
+        </td>
         <td class="col-md-2" style="width: 50%">
             <au-multiline placeholder="Isi Keterangan" value.bind="data.Information" error.bind="error.Information" options.bind="controlOptions"
                 read-only.bind="readOnly"></au-multiline>
         </td>
     </tr>
     <tr else>
+        <td if.bind="readOnly" class="col-sm-1">
+            <au-textbox value.bind="isMaterialUsed ? 'Used' : 'Not Used'" options.bind="controlOptions" read-only.bind="disabled"></au-textbox>
+        </td>
+        <td if.bind="!readOnly" class="col-sm-0.5">
+            <au-checkbox value.bind="isMaterialUsed" checked.bind="isMaterialUsed" disabled.bind="readOnly"></au-checkbox>
+        </td>
         <td class="col-sm-2" >
             <au-textbox value.bind="data.Product.Code" options.bind="controlOptions" read-only.bind="disabled"></au-textbox>
         </td>
@@ -41,6 +56,9 @@
         </td>
         <td class="col-sm-2">
             <au-textbox value.bind="quantityText" options.bind="controlOptions" read-only.bind="disabled"></au-textbox>
+        </td>
+        <td class="col-sm-1">
+            <au-numeric value.bind="data.QuantityUsageRO" options.bind="controlOptions" read-only.bind="!isMaterialUsed || readOnly"></au-numeric>
         </td>
         <td class="col-md-3" style="width: 50%">
             <au-multiline placeholder="Isi Keterangan" value.bind="data.Information" error.bind="error.Information" options.bind="controlOptions"

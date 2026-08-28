@@ -1,12 +1,22 @@
 <template>
     <tr>
         <td colspan="11" class="text-right" style="padding-right:10%">
-            Total Material
+            Total Cost
         </td>
-        <td class="text-right">
+        <td colspan="11" class="text-left">
             <require from="../../../../../lib/number-format-value-converter"></require>
             ${totalMaterial | numberFormat:"0,000.00"}
         </td>
         
+        
     </tr>
+    <tr>
+        <td colspan="11" class="text-right" style="padding-right:10%">
+            Total Ongkir
+        </td>
+        <td colspan="11" class="text-left">
+            <require from="../../../../../lib/number-format-value-converter"></require>
+            ${totalOngkir | numberFormat:"0,000.00"}
+        </td>
+    </tr>   
 </template>

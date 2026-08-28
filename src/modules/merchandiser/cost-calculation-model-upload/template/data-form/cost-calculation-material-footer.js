@@ -7,6 +7,15 @@ export class CostCalculationMaterialFooter {
         this.context = context;
     }
 
+    get totalOngkir() {
+            let totalOngkir = 0;
+            for (let item of this.context.items) {
+                if (item.data) {
+                    totalOngkir += item.data.TotalShippingFee ? Number(item.data.TotalShippingFee) : 0;
+                }
+            }
+            return totalOngkir;
+        }
     get totalMaterial() {
         let totalMaterial = 0;
         for (let item of this.context.items) {

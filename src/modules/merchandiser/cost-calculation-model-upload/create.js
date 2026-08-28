@@ -46,11 +46,9 @@ export class Create {
                         let rowError = {};
 
                     if (materialError.Category) {
-                        // Error custom khusus kategori
                         rowError.Category = `Kategori dengan Kode Barang ${kodeBarang} tidak ditemukan`;
                     }
 
-                    // Gabungkan error lain selain Category
                     Object.keys(materialError || {})
                         .filter(key => key !== "Category")
                         .forEach(key => {
