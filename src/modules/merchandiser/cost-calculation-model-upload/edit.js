@@ -6,8 +6,6 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, PurchasingService)
 export class Edit {
-    // @bindable errorManual = [];
-    // @bindable errorUpload = [];
     constructor(router, service, prService) {
         this.router = router;
         this.service = service;
@@ -26,15 +24,6 @@ export class Edit {
             this.selectedPreSalesContract = {
                 SCNo: this.data.PreSCNo
             }
-
-            // this.selectedBookingOrder = {
-            //     BookingOrderId :this.data.BookingOrderId,
-            //     BookingOrderItemId : this.data.BookingOrderItemId,
-            //     BookingOrderNo : this.data.BookingOrderNo, 
-            //     ConfirmDate : this.data.ConfirmDate,
-            //     ConfirmQuantity : this.data.BOQuantity,
-            //     ComodityName : this.data.Commodity,
-            // }
 
             const prMasterIds = this.data.CostCalculationGarment_Materials
                 .filter((m, i) => m.PRMasterId > 0 && this.data.CostCalculationGarment_Materials.findIndex(d => d.PRMasterId === m.PRMasterId) === i)
@@ -116,11 +105,9 @@ export class Edit {
                         let rowError = {};
 
                     if (materialError.Category) {
-                        // Error custom khusus kategori
                         rowError.Category = `Kategori dengan Kode Barang ${kodeBarang} tidak ditemukan`;
                     }
 
-                    // Gabungkan error lain selain Category
                     Object.keys(materialError || {})
                         .filter(key => key !== "Category")
                         .forEach(key => {

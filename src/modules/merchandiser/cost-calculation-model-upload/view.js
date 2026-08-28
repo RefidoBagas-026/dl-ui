@@ -99,6 +99,8 @@ export class View {
   @bindable SMVFinValue;
   @bindable SMVTotalValue;
 
+  @bindable Ongkir;
+
 
   async activate(params, routeConfig, navigationInstruction) {
     const instruction = navigationInstruction.getAllInstructions()[0];
@@ -124,14 +126,11 @@ export class View {
         total += Number(item.Total);
       });
     }
-    //total += this.data.ProductionCost;
+
     this.data.Total = total;
     var _confirmPrice= this.data.ConfirmPrice;
     var _insurance=this.data.Insurance;
-    // this.data.AfterOTL1 = this.data.Total + this.data.OTL1.CalculatedValue;
-    // this.data.AfterOTL2 = this.data.AfterOTL1 + this.data.OTL2.CalculatedValue;
-    // this.data.AfterRisk = (100 + this.data.Risk) * this.data.AfterOTL2 / 100;
-    // this.data.AfterFreightCost = this.data.AfterRisk + this.data.FreightCost;
+    
     this.data.ConfirmPriceWithRate =
       this.data.ConfirmPrice * this.data.Rate.Value;
       this.data.ConfirmPriceWithRate=this.data.ConfirmPriceWithRate.toLocaleString('en-EN', { minimumFractionDigits: 2});
@@ -206,9 +205,7 @@ export class View {
     this.data.MarketingName =this.data.MarketingName;
     this.data.ResponsibleName = this.data.ResponsibleName;
 
-    //this.data.Comodity.Name = this.data.Comodity.Name;
-    
-    // Unpost tampil jika IsPosted = true dan ada approval yang false
+
     this.hasUnpost = this.data.IsPosted && !(this.data.ApprovalIE.IsApproved && this.data.ApprovalMD.IsApproved && this.data.ApprovalPPIC.IsApproved && this.data.ApprovalPurchasing.IsApproved);
     if (this.data.IsPosted) {
       this.editCallback = null;
@@ -221,9 +218,18 @@ export class View {
       this.hasUnpost = false; 
     }
 
+    if (this.data.CostCalculationGarment_Materials) {
+      for (let material of this.data.CostCalculationGarment_Materials) {
+        if (material.TotalShippingFee) {
+          this.Ongkir += material.TotalShippingFee;
+        }
+      }
+    }
+
     this.ConfirmPrice = this.data.ConfirmPrice * this.data.Rate.Value;
-    this.TotalCOGM = this.data.Total;
-    this.GrossProfit = this.ConfirmPrice - this.data.Total;
+
+    this.TotalCOGM = this.data.Total + this.Ongkir;
+    this.GrossProfit = this.ConfirmPrice - this.TotalCOGM;
     this.GrossProfitPercentage = (this.GrossProfit / this.ConfirmPrice) * 100;
 
     this.NonOperatingExpenses = this.data.NonOperatingExpense * this.data.SMV_Total;
@@ -236,21 +242,21 @@ export class View {
     this.SellingExpense = this.data.SellingExpense * this.data.SMV_Total;
     this.SellingExpensePercentage = (this.SellingExpense / this.ConfirmPrice) * 100;
 
-    this.TotalBOM = this.data.Total + this.NonOperatingExpenses + this.GeneralAdminExpenses + this.SellingExpense;
+    this.TotalBOM = this.TotalCOGM + this.NonOperatingExpenses + this.GeneralAdminExpenses + this.SellingExpense;
 
     this.Risk = this.TotalBOM + (this.TotalBOM * this.data.Risk / 100);
     this.RiskPercentage = this.data.Risk;
 
-    this.BeaAngkut = this.data.FreightCost + this.Risk;
-    this.BeaAngkutValue = this.data.FreightCost;
+    // this.BeaAngkut = this.data.FreightCost + this.Risk;
+    // this.BeaAngkutValue = this.data.FreightCost;
 
-    this.SubTotal = this.BeaAngkut;
+    //this.SubTotal = this.BeaAngkut;
     
 
     this.Komisi = this.ConfirmPrice * this.data.CommissionPortion / 100;
     this.KomisiPercentage = this.data.CommissionPortion;
 
-    this.NetProfit = (this.ConfirmPrice - this.Komisi) - this.SubTotal;
+    this.NetProfit = (this.ConfirmPrice - this.Komisi) - this.Risk;
     this.NetProfitPercentage = (this.NetProfit / this.ConfirmPrice) * 100;
   }
 

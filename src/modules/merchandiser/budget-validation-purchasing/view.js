@@ -1,4 +1,4 @@
-import { inject, Lazy } from "aurelia-framework";
+import { bindable, inject, Lazy } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { Service } from "./service";
 import { Dialog } from "../../../au-components/dialog/dialog";
@@ -50,6 +50,7 @@ export class View {
             { header: "Deskripsi", value: "Description" },
             { header: "Detail Barang", value: "ProductRemark" },
             { header: "Kuantitas", value: "Quantity" },
+            { header: "Allowance (%)", value: "Allowance" },
             { header: "Harga Per Satuan (Rp)", value: "PricePerUnit" },
             { header: "Total (Rp)", value: "Total" }
         ]
@@ -94,6 +95,36 @@ export class View {
     get isDollar() {
         return this.data.Rate.Id !== 0;
     }
+    @bindable TotalCOGM;
+    @bindable GrossProfit;
+    @bindable GrossProfitPercentage;
+    @bindable NonOperatingExpenses;
+    @bindable NonOperatingExpensesPercentage;
+    @bindable GeneralAdminExpenses;
+    @bindable GeneralAdminExpensesPercentage;
+    @bindable SellingExpense;
+    @bindable SellingExpensePercentage;
+    @bindable TotalBOM;
+    @bindable Risk;
+    @bindable RiskPercentage;
+    @bindable BeaAngkut;
+    @bindable BeaAngkutValue;
+    @bindable SubTotal;
+    @bindable ConfirmPrice;
+    @bindable Komisi;
+    @bindable KomisiPercentage;
+    @bindable NetProfit;
+    @bindable NetProfitPercentage;
+
+    @bindable FreightValue;
+    @bindable InsuranceValue;
+    @bindable ConfirmPriceValue;
+    @bindable SMVCutValue;
+    @bindable SMVSewValue;
+    @bindable SMVFinValue;
+    @bindable SMVTotalValue;
+
+    @bindable Ongkir;
 
     async activate(params, routeConfig, navigationInstruction) {
         const instruction = navigationInstruction.getAllInstructions()[0];
@@ -170,14 +201,14 @@ export class View {
         if (CM_Price > 0) {
             FOB_Price = 0;
         }
-        this.data.ConfirmPrice = this.isDollar
+        this.ConfirmPriceValue = this.isDollar
             ? US + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4 })//numeral(this.data.ConfirmPrice).format()
             : RP + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4 });
         this.data.FOB_Price = this.isDollar
             ? US + numeral(FOB_Price).format()
             : RP + numeral(FOB_Price).format();
         this.data.CMT_Price =
-            CM_Price > 0 ? this.data.ConfirmPrice : numeral(0).format();
+            CM_Price > 0 ? this.ConfirmPriceValue : numeral(0).format();
         this.data.CNF_Price = this.isDollar
             ? US + numeral((CNF_Price + this.data.Freight)).format()
             : RP + numeral(0).format();
@@ -205,7 +236,7 @@ export class View {
         this.data.SMV_Total = numeral(this.data.SMV_Total).format();
 
         this.data.LeadTime = `${this.data.LeadTime} hari`
-        this.data.ConfirmPrice = (this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4 }));
+        // this.data.ConfirmPrice = (this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4 }));
 
         this.editCallback = this.approve;
         if (this.activeTab === 0) {
@@ -221,7 +252,46 @@ export class View {
         } else {
             this.fobRemark = "-";
         }
-    
+        if (this.data.CostCalculationGarment_Materials) {
+        for (let material of this.data.CostCalculationGarment_Materials) {
+            if (material.TotalShippingFee) {
+            this.Ongkir += material.TotalShippingFee;
+            }
+        }
+        }
+
+        this.ConfirmPrice = this.data.ConfirmPrice * this.data.Rate.Value;
+
+        this.TotalCOGM = this.data.Total + this.Ongkir;
+        this.GrossProfit = this.ConfirmPrice - this.TotalCOGM;
+        this.GrossProfitPercentage = (this.GrossProfit / this.ConfirmPrice) * 100;
+
+        this.NonOperatingExpenses = this.data.NonOperatingExpense * this.data.SMV_Total;
+        this.NonOperatingExpensesPercentage = (this.NonOperatingExpenses / this.ConfirmPrice) * 100;
+
+        this.GeneralAdminExpenses = this.data.GeneralAdminExpense * this.data.SMV_Total;
+        console.log(this.GeneralAdminExpenses);
+        this.GeneralAdminExpensesPercentage = (this.GeneralAdminExpenses / this.ConfirmPrice) * 100;
+
+        this.SellingExpense = this.data.SellingExpense * this.data.SMV_Total;
+        this.SellingExpensePercentage = (this.SellingExpense / this.ConfirmPrice) * 100;
+
+        this.TotalBOM = this.TotalCOGM + this.NonOperatingExpenses + this.GeneralAdminExpenses + this.SellingExpense;
+
+        this.Risk = this.TotalBOM + (this.TotalBOM * this.data.Risk / 100);
+        this.RiskPercentage = this.data.Risk;
+
+        // this.BeaAngkut = this.data.FreightCost + this.Risk;
+        // this.BeaAngkutValue = this.data.FreightCost;
+
+        //this.SubTotal = this.BeaAngkut;
+        
+
+        this.Komisi = this.ConfirmPrice * this.data.CommissionPortion / 100;
+        this.KomisiPercentage = this.data.CommissionPortion;
+
+        this.NetProfit = (this.ConfirmPrice - this.Komisi) - this.Risk;
+        this.NetProfitPercentage = (this.NetProfit / this.ConfirmPrice) * 100;
     }
 
     async bind(context) {

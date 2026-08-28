@@ -9,6 +9,15 @@ export class CostCalculationMaterialFooter {
         this.colspan = 9;
     }
 
+    get totalOngkir() {
+        let totalOngkir = 0;
+        for (let item of this.context.items) {
+            if (item.data) {
+                totalOngkir += numeral(item.data.TotalShippingFee).value();
+            }
+        }
+        return totalOngkir;
+    }
     get totalMaterial() {
         let totalMaterial = 0;
         for (let item of this.context.items) {

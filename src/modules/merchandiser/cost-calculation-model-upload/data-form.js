@@ -121,7 +121,6 @@ export class DataForm {
 
    preSalesContractFilter = {
     IsPosted: true,
-    // "SCType == \"JOB ORDER\" || SCType == \"SUBCON\"": true
     'SCType == "JOB ORDER" || SCType == "SUBCON" || SCType == "TERIMA SUBCON" || SCType == "SUBCON KELUAR"': true,
   };
 
@@ -271,8 +270,6 @@ export class DataForm {
     if (this.data.CostCalculationGarment_Materials) {
       this.data.CostCalculationGarment_Materials.forEach((item) => {
         item.QuantityOrder = this.data.Quantity;
-        // item.FabricAllowance = this.data.FabricAllowance;
-        // item.AccessoriesAllowance = this.data.AccessoriesAllowance;
         item.Rate = this.data.Rate;
         item.SMV_Cutting = this.data.SMV_Cutting;
         item.SMV_Sewing = this.data.SMV_Sewing;
@@ -293,6 +290,7 @@ export class DataForm {
     this.costCalculationGarment_MaterialsInfoUploads.options.IsCopyCC =  this.isCopy;
     this.costCalculationGarment_MaterialsInfoUploads.options.CCId = this.data.Id;
     this.costCalculationGarment_MaterialsInfoUploads.options.SCId = this.data.PreSCId;
+    this.costCalculationGarment_MaterialsInfoUploads.options.OTLRate = this.data.OTLRate;
   }
 
   selectedSampleChanged(value){
@@ -453,9 +451,10 @@ export class DataForm {
       this.data.CCType = null;
     }
 
-    if ((oldValue && newValue) || (oldValue && !newValue)) {
-      this.data.CostCalculationGarment_Materials.splice(0);
-    } else if (
+    if (oldValue !== newValue) {
+      this.data.CostCalculationGarment_Materials = [];
+    }
+    else if (
       this.data.PreSCNoSource &&
       this.data.PreSCNo !== this.data.PreSCNoSource
     ) {
@@ -464,8 +463,6 @@ export class DataForm {
           (m) => m.PRMasterItemId > 0
         );
       for (const materialFromPRmaster of materialsFromPRMaster) {
-        // const index = this.data.CostCalculationGarment_Materials.indexOf(materialFromPRmaster);
-        // this.data.CostCalculationGarment_Materials.splice(index, 1);
         materialFromPRmaster.IsPRMaster = null;
         materialFromPRmaster.PRMasterId = 0;
         materialFromPRmaster.PRMasterItemId = 0;
@@ -560,28 +557,6 @@ export class DataForm {
       this.context.itemsCollection.bind();
     }
   }
- 
-  // @bindable fabricAllowance;
-  // fabricAllowanceChanged(newValue) {
-  //   this.data.FabricAllowance = newValue;
-  //   if (this.data.CostCalculationGarment_Materials) {
-  //     this.data.CostCalculationGarment_Materials.forEach((item) => {
-  //       item.FabricAllowance = this.data.FabricAllowance;
-  //     });
-  //     this.context.itemsCollection.bind();
-  //   }
-  // }
-
-  // @bindable accessoriesAllowance;
-  // accessoriesAllowanceChanged(newValue) {
-  //   this.data.AccessoriesAllowance = newValue;
-  //   if (this.data.CostCalculationGarment_Materials) {
-  //     this.data.CostCalculationGarment_Materials.forEach((item) => {
-  //       item.AccessoriesAllowance = this.data.AccessoriesAllowance;
-  //     });
-  //     this.context.itemsCollection.bind();
-  //   }
-  // }
 
   @bindable selectedSubconType;
   selectedSubconTypeChanged(newValue) {
@@ -611,6 +586,7 @@ export class DataForm {
       ]);
       const rates = allExpense.data || [];
       this.data.OTLRate = rates.find(item => item.Code.toUpperCase().includes("OTL"+this.yearRate)) ? rates.find(item => item.Code.toUpperCase().includes("OTL"+this.yearRate)).Rate : 0;
+      this.costCalculationGarment_MaterialsInfoUploads.options.OTLRate = this.data.OTLRate;
       this.data.NonOperatingExpense = rates.find(item => item.Code.toUpperCase().includes("BDU"+this.yearRate)) ? rates.find(item => item.Code.toUpperCase().includes("BDU"+this.yearRate)).Rate : 0;
       this.data.GeneralAdminExpense = rates.find(item => item.Code.toUpperCase().includes("BUA"+this.yearRate)) ? rates.find(item => item.Code.toUpperCase().includes("BUA"+this.yearRate)).Rate : 0;
       this.data.SellingExpense = rates.find(item => item.Code.toUpperCase().includes("BP"+this.yearRate)) ? rates.find(item => item.Code.toUpperCase().includes("BP"+this.yearRate)).Rate : 0;
@@ -734,6 +710,7 @@ export class DataForm {
 
     calculatedRateOTL = numeral(calculatedRateOTL).format();
     this.data.OTLCalculatedRate = numeral(calculatedRateOTL).value();
+    console.log("calculatedRateOTL", calculatedRateOTL);
     return calculatedRateOTL;
   }
 
@@ -768,6 +745,14 @@ export class DataForm {
     return freightCost;
   }
 
+  @computedFrom(
+    "data.NETFOB",
+    "data.OTLCalculatedRate",
+    "data.OTL1.CalculatedValue",
+    "data.OTL2.CalculatedValue",
+    "data.Risk",
+    "data.FreightCost"
+  )
   get NETFOBP() {
     let allMaterialCost = 0;
 
@@ -777,8 +762,8 @@ export class DataForm {
       });
     }
     
-    let otlValue = this.data.OTLCalculatedValue > 0 ? this.data.OTLCalculatedValue : (this.data.OTL1.CalculatedValue + this.data.OTL2.CalculatedValue);
-
+    let otlValue = this.data.OTLCalculatedRate > 0 ? this.data.OTLCalculatedRate : (this.data.OTL1.CalculatedValue + this.data.OTL2.CalculatedValue);
+    console.log("otlValue", otlValue);
     let subTotal =
       allMaterialCost !== 0
         ? ((allMaterialCost + otlValue) 
@@ -805,20 +790,17 @@ export class DataForm {
   download() {
     this.service.downloadTemplateMaterialCC();
   }
+
   downloadErrorExcel(errors) {
-    // Buat struktur data untuk Excel
     const errorData = errors.map((msg, index) => ({
         No: index + 1,
         Error: msg
     }));
-
     const worksheet = XLSX.utils.json_to_sheet(errorData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Error Upload");
-
-    // Download file
     XLSX.writeFile(workbook, "Error_Upload.xlsx");
-}
+  }
 
   async handleFileUpload(event) {
     const file = event.target.files[0];
@@ -861,7 +843,7 @@ export class DataForm {
                 return;
             }
         }
-        // Hanya ambil header yang valid (tanpa __EMPTY, dst)
+
         const cleanData = jsonData.map(row => {
             const cleanedRow = {};
             expectedHeaders.forEach(header => {
@@ -870,10 +852,7 @@ export class DataForm {
             return cleanedRow;
         });
 
-        // Hapus semua isi jsonData
         jsonData.length = 0;
-
-        // Isi ulang hanya baris yang tidak kosong total
         jsonData.push(
           ...cleanData.filter(row =>
             Object.values(row).some(val =>
@@ -999,7 +978,7 @@ async pushDataExcel(value) {
     SatuanBarang: (row["Satuan Barang"] || "").toString().trim(),
     Description: (row["Keterangan"] || "").toString(),
     ProductRemark: row["Detil Barang"] && row["Detil Barang"].toString().trim() !== "" ? row["Detil Barang"].toString() : "-",
-    RincianQty: parseFloat(row["Rincian qty"]) || 0,
+    QuantityBreakdown: parseFloat(row["Rincian qty"]) == 0 ? this.data.Quantity : parseFloat(row["Rincian qty"]),
     Quantity: parseFloat(row["Usage per pcs"]) || 0,
     Price: parseFloat(row["Harga"]) || 0,
     Conversion: parseFloat(row["Konversi"]) || 0,
@@ -1008,8 +987,6 @@ async pushDataExcel(value) {
     MaterialIndex: index,
     QuantityOrder: this.data.Quantity || 0,
     Allowance: parseFloat(row["Allowance %"]) || 0,
-    // FabricAllowance: this.data.FabricAllowance || 0,
-    // AccessoriesAllowance: this.data.AccessoriesAllowance || 0,
     Rate: this.data.Rate || 0,
     SMV_Cutting: this.data.SMV_Cutting || 0,
     SMV_Sewing: this.data.SMV_Sewing || 0,
@@ -1046,7 +1023,7 @@ async pushDataExcel(value) {
           Product: item.Product || {},
           Description: item.Description,
           ProductRemark: item.ProductRemark,
-          RincianQty: item.RincianQty || 0,
+          QuantityBreakdown: item.QuantityBreakdown || 0,
           Quantity: item.Quantity || 0,
           UOMQuantity: item.UOMQuantity || null,
           Price: item.Price || 0,
@@ -1056,8 +1033,6 @@ async pushDataExcel(value) {
           UOMPrice: item.UOMPrice || null,
           MaterialIndex: item.MaterialIndex || 0,
           QuantityOrder: item.QuantityOrder || 0,
-          // FabricAllowance: item.FabricAllowance || 0,
-          // AccessoriesAllowance: item.AccessoriesAllowance || 0,
           Allowance: item.Allowance || 0,
           Rate: item.Rate || 0,
           SMV_Cutting: item.SMV_Cutting || 0,
@@ -1089,57 +1064,6 @@ async pushDataExcel(value) {
     allMaterials.push(material);
   }
 
-  // const lastCategories = ['PROCESS CUTTING', 'PROCESS SEWING', 'PROCESS FINISHING'];
-  // allMaterials.sort((a, b) => {
-  //     const categoryA = a.Category && (a.Category.name || a.Category.Name)
-  //         ? (a.Category.name || a.Category.Name).toUpperCase()
-  //         : '';
-
-  //     const categoryB = b.Category && (b.Category.name || b.Category.Name)
-  //         ? (b.Category.name || b.Category.Name).toUpperCase()
-  //         : '';
-
-  //     const isLastCategoryA = lastCategories.indexOf(categoryA) >= 0;
-  //     const isLastCategoryB = lastCategories.indexOf(categoryB) >= 0;
-
-  //     const getRank = function (item, isLastCategory) {
-  //         if (item.IsAddPRMaster) return 1;
-  //         if (item.isFabricCM && !isLastCategory) return 2;
-  //         if (!isLastCategory) return 3;
-  //         return 4;
-  //     };
-
-  //     const rankA = getRank(a, isLastCategoryA);
-  //     const rankB = getRank(b, isLastCategoryB);
-
-  //     if (rankA !== rankB) {
-  //         return rankA - rankB;
-  //     }
-
-  //     if (rankA === 4 && rankB === 4) {
-  //         const processOrder = {
-  //             'PROCESS CUTTING': 1,
-  //             'PROCESS SEWING': 2,
-  //             'PROCESS FINISHING': 3
-  //         };
-  //         const processA = processOrder[categoryA] || 999;
-  //         const processB = processOrder[categoryB] || 999;
-  //         if (processA !== processB) {
-  //             return processA - processB;
-  //         }
-  //     }
-  //     const productCodeA = a.Product && a.Product.Code
-  //         ? a.Product.Code.toUpperCase()
-  //         : '';
-  //     const productCodeB = b.Product && b.Product.Code
-  //         ? b.Product.Code.toUpperCase()
-  //         : '';
-  //     return productCodeA.localeCompare(productCodeB);
-  // });
-
-  // allMaterials.forEach((item, index) => {
-  //   item.MaterialIndex = index;
-  // });
   this.data.CostCalculationGarment_Materials = allMaterials;
   console.log("this.data.CostCalculationGarment_Materials", this.data.CostCalculationGarment_Materials);
   this.data.FabricAllowance = allMaterials

@@ -22,6 +22,7 @@ export class DataForm {
   }
   CCG_M_FabricInfo = {
     columns: [
+      { header: "Material Used", value: "IsMaterialCancelled" },
       { header: "Product Code" },
       { header: "Composition" },
       { header: "Construction" },
@@ -30,18 +31,33 @@ export class DataForm {
       { header: "Description", value: "Description" },
       { header: "Detil Barang", value: "Detil Barang" },
       { header: "Quantity", value: "Quantity" },
+      { header: "Used Quantity", value: "QuantityUsageRO" },
       { header: "Remark", value: "Information" }
     ]
   }
   CCG_M_AccessoriesInfo = {
     columns: [
+      { header: "Material Used", value: "IsMaterialCancelled" },
       { header: "Product Code" },
       { header: "Description", value: "Description" },
       { header: "Detil Barang", value: "Detil Barang" },
       { header: "Quantity", value: "Quantity" },
+      { header: "Used Quantity", value: "QuantityUsageRO" },
       { header: "Remark", value: "Information" }
     ]
   }
+  CCG_M_ProcessInfo = {
+    columns: [
+      { header: "Material Used", value: "IsMaterialCancelled" },
+      { header: "Product Code" },
+      { header: "Description", value: "Description" },
+      { header: "Detil Barang", value: "Detil Barang" },
+      { header: "Quantity", value: "Quantity" },
+      { header: "Used Quantity", value: "QuantityUsageRO" },
+      { header: "Remark", value: "Information" }
+    ]
+  }
+
   CCG_M_RateInfo = {
     columns: [
       { header: "Product Code" },
@@ -78,11 +94,13 @@ export class DataForm {
   @bindable isCopy;
   disabled = true;
   shown = false;
+  @bindable listProcess = ["PROCESS","PROCESS CUTTING","PROCESS SEWING","PROCESS FINISHING"];
 
   @bindable costCalculationGarment;
   CCG_M_Fabric = [];
   CCG_M_Accessories = [];
   CCG_M_Rate = [];
+  CCG_M_Process = [];
 
   @computedFrom("data.Id")
   get isEdit() {
@@ -144,10 +162,11 @@ export class DataForm {
       if (this.isCopy) {
         if (this.data.CostCalculationGarment.CostCalculationGarment_Materials.length !== 0) {
           this.CCG_M_Fabric = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() === "FABRIC");
-          this.CCG_M_Accessories = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() !== "FABRIC");
-          
+          this.CCG_M_Accessories = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() !== "FABRIC" && !this.listProcess.includes(item.Category.name.toUpperCase()));
+          this.CCG_M_Process = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => this.listProcess.includes(item.Category.name.toUpperCase()));
           this.oldFabric = this.CCG_M_Fabric;
           this.oldAcc = this.CCG_M_Accessories;
+          this.oldProcess = this.CCG_M_Process;
         
         }
       } else {
@@ -173,8 +192,8 @@ export class DataForm {
         if (this.isCopy) {
           this.isCopy = false;
           this.newFab = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() === "FABRIC");
-          this.newAcc = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() !== "FABRIC");
-          
+          this.newAcc = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() !== "FABRIC" && !this.listProcess.includes(item.Category.name.toUpperCase()));
+          this.newProcess = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => this.listProcess.includes(item.Category.name.toUpperCase()));
           this.newFab.forEach(element => {
             var exist = this.oldFabric.find(a => a.Product.Id === element.Product.Id && a.Description === element.Description);
             if (exist) {
@@ -188,14 +207,21 @@ export class DataForm {
               element.Information = exist.Information;
             }
           })
+
+          this.newProcess.forEach(element => {
+            var exist = this.oldProcess.find(a => a.Product.Id === element.Product.Id && a.Description === element.Description);
+            if (exist) {
+              element.Information = exist.Information;
+            }
+          });
           this.CCG_M_Fabric = this.newFab;
           this.CCG_M_Accessories = this.newAcc;
 
-          
+          this.CCG_M_Process = this.newProcess;
         } else {
           this.CCG_M_Fabric = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() === "FABRIC");
-          this.CCG_M_Accessories = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() !== "FABRIC");
-
+          this.CCG_M_Accessories = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() !== "FABRIC" && !this.listProcess.includes(item.Category.name.toUpperCase()));
+          this.CCG_M_Process = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => this.listProcess.includes(item.Category.name.toUpperCase()));
         }
 
         // this.CCG_M_Rate = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.Name.toUpperCase() === "ONG");
@@ -208,6 +234,7 @@ export class DataForm {
       //this.data.CostCalculationGarment.ImageFile = '#';
       this.CCG_M_Fabric = [];
       this.CCG_M_Accessories = [];
+      this.CCG_M_Process = [];
       this.data.Total = 0;
     }
   }
@@ -228,6 +255,11 @@ export class DataForm {
   @computedFrom("CCG_M_Accessories")
   get hasCCG_M_Accessories() {
     return this.CCG_M_Accessories.length !== 0;
+  }
+
+  @computedFrom("CCG_M_Process")
+  get hasCCG_M_Process() {
+    return this.CCG_M_Process.length !== 0;
   }
 
   // @computedFrom("CCG_M_Rate")

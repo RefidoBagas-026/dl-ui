@@ -32,12 +32,6 @@
                     value.bind="data.CommodityDescription" error.bind="error.CommodityDescription"
                     options.bind="length4">
                 </au-multiline>
-                <au-numeric label="Total Fabric (%)" value.bind="data.FabricAllowance" error.bind="error.FabricAllowance" read-only.bind="disabled"
-                    options.bind="length4">
-                </au-numeric>
-                <au-numeric label="Total Accessories (%)" value.bind="data.AccessoriesAllowance" read-only.bind="disabled"
-                    error.bind="error.AccessoriesAllowance" options.bind="length4">
-                </au-numeric>
             </div>
             <div class="col-md-3">
                 <au-textbox label="Seksi" value.bind="dataSection" read-only="true" options.bind="length4">
@@ -90,13 +84,18 @@
                 <au-numeric label="SMV Total" value.bind="SMV_Total" options.bind="length4" read-only="disabled">
                 </au-numeric>
                 
-                 <au-checkbox label="Sample" value.bind="data.IsSample" error.bind="error.IsSample"
+                <au-checkbox label="Sample" value.bind="data.IsSample" error.bind="error.IsSample"
                     read-only.bind="readOnly" options.bind="length4" change.delegate="selectedSampleChanged($event)" >
                 </au-checkbox>
 
-                <au-multiline if.bind="isSample" label="Keterangan Jenis Sample" placeholder="Keterangan" value.bind="data.SampleDescription"
-                    error.bind="error.SampleDescription" options.bind="length4">
-                </au-multiline>
+                <div if.bind="isSample">
+                    <au-numeric label="Quantity Sample" value.bind="data.QuantitySample" format="0" options.bind="length4" read-only.bind="readOnly" error.bind="error.QuantitySample">
+                    </au-numeric>
+                    <au-multiline if.bind="isSample" label="Keterangan Jenis Sample" placeholder="Keterangan" value.bind="data.SampleDescription"
+                        error.bind="error.SampleDescription" options.bind="length4">
+                    </au-multiline>
+                </div>
+                
             </div>
             <div class="col-md-3">
                 <au-textbox label="Buyer Agent" value.bind="dataBuyer" read-only="true" options.bind="length4">
@@ -173,8 +172,8 @@
                     show.bind="data.BuyerBrand && data.Section"
                     columns.bind="costCalculationGarment_MaterialsInfoUploads.columns"
                     options.bind="costCalculationGarment_MaterialsInfoUploads.options" responsive.bind="true"
-                    item-template="modules/merchandiser/cost-calculation-model-upload/template/data-form/cost-calculation-material-upload"
-                    footer-template="modules/merchandiser/cost-calculation-model-upload/template/data-form/cost-calculation-material-footer-upload">
+                    item-template="modules/merchandiser/cost-calculation-model-upload/template/data-form/cost-calculation-material"
+                    footer-template="modules/merchandiser/cost-calculation-model-upload/template/data-form/cost-calculation-material-footer">
                 </au-collection>
                 <br>
                 <hr>
@@ -197,18 +196,19 @@
                 </au-numeric>
             </div>
             <div class="col-md-2">
-                <au-numeric label="OTL" value.bind="calculatedRateOTL" options.bind="length4" read-only="disabled">
-                </au-numeric>
-                <!-- <au-numeric label="OTL 1" value.bind="calculatedRateOTL1" options.bind="length4" read-only="disabled">
-                </au-numeric> -->
-                <!-- <au-numeric label="OTL 2" value.bind="calculatedRateOTL2" options.bind="length4" read-only="disabled">
-                </au-numeric> -->
+                <div style="display:none">
+                    <au-numeric label="OTL" value.bind="calculatedRateOTL" options.bind="length4" read-only="disabled">
+                    </au-numeric>
+                </div>
                 <au-numeric label="Resiko (%)" value.bind="data.Risk" options.bind="length4" read-only="disabled">
                 </au-numeric>
             </div>
             <div class="col-md-5">
                 <div class="row">
                     <div class="col-md-6">
+                        <au-numeric label="Biaya Angkut" value.bind="freightCost" options.bind="length4"
+                            read-only="disabled">
+                        </au-numeric>
                     </div>
                     <div class="col-md-6">
                         <au-numeric label="NET/FOB" value.bind="NETFOB" options.bind="length4" read-only="disabled">
@@ -216,11 +216,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <au-numeric label="Biaya Angkut" value.bind="freightCost" options.bind="length4"
-                            read-only="disabled">
-                        </au-numeric>
-                    </div>
+                    <div class="col-md-6"></div>
                     <div class="col-md-6">
                         <au-numeric label="NET/FOB (%)" value.one-way="NETFOBP" options.bind="length4"
                             read-only="disabled">
