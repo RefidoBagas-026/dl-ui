@@ -3,7 +3,13 @@
         <td class="text-center">
             <au-checkbox 
                 value.bind="data.IsCMT" 
-                simbol.bind="true"
+                read-only.bind="readOnly"
+                options.bind="controlOptions">
+            </au-checkbox>
+        </td>
+        <td class="text-center">
+            <au-checkbox 
+                value.bind="data.IsImport" 
                 read-only.bind="readOnly"
                 options.bind="controlOptions">
             </au-checkbox>

@@ -95,7 +95,7 @@ export class List {
 
     defaultFilter = {
         IsPosted: true,
-        "PRType == \"MASTER\" || PRType == \"SAMPLE\" || PRType == \"SUBCON\" || PRType == \"TERIMA SUBCON\"": true
+        "PRType == \"MASTER\" || PRType == \"MOQ\" || PRType == \"STOCK\" || PRType == \"OB\" || PRType == \"SAMPLE\" || PRType == \"SUBCON\" || PRType == \"TERIMA SUBCON\"": true
     }
 
     get filter() {
@@ -129,10 +129,8 @@ export class List {
                     
 
                 }, this.defaultFilter);
-                console.log("masuk this.defaultFilter ");
 
                 if (this.section) {
-                    console.log("masuk this.section ");
                     filter.SectionName = this.section.Name;
                 }
                 
@@ -142,7 +140,6 @@ export class List {
 
         }
         return filter;
-        //console.log(ApprovalKadiv);
 
     }
 

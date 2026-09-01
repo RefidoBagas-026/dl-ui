@@ -104,6 +104,11 @@
       </div>
     </div>
     <br>
+    <div class="col-md-12">
+            <!-- <button class="btn btn-default" click.delegate="download(0)">Download Template</button> -->
+            <button if.bind="data.Id || dataID" class="btn btn-primary" click.delegate="download(data.Id || dataID)">Download Data Material</button>
+            <hr/>
+        </div>
     <au-collection items.bind="data.CostCalculationGarment_Materials" columns.bind="costCalculationGarment_MaterialsInfo.columns"
       item-template="modules/merchandiser/cost-calculation-model-upload/template/view/cost-calculation-material" footer-template="modules/merchandiser/cost-calculation-model-upload/template/view/cost-calculation-material-footer">
     </au-collection>

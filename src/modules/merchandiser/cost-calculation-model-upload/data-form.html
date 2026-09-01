@@ -45,6 +45,7 @@
                 <au-autocomplete value.bind="selectedBookingOrder" error.bind="error.BookingOrder"
                     label="No Booking Order" loader.bind="bookingOrderLoader" query.bind="filter"
                     show.bind="data.BuyerBrand && data.Section && data.Comodity"
+                    view-model.ref="selectedBookingOrderViewModel"
                     text.bind="bookingOrderView" placeholder="No Booking Order" read-only.bind="readOnly || isEdit"
                     options.bind="length4">
                 </au-autocomplete>
@@ -144,7 +145,8 @@
         </div>
         
         <div class="col-md-12">
-            <button class="btn btn-default" click.delegate="download()">Download Template</button>
+            <button class="btn btn-default" click.delegate="download(0)">Download Template</button>
+            <button if.bind="data.Id || dataID" class="btn btn-primary" click.delegate="download(data.Id || dataID)">Download Data Material</button>
             <hr/>
         </div>
             

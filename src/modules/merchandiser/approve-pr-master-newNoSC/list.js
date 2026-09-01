@@ -129,10 +129,8 @@ export class List {
                     
 
                 }, this.defaultFilter);
-                console.log("masuk this.defaultFilter ");
 
                 if (this.section) {
-                    console.log("masuk this.section ");
                     filter.SectionName = this.section.Name;
                 }
                 
@@ -142,7 +140,6 @@ export class List {
 
         }
         return filter;
-        //console.log(ApprovalKadiv);
 
     }
 

@@ -12,8 +12,8 @@ class Service extends RestService {
         super(http, aggregator, config, "sales");
     }
 
-    downloadTemplateMaterialCC(){
-        var endpoint = `${serviceUri}/downloadCC-template`;
+    downloadTemplateMaterialCC(id){
+        var endpoint = `${serviceUri}/downloadCC-template/${id}`;
         return super.getXls(endpoint);
     }
     search(info) {

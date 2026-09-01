@@ -35,6 +35,15 @@
             read-only.bind="true"
             options.bind="controlOptions">
         </au-textbox>
+
+        <au-textbox
+            if.bind="(data.PRType == 'OB' || data.PRType == 'MOQ')"
+            label="Untuk RO"
+            value.bind="data.SourceRO"
+            error.bind="error.SourceRO"
+            read-only.bind="true"
+            options.bind="controlOptions">
+        </au-textbox>
        
         <au-textbox
             if.bind="data.SCNo"

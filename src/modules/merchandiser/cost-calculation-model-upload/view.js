@@ -236,7 +236,6 @@ export class View {
     this.NonOperatingExpensesPercentage = (this.NonOperatingExpenses / this.ConfirmPrice) * 100;
 
     this.GeneralAdminExpenses = this.data.GeneralAdminExpense * this.data.SMV_Total;
-    console.log(this.GeneralAdminExpenses);
     this.GeneralAdminExpensesPercentage = (this.GeneralAdminExpenses / this.ConfirmPrice) * 100;
 
     this.SellingExpense = this.data.SellingExpense * this.data.SMV_Total;
@@ -278,6 +277,10 @@ export class View {
 
   cancelCallback(event) {
     this.list();
+  }
+
+  download(id) {
+    this.service.downloadTemplateMaterialCC(id);
   }
 
   editCallback(event) {

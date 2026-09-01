@@ -32,6 +32,7 @@ export class Copy {
 
     async activate(params) {
         this.id = params.id;
+        this.dataID = this.id;
         this.data = await this.service.getById(this.id);
         this.copiedROFrom = this.data.RO_Number;
         this.data.PreSCNoSource = this.data.PreSCNo;
@@ -192,7 +193,7 @@ export class Copy {
                 this.list();
             })
             .catch(e => {
-this.errorUpload = [];
+            this.errorUpload = [];
             if (e && Array.isArray(e.CostCalculationGarment_Materials)) {
 
                 e.CostCalculationGarment_Materials.forEach((materialError, index) => {

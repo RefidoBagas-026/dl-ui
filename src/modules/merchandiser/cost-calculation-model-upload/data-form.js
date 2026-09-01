@@ -145,6 +145,7 @@ export class DataForm {
 
   async bind(context) {
     this.context = context;
+    this.selectedBookingOrderViewModel = this.context.selectedBookingOrderViewModel;
     this.data = this.context.data;
     this.error = this.context.error;
     this.create = this.context.create;
@@ -451,10 +452,23 @@ export class DataForm {
       this.data.CCType = null;
     }
 
-    if (oldValue !== newValue) {
+    if (oldValue !== newValue && !this.isCopy) {
       this.data.CostCalculationGarment_Materials = [];
     }
-    else if (
+    if(this.create || this.isCopy) {
+      if(this.selectedBookingOrderViewModel) {
+        this.selectedBookingOrderViewModel.editorValue = "";
+        this.selectedBookingOrderViewModel._suggestions = {};
+        this.selectedBookingOrder = null;
+      }
+      this.data.BookingOrderId = 0;
+      this.data.BookingOrderItemId = 0;
+      this.data.BookingOrderNo = null;
+      this.data.BOQuantity = 0;
+      this.data.ConfirmDate = null;
+    }
+
+    if (
       this.data.PreSCNoSource &&
       this.data.PreSCNo !== this.data.PreSCNoSource
     ) {
@@ -710,7 +724,6 @@ export class DataForm {
 
     calculatedRateOTL = numeral(calculatedRateOTL).format();
     this.data.OTLCalculatedRate = numeral(calculatedRateOTL).value();
-    console.log("calculatedRateOTL", calculatedRateOTL);
     return calculatedRateOTL;
   }
 
@@ -763,7 +776,6 @@ export class DataForm {
     }
     
     let otlValue = this.data.OTLCalculatedRate > 0 ? this.data.OTLCalculatedRate : (this.data.OTL1.CalculatedValue + this.data.OTL2.CalculatedValue);
-    console.log("otlValue", otlValue);
     let subTotal =
       allMaterialCost !== 0
         ? ((allMaterialCost + otlValue) 
@@ -787,8 +799,8 @@ export class DataForm {
     } else return true;
   }
 
-  download() {
-    this.service.downloadTemplateMaterialCC();
+  download(id) {
+    this.service.downloadTemplateMaterialCC(id);
   }
 
   downloadErrorExcel(errors) {
@@ -1004,7 +1016,6 @@ async pushDataExcel(value) {
   try {
     resultData = await this.serviceCore.getMaterialFromUpload(payload);
   } catch (error) {
-    console.error("Gagal memanggil service:", error);
     alert("Gagal mengambil data Product dan UOM. Periksa koneksi Anda.");
     return;
   }
@@ -1065,19 +1076,16 @@ async pushDataExcel(value) {
   }
 
   this.data.CostCalculationGarment_Materials = allMaterials;
-  console.log("this.data.CostCalculationGarment_Materials", this.data.CostCalculationGarment_Materials);
   this.data.FabricAllowance = allMaterials
       .filter(x =>
           (((x.Category || {}).name || (x.Category || {}).Name || "").toUpperCase() === "FABRIC")
       )
       .reduce((a, b) => a + Number(b.Allowance || 0), 0);
-  console.log("this.data.FabricAllowance", this.data.FabricAllowance);
   this.data.AccessoriesAllowance = allMaterials
       .filter(x =>
           (((x.Category || {}).name || (x.Category || {}).Name || "").toUpperCase() !== "FABRIC")
       )
       .reduce((a, b) => a + Number(b.Allowance || 0), 0);
-  console.log("this.data.AccessoriesAllowance", this.data.AccessoriesAllowance);
       this.context.itemsCollection.bind();
 }
 

@@ -88,4 +88,9 @@ export class Service extends RestService {
         var endpoint = `${serviceUri}/excelIntellocut/${id}`;
         return super.getFile(endpoint);
     }
+
+    getDataRO(NoRO) {
+        var endpoint = `${serviceUri}/GetDataRO/${NoRO}`;
+        return super.get(endpoint);
+    }
 }

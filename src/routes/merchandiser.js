@@ -51,7 +51,7 @@ module.exports = [
         name: 'purchase-request-master-by-user',
         moduleId: './modules/merchandiser/garment-purchase-request-master/index',
         nav: true,
-        title: 'PR Master',
+        title: 'PR Non-Job',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -67,7 +67,7 @@ module.exports = [
         name: 'purchase-request-master',
         moduleId: './modules/merchandiser/garment-purchase-request-master/index',
         nav: true,
-        title: 'PR Master (Semua User)',
+        title: 'PR Non-Job (Semua User)',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -81,9 +81,9 @@ module.exports = [
     {
         route: '/merchandiser/approve-pr-master/kasie-md',
         name: 'approve-purchase-request-master',
-        moduleId: './modules/merchandiser/approve-pr-master-newNoSC/index',
+        moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
-        title: 'Approval PR Master - Kasie Md',
+        title: 'Approval PR Non-Job - Kasie Md',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -97,9 +97,9 @@ module.exports = [
     {
         route: '/merchandiser/approve-pr-master/purchasing',
         name: 'approve-purchase-request-master',
-        moduleId: './modules/merchandiser/approve-pr-master-newNoSC/index',
+        moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
-        title: 'Approval PR Master - Purchasing',
+        title: 'Approval PR Non-Job - Purchasing',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -113,9 +113,9 @@ module.exports = [
     {
         route: '/merchandiser/approve-pr-master/kabag-md',
         name: 'approve-purchase-request-master',
-        moduleId: './modules/merchandiser/approve-pr-master-newNoSC/index',
+        moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
-        title: 'Approval PR Master - Kabag Md',
+        title: 'Approval PR Non-Job - Kabag Md',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -145,7 +145,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation',
         name: 'cost-calculation',
-        moduleId: './modules/merchandiser/cost-calculation/index',
+        moduleId: './modules/merchandiser/cost-calculation-model-upload/index',
         nav: true,
         title: 'Cost Calculation Export Garment (Semua User)',
         auth: true,

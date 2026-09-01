@@ -29,6 +29,7 @@ export class View {
                 Id: this.data.SCId,
                 SCNo: this.data.SCNo
             };
+            this.selectedRONo = this.data.SourceRO || null;
 
             if (this.data.Items) {
                 const removeDuplicates = (arr) => {

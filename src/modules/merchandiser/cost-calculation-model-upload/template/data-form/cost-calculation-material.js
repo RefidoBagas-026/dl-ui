@@ -262,28 +262,29 @@ export class CostCalculationMaterial {
                     this.data.PRMasterId = result.PRMasterId;
                     this.data.PRMasterItemId = result.PRMasterItemId;
                     this.data.POMaster = result.POMaster;
-                    this.data.Category = result.Category;
-                    this.data.Product = result.Product;
-                    this.productCode = this.data.Product ? this.data.Product.Code : "";
-                    this.data.Description = result.Description;
-                    this.data.Price = result.BudgetPrice;
-                    this.data.UOMPrice = result.PriceUom;
+                    // this.data.Category = result.Category;
+                    // this.data.Product = result.Product;
+                    // this.productCode = this.data.Product ? this.data.Product.Code : "";
+                    // // this.data.Description = result.Description;
+                    // this.data.Price = result.BudgetPrice;
+                    // this.data.UOMPrice = result.PriceUom;
                     this.data.AvailableQuantity = result.AvailableQuantity;
-                    this.data.isFabricCM = result.IsCMT;
-                    if(this.data.isFabricCM){
-                        this.data.ShippingFeePortion = 0;
-                    }
-                    this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
-                    this.serviceCore.getCategoryId(this.data.Category.Id)
-                        .then(category => {
-                            if (category && typeof category === "object") {
-                                category.Code = category.code || category.Code;
-                                category.Name = category.name || category.Name;
+                    // this.data.isFabricCM = result.IsCMT;
+                    // if(this.data.isFabricCM){
+                    //     this.data.ShippingFeePortion = 0;
+                    // }
+                    // this.categoryNames = this.data.Category ? (this.data.Category.name || this.data.Category.Name || "").toUpperCase() : "";
+                    // this.serviceCore.getCategoryId(this.data.Category.Id)
+                    //     .then(category => {
+                    //         if (category && typeof category === "object") {
+                    //             category.Code = category.code || category.Code;
+                    //             category.Name = category.name || category.Name;
 
-                                this.data.Category = category;
-                            }
-                            this.data.showDialog = false;
-                        });
+                    //             this.data.Category = category;
+                    //         }
+                    //         this.data.showDialog = false;
+                    //     });
+                     this.data.showDialog = false;
                 }
             });
     }
