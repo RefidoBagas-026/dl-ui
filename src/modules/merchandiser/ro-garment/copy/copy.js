@@ -33,7 +33,7 @@ export class Edit {
     clearDataProperties() {
         this.identityProperties.concat([
             "Code",
-            "ImagesPath",
+            // "ImagesPath",
             "IsPosted"
         ]).forEach(prop => delete this.data[prop]);
         (this.data.CostCalculationGarment || {}).RO_Number = null;

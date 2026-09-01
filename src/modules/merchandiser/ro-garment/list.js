@@ -177,7 +177,6 @@ export class List {
                         
                         this.table.refresh();
                         this.dataToBePosted = [];
-                        //console.log(result.message);
                     }).catch(e => {
                         const errorMessage = e.ErrorPost || Object.values(e)[0];
                         

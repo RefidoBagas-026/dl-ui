@@ -53,7 +53,7 @@ export class List {
       order[info.sort] = info.order;
     }
     let filter = {};
-    filter["PRType == \"MASTER\" || PRType == \"MOQ\" || PRType == \"PRE-JOB\" || PRType == \"OB\" || PRType == \"SAMPLE\" || PRType == \"SUBCON\" || PRType == \"TERIMA SUBCON\""] = true;
+    filter["PRType == \"MASTER\" || PRType == \"MOQ\" || PRType == \"STOCK\" || PRType == \"OB\" || PRType == \"SAMPLE\" || PRType == \"SUBCON\" || PRType == \"TERIMA SUBCON\""] = true;
     let arg = {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,

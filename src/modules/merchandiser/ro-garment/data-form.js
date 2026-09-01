@@ -20,6 +20,13 @@ export class DataForm {
       length: 4
     }
   }
+
+  length14 = {
+    label: {
+      align: "left",
+      length: 12
+    }
+  }
   CCG_M_FabricInfo = {
     columns: [
       { header: "Material Used", value: "IsMaterialCancelled" },
@@ -92,6 +99,8 @@ export class DataForm {
   @bindable error = {};
   @bindable readOnly;
   @bindable isCopy;
+  @bindable CopyROData;
+  @bindable enableCopyRO = false;
   disabled = true;
   shown = false;
   @bindable listProcess = ["PROCESS","PROCESS CUTTING","PROCESS SEWING","PROCESS FINISHING"];
@@ -115,6 +124,15 @@ export class DataForm {
     //return { "RO_GarmentId": null, "SCGarmentId":null }
     //return { "RO_GarmentId== null && SCGarmentId > 0": true };
     return { "RO_GarmentId== null":true};
+  }
+  get filterCopyROData() {
+    //return { "RO_GarmentId": null, "SCGarmentId":null }
+    //return { "RO_GarmentId== null && SCGarmentId > 0": true };
+    return { [`IsPosted== true && RO_Number != "${this.costCalculationGarment ? this.costCalculationGarment.RO_Number : null}"`]:true};
+  }
+
+  copyRO() {
+    this.enableCopyRO = !this.enableCopyRO;
   }
 
   constructor(router, service, bindingEngine) {
@@ -262,25 +280,6 @@ export class DataForm {
     return this.CCG_M_Process.length !== 0;
   }
 
-  // @computedFrom("CCG_M_Rate")
-  // get hasCCG_M_Rate() {
-  //   return this.CCG_M_Rate.length !== 0;
-  // }
-
-  // get total() {
-  //   this.data.Total = 0;
-  //   if (this.data.RO_Garment_SizeBreakdowns) {
-  //     this.data.RO_Garment_SizeBreakdowns.forEach(sb => {
-  //       if (sb.RO_Garment_SizeBreakdown_Details) {
-  //         sb.RO_Garment_SizeBreakdown_Details.forEach(sbd => {
-  //           this.data.Total += sbd.Quantity;
-  //         })
-  //       }
-  //     })
-  //   }
-  //   return this.data.Total;
-  // }
-
   onAddDocument() {
     this.data.DocumentsFile.push("");
     this.data.DocumentsFileName.push("");
@@ -418,7 +417,7 @@ export class DataForm {
         if (rowIndex === 0) {
           const thead = document.createElement("thead");
           const headerRow = document.createElement("tr");
-          row.slice(0, 16).forEach(cell => {
+          row.slice(0, 13).forEach(cell => {
             const th = document.createElement("th");
             th.textContent = (cell || "").trim();
             headerRow.appendChild(th);
@@ -429,7 +428,7 @@ export class DataForm {
         }
         const tr = document.createElement("tr");
 
-        for (let a = 0; a < 16; a++) {
+        for (let a = 0; a < 13; a++) {
           const td = document.createElement("td");
 
           const colLetter = this.getExcelColumnName(a);
@@ -449,13 +448,6 @@ export class DataForm {
               td.style.backgroundColor = "#ffcccc";
             }
           }
-          if ([7, 8, 9].includes(a)) {
-            const value = String(row[a]).trim();
-            if (value != "" && isNaN(Number(value))) {
-              err.push(`Sel ${cellRef} harus berupa angka`);
-              td.style.backgroundColor = "#ffcccc";
-            }
-          }
 
           td.textContent = String(row[a]).trim();
           td.style.height = "30px";
@@ -467,24 +459,11 @@ export class DataForm {
         if (err.length === 0) {
           const [
             PONo, Style, Color, Size, Fit, Destination,
-            QuantityRaw, TopSampleQtyRaw, ShippingSampleQtyRaw, KeepingSampleQtyRaw, RemarkMTM,
+            QuantityRaw, RemarkMTM,
             Customer, SeasonCode, ShipMode, Barcode, PackType
           ] = row.map(cell => String(cell != null ? cell : "").trim());
 
           const Quantity = Number(QuantityRaw) || 0;
-          const TopSampleQty = Number(TopSampleQtyRaw) || 0;
-          const ShippingSampleQty = Number(ShippingSampleQtyRaw) || 0;
-          const KeepingSampleQty = Number(KeepingSampleQtyRaw) || 0;
-          // let DueDateFormatted = null;
-          // let ExFactoryDateFormatted = null;
-
-          // if (DueDate && !isNaN(DueDate)) {
-          //   DueDateFormatted = this.convertExcelDateToMoment(Number(DueDate)).format("YYYY-MM-DD");
-          // }
-          // if (ExFactoryDate && !isNaN(ExFactoryDate)) {
-          //   ExFactoryDateFormatted = this.convertExcelDateToMoment(Number(ExFactoryDate)).format("YYYY-MM-DD");
-
-          // }
 
           totalQty += Quantity;
           const key = `${PONo}-${Style}-${Destination}-${Color}`;
@@ -498,9 +477,6 @@ export class DataForm {
             PackType,
             Fit,
             RemarkMTM,
-            TopSampleQty,
-            ShippingSampleQty,
-            KeepingSampleQty
           };
 
           if (!itemMap[key]) {
@@ -518,20 +494,17 @@ export class DataForm {
             };
           } else {
             SizeBreakdownDetailIndex=itemMap[key].RO_Garment_SizeBreakdown_Details.length;
-            console.log(itemMap[key].RO_Garment_SizeBreakdown_Details.length);
             detailItem.SizeBreakdownDetailIndex = SizeBreakdownDetailIndex;
             itemMap[key].RO_Garment_SizeBreakdown_Details.push(detailItem);
             itemMap[key].Total += Quantity || 0;
           }
         }
       });
-      console.log(err);
       // ⏬ Pemindahan mapping ke RO_Garment_SizeBreakdowns setelah parsing selesai
       if (err.length === 0) {
         this.data.error =[];
         this.shown = true;
         this.data.RO_Garment_SizeBreakdowns = Object.values(itemMap);
-        console.log(this.data.RO_Garment_SizeBreakdowns);
       } else {
         this.data.error = err;
         alert(`Mohon periksa kembali file XLSX Anda. Terdapat ${err.length} kesalahan.`);
@@ -563,6 +536,54 @@ export class DataForm {
     return columnName;
   }
 
+  CopyRODataChanged(newValue, oldValue) {
+
+    if (!newValue || !newValue.RO_Number) {
+      return;
+    }
+
+    this.service.getDataRO(newValue.RO_Number)
+      .then(result => {
+
+        if (!result || result.length === 0) {
+          console.warn("Data RO tidak ditemukan");
+          return;
+        }
+
+        this.CopyROData = newValue;
+
+        this.data.DocumentsFile = result.DocumentsFile;
+        this.data.DocumentsFileName = result.DocumentsFileName ? this.parseArray(result.DocumentsFileName) : [];
+        this.data.DocumentsPath = result.DocumentsPath ? this.parseArray(result.DocumentsPath) : [];
+        this.data.Instruction = result.Instruction;
+        this.data.ImagesFile = result.ImagesFile;
+        this.imagesSrc = result.ImagesFile ? this.parseArray(result.ImagesFile) : [];
+        this.data.ImagesName = result.ImagesName ? this.parseArray(result.ImagesName) : [];
+        this.data.ImagesPath = result.ImagesPath ? this.parseArray(result.ImagesPath) : [];
+        this.documentsPathTemp = result.DocumentsPath ? this.parseArray(result.DocumentsPath) : [];
+        console.log("Data RO fetched:", result);
+      })
+      .catch(error => {
+        console.error("Error fetching Data RO:", error);
+      });
+  }
+  parseArray(value) {
+  if (!value) {
+    return [];
+  }
+
+  if (Array.isArray(value)) {
+    return value;
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.error("Failed to parse array:", value, error);
+    return [];
+  }
+}
   // convertExcelDateToMoment(excelDateNumber) {
   //   return moment("1900-01-01").add(excelDateNumber - 2, 'days'); // Excel has an offset bug for leap year 1900
   // }

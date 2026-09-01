@@ -179,7 +179,8 @@ export class PRMasterDialog {
     activate(params) {
         this.CCId = params.CCId;
         this.filter = {};
-        this.filter["GarmentPurchaseRequest.PRType == \"MOQ\" || GarmentPurchaseRequest.PRType == \"PRE-JOB\" || GarmentPurchaseRequest.PRType == \"OB\" || GarmentPurchaseRequest.PRType == \"SAMPLE\""] = true;
+        // this.filter["GarmentPurchaseRequest.PRType == \"MOQ\" || GarmentPurchaseRequest.PRType == \"PRE-JOB\" || GarmentPurchaseRequest.PRType == \"OB\" || GarmentPurchaseRequest.PRType == \"SAMPLE\""] = true;
+        this.filter["GarmentPurchaseRequest.PRType == \"STOCK\""] = true;
         this.filter[`CategoryName == "${params.CategoryName}" && ProductCode == "${params.ProductCode}"`] = true;
         this.filter[`IsCMT == ${params.IsCMT}`] = true;
         this.filter[`GarmentPurchaseRequest.BuyerCode == "${params.BuyerCode}" || IsApprovedOpenPOKadivMd`] = true;

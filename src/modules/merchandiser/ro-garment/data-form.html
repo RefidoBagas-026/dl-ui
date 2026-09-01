@@ -47,7 +47,18 @@
       color: #aaa;
     }
   </style>
-  <au-input-form title.bind="title" with.bind="context" options.bind="formOptions"> <!-- formOptions untuk ro-validation-ppic -->
+  <div if.bind="!readOnly" class="form-group">
+    <div class="row">
+      <div class="col-md-6" style="display: flex; align-items: center;">
+        <button class="btn btn-primary" click.delegate="copyRO()">COPY RO</button>
+        <au-autocomplete if.bind="enableCopyRO" placeholder="Cari RO" value.bind="CopyROData" error.bind="error.CostCalculationGarment"
+          loader.one-time="costCalculationGarmentLoader" query.bind="filterCopyROData" options.bind="length12"
+          text="RO_Number" read-only.bind="readOnly"></au-autocomplete>
+      </div>
+    </div>
+  
+  </div>
+          <au-input-form title.bind="title" with.bind="context" options.bind="formOptions"> <!-- formOptions untuk ro-validation-ppic -->
 
     <div class="alert alert-info" role="alert" if.bind="alertInfo" innerhtml.bind="alertInfo"></div>
     

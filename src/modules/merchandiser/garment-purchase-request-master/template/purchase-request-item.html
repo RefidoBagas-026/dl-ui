@@ -9,9 +9,15 @@
         </td>
         <td class="text-center">
             <au-checkbox 
-                value.bind="data.IsCMT"
-                read-only.bind="readOnly"
-                simbol.bind="readOnly"
+                value.bind="isCMT"
+                read-only.bind="readOnly || isEdit"
+                options.bind="controlOptions">
+            </au-checkbox>
+        </td>
+        <td class="text-center">
+            <au-checkbox 
+                value.bind="isImport"
+                read-only.bind="readOnly || isEdit"
                 options.bind="controlOptions">
             </au-checkbox>
         </td>
@@ -23,6 +29,7 @@
                 read-only.bind="readOnly || isEdit"
                 placeholder="Kategori"
                 text="Name"
+                view-model.ref="categoryViewModel"
                 options.bind="controlOptions">
             </au-autocomplete>
         </td>
@@ -32,6 +39,11 @@
                 read-only.bind="true"
                 options.bind="controlOptions">
             </au-textbox>
+            <div if.bind="data.Product.IsError" class="form-group has-error">
+				<span if.bind="data.Product.IsError" class="help-block">
+				    ${data.Product.ErrorMessage}
+			    </span>
+		    </div>
         </td>
         <td class="col-sm-2">
             <au-autocomplete

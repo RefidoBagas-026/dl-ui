@@ -45,7 +45,6 @@ export class ROGarmentSizeBreakdown {
         this.RO_Garment_SizeBreakdown_DetailsInfo.options.readOnly = this.readOnly;
         this.shown = false;
         for(var detail of this.data.RO_Garment_SizeBreakdown_Details) {
-            //console.log(detail.Information);
             detail.Remark = (this.data.PONo ? this.data.PONo : " ") + ";" 
                           + (this.data.Style ? this.data.Style : " ") + ";" 
                           + (this.data.Color.Name ? this.data.Color.Name : " ") + ";" 

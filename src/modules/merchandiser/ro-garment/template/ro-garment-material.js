@@ -2,6 +2,7 @@ import { bindable, inject, BindingEngine } from 'aurelia-framework';
 @inject(BindingEngine)
 export class ROGarmentMaterial {
     @bindable isMaterialUsed;
+    @bindable quantityUsageRO;
     controlOptions = {
         control: {
             length: 12
@@ -23,12 +24,27 @@ export class ROGarmentMaterial {
         } else {
             this.isMaterialUsed = false;
         }
+        this.quantityUsageRO = this.data.QuantityUsageRO;
+        
+        // if(!this.readOnly && this.data.QuantityUsageRO == 0 && this.isMaterialUsed){
+        //     this.quantityUsageRO = this.data.Quantity;
+        //     this.data.QuantityUsageRO = this.quantityUsageRO;
+        // }else{
+        //     this.quantityUsageRO = this.data.QuantityUsageRO;
+        // }
     }
 
+    quantityUsageROChanged(newValue, oldValue) {
+        this.data.QuantityUsageRO = newValue;
+    }
     isMaterialUsedChanged(newValue, oldValue) {
         this.data.IsMaterialCancelled = !newValue;
         if(this.data.IsMaterialCancelled){
+            this.quantityUsageRO = 0;
             this.data.QuantityUsageRO = 0;
+        }else{
+            this.quantityUsageRO = this.data.Quantity;
+            this.data.QuantityUsageRO = this.quantityUsageRO;
         }
     }
 }

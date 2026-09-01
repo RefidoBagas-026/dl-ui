@@ -13,25 +13,39 @@ export class PurchaseRequestItem {
   @bindable selectedYarn;
   @bindable selectedWidth;
   @bindable selectedUom;
+  @bindable isImport;
+  @bindable isCMT;
 
   get categoryLoader() {
     return CategoryLoader;
   }
 
   get compositionLoader() {
-    return (keyword) => this.coreService.getGarmentProductsDistinctDescription(keyword, JSON.stringify({ Name: "FABRIC" }));
+    return (keyword) => this.coreService.getGarmentProductsDistinctDescription(keyword, JSON.stringify({ Name: "FABRIC" })).then(result => {
+      result = result.filter(item => item.OriginType === (this.isImport ? "IMPORT" : "LOKAL") && item.ManufactureType === (this.isCMT ? "CMT" : "FOB"));
+      return result;
+    });
   }
 
   get constLoader() {
-    return (keyword) => this.coreService.getGarmentProductConsts(keyword, JSON.stringify(this.constFilter));
+    return (keyword) => this.coreService.getGarmentProductConsts(keyword, JSON.stringify(this.constFilter)).then(result => {
+      result = result.filter(item => item.OriginType === (this.isImport ? "IMPORT" : "LOKAL") && item.ManufactureType === (this.isCMT ? "CMT" : "FOB"));
+      return result;
+    });
   }
 
   get yarnLoader() {
-    return (keyword) => this.coreService.getGarmentProductYarns(keyword, JSON.stringify(this.yarnFilter));
+    return (keyword) => this.coreService.getGarmentProductYarns(keyword, JSON.stringify(this.yarnFilter)).then(result => {
+      result = result.filter(item => item.OriginType === (this.isImport ? "IMPORT" : "LOKAL") && item.ManufactureType === (this.isCMT ? "CMT" : "FOB"));
+      return result;
+    });
   }
 
   get widthLoader() {
-    return (keyword) => this.coreService.getGarmentProductWidths(keyword, JSON.stringify(this.widthFilter));
+    return (keyword) => this.coreService.getGarmentProductWidths(keyword, JSON.stringify(this.widthFilter)).then(result =>{
+      result = result.filter(item => item.OriginType === (this.isImport ? "IMPORT" : "LOKAL") && item.ManufactureType === (this.isCMT ? "CMT" : "FOB")); 
+      return result;
+    });
   }
 
   get uomLoader() {
@@ -40,7 +54,7 @@ export class PurchaseRequestItem {
 
   @computedFrom("data.Product")
   get product() {
-    if (this.data.Product) {
+    if (this.data && this.data.Product && this.data.Product.Code) {
       return this.data.Product.Code;
     } else {
       return "-";
@@ -127,6 +141,12 @@ export class PurchaseRequestItem {
       this.selectedWidth = this.data.Width;
       this.selectedUom = this.data.Uom;
     }
+    if (!this.data.IsImport && !this.isImport) {
+      this.data.IsImport = false;
+    }
+    this.isImport = this.data.IsImport;
+    this.isCMT = this.data.IsCMT;
+
   }
 
   bind(context) {
@@ -134,6 +154,94 @@ export class PurchaseRequestItem {
     this.constViewModel = context.constViewModel;
     this.yarnViewModel = context.yarnViewModel;
     this.widthViewModel = context.widthViewModel;
+    this.categoryViewModel = context.categoryViewModel;
+  }
+
+  isCMTChanged(newValue, oldValue) {
+    if (!this.data) {
+      return;
+    }
+    if (newValue === oldValue) {
+      return;
+    }
+    this.isCMT = newValue;
+    this.data.IsCMT = newValue;
+
+    this.data.Product = null;
+
+    this.selectedCategory = null;
+    this.selectedComposition = null;
+    this.selectedConst = null;
+    this.selectedYarn = null;
+    this.selectedWidth = null;
+
+    if (this.categoryViewModel) {
+      this.categoryViewModel.editorValue = "";
+      this.categoryViewModel = null;
+    }
+    if (this.compositionViewModel) {
+      this.compositionViewModel.editorValue = "";
+      this.compositionViewModel = null;
+    }
+
+    if (this.constViewModel) {
+      this.constViewModel.editorValue = "";
+      this.constViewModel = null;
+    }
+
+    if (this.yarnViewModel) {
+      this.yarnViewModel.editorValue = "";
+      this.yarnViewModel = null;
+    }
+
+    if (this.widthViewModel) {
+      this.widthViewModel.editorValue = "";
+      this.widthViewModel = null;
+    }
+
+  }
+
+  isImportChanged(newValue, oldValue) {
+    if (!this.data) {
+      return;
+    }
+    if(newValue ===  oldValue) {
+      return;
+    }
+    this.data.IsImport = newValue;
+
+    this.data.Product = null;
+
+    this.selectedCategory = null;
+    this.selectedComposition = null;
+    this.selectedConst = null;
+    this.selectedYarn = null;
+    this.selectedWidth = null;
+
+    if (this.categoryViewModel) {
+      this.categoryViewModel.editorValue = "";
+      this.categoryViewModel._suggestions = [];
+    }
+
+    if (this.compositionViewModel) {
+      this.compositionViewModel.editorValue = "";
+      this.compositionViewModel._suggestions = [];
+    }
+
+    if (this.constViewModel) {
+      this.constViewModel.editorValue = "";
+      this.constViewModel._suggestions = [];
+    }
+
+    if (this.yarnViewModel) {
+      this.yarnViewModel.editorValue = "";
+      this.yarnViewModel._suggestions = [];
+    }
+
+    if (this.widthViewModel) {
+      this.widthViewModel.editorValue = "";
+      this.widthViewModel._suggestions = [];
+    }
   }
 
   async selectedCategoryChanged(newValue) {
@@ -141,30 +249,38 @@ export class PurchaseRequestItem {
       this.data.Category = newValue;
 
       if (this.data.Category.Name !== "FABRIC") {
-        // this.data.Product = await this.coreService.getProductByName(this.data.Category.Name);
-        // this.data.Uom = {
-        //   Id: this.data.Product.UomId,
-        //   Unit: this.data.Product.UomUnit
-        // };
-
         this.coreService.getProductByName(this.data.Category.Name)
           .then(product => {
-            this.data.Product = product;
-            // this.data.Uom = {
-            //   Id: this.data.Product.UomId,
-            //   Unit: this.data.Product.UomUnit
-            // };
+              
+              var dataIsImport = this.data.IsImport ? "IMPORT" : "LOKAL";
+              var dataManufacture = this.data.IsCMT ? "CMT" : "FOB";
+
+              if (
+                  product &&
+                  product.OriginType === dataIsImport &&
+                  product.ManufactureType === dataManufacture
+              ) {
+                  this.data.Product = product;
+              } else {
+                  this.data.Product = {
+                      IsError: true,
+                      ErrorMessage:
+                          `Tidak ditemukan produk ${this.data.Category.Name} ${dataManufacture} asal ${dataIsImport}`
+                  };
+              }
           });
       } else {
         this.data.Product = null;
-        // this.data.Uom = null;
       }
     } else {
       this.data.Category = null;
       this.data.Product = null;
       // this.data.Uom = null;
     }
-    this.compositionViewModel.editorValue = "";
+    if (this.compositionViewModel) {
+      this.compositionViewModel.editorValue = "";
+      this.compositionViewModel._suggestions = [];
+    }
     this.selectedComposition = null;
   }
 
@@ -175,7 +291,10 @@ export class PurchaseRequestItem {
     else {
       this.data.Composition = null;
     }
-    this.constViewModel.editorValue = "";
+    if (this.constViewModel) {
+      this.constViewModel.editorValue = "";
+      this.constViewModel._suggestions = [];
+    }
     this.selectedConst = null;
   }
 
@@ -186,7 +305,10 @@ export class PurchaseRequestItem {
     else {
       this.data.Const = null;
     }
-    this.yarnViewModel.editorValue = "";
+    if (this.yarnViewModel) {
+      this.yarnViewModel.editorValue = "";
+      this.yarnViewModel._suggestions = [];
+    }
     this.selectedYarn = null;
   }
 
@@ -197,7 +319,10 @@ export class PurchaseRequestItem {
     else {
       this.data.Yarn = null;
     }
-    this.widthViewModel.editorValue = "";
+    if (this.widthViewModel) {
+      this.widthViewModel.editorValue = "";
+      this.widthViewModel._suggestions = [];
+    }
     this.selectedWidth = null;
   }
 
@@ -227,6 +352,5 @@ export class PurchaseRequestItem {
     } ;
     this.data.PriceUom = newValue;
     this.data.PriceConversion = 1;
-    console.log(this.data.Uom);
   }
 }
