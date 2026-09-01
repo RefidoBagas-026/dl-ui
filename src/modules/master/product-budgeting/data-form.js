@@ -3,6 +3,7 @@ import { PermissionHelper } from '../../../utils/permission-helper';
 
 var CurrencyLoader = require('../../../loader/currency-loader');
 var UomLoader = require('../../../loader/uom-loader');
+var CategoryLoader = require('../../../loader/category-loader');
 
 @inject(PermissionHelper)
 export class DataForm {
@@ -16,7 +17,7 @@ export class DataForm {
     @bindable Code;
     @bindable Name;
     @bindable OriginType;
-    @bindable OriginTypeLists = ['IMPORT', 'LOCAL'];
+    @bindable OriginTypeLists = ['IMPORT', 'LOKAL'];
     @bindable ManufactureTypeLists = ['FOB', 'CMT'];
     
     formOptions = {
@@ -57,6 +58,11 @@ export class DataForm {
     bind(context) {
         this.context = context;
         this.data = this.context.data;
+        if (this.data.Category) {
+            this.data.Category._id =this.data.Category.Id || this.data.Category._id;
+            this.data.Category.code =this.data.Category.Code || this.data.Category.code || "";
+            this.data.Category.name =this.data.Category.Name || this.data.Category.name || "";
+        }
         if (this.data.Id) {
             this.Currency = this.data.Currency;
             this.UOM = this.data.UOM;
@@ -100,7 +106,7 @@ export class DataForm {
             : null;
 
         if (formattedName && formattedName !== newValue) {
-            this.Name = formattedName;w
+            this.Name = formattedName;
         }
 
         this.data.Name = formattedName;
@@ -119,27 +125,36 @@ export class DataForm {
             : "";
     }
 
+    
     generateCode() {
-        const nameCode = this.generateNameCode();
-        if(this.ManufactureType == "FOB"){
-            if (this.OriginType == "IMPORT") {
-                this.Code = `FUI-${nameCode}`;
-                this.data.Code = this.Code;
-            } else if (this.OriginType == "LOCAL") {
-                this.Code = `FUL-${nameCode}`;
-                this.data.Code = this.Code;
+        const categoryCode =this.data.Category && this.data.Category.Code? this.data.Category.Code.trim(): "";
+        const manufactureType =this.ManufactureType || this.data.ManufactureType;
+        const originType =this.OriginType || this.data.OriginType;
+
+        this.Code = "";
+        this.data.Code = "";
+
+        if (!categoryCode || !manufactureType || !originType) {
+            return;
+        }
+
+        if (manufactureType === "FOB") {
+            if (originType === "IMPORT") {
+                this.Code = `FUI-${categoryCode}`;
+            } else if (originType === "LOKAL") {
+                this.Code = `FUL-${categoryCode}`;
             }
-            // this.Code = `FL-${nameCode}`;
-        }else if(this.ManufactureType == "CMT"){
-            if (this.OriginType == "IMPORT") {
-                this.Code = `CUI-${nameCode}`;
-                this.data.Code = this.Code;
-            } else if (this.OriginType == "LOCAL") {
-                this.Code = `CUL-${nameCode}`;
-                this.data.Code = this.Code;
+        } else if (manufactureType === "CMT") {
+            if (originType === "IMPORT") {
+                this.Code = `CUI-${categoryCode}`;
+            } else if (originType === "LOKAL") {
+                this.Code = `CUL-${categoryCode}`;
             }
         }
+
+        this.data.Code = this.Code;
     }
+
     UOMChanged() {
         if (this.UOM) {
             this.data.UOM = this.UOM
@@ -176,6 +191,29 @@ export class DataForm {
         this.generateCode();
     }
 
+    categoryChanged(e) {
+        if (this.readOnly || this.isEdit) {
+            return;
+        }
+
+        if (e && e.target && !e.target.value) {
+            this.data.Category = null;
+
+            this.Code = "";
+            this.data.Code = "";
+            return;
+        }
+
+        if (this.data.Category && this.data.Category._id) {
+
+            this.data.Category.Id = this.data.Category._id;
+            this.data.Category.Code = (this.data.Category.code || "").trim();
+            this.data.Category.Name = this.data.Category.name || "";
+
+            this.generateCode();
+        }
+    }
+
     get currencyLoader() {
         return CurrencyLoader;
     }
@@ -193,4 +231,8 @@ export class DataForm {
             this.data.MappingCategories.push({})
         };
     }
+
+    get categoryLoader() {
+            return CategoryLoader;
+        }
 }

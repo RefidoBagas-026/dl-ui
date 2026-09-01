@@ -17,6 +17,18 @@
                     items.bind="OriginTypeLists">
         </au-dropdown>
 
+        <au-autocomplete 
+                    value.bind="data.Category" 
+                    error.bind="error.category"
+                    label="Kategori" 
+                    change.delegate="categoryChanged($event)" 
+                    loader.bind="categoryLoader"
+                    placeholder="cari kategori" 
+                    key="code"
+                    text="name"
+                    read-only.bind="(readOnly || isEdit)">
+      </au-autocomplete>
+
         <au-textbox label="Kode"
                     value.bind="Code"
                     error.bind="error.code"

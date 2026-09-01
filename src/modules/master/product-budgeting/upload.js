@@ -11,6 +11,7 @@ export class Create {
         this.router = router;
         this.service = service;
         this.data = {};
+        this.isLoading = false;
     }
 
     activate(params) {
@@ -36,13 +37,15 @@ export class Create {
         } else {
             formData.append("fileUpload", fileList[0]);
  
-            var endpoint = 'master/upload-products';
+            var endpoint = 'master/upload-products/Upload';
             var request = {
                 method: 'POST',
                 headers: {
                 },
                 body: formData
             };
+
+            this.isLoading = true;
 
             this.service.endpoint.client.fetch(endpoint, request)
                 .then(response => {
@@ -61,7 +64,9 @@ export class Create {
                         this.list();
 
                     }
-                })
+                }).finally(() => {
+            this.isLoading = false;
+        });
         }
     }
 
