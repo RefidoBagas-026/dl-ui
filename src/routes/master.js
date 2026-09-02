@@ -1048,6 +1048,20 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
+  {
+    route: "tariffCostCalculation",
+    name: "tariffCostCalculation",
+    moduleId: "./modules/master/garment-rate/index",
+    nav: true,
+    title: "Tarif Cost Calculation",
+    auth: true,
+    settings: {
+      group: "master",
+      // permission: { "*": 1 },
+      permission :{"B59":1},
+      iconClass: "fa fa-dashboard",
+    },
+  },
 
   
 ];

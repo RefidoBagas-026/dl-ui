@@ -1,0 +1,35 @@
+<template>
+  <div class="col-md-5">
+    <au-input-form title.bind="title" with.bind="context">
+      <au-dropdown   
+        label="Pilih Tarif" 
+        value.bind="selectedTarif" 
+        key="value" 
+        text="text" 
+        items.bind="tarifOptions" 
+        options.bind="controlOptions"
+        error.bind="error.Name"
+        read-only.bind="readOnly || isEdit">
+      </au-dropdown>
+
+      <au-numeric
+        label="Tarif"
+        value.bind="data.Rate"
+        error.bind="error.Rate"
+        format="0,0.0000000000000"
+        options.bind="controlOptions"
+        read-only.bind="readOnly">
+      </au-numeric>
+
+      <au-numeric
+        label="Tahun"
+        value.bind="data.Year"
+        error.bind="error.Year"
+        format="0"
+        options.bind="controlOptions"
+        read-only.bind="readOnly || isEdit">
+      </au-numeric>
+
+    </au-input-form>
+  </div>
+</template>
