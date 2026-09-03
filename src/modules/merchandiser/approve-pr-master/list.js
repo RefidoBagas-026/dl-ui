@@ -142,6 +142,17 @@ export class List {
                 
 
         }
+        var today = new Date(2026, 8, 4); //0: Jan, 1: Feb, ..., 8: Sep
+        var startOfToday = new Date(Date.UTC(
+            today.getUTCFullYear(),
+            today.getUTCMonth(),
+            today.getUTCDate()
+        )).toISOString();
+
+        filter = {
+            ...filter,
+            [`CreatedUtc < "${startOfToday}"`]: true
+        };
         return filter;
         //console.log(ApprovalKadiv);
 

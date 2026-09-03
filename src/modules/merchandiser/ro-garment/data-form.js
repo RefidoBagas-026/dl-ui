@@ -391,7 +391,7 @@ export class DataForm {
 }
 
   download() {
-    var endpoint = 'ro-garments/download-template';
+    var endpoint = 'ro-garments/download-template/old';
     var request = {
         method: 'GET'
     };

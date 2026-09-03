@@ -54,6 +54,17 @@ export class List {
         if (info.sort)
             order[info.sort] = info.order;
 
+        var today = new Date(2026, 8, 4); //0: Jan, 1: Feb, ..., 8: Sep
+        var startOfToday = new Date(Date.UTC(
+            today.getUTCFullYear(),
+            today.getUTCMonth(),
+            today.getUTCDate()
+        )).toISOString();
+
+        this.filter = {
+            ...this.filter,
+            [`CostCalculationGarment.CreatedUtc < "${startOfToday}"`]: true
+        };
         var arg = {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
@@ -124,25 +135,25 @@ export class List {
                 this.router.navigateToRoute('view', { id: encoded });
                 break;
             case "Cetak PDF by Style":
-                this.service.getPdfById(data.Id, "style");
+                this.service.getPdfById('old', data.Id, "style");
                 break;
             case "Cetak PDF by SKU":
-                this.service.getPdfById(data.Id, "sku");
+                this.service.getPdfById('old', data.Id, "sku");
                 break;
             case "Cetak PDF by Color":
-                this.service.getPdfById(data.Id, "color");
+                this.service.getPdfById('old', data.Id, "color");
                 break;
             case "Cetak PDF by Size":
-                this.service.getPdfById(data.Id, "size");
+                this.service.getPdfById('old', data.Id, "size");
                 break;
             case "Cetak PDF by Destination":
-                this.service.getPdfById(data.Id, "destination");
+                this.service.getPdfById('old', data.Id, "destination");
                 break;
             case "Cetak PDF by Nomor PO":
-                this.service.getPdfById(data.Id, "po");
+                this.service.getPdfById('old', data.Id, "po");
                 break;
             case "Cetak PDF":
-                this.service.getPdfById(data.Id, "all");
+                this.service.getPdfById('old', data.Id, "all");
                 break;
             case "Cetak Excel Intellocut":
                 this.service.getExcelById(data.Id);

@@ -1,0 +1,15 @@
+<template>
+    <!-- <div>Nomor Pre SC Asal : <b>${data.PreSCNoSource}</b></div> -->
+    <div>Nomor RO Asal : <b>${copiedROFrom}</b></div>
+    <require from="modules/merchandiser/cost-calculation-model-upload/data-form"></require>
+    <data-form 
+        title="Copy Cost Calculation Export Garment" 
+        data.bind="data" 
+        data-material-upload.two-way="dataMaterialUpload"
+        data-material.two-way="dataMaterial"
+        error-upload.two-way="errorUpload"
+        error-manual.two-way="errorManual"
+        error.bind="error" 
+        is-copy="true">
+    </data-form>
+</template>
