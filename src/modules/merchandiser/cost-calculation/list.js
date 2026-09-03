@@ -152,9 +152,9 @@ export class List {
         this.options.height = $(window).height() - $('nav.navbar').height() - $('h1.page-header').height();
     }
     
-    create() {
-        this.router.navigateToRoute('create');
-    }
+    // create() {
+    //     this.router.navigateToRoute('create');
+    // }
 
     posting() {
         const unpostedDataToBePosted = this.dataToBePosted.filter(d => d.IsPosted === false);

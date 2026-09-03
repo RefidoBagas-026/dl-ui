@@ -22,13 +22,13 @@ export class Index {
                 nav: false,
                 title: "Ubah"
               },
-              {
-                route: "create",
-                moduleId: "./create",
-                name: "create",
-                nav: false,
-                title: "Buat"
-              },
+              // {
+              //   route: "create",
+              //   moduleId: "./create",
+              //   name: "create",
+              //   nav: false,
+              //   title: "Buat"
+              // },
         ]);
 
         this.router = router;
