@@ -39,7 +39,7 @@ export class View {
             case "sample":
                 this.type = "Sample";
                 this.saveCallback = () => {
-                    this.service.getPdfById(id);
+                    this.service.getPdfById('old', id);
                 };
                 this.hasReject = true;
                 break;

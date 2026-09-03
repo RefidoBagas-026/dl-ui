@@ -59,7 +59,7 @@ module.exports = [
             // permission: { "PGA": 1, "C9": 1 },
             permission: { "L3": 1 },
             iconClass: 'fa fa-calculator',
-            byUser: true
+            byUser: false
         }
     },
     {
@@ -407,7 +407,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-copy',
         name: 'cost-calculation-copy',
-        moduleId: './modules/merchandiser/cost-calculation/copy/index',
+        moduleId: './modules/merchandiser/cost-calculation-model-upload/copy/index',
         nav: true,
         title: 'Copy Cost Calculation',
         auth: true,
@@ -1016,6 +1016,246 @@ module.exports = [
             subGroup: "monitoring",
             permission: { "L65": 1 },
             iconClass: 'fa fa-calculator',
+        }
+    },
+    {
+        route: '/merchandiser/approve-pr-non-job/kasie-md',
+        name: 'approve-purchase-request-non-job',
+        moduleId: './modules/merchandiser/approve-pr-non-job/index',
+        nav: true,
+        title: 'Approval PR Non-Job - Kasie MD',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C9": 1 },
+            permission: { "L66": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "MD1"
+        }
+    },
+    {
+        route: '/merchandiser/approve-pr-non-job/purchasing',
+        name: 'approve-purchase-request-non-job',
+        moduleId: './modules/merchandiser/approve-pr-non-job/index',
+        nav: true,
+        title: 'Approval PR Non-Job - Purchasing',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval",
+            // permission: { "KPG": 1, "C9": 1 },
+            permission: { "L67": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "Purchasing"
+        }
+    },
+    {
+        route: '/merchandiser/approve-pr-non-job/kabag-md',
+        name: 'approve-purchase-request-non-job',
+        moduleId: './modules/merchandiser/approve-pr-non-job/index',
+        nav: true,
+        title: 'Approval PR Non-Job - Kabag MD',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C9": 1 },
+            permission: { "L68": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "MD2"
+        }
+    },
+    {
+        route: '/merchandiser/cost-calculation-by-user-new',
+        name: 'cost-calculation-by-user-new',
+        moduleId: './modules/merchandiser/cost-calculation-model-upload/index',
+        nav: true,
+        title: 'Cost Calculation Export Garment (NEW)',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "transaksi",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "L69": 1 },
+            iconClass: 'fa fa-calculator',
+            byUser: true
+        }
+    },
+    {
+        route: '/merchandiser/cost-calculation',
+        name: 'cost-calculation',
+        moduleId: './modules/merchandiser/cost-calculation-model-upload/index',
+        nav: true,
+        title: 'Cost Calculation Export Garment NEW (Semua User)',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "transaksi",
+            // permission: { "PGA": 1, "C7": 1, "B7": 1, "C9": 1, "B1": 1 },
+            permission: { "L70": 1 },
+            iconClass: 'fa fa-calculator',
+            byUser: false
+        }
+    },
+    {
+        route: '/merchandiser/cost-calculation-approval-new/md',
+        name: 'cost-calculation-approval-md-new',
+        moduleId: './modules/merchandiser/cost-calculation-approval-new/index',
+        nav: true,
+        title: 'Cost Calculation Approval - Kabag Sales (NEW)',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "L71": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "md"
+        }
+    },
+    {
+        route: '/merchandiser/cost-calculation-approval-new/ie',
+        name: 'cost-calculation-approval-ie-new',
+        moduleId: './modules/merchandiser/cost-calculation-approval-new/index',
+        nav: true,
+        title: 'Cost Calculation Approval - IE (NEW)',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval",
+            // permission: { "IE": 1, "C7": 1, "C9": 1 },
+            permission: { "L72": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "ie"
+        }
+    },
+    {
+        route: '/merchandiser/budget-validation-purchasing-new',
+        name: 'budget-validation-purchasing-new',
+        moduleId: './modules/merchandiser/budget-validation-purchasing-new/index',
+        nav: true,
+        title: 'Validasi Budget - Purchasing (NEW)',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval",
+            // permission: { "KPG": 1, "C7": 1, "C9": 1 },
+            permission: { "L73": 1 },
+            iconClass: 'fa fa-calculator'
+        }
+    },
+    {
+        route: '/merchandiser/cost-calculation-approval-new/kadivmd',
+        name: 'cost-calculation-approval-kadivmd-new',
+        moduleId: './modules/merchandiser/cost-calculation-approval-new/index',
+        nav: true,
+        title: 'Cost Calculation Approval - Kadiv MD (NEW)',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "L74": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "kadivmd"
+        }
+    },
+    {
+        route: '/merchandiser/ro-garment-by-user-new',
+        name: 'ro-garment-by-user-new',
+        moduleId: './modules/merchandiser/ro-garment-new/index',
+        nav: true,
+        title: 'RO Export Garment (NEW)',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "transaksi",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "L75": 1 },
+            iconClass: 'fa fa-calculator',
+            byUser: true
+        }
+    },
+    {
+        route: '/merchandiser/ro-garment-new',
+        name: 'ro-garment-new',
+        moduleId: './modules/merchandiser/ro-garment-new/index',
+        nav: true,
+        title: 'RO Export Garment NEW (Semua User)',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "transaksi",
+            // permission: { "PGA": 1, "C7": 1, "C9": 1 },
+            permission: { "L76": 1 },
+            iconClass: 'fa fa-calculator',
+            byUser: false
+        }
+    },
+    {
+        route: '/merchandiser/garment-purchase-request-non-job-by-user',
+        name: 'purchase-request-non-job-by-user',
+        moduleId: './modules/merchandiser/garment-purchase-request-non-job/index',
+        nav: true,
+        title: 'PR Non-Job',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "transaksi",
+            // permission: { "PGA": 1, "C9": 1 },
+            permission: { "L77": 1 },
+            iconClass: 'fa fa-calculator',
+            byUser: true
+        }
+    },
+    {
+        route: '/merchandiser/garment-purchase-request-non-job',
+        name: 'purchase-request-non-job',
+        moduleId: './modules/merchandiser/garment-purchase-request-non-job/index',
+        nav: true,
+        title: 'PR Non-Job (Semua User)',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "transaksi",
+            // permission: { "PGA": 1, "C9": 1 },
+            permission: { "L78": 1 },
+            iconClass: 'fa fa-calculator',
+            byUser: false
+        }
+    },
+
+    {
+        route: '/merchandiser/ro-validation-kasiemd-new',
+        name: 'ro-validation-kasiemd-new',
+        moduleId: './modules/merchandiser/ro-validation-new/index',
+        nav: true,
+        title: 'Validasi RO - Kasie MD (NEW)',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval",
+            // permission: { "PGA": 1, "C9": 1 },
+            permission: { "L79": 1 },
+            iconClass: 'fa fa-calculator',
+            type: 'kabagmd'
+        }
+    },
+    {
+        route: '/merchandiser/ro-sample-validation-new',
+        name: 'ro-sample-validation-new',
+        moduleId: './modules/merchandiser/ro-validation-new/index',
+        nav: true,
+        title: 'Validasi RO QC (NEW)',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval",
+            // permission: { "IE": 1, "C9": 1 },
+            permission: { "L80": 1 },
+            iconClass: 'fa fa-calculator',
+            type: 'sample'
         }
     },
 ];

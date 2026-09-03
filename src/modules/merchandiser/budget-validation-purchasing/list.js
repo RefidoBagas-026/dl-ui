@@ -16,12 +16,18 @@ export class List {
         { field: "Section", title: "Seksi" },
         { field: "CreatedBy", title: "Staf Merchandiser" }
     ];
-
+    
     loader = (info) => {
         var order = {};
 
         if (info.sort)
             order[info.sort] = info.order;
+        var today = new Date(2026, 8, 4); //0: Jan, 1: Feb, ..., 8: Sep
+        var startOfToday = new Date(Date.UTC(
+            today.getUTCFullYear(),
+            today.getUTCMonth(),
+            today.getUTCDate()
+        )).toISOString();
 
         var arg = {
             page: parseInt(info.offset / info.limit, 10) + 1,
@@ -31,6 +37,7 @@ export class List {
             filter: JSON.stringify({
                 IsApprovedMD: true,
                 IsApprovedPurchasing: false,
+                [`CreatedUtc < "${startOfToday}"`]: true
             })
         }
 

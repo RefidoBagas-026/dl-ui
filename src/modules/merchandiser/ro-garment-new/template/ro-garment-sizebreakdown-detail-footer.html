@@ -1,0 +1,12 @@
+<template>
+    <tr>
+        <td colspan.bind="colspan" class="text-right" style="padding-right:10%">
+            Total
+        </td>
+        <td class="text-right" >
+            <require from="../../../../lib/number-format-value-converter"></require>
+            ${totalQuantity | numberFormat:"0"}
+        </td>
+        <td></td>
+    </tr>
+</template>

@@ -51,6 +51,17 @@ export class List {
             filter: JSON.stringify(this.filter)
         }
 
+        var today = new Date(2026, 8, 4); //0: Jan, 1: Feb, ..., 8: Sep
+        var startOfToday = new Date(Date.UTC(
+            today.getUTCFullYear(),
+            today.getUTCMonth(),
+            today.getUTCDate()
+        )).toISOString();
+
+        this.filter = {
+            ...this.filter,
+            [`CreatedUtc < "${startOfToday}"`]: true
+        };
         return this.service.search(arg)
             .then(result => {
                 result.data.map(data => {
@@ -115,11 +126,11 @@ export class List {
                 break;
             case "Cetak Cost Calculation":
             case "Cetak Cost Calculation (DRAFT)":
-                this.service.getPdfById(data.Id)
+                this.service.getPdfById('old', data.Id)
                 break;
             case "Cetak Budget":
             case "Cetak Budget (DRAFT)":
-                this.service.getBudgetById(data.Id)
+                this.service.getBudgetById('old', data.Id)
                 break;
         }
     }
@@ -141,9 +152,9 @@ export class List {
         this.options.height = $(window).height() - $('nav.navbar').height() - $('h1.page-header').height();
     }
     
-    create() {
-        this.router.navigateToRoute('create');
-    }
+    // create() {
+    //     this.router.navigateToRoute('create');
+    // }
 
     posting() {
         const unpostedDataToBePosted = this.dataToBePosted.filter(d => d.IsPosted === false);
