@@ -54,16 +54,11 @@ export class List {
     }
     let filter = {};
     filter["PRType == \"MASTER\" || PRType == \"MOQ\" || PRType == \"STOCK\" || PRType == \"OB\" || PRType == \"SAMPLE\" || PRType == \"SUBCON\" || PRType == \"TERIMA SUBCON\""] = true;
-     var today = new Date(2026, 8, 4); //0: Jan, 1: Feb, ..., 8: Sep
-        var startOfToday = new Date(Date.UTC(
-            today.getUTCFullYear(),
-            today.getUTCMonth(),
-            today.getUTCDate()
-        )).toISOString();
+     var startOfToday = new Date(Date.UTC(2026, 8, 4, 0, 0, 0)).toISOString();
 
         filter = {
             ...filter,
-            [`CreatedUtc <= "${startOfToday}"`]: true
+            [`CreatedUtc >= "${startOfToday}"`]: true
         };
 
     let arg = {
