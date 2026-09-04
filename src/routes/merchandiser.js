@@ -1083,8 +1083,8 @@ module.exports = [
         }
     },
     {
-        route: '/merchandiser/cost-calculation',
-        name: 'cost-calculation',
+        route: '/merchandiser/cost-calculation-new',
+        name: 'cost-calculation-new',
         moduleId: './modules/merchandiser/cost-calculation-model-upload/index',
         nav: true,
         title: 'Cost Calculation Export Garment NEW (Semua User)',

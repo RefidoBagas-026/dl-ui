@@ -42,7 +42,12 @@ export class List {
 
         if (info.sort)
             order[info.sort] = info.order;
+        var startOfToday = new Date(Date.UTC(2026, 8, 4, 0, 0, 0)).toISOString();
 
+        this.filter = {
+            ...this.filter,
+            [`CreatedUtc < "${startOfToday}"`]: true
+        };
         var arg = {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
@@ -51,17 +56,7 @@ export class List {
             filter: JSON.stringify(this.filter)
         }
 
-        var today = new Date(2026, 8, 4); //0: Jan, 1: Feb, ..., 8: Sep
-        var startOfToday = new Date(Date.UTC(
-            today.getUTCFullYear(),
-            today.getUTCMonth(),
-            today.getUTCDate()
-        )).toISOString();
-
-        this.filter = {
-            ...this.filter,
-            [`CreatedUtc < "${startOfToday}"`]: true
-        };
+        
         return this.service.search(arg)
             .then(result => {
                 result.data.map(data => {
